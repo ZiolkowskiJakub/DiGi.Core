@@ -1,0 +1,2 @@
+# DiGi.Core
+DiGi Core
