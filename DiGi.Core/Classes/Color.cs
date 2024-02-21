@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -25,6 +26,14 @@ namespace DiGi.Core.Classes
             this.red = red;
             this.green = green;
             this.blue = blue;
+        }
+
+        public Color(int value)
+        {
+            alpha = (byte)(value >> 24);
+            red = (byte)(value >> 16);
+            green = (byte)(value >> 8);
+            blue = (byte)(value);
         }
 
         public Color(JsonObject jsonObject)
@@ -73,6 +82,15 @@ namespace DiGi.Core.Classes
             }
         }
 
+        [JsonIgnore]
+        public int Value
+        {
+            get
+            {
+                return (alpha << 24) | (red << 16) | (green << 8) | blue;
+            }
+        }
+
 
         public static implicit operator System.Drawing.Color(Color color)
         {
@@ -88,6 +106,12 @@ namespace DiGi.Core.Classes
         public static implicit operator Color(System.Drawing.Color color)
         {
             return new Color(color.A, color.R, color.G, color.B);
+        }
+
+
+        public static implicit operator Color(int value)
+        {
+            return new Color(value);
         }
 
         public static bool operator !=(Color color_1, Color color_2)

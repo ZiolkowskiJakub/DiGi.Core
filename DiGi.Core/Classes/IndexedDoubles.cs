@@ -1,9 +1,5 @@
-﻿using DiGi.Core.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using System.Collections;
-using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
