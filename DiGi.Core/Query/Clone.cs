@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 
@@ -27,6 +28,22 @@ namespace DiGi.Core
             }
 
             return default(T);
+        }
+
+        public static List<T> Clone<T>(this IEnumerable<T> serializableObjects) where T : ISerializableObject
+        {
+            if(serializableObjects == null)
+            {
+                return null;
+            }
+
+            List<T> result = new List<T>();
+            foreach(T serializableObject in serializableObjects)
+            {
+                result.Add(serializableObject == null ? default(T) : Clone(serializableObject));
+            }
+
+            return result;
         }
     }
 
