@@ -45,6 +45,27 @@ namespace DiGi.Core
 
             return result;
         }
+
+        public static T[] Clone<T>(this T[] values)
+        {
+            if(values == null)
+            {
+                return null;
+            }
+
+            if(values.Length == 0)
+            {
+                return new T[0];
+            }
+
+            T[] result = new T[values.Length];
+            for(int i =0; i < values.Length; i++)
+            {
+                result[i] = values[i];
+            }
+
+            return result;
+        }
     }
 
 }
