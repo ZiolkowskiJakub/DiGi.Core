@@ -198,7 +198,7 @@ namespace DiGi.Core.Classes
 
         public bool TryGetObjects<U>(out List<U> uniqueObjects, bool exactMath = false) where U : T
         {
-            return TryGetObjects<U>(typeof(U), out uniqueObjects, exactMath);
+            return TryGetObjects(typeof(U), out uniqueObjects, exactMath);
         }
 
         public bool Update(T uniqueObject)
