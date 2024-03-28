@@ -4,7 +4,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool AlmostEqual(this double value_1, double value_2, double tolerance = Constans.Tolerance.Distance)
+        public static bool AlmostEquals(this double value_1, double value_2, double tolerance = Constans.Tolerance.Distance)
         {
             bool isNaN_1 = double.IsNaN(value_1);
             bool isNaN_2 = double.IsNaN(value_2);

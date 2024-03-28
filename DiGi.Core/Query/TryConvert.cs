@@ -475,7 +475,7 @@ namespace DiGi.Core
             {
                 if (@object is string)
                 {
-                    result = JsonObject.Parse((string)@object);
+                    result = JsonNode.Parse((string)@object);
                     return true;
                 }
             }
@@ -490,7 +490,7 @@ namespace DiGi.Core
 
                     Type type_Result = result.GetType();
 
-                    Array array = System.Enum.GetValues(type_Result);
+                    Array array = Enum.GetValues(type_Result);
                     if (array != null)
                     {
                         foreach (Enum @enum in array)
@@ -506,7 +506,7 @@ namespace DiGi.Core
                     int @int;
                     if (int.TryParse(@string, out @int))
                     {
-                        if (System.Enum.IsDefined(type_Temp, @int))
+                        if (Enum.IsDefined(type_Temp, @int))
                         {
                             result = @int;
                             return true;
@@ -516,7 +516,7 @@ namespace DiGi.Core
                 else if (@object is int)
                 {
                     int @int = default;
-                    if (System.Enum.IsDefined(result.GetType(), @int))
+                    if (Enum.IsDefined(result.GetType(), @int))
                     {
                         result = @int;
                         return true;
@@ -525,7 +525,7 @@ namespace DiGi.Core
                 else if (IsNumeric(@object))
                 {
                     int @int = System.Convert.ToInt32(@object);
-                    if (System.Enum.IsDefined(result.GetType(), @int))
+                    if (Enum.IsDefined(result.GetType(), @int))
                     {
                         result = @int;
                         return true;
@@ -547,7 +547,7 @@ namespace DiGi.Core
                         return false;
                     }
 
-                    foreach (Enum @enum in System.Enum.GetValues(type_Temp))
+                    foreach (Enum @enum in Enum.GetValues(type_Temp))
                     {
                         string name = @enum.ToString().ToUpper();
                         if (@string.Equals(name))

@@ -115,17 +115,17 @@ namespace DiGi.Core.Classes
 
         public static bool operator !=(Color color_1, Color color_2)
         {
-            if (Object.Equals(color_1, color_2))
+            if (Equals(color_1, color_2))
             {
                 return false;
             }
 
-            if (Object.Equals(color_1, null))
+            if (Equals(color_1, null))
             {
                 return true;
             }
 
-            if (Object.Equals(color_2, null))
+            if (Equals(color_2, null))
             {
                 return true;
             }
@@ -135,17 +135,17 @@ namespace DiGi.Core.Classes
 
         public static bool operator ==(Color color_1, Color color_2)
         {
-            if (Object.Equals(color_1, color_2))
+            if (Equals(color_1, color_2))
             {
                 return true;
             }
 
-            if (Object.Equals(color_1, null))
+            if (Equals(color_1, null))
             {
                 return false;
             }
 
-            if (Object.Equals(color_2, null))
+            if (Equals(color_2, null))
             {
                 return false;
             }
