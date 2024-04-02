@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using System.Collections;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -23,6 +24,15 @@ namespace DiGi.Core
             if (object_Temp is ISerializableObject)
             {
                 return ((ISerializableObject)object_Temp).ToJsonObject();
+            }
+            else if(!(object_Temp is string) && object_Temp is IEnumerable)
+            {
+                JsonArray jsonArray = new JsonArray();
+                foreach(object object_Temp_Temp in (IEnumerable)object_Temp)
+                {
+                    jsonArray.Add(JsonNode(object_Temp_Temp));
+                }
+                return jsonArray;
             }
             else
             {

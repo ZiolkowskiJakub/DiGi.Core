@@ -10,7 +10,7 @@ namespace DiGi.Core.Classes
         public VolatileObject(T @object)
             :base()
         {
-            this.@object = @object; 
+            this.@object = Query.Clone(@object); 
         }
 
         public VolatileObject(VolatileObject<T> volatileObject)
