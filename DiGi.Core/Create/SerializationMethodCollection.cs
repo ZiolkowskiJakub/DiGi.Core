@@ -3,7 +3,6 @@ using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 using System;
 using System.Reflection;
-using System.Data;
 
 namespace DiGi.Core
 {
