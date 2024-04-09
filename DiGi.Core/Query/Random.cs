@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using System;
+using System.Security.Cryptography;
 
 namespace DiGi.Core
 {
@@ -77,6 +78,23 @@ namespace DiGi.Core
             }
 
             return random.Next(range.Min, range.Max);
+        }
+
+        public static bool Random(Random random)
+        {
+            if(random == null)
+            {
+                return false;
+            }
+
+            return random.NextDouble() < 0.5;
+        }
+
+        public static bool Random(int seed = -1)
+        { 
+            Random random = seed == -1 ? new Random() : new Random(seed);
+
+            return Random(random);
         }
     }
 
