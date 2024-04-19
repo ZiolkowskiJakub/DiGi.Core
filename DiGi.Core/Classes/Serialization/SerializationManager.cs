@@ -90,7 +90,7 @@ namespace DiGi.Core.Classes
 
 
 
-        public SerializationMethodCollection GetSerializationMethodCollection(System.Type type, bool update = true)
+        public SerializationMethodCollection GetSerializationMethodCollection(Type type, bool update = true)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
             {

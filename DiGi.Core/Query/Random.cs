@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Classes;
 using System;
-using System.Security.Cryptography;
 
 namespace DiGi.Core
 {

@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
+
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -53,6 +54,29 @@ namespace DiGi.Core
             }
 
             return result;
+        }
+
+        public static List<T> ToDiGi<T>(Classes.Path? path)
+        {
+            if(path == null || path.Value == null || !path.HasValue || !path.Value.IsValid())
+            {
+                return null;
+            }
+
+            Classes.Path path_Temp = path.Value;
+
+            if (!path_Temp.FileExists)
+            {
+                return null;
+            }
+
+            string json = System.IO.File.ReadAllText(path);
+            if(string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+
+            return ToDiGi<T>(json);
         }
     }
 }
