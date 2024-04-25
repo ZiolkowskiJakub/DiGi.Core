@@ -15,6 +15,20 @@ namespace DiGi.Core
                 return null;
             }
 
+            if(type.IsEnum)
+            {
+                switch(jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return Enum.GetValues(type).GetValue(jsonNode.GetValue<int>());
+
+                    case System.Text.Json.JsonValueKind.String:
+                        return Enum.Parse(type, jsonNode.GetValue<string>());
+                }
+
+                return null;
+            }
+
             if (type == typeof(Guid))
             {
                 return jsonNode.GetValue<Guid>();
