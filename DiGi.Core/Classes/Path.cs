@@ -155,7 +155,7 @@ namespace DiGi.Core.Classes
             }
 
             bool isValid = Uri.TryCreate(value, uriKind, out Uri uri);
-            return isValid && uri != null && uri.IsLoopback;
+            return isValid && uri != null;
         }
 
         public bool IsValid()

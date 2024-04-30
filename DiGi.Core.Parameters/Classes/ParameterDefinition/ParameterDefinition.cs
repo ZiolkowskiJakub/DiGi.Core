@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Parameters.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 

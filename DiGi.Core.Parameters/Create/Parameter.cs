@@ -1,4 +1,6 @@
-﻿namespace DiGi.Core.Parameters
+﻿using DiGi.Core.Parameters.Interfaces;
+
+namespace DiGi.Core.Parameters
 {
     public static partial class Create
     {

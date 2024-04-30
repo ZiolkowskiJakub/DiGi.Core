@@ -13,7 +13,7 @@ namespace DiGi.Core.Classes
         public UniqueObject()
             : base()
         {
-            this.guid = Guid.NewGuid();
+            guid = Guid.NewGuid();
         }
 
         public UniqueObject(Guid guid)
@@ -26,6 +26,12 @@ namespace DiGi.Core.Classes
             :base(jsonObject)
         {
 
+        }
+
+        public UniqueObject(UniqueObject uniqueObject)
+            : base()
+        {
+            guid = uniqueObject != null ? uniqueObject.guid : Guid.NewGuid();
         }
 
         [JsonIgnore]

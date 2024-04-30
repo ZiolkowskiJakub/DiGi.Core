@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Parameters.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -42,6 +43,14 @@ namespace DiGi.Core.Parameters
 
         }
 
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
         [JsonInclude, JsonPropertyName("Parameters")]
         private List<Parameter> parameters
         {
@@ -55,15 +64,7 @@ namespace DiGi.Core.Parameters
                 SetParameters(value);
             }
         }
-
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
-
+        
         public override ISerializableObject Clone()
         {
             return new ParameterGroup(this);
@@ -228,6 +229,17 @@ namespace DiGi.Core.Parameters
             }
 
             return parameter.SetValue(value, setValueSettings);
+        }
+
+        public bool SetValue(Parameter parameter)
+        {
+            if(parameter?.UniqueId == null)
+            {
+                return false;
+            }
+
+            dictionary[parameter.UniqueId] = new Parameter(parameter);
+            return true;
         }
 
         public bool TryGetValue(string uniqueId, out object value)

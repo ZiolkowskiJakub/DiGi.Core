@@ -15,12 +15,24 @@ namespace DiGi.Core
                 return null;
             }
 
-            if(!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode jsonNode) || jsonNode == null || jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.String)
+            if(!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode jsonNode) || jsonNode == null)
             {
                 return null;
             }
 
-            return (string)jsonNode;
+            JsonValue jsonValue = jsonNode.AsValue();
+            if(jsonValue == null)
+            {
+                return null;
+            }
+
+            if(!jsonValue.TryGetValue(out string result))
+            {
+                return null;
+            }
+
+
+            return result;
         }
 
         public static string FullTypeName(Type type)

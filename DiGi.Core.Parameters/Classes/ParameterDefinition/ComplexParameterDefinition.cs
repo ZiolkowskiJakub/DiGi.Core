@@ -39,7 +39,7 @@ namespace DiGi.Core.Parameters
 
                 if(parameterValue == null)
                 {
-                    return Enums.ParameterType.Undefined;
+                    return ParameterType.Undefined;
                 }
 
                 return parameterValue.ParameterType;

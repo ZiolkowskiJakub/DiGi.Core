@@ -20,7 +20,8 @@ namespace DiGi.Core
                 switch(jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Number:
-                        return Enum.GetValues(type).GetValue(jsonNode.GetValue<int>());
+                        return jsonNode.GetValue<Enum>();
+                        //return Enum.GetValues(type).GetValue(jsonNode.GetValue<int>());
 
                     case System.Text.Json.JsonValueKind.String:
                         return Enum.Parse(type, jsonNode.GetValue<string>());
@@ -104,6 +105,35 @@ namespace DiGi.Core
                         return Activator.CreateInstance(type, list);
                     }
                 }
+            }
+
+            object value = null;
+            switch (jsonNode.GetValueKind())
+            {
+                case System.Text.Json.JsonValueKind.String:
+                    value = jsonNode.GetValue<string>();
+                    break;
+
+                case System.Text.Json.JsonValueKind.True:
+                    value = true;
+                    break;
+
+                case System.Text.Json.JsonValueKind.Number:
+                    value = jsonNode.GetValue<double>();
+                    break;
+
+                case System.Text.Json.JsonValueKind.False:
+                    value = false;
+                    break;
+
+                case System.Text.Json.JsonValueKind.Null:
+                    value = null;
+                    break;
+            }
+
+            if (TryConvert(value, out object result, type))
+            {
+                return result;
             }
 
             return null;

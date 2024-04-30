@@ -56,7 +56,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<T> ToDiGi<T>(Classes.Path? path)
+        public static List<T> ToDiGi<T>(Classes.Path? path) where T : ISerializableObject
         {
             if(path == null || path.Value == null || !path.HasValue || !path.Value.IsValid())
             {

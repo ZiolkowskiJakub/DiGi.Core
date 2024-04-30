@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace DiGi.Core.Parameters
+﻿namespace DiGi.Core.Parameters
 {
     public class SetValueSettings
     {

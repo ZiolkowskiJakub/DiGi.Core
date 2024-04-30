@@ -1,5 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Parameters.Interfaces;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameters
@@ -11,6 +13,12 @@ namespace DiGi.Core.Parameters
 
         [JsonInclude, JsonPropertyName("Value")]
         private object value;
+
+        public Parameter(JsonObject jsonObject)
+            : base(jsonObject)
+        {
+
+        }
 
         public Parameter(Parameter parameter)
             : this(parameter?.ParameterDefinition, parameter.value)

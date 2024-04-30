@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Parameters.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -16,6 +17,17 @@ namespace DiGi.Core.Parameters
             : base()
         {
 
+        }
+
+        public ParameterGroups(IEnumerable<Parameter> parameters)
+        {
+            if(parameters != null)
+            {
+                foreach(Parameter parameter in parameters)
+                {
+                    SetValue(parameter);
+                }
+            }
         }
 
         public ParameterGroups(JsonObject jsonObject)
@@ -269,6 +281,35 @@ namespace DiGi.Core.Parameters
             }
 
             bool result = parameterGroup.SetValue(name, value, setValueSettings);
+            if (!result)
+            {
+                return result;
+            }
+
+            dictionary[groupName] = parameterGroup;
+            return result;
+        }
+
+        public bool SetValue(Parameter parameter)
+        {
+            if(parameter?.UniqueId == null)
+            {
+                return false;
+            }
+
+            string groupName = parameter.ParameterDefinition?.GroupName;
+            if(groupName == null)
+            {
+                groupName = Constans.Names.DefaultGroupName;
+            }
+
+            if (!dictionary.TryGetValue(groupName, out ParameterGroup parameterGroup) || parameterGroup == null)
+            {
+                parameterGroup = new ParameterGroup(groupName);
+                dictionary[groupName] = parameterGroup;
+            }
+
+            bool result = parameterGroup.SetValue(parameter);
             if (!result)
             {
                 return result;

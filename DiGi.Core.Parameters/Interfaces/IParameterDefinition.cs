@@ -1,7 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
 
-namespace DiGi.Core.Parameters
+namespace DiGi.Core.Parameters.Interfaces
 {
     public interface IParameterDefinition : ISerializableObject, IEquatable<IParameterDefinition>
     {
