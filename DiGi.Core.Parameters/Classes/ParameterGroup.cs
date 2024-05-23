@@ -295,7 +295,7 @@ namespace DiGi.Core.Parameters
                 return false;
             }
 
-            return TryGetValue<T>(parameterDefinition.UniqueId, out value);
+            return TryGetValue(parameterDefinition.UniqueId, out value);
         }
         
         private List<Parameter> GetParameters()
