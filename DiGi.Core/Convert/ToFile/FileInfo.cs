@@ -67,7 +67,7 @@ namespace DiGi.Core
             }
 
             File.WriteAllText(path.Value, value);
-            return new FileInfo(value);
+            return new FileInfo(path.Value);
         }
     }
 }
