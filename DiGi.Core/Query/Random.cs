@@ -49,7 +49,7 @@ namespace DiGi.Core
                 return int.MinValue;
             }
 
-            Random random = seed == -1 ? new Random() : new Random(seed);
+            Random random = Create.Random(seed);
 
             return random.Next(range.Min, range.Max);
         }
