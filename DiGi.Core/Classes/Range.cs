@@ -162,6 +162,14 @@ namespace DiGi.Core.Classes
             return !Out(range, tolerance);
         }
 
+        public T Length
+        {
+            get
+            {
+                return (Max as dynamic) - (Min as dynamic);
+            }
+        }
+
         public override bool Equals(object @object)
         {
             if (ReferenceEquals(this, null))
