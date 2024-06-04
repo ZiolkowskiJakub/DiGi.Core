@@ -20,6 +20,13 @@ namespace DiGi.Core.Classes
             this.guid = guid;
         }
 
+        public UniqueReference(Type type, Guid guid)
+            : base()
+        {
+            typeReference = new TypeReference(type);
+            this.guid = guid;
+        }
+
         public UniqueReference(IUniqueObject uniqueObject)
             : base()
         {

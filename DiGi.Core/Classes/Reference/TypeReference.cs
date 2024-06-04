@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,12 @@ namespace DiGi.Core.Classes
             : base()
         {
             this.fullTypeName = fullTypeName;
+        }
+
+        public TypeReference(Type type)
+            : base()
+        {
+            fullTypeName = Query.FullTypeName(type);
         }
 
         public TypeReference(IObject @object)
