@@ -27,25 +27,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            if(dictionary_SerializationConstructor.TryGetValue(fullTypeName, out SerializationConstructor result))
-            {
-                return result;
-            }
-
-            if(!update)
-            {
-                return null;
-            }
-
-            result = Create.SerializationConstructor(type);
-            if(result == null)
-            {
-                return null;
-            }
-
-            dictionary_SerializationConstructor[fullTypeName] = result;
-
-            return result;
+            return GetSerializationConstructor(fullTypeName, update);
         }
 
         public SerializationConstructor GetSerializationConstructor<T>(bool update = true) where T: ISerializableObject

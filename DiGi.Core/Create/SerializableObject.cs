@@ -14,14 +14,20 @@ namespace DiGi.Core
                 return default;
             }
 
+            SerializationConstructor serializationConstructor = null;
+
             string fullTypeName = Query.FullTypeName(jsonObject);
-            if (string.IsNullOrWhiteSpace(fullTypeName))
+            if (!string.IsNullOrWhiteSpace(fullTypeName))
             {
-                return default;
+                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(fullTypeName);
             }
 
-            SerializationConstructor serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(fullTypeName);
             if (serializationConstructor == null)
+            {
+                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(typeof(SerializableObjectWrapper));
+            }
+
+            if(serializationConstructor == null)
             {
                 return default;
             }
