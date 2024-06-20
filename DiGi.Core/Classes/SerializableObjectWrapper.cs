@@ -33,18 +33,18 @@ namespace DiGi.Core.Classes
             return new SerializableObjectWrapper(jsonObject);
         }
 
-        public virtual ISerializableObject Clone()
+        public override ISerializableObject Clone()
         {
             return new SerializableObjectWrapper(jsonObject);
         }
 
-        public virtual bool FromJsonObject(JsonObject jsonObject)
+        public override bool FromJsonObject(JsonObject jsonObject)
         {
             jsonObject = jsonObject?.DeepClone() as JsonObject;
             return jsonObject != null;
         }
 
-        public virtual JsonObject ToJsonObject()
+        public override JsonObject ToJsonObject()
         {
             return jsonObject?.DeepClone() as JsonObject;
         }

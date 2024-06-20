@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core", "DiGi.Core\DiGi.Core.csproj", "{E1618F8F-DE1B-4DAF-85B8-8C7671AF9F64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiGi.Core.Parameters", "DiGi.Core.Parameters\DiGi.Core.Parameters.csproj", "{E6A3C5BE-714F-40DA-8E3C-5836F158FFB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core.Parameter", "DiGi.Core.Parameter\DiGi.Core.Parameter.csproj", "{E6A3C5BE-714F-40DA-8E3C-5836F158FFB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiGi.Core.File", "DiGi.Core.File\DiGi.Core.File.csproj", "{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E6A3C5BE-714F-40DA-8E3C-5836F158FFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6A3C5BE-714F-40DA-8E3C-5836F158FFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6A3C5BE-714F-40DA-8E3C-5836F158FFB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
