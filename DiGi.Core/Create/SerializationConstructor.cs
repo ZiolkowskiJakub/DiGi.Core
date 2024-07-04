@@ -20,30 +20,65 @@ namespace DiGi.Core
                 return null;
             }
 
-            ConstructorInfo[] constructorInfos = type.GetConstructors();
-            if (constructorInfos == null || constructorInfos.Length == 0)
+            ConstructorInfo constructorInfo = null;
+            ConstructorInfo constructorInfo_Empty = null;
+
+            ConstructorInfo[] constructorInfos = null;
+
+            constructorInfos = type.GetConstructors();
+            if (constructorInfos != null && constructorInfos.Length != 0)
             {
-                return null;
+                for (int i = 0; i < constructorInfos.Length; i++)
+                {
+                    ConstructorInfo constructorInfo_Temp = constructorInfos[i];
+
+                    ParameterInfo[] parameterInfos = constructorInfo_Temp.GetParameters();
+                    if (parameterInfos == null || parameterInfos.Length == 0)
+                    {
+                        constructorInfo_Empty = constructorInfo_Temp;
+                        continue;
+                    }
+
+                    if (parameterInfos.Length == 1 && parameterInfos[0].ParameterType == typeof(JsonObject))
+                    {
+                        constructorInfo = constructorInfo_Temp;
+                        break;
+                    }
+                }
             }
 
-            ConstructorInfo constructorInfo = null;
-
-            for (int i = 0; i < constructorInfos.Length; i++)
+            if(constructorInfo == null)
             {
-                ConstructorInfo constructorInfo_Temp = constructorInfos[i];
-
-                ParameterInfo[] parameterInfos = constructorInfo_Temp.GetParameters();
-                if (parameterInfos == null || parameterInfos.Length == 0)
+                constructorInfos = type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
+                if (constructorInfos != null && constructorInfos.Length != 0)
                 {
-                    constructorInfo = constructorInfo_Temp;
-                    continue;
-                }
+                    for (int i = 0; i < constructorInfos.Length; i++)
+                    {
+                        ConstructorInfo constructorInfo_Temp = constructorInfos[i];
 
-                if (parameterInfos.Length == 1 && parameterInfos[0].ParameterType == typeof(JsonObject))
-                {
-                    constructorInfo = constructorInfo_Temp;
-                    break;
+                        ParameterInfo[] parameterInfos = constructorInfo_Temp.GetParameters();
+                        if (parameterInfos == null || parameterInfos.Length == 0)
+                        {
+                            if(constructorInfo_Empty == null)
+                            {
+                                constructorInfo_Empty = constructorInfo_Temp;
+                            }
+
+                            continue;
+                        }
+
+                        if (parameterInfos.Length == 1 && parameterInfos[0].ParameterType == typeof(JsonObject))
+                        {
+                            constructorInfo = constructorInfo_Temp;
+                            break;
+                        }
+                    }
                 }
+            }
+
+            if(constructorInfo == null && constructorInfo_Empty != null)
+            {
+                constructorInfo = constructorInfo_Empty;
             }
 
             if(constructorInfo == null)

@@ -49,6 +49,7 @@ namespace DiGi.Core.Classes
             blue = color.B;
         }
 
+        [JsonIgnore]
         public byte Alpha
         {
             get
@@ -57,6 +58,7 @@ namespace DiGi.Core.Classes
             }
         }
 
+        [JsonIgnore]
         public byte Blue
         {
             get
@@ -65,6 +67,7 @@ namespace DiGi.Core.Classes
             }
         }
 
+        [JsonIgnore]
         public byte Green
         {
             get
@@ -73,6 +76,7 @@ namespace DiGi.Core.Classes
             }
         }
 
+        [JsonIgnore]
         public byte Red
         {
             get

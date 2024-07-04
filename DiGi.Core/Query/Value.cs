@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -10,18 +12,18 @@ namespace DiGi.Core
     {
         public static object Value(this JsonNode jsonNode, Type type)
         {
-            if(jsonNode == null || type == null)
+            if (jsonNode == null || type == null)
             {
                 return null;
             }
 
-            if(type.IsEnum)
+            if (type.IsEnum)
             {
-                switch(jsonNode.GetValueKind())
+                switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Number:
                         return jsonNode.GetValue<Enum>();
-                        //return Enum.GetValues(type).GetValue(jsonNode.GetValue<int>());
+                    //return Enum.GetValues(type).GetValue(jsonNode.GetValue<int>());
 
                     case System.Text.Json.JsonValueKind.String:
                         return Enum.Parse(type, jsonNode.GetValue<string>());
@@ -34,7 +36,7 @@ namespace DiGi.Core
             {
                 return jsonNode.GetValue<Guid>();
             }
-            
+
             if (type == typeof(string))
             {
                 return jsonNode.GetValue<string>();
@@ -67,7 +69,7 @@ namespace DiGi.Core
 
             if (type == typeof(System.Drawing.Color))
             {
-                Classes.Color color =  Create.SerializableObject<Classes.Color>(jsonNode.AsObject());
+                Color color = Create.SerializableObject<Color>(jsonNode.AsObject());
                 return (System.Drawing.Color)color;
             }
 
@@ -76,25 +78,25 @@ namespace DiGi.Core
                 return jsonNode.GetValue<double>();
             }
 
-            if(typeof(Interfaces.ISerializableObject).IsAssignableFrom(type))
+            if (typeof(ISerializableObject).IsAssignableFrom(type))
             {
-                return Create.SerializableObject<Interfaces.ISerializableObject>(jsonNode.AsObject());
+                return Create.SerializableObject<ISerializableObject>(jsonNode.AsObject());
             }
 
-            if(typeof(IEnumerable).IsAssignableFrom(type))
+            if (typeof(IEnumerable).IsAssignableFrom(type))
             {
                 Type genericType = type.GenericTypeArguments?[0];
-                if(genericType != null)
+                if (genericType != null)
                 {
                     IList list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(new[] { genericType }));
 
                     JsonArray jsonArray = jsonNode.AsArray();
-                    if(jsonArray != null)
+                    if (jsonArray != null)
                     {
                         foreach (JsonNode jsonNode_Temp in jsonArray)
                         {
                             object @object = Value(jsonNode_Temp, genericType);
-                            if (@object != null && @object.GetType() != genericType)
+                            if (@object != null && !genericType.IsAssignableFrom(@object.GetType()))
                             {
                                 @object = genericType.GetConstructor(new Type[] { @object.GetType() })?.Invoke(new object[] { @object });
                             }
@@ -128,6 +130,19 @@ namespace DiGi.Core
 
                 case System.Text.Json.JsonValueKind.Null:
                     value = null;
+                    break;
+
+                case System.Text.Json.JsonValueKind.Object:
+                    ISerializableObject serializableObject = Create.SerializableObject<ISerializableObject>((JsonObject)jsonNode);
+                    if(serializableObject is SerializableObjectWrapper)
+                    {
+                        value = serializableObject.ToJsonObject();
+                    }
+                    else
+                    {
+                        value = serializableObject;
+                    }
+
                     break;
             }
 

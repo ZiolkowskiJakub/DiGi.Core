@@ -26,6 +26,11 @@ namespace DiGi.Core.Classes
             Update(uniqueObjects);
         }
 
+        public UniqueObjectCluster(UniqueObjectCluster<T> uniqueObjectCluster)
+        {
+            Update(uniqueObjectCluster?.Objects);
+        }
+
         [JsonInclude, JsonPropertyName("Objects")]
         public List<T> Objects
         {
@@ -210,6 +215,11 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
+            if(!IsValid(uniqueObject))
+            {
+                return false;
+            }
+
             UniqueReference uniqueReference = new UniqueReference(uniqueObject);
             if(uniqueReference == null)
             {
@@ -230,6 +240,11 @@ namespace DiGi.Core.Classes
 
             dictionary_UniqueObject[uniqueReference] = uniqueObject;
             return true;
+        }
+
+        public virtual bool IsValid(T uniqueObject)
+        {
+            return uniqueObject != null;
         }
 
         public HashSet<UniqueReference> Update<U>(IEnumerable<U> uniqueObjects) where U : T

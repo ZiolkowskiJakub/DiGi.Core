@@ -8,10 +8,11 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Linq;
 using System.Collections.Generic;
+using DiGi.Core.File.Interfaces;
 
 namespace DiGi.Core.File.Classes
 {
-    public class File<T> : SerializableObject, IDisposable where T : ISerializableObject
+    public class File<T> : SerializableObject, IFile<T> where T : ISerializableObject
     {
         private bool disposed = false;
 
@@ -19,12 +20,12 @@ namespace DiGi.Core.File.Classes
         private FileInfo fileInfo;
 
         [JsonInclude, JsonPropertyName("Value"), Description("Value")]
-        private T Value { get; set; }
+        public T Value { get; set; }
 
         public File(string path)
             : base()
         {
-            FileInfo fileInfo = new FileInfo(path);
+            fileInfo = new FileInfo(path);
         }
 
         public File(JsonObject jsonObject)
@@ -184,5 +185,89 @@ namespace DiGi.Core.File.Classes
         {
             Dispose(true);
         }
+    }
+
+    public class File : File<SerializableObjectCollection>
+    {
+        public File(string path)
+            : base(path)
+        {
+
+        }
+
+        public File(JsonObject jsonObject)
+            : base(jsonObject)
+        {
+
+        }
+
+        public File(File file)
+            : base(file)
+        {
+
+        }
+
+        public bool Remove(ISerializableObject serializableObject)
+        {
+            if (Value == null)
+            {
+                return false;
+            }
+
+            return Value.Remove(serializableObject);
+        }
+        
+        public void Add(ISerializableObject serializableObject)
+        {
+            if(Value == null)
+            {
+                Value = new SerializableObjectCollection();
+            }
+
+            Value.Add(serializableObject);
+        }
+
+        public void AddRange<T>(IEnumerable<T> values) where T : ISerializableObject
+        {
+            if(values == null)
+            {
+                return;
+            }
+
+            if(Value == null)
+            {
+                Value = new SerializableObjectCollection();
+            }
+
+            foreach(T value in values)
+            {
+                Value.Add(value);
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (Value == null)
+            {
+                return;
+            }
+
+            Value.RemoveAt(index);
+        }
+
+        public void Clear()
+        {
+            Value?.Clear();
+        }
+        
+        [JsonIgnore]
+        public int Count
+        {
+            get
+            {
+                return Value == null ? 0 : Value.Count;
+            }
+        }
+
     }
 }

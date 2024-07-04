@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Parameter.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
-    public class UniqueParametrizedObject : ParametrizedObject, IUniqueObject
+    public class UniqueParametrizedObject : ParametrizedObject, IUniqueParametrizedObject
     {
         [JsonInclude, JsonPropertyName("Guid")]
         private Guid guid = Guid.NewGuid();
@@ -45,6 +45,12 @@ namespace DiGi.Core.Parameter.Classes
             : base(uniqueParametrizedObject)
         {
             guid = uniqueParametrizedObject != null ? uniqueParametrizedObject.guid : Guid.NewGuid();
+        }
+
+        public UniqueParametrizedObject(Guid guid, UniqueParametrizedObject uniqueParametrizedObject)
+            : base(uniqueParametrizedObject)
+        {
+            this.guid = guid;
         }
 
         [JsonIgnore]

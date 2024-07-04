@@ -35,7 +35,7 @@ namespace DiGi.Core
             }
 
             File.WriteAllText(path.Value, value);
-            return new FileInfo(value);
+            return new FileInfo(path.Value);
         }
 
         public static FileInfo ToFile<T>(this IEnumerable<T> serializableObjects, Classes.Path? path) where T : ISerializableObject
