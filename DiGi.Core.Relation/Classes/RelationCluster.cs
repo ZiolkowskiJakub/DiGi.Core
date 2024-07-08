@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -8,10 +9,10 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class RelationCluster : SerializableObject, ICluster<IRelation>
+    public class RelationCluster<T> : SerializableObject, ICluster<T> where T : IRelation
     {
         [JsonIgnore]
-        Dictionary<TypeReference, RelationCollection> dictionary = new Dictionary<TypeReference, RelationCollection>();
+        Dictionary<TypeReference, RelationCollection<T>> dictionary = new Dictionary<TypeReference, RelationCollection<T>>();
 
         public RelationCluster() 
             :base()
@@ -19,14 +20,27 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public RelationCluster(IEnumerable<IRelation> relations)
+        public RelationCluster(IEnumerable<T> relations)
         {
-
+            if(relations != null)
+            {
+                foreach(T relation in relations)
+                {
+                    Add(relation);
+                }
+            }
         }
 
-        public RelationCluster(RelationCluster relationCluster)
+        public RelationCluster(RelationCluster<T> relationCluster)
         {
-
+            if(relationCluster != null)
+            {
+                dictionary = new Dictionary<TypeReference, RelationCollection<T>>();
+                foreach (KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in relationCluster.dictionary)
+                {
+                    dictionary[keyValuePair.Key] = keyValuePair.Value == null ? null : new RelationCollection<T>(keyValuePair.Value);
+                }
+            }
         }
 
         public RelationCluster(JsonObject jsonObject)
@@ -36,7 +50,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonInclude, JsonPropertyName("Objects"), System.ComponentModel.Description("Objects")]
-        public List<IRelation> Objects
+        public List<T> Objects
         {
             get
             {
@@ -45,15 +59,15 @@ namespace DiGi.Core.Relation.Classes
                     return null;
                 }
 
-                List<IRelation> result = new List<IRelation>();
-                foreach (List<IRelation> relations in dictionary.Values)
+                List<T> result = new List<T>();
+                foreach (List<T> relations in dictionary.Values)
                 {
                     if (relations == null)
                     {
                         continue;
                     }
 
-                    foreach (IRelation relation in relations)
+                    foreach (T relation in relations)
                     {
                         result.Add(relation);
                     }
@@ -72,10 +86,10 @@ namespace DiGi.Core.Relation.Classes
 
                 if (dictionary == null)
                 {
-                    dictionary = new Dictionary<TypeReference, RelationCollection>();
+                    dictionary = new Dictionary<TypeReference, RelationCollection<T>>();
                 }
 
-                foreach (IRelation relation in value)
+                foreach (T relation in value)
                 {
                     Add(relation);
                 }
@@ -90,7 +104,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public bool Add(IRelation relation)
+        public bool Add<X>(X relation) where X : T
         {
             if (relation == null)
             {
@@ -99,9 +113,9 @@ namespace DiGi.Core.Relation.Classes
 
             TypeReference typeReference = new TypeReference(relation);
 
-            if (!dictionary.TryGetValue(typeReference, out RelationCollection relationCollection) || relationCollection == null)
+            if (!dictionary.TryGetValue(typeReference, out RelationCollection<T> relationCollection) || relationCollection == null)
             {
-                relationCollection = new RelationCollection();
+                relationCollection = new RelationCollection<T>();
                 dictionary[typeReference] = relationCollection;
             }
 
@@ -124,7 +138,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = false;
 
             List<TypeReference> typeReferences = new List<TypeReference>();
-            foreach(KeyValuePair<TypeReference, RelationCollection> keyValuePair in dictionary)
+            foreach(KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)
             {
                 if(keyValuePair.Value == null || keyValuePair.Value.Count == 0)
                 {
@@ -136,7 +150,7 @@ namespace DiGi.Core.Relation.Classes
 
                 for (int i = count - 1; i >= 0; i--)
                 {
-                    IRelation relation = keyValuePair.Value[i];
+                    T relation = keyValuePair.Value[i];
                     if (relation == null || !relation.Contains(uniqueReference))
                     {
                         continue;
@@ -166,7 +180,22 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public List<T> FindAll<T>(UniqueReference uniqueReference, bool exactMatch = false) where T: IRelation
+        public bool Remove(T relation)
+        {
+            if(relation == null)
+            {
+                return false;
+            }
+
+            if (!dictionary.TryGetValue(new TypeReference(relation), out RelationCollection<T> relationCollection))
+            {
+                return false;
+            }
+
+            return relationCollection.Remove(relation);
+        }
+
+        public List<X> FindAll<X>(UniqueReference uniqueReference, bool exactMatch = false) where X: T
         {
             if(uniqueReference == null || dictionary == null)
             {
@@ -177,18 +206,18 @@ namespace DiGi.Core.Relation.Classes
 
             if (exactMatch)
             {
-                if (!dictionary.TryGetValue(typeReference, out RelationCollection relationCollection))
+                if (!dictionary.TryGetValue(typeReference, out RelationCollection<T> relationCollection))
                 {
                     return null;
                 }
 
-                return relationCollection.FindAll<T>(uniqueReference);
+                return relationCollection.FindAll<X>(uniqueReference);
             }
 
             System.Type type = typeReference;
 
-            List<T> result = new List<T>();
-            foreach(KeyValuePair<TypeReference, RelationCollection> keyValuePair in dictionary)
+            List<X> result = new List<X>();
+            foreach(KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)
             {
                 System.Type type_Temp = keyValuePair.Key;
 
@@ -197,7 +226,7 @@ namespace DiGi.Core.Relation.Classes
                     continue;
                 }
 
-                List<T> relations = keyValuePair.Value.FindAll<T>(uniqueReference);
+                List<X> relations = keyValuePair.Value.FindAll<X>(uniqueReference);
                 if(relations == null)
                 {
                     continue;
@@ -207,6 +236,73 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return result;
+        }
+
+        public X Find<X>(UniqueReference uniqueReference, Func<X, bool> func = null, bool exactMatch = false) where X : T
+        {
+            if (uniqueReference == null || dictionary == null)
+            {
+                return default;
+            }
+
+            TypeReference typeReference = uniqueReference.TypeReference;
+
+            if (exactMatch)
+            {
+                if (!dictionary.TryGetValue(typeReference, out RelationCollection<T> relationCollection))
+                {
+                    return default;
+                }
+
+                return relationCollection.Find<X>(uniqueReference, func);
+            }
+
+            Type type = typeReference;
+
+            foreach (KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)
+            {
+                Type type_Temp = keyValuePair.Key;
+
+                if (!type_Temp.IsAssignableFrom(type))
+                {
+                    continue;
+                }
+
+                X result = keyValuePair.Value.Find<X>(uniqueReference, func);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return default;
+        }
+    }
+
+    public class RelationCluster : RelationCluster<IRelation>
+    {
+        public RelationCluster()
+            : base()
+        {
+
+        }
+
+        public RelationCluster(IEnumerable<IRelation> relations)
+            : base(relations)
+        {
+
+        }
+
+        public RelationCluster(RelationCluster relationCluster)
+            : base(relationCluster)
+        {
+
+        }
+
+        public RelationCluster(JsonObject jsonObject)
+            : base(jsonObject)
+        {
+
         }
     }
 }

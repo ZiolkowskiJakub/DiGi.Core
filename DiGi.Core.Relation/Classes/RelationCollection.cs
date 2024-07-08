@@ -1,24 +1,25 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class RelationCollection : SerializableObjectCollection<IRelation>
+    public class RelationCollection<T> : SerializableObjectCollection<T> where T : IRelation
     {
         public RelationCollection() 
             :base()
         { 
         }
 
-        public RelationCollection(IEnumerable<IRelation> relations)
+        public RelationCollection(IEnumerable<T> relations)
             : base(relations)
         {
         }
 
-        public RelationCollection(RelationCollection relationCollection)
+        public RelationCollection(RelationCollection<T> relationCollection)
             : base(relationCollection)
         {
         }
@@ -40,7 +41,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = false;
             for (int i = count; i >= 0; i--)
             {
-                IRelation relation = this[i];
+                T relation = this[i];
                 if (relation == null || !relation.Contains(uniqueReference))
                 {
                     continue;
@@ -59,26 +60,60 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public List<T> FindAll<T>(UniqueReference uniqueReference) where T : IRelation
+        public bool Remove(T relation)
+        {
+            if (relation == null)
+            {
+                return false;
+            }
+
+            return Remove(relation);
+        }
+
+        public List<X> FindAll<X>(UniqueReference uniqueReference) where X : T
         {
             if(uniqueReference == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
-            foreach(IRelation relation in this)
+            List<X> result = new List<X>();
+            foreach(T relation in this)
             {
-                T t = relation is T ? (T)relation : default;
-                if(t == null || !t.Contains(uniqueReference))
+                X x = relation is X ? (X)relation : default;
+                if(x == null || !x.Contains(uniqueReference))
                 {
                     continue;
                 }
 
-                result.Add(t);
+                result.Add(x);
             }
 
             return result;
+        }
+
+        public X Find<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
+        {
+            if (uniqueReference == null)
+            {
+                return default;
+            }
+
+            foreach (T relation in this)
+            {
+                X x = relation is X ? (X)relation : default;
+                if (x == null || !x.Contains(uniqueReference))
+                {
+                    continue;
+                }
+
+                if(func != null && func.Invoke(x))
+                {
+                    return x;
+                }
+            }
+
+            return default;
         }
 
     }

@@ -28,6 +28,12 @@ namespace DiGi.Core.Relation.Classes
             uniqueReference_To = uniqueReference_To?.Clone<UniqueReference>();
         }
 
+        public OneToOneRelation(IUniqueObject uniqueObject_From, IUniqueObject uniqueObject_To)
+        {
+            uniqueReference_From = uniqueReference_From == null ? null : new UniqueReference(uniqueObject_From);
+            uniqueReference_To = uniqueReference_To == null ? null : new UniqueReference(uniqueObject_To);
+        }
+
         public OneToOneRelation(JsonObject jsonObject)
             : base(jsonObject)
         {

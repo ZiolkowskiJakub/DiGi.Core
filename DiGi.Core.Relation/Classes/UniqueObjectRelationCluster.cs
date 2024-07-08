@@ -1,16 +1,17 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Classes;
 using DiGi.Core.Relation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public class UniqueObjectRelationCluster<T> : UniqueObjectCluster<T> where T : IUniqueObject
+    public abstract class UniqueObjectRelationCluster<T, X> : UniqueObjectCluster<T> where T : IUniqueObject where X: IRelation
     {
         [JsonInclude, JsonPropertyName("RelationCluster"), System.ComponentModel.Description("RelationCluster")]
-        private RelationCluster relationCluster = new RelationCluster();
+        private RelationCluster<X> relationCluster = new RelationCluster<X>();
 
         public UniqueObjectRelationCluster(JsonObject jsonObject)
             :base(jsonObject)
@@ -24,13 +25,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public UniqueObjectRelationCluster(UniqueObjectRelationCluster<T> uniqueObjectRelationCluster)
+        public UniqueObjectRelationCluster(UniqueObjectRelationCluster<T, X> uniqueObjectRelationCluster)
             : base(uniqueObjectRelationCluster)
         {
             if(uniqueObjectRelationCluster != null)
             {
 
-                relationCluster = uniqueObjectRelationCluster.relationCluster == null ? null : new RelationCluster(uniqueObjectRelationCluster.relationCluster);
+                relationCluster = uniqueObjectRelationCluster.relationCluster == null ? null : new RelationCluster<X>(uniqueObjectRelationCluster.relationCluster);
             }
 
         }
@@ -52,40 +53,47 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public List<X> GetRelations<X>(UniqueReference uniqueReference) where X : IRelation
+        public virtual bool Remove(X relation)
+        {
+            if(relation == null)
+            {
+                return false;
+            }
+
+            return relationCluster.Remove(relation);
+        }
+
+        public List<Z> GetRelations<Z>(UniqueReference uniqueReference) where Z : X
         {
             if(uniqueReference == null)
             {
                 return null;
             }
 
-            return relationCluster.FindAll<X>(uniqueReference);
+            return relationCluster.FindAll<Z>(uniqueReference);
 
         }
 
-        public IRelation AddRelation(T uniqueObject_1, T uniqueObject_2)
-        { 
-            if(!Contains(uniqueObject_1) || !Contains(uniqueObject_2))
+        public Z GetRelation<Z>(UniqueReference uniqueReference, Func<Z, bool> func = null) where Z : X
+        {
+            if (uniqueReference == null)
             {
                 return default;
             }
 
-            OneToOneBidirectionalRelation result = new OneToOneBidirectionalRelation(new UniqueReference(uniqueObject_1), new UniqueReference(uniqueObject_2));
-            relationCluster.Add(result);
-
-            return result;
+            return relationCluster.Find<Z>(uniqueReference, func);
         }
 
-        public IRelation AddRelation(IRelation relation)
+        public Z AddRelation<Z>(Z relation) where Z : X
         {
             if(relation == null)
             {
-                return null;
+                return default;
             }
 
             if(relationCluster == null)
             {
-                relationCluster = new RelationCluster();
+                relationCluster = new RelationCluster<X>();
             }
 
             if(relationCluster.Add(relation))
@@ -93,7 +101,7 @@ namespace DiGi.Core.Classes
                 return relation;
             }
 
-            return null;
+            return default;
         }
     }
 }

@@ -19,6 +19,12 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
+        public OneToOneBidirectionalRelation(IUniqueObject uniqueObject_From, IUniqueObject uniqueObject_To)
+            : base(uniqueObject_From, uniqueObject_To)
+        {
+
+        }
+
         public OneToOneBidirectionalRelation(JsonObject jsonObject)
             : base(jsonObject)
         {
