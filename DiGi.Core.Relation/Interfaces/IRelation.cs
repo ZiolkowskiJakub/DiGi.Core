@@ -1,7 +1,8 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 
-namespace DiGi.Core.Interfaces
+namespace DiGi.Core.Relation.Interfaces
 {
     public interface IRelation : ISerializableObject
     {

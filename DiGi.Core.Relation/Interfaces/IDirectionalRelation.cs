@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.Interfaces
+﻿namespace DiGi.Core.Relation.Interfaces
 {
     public interface IDirectionalRelation : IRelation
     {

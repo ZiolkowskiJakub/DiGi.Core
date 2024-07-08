@@ -1,4 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Relation.Classes;
+using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;

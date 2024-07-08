@@ -1,8 +1,10 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
+using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
-namespace DiGi.Core.Classes
+namespace DiGi.Core.Relation.Classes
 {
     public class RelationCollection : SerializableObjectCollection<IRelation>
     {
