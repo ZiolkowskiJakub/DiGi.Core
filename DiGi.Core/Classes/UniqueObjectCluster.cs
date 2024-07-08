@@ -6,8 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public class UniqueObjectCluster<T> : SerializableObject where T : IUniqueObject
+    public class UniqueObjectCluster<T> : SerializableObject, ICluster where T : IUniqueObject
     {
+        [JsonIgnore]
         private Dictionary<TypeReference, Dictionary<UniqueReference, T>> dictionary = new Dictionary<TypeReference, Dictionary<UniqueReference, T>>();
 
         public UniqueObjectCluster()
@@ -62,6 +63,15 @@ namespace DiGi.Core.Classes
             }
         }
 
+        [JsonIgnore]
+        public List<TypeReference> TypeReferences
+        {
+            get
+            {
+                return dictionary?.Keys?.ToList();
+            }
+        }
+
         public bool Contains(UniqueReference uniqueReference)
         {
             TypeReference typeReference = uniqueReference?.TypeReference;
@@ -88,7 +98,12 @@ namespace DiGi.Core.Classes
             return Contains(new UniqueReference(uniqueObject));
         }
 
-        public bool Remove(UniqueReference uniqueReference)
+        public virtual bool IsValid(T uniqueObject)
+        {
+            return uniqueObject != null;
+        }
+
+        public virtual bool Remove(UniqueReference uniqueReference)
         {
             TypeReference typeReference = uniqueReference?.TypeReference;
             if (typeReference == null)
@@ -240,11 +255,6 @@ namespace DiGi.Core.Classes
 
             dictionary_UniqueObject[uniqueReference] = uniqueObject;
             return true;
-        }
-
-        public virtual bool IsValid(T uniqueObject)
-        {
-            return uniqueObject != null;
         }
 
         public HashSet<UniqueReference> Update<U>(IEnumerable<U> uniqueObjects) where U : T

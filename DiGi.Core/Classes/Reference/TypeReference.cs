@@ -34,6 +34,11 @@ namespace DiGi.Core.Classes
             fullTypeName = Query.FullTypeName(@object.GetType());
         }
 
+        public override ISerializableObject Clone()
+        {
+            return new TypeReference(fullTypeName);
+        }
+
         [JsonIgnore]
         public string FullTypeName
         {
@@ -74,14 +79,8 @@ namespace DiGi.Core.Classes
             return typeReference_1?.fullTypeName != typeReference_2.fullTypeName;
         }
 
-        public static implicit operator TypeReference(System.Type type)
-        {
-            return Create.TypeReference(type);
-        }
+        public static implicit operator TypeReference(Type type) => Create.TypeReference(type);
 
-        public static implicit operator System.Type(TypeReference typeReference)
-        {
-            return Query.Type(typeReference);
-        }
+        public static implicit operator Type(TypeReference typeReference) => Query.Type(typeReference);
     }
 }

@@ -61,6 +61,11 @@ namespace DiGi.Core.Classes
             return ToString().GetHashCode();
         }
 
+        public override ISerializableObject Clone()
+        {
+            return new UniqueReference(typeReference?.FullTypeName, guid);
+        }
+
         public static bool operator ==(UniqueReference uniqueReference_1, UniqueReference uniqueReference_2)
         {
             return uniqueReference_1?.ToString() == uniqueReference_2?.ToString();
