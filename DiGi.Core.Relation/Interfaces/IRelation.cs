@@ -9,5 +9,9 @@ namespace DiGi.Core.Relation.Interfaces
         List<UniqueReference> UniqueReferences { get; }
 
         bool Contains(UniqueReference uniqueReference);
+
+        bool Contains_From(UniqueReference uniqueReference);
+
+        bool Contains_To(UniqueReference uniqueReference);
     }
 }

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class OneToOneRelation : SerializableObject, IOneToOneRelation
+    public abstract class OneToOneRelation : Relation, IOneToOneRelation
     {
         [JsonInclude, JsonPropertyName("UniqueReference_From")]
         private UniqueReference uniqueReference_From;
@@ -41,7 +41,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonIgnore]
-        public List<UniqueReference> UniqueReferences
+        public override List<UniqueReference> UniqueReferences
         {
             get
             {
@@ -78,19 +78,14 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public bool Contains(UniqueReference uniqueReference)
+        public override bool Contains_From(UniqueReference uniqueReference)
         {
-            if(uniqueReference_From == uniqueReference)
-            {
-                return true;
-            }
+            return uniqueReference_From == uniqueReference;
+        }
 
-            if (uniqueReference_To == uniqueReference)
-            {
-                return true;
-            }
-
-            return false;
+        public override bool Contains_To(UniqueReference uniqueReference)
+        {
+            return uniqueReference_To == uniqueReference;
         }
     }
 }

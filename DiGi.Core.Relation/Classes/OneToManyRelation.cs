@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,20 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class OneToManyRelation : SerializableObject, IRelation
+    public abstract class OneToManyRelation : Relation
     {
         [JsonInclude, JsonPropertyName("UniqueReference_From")]
         private UniqueReference uniqueReference_From;
 
         [JsonInclude, JsonPropertyName("UniqueReferences_To")]
         private List<UniqueReference> uniqueReferences_To;
+
+        public OneToManyRelation(IUniqueObject uniqueObject_From, IEnumerable<IUniqueObject> uniqueObjects_To)
+            : base()
+        {
+            uniqueReference_From = uniqueObject_From == null ? null : new UniqueReference(uniqueObject_From);
+            uniqueReferences_To = uniqueObjects_To == null ? null : uniqueObjects_To.ToList().FindAll(x => x != null).ConvertAll(x => new UniqueReference(x));
+        }
 
         public OneToManyRelation(UniqueReference uniqueReference_From, IEnumerable<UniqueReference> uniqueReferences_To)
             :base()
@@ -57,7 +65,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonIgnore]
-        public List<UniqueReference> UniqueReferences
+        public override List<UniqueReference> UniqueReferences
         {
             get
             {
@@ -84,9 +92,14 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public bool Contains(UniqueReference uniqueReference)
+        public override bool Contains_From(UniqueReference uniqueReference)
         {
-            return uniqueReference == uniqueReference_From || (uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference));
+            return uniqueReference_From == uniqueReference;
+        }
+
+        public override bool Contains_To(UniqueReference uniqueReference)
+        {
+            return uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference);
         }
     }
 }
