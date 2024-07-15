@@ -7,43 +7,43 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class ManyToOneRelation : Relation, IManyToOneRelation
+    public abstract class ManyToManyRelation : Relation, IManyToManyRelation
     {
         [JsonInclude, JsonPropertyName("UniqueReferences_From")]
         private List<UniqueReference> uniqueReferences_From;
 
-        [JsonInclude, JsonPropertyName("UniqueReference_To")]
-        private UniqueReference uniqueReference_To;
+        [JsonInclude, JsonPropertyName("UniqueReferences_To")]
+        private List<UniqueReference> uniqueReferences_To;
 
-        public ManyToOneRelation(IEnumerable<UniqueReference> uniqueReferences_From, UniqueReference uniqueReference_To)
+        public ManyToManyRelation(IEnumerable<UniqueReference> uniqueReferences_From, IEnumerable<UniqueReference> uniqueReferences_To)
             :base()
         {
-            this.uniqueReference_To = uniqueReference_To?.Clone<UniqueReference>();
+            this.uniqueReferences_To = uniqueReferences_To == null ? null : uniqueReferences_To.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
             this.uniqueReferences_From = uniqueReferences_From == null ? null : uniqueReferences_From.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
         }
 
-        public ManyToOneRelation(ManyToOneRelation manyToOneRelation)
+        public ManyToManyRelation(ManyToManyRelation manyToManyRelation)
             : base()
         {
-            if(manyToOneRelation != null)
+            if(manyToManyRelation != null)
             {
-                uniqueReference_To = manyToOneRelation.uniqueReference_To?.Clone<UniqueReference>();
-                uniqueReferences_From = manyToOneRelation.uniqueReferences_From?.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
+                uniqueReferences_To = manyToManyRelation.uniqueReferences_To?.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
+                uniqueReferences_From = manyToManyRelation.uniqueReferences_From?.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
             }
         }
 
-        public ManyToOneRelation(JsonObject jsonObject)
+        public ManyToManyRelation(JsonObject jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public UniqueReference UniqueReference_To
+        public List<UniqueReference> UniqueReferences_To
         {
             get
             {
-                return uniqueReference_To?.Clone<UniqueReference>();
+                return uniqueReferences_To?.ConvertAll(x => x?.Clone<UniqueReference>());
             }
         }
 
@@ -62,12 +62,20 @@ namespace DiGi.Core.Relation.Classes
             get
             {
                 List<UniqueReference> result = new List<UniqueReference>();
-                if(uniqueReference_To != null)
+                if (uniqueReferences_To != null)
                 {
-                    result.Add(uniqueReference_To.Clone<UniqueReference>());
+                    foreach (UniqueReference uniqueReference in uniqueReferences_To)
+                    {
+                        if (uniqueReference == null)
+                        {
+                            continue;
+                        }
+
+                        result.Add(uniqueReference.Clone<UniqueReference>());
+                    }
                 }
 
-                if(uniqueReferences_From != null)
+                if (uniqueReferences_From != null)
                 {
                     foreach(UniqueReference uniqueReference in uniqueReferences_From)
                     {
@@ -92,10 +100,12 @@ namespace DiGi.Core.Relation.Classes
             }
 
             bool result = false;
-            if (uniqueReference_To == uniqueReference)
+            if (uniqueReferences_To != null)
             {
-                uniqueReference_To = null;
-                result = true;
+                if (uniqueReferences_To.Remove(uniqueReference))
+                {
+                    result = true;
+                }
             }
 
             if (uniqueReferences_From != null)
@@ -111,13 +121,12 @@ namespace DiGi.Core.Relation.Classes
 
         public override bool Remove_To(UniqueReference uniqueReference)
         {
-            if (uniqueReference != uniqueReference_To)
+            if (uniqueReference == null || uniqueReferences_To == null)
             {
                 return false;
             }
 
-            uniqueReference_To = null;
-            return true;
+            return uniqueReferences_To.Remove(uniqueReference);
         }
 
         public override bool Remove_From(UniqueReference uniqueReference)

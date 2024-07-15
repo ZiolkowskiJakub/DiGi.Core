@@ -53,6 +53,16 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public override bool Remove(T uniqueObject)
+        {
+            if(uniqueObject == null)
+            {
+                return false;
+            }
+
+            return Remove(new UniqueReference(uniqueObject));
+        }
+
         public virtual bool Remove(X relation)
         {
             if(relation == null)
@@ -71,7 +81,16 @@ namespace DiGi.Core.Classes
             }
 
             return relationCluster.FindAll<Z>(uniqueReference);
+        }
 
+        public List<Z> GetRelations<Z>(UniqueReference uniqueReference, Func<Z, bool> func = null) where Z : X
+        {
+            if (uniqueReference == null)
+            {
+                return null;
+            }
+
+            return relationCluster.FindAll<Z>(uniqueReference, func);
         }
 
         public Z GetRelation<Z>(UniqueReference uniqueReference, Func<Z, bool> func = null) where Z : X

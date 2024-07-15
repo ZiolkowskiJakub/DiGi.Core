@@ -39,5 +39,11 @@ namespace DiGi.Core.Relation.Classes
         public abstract bool Contains_From(UniqueReference uniqueReference);
 
         public abstract bool Contains_To(UniqueReference uniqueReference);
+
+        public abstract bool Remove(UniqueReference uniqueReference);
+
+        public abstract bool Remove_From(UniqueReference uniqueReference);
+
+        public abstract bool Remove_To(UniqueReference uniqueReference);
     }
 }

@@ -129,7 +129,7 @@ namespace DiGi.Core.Classes
             return true;
         }
 
-        public bool Remove(T uniqueObject)
+        public virtual bool Remove(T uniqueObject)
         {
             if (uniqueObject == null)
             {
@@ -216,6 +216,30 @@ namespace DiGi.Core.Classes
             }
 
             return uniqueObjects != null && uniqueObjects.Count != 0;
+        }
+
+        public bool TryGetObjects<U>(IEnumerable<UniqueReference> uniqueReferences, out List<U> uniqueObjects) where U : T
+        {
+            uniqueObjects = null;
+
+            if(uniqueReferences == null)
+            {
+                return false;
+            }
+
+            bool result = false;
+
+            uniqueObjects = new List<U>();
+            foreach(UniqueReference uniqueReference in uniqueReferences)
+            {
+                if(TryGetObject(uniqueReference, out U uniqueObject))
+                {
+                    uniqueObjects.Add(uniqueObject);
+                    result = true;
+                }
+            }
+
+            return result;
         }
 
         public bool TryGetObjects<U>(out List<U> uniqueObjects, bool exactMath = false) where U : T

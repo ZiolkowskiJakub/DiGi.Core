@@ -9,7 +9,7 @@ namespace DiGi.Core
     {
         public static string Description(this Enum @enum)
         {
-            FieldInfo fieldInfo = @enum.GetType().GetField(@enum.ToString());
+            FieldInfo fieldInfo = @enum.GetType().GetField(nameof(@enum));
 
             DescriptionAttribute[] descriptionAttributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 

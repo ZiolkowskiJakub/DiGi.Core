@@ -159,16 +159,87 @@ namespace DiGi.Core.Relation.Classes
                     if (relation is IOneToOneRelation)
                     {
                         keyValuePair.Value.RemoveAt(i);
-                        result = true;
-                        continue;
+
+                    }
+                    else if (relation is IOneToManyRelation)
+                    {
+                        IOneToManyRelation oneToManyRelation = (IOneToManyRelation)relation;
+                        if(oneToManyRelation.Contains_From(uniqueReference))
+                        {
+                            keyValuePair.Value.RemoveAt(i);
+                        }
+                        else
+                        {
+                            if(oneToManyRelation.Remove_To(uniqueReference))
+                            {
+                                List<UniqueReference> uniqueReferences = oneToManyRelation.UniqueReferences_To;
+                                if(uniqueReferences == null || uniqueReferences.Count == 0)
+                                {
+                                    keyValuePair.Value.RemoveAt(i);
+                                }
+                            }
+
+                        }
+                    }
+                    else if (relation is IManyToOneRelation)
+                    {
+                        IManyToOneRelation manyToOneRelation = (IManyToOneRelation)relation;
+                        if (manyToOneRelation.Contains_To(uniqueReference))
+                        {
+                            keyValuePair.Value.RemoveAt(i);
+                        }
+                        else
+                        {
+                            if (manyToOneRelation.Remove_From(uniqueReference))
+                            {
+                                List<UniqueReference> uniqueReferences = manyToOneRelation.UniqueReferences_From;
+                                if (uniqueReferences == null || uniqueReferences.Count == 0)
+                                {
+                                    keyValuePair.Value.RemoveAt(i);
+                                }
+                            }
+
+                        }
+                    }
+                    else if (relation is IManyToManyRelation)
+                    {
+                        IManyToManyRelation manyToManyRelation = (IManyToManyRelation)relation;
+
+                        bool removed = false;
+
+                        if (manyToManyRelation.Remove_From(uniqueReference))
+                        {
+                            List<UniqueReference> uniqueReferences = manyToManyRelation.UniqueReferences_From;
+                            if (uniqueReferences == null || uniqueReferences.Count == 0)
+                            {
+                                keyValuePair.Value.RemoveAt(i);
+                                removed = true;
+                            }
+                        }
+
+                        if(!removed)
+                        {
+                            if (manyToManyRelation.Remove_To(uniqueReference))
+                            {
+                                List<UniqueReference> uniqueReferences = manyToManyRelation.UniqueReferences_To;
+                                if (uniqueReferences == null || uniqueReferences.Count == 0)
+                                {
+                                    keyValuePair.Value.RemoveAt(i);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
                     }
 
-                    if(keyValuePair.Value.Count == 0)
+                    if (keyValuePair.Value.Count == 0)
                     {
                         typeReferences.Add(keyValuePair.Key);
                     }
 
-                    throw new System.NotImplementedException();
+                    result = true;
                 }
             }
 
@@ -195,7 +266,7 @@ namespace DiGi.Core.Relation.Classes
             return relationCollection.Remove(relation);
         }
 
-        public List<X> FindAll<X>(UniqueReference uniqueReference, bool exactMatch = false) where X: T
+        public List<X> FindAll<X>(UniqueReference uniqueReference, Func<X, bool> func = null, bool exactMatch = false) where X: T
         {
             if(uniqueReference == null || dictionary == null)
             {
@@ -219,7 +290,7 @@ namespace DiGi.Core.Relation.Classes
             List<X> result = new List<X>();
             foreach(KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)
             {
-                System.Type type_Temp = keyValuePair.Key;
+                Type type_Temp = keyValuePair.Key;
 
                 if(!type_Temp.IsAssignableFrom(type))
                 {
@@ -228,6 +299,29 @@ namespace DiGi.Core.Relation.Classes
 
                 List<X> relations = keyValuePair.Value.FindAll<X>(uniqueReference);
                 if(relations == null)
+                {
+                    continue;
+                }
+
+                result.AddRange(relations);
+            }
+
+            return result;
+        }
+
+        public List<X> FindAll<X>(Func<X, bool> func) where X : T
+        {
+            if (dictionary == null)
+            {
+                return null;
+            }
+
+            List<X> result = new List<X>();
+            foreach (KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)
+            {
+                Type type_Temp = keyValuePair.Key;
+                List<X> relations = keyValuePair.Value.FindAll(func);
+                if (relations == null)
                 {
                     continue;
                 }
@@ -254,7 +348,7 @@ namespace DiGi.Core.Relation.Classes
                     return default;
                 }
 
-                return relationCollection.Find<X>(uniqueReference, func);
+                return relationCollection.Find(uniqueReference, func);
             }
 
             Type type = typeReference;
@@ -268,7 +362,7 @@ namespace DiGi.Core.Relation.Classes
                     continue;
                 }
 
-                X result = keyValuePair.Value.Find<X>(uniqueReference, func);
+                X result = keyValuePair.Value.Find(uniqueReference, func);
                 if (result != null)
                 {
                     return result;

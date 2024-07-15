@@ -13,5 +13,11 @@ namespace DiGi.Core.Relation.Interfaces
         bool Contains_From(UniqueReference uniqueReference);
 
         bool Contains_To(UniqueReference uniqueReference);
+
+        bool Remove(UniqueReference uniqueReference);
+
+        bool Remove_From(UniqueReference uniqueReference);
+
+        bool Remove_To(UniqueReference uniqueReference);
     }
 }

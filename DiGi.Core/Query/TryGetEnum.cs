@@ -45,7 +45,7 @@ namespace DiGi.Core
 
             foreach (Enum @enum_Temp in array)
             {
-                if (@enum_Temp.ToString().Equals(text))
+                if (nameof(@enum_Temp).Equals(text))
                 {
                     @enum = enum_Temp;
                     return true;
@@ -79,7 +79,7 @@ namespace DiGi.Core
 
             foreach (Enum @enum_Temp in array)
             {
-                if (@enum_Temp.ToString().ToUpper().Equals("UNDEFINED"))
+                if (nameof(@enum_Temp).ToUpper().Equals("UNDEFINED"))
                 {
                     @enum = enum_Temp;
                     return false;

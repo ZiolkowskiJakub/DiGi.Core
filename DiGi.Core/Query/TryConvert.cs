@@ -495,7 +495,7 @@ namespace DiGi.Core
                     {
                         foreach (Enum @enum in array)
                         {
-                            if (@enum.ToString().Equals(@string))
+                            if (nameof(@enum).Equals(@string))
                             {
                                 result = @enum;
                                 return true;
@@ -549,7 +549,7 @@ namespace DiGi.Core
 
                     foreach (Enum @enum in Enum.GetValues(type_Temp))
                     {
-                        string name = @enum.ToString().ToUpper();
+                        string name = nameof(@enum).ToUpper();
                         if (@string.Equals(name))
                         {
                             result = @enum;

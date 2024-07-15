@@ -87,5 +87,50 @@ namespace DiGi.Core.Relation.Classes
         {
             return uniqueReference_To == uniqueReference;
         }
+
+        public override bool Remove(UniqueReference uniqueReference)
+        {
+            if(uniqueReference == null)
+            {
+                return false;
+            }
+
+            bool result = false;
+            if(uniqueReference_From == uniqueReference)
+            {
+                uniqueReference_From = null;
+                result = true;
+            }
+
+            if (uniqueReference_To == uniqueReference)
+            {
+                uniqueReference_To = null;
+                result = true;
+            }
+
+            return result;
+        }
+
+        public override bool Remove_From(UniqueReference uniqueReference)
+        {
+            if(uniqueReference_From == uniqueReference)
+            {
+                uniqueReference_From = null;
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool Remove_To(UniqueReference uniqueReference)
+        {
+            if (uniqueReference_To == uniqueReference)
+            {
+                uniqueReference_To = null;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

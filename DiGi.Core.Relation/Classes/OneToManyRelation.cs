@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class OneToManyRelation : Relation
+    public abstract class OneToManyRelation : Relation, IOneToManyRelation
     {
         [JsonInclude, JsonPropertyName("UniqueReference_From")]
         private UniqueReference uniqueReference_From;
@@ -100,6 +100,52 @@ namespace DiGi.Core.Relation.Classes
         public override bool Contains_To(UniqueReference uniqueReference)
         {
             return uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference);
+        }
+
+        public override bool Remove(UniqueReference uniqueReference)
+        {
+            if(uniqueReference == null)
+            {
+                return false;
+            }
+
+            bool result = false;
+            if(uniqueReference_From == uniqueReference)
+            {
+                uniqueReference_From = null;
+                result = true;
+            }
+
+            if(uniqueReferences_To != null )
+            {
+                if(uniqueReferences_To.Remove(uniqueReference))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        public override bool Remove_From(UniqueReference uniqueReference)
+        {
+            if(uniqueReference != uniqueReference_From)
+            {
+                return false;
+            }
+
+            uniqueReference_From = null;
+            return true;
+        }
+
+        public override bool Remove_To(UniqueReference uniqueReference)
+        {
+            if(uniqueReference == null || uniqueReferences_To == null)
+            {
+                return false;
+            }
+
+            return uniqueReferences_To.Remove(uniqueReference);
         }
     }
 }

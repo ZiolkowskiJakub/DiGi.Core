@@ -70,18 +70,45 @@ namespace DiGi.Core.Relation.Classes
             return Remove(relation);
         }
 
-        public List<X> FindAll<X>(UniqueReference uniqueReference) where X : T
+        public List<X> FindAll<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
         {
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return null;
             }
 
             List<X> result = new List<X>();
-            foreach(T relation in this)
+            foreach (T relation in this)
             {
                 X x = relation is X ? (X)relation : default;
-                if(x == null || !x.Contains(uniqueReference))
+                if (x == null || !x.Contains(uniqueReference))
+                {
+                    continue;
+                }
+
+                if (func != null && !func.Invoke(x))
+                {
+                    continue;
+                }
+
+                result.Add(x);
+            }
+
+            return result;
+        }
+
+        public List<X> FindAll<X>(Func<X, bool> func = null) where X : T
+        {
+            List<X> result = new List<X>();
+            foreach (T relation in this)
+            {
+                X x = relation is X ? (X)relation : default;
+                if (x == null)
+                {
+                    continue;
+                }
+
+                if (func != null && !func.Invoke(x))
                 {
                     continue;
                 }
