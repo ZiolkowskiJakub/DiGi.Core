@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -245,6 +246,46 @@ namespace DiGi.Core.Classes
         public bool TryGetObjects<U>(out List<U> uniqueObjects, bool exactMath = false) where U : T
         {
             return TryGetObjects(typeof(U), out uniqueObjects, exactMath);
+        }
+
+        public List<X> GetObjects<X>(Func<X, bool> func = null) where X : T
+        {
+            if(dictionary == null)
+            {
+                return null;
+            }
+
+            Type type = typeof(T);
+
+            List<X> result = new List<X>();
+            foreach (KeyValuePair<TypeReference, Dictionary<UniqueReference, T>> keyValuePair in dictionary)
+            {
+                Type type_Temp = keyValuePair.Key;
+
+                if(!type_Temp.IsAssignableFrom(type))
+                {
+                    continue;
+                }
+
+                foreach(T t in keyValuePair.Value.Values)
+                {
+                    if(!(t is X))
+                    {
+                        continue;
+                    }
+
+                    X x = (X)t;
+
+                    if (func != null && !func.Invoke(x))
+                    {
+                        continue;
+                    }
+
+                    result.Add(x);
+                }
+            }
+
+            return result;
         }
 
         public bool Update(T uniqueObject)
