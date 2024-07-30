@@ -2,8 +2,8 @@
 using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Xml.Linq;
 
 
 namespace DiGi.Core
@@ -83,12 +83,12 @@ namespace DiGi.Core
                 return Create.SerializableObject<ISerializableObject>(jsonNode.AsObject());
             }
 
-            if (typeof(IEnumerable).IsAssignableFrom(type))
+            if (typeof(IList).IsAssignableFrom(type))
             {
                 Type genericType = type.GenericTypeArguments?[0];
                 if (genericType != null)
                 {
-                    IList list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(new[] { genericType }));
+                    IList list = Create.List(genericType);
 
                     JsonArray jsonArray = jsonNode.AsArray();
                     if (jsonArray != null)
@@ -105,6 +105,32 @@ namespace DiGi.Core
                         }
 
                         return Activator.CreateInstance(type, list);
+                    }
+                }
+            }
+
+            if (typeof(IDictionary).IsAssignableFrom(type))
+            {
+                Type genericType_Key = type.GenericTypeArguments?[0];
+                Type genericType_Value = type.GenericTypeArguments?[1];
+
+                if (genericType_Key != null && genericType_Value != null)
+                {
+                    IDictionary dictionary = Create.Dictionary(genericType_Key, genericType_Value);
+
+                    JsonArray jsonArray = jsonNode.AsArray();
+                    if (jsonArray != null)
+                    {
+                        foreach (JsonNode jsonNode_Temp in jsonArray)
+                        {
+                            object key = Value(jsonNode_Temp["Key"], genericType_Key);
+                            if (key != null)
+                            {
+                                dictionary[key] = Value(jsonNode_Temp["Value"], genericType_Value);
+                            }
+                        }
+
+                        return Activator.CreateInstance(type, dictionary);
                     }
                 }
             }
