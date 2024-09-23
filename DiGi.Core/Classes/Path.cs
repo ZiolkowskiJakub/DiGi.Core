@@ -32,6 +32,11 @@ namespace DiGi.Core.Classes
 
         public static implicit operator string(Path path)
         {
+            if(path == null)
+            {
+                return null;
+            }
+
             return path.value;
         }
         
