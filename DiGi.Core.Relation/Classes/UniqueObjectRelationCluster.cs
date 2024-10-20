@@ -1,14 +1,14 @@
-﻿using DiGi.Core.Interfaces;
-using DiGi.Core.Relation.Classes;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace DiGi.Core.Classes
+namespace DiGi.Core.Relation.Classes
 {
-    public abstract class UniqueObjectRelationCluster<T, X> : UniqueObjectCluster<T> where T : IUniqueObject where X: IRelation
+    public class UniqueObjectRelationCluster<T, X> : UniqueObjectCluster<T> where T : IUniqueObject where X: IRelation
     {
         [JsonInclude, JsonPropertyName("RelationCluster"), System.ComponentModel.Description("RelationCluster")]
         private RelationCluster<X> relationCluster = new RelationCluster<X>();
@@ -90,7 +90,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            return relationCluster.FindAll<Z>(uniqueReference, func);
+            return relationCluster.FindAll(uniqueReference, func);
         }
 
         public Z GetRelation<Z>(UniqueReference uniqueReference, Func<Z, bool> func = null) where Z : X
@@ -100,7 +100,7 @@ namespace DiGi.Core.Classes
                 return default;
             }
 
-            return relationCluster.Find<Z>(uniqueReference, func);
+            return relationCluster.Find(uniqueReference, func);
         }
 
         public Z AddRelation<Z>(Z relation) where Z : X

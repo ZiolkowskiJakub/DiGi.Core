@@ -169,7 +169,7 @@ namespace DiGi.Core.Classes
             return false;
         }
 
-        public bool TryGetObjects<U>(System.Type type, out List<U> uniqueObjects, bool exactMatch = false) where U : T
+        public bool TryGetObjects<U>(Type type, out List<U> uniqueObjects, bool exactMatch = false) where U : T
         {
             uniqueObjects = null;
 
@@ -204,7 +204,7 @@ namespace DiGi.Core.Classes
             uniqueObjects = new List<U>();
             foreach (KeyValuePair<TypeReference, Dictionary<UniqueReference, T>> keyValuePair in dictionary)
             {
-                System.Type type_TypeReference = keyValuePair.Key?.Type();
+                Type type_TypeReference = keyValuePair.Key?.Type();
                 if (type_TypeReference == null)
                 {
                     continue;
@@ -228,19 +228,16 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            bool result = false;
-
             uniqueObjects = new List<U>();
             foreach(UniqueReference uniqueReference in uniqueReferences)
             {
                 if(TryGetObject(uniqueReference, out U uniqueObject))
                 {
                     uniqueObjects.Add(uniqueObject);
-                    result = true;
                 }
             }
 
-            return result;
+            return uniqueObjects != null && uniqueObjects.Count != 0;
         }
 
         public bool TryGetObjects<U>(out List<U> uniqueObjects, bool exactMath = false) where U : T
@@ -248,41 +245,80 @@ namespace DiGi.Core.Classes
             return TryGetObjects(typeof(U), out uniqueObjects, exactMath);
         }
 
-        public List<X> GetObjects<X>(Func<X, bool> func = null) where X : T
+        public bool TryGetObjects<U>(out List<U> uniqueObjects, Func<U, bool> func = null) where U : T
         {
-            if(dictionary == null)
+            uniqueObjects = GetObjects(func);
+            return uniqueObjects != null && uniqueObjects.Count != 0;
+        }
+
+        public bool TryGetObject<U>(out U uniqueObject, Func<U, bool> func = null) where U : T
+        {
+            uniqueObject = default;
+
+            if (!TryGetObjects(out List<U> uniqueObjects, func) || uniqueObjects == null || uniqueObjects.Count == 0)
+            {
+                return false;
+            }
+
+            uniqueObject = uniqueObjects[0];
+            return uniqueObject != null;
+        }
+
+        public List<T> GetObjects(Type type)
+        {
+            if (!typeof(T).IsAssignableFrom(type))
             {
                 return null;
             }
 
-            Type type = typeof(T);
-
-            List<X> result = new List<X>();
+            List<T> result = new List<T>();
             foreach (KeyValuePair<TypeReference, Dictionary<UniqueReference, T>> keyValuePair in dictionary)
             {
                 Type type_Temp = keyValuePair.Key;
 
-                if(!type_Temp.IsAssignableFrom(type))
+                if (!type.IsAssignableFrom(type_Temp))
                 {
                     continue;
                 }
 
-                foreach(T t in keyValuePair.Value.Values)
+                foreach (T t in keyValuePair.Value.Values)
                 {
-                    if(!(t is X))
-                    {
-                        continue;
-                    }
-
-                    X x = (X)t;
-
-                    if (func != null && !func.Invoke(x))
-                    {
-                        continue;
-                    }
-
-                    result.Add(x);
+                    result.Add(t);
                 }
+            }
+
+            return result;
+        }
+
+        public List<U> GetObjects<U>(Func<U, bool> func = null) where U : T
+        {
+            if (dictionary == null)
+            {
+                return null;
+            }
+
+            List<T> uniqueObjects = GetObjects(typeof(U));
+            if(uniqueObjects == null)
+            {
+                return null;
+            }
+
+            List<U> result = new List<U>();
+            foreach (T uniqueObject in uniqueObjects)
+            {
+                if(!(uniqueObject is U))
+                {
+                    continue;
+                }
+
+                U u = (U)uniqueObject;
+
+                if(func != null && !func.Invoke(u))
+                {
+                    continue;
+                }
+
+                result.Add(u);
             }
 
             return result;

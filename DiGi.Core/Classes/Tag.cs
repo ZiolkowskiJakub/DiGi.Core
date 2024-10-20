@@ -9,7 +9,7 @@ namespace DiGi.Core.Classes
     public class Tag : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Value"), Description("Value")]
-        public object Value;
+        private object value;
 
         private Tag(object value)
         {
@@ -60,6 +60,19 @@ namespace DiGi.Core.Classes
         public Tag(ISerializableObject value)
         {
             Value = value;
+        }
+
+        [JsonIgnore]
+        public object Value
+        {
+            get
+            {
+                return value;
+            }
+            set
+            {
+                this.value = value;
+            }
         }
 
         public override ISerializableObject Clone()

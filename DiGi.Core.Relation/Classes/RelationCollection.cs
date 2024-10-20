@@ -1,5 +1,4 @@
 ﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -54,7 +53,7 @@ namespace DiGi.Core.Relation.Classes
                     continue;
                 }
 
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
 
             return result;

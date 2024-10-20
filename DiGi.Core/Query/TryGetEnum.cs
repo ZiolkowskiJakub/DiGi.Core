@@ -37,7 +37,7 @@ namespace DiGi.Core
                 return false;
             }
 
-            Array array = Enum.GetValues(type);
+            Array array = System.Enum.GetValues(type);
             if (array == null || array.Length == 0)
             {
                 return false;

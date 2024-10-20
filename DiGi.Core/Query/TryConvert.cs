@@ -490,7 +490,7 @@ namespace DiGi.Core
 
                     Type type_Result = result.GetType();
 
-                    Array array = Enum.GetValues(type_Result);
+                    Array array = System.Enum.GetValues(type_Result);
                     if (array != null)
                     {
                         foreach (Enum @enum in array)
@@ -506,7 +506,7 @@ namespace DiGi.Core
                     int @int;
                     if (int.TryParse(@string, out @int))
                     {
-                        if (Enum.IsDefined(type_Temp, @int))
+                        if (System.Enum.IsDefined(type_Temp, @int))
                         {
                             result = @int;
                             return true;
@@ -516,7 +516,7 @@ namespace DiGi.Core
                 else if (@object is int)
                 {
                     int @int = default;
-                    if (Enum.IsDefined(result.GetType(), @int))
+                    if (System.Enum.IsDefined(result.GetType(), @int))
                     {
                         result = @int;
                         return true;
@@ -525,7 +525,7 @@ namespace DiGi.Core
                 else if (IsNumeric(@object))
                 {
                     int @int = System.Convert.ToInt32(@object);
-                    if (Enum.IsDefined(result.GetType(), @int))
+                    if (System.Enum.IsDefined(result.GetType(), @int))
                     {
                         result = @int;
                         return true;
@@ -539,27 +539,40 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                Array array = System.Enum.GetValues(type_Temp);
+                if(array != null && array.Length != 0)
                 {
-                    string @string = ((string)@object).Replace(" ", string.Empty).ToUpper();
-                    if (string.IsNullOrEmpty(@string))
+                    if (@object is string)
                     {
-                        return false;
-                    }
-
-                    foreach (Enum @enum in Enum.GetValues(type_Temp))
-                    {
-                        string name = nameof(@enum).ToUpper();
-                        if (@string.Equals(name))
+                        string @string = ((string)@object).Replace(" ", string.Empty).ToUpper();
+                        if (string.IsNullOrEmpty(@string))
                         {
-                            result = @enum;
-                            return true;
+                            return false;
                         }
 
-                        string description = Description(@enum)?.Replace(" ", string.Empty)?.ToUpper();
-                        if (@string.Equals(description))
+                        foreach (Enum @enum in array)
                         {
-                            result = @enum;
+                            string name = nameof(@enum).ToUpper();
+                            if (@string.Equals(name))
+                            {
+                                result = @enum;
+                                return true;
+                            }
+
+                            string description = Description(@enum)?.Replace(" ", string.Empty)?.ToUpper();
+                            if (@string.Equals(description))
+                            {
+                                result = @enum;
+                                return true;
+                            }
+                        }
+                    }
+
+                    if (IsNumeric(@object))
+                    {
+                        if(TryConvert(@object, out int index) && System.Enum.IsDefined(type_Temp, index))
+                        {
+                            result = array.GetValue(index);
                             return true;
                         }
                     }

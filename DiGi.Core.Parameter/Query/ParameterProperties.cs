@@ -7,12 +7,12 @@ namespace DiGi.Core.Parameter
     {
         public static ParameterProperties ParameterProperties(Enum @enum)
         {
-            return CustomAttribute<ParameterProperties>(@enum);
+            return Core.Query.CustomAttribute<ParameterProperties>(@enum);
         }
 
         public static ParameterProperties ParameterProperties(Type type, string text)
         {
-            return CustomAttribute<ParameterProperties>(type, text);
+            return Core.Query.CustomAttribute<ParameterProperties>(type, text);
         }
     }
 }

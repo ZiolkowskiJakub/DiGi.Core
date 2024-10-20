@@ -3,6 +3,7 @@ using System;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ParameterProperties : Attribute
     {
         private string uniqueId = null;

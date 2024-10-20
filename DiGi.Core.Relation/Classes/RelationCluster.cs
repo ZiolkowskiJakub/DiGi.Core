@@ -285,7 +285,7 @@ namespace DiGi.Core.Relation.Classes
                 return relationCollection.FindAll<X>(uniqueReference);
             }
 
-            System.Type type = typeReference;
+            Type type = typeReference;
 
             List<X> result = new List<X>();
             foreach(KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)

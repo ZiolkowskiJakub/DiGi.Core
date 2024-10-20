@@ -7,7 +7,7 @@ namespace DiGi.Core.Parameter
     {
         public static Enums.ParameterType ParameterType(Type type, string text)
         {
-            ParameterValue parameterValue = CustomAttribute<ParameterValue>(type, text);
+            ParameterValue parameterValue = Core.Query.CustomAttribute<ParameterValue>(type, text);
             if (parameterValue == null)
             {
                 return Enums.ParameterType.Undefined;
@@ -18,7 +18,7 @@ namespace DiGi.Core.Parameter
 
         public static Enums.ParameterType ParameterType(Enum @enum)
         {
-            ParameterValue parameterValue = CustomAttribute<ParameterValue>(@enum);
+            ParameterValue parameterValue = Core.Query.CustomAttribute<ParameterValue>(@enum);
             if (parameterValue == null)
             {
                 return Enums.ParameterType.Undefined;

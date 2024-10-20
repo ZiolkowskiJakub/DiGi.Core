@@ -1,13 +1,10 @@
-﻿namespace DiGi.Core.Parameter
+﻿namespace DiGi.Core.Parameter.Constans
 {
-    public static partial class Constans
+    public static class Names
     {
-        public static class Names
-        {
-            /// <summary>
-            /// Default Group Name.
-            /// </summary>
-            public const string DefaultGroupName = "Other";
-        }
+        /// <summary>
+        /// Default Group Name.
+        /// </summary>
+        public const string DefaultGroupName = "Other";
     }
 }

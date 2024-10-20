@@ -7,7 +7,7 @@ namespace DiGi.Core.Parameter
     {
         public static T ParameterValue<T>(Enum @enum) where T : ParameterValue
         {
-            return CustomAttribute<T>(@enum);
+            return Core.Query.CustomAttribute<T>(@enum);
         }
     }
 }

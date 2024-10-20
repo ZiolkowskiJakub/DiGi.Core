@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace DiGi.Core.Parameter
+namespace DiGi.Core
 {
     public static partial class Query
     {

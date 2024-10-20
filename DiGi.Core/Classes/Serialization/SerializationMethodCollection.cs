@@ -30,12 +30,19 @@ namespace DiGi.Core.Classes
 
         public bool Update(ISerializableObject serializableObject, JsonObject jsonObject)
         {
+            return Update(serializableObject, jsonObject, out HashSet<string> propertyNames);
+        }
+
+        public bool Update(ISerializableObject serializableObject, JsonObject jsonObject, out HashSet<string> propertyNames)
+        {
+            propertyNames = null;
+
             if(serializableObject == null || jsonObject == null || dictionary == null || dictionary.Count == 0)
             {
                 return false;
             }
 
-            bool result = false;
+            propertyNames = new HashSet<string>();
             foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
             {
                 SerializationMethod serializationMethod = this[keyValuePair.Key];
@@ -61,18 +68,18 @@ namespace DiGi.Core.Classes
                     }
 
                     propertyInfo.SetValue(serializableObject, jsonNode.Value(propertyInfo.PropertyType));
-                    result = true;
+                    propertyNames.Add(keyValuePair.Key);
                 }
                 else if (memberInfo is FieldInfo)
                 {
                     FieldInfo fieldInfo = (FieldInfo)memberInfo;
 
                     fieldInfo.SetValue(serializableObject, jsonNode.Value(fieldInfo.FieldType));
-                    result = true;
+                    propertyNames.Add(keyValuePair.Key);
                 }
             }
 
-            return result;
+            return true;
         }
 
         public JsonObject Create(ISerializableObject serializableObject)
