@@ -371,6 +371,27 @@ namespace DiGi.Core.Relation.Classes
 
             return default;
         }
+
+        public X Find<X>(Func<X, bool> func = null) where X : T
+        {
+            if (dictionary == null)
+            {
+                return default;
+            }
+
+            foreach (KeyValuePair<TypeReference, RelationCollection<T>> keyValuePair in dictionary)
+            {
+                Type type_Temp = keyValuePair.Key;
+
+                X result = keyValuePair.Value.Find(func);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return default;
+        }
     }
 
     public class RelationCluster : RelationCluster<IRelation>

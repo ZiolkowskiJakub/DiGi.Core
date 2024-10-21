@@ -93,6 +93,26 @@ namespace DiGi.Core.Relation.Classes
             return relationCluster.FindAll(uniqueReference, func);
         }
 
+        public bool TryGetRelations<Z>(out List<Z> relations, Func<Z, bool> func = null) where Z : X
+        {
+            relations = relationCluster?.FindAll(func);
+
+            return relations != null && relations.Count > 0;
+        }
+
+        public bool TryGetRelation<Z>(out Z relation, Func<Z, bool> func = null) where Z : X
+        {
+            relation = default;
+            if(relationCluster == null)
+            {
+                return false;
+            }
+
+            relation = relationCluster.Find(func);
+
+            return relation != null;
+        }
+
         public Z GetRelation<Z>(UniqueReference uniqueReference, Func<Z, bool> func = null) where Z : X
         {
             if (uniqueReference == null)

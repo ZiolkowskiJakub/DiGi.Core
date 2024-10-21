@@ -264,7 +264,26 @@ namespace DiGi.Core.Classes
             return uniqueObject != null;
         }
 
-        public List<T> GetObjects(Type type)
+        public bool TryGetObjects(Type type, out List<T> uniqueObjects, Func<T, bool> func = null)
+        {
+            uniqueObjects = GetObjects(type, func);
+            return uniqueObjects != null && uniqueObjects.Count != 0;
+        }
+
+        public bool TryGetObject(Type type, out T uniqueObject, Func<T, bool> func = null)
+        {
+            uniqueObject = default;
+
+            if (!TryGetObjects(type, out List<T> uniqueObjects, func) || uniqueObjects == null || uniqueObjects.Count == 0)
+            {
+                return false;
+            }
+
+            uniqueObject = uniqueObjects[0];
+            return uniqueObject != null;
+        }
+
+        public List<T> GetObjects(Type type, Func<T, bool> func = null)
         {
             if (!typeof(T).IsAssignableFrom(type))
             {
@@ -283,6 +302,11 @@ namespace DiGi.Core.Classes
 
                 foreach (T t in keyValuePair.Value.Values)
                 {
+                    if(func != null && !func.Invoke(t))
+                    {
+                        continue;
+                    }
+                    
                     result.Add(t);
                 }
             }

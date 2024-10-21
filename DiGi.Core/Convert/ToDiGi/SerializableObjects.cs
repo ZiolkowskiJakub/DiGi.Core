@@ -1,6 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
-
+using System.Text;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -76,6 +76,18 @@ namespace DiGi.Core
                 return null;
             }
 
+            return ToDiGi<T>(json);
+        }
+
+        public static List<T> ToDiGi<T>(byte[] bytes) where T : ISerializableObject
+        {
+            if(bytes == null)
+            {
+                return null;
+            }
+
+            string json = Encoding.UTF8.GetString(bytes);
+            
             return ToDiGi<T>(json);
         }
     }

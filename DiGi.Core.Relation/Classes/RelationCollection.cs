@@ -133,10 +133,43 @@ namespace DiGi.Core.Relation.Classes
                     continue;
                 }
 
-                if(func != null && func.Invoke(x))
+                if(func != null)
                 {
-                    return x;
+                    if (func.Invoke(x))
+                    {
+                        return x;
+                    }
+
+                    continue;
                 }
+
+                return x;
+            }
+
+            return default;
+        }
+
+        public X Find<X>(Func<X, bool> func = null) where X : T
+        {
+            foreach (T relation in this)
+            {
+                X x = relation is X ? (X)relation : default;
+                if (x == null)
+                {
+                    continue;
+                }
+
+                if (func != null )
+                {
+                    if(func.Invoke(x))
+                    {
+                        return x;
+                    }
+
+                    continue;
+                }
+
+                return x;
             }
 
             return default;
