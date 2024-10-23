@@ -5,6 +5,7 @@
         public static class PropertyName
         {
             public const string Type = "_type";
+            public const string Guid = "Guid";
         }
 
         public static class MethodName
