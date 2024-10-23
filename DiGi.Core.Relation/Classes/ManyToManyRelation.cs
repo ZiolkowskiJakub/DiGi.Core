@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,34 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class ManyToManyRelation : Relation, IManyToManyRelation
+    public abstract class ManyToManyRelation : ManyToManyRelation<IUniqueObject, IUniqueObject>
+    {
+        public ManyToManyRelation(IEnumerable<UniqueReference> uniqueReferences_From, IEnumerable<UniqueReference> uniqueReferences_To)
+            : base(uniqueReferences_From, uniqueReferences_To)
+        {
+
+        }
+
+        public ManyToManyRelation(ManyToManyRelation manyToManyRelation)
+            : base(manyToManyRelation)
+        {
+
+        }
+
+        public ManyToManyRelation(IEnumerable<IUniqueObject> uniqueObjects_From, IEnumerable<IUniqueObject> uniqueObjects_To)
+            : base(uniqueObjects_From, uniqueObjects_To)
+        {
+
+        }
+
+        public ManyToManyRelation(JsonObject jsonObject)
+            : base(jsonObject)
+        {
+
+        }
+    }
+
+    public abstract class ManyToManyRelation<X, Y> : Relation<X, Y>, IManyToManyRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
     {
         [JsonInclude, JsonPropertyName("UniqueReferences_From")]
         private List<UniqueReference> uniqueReferences_From;
@@ -22,7 +50,7 @@ namespace DiGi.Core.Relation.Classes
             this.uniqueReferences_From = uniqueReferences_From == null ? null : uniqueReferences_From.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
         }
 
-        public ManyToManyRelation(ManyToManyRelation manyToManyRelation)
+        public ManyToManyRelation(ManyToManyRelation<X, Y> manyToManyRelation)
             : base()
         {
             if(manyToManyRelation != null)
@@ -30,6 +58,13 @@ namespace DiGi.Core.Relation.Classes
                 uniqueReferences_To = manyToManyRelation.uniqueReferences_To?.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
                 uniqueReferences_From = manyToManyRelation.uniqueReferences_From?.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
             }
+        }
+
+        public ManyToManyRelation(IEnumerable<X> uniqueObjects_From, IEnumerable<Y> uniqueObjects_To)
+            : base()
+        {
+            uniqueReferences_From = uniqueObjects_From == null ? null : uniqueObjects_From.ToList().FindAll(x => x != null).ConvertAll(x => new UniqueReference(x));
+            uniqueReferences_To = uniqueObjects_To == null ? null : uniqueObjects_To.ToList().FindAll(x => x != null).ConvertAll(x => new UniqueReference(x));
         }
 
         public ManyToManyRelation(JsonObject jsonObject)

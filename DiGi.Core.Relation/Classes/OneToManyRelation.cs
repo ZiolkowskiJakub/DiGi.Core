@@ -8,7 +8,34 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class OneToManyRelation : Relation, IOneToManyRelation
+    public abstract class OneToManyRelation : OneToManyRelation<IUniqueObject, IUniqueObject>
+    {
+        public OneToManyRelation(IUniqueObject uniqueObject_From, IEnumerable<IUniqueObject> uniqueObjects_To)
+            : base(uniqueObject_From, uniqueObjects_To)
+        {
+
+        }
+
+        public OneToManyRelation(UniqueReference uniqueReference_From, IEnumerable<UniqueReference> uniqueReferences_To)
+            : base(uniqueReference_From, uniqueReferences_To)
+        {
+
+        }
+
+        public OneToManyRelation(OneToManyRelation oneToManyRelation)
+            : base(oneToManyRelation)
+        {
+
+        }
+
+        public OneToManyRelation(JsonObject jsonObject)
+            : base(jsonObject)
+        {
+
+        }
+    }
+
+    public abstract class OneToManyRelation<X, Y> : Relation<X, Y>, IOneToManyRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
     {
         [JsonInclude, JsonPropertyName("UniqueReference_From")]
         private UniqueReference uniqueReference_From;
@@ -16,7 +43,7 @@ namespace DiGi.Core.Relation.Classes
         [JsonInclude, JsonPropertyName("UniqueReferences_To")]
         private List<UniqueReference> uniqueReferences_To;
 
-        public OneToManyRelation(IUniqueObject uniqueObject_From, IEnumerable<IUniqueObject> uniqueObjects_To)
+        public OneToManyRelation(X uniqueObject_From, IEnumerable<Y> uniqueObjects_To)
             : base()
         {
             uniqueReference_From = uniqueObject_From == null ? null : new UniqueReference(uniqueObject_From);
@@ -30,7 +57,7 @@ namespace DiGi.Core.Relation.Classes
             this.uniqueReferences_To = uniqueReferences_To == null ? null : uniqueReferences_To.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
         }
 
-        public OneToManyRelation(OneToManyRelation oneToManyRelation)
+        public OneToManyRelation(OneToManyRelation<X, Y> oneToManyRelation)
             : base()
         {
             if(oneToManyRelation != null)

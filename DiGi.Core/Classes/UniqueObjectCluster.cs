@@ -14,13 +14,11 @@ namespace DiGi.Core.Classes
 
         public UniqueObjectCluster()
         {
-
         }
 
         public UniqueObjectCluster(JsonObject jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public UniqueObjectCluster(IEnumerable<T> uniqueObjects)
@@ -41,7 +39,7 @@ namespace DiGi.Core.Classes
                 List<T> result = new List<T>();
                 foreach (KeyValuePair<TypeReference, Dictionary<UniqueReference, T>> keyValuePair in dictionary)
                 {
-                    foreach(T uniqueObject in keyValuePair.Value.Values)
+                    foreach (T uniqueObject in keyValuePair.Value.Values)
                     {
                         result.Add(uniqueObject);
                     }
@@ -52,12 +50,12 @@ namespace DiGi.Core.Classes
             set
             {
                 dictionary.Clear();
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
 
-                foreach(T uniqueObject in value)
+                foreach (T uniqueObject in value)
                 {
                     Update(uniqueObject);
                 }
@@ -223,15 +221,15 @@ namespace DiGi.Core.Classes
         {
             uniqueObjects = null;
 
-            if(uniqueReferences == null)
+            if (uniqueReferences == null)
             {
                 return false;
             }
 
             uniqueObjects = new List<U>();
-            foreach(UniqueReference uniqueReference in uniqueReferences)
+            foreach (UniqueReference uniqueReference in uniqueReferences)
             {
-                if(TryGetObject(uniqueReference, out U uniqueObject))
+                if (TryGetObject(uniqueReference, out U uniqueObject))
                 {
                     uniqueObjects.Add(uniqueObject);
                 }
@@ -302,11 +300,11 @@ namespace DiGi.Core.Classes
 
                 foreach (T t in keyValuePair.Value.Values)
                 {
-                    if(func != null && !func.Invoke(t))
+                    if (func != null && !func.Invoke(t))
                     {
                         continue;
                     }
-                    
+
                     result.Add(t);
                 }
             }
@@ -322,7 +320,7 @@ namespace DiGi.Core.Classes
             }
 
             List<T> uniqueObjects = GetObjects(typeof(U));
-            if(uniqueObjects == null)
+            if (uniqueObjects == null)
             {
                 return null;
             }
@@ -330,14 +328,14 @@ namespace DiGi.Core.Classes
             List<U> result = new List<U>();
             foreach (T uniqueObject in uniqueObjects)
             {
-                if(!(uniqueObject is U))
+                if (!(uniqueObject is U))
                 {
                     continue;
                 }
 
                 U u = (U)uniqueObject;
 
-                if(func != null && !func.Invoke(u))
+                if (func != null && !func.Invoke(u))
                 {
                     continue;
                 }
@@ -350,29 +348,29 @@ namespace DiGi.Core.Classes
 
         public bool Update(T uniqueObject)
         {
-            if(uniqueObject == null)
+            if (uniqueObject == null)
             {
                 return false;
             }
 
-            if(!IsValid(uniqueObject))
+            if (!IsValid(uniqueObject))
             {
                 return false;
             }
 
             UniqueReference uniqueReference = new UniqueReference(uniqueObject);
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return false;
             }
 
             TypeReference typeReference = uniqueReference.TypeReference;
-            if(typeReference == null)
+            if (typeReference == null)
             {
                 return false;
             }
 
-            if(!dictionary.TryGetValue(typeReference, out Dictionary<UniqueReference, T> dictionary_UniqueObject))
+            if (!dictionary.TryGetValue(typeReference, out Dictionary<UniqueReference, T> dictionary_UniqueObject))
             {
                 dictionary_UniqueObject = new Dictionary<UniqueReference, T>();
                 dictionary[typeReference] = dictionary_UniqueObject;
@@ -384,15 +382,15 @@ namespace DiGi.Core.Classes
 
         public HashSet<UniqueReference> Update<U>(IEnumerable<U> uniqueObjects) where U : T
         {
-            if(uniqueObjects == null)
+            if (uniqueObjects == null)
             {
                 return null;
             }
 
             HashSet<UniqueReference> result = new HashSet<UniqueReference>();
-            foreach(U uniqueObject in uniqueObjects)
+            foreach (U uniqueObject in uniqueObjects)
             {
-                if(Update(uniqueObject))
+                if (Update(uniqueObject))
                 {
                     result.Add(new UniqueReference(uniqueObject));
                 }
