@@ -4,24 +4,24 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class SerializableObjectListCluster<TKey_1, TKey_2, TValue> : ListCluster<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
+    public abstract class SerializableObjectValueCluster<TKey_1, TKey_2, TValue> : ValueCluster<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
     {
-        public SerializableObjectListCluster()
+        public SerializableObjectValueCluster()
             : base()
         {
         }
 
-        public SerializableObjectListCluster(IEnumerable<TValue> values)
+        public SerializableObjectValueCluster(IEnumerable<TValue> values)
             : base(values)
         {
         }
 
-        public SerializableObjectListCluster(SerializableObjectListCluster<TKey_1, TKey_2, TValue> serializableObjectListCluster)
-            : base(serializableObjectListCluster)
+        public SerializableObjectValueCluster(SerializableObjectValueCluster<TKey_1, TKey_2, TValue> serializableObjectValueCluster)
+            : base(serializableObjectValueCluster)
         {
         }
 
-        public SerializableObjectListCluster(JsonObject jsonObject)
+        public SerializableObjectValueCluster(JsonObject jsonObject)
             : base()
         {
             FromJsonObject(jsonObject);

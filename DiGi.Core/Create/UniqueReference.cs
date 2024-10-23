@@ -22,9 +22,9 @@ namespace DiGi.Core
             return new UniqueReference(fullTypeName, func.Invoke(@object));
         }
 
-        public static UniqueReference UniqueReference<T>(this UniqueObjectCluster<T> uniqueObjectCluster, Type type) where T : IUniqueObject
+        public static UniqueReference UniqueReference<T>(this UniqueObjectValueCluster<T> uniqueObjectValueCluster, Type type) where T : IUniqueObject
         {
-            if (uniqueObjectCluster == null || type == null)
+            if (uniqueObjectValueCluster == null || type == null)
             {
                 return null;
             }
@@ -41,7 +41,7 @@ namespace DiGi.Core
                 Guid guid = System.Guid.NewGuid();
                 result = new UniqueReference(fullTypeName, guid);
             }
-            while (result != null && uniqueObjectCluster.Contains(result));
+            while (result != null && uniqueObjectValueCluster.Contains(result));
 
             return result;
         }

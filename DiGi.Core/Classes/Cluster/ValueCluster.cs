@@ -213,6 +213,25 @@ namespace DiGi.Core.Classes
             return dictionary.Keys?.ToList();
         }
 
+        protected override List<TKey_2> GetKeys_2(TKey_1 key_1)
+        {
+            if (key_1 == null)
+            {
+                return null;
+            }
+
+            List<TKey_2> result = new List<TKey_2>();
+
+            if (!dictionary.TryGetValue(key_1, out Dictionary<TKey_2, TValue> dictionary_1) || dictionary_1 == null)
+            {
+                return result;
+            }
+
+            result.AddRange(dictionary_1.Keys);
+
+            return result;
+        }
+
         public override U GetValue<U>(Func<U, bool> func)
         {
             foreach (Dictionary<TKey_2, TValue> dictionary_1 in dictionary.Values)

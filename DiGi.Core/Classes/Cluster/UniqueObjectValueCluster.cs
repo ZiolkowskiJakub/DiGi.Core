@@ -27,7 +27,7 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public bool Remove(UniqueReference key_2)
+        public virtual bool Remove(UniqueReference key_2)
         {
             TypeReference typeReference = key_2?.TypeReference;
             if (typeReference == null)
@@ -188,6 +188,48 @@ namespace DiGi.Core.Classes
             }
 
             return default;
+        }
+
+        public U GetValue<U>(UniqueReference uniqueReference) where U : TValue
+        {
+            return GetValue<U>(uniqueReference.TypeReference, uniqueReference);
+        }
+
+        public bool TryGetValue<U>(UniqueReference uniqueReference, out U value) where U : TValue
+        {
+            return TryGetValue(uniqueReference?.TypeReference, uniqueReference, out value);
+        }
+
+        public bool TryGetValues<U>(IEnumerable<UniqueReference> uniqueReferences, out List<U> values) where U : TValue
+        {
+            values = null;
+            if(uniqueReferences == null)
+            {
+                return false;
+            }
+
+            values = new List<U>();
+            foreach(UniqueReference uniqueReference in uniqueReferences)
+            {
+                U u = GetValue<U>(uniqueReference);
+                if(u != null)
+                {
+                    values.Add(u);
+                }
+            }
+
+            return values != null && values.Count != 0;
+        }
+
+        public bool Contains(UniqueReference uniqueReference)
+        {
+            TypeReference typeReference = uniqueReference?.TypeReference;
+            if(typeReference == null)
+            {
+                return false;
+            }
+
+            return Contains(typeReference, uniqueReference);
         }
     }
 }

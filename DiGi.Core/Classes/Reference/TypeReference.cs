@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public class TypeReference : Reference
+    public class TypeReference : SerializableReference
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
         private string fullTypeName;

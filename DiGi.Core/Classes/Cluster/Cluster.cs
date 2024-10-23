@@ -135,9 +135,21 @@ namespace DiGi.Core.Classes
             return values[0];
         }
 
+        public bool TryGetValue<U>(out U value, Func<U, bool> func) where U : TValue
+        {
+            value = GetValue(func);
+            return value != null;
+        }
+
         public bool TryGetValues<U>(TKey_1 key_1, out List<U> values) where U : TValue
         {
             values = GetValues<U>(key_1);
+            return values != null && values.Count != 0;
+        }
+
+        public bool TryGetValues<U>(out List<U> values, Func<U, bool> func) where U : TValue
+        {
+            values = GetValues(func);
             return values != null && values.Count != 0;
         }
 
@@ -174,6 +186,39 @@ namespace DiGi.Core.Classes
                 }
 
                 result.Add(key_1);
+            }
+
+            return result.ToList();
+        }
+
+        protected virtual List<TKey_2> GetKeys_2(TKey_1 key_1)
+        {
+            if(key_1 == null)
+            {
+                return null;
+            }
+
+            List<TValue> values = GetValues<TValue>();
+            if (values == null)
+            {
+                return null;
+            }
+
+            HashSet<TKey_2> result = new HashSet<TKey_2>();
+            foreach (TValue value in values)
+            {
+                if (!key_1.Equals(GetKey_1(value)))
+                {
+                    continue;
+                }
+
+                TKey_2 key_2 = GetKey_2(value);
+                if (key_2 == null)
+                {
+                    continue;
+                }
+
+                result.Add(key_2);
             }
 
             return result.ToList();

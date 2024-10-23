@@ -8,10 +8,10 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class UniqueObjectRelationCluster<T, X> : UniqueObjectCluster<T> where T : IUniqueObject where X: IRelation
+    public class UniqueObjectRelationCluster<T, X> : UniqueObjectValueCluster<T> where T : IUniqueObject where X: IRelation
     {
-        [JsonInclude, JsonPropertyName("RelationCluster"), System.ComponentModel.Description("RelationCluster")]
-        private RelationCluster<X> relationCluster = new RelationCluster<X>();
+        [JsonInclude, JsonPropertyName("RelationListCluster"), System.ComponentModel.Description("RelationListCluster")]
+        private RelationListCluster<X> relationListCluster = new RelationListCluster<X>();
 
         public UniqueObjectRelationCluster(JsonObject jsonObject)
             :base(jsonObject)
@@ -31,7 +31,7 @@ namespace DiGi.Core.Relation.Classes
             if(uniqueObjectRelationCluster != null)
             {
 
-                relationCluster = uniqueObjectRelationCluster.relationCluster == null ? null : new RelationCluster<X>(uniqueObjectRelationCluster.relationCluster);
+                relationListCluster = uniqueObjectRelationCluster.relationListCluster == null ? null : new RelationListCluster<X>(uniqueObjectRelationCluster.relationListCluster);
             }
 
         }
@@ -47,7 +47,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = base.Remove(uniqueReference);
             if(result)
             {
-                relationCluster.Remove(uniqueReference);
+                relationListCluster.Remove(uniqueReference);
             }
 
             return result;
@@ -70,7 +70,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            return relationCluster.Remove(relation);
+            return relationListCluster.Remove(relation);
         }
 
         public List<Z> GetRelations<Z>(UniqueReference uniqueReference) where Z : X
@@ -80,7 +80,7 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            return relationCluster.FindAll<Z>(uniqueReference);
+            return relationListCluster.GetValues<Z>(uniqueReference);
         }
 
         public List<Z> GetRelations<Z>(UniqueReference uniqueReference, Func<Z, bool> func = null) where Z : X
@@ -90,12 +90,12 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            return relationCluster.FindAll(uniqueReference, func);
+            return relationListCluster.GetValues(uniqueReference, func);
         }
 
         public bool TryGetRelations<Z>(out List<Z> relations, Func<Z, bool> func = null) where Z : X
         {
-            relations = relationCluster?.FindAll(func);
+            relations = relationListCluster?.GetValues(func);
 
             return relations != null && relations.Count > 0;
         }
@@ -103,12 +103,12 @@ namespace DiGi.Core.Relation.Classes
         public bool TryGetRelation<Z>(out Z relation, Func<Z, bool> func = null) where Z : X
         {
             relation = default;
-            if(relationCluster == null)
+            if(relationListCluster == null)
             {
                 return false;
             }
 
-            relation = relationCluster.Find(func);
+            relation = relationListCluster.GetValue(func);
 
             return relation != null;
         }
@@ -120,7 +120,13 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            return relationCluster.Find(uniqueReference, func);
+            List<Z> values = relationListCluster.GetValues(uniqueReference, func);
+            if(values == null || values.Count == 0)
+            {
+                return default;
+            }
+
+            return values[0];
         }
 
         public Z AddRelation<Z>(Z relation) where Z : X
@@ -130,12 +136,12 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            if(relationCluster == null)
+            if(relationListCluster == null)
             {
-                relationCluster = new RelationCluster<X>();
+                relationListCluster = new RelationListCluster<X>();
             }
 
-            if(relationCluster.Add(relation))
+            if(relationListCluster.Add(relation))
             {
                 return relation;
             }
