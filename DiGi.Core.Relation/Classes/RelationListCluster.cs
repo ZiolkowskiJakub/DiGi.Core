@@ -73,7 +73,7 @@ namespace DiGi.Core.Relation.Classes
                         continue;
                     }
 
-                    if (!type.IsAssignableFrom(type_1) && !type.IsAssignableFrom(type_2))
+                    if (!type_1.IsAssignableFrom(type) && !type_2.IsAssignableFrom(type))
                     {
                         continue;
                     }

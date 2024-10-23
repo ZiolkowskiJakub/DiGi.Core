@@ -148,5 +148,16 @@ namespace DiGi.Core.Relation.Classes
 
             return default;
         }
+
+        public List<U> GetValues<U>(X relation, bool from = true, bool to = true) where U : T
+        {
+            HashSet<UniqueReference> uniqueReferences = Query.UniqueReferences(relation, from, to);
+            if(uniqueReferences == null)
+            {
+                return null;
+            }
+
+            return GetValues<U>(uniqueReferences);
+        }
     }
 }

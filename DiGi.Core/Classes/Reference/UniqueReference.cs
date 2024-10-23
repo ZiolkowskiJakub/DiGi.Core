@@ -56,6 +56,17 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public override bool Equals(object @object)
+        {
+            UniqueReference uniqueReference = @object as UniqueReference;
+            if (uniqueReference == null)
+            {
+                return false;
+            }
+
+            return uniqueReference.ToString() == ToString();
+        }
+
         public override int GetHashCode()
         {
             return ToString().GetHashCode();

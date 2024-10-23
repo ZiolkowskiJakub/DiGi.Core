@@ -221,6 +221,16 @@ namespace DiGi.Core.Classes
             return values != null && values.Count != 0;
         }
 
+        public List<U> GetValues<U>(IEnumerable<UniqueReference> uniqueReferences) where U : TValue
+        {
+            if(!TryGetValues(uniqueReferences, out List<U> result))
+            {
+                return null;
+            }
+
+            return result;
+        }
+
         public bool Contains(UniqueReference uniqueReference)
         {
             TypeReference typeReference = uniqueReference?.TypeReference;
