@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public class TypeReference : Reference
+    public class TypeReference : SerializableReference
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
         private string fullTypeName;
@@ -14,6 +14,12 @@ namespace DiGi.Core.Classes
             :base(jsonObject)
         {
 
+        }
+
+        public TypeReference(TypeReference typeReference)
+            : base()
+        {
+            fullTypeName = typeReference?.fullTypeName;
         }
 
         public TypeReference(string fullTypeName)
@@ -76,7 +82,7 @@ namespace DiGi.Core.Classes
 
         public static bool operator !=(TypeReference typeReference_1, TypeReference typeReference_2)
         {
-            return typeReference_1?.fullTypeName != typeReference_2.fullTypeName;
+            return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
         }
 
         public static implicit operator TypeReference(Type type) => Create.TypeReference(type);

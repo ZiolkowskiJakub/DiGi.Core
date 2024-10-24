@@ -32,15 +32,6 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        [JsonIgnore]
-        public List<TypeReference> TypeReferences
-        {
-            get
-            {
-                return uniqueObjectRelationCluster?.TypeReferences;
-            }
-        }
-
         public Guid GetNewGuid(Type type)
         {
             return Create.Guid(uniqueObjectRelationCluster, type);
@@ -100,7 +91,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if(!uniqueObjectRelationCluster.TryGetObject(out U uniqueObject_Temp, func) || uniqueObject_Temp == null)
+            if(!uniqueObjectRelationCluster.TryGetValue(out U uniqueObject_Temp, func) || uniqueObject_Temp == null)
             {
                 return false;
             }
@@ -118,7 +109,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetObjects(out List<U> uniqueObjects_Temp, func) || uniqueObjects_Temp == null)
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<U> uniqueObjects_Temp, func) || uniqueObjects_Temp == null)
             {
                 return false;
             }

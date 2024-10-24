@@ -6,7 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static UniqueReference UniqueReference<T>(this T @object, Func<T, Guid> func)
+        public static UniqueReference GuidReference<T>(this T @object, Func<T, Guid> func)
         {
             if(@object == null || func == null)
             {
@@ -19,12 +19,12 @@ namespace DiGi.Core
                 return null;
             }
 
-            return new UniqueReference(fullTypeName, func.Invoke(@object));
+            return new GuidReference(fullTypeName, func.Invoke(@object));
         }
 
-        public static UniqueReference UniqueReference<T>(this UniqueObjectCluster<T> uniqueObjectCluster, Type type) where T : IUniqueObject
+        public static GuidReference GuidReference<T>(this UniqueObjectValueCluster<T> uniqueObjectValueCluster, Type type) where T : IUniqueObject
         {
-            if (uniqueObjectCluster == null || type == null)
+            if (uniqueObjectValueCluster == null || type == null)
             {
                 return null;
             }
@@ -35,13 +35,13 @@ namespace DiGi.Core
                 return null;
             }
 
-            UniqueReference result = null;
+            GuidReference result = null;
             do
             {
                 Guid guid = System.Guid.NewGuid();
-                result = new UniqueReference(fullTypeName, guid);
+                result = new GuidReference(fullTypeName, guid);
             }
-            while (result != null && uniqueObjectCluster.Contains(result));
+            while (result != null && uniqueObjectValueCluster.Contains(result));
 
             return result;
         }

@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 
 namespace DiGi.Core.Relation.Interfaces
 {
@@ -7,5 +8,10 @@ namespace DiGi.Core.Relation.Interfaces
         UniqueReference UniqueReference_From { get; }
 
         UniqueReference UniqueReference_To { get; }
+    }
+
+    public interface IOneToOneRelation<X, Y> : IOneToOneRelation, IRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    {
+
     }
 }

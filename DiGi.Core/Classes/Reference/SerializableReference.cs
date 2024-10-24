@@ -3,15 +3,15 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class Reference : SerializableObject, IReference
+    public abstract class SerializableReference : SerializableObject, ISerializableReference
     {
-        public Reference()
+        public SerializableReference()
             :base()
         {
 
         }
 
-        public Reference(JsonObject jsonObject)
+        public SerializableReference(JsonObject jsonObject)
             : base(jsonObject)
         {
 

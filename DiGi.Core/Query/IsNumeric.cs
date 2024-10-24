@@ -7,6 +7,14 @@ namespace DiGi.Core
     {
         public static bool IsNumeric(this object @object)
         {
+            return IsNumeric(@object, out bool isInteger);
+        }
+
+
+        public static bool IsNumeric(this object @object, out bool isInteger)
+        {
+            isInteger = false;
+
             if (@object == null)
             {
                 return false;
@@ -14,14 +22,20 @@ namespace DiGi.Core
 
             if (@object is Type)
             {
-                return IsNumeric((Type)@object);
+                return IsNumeric((Type)@object, out isInteger);
             }
 
-            return IsNumeric(@object.GetType());
+            return IsNumeric(@object.GetType(), out isInteger);
         }
 
         public static bool IsNumeric(this Type type)
         {
+            return IsNumeric(type, out bool isInteger);
+        }
+
+        public static bool IsNumeric(this Type type, out bool isInteger)
+        {
+            isInteger = false;
             switch (System.Type.GetTypeCode(type))
             {
                 case TypeCode.Byte:
@@ -32,6 +46,11 @@ namespace DiGi.Core
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
+                    {
+                        isInteger = true;
+                        return true;
+                    }
+
                 case TypeCode.Decimal:
                 case TypeCode.Double:
                 case TypeCode.Single:

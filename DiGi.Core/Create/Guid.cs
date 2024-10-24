@@ -5,20 +5,20 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static System.Guid Guid<T>(this UniqueObjectCluster<T> uniqueObjectCluster,  System.Type type) where T: IUniqueObject
+        public static System.Guid Guid<T>(this UniqueObjectValueCluster<T> uniqueObjectValueCluster,  System.Type type) where T: IUniqueObject
         {
-            if(uniqueObjectCluster == null || type == null)
+            if(uniqueObjectValueCluster == null || type == null)
             {
                 return System.Guid.Empty;
             }
 
-            UniqueReference uniqueReference = uniqueObjectCluster.UniqueReference(type);
-            if(uniqueReference == null)
+            GuidReference guidReference = uniqueObjectValueCluster.GuidReference(type);
+            if(guidReference == null)
             {
                 return System.Guid.Empty;
             }
 
-            return uniqueReference.Guid;
+            return guidReference.Guid;
         }
     }
 }
