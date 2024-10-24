@@ -5,7 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
-    public class UniqueObjectValueCluster<TValue> : SerializableObjectValueCluster<TypeReference, UniqueReference, TValue> where TValue : IUniqueObject
+    public class UniqueObjectValueCluster<TValue> : SerializableObjectValueCluster<TypeReference, GuidReference, TValue> where TValue : IUniqueObject
     {
         public UniqueObjectValueCluster()
             : base()
@@ -27,9 +27,9 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public virtual bool Remove(UniqueReference key_2)
+        public virtual bool Remove(GuidReference key_2)
         {
-            TypeReference typeReference = key_2?.TypeReference;
+            TypeReference typeReference = key_2;
             if (typeReference == null)
             {
                 return false;
@@ -48,14 +48,14 @@ namespace DiGi.Core.Classes
             return new TypeReference(value);
         }
 
-        protected override UniqueReference GetKey_2(TValue value)
+        protected override GuidReference GetKey_2(TValue value)
         {
             if (value == null)
             {
                 return null;
             }
 
-            return new UniqueReference(value);
+            return new GuidReference(value);
         }
 
         public List<TypeReference> GetTypeReferences()
@@ -190,28 +190,33 @@ namespace DiGi.Core.Classes
             return default;
         }
 
-        public U GetValue<U>(UniqueReference uniqueReference) where U : TValue
+        public U GetValue<U>(GuidReference guidReference) where U : TValue
         {
-            return GetValue<U>(uniqueReference.TypeReference, uniqueReference);
+            if(guidReference == null)
+            {
+                return default;
+            }
+
+            return GetValue<U>(guidReference.TypeReference, guidReference);
         }
 
-        public bool TryGetValue<U>(UniqueReference uniqueReference, out U value) where U : TValue
+        public bool TryGetValue<U>(GuidReference guidReference, out U value) where U : TValue
         {
-            return TryGetValue(uniqueReference?.TypeReference, uniqueReference, out value);
+            return TryGetValue(guidReference?.TypeReference, guidReference, out value);
         }
 
-        public bool TryGetValues<U>(IEnumerable<UniqueReference> uniqueReferences, out List<U> values) where U : TValue
+        public bool TryGetValues<U>(IEnumerable<GuidReference> guidReferences, out List<U> values) where U : TValue
         {
             values = null;
-            if(uniqueReferences == null)
+            if(guidReferences == null)
             {
                 return false;
             }
 
             values = new List<U>();
-            foreach(UniqueReference uniqueReference in uniqueReferences)
+            foreach(GuidReference guidReference in guidReferences)
             {
-                U u = GetValue<U>(uniqueReference);
+                U u = GetValue<U>(guidReference);
                 if(u != null)
                 {
                     values.Add(u);
@@ -221,9 +226,9 @@ namespace DiGi.Core.Classes
             return values != null && values.Count != 0;
         }
 
-        public List<U> GetValues<U>(IEnumerable<UniqueReference> uniqueReferences) where U : TValue
+        public List<U> GetValues<U>(IEnumerable<GuidReference> guidReferences) where U : TValue
         {
-            if(!TryGetValues(uniqueReferences, out List<U> result))
+            if(!TryGetValues(guidReferences, out List<U> result))
             {
                 return null;
             }
@@ -231,15 +236,15 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public bool Contains(UniqueReference uniqueReference)
+        public bool Contains(GuidReference guidReference)
         {
-            TypeReference typeReference = uniqueReference?.TypeReference;
+            TypeReference typeReference = guidReference?.TypeReference;
             if(typeReference == null)
             {
                 return false;
             }
 
-            return Contains(typeReference, uniqueReference);
+            return Contains(typeReference, guidReference);
         }
     }
 }

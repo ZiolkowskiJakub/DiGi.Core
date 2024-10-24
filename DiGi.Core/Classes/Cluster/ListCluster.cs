@@ -43,13 +43,13 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            if (dictionary.TryGetValue(key_1, out Dictionary<TKey_2, List<TValue>> dictionary_1) || dictionary_1 == null)
+            if (!dictionary.TryGetValue(key_1, out Dictionary<TKey_2, List<TValue>> dictionary_1) || dictionary_1 == null)
             {
                 dictionary_1 = new Dictionary<TKey_2, List<TValue>>();
                 dictionary[key_1] = dictionary_1;
             }
 
-            if (dictionary_1.TryGetValue(key_2, out List<TValue> values) || values == null)
+            if (!dictionary_1.TryGetValue(key_2, out List<TValue> values) || values == null)
             {
                 values = new List<TValue>();
                 dictionary_1[key_2] = values;
@@ -529,12 +529,12 @@ namespace DiGi.Core.Classes
             return false;
         }
 
-        protected override List<TKey_1> GetKeys_1()
+        public override List<TKey_1> GetKeys_1()
         {
             return dictionary.Keys?.ToList();
         }
 
-        protected override List<TKey_2> GetKeys_2(TKey_1 key_1)
+        public override List<TKey_2> GetKeys_2(TKey_1 key_1)
         {
             if (key_1 == null)
             {
@@ -553,7 +553,7 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        protected override List<U> GetValues<U>()
+        public override List<U> GetValues<U>()
         {
             List<U> result = new List<U>();
             foreach (Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)

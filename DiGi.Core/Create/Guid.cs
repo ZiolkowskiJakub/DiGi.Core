@@ -12,13 +12,13 @@ namespace DiGi.Core
                 return System.Guid.Empty;
             }
 
-            UniqueReference uniqueReference = uniqueObjectValueCluster.UniqueReference(type);
-            if(uniqueReference == null)
+            GuidReference guidReference = uniqueObjectValueCluster.GuidReference(type);
+            if(guidReference == null)
             {
                 return System.Guid.Empty;
             }
 
-            return uniqueReference.Guid;
+            return guidReference.Guid;
         }
     }
 }

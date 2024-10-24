@@ -1,12 +1,8 @@
 ﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
@@ -44,7 +40,7 @@ namespace DiGi.Core.Relation.Classes
 
         private List<ListClusterReference<TypeReference, TypeReference>> GetListClusterReferences<U>(UniqueReference uniqueReference, Func<U, bool> func = null) where U : T
         {
-            Type type = uniqueReference?.TypeReference?.Type();
+            Type type = uniqueReference?.Type();
             if (type == null)
             {
                 return null;

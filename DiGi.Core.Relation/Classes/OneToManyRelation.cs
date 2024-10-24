@@ -46,8 +46,8 @@ namespace DiGi.Core.Relation.Classes
         public OneToManyRelation(X uniqueObject_From, IEnumerable<Y> uniqueObjects_To)
             : base()
         {
-            uniqueReference_From = uniqueObject_From == null ? null : new UniqueReference(uniqueObject_From);
-            uniqueReferences_To = uniqueObjects_To == null ? null : uniqueObjects_To.ToList().FindAll(x => x != null).ConvertAll(x => new UniqueReference(x));
+            uniqueReference_From = uniqueObject_From == null ? null : new GuidReference(uniqueObject_From);
+            uniqueReferences_To = uniqueObjects_To == null ? null : uniqueObjects_To.ToList().FindAll(x => x != null).ConvertAll(x => (UniqueReference) new GuidReference(x));
         }
 
         public OneToManyRelation(UniqueReference uniqueReference_From, IEnumerable<UniqueReference> uniqueReferences_To)

@@ -168,7 +168,7 @@ namespace DiGi.Core.Classes
 
         protected abstract TKey_2 GetKey_2(TValue value);
 
-        protected virtual List<TKey_1> GetKeys_1()
+        public virtual List<TKey_1> GetKeys_1()
         {
             List<TValue> values = GetValues<TValue>();
             if (values == null)
@@ -191,7 +191,7 @@ namespace DiGi.Core.Classes
             return result.ToList();
         }
 
-        protected virtual List<TKey_2> GetKeys_2(TKey_1 key_1)
+        public virtual List<TKey_2> GetKeys_2(TKey_1 key_1)
         {
             if(key_1 == null)
             {
@@ -224,7 +224,7 @@ namespace DiGi.Core.Classes
             return result.ToList();
         }
 
-        protected abstract List<U> GetValues<U>() where U : TValue;
+        public abstract List<U> GetValues<U>() where U : TValue;
 
         protected bool SetValues(IEnumerable<TValue> values)
         {

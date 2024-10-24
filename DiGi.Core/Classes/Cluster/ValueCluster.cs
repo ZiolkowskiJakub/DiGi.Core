@@ -1,8 +1,6 @@
-﻿using DiGi.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
@@ -191,7 +189,7 @@ namespace DiGi.Core.Classes
             return value != null;
         }
 
-        protected override List<U> GetValues<U>()
+        public override List<U> GetValues<U>()
         {
             List<U> result = new List<U>();
             foreach (Dictionary<TKey_2, TValue> dictionary_1 in dictionary.Values)
@@ -208,12 +206,12 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        protected override List<TKey_1> GetKeys_1()
+        public override List<TKey_1> GetKeys_1()
         {
             return dictionary.Keys?.ToList();
         }
 
-        protected override List<TKey_2> GetKeys_2(TKey_1 key_1)
+        public override List<TKey_2> GetKeys_2(TKey_1 key_1)
         {
             if (key_1 == null)
             {

@@ -63,8 +63,8 @@ namespace DiGi.Core.Relation.Classes
         public ManyToManyRelation(IEnumerable<X> uniqueObjects_From, IEnumerable<Y> uniqueObjects_To)
             : base()
         {
-            uniqueReferences_From = uniqueObjects_From == null ? null : uniqueObjects_From.ToList().FindAll(x => x != null).ConvertAll(x => new UniqueReference(x));
-            uniqueReferences_To = uniqueObjects_To == null ? null : uniqueObjects_To.ToList().FindAll(x => x != null).ConvertAll(x => new UniqueReference(x));
+            uniqueReferences_From = uniqueObjects_From == null ? null : uniqueObjects_From.ToList().FindAll(x => x != null).ConvertAll(x => (UniqueReference) new GuidReference(x));
+            uniqueReferences_To = uniqueObjects_To == null ? null : uniqueObjects_To.ToList().FindAll(x => x != null).ConvertAll(x => (UniqueReference) new GuidReference(x));
         }
 
         public ManyToManyRelation(JsonObject jsonObject)
