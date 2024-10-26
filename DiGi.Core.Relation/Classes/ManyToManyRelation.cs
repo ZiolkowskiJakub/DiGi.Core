@@ -173,5 +173,55 @@ namespace DiGi.Core.Relation.Classes
 
             return uniqueReferences_From.Remove(uniqueReference);
         }
+
+        public override List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences)
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            List<UniqueReference> result = new List<UniqueReference>();
+            if (uniqueReferences.Count() == 0)
+            {
+                return result;
+            }
+
+            foreach (TUniqueReference uniqueReference in uniqueReferences)
+            {
+                if (uniqueReferences_From.Remove(uniqueReference))
+                {
+                    result.Add(uniqueReference);
+                    if (uniqueReferences_From.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            foreach (TUniqueReference uniqueReference in uniqueReferences)
+            {
+                if (uniqueReferences_To.Remove(uniqueReference))
+                {
+                    result.Add(uniqueReference);
+                    if (uniqueReferences_To.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public override bool Has_From()
+        {
+            return uniqueReferences_From != null && uniqueReferences_From.Count != 0;
+        }
+
+        public override bool Has_To()
+        {
+            return uniqueReferences_To != null && uniqueReferences_To.Count != 0;
+        }
     }
 }

@@ -42,13 +42,15 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public override bool Remove(GuidReference guidReference)
+        public override List<GuidReference> Remove(IEnumerable<GuidReference> keys_2)
         {
-            bool result = base.Remove(guidReference);
-            if(result)
+            List<GuidReference> result = base.Remove(keys_2);
+            if(result == null || result.Count ==0)
             {
-                relationListCluster.Remove(guidReference);
+                return result;
             }
+
+            relationListCluster.Remove(result);
 
             return result;
         }
@@ -61,6 +63,25 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return Remove(new GuidReference(uniqueObject));
+        }
+
+        public override List<U> Remove<U>(IEnumerable<U> uniqueObjects)
+        {
+            if (uniqueObjects == null)
+            {
+                return null;
+            }
+
+            List<U> result = new List<U>();
+            foreach(U uniqueObject in uniqueObjects)
+            {
+                if(Remove(uniqueObject))
+                {
+                    result.Add(uniqueObject);
+                }
+            }
+
+            return result;
         }
 
         public virtual bool Remove(X relation)

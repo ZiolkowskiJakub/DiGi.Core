@@ -40,7 +40,8 @@ namespace DiGi.Core
                 switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Number:
-                        value_Temp = jsonNode.GetValue<object>();
+                        value_Temp = jsonNode.GetValue<int>();
+                        //value_Temp = jsonNode.GetValue<object>(); //Does not work. Returns JsonValue
                         break;
 
                     case System.Text.Json.JsonValueKind.String:

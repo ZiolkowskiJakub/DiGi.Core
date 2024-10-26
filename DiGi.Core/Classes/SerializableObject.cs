@@ -15,6 +15,11 @@ namespace DiGi.Core.Classes
 
         }
 
+        public SerializableObject(SerializableObject serializableObject)
+        {
+
+        }
+
         public SerializableObject(JsonObject jsonObject) 
         {
             FromJsonObject(jsonObject);

@@ -8,9 +8,9 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Linq;
 using System.Collections.Generic;
-using DiGi.Core.File.Interfaces;
+using DiGi.Core.IO.DelimitedData.Interfaces.File;
 
-namespace DiGi.Core.File.Classes
+namespace DiGi.Core.IO.File.Classes
 {
     public class File<T> : SerializableObject, IFile<T> where T : ISerializableObject
     {
@@ -46,14 +46,14 @@ namespace DiGi.Core.File.Classes
 
         public bool Open()
         {
-            if(string.IsNullOrWhiteSpace(fileInfo?.Path))
+            if (string.IsNullOrWhiteSpace(fileInfo?.Path))
             {
                 return false;
             }
 
             string path = fileInfo.Path;
 
-            if(!System.IO.File.Exists(path))
+            if (!System.IO.File.Exists(path))
             {
                 return false;
             }
@@ -63,7 +63,7 @@ namespace DiGi.Core.File.Classes
                 ZipArchiveEntry zipArchiveEntry = null;
 
                 zipArchiveEntry = zipArchive.GetEntry("FileInfo");
-                if(zipArchiveEntry != null)
+                if (zipArchiveEntry != null)
                 {
                     using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
                     {
@@ -78,7 +78,7 @@ namespace DiGi.Core.File.Classes
                     using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
                     {
                         List<T> ts = Convert.ToDiGi<T>(streamReader.ReadToEnd());
-                        if(ts != null && ts.Count != 0)
+                        if (ts != null && ts.Count != 0)
                         {
                             Value = ts[0];
                         }
@@ -98,13 +98,13 @@ namespace DiGi.Core.File.Classes
 
         public bool Save()
         {
-            if(fileInfo == null)
+            if (fileInfo == null)
             {
                 return false;
             }
 
             string path = fileInfo.Path;
-            if(string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
@@ -117,10 +117,10 @@ namespace DiGi.Core.File.Classes
                 {
                     string json = null;
 
-                    json = Convert.ToString(fileInfo);
+                    json = DiGi.Core.Convert.ToString(fileInfo);
                     if (json != null)
                     {
-                        ZipArchiveEntry zipArchiveEntry = zipArchive.CreateEntry("FileInfo"); 
+                        ZipArchiveEntry zipArchiveEntry = zipArchive.CreateEntry("FileInfo");
                         using (Stream stream = zipArchiveEntry.Open())
                         {
                             using (StreamWriter streamWriter = new StreamWriter(stream))
@@ -216,10 +216,10 @@ namespace DiGi.Core.File.Classes
 
             return Value.Remove(serializableObject);
         }
-        
+
         public void Add(ISerializableObject serializableObject)
         {
-            if(Value == null)
+            if (Value == null)
             {
                 Value = new SerializableObjectCollection();
             }
@@ -229,17 +229,17 @@ namespace DiGi.Core.File.Classes
 
         public void AddRange<T>(IEnumerable<T> values) where T : ISerializableObject
         {
-            if(values == null)
+            if (values == null)
             {
                 return;
             }
 
-            if(Value == null)
+            if (Value == null)
             {
                 Value = new SerializableObjectCollection();
             }
 
-            foreach(T value in values)
+            foreach (T value in values)
             {
                 Value.Add(value);
             }
@@ -259,7 +259,7 @@ namespace DiGi.Core.File.Classes
         {
             Value?.Clear();
         }
-        
+
         [JsonIgnore]
         public int Count
         {

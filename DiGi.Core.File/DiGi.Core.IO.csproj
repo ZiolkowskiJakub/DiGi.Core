@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DiGi.Core.Parameter\DiGi.Core.Parameter.csproj" />
     <ProjectReference Include="..\DiGi.Core\DiGi.Core.csproj" />
   </ItemGroup>
 

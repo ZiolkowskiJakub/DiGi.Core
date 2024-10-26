@@ -1,48 +1,50 @@
 ﻿using DiGi.Core.Enums;
-using DiGi.Core.Interfaces;
+using DiGi.Core.IO.DelimitedData.Enums;
+using DiGi.Core.IO.DelimitedData.Interfaces;
+using DiGi.Core.IO.DelimitedData.Query;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DiGi.Core.Classes
+namespace DiGi.Core.IO.DelimitedData.Classes
 {
-    public class DelimitedFileReader : StreamReader, IDelimitedFileReader
+    public class DelimitedDataReader : StreamReader, IDelimitedDataReader
     {
         private char separator;
 
-        public DelimitedFileReader(char separator, Stream stream)
+        public DelimitedDataReader(char separator, Stream stream)
             : base(stream)
         {
             this.separator = separator;
         }
 
-        public DelimitedFileReader(char separator, string path)
+        public DelimitedDataReader(char separator, string path)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             this.separator = separator;
         }
 
-        public DelimitedFileReader(char separator, IEnumerable<string> lines)
-            : base(Create.MemoryStream(lines))
+        public DelimitedDataReader(char separator, IEnumerable<string> lines)
+            : base(lines.MemoryStream())
         {
             this.separator = separator;
         }
 
-        public DelimitedFileReader(DelimitedFileType delimitedFileType, IEnumerable<string> lines)
-            : base(Create.MemoryStream(lines))
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, IEnumerable<string> lines)
+            : base(lines.MemoryStream())
         {
-            separator = Query.Separator(delimitedFileType);
+            separator = delimitedDataSeparator.Separator();
         }
 
-        public DelimitedFileReader(DelimitedFileType delimitedFileType, string path)
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string path)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
-            separator = Query.Separator(delimitedFileType);
+            separator = delimitedDataSeparator.Separator();
         }
 
-        public DelimitedFileReader(DelimitedFileType delimitedFileType, string path, System.Text.Encoding encoding)
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string path, System.Text.Encoding encoding)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), encoding)
         {
-            separator = Query.Separator(delimitedFileType);
+            separator = delimitedDataSeparator.Separator();
         }
 
         public char Separator
@@ -56,12 +58,12 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Reads a row of data from a CSV file
         /// </summary>
-        /// <param name="delimitedFileRow"></param>
+        /// <param name="delimitedDataRow"></param>
         /// <returns></returns>
-        public bool Read(DelimitedFileRow delimitedFileRow)
+        public bool Read(DelimitedDataRow delimitedDataRow)
         {
-            delimitedFileRow.LineText = ReadLine();
-            if (delimitedFileRow.LineText == null)
+            delimitedDataRow.LineText = ReadLine();
+            if (delimitedDataRow.LineText == null)
             {
                 return false;
             }
@@ -69,28 +71,28 @@ namespace DiGi.Core.Classes
             int position = 0;
             int rowCount = 0;
 
-            while (position < delimitedFileRow.LineText.Length)
+            while (position < delimitedDataRow.LineText.Length)
             {
                 string value;
 
                 // Special handling for quoted field
-                if (delimitedFileRow.LineText[position] == '"')
+                if (delimitedDataRow.LineText[position] == '"')
                 {
                     // Skip initial quote
                     position++;
 
                     // Parse quoted value
                     int start = position;
-                    while (position < delimitedFileRow.LineText.Length)
+                    while (position < delimitedDataRow.LineText.Length)
                     {
                         // Test for quote character
-                        if (delimitedFileRow.LineText[position] == '"')
+                        if (delimitedDataRow.LineText[position] == '"')
                         {
                             // Found one
                             position++;
 
                             // If two quotes together, keep one Otherwise, indicates end of value
-                            if (position >= delimitedFileRow.LineText.Length || delimitedFileRow.LineText[position] != '"')
+                            if (position >= delimitedDataRow.LineText.Length || delimitedDataRow.LineText[position] != '"')
                             {
                                 position--;
                                 break;
@@ -98,8 +100,8 @@ namespace DiGi.Core.Classes
                         }
                         position++;
 
-                        //TODO: Add code which read quoted text with break line symbol
-                        while (position == delimitedFileRow.LineText.Length)
+                        //Code which read quoted text with break line symbol
+                        while (position == delimitedDataRow.LineText.Length)
                         {
                             string lineText = ReadLine();
                             if (lineText == null)
@@ -107,70 +109,70 @@ namespace DiGi.Core.Classes
                                 break;
                             }
 
-                            delimitedFileRow.LineText += "\n" + lineText;
+                            delimitedDataRow.LineText += "\n" + lineText;
                         }
                     }
-                    value = delimitedFileRow.LineText.Substring(start, position - start);
+                    value = delimitedDataRow.LineText.Substring(start, position - start);
                     value = value.Replace("\"\"", "\"");
                 }
                 else
                 {
                     // Parse unquoted value
                     int start = position;
-                    while (position < delimitedFileRow.LineText.Length && delimitedFileRow.LineText[position] != separator)
+                    while (position < delimitedDataRow.LineText.Length && delimitedDataRow.LineText[position] != separator)
                     {
                         position++;
                     }
 
-                    value = delimitedFileRow.LineText.Substring(start, position - start);
+                    value = delimitedDataRow.LineText.Substring(start, position - start);
                 }
 
                 // Add field to list
-                if (rowCount < delimitedFileRow.Count)
+                if (rowCount < delimitedDataRow.Count)
                 {
-                    delimitedFileRow[rowCount] = value;
+                    delimitedDataRow[rowCount] = value;
                 }
                 else
                 {
-                    delimitedFileRow.Add(value);
+                    delimitedDataRow.Add(value);
                 }
                 rowCount++;
 
                 // Eat up to and including next comma
-                while (position < delimitedFileRow.LineText.Length && delimitedFileRow.LineText[position] != separator)
+                while (position < delimitedDataRow.LineText.Length && delimitedDataRow.LineText[position] != separator)
                 {
                     position++;
                 }
 
-                if (position < delimitedFileRow.LineText.Length)
+                if (position < delimitedDataRow.LineText.Length)
                 {
                     position++;
                 }
             }
             // Delete any unused items
-            while (delimitedFileRow.Count > rowCount)
+            while (delimitedDataRow.Count > rowCount)
             {
-                delimitedFileRow.RemoveAt(rowCount);
+                delimitedDataRow.RemoveAt(rowCount);
             }
 
             // Return true if any columns read
-            return delimitedFileRow.Count > 0;
+            return delimitedDataRow.Count > 0;
         }
 
         /// <summary>
         /// Reads a rows of data from a CSV file
         /// </summary>
         /// <returns>List of the rows</returns>
-        public new List<DelimitedFileRow> Read()
+        public new List<DelimitedDataRow> Read()
         {
-            List<DelimitedFileRow> delimitedFileRows = new List<DelimitedFileRow>();
-            DelimitedFileRow delimitedFileRow = new DelimitedFileRow();
-            while (Read(delimitedFileRow))
+            List<DelimitedDataRow> delimitedDataRows = new List<DelimitedDataRow>();
+            DelimitedDataRow delimitedDataRow = new DelimitedDataRow();
+            while (Read(delimitedDataRow))
             {
-                delimitedFileRows.Add(delimitedFileRow);
-                delimitedFileRow = new DelimitedFileRow();
+                delimitedDataRows.Add(delimitedDataRow);
+                delimitedDataRow = new DelimitedDataRow();
             }
-            return delimitedFileRows;
+            return delimitedDataRows;
         }
     }
 }

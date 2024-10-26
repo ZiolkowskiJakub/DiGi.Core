@@ -1,31 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using DiGi.Core.Enums;
-using DiGi.Core.Interfaces;
+using DiGi.Core.IO.DelimitedData.Enums;
+using DiGi.Core.IO.DelimitedData.Interfaces;
+using DiGi.Core.IO.DelimitedData.Query;
 
-namespace DiGi.Core.Classes
+namespace DiGi.Core.IO.DelimitedData.Classes
 {
-    public class DelimitedFileWriter : StreamWriter, IDelimitedFileWriter
+    public class DelimitedDataWriter : StreamWriter, IDelimitedDataWriter
     {
         private char separator;
 
-        public DelimitedFileWriter(char separator, Stream stream)
+        public DelimitedDataWriter(char separator, Stream stream)
             : base(stream)
         {
             this.separator = separator;
         }
 
-        public DelimitedFileWriter(char separator, string path)
+        public DelimitedDataWriter(char separator, string path)
             : base(path)
         {
             this.separator = separator;
         }
 
-        public DelimitedFileWriter(DelimitedFileType delimitedFileType, string path)
+        public DelimitedDataWriter(DelimitedDataSeparator delimitedDataSeparator, string path)
             : base(path)
         {
-            separator = Query.Separator(delimitedFileType);
+            separator = delimitedDataSeparator.Separator();
         }
 
         public char Separator
@@ -39,15 +40,15 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Writes a single row to a CSV file.
         /// </summary>
-        /// <param name="delimitedFileRow">The row to be written</param>
-        public void Write(DelimitedFileRow delimitedFileRow)
+        /// <param name="delimitedDataRow">The row to be written</param>
+        public void Write(DelimitedDataRow delimitedDataRow)
         {
-            if (delimitedFileRow == null)
+            if (delimitedDataRow == null)
                 return;
 
             StringBuilder stringBuilder = new StringBuilder();
             bool firstColumn = true;
-            foreach (string value in delimitedFileRow)
+            foreach (string value in delimitedDataRow)
             {
                 // Add separator if this isn't the first value
                 if (!firstColumn)
@@ -68,30 +69,30 @@ namespace DiGi.Core.Classes
 
                 firstColumn = false;
             }
-            delimitedFileRow.LineText = stringBuilder.ToString();
-            WriteLine(delimitedFileRow.LineText);
+            delimitedDataRow.LineText = stringBuilder.ToString();
+            WriteLine(delimitedDataRow.LineText);
         }
 
         /// <summary>
         /// Writes a rows to a CSV file.
         /// </summary>
-        /// <param name="delimitedFileRows">The rows to be written</param>
-        public void Write(IEnumerable<DelimitedFileRow> delimitedFileRows)
+        /// <param name="delimitedDataRows">The rows to be written</param>
+        public void Write(IEnumerable<DelimitedDataRow> delimitedDataRows)
         {
-            foreach (DelimitedFileRow delimitedFileRow in delimitedFileRows)
+            foreach (DelimitedDataRow delimitedDataRow in delimitedDataRows)
             {
-                Write(delimitedFileRow);
+                Write(delimitedDataRow);
             }
         }
 
-        public void Write(DelimitedFileTable delimitedFileTable)
+        public void Write(DelimitedDataTable delimitedDataTable)
         {
-            if (delimitedFileTable == null)
+            if (delimitedDataTable == null)
             {
                 return;
             }
 
-            delimitedFileTable.Write(this);
+            delimitedDataTable.Write(this);
         }
     }
 }

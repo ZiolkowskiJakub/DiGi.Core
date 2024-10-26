@@ -2,6 +2,7 @@
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -158,6 +159,44 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return false;
+        }
+
+        public override List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences)
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            List<UniqueReference> result = new List<UniqueReference>();
+            if (uniqueReferences.Count() == 0)
+            {
+                return result;
+            }
+
+            if (uniqueReferences.Contains(uniqueReference_From))
+            {
+                result.Add(uniqueReference_From);
+                uniqueReference_From = null;
+            }
+
+            if (uniqueReferences.Contains(uniqueReference_To))
+            {
+                result.Add(uniqueReference_To);
+                uniqueReference_To = null;
+            }
+
+            return result;
+        }
+
+        public override bool Has_From()
+        {
+            return uniqueReference_From != null;
+        }
+
+        public override bool Has_To()
+        {
+            return uniqueReference_To != null;
         }
     }
 }

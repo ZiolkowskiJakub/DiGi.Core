@@ -27,15 +27,64 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public virtual bool Remove(GuidReference key_2)
+        public bool Remove(GuidReference key_2)
         {
-            TypeReference typeReference = key_2;
-            if (typeReference == null)
+            if(key_2 == null)
             {
                 return false;
             }
 
-            return Remove(typeReference, key_2);
+            List<GuidReference> guidReferences = Remove(new GuidReference[] { key_2 });
+            return guidReferences != null && guidReferences.Count > 0;
+        }
+
+        public virtual List<GuidReference> Remove(IEnumerable<GuidReference> keys_2)
+        {
+            if(keys_2 == null)
+            {
+                return null;
+            }
+
+            List<GuidReference> result = new List<GuidReference>();
+            foreach(GuidReference key_2 in keys_2)
+            {
+                TypeReference typeReference = key_2?.TypeReference;
+                if(typeReference == null)
+                {
+                    continue;
+                }
+
+                if(Remove(typeReference, key_2))
+                {
+                    result.Add(key_2);
+                }
+            }
+
+            return result;
+        }
+
+        public virtual List<U> Remove<U>(IEnumerable<U> values) where U : TValue
+        {
+            if(values == null)
+            {
+                return null;
+            }
+
+            List<U> result = new List<U>();
+            foreach (U value in values)
+            {
+                if(value == null)
+                {
+                    continue;
+                }
+
+                if (Remove(new GuidReference(value)))
+                {
+                    result.Add(value);
+                }
+            }
+
+            return result;
         }
 
         protected override TypeReference GetKey_1(TValue value)

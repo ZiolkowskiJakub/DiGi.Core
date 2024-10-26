@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiGi.Core.Enums;
+using System;
 
 
 namespace DiGi.Core
@@ -10,7 +11,6 @@ namespace DiGi.Core
             return IsNumeric(@object, out bool isInteger);
         }
 
-
         public static bool IsNumeric(this object @object, out bool isInteger)
         {
             isInteger = false;
@@ -18,6 +18,11 @@ namespace DiGi.Core
             if (@object == null)
             {
                 return false;
+            }
+
+            if(@object is DataType)
+            {
+                return IsNumeric((DataType)@object, out isInteger);
             }
 
             if (@object is Type)
@@ -70,7 +75,15 @@ namespace DiGi.Core
             }
         }
 
+        public static bool IsNumeric(this DataType dataType, out bool isInteger)
+        {
+            return IsNumeric(Type(dataType), out isInteger);
+        }
 
+        public static bool IsNumeric(this DataType dataType)
+        {
+            return IsNumeric(Type(dataType));
+        }
     }
 
 }

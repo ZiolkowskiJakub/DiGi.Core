@@ -2,6 +2,7 @@
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Relation.Classes
@@ -38,10 +39,26 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        private List<ListClusterReference<TypeReference, TypeReference>> GetListClusterReferences<U>(UniqueReference uniqueReference, Func<U, bool> func = null) where U : T
+        private List<RelationListClusterReference> GetRelationListClusterReferences<U, X>(IEnumerable<X> uniqueReferences, Func<U, bool> func = null) where U : T where X : UniqueReference
         {
-            Type type = uniqueReference?.Type();
-            if (type == null)
+            if(uniqueReferences == null)
+            {
+                return null;
+            }
+
+            HashSet<X> uniqueReferences_Temp = new HashSet<X>();
+            HashSet<Type> types = new HashSet<Type>();
+            foreach(X uniqueReference in uniqueReferences)
+            {
+                Type type = uniqueReference?.Type();
+                if(type != null)
+                {
+                    types.Add(type);
+                    uniqueReferences_Temp.Add(uniqueReference);
+                }
+            }
+
+            if(types.Count == 0)
             {
                 return null;
             }
@@ -52,7 +69,7 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            List<ListClusterReference<TypeReference, TypeReference>> result = new List<ListClusterReference<TypeReference, TypeReference>>();
+            List<RelationListClusterReference> result = new List<RelationListClusterReference>();
             foreach (TypeReference typeReference_1 in typeReferences_1)
             {
                 Type type_1 = typeReference_1?.Type();
@@ -69,20 +86,40 @@ namespace DiGi.Core.Relation.Classes
                         continue;
                     }
 
-                    if (!type_1.IsAssignableFrom(type) && !type_2.IsAssignableFrom(type))
+                    bool @break = true;
+
+                    foreach(Type type in types)
+                    {
+                        if (!type_1.IsAssignableFrom(type) && !type_2.IsAssignableFrom(type))
+                        {
+                            continue;
+                        }
+
+                        @break = false;
+                        break;
+                    }
+
+                    if (@break)
                     {
                         continue;
                     }
 
-                    Func<U, bool> func_Temp = new Func<U, bool>( x => 
-                    { 
-                       if(func != null && !func.Invoke(x))
+                    Func<U, bool> func_Temp = new Func<U, bool>(x =>
+                    {
+                        if (func != null && !func.Invoke(x))
                         {
                             return false;
                         }
 
-                        return x.Contains_To(uniqueReference) || x.Contains_From(uniqueReference);
+                        foreach(X uniqueReference_Temp in uniqueReferences_Temp)
+                        {
+                            if(x.Contains_To(uniqueReference_Temp) || x.Contains_From(uniqueReference_Temp))
+                            {
+                                return true;
+                            }
+                        }
 
+                        return false;
                     });
 
                     List<int> indexes = GetIndexes(typeReference_1, typeReference_2, func_Temp);
@@ -91,9 +128,9 @@ namespace DiGi.Core.Relation.Classes
                         continue;
                     }
 
-                    foreach(int index in indexes)
+                    foreach (int index in indexes)
                     {
-                        result.Add(new ListClusterReference<TypeReference, TypeReference>(typeReference_1, typeReference_2, index));
+                        result.Add(new RelationListClusterReference(typeReference_1, typeReference_2, index));
                     }
                 }
             }
@@ -101,128 +138,81 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public List<U> GetValues<U>(UniqueReference uniqueReference, Func<U, bool> func = null) where U : T
+        private List<RelationListClusterReference> GetRelationListClusterReferences<U>(UniqueReference uniqueReference, Func<U, bool> func = null) where U : T
         {
-            List<ListClusterReference<TypeReference, TypeReference>> listClusterRefereces = GetListClusterReferences(uniqueReference, func);
-            if(listClusterRefereces == null)
+            if(uniqueReference == null)
             {
                 return null;
             }
 
-            return GetValues<U>(listClusterRefereces);
+            return GetRelationListClusterReferences(new UniqueReference[] { uniqueReference }, func);
+        }
+
+        public List<U> GetValues<U>(UniqueReference uniqueReference, Func<U, bool> func = null) where U : T
+        {
+            List<RelationListClusterReference> relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
+            if(relationListClusterRefereces == null)
+            {
+                return null;
+            }
+
+            return GetValues<U>(relationListClusterRefereces);
+        }
+
+        public List<T> Remove<X>(IEnumerable<X> uniqueReferences) where X: UniqueReference
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            List<X> uniqueReferences_Temp = new List<X>(uniqueReferences.Distinct());
+
+            List<RelationListClusterReference> relationListClusterReferences = GetRelationListClusterReferences<T, X>(uniqueReferences_Temp);
+            if (relationListClusterReferences == null || relationListClusterReferences.Count == 0)
+            {
+                return null;
+            }
+
+            List<T> result = new List<T>();
+
+            List<RelationListClusterReference> relationListClusterReferences_ToRemove = new List<RelationListClusterReference>();
+
+            foreach (RelationListClusterReference relationListClusterReference in relationListClusterReferences)
+            {
+                T relation = GetValue<T>(relationListClusterReference);
+
+                List<UniqueReference> uniqueReferences_Removed = relation.Remove(uniqueReferences_Temp);
+                if(uniqueReferences_Removed == null || uniqueReferences_Removed.Count == 0)
+                {
+                    continue;
+                }
+
+                result.Add(relation);
+
+                if(!relation.Has_From() || !relation.Has_To())
+                {
+                    relationListClusterReferences_ToRemove.Add(relationListClusterReference);
+                }
+            }
+
+            if (relationListClusterReferences_ToRemove != null && relationListClusterReferences_ToRemove.Count != 0)
+            {
+                base.Remove(relationListClusterReferences_ToRemove);
+            }
+
+            return result;
         }
 
         public bool Remove(UniqueReference uniqueReference)
         {
-            if (uniqueReference == null)
+            if(uniqueReference == null)
             {
                 return false;
             }
 
-            List<ListClusterReference<TypeReference, TypeReference>> listClusterReferences = GetListClusterReferences<T>(uniqueReference);
-            if(listClusterReferences == null || listClusterReferences.Count == 0)
-            {
-                return false;
-            }
-
-
-            List<T> relations = GetValues<T>(uniqueReference);
-            if(relations == null || relations.Count == 0)
-            {
-                return false;
-            }
-
-            List<ListClusterReference<TypeReference, TypeReference>> listClusterReferences_ToRemove = new List<ListClusterReference<TypeReference, TypeReference>>();
-
-            foreach (ListClusterReference<TypeReference, TypeReference> ListClusterReference in listClusterReferences)
-            {
-                T relation = GetValue<T>(ListClusterReference);
-
-                if (relation is IOneToOneRelation)
-                {
-                    listClusterReferences_ToRemove.Add(ListClusterReference);
-                }
-                else if (relation is IOneToManyRelation)
-                {
-                    IOneToManyRelation oneToManyRelation = (IOneToManyRelation)relation;
-                    if (oneToManyRelation.Contains_From(uniqueReference))
-                    {
-                        listClusterReferences_ToRemove.Add(ListClusterReference);
-                    }
-                    else
-                    {
-                        if (oneToManyRelation.Remove_To(uniqueReference))
-                        {
-                            List<UniqueReference> uniqueReferences = oneToManyRelation.UniqueReferences_To;
-                            if (uniqueReferences == null || uniqueReferences.Count == 0)
-                            {
-                                listClusterReferences_ToRemove.Add(ListClusterReference);
-                            }
-                        }
-
-                    }
-                }
-                else if (relation is IManyToOneRelation)
-                {
-                    IManyToOneRelation manyToOneRelation = (IManyToOneRelation)relation;
-                    if (manyToOneRelation.Contains_To(uniqueReference))
-                    {
-                        listClusterReferences_ToRemove.Add(ListClusterReference);
-                    }
-                    else
-                    {
-                        if (manyToOneRelation.Remove_From(uniqueReference))
-                        {
-                            List<UniqueReference> uniqueReferences = manyToOneRelation.UniqueReferences_From;
-                            if (uniqueReferences == null || uniqueReferences.Count == 0)
-                            {
-                                listClusterReferences_ToRemove.Add(ListClusterReference);
-                            }
-                        }
-
-                    }
-                }
-                else if (relation is IManyToManyRelation)
-                {
-                    IManyToManyRelation manyToManyRelation = (IManyToManyRelation)relation;
-
-                    bool removed = false;
-
-                    if (manyToManyRelation.Remove_From(uniqueReference))
-                    {
-                        List<UniqueReference> uniqueReferences = manyToManyRelation.UniqueReferences_From;
-                        if (uniqueReferences == null || uniqueReferences.Count == 0)
-                        {
-                            listClusterReferences_ToRemove.Add(ListClusterReference);
-                            removed = true;
-                        }
-                    }
-
-                    if (!removed)
-                    {
-                        if (manyToManyRelation.Remove_To(uniqueReference))
-                        {
-                            List<UniqueReference> uniqueReferences = manyToManyRelation.UniqueReferences_To;
-                            if (uniqueReferences == null || uniqueReferences.Count == 0)
-                            {
-                                listClusterReferences_ToRemove.Add(ListClusterReference);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-
-            if(listClusterReferences_ToRemove != null && listClusterReferences_ToRemove.Count != 0)
-            {
-                Remove(listClusterReferences_ToRemove);
-            }
-
-            return true;
+            List<T> relations = Remove(new UniqueReference[] { uniqueReference });
+            return relations != null && relations.Count > 0;
         }
 
         protected override TypeReference GetKey_1(T value)

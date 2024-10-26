@@ -18,11 +18,13 @@ namespace DiGi.Core.Relation.Interfaces
 
         bool Contains_To(UniqueReference uniqueReference);
 
+        bool Has_From();
+
+        bool Has_To();
+
         bool Remove(UniqueReference uniqueReference);
 
-        bool Remove_From(UniqueReference uniqueReference);
-
-        bool Remove_To(UniqueReference uniqueReference);
+        List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
     }
 
     public interface IRelation<X, Y> : IRelation where X : IUniqueObject where Y : IUniqueObject

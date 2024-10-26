@@ -1,13 +1,13 @@
 ﻿using DiGi.Core.Enums;
-using DiGi.Core.Interfaces;
+using DiGi.Core.IO.DelimitedData.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DiGi.Core.Classes
+namespace DiGi.Core.IO.DelimitedData.Classes
 {
-    public class DelimitedFileTable : IDisposable, IEnumerable<object[]>
+    public class DelimitedDataTable : IDisposable, IEnumerable<object[]>
     {
         private bool disposed = false;
 
@@ -15,26 +15,26 @@ namespace DiGi.Core.Classes
         private List<object[]> header;
         private List<object[]> values;
 
-        private DelimitedFileTable()
+        private DelimitedDataTable()
         {
         }
 
-        public DelimitedFileTable(DelimitedFileTable delimitedFileTable)
+        public DelimitedDataTable(DelimitedDataTable delimitedDataTable)
         {
-            if (delimitedFileTable == null)
+            if (delimitedDataTable == null)
             {
                 return;
             }
 
-            if (delimitedFileTable.names != null)
+            if (delimitedDataTable.names != null)
             {
-                names = new List<string>(delimitedFileTable.names).ToArray();
+                names = new List<string>(delimitedDataTable.names).ToArray();
             }
 
-            if (delimitedFileTable.header != null)
+            if (delimitedDataTable.header != null)
             {
                 header = new List<object[]>();
-                foreach (object[] objects in delimitedFileTable.header)
+                foreach (object[] objects in delimitedDataTable.header)
                 {
                     if (objects == null)
                     {
@@ -47,10 +47,10 @@ namespace DiGi.Core.Classes
                 }
             }
 
-            if (delimitedFileTable.values != null)
+            if (delimitedDataTable.values != null)
             {
                 values = new List<object[]>();
-                foreach (object[] objects in delimitedFileTable.values)
+                foreach (object[] objects in delimitedDataTable.values)
                 {
                     if (objects == null)
                     {
@@ -64,17 +64,17 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public DelimitedFileTable(IDelimitedFileReader delimitedFileReader, int namesIndex = 0, int headerCount = 0)
+        public DelimitedDataTable(IDelimitedDataReader delimitedDataReader, int namesIndex = 0, int headerCount = 0)
         {
-            Read(delimitedFileReader, namesIndex, headerCount);
+            Read(delimitedDataReader, namesIndex, headerCount);
         }
 
-        public DelimitedFileTable(List<DelimitedFileRow> delimitedFileRows, int namesIndex = 0, int headerCount = 0)
+        public DelimitedDataTable(List<DelimitedDataRow> delimitedDataRows, int namesIndex = 0, int headerCount = 0)
         {
-            Read(delimitedFileRows, namesIndex, headerCount);
+            Read(delimitedDataRows, namesIndex, headerCount);
         }
 
-        public DelimitedFileTable(object[,] data, int namesIndex = 0, int headerCount = 0)
+        public DelimitedDataTable(object[,] data, int namesIndex = 0, int headerCount = 0)
         {
             Read(data, namesIndex, headerCount);
         }
@@ -146,27 +146,27 @@ namespace DiGi.Core.Classes
             return true;
         }
 
-        public bool Read(List<DelimitedFileRow> delimitedFileRows, int namesIndex = 0, int headerCount = 0)
+        public bool Read(List<DelimitedDataRow> delimitedDataRows, int namesIndex = 0, int headerCount = 0)
         {
-            int count = delimitedFileRows.Count;
+            int count = delimitedDataRows.Count;
 
             if (count <= namesIndex)
             {
                 return true;
             }
 
-            if (delimitedFileRows[namesIndex] != null)
+            if (delimitedDataRows[namesIndex] != null)
             {
-                names = delimitedFileRows[namesIndex].ToArray();
+                names = delimitedDataRows[namesIndex].ToArray();
             }
 
             header = new List<object[]>();
             int min = namesIndex + 1;
             for (int i = min; i < min + headerCount; i++)
             {
-                if (delimitedFileRows[i] != null)
+                if (delimitedDataRows[i] != null)
                 {
-                    header.Add(delimitedFileRows[i].ToArray());
+                    header.Add(delimitedDataRows[i].ToArray());
                 }
             }
 
@@ -174,12 +174,12 @@ namespace DiGi.Core.Classes
             values = new List<object[]>();
             for (int i = min; i < count; i++)
             {
-                if (delimitedFileRows[i] != null)
+                if (delimitedDataRows[i] != null)
                 {
-                    object[] row = new object[delimitedFileRows[i].Count];
-                    for (int j = 0; j < delimitedFileRows[i].Count; j++)
+                    object[] row = new object[delimitedDataRows[i].Count];
+                    for (int j = 0; j < delimitedDataRows[i].Count; j++)
                     {
-                        row[j] = delimitedFileRows[i][j];
+                        row[j] = delimitedDataRows[i][j];
                     }
                     values.Add(row);
                 }
@@ -188,39 +188,39 @@ namespace DiGi.Core.Classes
             return true;
         }
 
-        public bool Read(IDelimitedFileReader delimitedFileReader, int namesIndex = 0, int headerCount = 0)
+        public bool Read(IDelimitedDataReader delimitedDataReader, int namesIndex = 0, int headerCount = 0)
         {
-            if (delimitedFileReader == null)
+            if (delimitedDataReader == null)
             {
                 return false;
             }
 
-            List<DelimitedFileRow> delimitedFileRows = delimitedFileReader.Read();
-            if (delimitedFileRows == null)
+            List<DelimitedDataRow> delimitedDataRows = delimitedDataReader.Read();
+            if (delimitedDataRows == null)
             {
                 return false;
             }
 
-            return Read(delimitedFileRows, namesIndex, headerCount);
+            return Read(delimitedDataRows, namesIndex, headerCount);
         }
 
-        public bool Write(IDelimitedFileWriter delimitedFileWriter)
+        public bool Write(IDelimitedDataWriter delimitedDataWriter)
         {
-            if (names == null || names.Length == 0 || delimitedFileWriter == null)
+            if (names == null || names.Length == 0 || delimitedDataWriter == null)
             {
                 return false;
             }
 
-            delimitedFileWriter.Write(new DelimitedFileRow(Extract<string>(names)));
+            delimitedDataWriter.Write(new DelimitedDataRow(Extract<string>(names)));
 
             if (header != null && header.Count > 0)
             {
-                header.ForEach(x => delimitedFileWriter.Write(new DelimitedFileRow(Extract(x))));
+                header.ForEach(x => delimitedDataWriter.Write(new DelimitedDataRow(Extract(x))));
             }
 
             if (values != null && values.Count > 0)
             {
-                values.ForEach(x => delimitedFileWriter.Write(new DelimitedFileRow(Extract(x))));
+                values.ForEach(x => delimitedDataWriter.Write(new DelimitedDataRow(Extract(x))));
             }
 
             return true;
@@ -516,7 +516,7 @@ namespace DiGi.Core.Classes
             List<int> result = new List<int>();
             for (int i = 0; i < names.Length; i++)
             {
-                if (Query.Compare(names[i], columnText, textComparisonType, caseSensitive))
+                if (names[i].Compare(columnText, textComparisonType, caseSensitive))
                 {
                     result.Add(i);
                 }
@@ -535,7 +535,7 @@ namespace DiGi.Core.Classes
             for (int i = 0; i < RowCount; i++)
             {
                 string value = ToString(i, columnIndex);
-                if (Query.Compare(value, text, textComparisonType, caseSensitive))
+                if (value.Compare(text, textComparisonType, caseSensitive))
                 {
                     result.Add(i);
                 }
@@ -673,7 +673,7 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            return Query.TryConvert(@object_value, out value);
+            return @object_value.TryConvert(out value);
         }
 
         public string ToString(int row, int column)
@@ -783,26 +783,26 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public DelimitedFileTable Extract(params string[] columnNames)
+        public DelimitedDataTable Extract(params string[] columnNames)
         {
             if (names == null)
             {
                 return null;
             }
 
-            DelimitedFileTable delimitedFileTable = new DelimitedFileTable();
-            delimitedFileTable.names = columnNames;
+            DelimitedDataTable delimitedDataTable = new DelimitedDataTable();
+            delimitedDataTable.names = columnNames;
 
             if (values == null)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
-            delimitedFileTable.values = new List<object[]>();
+            delimitedDataTable.values = new List<object[]>();
 
             if (values.Count == 0 || columnNames.Length == 0)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
             List<int> indexes = columnNames.ToList().ConvertAll(x => GetColumnIndex(x));
@@ -822,53 +822,53 @@ namespace DiGi.Core.Classes
                         values_Row_New[i] = values_Row_Old[index];
                     }
                 }
-                delimitedFileTable.values.Add(values_Row_New);
+                delimitedDataTable.values.Add(values_Row_New);
             }
 
-            return delimitedFileTable;
+            return delimitedDataTable;
         }
 
-        public DelimitedFileTable Filter(IEnumerable<int> rowIndexes)
+        public DelimitedDataTable Filter(IEnumerable<int> rowIndexes)
         {
-            DelimitedFileTable delimitedFileTable = new DelimitedFileTable();
-            delimitedFileTable.names = names;
-            delimitedFileTable.header = header;
-            delimitedFileTable.values = new List<object[]>();
+            DelimitedDataTable delimitedDataTable = new DelimitedDataTable();
+            delimitedDataTable.names = names;
+            delimitedDataTable.header = header;
+            delimitedDataTable.values = new List<object[]>();
 
             foreach (int aIndex in rowIndexes)
             {
-                delimitedFileTable.values.Add(values[aIndex]);
+                delimitedDataTable.values.Add(values[aIndex]);
             }
 
-            return delimitedFileTable;
+            return delimitedDataTable;
         }
 
-        public DelimitedFileTable Filter(string columnName, TextComparisonType textComparisonType, string text, bool caseSensitive = true, bool tryConvert = true)
+        public DelimitedDataTable Filter(string columnName, TextComparisonType textComparisonType, string text, bool caseSensitive = true, bool tryConvert = true)
         {
             if (names == null)
             {
                 return null;
             }
 
-            DelimitedFileTable delimitedFileTable = new DelimitedFileTable();
-            delimitedFileTable.names = names;
+            DelimitedDataTable delimitedDataTable = new DelimitedDataTable();
+            delimitedDataTable.names = names;
 
             if (values == null)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
-            delimitedFileTable.values = new List<object[]>();
+            delimitedDataTable.values = new List<object[]>();
 
             if (values.Count == 0)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
             int index = GetColumnIndex(columnName);
             if (index == -1)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
             foreach (object[] values_Row in values)
@@ -883,7 +883,7 @@ namespace DiGi.Core.Classes
                 if (tryConvert)
                 {
                     string @string = null;
-                    if (Query.TryConvert(value, out @string))
+                    if (value.TryConvert(out @string))
                     {
                         value = @string;
                     }
@@ -894,43 +894,43 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                if (!Query.Compare(value as string, text, textComparisonType, caseSensitive))
+                if (!(value as string).Compare(text, textComparisonType, caseSensitive))
                 {
                     continue;
                 }
 
-                delimitedFileTable.values.Add(values_Row);
+                delimitedDataTable.values.Add(values_Row);
             }
 
-            return delimitedFileTable;
+            return delimitedDataTable;
         }
 
-        public DelimitedFileTable Filter(string columnName, NumberComparisonType numberComparisonType, double value, bool tryConvert = true)
+        public DelimitedDataTable Filter(string columnName, NumberComparisonType numberComparisonType, double value, bool tryConvert = true)
         {
             if (names == null)
             {
                 return null;
             }
 
-            DelimitedFileTable delimitedFileTable = new DelimitedFileTable();
-            delimitedFileTable.names = names;
+            DelimitedDataTable delimitedDataTable = new DelimitedDataTable();
+            delimitedDataTable.names = names;
 
             if (values == null)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
-            delimitedFileTable.values = new List<object[]>();
+            delimitedDataTable.values = new List<object[]>();
 
             if (values.Count == 0)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
             int index = GetColumnIndex(columnName);
             if (index == -1)
             {
-                return delimitedFileTable;
+                return delimitedDataTable;
             }
 
             foreach (object[] values_Row in values)
@@ -945,7 +945,7 @@ namespace DiGi.Core.Classes
                 if (tryConvert)
                 {
                     double @double = double.NaN;
-                    if (Query.TryConvert(value, out @double))
+                    if (value.TryConvert(out @double))
                     {
                         value = @double;
                     }
@@ -956,15 +956,15 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                if (!Query.Compare((double)value_Temp, value, numberComparisonType))
+                if (!((double)value_Temp).Compare(value, numberComparisonType))
                 {
                     continue;
                 }
 
-                delimitedFileTable.values.Add(values_Row);
+                delimitedDataTable.values.Add(values_Row);
             }
 
-            return delimitedFileTable;
+            return delimitedDataTable;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -1025,7 +1025,7 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                if (Query.TryConvert(row[columnIndex], out T value))
+                if (row[columnIndex].TryConvert(out T value))
                 {
                     row[columnIndex] = value;
                 }

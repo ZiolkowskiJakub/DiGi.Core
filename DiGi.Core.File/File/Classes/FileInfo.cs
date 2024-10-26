@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace DiGi.Core.File.Classes
+namespace DiGi.Core.IO.File.Classes
 {
     public class FileInfo : UniqueObject
     {
@@ -26,7 +26,7 @@ namespace DiGi.Core.File.Classes
         }
 
         public FileInfo()
-            :base()
+            : base()
         {
             created = DateTime.Now;
             modified = DateTime.Now;
@@ -36,7 +36,7 @@ namespace DiGi.Core.File.Classes
         public FileInfo(FileInfo fileInfo)
             : base(fileInfo)
         {
-            if(fileInfo != null)
+            if (fileInfo != null)
             {
                 created = fileInfo.created;
                 modified = fileInfo.modified;

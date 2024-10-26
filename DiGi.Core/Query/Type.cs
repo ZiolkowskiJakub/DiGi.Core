@@ -1,9 +1,11 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Enums;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json.Nodes;
 
 
 namespace DiGi.Core
@@ -180,6 +182,78 @@ namespace DiGi.Core
 
             return null;
 
+        }
+    
+        public static Type Type(this DataType dataType)
+        {
+            switch(dataType)
+            {
+                case Enums.DataType.Undefined:
+                    return null;
+
+                case Enums.DataType.SByte:
+                    return typeof(sbyte);
+
+                case Enums.DataType.Byte:
+                    return typeof(byte);
+
+                case Enums.DataType.Short:
+                    return typeof(short);
+
+                case Enums.DataType.UShort:
+                    return typeof(ushort);
+
+                case Enums.DataType.Int:
+                    return typeof(int);
+
+                case Enums.DataType.UInt:
+                    return typeof(uint);
+
+                case Enums.DataType.Long:
+                    return typeof(long);
+
+                case Enums.DataType.ULong:
+                    return typeof(ulong);
+
+                case Enums.DataType.Float:
+                    return typeof(float);
+
+                case Enums.DataType.Double:
+                    return typeof(double);
+
+                case Enums.DataType.Decimal:
+                    return typeof(decimal);
+
+                case Enums.DataType.DateTime:
+                    return typeof(DateTime);
+
+                case Enums.DataType.Bool:
+                    return typeof(bool);
+
+                case Enums.DataType.String:
+                    return typeof(string);
+
+                case Enums.DataType.Guid:
+                    return typeof(Guid);
+
+                case Enums.DataType.Enum:
+                    return typeof(Enum);
+
+                case Enums.DataType.ValueType:
+                    return typeof(ValueType);
+
+                case Enums.DataType.JsonNode:
+                    return typeof(JsonNode);
+
+                case Enums.DataType.SerializableObject:
+                    return typeof(ISerializableObject);
+
+                case Enums.DataType.Other:
+                    return typeof(object);
+
+            }
+
+            throw new NotImplementedException();
         }
     }
 

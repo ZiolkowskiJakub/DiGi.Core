@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiGi.Core.File.Interfaces
+namespace DiGi.Core.IO.DelimitedData.Interfaces.File
 {
     internal interface IFile<T> : IDisposable
     {

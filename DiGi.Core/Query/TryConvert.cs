@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Enums;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -593,6 +594,17 @@ namespace DiGi.Core
 
             result = (T)result_Object;
             return true;
+        }
+
+        public static bool TryConvert(this object @object, out object result, DataType dataType)
+        {
+            result = null;
+            if(dataType == Enums.DataType.Undefined)
+            { 
+                return false;
+            }
+
+            return TryConvert(@object, out result, Type(dataType));
         }
     }
 

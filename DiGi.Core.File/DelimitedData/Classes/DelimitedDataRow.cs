@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace DiGi.Core.Classes
+namespace DiGi.Core.IO.DelimitedData.Classes
 {
     /// <summary>
     /// Class to store one delimited file row
     /// </summary>
-    public class DelimitedFileRow : List<string>
+    public class DelimitedDataRow : List<string>
     {
-        public DelimitedFileRow()
+        public DelimitedDataRow()
         {
         }
 
-        public DelimitedFileRow(IEnumerable<string> values)
+        public DelimitedDataRow(IEnumerable<string> values)
         {
             AddRange(values);
         }

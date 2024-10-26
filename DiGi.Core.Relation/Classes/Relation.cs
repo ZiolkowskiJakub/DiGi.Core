@@ -42,15 +42,21 @@ namespace DiGi.Core.Relation.Classes
 
         public abstract bool Contains_To(UniqueReference uniqueReference);
 
+        public abstract Type GetType_From();
+
+        public abstract Type GetType_To();
+
         public abstract bool Remove(UniqueReference uniqueReference);
+
+        public abstract List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
 
         public abstract bool Remove_From(UniqueReference uniqueReference);
 
         public abstract bool Remove_To(UniqueReference uniqueReference);
         
-        public abstract Type GetType_From();
+        public abstract bool Has_From();
         
-        public abstract Type GetType_To();
+        public abstract bool Has_To();
     }
 
     public abstract class Relation<X, Y> : Relation, IRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
