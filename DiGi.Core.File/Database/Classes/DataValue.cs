@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Database.Classes
 {
-    public class DataValue : Data<object>
+    public class DataValue : Data<JsonValue>
     {
         public DataValue(JsonObject jsonObject)
             : base(jsonObject)
@@ -18,32 +18,38 @@ namespace DiGi.Core.IO.Database.Classes
 
         }
 
+        public DataValue(JsonValue jsonValue)
+            : base(jsonValue)
+        {
+
+        }
+
         public DataValue(double value)
-            : base(value)
+            : base(JsonValue.Create(value))
         {
 
         }
 
         public DataValue(bool value)
-            : base(value)
+            : base(JsonValue.Create(value))
         {
 
         }
 
         public DataValue(string value)
-            : base(value)
+            : base(JsonValue.Create(value))
         {
 
         }
 
         public DataValue(int value)
-            : base(value)
+            : base(JsonValue.Create(value))
         {
 
         }
 
         public DataValue(Guid value)
-            : base(value)
+            : base(JsonValue.Create(value))
         {
 
         }

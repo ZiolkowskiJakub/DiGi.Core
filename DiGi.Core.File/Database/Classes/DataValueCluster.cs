@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DiGi.Core.IO.Database.Classes
 {
-    public class DataValueCluster<UData> : SerializableObjectListCluster<TypeReference, UniqueIdReference, UData>, IDatabaseObject where UData : IData
+    public class DataValueCluster<UData> : SerializableObjectValueCluster<TypeReference, UniqueIdReference, UData>, IDatabaseObject where UData : IData
     {
         public DataValueCluster()
             :base()
@@ -17,6 +17,12 @@ namespace DiGi.Core.IO.Database.Classes
 
         public DataValueCluster(DataValueCluster<UData> dataValueCluster)
             :base(dataValueCluster)
+        {
+
+        }
+
+        public DataValueCluster(IEnumerable<UData> datas)
+            : base(datas)
         {
 
         }
@@ -57,6 +63,12 @@ namespace DiGi.Core.IO.Database.Classes
 
         }
 
+        public DataValueCluster(IEnumerable<IData> datas)
+            : base(datas)
+        {
+
+        }
+
         public bool Add(ISerializableObject serializableObject)
         {
             if (serializableObject == null)
@@ -78,15 +90,15 @@ namespace DiGi.Core.IO.Database.Classes
             return Add(data);
         }
 
-        public List<T> AddRange<T>(IEnumerable<T> serializableObjects) where T : ISerializableObject
+        public List<USerializableObject> AddRange<USerializableObject>(IEnumerable<USerializableObject> serializableObjects) where USerializableObject : ISerializableObject
         {
             if (serializableObjects == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
-            foreach (T serializableObject in serializableObjects)
+            List<USerializableObject> result = new List<USerializableObject>();
+            foreach (USerializableObject serializableObject in serializableObjects)
             {
                 bool added = Add(serializableObject);
                 if (added)

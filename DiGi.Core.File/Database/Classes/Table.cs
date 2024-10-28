@@ -19,10 +19,11 @@ namespace DiGi.Core.IO.Database.Classes
         [JsonInclude, JsonPropertyName("Datas")]
         private List<IData> datas;
 
-        public Table(string name)
+        public Table(string name, Header header)
             : base()
         {
             this.name = name;
+            this.header = header;
         }
 
         public Table(string name, Header header, IEnumerable<IData> datas)

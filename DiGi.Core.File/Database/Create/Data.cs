@@ -31,7 +31,7 @@ namespace DiGi.Core.IO.Database
                 case System.Text.Json.JsonValueKind.String:
                     if (Core.Query.TryConvert(jsonNode.AsValue().GetValue<object>(), out string @string))
                     {
-                        return new  DataValue(@string);
+                        return new DataValue(@string);
                     }
                     break;
 
@@ -54,4 +54,3 @@ namespace DiGi.Core.IO.Database
 
     }
 }
-

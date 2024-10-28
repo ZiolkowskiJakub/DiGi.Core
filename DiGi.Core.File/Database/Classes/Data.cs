@@ -28,9 +28,11 @@ namespace DiGi.Core.IO.Database.Classes
 
         [JsonIgnore]
         public abstract UniqueIdReference UniqueIdReference { get; }
+
+        public abstract DataType DataType { get; }
     }
 
-    public abstract class Data<T> : Data, IData<T>
+    public abstract class Data<T> : Data, IData<T> where T : JsonNode
     {
         [JsonInclude, JsonPropertyName("Value")]
         protected T value;
@@ -66,7 +68,7 @@ namespace DiGi.Core.IO.Database.Classes
         }
 
         [JsonIgnore]
-        public DataType DataType
+        public override DataType DataType
         {
             get
             {
