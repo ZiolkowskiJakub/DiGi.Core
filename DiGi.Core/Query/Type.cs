@@ -248,6 +248,9 @@ namespace DiGi.Core
                 case Enums.DataType.SerializableObject:
                     return typeof(ISerializableObject);
 
+                case Enums.DataType.Object:
+                    return typeof(IObject);
+
                 case Enums.DataType.Other:
                     return typeof(object);
 

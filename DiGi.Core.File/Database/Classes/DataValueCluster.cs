@@ -3,7 +3,6 @@ using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Database.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using System.Xml.Linq;
 
 namespace DiGi.Core.IO.Database.Classes
 {
@@ -74,6 +73,11 @@ namespace DiGi.Core.IO.Database.Classes
             if (serializableObject == null)
             {
                 return false;
+            }
+
+            if(serializableObject is IData)
+            {
+                return base.Add((IData)serializableObject);
             }
 
             return Add(serializableObject.ToJsonObject());

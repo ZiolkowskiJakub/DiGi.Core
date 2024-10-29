@@ -9,7 +9,6 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("UniqueId")]
         private string uniqueId = Constans.UniqueId.Null;
 
-
         public UniqueIdReference(TypeReference typeReference, string uniqueId)
             :base(typeReference)
         {
@@ -45,10 +44,10 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            string result = base.ToString();
+            string result = TypeReference?.ToString();
             if (!string.IsNullOrWhiteSpace(result))
             {
-                result += Constans.UniqueId.Separator;
+                result += Constans.Reference.Separator;
             }
 
             if (result == null)
@@ -56,7 +55,7 @@ namespace DiGi.Core.Classes
                 result = string.Empty;
             }
 
-            result += uniqueId;
+            result += string.Format("\"{0}\"", uniqueId);
 
             return result;
         }
@@ -64,16 +63,6 @@ namespace DiGi.Core.Classes
         public override ISerializableObject Clone()
         {
             return new UniqueIdReference(this);
-        }
-
-        public static bool operator ==(UniqueIdReference uniqueIdReference_1, UniqueIdReference uniqueIdReference_2)
-        {
-            return uniqueIdReference_1?.ToString() == uniqueIdReference_2?.ToString();
-        }
-
-        public static bool operator !=(UniqueIdReference uniqueIdReference_1, UniqueIdReference uniqueIdReference_2)
-        {
-            return uniqueIdReference_1?.ToString() != uniqueIdReference_2?.ToString();
         }
 
         [JsonIgnore]

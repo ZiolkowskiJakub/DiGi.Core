@@ -2,11 +2,34 @@
 using DiGi.Core.IO.Database.Classes;
 using DiGi.Core.IO.Database.Interfaces;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Database
 {
     public static partial class Convert
     {
+        public static Classes.Database ToDiGi(this IEnumerable<object> objects, DatabaseConvertOptions databaseConvertOptions)
+        {
+            if(objects == null)
+            {
+                return null;
+            }
+
+            List<IData> datas = new List<IData>();
+            foreach(object @object in objects)
+            {
+                IData data = Create.Data(@object);
+                if(data == null)
+                {
+                    continue;
+                }
+
+                datas.Add(data);
+            }
+
+            return ToDiGi(datas, databaseConvertOptions);
+        }
+
         public static Classes.Database ToDiGi<UData>(this IEnumerable<UData> datas, DatabaseConvertOptions databaseConvertOptions) where UData : IData
         {
             if (datas == null)
@@ -31,133 +54,102 @@ namespace DiGi.Core.IO.Database
                 datas_Temp.Add(new DataObject(new DatabaseItem(uData).ToJsonObject()));
             }
 
-            List<TypeReference> typeReferences;
-
-
             DataValueCluster dataValueCluter = new DataValueCluster(datas_Temp);
             dataValueCluter.Flatten(true);
 
-            typeReferences = dataValueCluter.GetKeys_1();
+            List<TypeReference> typeReferences = dataValueCluter.GetKeys_1();
             if(typeReferences == null)
             {
                 return null;
             }
 
-            Dictionary<TypeReference, DatabaseType> dictionary = new Dictionary<TypeReference, DatabaseType>();
-
-            if(typeReferences.Count != 0)
-            {
-                DatabaseType databaseType = null;
-
-                int id = 0;
-
-                databaseType = new DatabaseType(id, typeof(DatabaseType));
-
-                dictionary[databaseType.TypeReference] = databaseType;
-
-                foreach(TypeReference typeReference in typeReferences)
-                {
-                    id++;
-
-                    databaseType = new DatabaseType(id, typeReference);
-                    dictionary[typeReference] = databaseType;
-                }
-
-                foreach(DatabaseType databaseType_Temp in dictionary.Values)
-                {
-                    dataValueCluter.Add(new DataObject(databaseType_Temp.ToJsonObject()));
-                }
-
-                typeReferences = dataValueCluter.GetKeys_1();
-            }
-
             Classes.Database result = new Classes.Database(databaseConvertOptions.DatabaseName);
 
-            List<Table> tables = new List<Table>();
+            Table table = null;
+            DatabaseTypeRelatedSerializableReferenceItem databaseTypeRelatedSerializableReferenceItem = null;
+            List<DataObject> dataObjects_Temp = null;
+
+            List<DatabaseTypeRelatedSerializableReferenceItem> databaseTypeRelatedSerializableReferenceItems = new List<DatabaseTypeRelatedSerializableReferenceItem>();
+
             foreach (TypeReference typeReference in typeReferences)
             {
-                if(!dictionary.TryGetValue(typeReference, out DatabaseType databaseType) || databaseType == null)
-                {
-                    continue;
+                List<DataObject> dataObjects = dataValueCluter.GetValues<DataObject>(typeReference);
+                if (dataObjects != null && dataObjects.Count != 0)
+                { 
+                    databaseTypeRelatedSerializableReferenceItem = new DatabaseTypeRelatedSerializableReferenceItem(typeReference);
+
+                    databaseTypeRelatedSerializableReferenceItems.Add(databaseTypeRelatedSerializableReferenceItem);
+
+                    Dictionary<TypePropertyReference, List<DataObject>> dictionary = new Dictionary<TypePropertyReference, List<DataObject>>();
+
+                    foreach (DataObject dataObject in dataObjects)
+                    {
+                        UniqueIdReference uniqueIdReference = dataObject?.UniqueIdReference;
+                        if(uniqueIdReference == null)
+                        {
+                            continue;
+                        }
+
+                        List<Property> properties = Query.Properties<DataArray>(dataObject.Value, false);
+                        if (properties == null)
+                        {
+                            continue;
+                        }
+
+                        foreach (Property property in properties)
+                        {
+                            DataArray dataArray = property?.GetData<DataArray>();
+                            if (dataArray == null)
+                            {
+                                continue;
+                            }
+
+                            string name = property.Name;
+                            if(string.IsNullOrWhiteSpace(name))
+                            {
+                                continue;
+                            }
+
+                            TypePropertyReference typePropertyReference = new TypePropertyReference(name, typeReference);
+                            if (!dictionary.TryGetValue(typePropertyReference, out  dataObjects_Temp) || dataObjects_Temp == null)
+                            {
+                                dataObjects_Temp = new List<DataObject>();
+                                dictionary[typePropertyReference] = dataObjects_Temp;
+                            }
+
+                            foreach (JsonNode jsonNode in dataArray.Value)
+                            {
+                                dataObjects_Temp.Add(new DataObject(new DatabaseArrayItem(uniqueIdReference, Create.Data(jsonNode)).ToJsonObject()));
+                            }
+                        }
+                    }
+
+                    table = new Table(databaseTypeRelatedSerializableReferenceItem.UniqueId, Create.Header(dataObjects));
+                    table.Datas = dataObjects.ConvertAll(x => (IData)x);
+                    result.Add(table);
+
+                    foreach(KeyValuePair<TypePropertyReference, List<DataObject>> keyValuePair in dictionary)
+                    {
+                        databaseTypeRelatedSerializableReferenceItem = new DatabaseTypeRelatedSerializableReferenceItem(keyValuePair.Key);
+
+                        databaseTypeRelatedSerializableReferenceItems.Add(databaseTypeRelatedSerializableReferenceItem);
+
+                        table = new Table(databaseTypeRelatedSerializableReferenceItem.UniqueId, Create.Header(keyValuePair.Value));
+                        table.Datas = keyValuePair.Value.ConvertAll(x => (IData)x);
+                        result.Add(table);
+                    }
                 }
-
-                //DODO: Continue here
-
-                Table table = new Table("types", new Header(new Column[] { new Column("id", Enums.DataType.Int), new Column("fullTypeName", Enums.DataType.String) }));
-
-                dataValueCluter.GetValues<IData>(typeReference);
             }
 
-            throw new System.NotImplementedException();
+            databaseTypeRelatedSerializableReferenceItem = new DatabaseTypeRelatedSerializableReferenceItem(new TypeReference(typeof(DatabaseTypeRelatedSerializableReferenceItem)));
+            databaseTypeRelatedSerializableReferenceItems.Add(databaseTypeRelatedSerializableReferenceItem);
 
+            dataObjects_Temp = databaseTypeRelatedSerializableReferenceItems.ConvertAll(x => new DataObject(x.ToJsonObject()));
+            table = new Table(databaseTypeRelatedSerializableReferenceItem.UniqueId, Create.Header(dataObjects_Temp));
+            table.Datas = dataObjects_Temp.ConvertAll(x => (IData)x);
+            result.Add(table);
 
-            //Table table_Items = new Table("items", new Header(new Column[] { new Column("type", Enums.DataType.String), new Column("value", Enums.DataType.Undefined) }));
-            //List<IData> datas_Items = new List<IData>();
-            //foreach (IData data in datas)
-            //{
-            //    JsonObject jsonObject = new JsonObject()
-            //    {
-            //        new KeyValuePair<string, JsonNode> ( "type", data.DataType.ToString() ),
-            //        new KeyValuePair<string, JsonNode> ( "value", Query.TableValue(data) as dynamic ),
-            //    };
-
-            //    datas_Items.Add(new DataObject(jsonObject));
-            //}
-
-            //table_Items.Datas = new List<IData>(datas);
-            //result.Add(table_Items);
-
-
-            //dataValueCluter_Temp.Flatten(true);
-
-            //int index = 0;
-
-            //IEnumerable<TypeReference> typeReferences = dataValueCluter_Temp.GetKeys_1();
-            //if (typeReferences != null)
-            //{
-            //    Table table_Types = new Table("types", new Header(new Column[] { new Column("id", Enums.DataType.Int), new Column("fullTypeName", Enums.DataType.String) }));
-            //    List<IData> datas_Types = new List<IData>();
-
-            //    foreach (TypeReference typeReference in typeReferences)
-            //    {
-            //        string fullTypeName = typeReference?.FullTypeName;
-            //        if (string.IsNullOrWhiteSpace(fullTypeName))
-            //        {
-            //            continue;
-            //        }
-
-            //        List<UniqueIdReference> uniqueIdReferences = dataValueCluter_Temp.GetKeys_2(typeReference);
-            //        if (uniqueIdReferences == null || uniqueIdReferences.Count == 0)
-            //        {
-            //            continue;
-            //        }
-
-            //        JsonObject jsonObject = new JsonObject()
-            //        {
-            //            new KeyValuePair<string, JsonNode> ( "id", index ),
-            //            new KeyValuePair<string, JsonNode> ( "fullTypeName", typeReference.FullTypeName ),
-            //        };
-
-            //        datas_Types.Add(new DataObject(jsonObject));
-
-            //        index++;
-
-            //        //List<Column> columns = new List<Column>();
-            //        //foreach(IData data in dataValueCluter_Temp)
-            //        //{
-
-            //        //}
-
-            //        //Table table_Types = new Table("types", new Header(new Column[] { new Column("id", Enums.DataType.Int), new Column("fullTypeName", Enums.DataType.String) }));
-            //    }
-
-            //    table_Types.Datas = datas_Types;
-            //    result.Add(table_Types);
-            //}
-
-
-
-            //return result;
+            return result;
         }
     }
 }

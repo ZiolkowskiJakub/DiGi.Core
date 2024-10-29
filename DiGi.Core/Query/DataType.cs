@@ -99,6 +99,12 @@ namespace DiGi.Core
                 return Enums.DataType.SerializableObject;
             }
 
+            if (typeof(IObject).IsAssignableFrom(type_Temp))
+            {
+                nullable = true;
+                return Enums.DataType.Object;
+            }
+
             if (type_Temp == typeof(float))
             {
                 return Enums.DataType.Float;

@@ -5,13 +5,13 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public class TypeReference : SerializableReference
+    public class TypeReference : SerializableReference, ITypeRelatedSerializableReference
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
         private string fullTypeName;
 
         public TypeReference(JsonObject jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -35,7 +35,7 @@ namespace DiGi.Core.Classes
         }
 
         public TypeReference(IObject @object)
-            :base()
+            : base()
         {
             fullTypeName = Query.FullTypeName(@object.GetType());
         }
@@ -62,7 +62,7 @@ namespace DiGi.Core.Classes
         public override bool Equals(object @object)
         {
             TypeReference typeReference = @object as TypeReference;
-            if(typeReference == null)
+            if (typeReference == null)
             {
                 return false;
             }
@@ -85,7 +85,7 @@ namespace DiGi.Core.Classes
             return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
         }
 
-        public static implicit operator TypeReference(Type type) => Create.TypeReference(type);
+        public static implicit operator TypeReference(Type type) => type.TypeReference();
 
         public static implicit operator Type(TypeReference typeReference) => Query.Type(typeReference);
     }

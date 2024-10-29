@@ -50,7 +50,7 @@ namespace DiGi.Core.Relation.Classes
             HashSet<Type> types = new HashSet<Type>();
             foreach(X uniqueReference in uniqueReferences)
             {
-                Type type = uniqueReference?.Type();
+                Type type = uniqueReference?.TypeReference?.Type();
                 if(type != null)
                 {
                     types.Add(type);

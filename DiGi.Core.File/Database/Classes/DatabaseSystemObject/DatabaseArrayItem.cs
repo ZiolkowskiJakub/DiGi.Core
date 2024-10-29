@@ -5,19 +5,19 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Database.Classes
 {
-    public class DatabaseItem : SerializableObject, IDatabaseSystemObject
+    public class DatabaseArrayItem : SerializableObject, IDatabaseSystemObject
     {
-        [JsonInclude, JsonPropertyName("DataType")]
-        private DataType dataType;
+        [JsonInclude, JsonPropertyName("UniqueIdReference")]
+        private UniqueIdReference uniqueIdReference;
 
         [JsonInclude, JsonPropertyName("Value")]
         private object value;
 
-        public DatabaseItem(IData data)
+        public DatabaseArrayItem(UniqueIdReference uniqueIdReference, IData data)
         {
             if(data != null)
             {
-                dataType = data.DataType;
+                this.uniqueIdReference = uniqueIdReference;
                 value = Query.TableValue(data);
             }
         }

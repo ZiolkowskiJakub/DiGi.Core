@@ -24,6 +24,7 @@ namespace DiGi.Core.Enums
         [Description("Enum")] Enum,
         [Description("Struct")] ValueType,
         [Description("JsonNode")] JsonNode,
+        [Description("Object")] Object,
         [Description("Serializable Object")] SerializableObject,
         [Description("Other")] Other,
 

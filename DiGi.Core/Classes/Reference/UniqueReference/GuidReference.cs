@@ -42,22 +42,12 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return new UniqueIdReference(FullTypeName, Query.UniqueId(guid)).ToString();
+            return new UniqueIdReference(TypeReference?.FullTypeName, Query.UniqueId(guid)).ToString();
         }
 
         public override ISerializableObject Clone()
         {
             return new GuidReference(this);
-        }
-
-        public static bool operator ==(GuidReference guidReference_1, GuidReference guidReference_2)
-        {
-            return guidReference_1?.ToString() == guidReference_2?.ToString();
-        }
-
-        public static bool operator !=(GuidReference guidReference_1, GuidReference guidReference_2)
-        {
-            return guidReference_1?.ToString() != guidReference_2?.ToString();
         }
 
         [JsonIgnore]

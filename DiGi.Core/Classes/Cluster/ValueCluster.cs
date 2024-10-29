@@ -110,7 +110,7 @@ namespace DiGi.Core.Classes
 
             foreach (TValue value in dictionary_1.Values)
             {
-                if (value == null || !(Values is U))
+                if (value == null || !(value is U))
                 {
                     continue;
                 }

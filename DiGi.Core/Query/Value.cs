@@ -16,6 +16,11 @@ namespace DiGi.Core
                 return null;
             }
 
+            if(jsonNode.GetType() == type)
+            {
+                return jsonNode;
+            }
+
             bool nullable = true;
             Type type_Temp = Nullable.GetUnderlyingType(type);
             if (type_Temp == null)
@@ -37,16 +42,15 @@ namespace DiGi.Core
             {
                 object value_Temp = null;
 
-                switch (jsonNode.GetValueKind())
+                JsonValue jsonValue = jsonNode as JsonValue;
+                if(jsonValue == null)
                 {
-                    case System.Text.Json.JsonValueKind.Number:
-                        value_Temp = jsonNode.GetValue<int>();
-                        //value_Temp = jsonNode.GetValue<object>(); //Does not work. Returns JsonValue
-                        break;
+                    return null;
+                }
 
-                    case System.Text.Json.JsonValueKind.String:
-                        value_Temp = jsonNode.GetValue<string>();
-                        break;
+                if(!jsonValue.TryGetValue(out value_Temp))
+                {
+                    return null;
                 }
 
                 if(nullable && value_Temp == null)

@@ -34,6 +34,8 @@ namespace DiGi.Core.IO.Database
                     string name = property.Name;
                     DataType dataType = property.DataType;
 
+                    bool enumerable = property.PropertyType() == Enums.PropertyType.Enumerable;
+
                     if(!dictionary.TryGetValue(name, out DataType dataType_Existing) || dataType_Existing == DataType.Undefined)
                     {
                         dictionary[name] = dataType;
