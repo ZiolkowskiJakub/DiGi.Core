@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core", "DiGi.Core\DiGi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core.Parameter", "DiGi.Core.Parameter\DiGi.Core.Parameter.csproj", "{E6A3C5BE-714F-40DA-8E3C-5836F158FFB9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core.File", "DiGi.Core.File\DiGi.Core.File.csproj", "{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core.IO", "DiGi.Core.IO\DiGi.Core.IO.csproj", "{F95D20DE-B837-4E85-88A9-CE3F8FC7BB4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiGi.Core.Relation", "DiGi.Core.Relation\DiGi.Core.Relation.csproj", "{DEC3D14C-1E6A-4959-B00D-30E2B4E09BB0}"
 EndProject
