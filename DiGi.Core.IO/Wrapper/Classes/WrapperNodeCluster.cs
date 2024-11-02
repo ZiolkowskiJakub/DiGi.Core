@@ -6,29 +6,29 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    internal sealed class WrapperNodeCluster : ValueCluster<TypeReference, IWrapperReference, WrapperNode>
+    internal sealed class WrapperNodeCluster : ValueCluster<WrapperTypeReference, IWrapperUniqueReference, WrapperNode>
     {
-        protected override TypeReference GetKey_1(WrapperNode value)
+        protected override WrapperTypeReference GetKey_1(WrapperNode value)
         {
-            return value?.WrapperReference?.TypeReference;
+            return value?.WrapperUniqueReference?.WrapperTypeReference;
         }
 
-        protected override IWrapperReference GetKey_2(WrapperNode value)
+        protected override IWrapperUniqueReference GetKey_2(WrapperNode value)
         {
-            return value?.WrapperReference;
+            return value?.WrapperUniqueReference;
         }
 
-        public WrapperNode GetValue(IWrapperReference wrapperReference)
+        public WrapperNode GetValue(IWrapperUniqueReference wrapperUniqueReference)
         {
-            if(wrapperReference == null)
+            if(wrapperUniqueReference == null)
             {
                 return null;
             }
 
-            return GetValue<WrapperNode>(wrapperReference.TypeReference, wrapperReference);
+            return GetValue<WrapperNode>(wrapperUniqueReference.WrapperTypeReference, wrapperUniqueReference);
         }
 
-        public IWrapperReference Add(JsonNode jsonNode)
+        public IWrapperUniqueReference Add(JsonNode jsonNode)
         {
             if (jsonNode == null)
             {
@@ -37,10 +37,10 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             WrapperNode wrapperNode = new WrapperNode(jsonNode);
 
-            return Add(wrapperNode) ? wrapperNode.WrapperReference : null;
+            return Add(wrapperNode) ? wrapperNode.WrapperUniqueReference : null;
         }
 
-        public IWrapperReference Add(ISerializableObject serializableObject)
+        public IWrapperUniqueReference Add(ISerializableObject serializableObject)
         {
             JsonObject jsonObject = serializableObject?.ToJsonObject();
             if(jsonObject == null)
@@ -51,16 +51,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return Add(jsonObject);
         }
 
-        public JsonNode Wrap(IWrapperReference wrapperReference)
+        public JsonNode Wrap(IWrapperUniqueReference wrapperUniqueReference)
         {
-            return Wrap(wrapperReference, out HashSet<WrapperNode> wrapperNodes);
+            return Wrap(wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes);
         }
 
-        public JsonNode Wrap(IWrapperReference wrapperReference, out HashSet<WrapperNode> wrapperNodes)
+        public JsonNode Wrap(IWrapperUniqueReference wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes)
         {
             wrapperNodes = null;
 
-            WrapperNode wrapperNode = GetValue(wrapperReference);
+            WrapperNode wrapperNode = GetValue(wrapperUniqueReference);
             if (wrapperNode == null)
             {
                 return null;
@@ -91,17 +91,17 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperNode.JsonNode;
         }
 
-        public List<JsonNode> Wrap(IEnumerable<IWrapperReference> wrapperReferences)
+        public List<JsonNode> Wrap(IEnumerable<IWrapperUniqueReference> wrapperUniqueReferences)
         {
-            if (wrapperReferences == null)
+            if (wrapperUniqueReferences == null)
             {
                 return null;
             }
 
             List<JsonNode> result = new List<JsonNode>();
-            foreach (IWrapperReference wrapperReference in wrapperReferences)
+            foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
             {
-                JsonNode jsonNode = Wrap(wrapperReference);
+                JsonNode jsonNode = Wrap(wrapperUniqueReference);
                 if (jsonNode != null)
                 {
                     result.Add(jsonNode);
@@ -125,7 +125,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 WrapperNode wrapperNode = wrapperNodes[0];
                 wrapperNodes.RemoveAt(0);
 
-                JsonNode jsonNode = Wrap(wrapperNode.WrapperReference, out HashSet<WrapperNode> wrapperNodes_Temp);
+                JsonNode jsonNode = Wrap(wrapperNode.WrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes_Temp);
                 if(jsonNode != null)
                 {
                     result.Add(jsonNode);
@@ -143,15 +143,15 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
-        public JsonNode Unwrap(IWrapperReference wrapperReference)
+        public JsonNode Unwrap(IWrapperUniqueReference wrapperUniqueReference)
         {
-            WrapperNode wrapperNode = GetValue(wrapperReference);
+            WrapperNode wrapperNode = GetValue(wrapperUniqueReference);
             if (wrapperNode == null)
             {
                 return null;
             }
 
-            wrapperNode = Modify.Unwrap(this, wrapperNode, out List<IWrapperReference> misssingObjectReferences);
+            wrapperNode = Modify.Unwrap(this, wrapperNode, out HashSet<IWrapperUniqueReference> misssingObjectReferences);
             if (wrapperNode == null) 
             {
                 return null;
@@ -160,17 +160,17 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperNode.JsonNode;
         }
 
-        public List<JsonNode> Unwrap(IEnumerable<IWrapperReference> owrapperReferences)
+        public List<JsonNode> Unwrap(IEnumerable<IWrapperUniqueReference> wrapperUniqueReferences)
         {
-            if(owrapperReferences == null)
+            if(wrapperUniqueReferences == null)
             {
                 return null;
             }
 
             List<JsonNode> result = new List<JsonNode>();
-            foreach (IWrapperReference wrapperReference in owrapperReferences)
+            foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
             {
-                JsonNode jsonNode = Unwrap(wrapperReference);
+                JsonNode jsonNode = Unwrap(wrapperUniqueReference);
                 if (jsonNode != null)
                 {
                     result.Add(jsonNode);

@@ -1,10 +1,8 @@
 ﻿using DiGi.Core.Classes;
-using DiGi.Core.IO.Wrapper.Interfaces;
-using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    public sealed class WrapperUniqueIdReference : UniqueIdReference, IWrapperReference
+    internal sealed class WrapperUniqueIdReference : WrapperUniqueReference<UniqueIdReference>
     {
         public WrapperUniqueIdReference(UniqueIdReference uniqueIdReference)
             : base(uniqueIdReference)
@@ -12,16 +10,36 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
-        public WrapperUniqueIdReference(JsonObject jsonObject)
-            : base(jsonObject)
+        public WrapperUniqueIdReference(WrapperUniqueIdReference wrapperUniqueIdReference)
+            : base(wrapperUniqueIdReference)
         {
 
         }
 
         public WrapperUniqueIdReference(string fullTypeName, string uniqueId)
-            : base(fullTypeName, uniqueId)
+            : base(new UniqueIdReference(fullTypeName, uniqueId))
         {
 
+        }
+
+        public static explicit operator WrapperUniqueIdReference(UniqueIdReference uniqueIdReference)
+        {
+            if (uniqueIdReference == null)
+            {
+                return null;
+            }
+
+            return new WrapperUniqueIdReference(uniqueIdReference);
+        }
+
+        public static explicit operator UniqueIdReference(WrapperUniqueIdReference wrapperUniqueIdReference)
+        {
+            if (wrapperUniqueIdReference == null)
+            {
+                return null;
+            }
+
+            return wrapperUniqueIdReference.reference;
         }
     }
 }

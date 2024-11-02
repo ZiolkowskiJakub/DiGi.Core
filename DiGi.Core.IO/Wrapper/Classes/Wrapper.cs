@@ -23,20 +23,20 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public UniqueReference Add(ISerializableObject value)
         {
-            IWrapperReference wrapperReference = wrapperNodeCluster.Add(value);
-            if(wrapperReference == null)
+            IWrapperUniqueReference wrapperUniqueReference = wrapperNodeCluster.Add(value);
+            if(wrapperUniqueReference == null)
             {
                 return null;
             }
 
-            if(wrapperReference is WrapperUniqueIdReference)
+            if(wrapperUniqueReference is WrapperUniqueIdReference)
             {
-                return new UniqueIdReference((WrapperUniqueIdReference)wrapperReference);
+                return (UniqueReference)(WrapperUniqueIdReference)wrapperUniqueReference;
             }
 
-            if(wrapperReference is WrapperGuidReference)
+            if(wrapperUniqueReference is WrapperGuidReference)
             {
-                return new GuidReference((WrapperGuidReference)wrapperReference);
+                return (UniqueReference)(WrapperGuidReference)wrapperUniqueReference;
             }
 
             throw new NotImplementedException();
@@ -52,7 +52,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             if (wrapperReference is WrapperUniqueIdReference)
             {
-                return new UniqueIdReference((WrapperUniqueIdReference)wrapperReference);
+                return (UniqueIdReference)(WrapperUniqueIdReference)wrapperReference;
             }
 
             throw new NotImplementedException();

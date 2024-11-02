@@ -18,18 +18,18 @@ namespace DiGi.Core.IO.Wrapper
                 return wrapperNodes.Add(wrapperNode);
             }
 
-            bool isWrapperReference = wrapperNode.IsWrapperReference();
+            bool isWrapperUniqueReference = wrapperNode.IsWrapperUniqueReference();
             switch (wrapState)
             {
                 case WrapState.Wrapped:
-                    if (!isWrapperReference)
+                    if (!isWrapperUniqueReference)
                     {
                         return false;
                     }
                     break;
 
                 case WrapState.Unwrapped:
-                    if (isWrapperReference)
+                    if (isWrapperUniqueReference)
                     {
                         return false;
                     }

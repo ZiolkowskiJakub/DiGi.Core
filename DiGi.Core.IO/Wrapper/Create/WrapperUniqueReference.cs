@@ -8,7 +8,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Create
     {
-        internal static IWrapperReference WrapperReference(this JsonObject jsonObject)
+        internal static IWrapperUniqueReference WrapperUniqueReference(this JsonObject jsonObject)
         {
             if(jsonObject == null)
             {
@@ -20,9 +20,9 @@ namespace DiGi.Core.IO.Wrapper
                 string fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
-                    if(Query.IsWrapperReference(jsonObject))
+                    if(Query.IsWrapperUniqueReference(jsonObject))
                     {
-                        return Core.Create.SerializableObject<IWrapperReference>(jsonObject);
+                        return Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
                     }
 
                     if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Guid))
@@ -45,7 +45,7 @@ namespace DiGi.Core.IO.Wrapper
             return new WrapperUniqueIdReference(uniqueIdReference);
         }
 
-        internal static IWrapperReference WrapperReference(this JsonNode jsonNode)
+        internal static IWrapperUniqueReference WrapperUniqueReference(this JsonNode jsonNode)
         {
             if(jsonNode == null)
             {
@@ -54,7 +54,7 @@ namespace DiGi.Core.IO.Wrapper
 
             if (jsonNode is JsonObject)
             {
-                return WrapperReference((JsonObject)jsonNode);
+                return WrapperUniqueReference((JsonObject)jsonNode);
             }
 
             if(jsonNode is JsonArray)

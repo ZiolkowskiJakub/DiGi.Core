@@ -1,10 +1,8 @@
 ﻿using DiGi.Core.Classes;
-using DiGi.Core.IO.Wrapper.Interfaces;
-using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    public sealed class WrapperGuidReference : GuidReference, IWrapperReference
+    internal sealed class WrapperGuidReference : WrapperUniqueReference<GuidReference>
     {
         public WrapperGuidReference(GuidReference guidReference)
             : base(guidReference)
@@ -12,16 +10,36 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
-        public WrapperGuidReference(JsonObject jsonObject)
-            : base(jsonObject)
+        public WrapperGuidReference(string fullTypeName, System.Guid guid)
+            : base(new GuidReference(fullTypeName, guid))
         {
 
         }
 
-        public WrapperGuidReference(string fullTypeName, System.Guid guid)
-            : base(fullTypeName, guid)
+        public WrapperGuidReference(WrapperGuidReference wrapperGuidReference)
+            : base(wrapperGuidReference)
         {
 
+        }
+
+        public static explicit operator WrapperGuidReference(GuidReference guidReference)
+        {
+            if (guidReference == null)
+            {
+                return null;
+            }
+
+            return new WrapperGuidReference(guidReference);
+        }
+
+        public static explicit operator GuidReference(WrapperGuidReference wrapperGuidReference)
+        {
+            if (wrapperGuidReference == null)
+            {
+                return null;
+            }
+
+            return wrapperGuidReference.reference;
         }
     }
 }

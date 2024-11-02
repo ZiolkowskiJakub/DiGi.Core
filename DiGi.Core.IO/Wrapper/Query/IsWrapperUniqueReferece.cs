@@ -6,7 +6,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static bool IsWrapperReference(this JsonObject jsonObject)
+        internal static bool IsWrapperUniqueReference(this JsonObject jsonObject)
         {
             if(jsonObject == null)
             {
@@ -32,17 +32,17 @@ namespace DiGi.Core.IO.Wrapper
             return false;
         }
 
-        internal static bool IsWrapperReference(this JsonObject jsonObject, out IWrapperReference wrapperReference)
+        internal static bool IsWrapperUniqueReference(this JsonObject jsonObject, out IWrapperUniqueReference wrapperUniqueReference)
         {
-            wrapperReference = null;
+            wrapperUniqueReference = null;
 
-            if(!IsWrapperReference(jsonObject))
+            if(!IsWrapperUniqueReference(jsonObject))
             {
                 return false;
             }
 
-            wrapperReference = Create.WrapperReference(jsonObject);
-            return wrapperReference != null;
+            wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject);
+            return wrapperUniqueReference != null;
         }
     }
 }

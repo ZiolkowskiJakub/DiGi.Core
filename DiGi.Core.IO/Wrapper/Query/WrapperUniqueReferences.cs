@@ -8,33 +8,33 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static HashSet<IWrapperReference> WrapperReferences(this JsonObject jsonObject)
+        internal static HashSet<IWrapperUniqueReference> WrapperUniqueReferences(this JsonObject jsonObject)
         {
             if(jsonObject == null)
             {
                 return null;
             }
 
-            HashSet<IWrapperReference> result = new HashSet<IWrapperReference>();
+            HashSet<IWrapperUniqueReference> result = new HashSet<IWrapperUniqueReference>();
             foreach(KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
             {
                 JsonNode jsonNode = keyValuePair.Value;
                 if(jsonNode is JsonObject)
                 {
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (IsWrapperReference(jsonObject_Temp))
+                    if (IsWrapperUniqueReference(jsonObject_Temp))
                     {
-                        result.Add(Create.WrapperReference(jsonObject_Temp));
+                        result.Add(Create.WrapperUniqueReference(jsonObject_Temp));
                     }
                 }
                 else if(jsonNode is JsonArray)
                 {
-                    HashSet<IWrapperReference> wrapperReferences = WrapperReferences((JsonArray)jsonNode);
-                    if(wrapperReferences != null)
+                    HashSet<IWrapperUniqueReference> wrapperUniqueReferences = WrapperUniqueReferences((JsonArray)jsonNode);
+                    if(wrapperUniqueReferences != null)
                     {
-                        foreach(IWrapperReference wrapperReference in wrapperReferences)
+                        foreach(IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
                         {
-                            result.Add(wrapperReference);
+                            result.Add(wrapperUniqueReference);
                         }
                     }
                 }
@@ -43,32 +43,32 @@ namespace DiGi.Core.IO.Wrapper
             return result;
         }
 
-        internal static HashSet<IWrapperReference> WrapperReferences(this JsonArray jsonArray)
+        internal static HashSet<IWrapperUniqueReference> WrapperUniqueReferences(this JsonArray jsonArray)
         {
             if (jsonArray == null)
             {
                 return null;
             }
 
-            HashSet<IWrapperReference> result = new HashSet<IWrapperReference>();
+            HashSet<IWrapperUniqueReference> result = new HashSet<IWrapperUniqueReference>();
             foreach (JsonNode jsonNode in jsonArray)
             {
                 if (jsonNode is JsonObject)
                 {
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (IsWrapperReference(jsonObject_Temp))
+                    if (IsWrapperUniqueReference(jsonObject_Temp))
                     {
-                        result.Add(Create.WrapperReference(jsonObject_Temp));
+                        result.Add(Create.WrapperUniqueReference(jsonObject_Temp));
                     }
                 }
                 else if (jsonNode is JsonArray)
                 {
-                    HashSet<IWrapperReference> wrapperReferences = WrapperReferences((JsonArray)jsonNode);
-                    if (wrapperReferences != null)
+                    HashSet<IWrapperUniqueReference> wrapperUniquReferences = WrapperUniqueReferences((JsonArray)jsonNode);
+                    if (wrapperUniquReferences != null)
                     {
-                        foreach (IWrapperReference wrapperReference in wrapperReferences)
+                        foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniquReferences)
                         {
-                            result.Add(wrapperReference);
+                            result.Add(wrapperUniqueReference);
                         }
                     }
                 }
