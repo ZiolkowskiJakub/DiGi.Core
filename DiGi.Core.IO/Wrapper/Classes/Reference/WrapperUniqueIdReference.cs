@@ -4,21 +4,21 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    public sealed class ObjectUniqueIdReference : UniqueIdReference, IObjectReference
+    public sealed class WrapperUniqueIdReference : UniqueIdReference, IWrapperReference
     {
-        public ObjectUniqueIdReference(UniqueIdReference uniqueIdReference)
+        public WrapperUniqueIdReference(UniqueIdReference uniqueIdReference)
             : base(uniqueIdReference)
         {
 
         }
 
-        public ObjectUniqueIdReference(JsonObject jsonObject)
+        public WrapperUniqueIdReference(JsonObject jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ObjectUniqueIdReference(string fullTypeName, string uniqueId)
+        public WrapperUniqueIdReference(string fullTypeName, string uniqueId)
             : base(fullTypeName, uniqueId)
         {
 

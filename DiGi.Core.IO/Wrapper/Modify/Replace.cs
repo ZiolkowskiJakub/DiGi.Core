@@ -8,14 +8,14 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Modify
     {
-        public static HashSet<IObjectReference> Replace(this JsonObject jsonObject, IEnumerable<JsonNodeWrapper> jsonNodeWrappers)
+        internal static HashSet<IWrapperReference> Replace(this JsonObject jsonObject, IEnumerable<WrapperNode> wrapperNodes)
         {
-            if (jsonObject == null || jsonNodeWrappers == null || jsonNodeWrappers.Count() == 0)
+            if (jsonObject == null || wrapperNodes == null || wrapperNodes.Count() == 0)
             {
                 return null;
             }
 
-            HashSet<IObjectReference> result = new HashSet<IObjectReference>();
+            HashSet<IWrapperReference> result = new HashSet<IWrapperReference>();
             int count = jsonObject.Count;
             if (count == 0)
             {
@@ -28,25 +28,25 @@ namespace DiGi.Core.IO.Wrapper
                 if (jsonNode is JsonObject)
                 {
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (Query.IsObjectReference(jsonObject_Temp, out IObjectReference objectReference))
+                    if (Query.IsWrapperReference(jsonObject_Temp, out IWrapperReference wrapperReference))
                     {
-                        JsonNodeWrapper jsonNodeWrapper = jsonNodeWrappers.Find(x => x.ObjectReference == objectReference);
-                        if(jsonNodeWrapper != null)
+                        WrapperNode wrapperNode = wrapperNodes.Find(x => x.WrapperReference == wrapperReference);
+                        if(wrapperNode != null)
                         {
-                            jsonObject[i] = jsonNodeWrapper.JsonNode;
-                            result.Add(objectReference);
+                            jsonObject[i] = wrapperNode.JsonNode;
+                            result.Add(wrapperReference);
                         }
                     }
                 }
                 else if (jsonNode is JsonArray)
                 {
                     JsonArray jsonArray_Temp = (JsonArray)jsonNode;
-                    HashSet<IObjectReference> objectReferences = Replace(jsonArray_Temp, jsonNodeWrappers);
-                    if (objectReferences != null && objectReferences.Count != 0)
+                    HashSet<IWrapperReference> wrapperReferences = Replace(jsonArray_Temp, wrapperNodes);
+                    if (wrapperReferences != null && wrapperReferences.Count != 0)
                     {
-                        foreach (IObjectReference objectReference in objectReferences)
+                        foreach (IWrapperReference wrapperReference in wrapperReferences)
                         {
-                            result.Add(objectReference);
+                            result.Add(wrapperReference);
                         }
 
                         jsonObject[i] = jsonArray_Temp;
@@ -57,14 +57,14 @@ namespace DiGi.Core.IO.Wrapper
             return result;
         }
 
-        public static HashSet<IObjectReference> Replace(this JsonArray jsonArray, IEnumerable<JsonNodeWrapper> jsonNodeWrappers)
+        internal static HashSet<IWrapperReference> Replace(this JsonArray jsonArray, IEnumerable<WrapperNode> wrapperNodes)
         {
-            if (jsonArray == null || jsonNodeWrappers == null || jsonNodeWrappers.Count() == 0)
+            if (jsonArray == null || wrapperNodes == null || wrapperNodes.Count() == 0)
             {
                 return null;
             }
 
-            HashSet<IObjectReference> result = new HashSet<IObjectReference>();
+            HashSet<IWrapperReference> result = new HashSet<IWrapperReference>();
             int count = jsonArray.Count;
             if (count == 0)
             {
@@ -77,25 +77,25 @@ namespace DiGi.Core.IO.Wrapper
                 if (jsonNode is JsonObject)
                 {
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (Query.IsObjectReference(jsonObject_Temp, out IObjectReference objectReference))
+                    if (Query.IsWrapperReference(jsonObject_Temp, out IWrapperReference wrapperReference))
                     {
-                        JsonNodeWrapper jsonNodeWrapper = jsonNodeWrappers.Find(x => x.ObjectReference == objectReference);
-                        if (jsonNodeWrapper != null)
+                        WrapperNode wrapperNode = wrapperNodes.Find(x => x.WrapperReference == wrapperReference);
+                        if (wrapperNode != null)
                         {
-                            jsonArray[i] = jsonNodeWrapper.JsonNode;
-                            result.Add(objectReference);
+                            jsonArray[i] = wrapperNode.JsonNode;
+                            result.Add(wrapperReference);
                         }
                     }
                 }
                 else if (jsonNode is JsonArray)
                 {
                     JsonArray jsonArray_Temp = (JsonArray)jsonNode;
-                    HashSet<IObjectReference> objectReferences = Replace(jsonArray_Temp, jsonNodeWrappers);
-                    if (objectReferences != null && objectReferences.Count != 0)
+                    HashSet<IWrapperReference> wrapperReferences = Replace(jsonArray_Temp, wrapperNodes);
+                    if (wrapperReferences != null && wrapperReferences.Count != 0)
                     {
-                        foreach (IObjectReference objectReference in objectReferences)
+                        foreach (IWrapperReference wrapperReference in wrapperReferences)
                         {
-                            result.Add(objectReference);
+                            result.Add(wrapperReference);
                         }
 
                         jsonArray[i] = jsonArray_Temp;

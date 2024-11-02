@@ -8,29 +8,29 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Create
     {
-        public static IObjectReference ObjectReference(this JsonObject jsonObject)
+        internal static IWrapperReference WrapperReference(this JsonObject jsonObject)
         {
             if(jsonObject == null)
             {
                 return null;
             }
 
-            if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
+            if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Type))
             {
-                string fullTypeName = jsonObject[Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
+                string fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
-                    if(Query.IsObjectReference(jsonObject))
+                    if(Query.IsWrapperReference(jsonObject))
                     {
-                        return Core.Create.SerializableObject<IObjectReference>(jsonObject);
+                        return Core.Create.SerializableObject<IWrapperReference>(jsonObject);
                     }
 
-                    if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
+                    if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Guid))
                     {
-                        object @object = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
+                        object @object = jsonObject[Core.Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
                         if (Core.Query.TryConvert(@object, out Guid guid))
                         {
-                            return new ObjectGuidReference(fullTypeName, guid);
+                            return new WrapperGuidReference(fullTypeName, guid);
                         }
                     }
                 }
@@ -42,10 +42,10 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            return new ObjectUniqueIdReference(uniqueIdReference);
+            return new WrapperUniqueIdReference(uniqueIdReference);
         }
 
-        public static IObjectReference ObjectReference(this JsonNode jsonNode)
+        internal static IWrapperReference WrapperReference(this JsonNode jsonNode)
         {
             if(jsonNode == null)
             {
@@ -54,17 +54,17 @@ namespace DiGi.Core.IO.Wrapper
 
             if (jsonNode is JsonObject)
             {
-                return ObjectReference((JsonObject)jsonNode);
+                return WrapperReference((JsonObject)jsonNode);
             }
 
             if(jsonNode is JsonArray)
             {
-                return ObjectUniqueIdReference((JsonArray)jsonNode);
+                return WrapperUniqueIdReference((JsonArray)jsonNode);
             }
 
             if (jsonNode is JsonValue)
             {
-                return ObjectUniqueIdReference((JsonValue)jsonNode);
+                return WrapperUniqueIdReference((JsonValue)jsonNode);
             }
 
             return null;

@@ -29,9 +29,15 @@ namespace DiGi.Core.Classes
         }
 
         public UniqueObject(UniqueObject uniqueObject)
-            : base()
+            : base(uniqueObject)
         {
             guid = uniqueObject != null ? uniqueObject.guid : Guid.NewGuid();
+        }
+
+        public UniqueObject(Guid guid, UniqueObject uniqueObject)
+            : base(uniqueObject)
+        {
+            this.guid = guid;
         }
 
         [JsonIgnore]

@@ -4,21 +4,21 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    public sealed class ObjectGuidReference : GuidReference, IObjectReference
+    public sealed class WrapperGuidReference : GuidReference, IWrapperReference
     {
-        public ObjectGuidReference(GuidReference guidReference)
+        public WrapperGuidReference(GuidReference guidReference)
             : base(guidReference)
         {
 
         }
 
-        public ObjectGuidReference(JsonObject jsonObject)
+        public WrapperGuidReference(JsonObject jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ObjectGuidReference(string fullTypeName, System.Guid guid)
+        public WrapperGuidReference(string fullTypeName, System.Guid guid)
             : base(fullTypeName, guid)
         {
 

@@ -8,33 +8,33 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        public static HashSet<IObjectReference> ObjectReferences(this JsonObject jsonObject)
+        internal static HashSet<IWrapperReference> WrapperReferences(this JsonObject jsonObject)
         {
             if(jsonObject == null)
             {
                 return null;
             }
 
-            HashSet<IObjectReference> result = new HashSet<IObjectReference>();
+            HashSet<IWrapperReference> result = new HashSet<IWrapperReference>();
             foreach(KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
             {
                 JsonNode jsonNode = keyValuePair.Value;
                 if(jsonNode is JsonObject)
                 {
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (IsObjectReference(jsonObject_Temp))
+                    if (IsWrapperReference(jsonObject_Temp))
                     {
-                        result.Add(Create.ObjectReference(jsonObject_Temp));
+                        result.Add(Create.WrapperReference(jsonObject_Temp));
                     }
                 }
                 else if(jsonNode is JsonArray)
                 {
-                    HashSet<IObjectReference> objectReferences = ObjectReferences((JsonArray)jsonNode);
-                    if(objectReferences != null)
+                    HashSet<IWrapperReference> wrapperReferences = WrapperReferences((JsonArray)jsonNode);
+                    if(wrapperReferences != null)
                     {
-                        foreach(IObjectReference objectReference in objectReferences)
+                        foreach(IWrapperReference wrapperReference in wrapperReferences)
                         {
-                            result.Add(objectReference);
+                            result.Add(wrapperReference);
                         }
                     }
                 }
@@ -43,32 +43,32 @@ namespace DiGi.Core.IO.Wrapper
             return result;
         }
 
-        public static HashSet<IObjectReference> ObjectReferences(this JsonArray jsonArray)
+        internal static HashSet<IWrapperReference> WrapperReferences(this JsonArray jsonArray)
         {
             if (jsonArray == null)
             {
                 return null;
             }
 
-            HashSet<IObjectReference> result = new HashSet<IObjectReference>();
+            HashSet<IWrapperReference> result = new HashSet<IWrapperReference>();
             foreach (JsonNode jsonNode in jsonArray)
             {
                 if (jsonNode is JsonObject)
                 {
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (IsObjectReference(jsonObject_Temp))
+                    if (IsWrapperReference(jsonObject_Temp))
                     {
-                        result.Add(Create.ObjectReference(jsonObject_Temp));
+                        result.Add(Create.WrapperReference(jsonObject_Temp));
                     }
                 }
                 else if (jsonNode is JsonArray)
                 {
-                    HashSet<IObjectReference> objectReferences = ObjectReferences((JsonArray)jsonNode);
-                    if (objectReferences != null)
+                    HashSet<IWrapperReference> wrapperReferences = WrapperReferences((JsonArray)jsonNode);
+                    if (wrapperReferences != null)
                     {
-                        foreach (IObjectReference objectReference in objectReferences)
+                        foreach (IWrapperReference wrapperReference in wrapperReferences)
                         {
-                            result.Add(objectReference);
+                            result.Add(wrapperReference);
                         }
                     }
                 }

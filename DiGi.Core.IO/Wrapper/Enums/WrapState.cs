@@ -3,7 +3,7 @@
 namespace DiGi.Core.IO.Wrapper.Enums
 {
     [Description("Wrap State")]
-    public enum WrapState
+    internal enum WrapState
     {
         [Description("Undefined")] Undefined,
         [Description("Wrapped")] Wrapped,

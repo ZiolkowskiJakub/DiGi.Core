@@ -6,7 +6,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Create
     {
-        public static ObjectUniqueIdReference ObjectUniqueIdReference(this JsonArray jsonArray)
+        internal static WrapperUniqueIdReference WrapperUniqueIdReference(this JsonArray jsonArray)
         {
             if(jsonArray == null)
             {
@@ -19,10 +19,10 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            return new ObjectUniqueIdReference(uniqueIdReference);
+            return new WrapperUniqueIdReference(uniqueIdReference);
         }
 
-        public static ObjectUniqueIdReference ObjectUniqueIdReference(this JsonValue jsonValue)
+        internal static WrapperUniqueIdReference WrapperUniqueIdReference(this JsonValue jsonValue)
         {
             if (jsonValue == null)
             {
@@ -35,7 +35,7 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            return new ObjectUniqueIdReference(uniqueIdReference);
+            return new WrapperUniqueIdReference(uniqueIdReference);
         }
     }
 }

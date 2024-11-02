@@ -7,14 +7,14 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        public static HashSet<JsonNodeWrapper> JsonNodeWrappers<TJsonNode>(this JsonObject jsonObject, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        internal static HashSet<WrapperNode> WrapperNodes<TJsonNode>(this JsonObject jsonObject, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
         {
             if (jsonObject == null)
             {
                 return null;
             }
 
-            HashSet<JsonNodeWrapper> result = new HashSet<JsonNodeWrapper>();
+            HashSet<WrapperNode> result = new HashSet<WrapperNode>();
             foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
             {
                 JsonNode jsonNode = keyValuePair.Value;
@@ -25,12 +25,12 @@ namespace DiGi.Core.IO.Wrapper
 
                 if (jsonNode is JsonArray)
                 {
-                    HashSet<JsonNodeWrapper> jsonNodeWrappers = JsonNodeWrappers<TJsonNode>((JsonArray)jsonNode);
-                    if(jsonNodeWrappers != null)
+                    HashSet<WrapperNode> wrapperNodes = JsonNodeWrappers<TJsonNode>((JsonArray)jsonNode);
+                    if(wrapperNodes != null)
                     {
-                        foreach(JsonNodeWrapper jsonNodeWrapper in jsonNodeWrappers)
+                        foreach(WrapperNode wrapperNode in wrapperNodes)
                         {
-                            result.Add(jsonNodeWrapper, wrapState);
+                            result.Add(wrapperNode, wrapState);
                         }
                     }
                 }
@@ -40,31 +40,31 @@ namespace DiGi.Core.IO.Wrapper
                     continue;
                 }
 
-                result.Add(new JsonNodeWrapper(jsonNode), wrapState);
+                result.Add(new WrapperNode(jsonNode), wrapState);
             }
 
             return result;
         }
 
-        public static HashSet<JsonNodeWrapper> JsonNodeWrappers<TJsonNode>(this JsonArray jsonArray, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        internal static HashSet<WrapperNode> JsonNodeWrappers<TJsonNode>(this JsonArray jsonArray, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
         {
             if(jsonArray == null)
             {
                 return null;
             }
 
-            HashSet<JsonNodeWrapper> result = new HashSet<JsonNodeWrapper>();
+            HashSet<WrapperNode> result = new HashSet<WrapperNode>();
 
             foreach (JsonNode jsonNode in jsonArray)
             {
                 if (jsonNode is JsonArray)
                 {
-                    HashSet<JsonNodeWrapper> jsonNodeWrappers = JsonNodeWrappers<TJsonNode>((JsonArray)jsonNode);
-                    if (jsonNodeWrappers != null)
+                    HashSet<WrapperNode> wrapperNodes = JsonNodeWrappers<TJsonNode>((JsonArray)jsonNode);
+                    if (wrapperNodes != null)
                     {
-                        foreach (JsonNodeWrapper jsonNodeWrapper in jsonNodeWrappers)
+                        foreach (WrapperNode wrapperNode in wrapperNodes)
                         {
-                            result.Add(jsonNodeWrapper, wrapState);
+                            result.Add(wrapperNode, wrapState);
                         }
                     }
                 }
@@ -74,7 +74,7 @@ namespace DiGi.Core.IO.Wrapper
                     continue;
                 }
 
-                result.Add(new JsonNodeWrapper(jsonNode), wrapState);
+                result.Add(new WrapperNode(jsonNode), wrapState);
             }
 
             return result;

@@ -6,37 +6,37 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Modify
     {
-        public static bool Add(this HashSet<JsonNodeWrapper> jsonNodeWrappers, JsonNodeWrapper jsonNodeWrapper, WrapState wrapState)
+        internal static bool Add(this HashSet<WrapperNode> wrapperNodes, WrapperNode wrapperNode, WrapState wrapState)
         {
-            if (jsonNodeWrappers == null || jsonNodeWrapper == null)
+            if (wrapperNodes == null || wrapperNode == null)
             {
                 return false;
             }
 
             if (wrapState == WrapState.Undefined)
             {
-                return jsonNodeWrappers.Add(jsonNodeWrapper);
+                return wrapperNodes.Add(wrapperNode);
             }
 
-            bool isObjectReference = jsonNodeWrapper.IsObjectReference();
+            bool isWrapperReference = wrapperNode.IsWrapperReference();
             switch (wrapState)
             {
                 case WrapState.Wrapped:
-                    if (!isObjectReference)
+                    if (!isWrapperReference)
                     {
                         return false;
                     }
                     break;
 
                 case WrapState.Unwrapped:
-                    if (isObjectReference)
+                    if (isWrapperReference)
                     {
                         return false;
                     }
                     break;
             }
 
-            return jsonNodeWrappers.Add(jsonNodeWrapper);
+            return wrapperNodes.Add(wrapperNode);
         }
     }
 }

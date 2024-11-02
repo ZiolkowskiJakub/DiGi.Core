@@ -1,10 +1,9 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
-using DiGi.Core.IO.Interfaces;
 
 namespace DiGi.Core.IO.Wrapper.Interfaces
 {
-    public interface IObjectReference : ISerializableObject, IIOObject
+    internal interface IWrapperReference : ISerializableObject, IWrapperObject
     {
         TypeReference TypeReference { get; }
     }
