@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.IO.Wrapper.Interfaces;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Wrapper.Classes
@@ -17,6 +18,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public WrapperUniqueReference(TUniqueReference reference)
             : base(reference)
+        {
+
+        }
+
+        public WrapperUniqueReference(JsonObject jsonObject)
+            : base(jsonObject)
         {
 
         }

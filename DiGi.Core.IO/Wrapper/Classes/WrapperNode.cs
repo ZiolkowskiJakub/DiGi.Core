@@ -1,4 +1,5 @@
-﻿using DiGi.Core.IO.Wrapper.Enums;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.IO.Wrapper.Enums;
 using DiGi.Core.IO.Wrapper.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -40,6 +41,11 @@ namespace DiGi.Core.IO.Wrapper.Classes
             {
                 return wrapperUniqueReference;
             }
+        }
+
+        public UniqueReference GetUniqueReference()
+        {
+            return wrapperUniqueReference?.UniqueReference();
         }
 
         public JsonNode JsonNode
@@ -153,6 +159,11 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
             wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(includeNested, WrapState.Wrapped);
             return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
+        }
+
+        public bool Wrap()
+        {
+            return Wrap(out HashSet<WrapperNode> wrapperNodes);
         }
 
         public bool Wrap(out HashSet<WrapperNode> wrapperNodes)

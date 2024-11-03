@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.IO.Wrapper.Interfaces;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Wrapper.Classes
@@ -15,6 +16,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
         }
 
         public WrapperReference(WrapperReference wrapperReference)
+        {
+
+        }
+
+        public WrapperReference(JsonObject jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -39,6 +46,46 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             return wrapperReference.GetHashCode() == GetHashCode();
         }
+
+        public static bool operator !=(WrapperReference wrapperReference_1, WrapperReference wrapperReference_2)
+        {
+            if (Equals(wrapperReference_1, wrapperReference_2))
+            {
+                return true;
+            }
+
+            if (Equals(wrapperReference_1, null))
+            {
+                return false;
+            }
+
+            if (Equals(wrapperReference_2, null))
+            {
+                return false;
+            }
+
+            return !wrapperReference_1.Equals(wrapperReference_2);
+        }
+
+        public static bool operator ==(WrapperReference wrapperReference_1, WrapperReference wrapperReference_2)
+        {
+            if (Equals(wrapperReference_1, wrapperReference_2))
+            {
+                return true;
+            }
+
+            if (Equals(wrapperReference_1, null))
+            {
+                return false;
+            }
+
+            if (Equals(wrapperReference_2, null))
+            {
+                return false;
+            }
+
+            return wrapperReference_1.Equals(wrapperReference_2);
+        }
     }
 
     internal abstract class WrapperReference<TSerializableReference> : WrapperReference, IWrapperReference<TSerializableReference> where TSerializableReference : SerializableReference
@@ -61,19 +108,23 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
         
+        public WrapperReference(JsonObject jsonObject)
+            :base(jsonObject)
+        {
+
+        }
+
         public override string ToString()
         {
             return reference.ToString();
         }
 
-        public static explicit operator TSerializableReference(WrapperReference<TSerializableReference> reference)
+        public TSerializableReference Reference
         {
-            if (reference == null)
+            get
             {
-                return null;
+                return reference;
             }
-
-            return reference.reference;
         }
     }
 

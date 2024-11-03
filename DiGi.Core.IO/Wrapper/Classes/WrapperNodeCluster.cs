@@ -73,12 +73,17 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return Add(jsonObject);
         }
 
-        public JsonNode Wrap(IWrapperUniqueReference wrapperUniqueReference)
+        public WrapperNode Wrap(IWrapperUniqueReference wrapperUniqueReference)
         {
-            return Wrap(wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes);
+            return Wrap(false, wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes);
         }
 
-        public JsonNode Wrap(IWrapperUniqueReference wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes)
+        public WrapperNode Wrap(IWrapperUniqueReference wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes)
+        {
+            return Wrap(false, wrapperUniqueReference, out wrapperNodes);
+        }
+
+        public WrapperNode Wrap(bool includeNested, IWrapperUniqueReference wrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes)
         {
             wrapperNodes = null;
 
@@ -91,7 +96,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             wrapperNode.Wrap(out HashSet<WrapperNode> wrapperNodes_Temp);
             if (wrapperNodes_Temp == null || wrapperNodes_Temp.Count == 0)
             {
-                return wrapperNode.JsonNode;
+                return wrapperNode;
             }
 
             Add(wrapperNode);
@@ -104,36 +109,48 @@ namespace DiGi.Core.IO.Wrapper.Classes
                     continue;
                 }
 
-                if(Add(wrapperNode_Temp))
+                if (Add(wrapperNode_Temp))
                 {
                     wrapperNodes.Add(wrapperNode_Temp);
                 }
+
+                if (includeNested)
+                {
+                    Wrap(includeNested, wrapperNode_Temp.WrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes_Nested);
+                    if(wrapperNodes_Nested != null)
+                    {
+                        foreach(WrapperNode wrapperNode_Nested in wrapperNodes_Nested)
+                        {
+                            wrapperNodes.Add(wrapperNode_Nested);
+                        }
+                    }
+                }
             }
 
-            return wrapperNode.JsonNode;
+            return wrapperNode;
         }
 
-        public List<JsonNode> Wrap(IEnumerable<IWrapperUniqueReference> wrapperUniqueReferences)
+        public List<WrapperNode> Wrap(IEnumerable<IWrapperUniqueReference> wrapperUniqueReferences)
         {
             if (wrapperUniqueReferences == null)
             {
                 return null;
             }
 
-            List<JsonNode> result = new List<JsonNode>();
+            List<WrapperNode> result = new List<WrapperNode>();
             foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
             {
-                JsonNode jsonNode = Wrap(wrapperUniqueReference);
-                if (jsonNode != null)
+                WrapperNode wrapperNode = Wrap(wrapperUniqueReference);
+                if (wrapperNode != null)
                 {
-                    result.Add(jsonNode);
+                    result.Add(wrapperNode);
                 }
             }
 
             return result;
         }
 
-        public List<JsonNode> Wrap()
+        public List<WrapperNode> Wrap()
         {
             List<WrapperNode> wrapperNodes = GetValues<WrapperNode>();
             if(wrapperNodes == null)
@@ -141,16 +158,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return null;
             }
 
-            List<JsonNode> result = new List<JsonNode>();
+            List<WrapperNode> result = new List<WrapperNode>();
             while(wrapperNodes.Count > 0)
             {
                 WrapperNode wrapperNode = wrapperNodes[0];
                 wrapperNodes.RemoveAt(0);
 
-                JsonNode jsonNode = Wrap(wrapperNode.WrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes_Temp);
-                if(jsonNode != null)
+                WrapperNode wrapperNode_Wrap = Wrap(wrapperNode.WrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes_Temp);
+                if(wrapperNode_Wrap != null)
                 {
-                    result.Add(jsonNode);
+                    result.Add(wrapperNode_Wrap);
                 }
 
                 if(wrapperNodes_Temp != null && wrapperNodes_Temp.Count != 0)

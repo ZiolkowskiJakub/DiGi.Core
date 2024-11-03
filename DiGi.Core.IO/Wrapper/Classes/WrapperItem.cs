@@ -6,13 +6,20 @@ namespace DiGi.Core.IO.Wrapper.Classes
 {
     public sealed class WrapperItem : IWrapperObject
     {
-        public string Reference { get; }
-        public JsonNode JsonNode { get; }
-        public string Checksum { get; }
+        public UniqueReference UniqueReference { get; }
+        public JsonNode JsonNode { get; set; }
+        public string Checksum { get; set; }
 
-        public WrapperItem(string reference, JsonNode jsonNode, string checksum)
+        public WrapperItem(UniqueReference uniqueReference)
         {
-            Reference = reference;
+            UniqueReference = uniqueReference;
+            JsonNode = null;
+            Checksum = null;
+        }
+
+        public WrapperItem(UniqueReference uniqueReference, JsonNode jsonNode, string checksum)
+        {
+            UniqueReference = uniqueReference;
             JsonNode = jsonNode;
             Checksum = checksum;
         }

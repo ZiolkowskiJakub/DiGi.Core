@@ -44,20 +44,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            string result = TypeReference?.ToString();
-            if (!string.IsNullOrWhiteSpace(result))
-            {
-                result += Constans.Reference.Separator;
-            }
-
-            if (result == null)
-            {
-                result = string.Empty;
-            }
-
-            result += string.Format("\"{0}\"", uniqueId);
-
-            return result;
+            return Convert.ToString(TypeReference, uniqueId, "\"{0}\"");
         }
 
         public override ISerializableObject Clone()

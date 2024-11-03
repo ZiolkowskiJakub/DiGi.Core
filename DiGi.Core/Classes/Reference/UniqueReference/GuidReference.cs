@@ -48,7 +48,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return new UniqueIdReference(TypeReference?.FullTypeName, Query.UniqueId(guid)).ToString();
+            return Convert.ToString(TypeReference, Query.UniqueId(guid)?.ToString());
         }
 
         public override ISerializableObject Clone()

@@ -1,4 +1,6 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.IO.Wrapper.Interfaces;
+using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
@@ -21,25 +23,10 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
 
         }
-
-        public static explicit operator WrapperUniqueIdReference(UniqueIdReference uniqueIdReference)
+        public WrapperUniqueIdReference(JsonObject jsonObject)
+            : base(jsonObject)
         {
-            if (uniqueIdReference == null)
-            {
-                return null;
-            }
 
-            return new WrapperUniqueIdReference(uniqueIdReference);
-        }
-
-        public static explicit operator UniqueIdReference(WrapperUniqueIdReference wrapperUniqueIdReference)
-        {
-            if (wrapperUniqueIdReference == null)
-            {
-                return null;
-            }
-
-            return wrapperUniqueIdReference.reference;
         }
     }
 }

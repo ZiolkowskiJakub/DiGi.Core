@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
@@ -16,24 +17,10 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
-        public static explicit operator WrapperTypeReference(TypeReference typeReference)
+        public WrapperTypeReference(JsonObject jsonObject)
+            : base(jsonObject)
         {
-            if (typeReference == null)
-            {
-                return null;
-            }
 
-            return new WrapperTypeReference(typeReference);
-        }
-
-        public static explicit operator TypeReference(WrapperTypeReference wrapperTypeReference)
-        {
-            if (wrapperTypeReference == null)
-            {
-                return null;
-            }
-
-            return wrapperTypeReference.reference;
         }
     }
 

@@ -15,22 +15,29 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            if(wrapperNode.IsWrapperUniqueReference())
+            WrapperNode wrapperNode_Temp = wrapperNode;
+
+            missingWrapperUniqueReferences = new HashSet<IWrapperUniqueReference>();
+
+            if (wrapperNode_Temp.IsWrapperUniqueReference())
             {
-                return wrapperNode;
+                wrapperNode_Temp = wrapperNodeCluster.GetValue(wrapperNode_Temp.WrapperUniqueReference);
+                if(wrapperNode_Temp == null)
+                {
+                    missingWrapperUniqueReferences.Add(wrapperNode.WrapperUniqueReference);
+                    return null;
+                }
             }
 
-            if(wrapperNode.IsUnwrapped(out HashSet<WrapperNode> wrapperNodes_Wrapped))
+            if(wrapperNode_Temp.IsUnwrapped(out HashSet<WrapperNode> wrapperNodes_Wrapped))
             {
-                return wrapperNode;
+                return wrapperNode_Temp;
             }
 
             if(wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0)
             {
-                return wrapperNode;
+                return wrapperNode_Temp;
             }
-
-            missingWrapperUniqueReferences = new HashSet<IWrapperUniqueReference>();
 
             HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences_Temp = null;
 
@@ -38,10 +45,6 @@ namespace DiGi.Core.IO.Wrapper
             foreach(WrapperNode wrapperNode_Wrapped in wrapperNodes_Wrapped)
             {
                 WrapperNode wrapperNode_Unwrapped = Unwrap(wrapperNodeCluster, wrapperNode_Wrapped, out missingWrapperUniqueReferences_Temp);
-                if(wrapperNode_Unwrapped != null)
-                {
-                    continue;
-                }
 
                 if(missingWrapperUniqueReferences_Temp != null)
                 {
@@ -51,10 +54,15 @@ namespace DiGi.Core.IO.Wrapper
                     }
                 }
 
+                if (wrapperNode_Unwrapped == null)
+                {
+                    continue;
+                }
+
                 wrapperNodes_Unwrapped.Add(wrapperNode_Unwrapped);
             }
 
-            JsonNode jsonNode = wrapperNode.JsonNode;
+            JsonNode jsonNode = wrapperNode_Temp.JsonNode;
             if(jsonNode is JsonObject)
             {
                 JsonObject jsonObject = (JsonObject)jsonNode;

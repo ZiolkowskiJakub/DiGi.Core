@@ -26,17 +26,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return null;
             }
 
-            if(wrapperUniqueReference is WrapperUniqueIdReference)
-            {
-                return (UniqueReference)(WrapperUniqueIdReference)wrapperUniqueReference;
-            }
-
-            if(wrapperUniqueReference is WrapperGuidReference)
-            {
-                return (UniqueReference)(WrapperGuidReference)wrapperUniqueReference;
-            }
-
-            throw new NotImplementedException();
+            return wrapperUniqueReference.UniqueReference();
         }
 
         public UniqueIdReference Add(string value)
@@ -49,32 +39,15 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             if (wrapperReference is WrapperUniqueIdReference)
             {
-                return (UniqueIdReference)(WrapperUniqueIdReference)wrapperReference;
+                return ((WrapperUniqueIdReference)wrapperReference).Reference;
             }
 
             throw new NotImplementedException();
         }
 
-        protected abstract PushResult Push(IEnumerable<WrapperItem> wrapperItems);
+        protected abstract bool Push(IEnumerable<WrapperItem> wrapperItems);
 
-        protected abstract PullResult Pull(IEnumerable<UniqueReference> uniqueReferences);
-
-        protected virtual WrapperItem GetWrapperItem(JsonNode jsonNode)
-        {
-            if(jsonNode == null)
-            {
-                return null;
-            }
-
-            IWrapperUniqueReference wrapperUniqueReference = Create.WrapperUniqueReference(jsonNode);
-            if(wrapperUniqueReference == null)
-            {
-                return null;
-            }
-
-
-            return new WrapperItem(wrapperUniqueReference.ToString(), jsonNode, null);
-        }
+        protected abstract bool Pull(IEnumerable<WrapperItem> wrapperItems);
 
         public IEnumerable<UniqueReference> Write(IEnumerable<UniqueReference> uniqueReferences)
         {
@@ -92,22 +65,35 @@ namespace DiGi.Core.IO.Wrapper.Classes
                     continue;
                 }
 
-                WrapperItem wrapperItem = GetWrapperItem(wrapperNode.JsonNode);
-                if(wrapperItem == null)
+                List<WrapperNode> wrapperNodes_Temp = new List<WrapperNode>() { wrapperNode };
+
+                wrapperNodeCluster.Wrap(true, wrapperNode.WrapperUniqueReference, out HashSet<WrapperNode> wrapperNodes_Wrap);
+                if(wrapperNodes_Wrap != null && wrapperNodes_Wrap.Count != 0)
                 {
-                    continue;
+                    foreach(WrapperNode wrapperNode_Wrap in wrapperNodes_Wrap)
+                    {
+                        wrapperNodes_Temp.Add(wrapperNode_Wrap);
+                    }
                 }
 
-                wrapperItems.Add(wrapperItem);
+                foreach(WrapperNode wrapperNode_Temp in wrapperNodes_Temp)
+                {
+                    WrapperItem wrapperItem = new WrapperItem(wrapperNode_Temp.GetUniqueReference(), wrapperNode_Temp.JsonNode, null);
+                    if (wrapperItem == null)
+                    {
+                        continue;
+                    }
+
+                    wrapperItems.Add(wrapperItem);
+                }
             }
 
-            PushResult pushResult = Push(wrapperItems);
-            if(pushResult == null || pushResult.ResultType != Core.Enums.ResultType.Succeeded)
+            if(!Push(wrapperItems))
             {
                 return null;
             }
 
-            return pushResult.UniqueReferences;
+            return wrapperItems.ConvertAll(x => x.UniqueReference);
 
         }
 
@@ -155,32 +141,29 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return result;
             }
 
-            List<UniqueReference> uniqueReferences = new List<UniqueReference>();
+            Dictionary<IWrapperUniqueReference, WrapperItem> dictionary = new Dictionary<IWrapperUniqueReference, WrapperItem>();
             foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences_Pull)
             {
-                uniqueReferences.Add((UniqueReference)wrapperUniqueReference);
+                dictionary[wrapperUniqueReference] = new WrapperItem(wrapperUniqueReference.UniqueReference());
             }
 
-            PullResult pullResult = Pull(uniqueReferences);
-            if (pullResult == null || pullResult.ResultType != Core.Enums.ResultType.Succeeded)
+            if(dictionary == null || dictionary.Count == 0)
             {
                 return null;
             }
 
-            IEnumerable<WrapperItem> wrapperItems = pullResult.WrapperItems;
-            if(wrapperItems != null)
+            if (!Pull(dictionary.Values))
             {
-                foreach(WrapperItem wrapperItem in wrapperItems)
-                {
-                    JsonNode jsonNode = wrapperItem?.JsonNode;
-                    if(jsonNode != null)
-                    {
-                        wrapperNodeCluster.Add(jsonNode);
-                    }
-                }
+                return null;
             }
 
-            Read(wrapperUniqueReferences);
+            foreach (KeyValuePair<IWrapperUniqueReference, WrapperItem> keyValuePair in dictionary)
+            {
+                WrapperNode wrapperNode = new WrapperNode(keyValuePair.Key, keyValuePair.Value.JsonNode as dynamic);
+                wrapperNodeCluster.Add(wrapperNode);
+            }
+
+            Read(wrapperUniqueReferences_Pull);
 
             foreach(IWrapperUniqueReference wrapperUniqueReference_Pull in wrapperUniqueReferences_Pull)
             {
@@ -244,6 +227,40 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             return result;
+        }
+
+        public List<TSerializableObject> Read<TSerializableObject>(IEnumerable<UniqueReference> uniqueReferences) where TSerializableObject : ISerializableObject
+        {
+            List<JsonNode> jsonNodes = Read(uniqueReferences);
+            if(jsonNodes == null)
+            {
+                return null;
+            }
+
+            List<TSerializableObject> result = new List<TSerializableObject>();
+            foreach(JsonNode jsonNode in jsonNodes)
+            {
+                JsonObject jsonObject = jsonNode as JsonObject;
+                if(jsonObject == null)
+                {
+                    continue;
+                }
+
+                TSerializableObject serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+                if(serializableObject == null)
+                {
+                    continue;
+                }
+
+                result.Add(serializableObject);
+            }
+
+            return result;
+        }
+
+        public void Clear()
+        {
+            wrapperNodeCluster.Clear();
         }
 
         protected virtual void Dispose(bool disposing)

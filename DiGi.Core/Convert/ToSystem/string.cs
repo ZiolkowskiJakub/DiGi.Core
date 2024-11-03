@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 
 namespace DiGi.Core
@@ -71,6 +72,36 @@ namespace DiGi.Core
 
             return JsonSerializer.Serialize(jsonArray, jsonSerializerOptions);
             //return jsonArray.ToJsonString(jsonSerializerOptions);
+        }
+
+        public static string ToString(TypeReference typeReference, string uniqueId, string format = null)
+        {
+            string result = typeReference?.ToString();
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                result += Constans.Reference.Separator;
+            }
+
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                if(string.IsNullOrWhiteSpace(uniqueId))
+                {
+                    return null;
+                }
+
+                result = string.Empty;
+            }
+
+            if(string.IsNullOrWhiteSpace(format))
+            {
+                result += uniqueId;
+            }
+            else
+            {
+                result += string.Format(format, uniqueId);
+            }
+
+            return result;
         }
     }
 }
