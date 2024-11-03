@@ -2,6 +2,7 @@
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Wrapper.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
@@ -26,6 +27,27 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             return GetValue<WrapperNode>(wrapperUniqueReference.WrapperTypeReference, wrapperUniqueReference);
+        }
+
+        public WrapperNode GetValue(UniqueReference uniqueReference)
+        {
+            IWrapperUniqueReference wrapperUniqueReference = Create.WrapperUniqueReference(uniqueReference);
+            if(wrapperUniqueReference == null)
+            {
+                return null;
+            }
+
+            return GetValue(wrapperUniqueReference);
+        }
+
+        public bool Contains(IWrapperUniqueReference wrapperUniqueReference)
+        {
+            if(wrapperUniqueReference == null)
+            {
+                return false;
+            }
+
+            return Contains(wrapperUniqueReference.WrapperTypeReference, wrapperUniqueReference);
         }
 
         public IWrapperUniqueReference Add(JsonNode jsonNode)

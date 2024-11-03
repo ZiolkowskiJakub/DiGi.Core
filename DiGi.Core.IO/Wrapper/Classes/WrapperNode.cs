@@ -70,7 +70,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return null;
         }
 
-        public HashSet<WrapperNode> GetWrapperNodes<TJsonNode>(WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        public HashSet<WrapperNode> GetWrapperNodes<TJsonNode>(bool includeNested, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
         {
             if (jsonNode == null || jsonNode is JsonValue)
             {
@@ -79,15 +79,20 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             if (jsonNode is JsonObject)
             {
-                return ((JsonObject)jsonNode).WrapperNodes<TJsonNode>(wrapState);
+                return ((JsonObject)jsonNode).WrapperNodes<TJsonNode>(includeNested, wrapState);
             }
 
             if (jsonNode is JsonObject)
             {
-                return ((JsonObject)jsonNode).WrapperNodes<TJsonNode>(wrapState);
+                return ((JsonObject)jsonNode).WrapperNodes<TJsonNode>(includeNested, wrapState);
             }
 
             return null;
+        }
+
+        public HashSet<WrapperNode> GetWrapperNodes<TJsonNode>(WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        {
+            return GetWrapperNodes<TJsonNode>(false, wrapState);
         }
 
         public override bool Equals(object @object)
@@ -127,6 +132,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperNodes_Unwrapped == null || wrapperNodes_Unwrapped.Count == 0;
         }
 
+        public bool IsWrapped(bool includeNested, out HashSet<WrapperNode> wrapperNodes_Unwrapped)
+        {
+            wrapperNodes_Unwrapped = GetWrapperNodes<JsonObject>(includeNested, WrapState.Unwrapped);
+            return wrapperNodes_Unwrapped == null || wrapperNodes_Unwrapped.Count == 0;
+        }
+
         public bool IsUnwrapped()
         {
             return IsUnwrapped(out HashSet<WrapperNode> wrapperNodes_Wrapped);
@@ -135,6 +146,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public bool IsUnwrapped(out HashSet<WrapperNode> wrapperNodes_Wrapped)
         {
             wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(WrapState.Wrapped);
+            return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
+        }
+
+        public bool IsUnwrapped(bool includeNested, out HashSet<WrapperNode> wrapperNodes_Wrapped)
+        {
+            wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(includeNested, WrapState.Wrapped);
             return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
         }
 

@@ -71,6 +71,26 @@ namespace DiGi.Core.IO.Wrapper
 
         }
 
+        internal static IWrapperUniqueReference WrapperUniqueReference(this UniqueReference uniqueReference)
+        {
+            if(uniqueReference == null)
+            {
+                return null;
+            }
+
+            if(uniqueReference is GuidReference)
+            {
+                return new WrapperGuidReference((GuidReference)uniqueReference);
+            }
+
+            if(uniqueReference is UniqueIdReference)
+            {
+                return new WrapperUniqueIdReference((UniqueIdReference)uniqueReference);
+            }
+
+            throw new NotImplementedException();
+        }
+
     }
 }
 

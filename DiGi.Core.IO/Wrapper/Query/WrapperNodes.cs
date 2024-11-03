@@ -7,7 +7,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static HashSet<WrapperNode> WrapperNodes<TJsonNode>(this JsonObject jsonObject, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        internal static HashSet<WrapperNode> WrapperNodes<TJsonNode>(this JsonObject jsonObject, bool includeNested , WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
         {
             if (jsonObject == null)
             {
@@ -18,48 +18,14 @@ namespace DiGi.Core.IO.Wrapper
             foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
             {
                 JsonNode jsonNode = keyValuePair.Value;
-                if(jsonNode == null)
+                if (jsonNode == null)
                 {
                     continue;
                 }
 
                 if (jsonNode is JsonArray)
                 {
-                    HashSet<WrapperNode> wrapperNodes = JsonNodeWrappers<TJsonNode>((JsonArray)jsonNode);
-                    if(wrapperNodes != null)
-                    {
-                        foreach(WrapperNode wrapperNode in wrapperNodes)
-                        {
-                            result.Add(wrapperNode, wrapState);
-                        }
-                    }
-                }
-
-                if (!(jsonNode is TJsonNode))
-                {
-                    continue;
-                }
-
-                result.Add(new WrapperNode(jsonNode), wrapState);
-            }
-
-            return result;
-        }
-
-        internal static HashSet<WrapperNode> JsonNodeWrappers<TJsonNode>(this JsonArray jsonArray, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
-        {
-            if(jsonArray == null)
-            {
-                return null;
-            }
-
-            HashSet<WrapperNode> result = new HashSet<WrapperNode>();
-
-            foreach (JsonNode jsonNode in jsonArray)
-            {
-                if (jsonNode is JsonArray)
-                {
-                    HashSet<WrapperNode> wrapperNodes = JsonNodeWrappers<TJsonNode>((JsonArray)jsonNode);
+                    HashSet<WrapperNode> wrapperNodes = WrapperNodes<TJsonNode>((JsonArray)jsonNode, includeNested, wrapState);
                     if (wrapperNodes != null)
                     {
                         foreach (WrapperNode wrapperNode in wrapperNodes)
@@ -74,10 +40,78 @@ namespace DiGi.Core.IO.Wrapper
                     continue;
                 }
 
+                if(jsonNode is JsonObject && includeNested)
+                {
+                    HashSet<WrapperNode> wrapperNodes = WrapperNodes<TJsonNode>((JsonObject)jsonNode, includeNested, wrapState);
+                    if(wrapperNodes != null)
+                    {
+                        foreach(WrapperNode wrapperNode in wrapperNodes)
+                        {
+                            result.Add(new WrapperNode(jsonNode), wrapState);
+                        }
+                    }
+                }
+
                 result.Add(new WrapperNode(jsonNode), wrapState);
             }
 
             return result;
+        }
+
+        internal static HashSet<WrapperNode> WrapperNodes<TJsonNode>(this JsonArray jsonArray, bool includeNested, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        {
+            if (jsonArray == null)
+            {
+                return null;
+            }
+
+            HashSet<WrapperNode> result = new HashSet<WrapperNode>();
+
+            foreach (JsonNode jsonNode in jsonArray)
+            {
+                if (jsonNode is JsonArray)
+                {
+                    HashSet<WrapperNode> wrapperNodes = WrapperNodes<TJsonNode>((JsonArray)jsonNode, includeNested, wrapState);
+                    if (wrapperNodes != null)
+                    {
+                        foreach (WrapperNode wrapperNode in wrapperNodes)
+                        {
+                            result.Add(wrapperNode, wrapState);
+                        }
+                    }
+                }
+
+                if (!(jsonNode is TJsonNode))
+                {
+                    continue;
+                }
+
+                if (jsonNode is JsonObject && includeNested)
+                {
+                    HashSet<WrapperNode> wrapperNodes = WrapperNodes<TJsonNode>((JsonObject)jsonNode, includeNested, wrapState);
+                    if (wrapperNodes != null)
+                    {
+                        foreach (WrapperNode wrapperNode in wrapperNodes)
+                        {
+                            result.Add(new WrapperNode(jsonNode), wrapState);
+                        }
+                    }
+                }
+
+                result.Add(new WrapperNode(jsonNode), wrapState);
+            }
+
+            return result;
+        }
+
+        internal static HashSet<WrapperNode> WrapperNodes<TJsonNode>(this JsonObject jsonObject, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        {
+            return WrapperNodes<TJsonNode>(jsonObject, false, wrapState);
+        }
+
+        internal static HashSet<WrapperNode> WrapperNodes<TJsonNode>(this JsonArray jsonArray, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        {
+            return WrapperNodes<TJsonNode>(jsonArray, false, wrapState);
         }
     }
 }
