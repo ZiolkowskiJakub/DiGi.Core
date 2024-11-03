@@ -27,6 +27,22 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
+        public TMetadata GetMetadata<TMetadata>() where TMetadata : IMetadata
+        {
+            if(!dictionary.TryGetValue(new TypeReference(typeof(TMetadata)), out IMetadata metadata) || metadata == null)
+            {
+                return default;
+            }
+
+            if(!(metadata is TMetadata))
+            {
+                return default;
+            }
+
+            return (TMetadata)metadata;
+        }
+            
+
         [JsonInclude, JsonPropertyName("Metadatas")]
         public IEnumerable<IMetadata> Metadatas
         {
