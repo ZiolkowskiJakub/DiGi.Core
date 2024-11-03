@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using System;
 using System.Text.Json.Nodes;
 
@@ -6,11 +7,16 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static UniqueIdReference UniqueIdReference(this object @object)
+        public static UniqueReference UniqueReference(this object @object)
         {
             if(@object == null)
             {
                 return null;
+            }
+
+            if(@object is IUniqueObject)
+            {
+                return new GuidReference((IUniqueObject)@object);
             }
 
             TypeReference typeReference = null;
@@ -23,6 +29,15 @@ namespace DiGi.Core
                     if (Query.TryConvert(@object_FullTypeName, out string fullTypeName))
                     {
                         typeReference = new TypeReference(fullTypeName);
+                    }
+                }
+
+                if(jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
+                {
+                    object @object_Temp = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
+                    if (Query.TryConvert(@object_Temp, out Guid guid))
+                    {
+                        return new GuidReference(typeReference, guid);
                     }
                 }
             }

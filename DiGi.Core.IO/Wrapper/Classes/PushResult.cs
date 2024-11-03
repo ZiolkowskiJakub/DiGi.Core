@@ -9,6 +9,11 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public ResultType ResultType { get; } = ResultType.Undefined;
         public HashSet<UniqueReference> UniqueReferences { get; } = null;
 
+        public PushResult(ResultType resultType)
+        {
+            ResultType = resultType;
+        }
+
         public PushResult(ResultType resultType, HashSet<UniqueReference> uniqueReferences)
         {
             ResultType = resultType;

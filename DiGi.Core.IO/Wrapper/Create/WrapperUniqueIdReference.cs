@@ -13,7 +13,7 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            UniqueIdReference uniqueIdReference = Core.Create.UniqueIdReference(jsonArray);
+            UniqueIdReference uniqueIdReference = Core.Create.UniqueReference(jsonArray) as UniqueIdReference;
             if (uniqueIdReference == null)
             {
                 return null;
@@ -29,7 +29,7 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            UniqueIdReference uniqueIdReference = Core.Create.UniqueIdReference(jsonValue);
+            UniqueIdReference uniqueIdReference = Core.Create.UniqueReference(jsonValue) as UniqueIdReference;
             if (uniqueIdReference == null)
             {
                 return null;

@@ -36,13 +36,7 @@ namespace DiGi.Core.IO.Wrapper
                 }
             }
 
-            UniqueIdReference uniqueIdReference = Core.Create.UniqueIdReference(jsonObject);
-            if (uniqueIdReference == null)
-            {
-                return null;
-            }
-
-            return new WrapperUniqueIdReference(uniqueIdReference);
+            return WrapperUniqueReference(Core.Create.UniqueReference(jsonObject));
         }
 
         internal static IWrapperUniqueReference WrapperUniqueReference(this JsonNode jsonNode)

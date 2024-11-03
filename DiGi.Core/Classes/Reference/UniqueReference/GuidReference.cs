@@ -34,6 +34,12 @@ namespace DiGi.Core.Classes
             }
         }
 
+        public GuidReference(TypeReference typeReference, Guid guid)
+            : base(typeReference)
+        {
+            this.guid = guid;
+        }
+
         public GuidReference(JsonObject jsonObject)
             : base(jsonObject)
         {

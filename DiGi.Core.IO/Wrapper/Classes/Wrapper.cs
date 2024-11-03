@@ -73,7 +73,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
 
-            return new WrapperItem((UniqueReference)wrapperUniqueReference, jsonNode, null);
+            return new WrapperItem(wrapperUniqueReference.ToString(), jsonNode, null);
         }
 
         public IEnumerable<UniqueReference> Write(IEnumerable<UniqueReference> uniqueReferences)
@@ -165,6 +165,19 @@ namespace DiGi.Core.IO.Wrapper.Classes
             if (pullResult == null || pullResult.ResultType != Core.Enums.ResultType.Succeeded)
             {
                 return null;
+            }
+
+            IEnumerable<WrapperItem> wrapperItems = pullResult.WrapperItems;
+            if(wrapperItems != null)
+            {
+                foreach(WrapperItem wrapperItem in wrapperItems)
+                {
+                    JsonNode jsonNode = wrapperItem?.JsonNode;
+                    if(jsonNode != null)
+                    {
+                        wrapperNodeCluster.Add(jsonNode);
+                    }
+                }
             }
 
             Read(wrapperUniqueReferences);
