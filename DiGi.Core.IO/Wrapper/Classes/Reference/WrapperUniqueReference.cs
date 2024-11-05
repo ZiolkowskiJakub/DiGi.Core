@@ -10,14 +10,14 @@ namespace DiGi.Core.IO.Wrapper.Classes
         [JsonIgnore]
         private WrapperTypeReference wrapperTypeReference;
 
-        public WrapperUniqueReference(WrapperUniqueReference<TUniqueReference> wrapperUniqueReference)
-            :base(wrapperUniqueReference)
-        {
+        public WrapperUniqueReference()
+            :base()
+        { 
 
         }
 
-        public WrapperUniqueReference(TUniqueReference reference)
-            : base(reference)
+        public WrapperUniqueReference(WrapperUniqueReference<TUniqueReference> wrapperUniqueReference)
+            :base(wrapperUniqueReference)
         {
 
         }
@@ -35,7 +35,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             {
                 if(wrapperTypeReference == null)
                 {
-                    wrapperTypeReference = new WrapperTypeReference(reference.TypeReference);
+                    wrapperTypeReference = new WrapperTypeReference(Reference.TypeReference);
                 }
 
                 return wrapperTypeReference;
