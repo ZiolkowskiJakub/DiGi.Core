@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    public sealed class WrapperMetadata : SerializableObject, IMetadata
+    internal sealed class WrapperMetadata : SerializableObject, IMetadata
     {
         [JsonInclude, JsonPropertyName("References")]
-        public List<string> References { get; set; }
+        public List<string> References { get; set; } = new List<string>();
 
         public WrapperMetadata()
             : base()

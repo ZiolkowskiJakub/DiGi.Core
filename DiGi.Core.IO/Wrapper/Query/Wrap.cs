@@ -1,4 +1,5 @@
-﻿using DiGi.Core.IO.Wrapper.Interfaces;
+﻿using DiGi.Core.IO.Wrapper.Classes;
+using DiGi.Core.IO.Wrapper.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
@@ -71,7 +72,14 @@ namespace DiGi.Core.IO.Wrapper
             {
                 if (result[i] is JsonObject)
                 {
-                    result[i] = Wrap((JsonObject)result[i], ref dictionary);
+                    JsonObject jsonObject_Temp = (JsonObject)result[i];
+
+                    IWrapperUniqueReference wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject_Temp);
+                    if (wrapperUniqueReference != null)
+                    {
+                        dictionary[wrapperUniqueReference] = jsonObject_Temp;
+                        result[i] = wrapperUniqueReference.ToJsonObject();
+                    }
                 }
                 else if (result[i] is JsonArray)
                 {

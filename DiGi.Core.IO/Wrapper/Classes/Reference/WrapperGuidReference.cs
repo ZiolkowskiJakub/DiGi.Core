@@ -18,6 +18,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
+        public WrapperGuidReference(System.Type type, System.Guid guid)
+            : base(new GuidReference(Core.Query.FullTypeName(type), guid))
+        {
+
+        }
+
         public WrapperGuidReference(WrapperGuidReference wrapperGuidReference)
             : base(wrapperGuidReference)
         {

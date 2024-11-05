@@ -15,8 +15,8 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public TypePropertyReference(string propertyName, TypeReference reference)
-            : base(propertyName, reference)
+        public TypePropertyReference(TypeReference reference, string propertyName)
+            : base(reference,propertyName)
         {
 
         }

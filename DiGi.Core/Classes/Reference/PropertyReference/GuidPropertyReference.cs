@@ -5,8 +5,8 @@ namespace DiGi.Core.Classes
 {
     public class GuidPropertyReference : UniquePropertyReference<GuidReference>
     {
-        public GuidPropertyReference(string propertyName, GuidReference reference)
-            : base(propertyName, reference)
+        public GuidPropertyReference(GuidReference reference, string propertyName)
+            : base(reference, propertyName)
         {
 
         }

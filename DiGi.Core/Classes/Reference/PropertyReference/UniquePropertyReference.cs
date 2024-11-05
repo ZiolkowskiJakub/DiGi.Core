@@ -5,8 +5,8 @@ namespace DiGi.Core.Classes
 {
     public class UniquePropertyReference<UUniquePropertyReference> : PropertyReference<UUniquePropertyReference>, IInstanceRelatedReference where UUniquePropertyReference : UniqueReference
     {
-        public UniquePropertyReference(string propertyName, UUniquePropertyReference reference)
-            : base(propertyName, reference)
+        public UniquePropertyReference(UUniquePropertyReference reference, string propertyName)
+            : base(reference,propertyName)
         {
 
         }

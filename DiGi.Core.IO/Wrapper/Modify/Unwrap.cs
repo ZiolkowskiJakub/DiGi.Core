@@ -10,9 +10,14 @@ namespace DiGi.Core.IO.Wrapper
         internal static WrapperNode Unwrap(this WrapperNodeCluster wrapperNodeCluster, WrapperNode wrapperNode, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences)
         {
             missingWrapperUniqueReferences = null;
-            if (wrapperNode == null)
+            if (wrapperNode?.JsonNode == null)
             {
                 return null;
+            }
+
+            if(wrapperNode.JsonNode is JsonValue)
+            {
+                return new WrapperNode(wrapperNode.JsonNode);
             }
 
             WrapperNode wrapperNode_Temp = wrapperNode;
@@ -62,18 +67,24 @@ namespace DiGi.Core.IO.Wrapper
                 wrapperNodes_Unwrapped.Add(wrapperNode_Unwrapped);
             }
 
+            WrapperNode result = null;
+
             JsonNode jsonNode = wrapperNode_Temp.JsonNode;
             if(jsonNode is JsonObject)
             {
                 JsonObject jsonObject = (JsonObject)jsonNode;
                 Replace(jsonObject, wrapperNodes_Unwrapped, out missingWrapperUniqueReferences_Temp);
-                jsonNode = jsonObject;
+                result = new WrapperNode(wrapperNode.WrapperUniqueReference, jsonObject);
             }
             else if(jsonNode is JsonArray)
             {
                 JsonArray jsonArray = (JsonArray)jsonNode;
                 Replace(jsonArray, wrapperNodes_Unwrapped, out missingWrapperUniqueReferences_Temp);
-                jsonNode = jsonArray;
+                result = new WrapperNode(wrapperNode.WrapperUniqueReference as WrapperUniqueIdReference, jsonArray);
+            }
+            else
+            {
+                throw new System.NotImplementedException();
             }
 
             if (missingWrapperUniqueReferences_Temp != null)
@@ -84,7 +95,6 @@ namespace DiGi.Core.IO.Wrapper
                 }
             }
 
-            WrapperNode result = new WrapperNode(jsonNode);
             wrapperNodeCluster.Add(result);
 
             return result;

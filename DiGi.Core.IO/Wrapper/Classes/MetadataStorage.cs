@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
-    public sealed class MetadataStorage : UniqueObject, IEnumerable<IMetadata>, IWrapperObject
+    internal sealed class MetadataStorage : UniqueObject, IEnumerable<IMetadata>, IWrapperObject
     {
         [JsonIgnore]
         public Dictionary<TypeReference, IMetadata> dictionary = new Dictionary<TypeReference, IMetadata>();
@@ -40,6 +40,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             return (TMetadata)metadata;
+        }
+
+        public void SetMetadata(IMetadata metadata)
+        {
+            if(metadata == null)
+            {
+                return;
+            }
+
+            dictionary[new TypeReference(metadata.GetType())] = metadata;
         }
             
 

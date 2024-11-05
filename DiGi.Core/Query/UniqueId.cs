@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -220,10 +221,19 @@ namespace DiGi.Core
 
             if(value.ContainsKey(Constans.Serialization.PropertyName.Type) && value.ContainsKey(Constans.Serialization.PropertyName.Guid))
             {
-                object @object = value[Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
-                if(TryConvert(@object, out Guid guid))
+                JsonValue jsonValue = value[Constans.Serialization.PropertyName.Guid]?.AsValue();
+
+                if (jsonValue != null)
                 {
-                    return UniqueId(guid);
+                    if(jsonValue.TryGetValue(out Guid guid))
+                    {
+                        return UniqueId(guid);
+                    }
+
+                    if (jsonValue.TryGetValue(out string @string) && TryConvert(@string, out guid))
+                    {
+                        return UniqueId(guid);
+                    }
                 }
             }
 

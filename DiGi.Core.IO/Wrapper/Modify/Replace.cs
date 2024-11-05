@@ -112,7 +112,7 @@ namespace DiGi.Core.IO.Wrapper
                     JsonObject jsonObject_Temp = (JsonObject)jsonNode;
                     if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference wrapperUniqueReference))
                     {
-                        WrapperNode wrapperNode = wrapperNodes.Find(x => x.WrapperUniqueReference == wrapperUniqueReference);
+                        WrapperNode wrapperNode = wrapperNodes.Find(x => wrapperUniqueReference.Equals(x.WrapperUniqueReference));
                         if (wrapperNode != null)
                         {
                             jsonArray[i] = wrapperNode.JsonNode;

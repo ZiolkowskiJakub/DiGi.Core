@@ -263,6 +263,16 @@ namespace DiGi.Core
                             list.Add(@object);
                         }
 
+                        if(type.IsAbstract)
+                        {
+                            if(type.IsAssignableFrom(list.GetType()))
+                            {
+                                return list;
+                            }
+
+                            throw new NotImplementedException();
+                        }
+
                         return Activator.CreateInstance(type, list);
                     }
                 }

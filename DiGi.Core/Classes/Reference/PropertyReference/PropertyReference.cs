@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using static DiGi.Core.Constans.Serialization;
 
 namespace DiGi.Core.Classes
 {
@@ -44,7 +43,7 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Reference")]
         private USerializableReference reference;
 
-        public PropertyReference(string propertyName, USerializableReference reference)
+        public PropertyReference(USerializableReference reference, string propertyName)
             :base(propertyName)
         {
             this.reference = reference;
@@ -77,7 +76,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return string.Format("{0}{1}{2}", reference.ToString(), Constans.Reference.Separator, PropertyName);
+            return string.Format("{0}{1}[\"{2}\"]", reference.ToString(), Constans.Reference.Separator, PropertyName);
         }
     }
 }

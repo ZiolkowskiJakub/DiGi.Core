@@ -25,8 +25,8 @@ namespace DiGi.Core
                 JsonObject jsonObject = (JsonObject)@object;
                 if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
                 {
-                    object @object_FullTypeName = jsonObject[Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<object>();
-                    if (Query.TryConvert(@object_FullTypeName, out string fullTypeName))
+                    JsonValue jsonValue = jsonObject[Constans.Serialization.PropertyName.Type]?.AsValue();
+                    if(jsonValue != null && jsonValue.TryGetValue(out string fullTypeName))
                     {
                         typeReference = new TypeReference(fullTypeName);
                     }
@@ -34,11 +34,21 @@ namespace DiGi.Core
 
                 if(jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
                 {
-                    object @object_Temp = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
-                    if (Query.TryConvert(@object_Temp, out Guid guid))
+                    JsonValue jsonValue = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue();
+                    if (jsonValue != null)
                     {
-                        return new GuidReference(typeReference, guid);
+                        if(jsonValue.TryGetValue(out Guid guid))
+                        {
+                            return new GuidReference(typeReference, guid);
+                        }
+
+                        if (jsonValue.TryGetValue(out string @string) && Query.TryConvert(@string, out guid))
+                        {
+                            return new GuidReference(typeReference, guid);
+                        }
                     }
+
+
                 }
             }
 
