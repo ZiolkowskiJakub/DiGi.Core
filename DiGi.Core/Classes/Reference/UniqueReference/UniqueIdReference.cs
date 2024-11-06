@@ -44,7 +44,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return Convert.ToString(TypeReference, uniqueId, "\"{0}\"");
+            return Convert.ToString(TypeReference, uniqueId, Constans.Reference.Format.UniqueId);
         }
 
         public override ISerializableObject Clone()
@@ -53,7 +53,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public string UniqueId
+        public override string UniqueId
         {
             get
             {

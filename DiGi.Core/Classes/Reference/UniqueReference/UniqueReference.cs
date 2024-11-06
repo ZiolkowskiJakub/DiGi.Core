@@ -10,9 +10,9 @@ namespace DiGi.Core.Classes
         private TypeReference typeReference;
 
         public UniqueReference(UniqueReference uniqueReference)
-            :base(uniqueReference)
+            : base(uniqueReference)
         {
-            if(uniqueReference != null)
+            if (uniqueReference != null)
             {
                 typeReference = uniqueReference.typeReference;
             }
@@ -25,7 +25,7 @@ namespace DiGi.Core.Classes
         }
 
         public UniqueReference(TypeReference typeReference)
-            :base()
+            : base()
         {
             this.typeReference = typeReference;
         }
@@ -37,7 +37,7 @@ namespace DiGi.Core.Classes
         }
 
         public UniqueReference(IObject @object)
-            :base()
+            : base()
         {
             typeReference = @object == null ? null : new TypeReference(@object);
         }
@@ -50,5 +50,8 @@ namespace DiGi.Core.Classes
                 return typeReference;
             }
         }
+
+        [JsonIgnore]
+        public abstract string UniqueId { get; }
     }
 }

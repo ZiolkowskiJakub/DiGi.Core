@@ -48,7 +48,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return Convert.ToString(TypeReference, Query.UniqueId(guid)?.ToString());
+            return Convert.ToString(TypeReference, UniqueId, Constans.Reference.Format.Guid);
         }
 
         public override ISerializableObject Clone()
@@ -62,6 +62,15 @@ namespace DiGi.Core.Classes
             get
             {
                 return guid;
+            }
+        }
+
+        [JsonIgnore]
+        public override string UniqueId
+        {
+            get
+            {
+                return Query.UniqueId(guid)?.ToString();
             }
         }
     }

@@ -1,11 +1,15 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
     public abstract class SerializableObjectListCluster<TKey_1, TKey_2, TValue> : ListCluster<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
     {
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
+        private string fullTypeName => Query.FullTypeName(GetType());
+
         public SerializableObjectListCluster()
             : base()
         {

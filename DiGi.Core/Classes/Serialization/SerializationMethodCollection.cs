@@ -131,6 +131,11 @@ namespace DiGi.Core.Classes
                 result[serializationMethod.Name] = Core.Create.JsonNode(value);
             }
 
+            if(result != null && !result.ContainsKey(Constans.Serialization.PropertyName.Type))
+            {
+                result[Constans.Serialization.PropertyName.Type] = Query.FullTypeName(serializableObject);
+            }
+
             return result;
 
         }

@@ -117,7 +117,7 @@ namespace DiGi.Core.IO.File.Classes
                 {
                     string json = null;
 
-                    json = DiGi.Core.Convert.ToString(fileInfo);
+                    json = Convert.ToString(fileInfo);
                     if (json != null)
                     {
                         ZipArchiveEntry zipArchiveEntry = zipArchive.CreateEntry("FileInfo");

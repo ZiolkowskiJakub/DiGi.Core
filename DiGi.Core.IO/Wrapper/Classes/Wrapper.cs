@@ -51,6 +51,17 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperUniqueReferences[0]?.UniqueReference() as UniqueIdReference;
         }
 
+        public UniqueIdReference Add(double value)
+        {
+            List<IWrapperUniqueReference> wrapperUniqueReferences = AddRange(new object[] { value });
+            if (wrapperUniqueReferences == null || wrapperUniqueReferences.Count == 0)
+            {
+                return null;
+            }
+
+            return wrapperUniqueReferences[0]?.UniqueReference() as UniqueIdReference;
+        }
+
         public List<UniqueReference> AddRange<TSerializableObject>(IEnumerable<TSerializableObject> serializableObjects) where TSerializableObject : ISerializableObject 
         {
             if(serializableObjects == null)

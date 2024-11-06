@@ -9,8 +9,6 @@ namespace DiGi.Core.IO.Wrapper
     {
         internal static JsonObject Wrap(this JsonObject jsonObject, ref Dictionary<IWrapperUniqueReference, JsonObject> dictionary)
         {
-            dictionary = null;
-
             if (jsonObject == null)
             {
                 return null;
@@ -55,7 +53,6 @@ namespace DiGi.Core.IO.Wrapper
 
         internal static JsonArray Wrap(this JsonArray jsonArray, ref Dictionary<IWrapperUniqueReference, JsonObject> dictionary)
         {
-            dictionary = null;
             if (jsonArray == null)
             {
                 return null;
