@@ -3,6 +3,7 @@ using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -144,6 +145,13 @@ namespace DiGi.Core.Relation.Classes
             return relation != null;
         }
 
+        public bool TryGetRelation<Z>(GuidReference guidReference, out Z relation, Func<Z, bool> func = null) where Z : X
+        {
+            relation = GetRelation(guidReference, func);
+
+            return relation != null;
+        }
+
         public Z GetRelation<Z>(GuidReference guidReference, Func<Z, bool> func = null) where Z : X
         {
             if (guidReference == null)
@@ -199,6 +207,58 @@ namespace DiGi.Core.Relation.Classes
 
 
             return GetValues<U>(guidReferences);
+        }
+
+        public List<U> GetRelatedValues<U>(T value, Func<U, bool> func = null) where U : T
+        {
+            if(value == null)
+            {
+                return null;
+            }
+
+            List<X> relations = GetRelations<X>(value);
+            if(relations == null)
+            {
+                return null;
+            }
+
+            GuidReference guidReference = new GuidReference(value);
+
+            List<U> result = new List<U>();
+            foreach(X relation in relations)
+            {
+                if(!relation.Contains_From(guidReference) && Query.IsValid(relation, typeof(U), true, false))
+                {
+                    List<U> values = GetValues<U>(Query.UniqueReferences(relation, true, false)?.Cast<GuidReference>());
+                    if(values != null)
+                    {
+                        result.AddRange(values);
+                    }
+                }
+
+                if (!relation.Contains_To(guidReference) && Query.IsValid(relation, typeof(U), false, true))
+                {
+                    List<U> values = GetValues<U>(Query.UniqueReferences(relation, false, true)?.Cast<GuidReference>());
+                    if (values != null)
+                    {
+                        result.AddRange(values);
+                    }
+                }
+            }
+
+            if(func != null)
+            {
+                result.RemoveAll(x => !func(x));
+            }
+
+            return result;
+        }
+
+        public bool TryGetRelatedValues<U>(out List<U> uniqueObjects, T value, Func<U, bool> func = null) where U : T
+        {
+            uniqueObjects = GetRelatedValues(value, func);
+
+            return uniqueObjects != null && uniqueObjects.Count != 0;
         }
     }
 }

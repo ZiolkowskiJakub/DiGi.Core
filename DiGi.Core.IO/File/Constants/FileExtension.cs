@@ -2,7 +2,7 @@
 {
     public static class FileExtension
     {
-        public const string ZIP = "dgz";
+        public const string Zip = "dgz";
     }
 }
 

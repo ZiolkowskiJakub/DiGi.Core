@@ -1,16 +1,17 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.IO.Interfaces;
 using DiGi.Core.IO.Wrapper.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 
-namespace DiGi.Core.IO.Wrapper.Classes
+namespace DiGi.Core.IO.Classes
 {
     internal sealed class MetadataStorage : UniqueObject, IEnumerable<IMetadata>, IWrapperObject
     {
         [JsonIgnore]
-        public Dictionary<TypeReference, IMetadata> dictionary = new Dictionary<TypeReference, IMetadata>();
+        private Dictionary<TypeReference, IMetadata> dictionary = new Dictionary<TypeReference, IMetadata>();
 
         public MetadataStorage()
             : base(Constans.MetadataStorage.Guid)
@@ -29,12 +30,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public TMetadata GetMetadata<TMetadata>() where TMetadata : IMetadata
         {
-            if(!dictionary.TryGetValue(new TypeReference(typeof(TMetadata)), out IMetadata metadata) || metadata == null)
+            if (!dictionary.TryGetValue(new TypeReference(typeof(TMetadata)), out IMetadata metadata) || metadata == null)
             {
                 return default;
             }
 
-            if(!(metadata is TMetadata))
+            if (!(metadata is TMetadata))
             {
                 return default;
             }
@@ -44,14 +45,14 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public void SetMetadata(IMetadata metadata)
         {
-            if(metadata == null)
+            if (metadata == null)
             {
                 return;
             }
 
             dictionary[new TypeReference(metadata.GetType())] = metadata;
         }
-            
+
 
         [JsonInclude, JsonPropertyName("Metadatas")]
         public IEnumerable<IMetadata> Metadatas
@@ -64,15 +65,15 @@ namespace DiGi.Core.IO.Wrapper.Classes
             set
             {
                 dictionary.Clear();
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
 
-                foreach(IMetadata metadata  in value)
+                foreach (IMetadata metadata in value)
                 {
                     System.Type type = metadata?.GetType();
-                    if(type == null)
+                    if (type == null)
                     {
                         continue;
                     }

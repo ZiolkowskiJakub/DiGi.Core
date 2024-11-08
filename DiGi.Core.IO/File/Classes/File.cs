@@ -9,6 +9,8 @@ using System.Text.Json.Serialization;
 using System.Linq;
 using System.Collections.Generic;
 using DiGi.Core.IO.DelimitedData.Interfaces.File;
+using DiGi.Core.IO.Classes;
+using DiGi.Core.IO.Interfaces;
 
 namespace DiGi.Core.IO.File.Classes
 {
@@ -16,8 +18,8 @@ namespace DiGi.Core.IO.File.Classes
     {
         private bool disposed = false;
 
-        [JsonInclude, JsonPropertyName("FileInfo"), Description("FileInfo")]
-        private FileInfo fileInfo;
+        [JsonInclude, JsonPropertyName("MetadataStorage"), Description("MetadataStorage")]
+        private MetadataStorage metadataStorage = new MetadataStorage();
 
         [JsonInclude, JsonPropertyName("Value"), Description("Value")]
         public T Value { get; set; }
@@ -25,7 +27,7 @@ namespace DiGi.Core.IO.File.Classes
         public File(string path)
             : base()
         {
-            fileInfo = new FileInfo(path);
+            metadataStorage.SetMetadata(new FileMetadata(GetType(), path));
         }
 
         public File(JsonObject jsonObject)
@@ -39,19 +41,53 @@ namespace DiGi.Core.IO.File.Classes
         {
             if (file != null)
             {
-                fileInfo = file.fileInfo == null ? null : fileInfo.Clone<FileInfo>();
+                metadataStorage = metadataStorage.Clone<MetadataStorage>();
                 Value = file.Value == null ? default : file.Value.Clone<T>();
+            }
+        }
+
+        public TMetadata GetMetadata<TMetadata>() where TMetadata : IMetadata
+        {
+            return metadataStorage.GetMetadata<TMetadata>();
+        }
+
+        public void SetMetadata(IMetadata metadata)
+        {
+            if(metadata == null || metadata is FileMetadata)
+            {
+                return;
+            }
+
+            metadataStorage.SetMetadata(metadata);
+        }
+
+        public string Path
+        {
+            get
+            {
+                return GetMetadata<FileMetadata>()?.Path;
+            }
+
+            set
+            {
+                FileMetadata fileMetadata = GetMetadata<FileMetadata>();
+                if(fileMetadata == null)
+                {
+                    fileMetadata = new FileMetadata(GetType());
+                }
+
+                fileMetadata.Path = value;
+                metadataStorage.SetMetadata(fileMetadata);
             }
         }
 
         public bool Open()
         {
-            if (string.IsNullOrWhiteSpace(fileInfo?.Path))
+            string path = Path;
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
-
-            string path = fileInfo.Path;
 
             if (!System.IO.File.Exists(path))
             {
@@ -62,13 +98,13 @@ namespace DiGi.Core.IO.File.Classes
             {
                 ZipArchiveEntry zipArchiveEntry = null;
 
-                zipArchiveEntry = zipArchive.GetEntry("FileInfo");
+                zipArchiveEntry = zipArchive.GetEntry("MetadataStorage");
                 if (zipArchiveEntry != null)
                 {
                     using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
                     {
-                        fileInfo = Convert.ToDiGi<FileInfo>(streamReader.ReadToEnd())?.FirstOrDefault();
-                        fileInfo.Path = path;
+                        metadataStorage = Convert.ToDiGi<MetadataStorage>(streamReader.ReadToEnd())?.FirstOrDefault();
+                        Path = path;
                     }
                 }
 
@@ -91,25 +127,29 @@ namespace DiGi.Core.IO.File.Classes
 
         public bool Open(string path)
         {
-            FileInfo fileInfo = new FileInfo(path);
+            Path = path;
 
             return Open();
         }
 
         public bool Save()
         {
-            if (fileInfo == null)
+            FileMetadata fileMetadata = GetMetadata<FileMetadata>();
+            
+            if (fileMetadata == null)
             {
-                return false;
+                fileMetadata = new FileMetadata(GetType());
             }
 
-            string path = fileInfo.Path;
+            string path = fileMetadata.Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
 
-            fileInfo.Modified = DateTime.Now;
+            fileMetadata.Modified = DateTime.Now;
+
+            metadataStorage.SetMetadata(fileMetadata);
 
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -117,10 +157,10 @@ namespace DiGi.Core.IO.File.Classes
                 {
                     string json = null;
 
-                    json = Convert.ToString(fileInfo);
+                    json = Convert.ToString((ISerializableObject)metadataStorage);
                     if (json != null)
                     {
-                        ZipArchiveEntry zipArchiveEntry = zipArchive.CreateEntry("FileInfo");
+                        ZipArchiveEntry zipArchiveEntry = zipArchive.CreateEntry("MetadataStorage");
                         using (Stream stream = zipArchiveEntry.Open())
                         {
                             using (StreamWriter streamWriter = new StreamWriter(stream))
@@ -158,7 +198,7 @@ namespace DiGi.Core.IO.File.Classes
 
         public bool SaveAs(string path)
         {
-            fileInfo.Path = path;
+            Path = path;
             return Save();
         }
 
@@ -174,7 +214,7 @@ namespace DiGi.Core.IO.File.Classes
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
 
-                fileInfo = null;
+                metadataStorage = null;
                 Value = default;
 
                 disposed = true;

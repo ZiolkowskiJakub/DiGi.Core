@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.IO.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Text.Json.Nodes;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
-    public class FileInfo : UniqueObject
+    public class FileMetadata : UniqueObject, IMetadata
     {
         [JsonInclude, JsonPropertyName("Created"), Description("Date created")]
         private DateTime created;
@@ -17,34 +18,40 @@ namespace DiGi.Core.IO.File.Classes
         [JsonInclude, JsonPropertyName("Path"), Description("Path")]
         private string path;
 
-        public FileInfo(string path)
+        [JsonInclude, JsonPropertyName("Type"), Description("Type")]
+        private string type = null;
+
+        public FileMetadata(Type type, string path)
             : base()
         {
+            this.type = Query.FullTypeName(type);
             created = DateTime.Now;
             modified = DateTime.Now;
             this.path = path;
         }
 
-        public FileInfo()
+        public FileMetadata(Type type)
             : base()
         {
+            this.type = Query.FullTypeName(type);
             created = DateTime.Now;
             modified = DateTime.Now;
             path = null;
         }
 
-        public FileInfo(FileInfo fileInfo)
-            : base(fileInfo)
+        public FileMetadata(FileMetadata fileMetadata)
+            : base(fileMetadata)
         {
-            if (fileInfo != null)
+            if (fileMetadata != null)
             {
-                created = fileInfo.created;
-                modified = fileInfo.modified;
-                path = fileInfo.path;
+                type = fileMetadata.type;
+                created = fileMetadata.created;
+                modified = fileMetadata.modified;
+                path = fileMetadata.path;
             }
         }
 
-        public FileInfo(JsonObject jsonObject)
+        public FileMetadata(JsonObject jsonObject)
             : base(jsonObject)
         {
 
@@ -55,6 +62,14 @@ namespace DiGi.Core.IO.File.Classes
             get
             {
                 return created;
+            }
+        }
+
+        public string Type
+        {
+            get
+            {
+                return type;
             }
         }
 

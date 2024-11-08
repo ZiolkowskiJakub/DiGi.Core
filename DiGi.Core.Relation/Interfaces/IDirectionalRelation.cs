@@ -7,7 +7,12 @@ namespace DiGi.Core.Relation.Interfaces
 
     }
 
-    public interface IDirectionalRelation<X, Y> : IDirectionalRelation, IRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    /// <summary>
+    /// Directional Relation
+    /// </summary>
+    /// <typeparam name="XUniqueObject">Parent Unique Object</typeparam>
+    /// <typeparam name="YUniqueObject">Related Unique Object</typeparam>
+    public interface IDirectionalRelation<XUniqueObject, YUniqueObject> : IDirectionalRelation, IRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
 
     }

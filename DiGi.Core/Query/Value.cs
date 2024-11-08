@@ -40,17 +40,52 @@ namespace DiGi.Core
 
             if (type_Temp.IsEnum)
             {
-                object value_Temp = null;
-
                 JsonValue jsonValue = jsonNode as JsonValue;
-                if(jsonValue == null)
+                if (jsonValue == null)
                 {
                     return null;
                 }
 
-                if(!jsonValue.TryGetValue(out value_Temp))
+                object value_Temp = null;
+                switch(jsonValue.GetValueKind())
                 {
-                    return null;
+                    case System.Text.Json.JsonValueKind.String:
+                        if (jsonValue.TryGetValue(out string @string))
+                        {
+                            value_Temp = @string;
+                        }
+                        break;
+
+                    case System.Text.Json.JsonValueKind.Number:
+                        if (jsonValue.TryGetValue(out int @int))
+                        {
+                            value_Temp = @int;
+                        }
+                        break;
+                }
+                
+                if(value_Temp == null)
+                {
+                    if (jsonValue.TryGetValue(out int @int))
+                    {
+                        value_Temp = @int;
+                    }
+
+                    if(value_Temp == null)
+                    {
+                        if (jsonValue.TryGetValue(out string @string))
+                        {
+                            value_Temp = @string;
+                        }
+                    }
+
+                    if(value_Temp == null)
+                    {
+                        if (!jsonValue.TryGetValue(out value_Temp))
+                        {
+                            value_Temp = null;
+                        }
+                    }
                 }
 
                 if(nullable && value_Temp == null)

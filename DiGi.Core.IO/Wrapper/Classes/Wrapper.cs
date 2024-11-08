@@ -1,5 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.IO.Classes;
+using DiGi.Core.IO.Interfaces;
 using DiGi.Core.IO.Wrapper.Interfaces;
 using System;
 using System.Collections.Generic;

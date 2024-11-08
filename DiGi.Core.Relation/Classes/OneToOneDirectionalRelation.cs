@@ -37,7 +37,12 @@ namespace DiGi.Core.Relation.Classes
         }
     }
 
-    public class OneToOneDirectionalRelation<X, Y> : OneToOneRelation<X, Y>, IDirectionalRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    /// <summary>
+    /// One To One Directional Relation
+    /// </summary>
+    /// <typeparam name="XUniqueObject">Parent Unique Object</typeparam>
+    /// <typeparam name="YUniqueObject">Related Unique Object</typeparam>
+    public class OneToOneDirectionalRelation<XUniqueObject, YUniqueObject> : OneToOneRelation<XUniqueObject, YUniqueObject>, IDirectionalRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
         
         
@@ -47,13 +52,13 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public OneToOneDirectionalRelation(OneToOneDirectionalRelation<X, Y> oneToOneDirectionalRelation)
+        public OneToOneDirectionalRelation(OneToOneDirectionalRelation<XUniqueObject, YUniqueObject> oneToOneDirectionalRelation)
             : base(oneToOneDirectionalRelation)
         {
 
         }
 
-        public OneToOneDirectionalRelation(X uniqueObject_From, Y uniqueObject_To)
+        public OneToOneDirectionalRelation(XUniqueObject uniqueObject_From, YUniqueObject uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
 
@@ -67,7 +72,7 @@ namespace DiGi.Core.Relation.Classes
 
         public override ISerializableObject Clone()
         {
-            return new OneToOneDirectionalRelation<X, Y>(this);
+            return new OneToOneDirectionalRelation<XUniqueObject, YUniqueObject>(this);
         }
     }
 }

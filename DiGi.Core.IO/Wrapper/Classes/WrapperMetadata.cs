@@ -1,5 +1,5 @@
 ﻿using DiGi.Core.Classes;
-using DiGi.Core.IO.Wrapper.Interfaces;
+using DiGi.Core.IO.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

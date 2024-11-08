@@ -78,7 +78,7 @@ namespace DiGi.Core.Relation.Classes
         {
             get
             {
-                return UniqueReference_From?.Clone<UniqueReference>();
+                return uniqueReference_From?.Clone<UniqueReference>();
             }
         }
 
@@ -87,7 +87,7 @@ namespace DiGi.Core.Relation.Classes
         {
             get
             {
-                return UniqueReferences_To?.ConvertAll(x => x?.Clone<UniqueReference>());
+                return uniqueReferences_To?.ConvertAll(x => x?.Clone<UniqueReference>());
             }
         }
 
