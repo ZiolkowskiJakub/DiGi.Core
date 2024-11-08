@@ -17,7 +17,7 @@ namespace DiGi.Core.Classes
         }
 
         public TypeReference(TypeReference typeReference)
-            : base()
+            : base(typeReference)
         {
             fullTypeName = typeReference?.fullTypeName;
         }
@@ -57,22 +57,6 @@ namespace DiGi.Core.Classes
         public override string ToString()
         {
             return fullTypeName == null ? string.Empty : fullTypeName;
-        }
-
-        public override bool Equals(object @object)
-        {
-            TypeReference typeReference = @object as TypeReference;
-            if (typeReference == null)
-            {
-                return false;
-            }
-
-            return typeReference.ToString() == ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
         }
 
         public static bool operator ==(TypeReference typeReference_1, TypeReference typeReference_2)

@@ -139,7 +139,12 @@ namespace DiGi.Core.Relation.Classes
 
             return result;
         }
-        
+
+        public U GetRelatedObject<U>(T uniqueObject, Func<U, bool> func = null) where U : T
+        {
+            return uniqueObjectRelationCluster.GetRelatedValue<U>(uniqueObject, func);
+        }
+
         public virtual bool TryGetObject<U>(out U uniqueObject, Func<U, bool> func = null) where U : T
         {
             uniqueObject = default;
@@ -276,6 +281,24 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return uniqueObjects != null && uniqueObjects.Count != 0;
+        }
+
+        public virtual bool TryGetRelatedObject<U>(T uniqueObject, out U uniqueObjects, Func<U, bool> func = null) where U : T
+        {
+            uniqueObjects = default;
+
+            if (uniqueObjectRelationCluster == null)
+            {
+                return false;
+            }
+
+            if (!uniqueObjectRelationCluster.TryGetRelatedValue(out U uniqueObject_Temp, uniqueObject, func) || uniqueObject_Temp == null)
+            {
+                return false;
+            }
+
+            uniqueObject = uniqueObject_Temp.Clone<U>();
+            return uniqueObject != null;
         }
     }
 }

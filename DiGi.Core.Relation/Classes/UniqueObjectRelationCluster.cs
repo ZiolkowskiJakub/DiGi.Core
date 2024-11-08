@@ -254,11 +254,73 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        public U GetRelatedValue<U>(T value, Func<U, bool> func = null) where U : T
+        {
+            if (value == null)
+            {
+                return default;
+            }
+
+            List<X> relations = GetRelations<X>(value);
+            if (relations == null)
+            {
+                return default;
+            }
+
+            GuidReference guidReference = new GuidReference(value);
+
+            foreach (X relation in relations)
+            {
+                if (!relation.Contains_From(guidReference) && Query.IsValid(relation, typeof(U), true, false))
+                {
+                    List<U> relatedValues = GetValues<U>(Query.UniqueReferences(relation, true, false)?.Cast<GuidReference>());
+                    if (relatedValues != null)
+                    {
+                        foreach (U relatedValue in relatedValues)
+                        {
+                            if (func != null && !func.Invoke(relatedValue))
+                            {
+                                continue;
+                            }
+
+                            return relatedValue;
+                        }
+                    }
+                }
+
+                if (!relation.Contains_To(guidReference) && Query.IsValid(relation, typeof(U), false, true))
+                {
+                    List<U> relatedValues = GetValues<U>(Query.UniqueReferences(relation, false, true)?.Cast<GuidReference>());
+                    if (relatedValues != null)
+                    {
+                        foreach (U relatedValue in relatedValues)
+                        {
+                            if (func != null && !func.Invoke(relatedValue))
+                            {
+                                continue;
+                            }
+
+                            return relatedValue;
+                        }
+                    }
+                }
+            }
+
+            return default;
+        }
+
         public bool TryGetRelatedValues<U>(out List<U> uniqueObjects, T value, Func<U, bool> func = null) where U : T
         {
             uniqueObjects = GetRelatedValues(value, func);
 
             return uniqueObjects != null && uniqueObjects.Count != 0;
+        }
+
+        public bool TryGetRelatedValue<U>(out U uniqueObject, T value, Func<U, bool> func = null) where U : T
+        {
+            uniqueObject = GetRelatedValue(value, func);
+
+            return uniqueObject != null;
         }
     }
 }
