@@ -25,8 +25,33 @@ namespace DiGi.Core
                 return false;
             }
 
-            TypeReference typeReference = new TypeReference(values[0].Trim());
+            string externalReference = values[0]?.Trim();
+            if (externalReference.StartsWith("\"") && externalReference.EndsWith("\""))
+            {
+                string source = externalReference.Substring(1, externalReference.Length - 2);
 
+                externalReference = value.Substring(values[0].Length);
+                externalReference = externalReference.Substring(externalReference.IndexOf(Constans.Reference.Separator) + 2);
+                if(TryParse(externalReference, out IReference reference_Temp))
+                {
+                    if(reference_Temp is ITypeRelatedSerializableReference)
+                    {
+                        reference = new TypeRelatedExternalReference(source, (ITypeRelatedSerializableReference)reference_Temp);
+                    }
+                    else if(reference_Temp is IInstanceRelatedSerializableReference)
+                    {
+                        reference = new InstanceRelatedExternalReference(source, (IInstanceRelatedSerializableReference)reference_Temp);
+                    }
+                    else
+                    {
+                        throw new System.NotImplementedException();
+                    }
+                }
+
+                return reference != null;
+            }
+
+            TypeReference typeReference = new TypeReference(values[0].Trim());
 
             if (values.Length == 1)
             {

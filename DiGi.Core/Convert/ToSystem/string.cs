@@ -74,7 +74,7 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToString(TypeReference typeReference, string uniqueId, string format = null)
+        public static string ToString(this TypeReference typeReference, string uniqueId, string format)
         {
             string result = typeReference?.ToString();
             if (!string.IsNullOrWhiteSpace(result))
@@ -100,6 +100,29 @@ namespace DiGi.Core
             {
                 result += string.Format(format, uniqueId);
             }
+
+            return result;
+        }
+
+        public static string ToString(this ISerializableReference serializableReference, string source)
+        {
+            if(serializableReference == null)
+            {
+                return source;
+            }
+
+            if(source == null)
+            {
+                return serializableReference.ToString();
+            }
+
+            string result = string.Format("\"{0}\"", source);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                result += Constans.Reference.Separator;
+            }
+
+            result += serializableReference.ToString();
 
             return result;
         }

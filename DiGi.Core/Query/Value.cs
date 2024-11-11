@@ -2,6 +2,7 @@
 using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 
@@ -181,6 +182,29 @@ namespace DiGi.Core
             if (typeof(ISerializableObject).IsAssignableFrom(type_Temp))
             {
                 return Create.SerializableObject<ISerializableObject>(jsonNode.AsObject());
+            }
+
+            if (typeof(Array).IsAssignableFrom(type_Temp))
+            {
+                Type type_Array = type_Temp.GetElementType();
+
+                JsonArray jsonArray = jsonNode.AsArray();
+                if (jsonArray != null)
+                {
+                    Array array = Array.CreateInstance(type_Array, jsonArray.Count);
+                    for (int i = 0; i < jsonArray.Count; i++)
+                    {
+                        object @object = Value(jsonArray[i], type_Array);
+                        if (@object != null && !type_Array.IsAssignableFrom(@object.GetType()))
+                        {
+                            @object = type_Array.GetConstructor(new Type[] { @object.GetType() })?.Invoke(new object[] { @object });
+                        }
+
+                        array.SetValue(@object, i);
+                    }
+
+                    return array;
+                }
             }
 
             if (typeof(IList).IsAssignableFrom(type_Temp))
