@@ -1,4 +1,5 @@
-﻿﻿using System.Text.Json.Nodes;
+﻿using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 
@@ -7,32 +8,29 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static T SerializableObject<T>(this JsonObject jsonObject) where T : ISerializableObject
+        public static List<T> SerializableObjects<T>(this JsonArray jsonArray) where T : ISerializableObject
         {
-            if (jsonObject == null)
+            if (jsonArray == null)
             {
                 return default;
             }
 
-            SerializationConstructor serializationConstructor = null;
-
-            string fullTypeName = Query.FullTypeName(jsonObject);
-            if (!string.IsNullOrWhiteSpace(fullTypeName))
+            List < T > result = new List<T> ();
+            foreach (JsonNode jsonNode in jsonArray)
             {
-                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(fullTypeName);
+                if(!(jsonNode is JsonObject))
+                {
+                    continue;
+                }
+
+                T serializableObject = SerializableObject<T>((JsonObject)jsonNode);
+                if(serializableObject != null)
+                {
+                    result.Add(serializableObject);
+                }
             }
 
-            if (serializationConstructor == null)
-            {
-                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(typeof(SerializableObjectWrapper));
-            }
-
-            if(serializationConstructor == null)
-            {
-                return default;
-            }
-
-            return serializationConstructor.Create<T>(jsonObject);
+            return result;
         }
     }
 }

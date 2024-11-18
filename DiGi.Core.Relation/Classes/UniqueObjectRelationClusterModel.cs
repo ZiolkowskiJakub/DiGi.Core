@@ -8,21 +8,21 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class UniqueObjectRelationClusterModel<T, X> : UniqueModel where T : IUniqueObject where X : IRelation
+    public abstract class UniqueObjectRelationClusterModel<TUniqueObject, XRelation> : UniqueModel where TUniqueObject : IUniqueObject where XRelation : IRelation
     {
         [JsonInclude, JsonPropertyName("UniqueObjectRelationCluster")]
-        protected UniqueObjectRelationCluster<T, X> uniqueObjectRelationCluster = new UniqueObjectRelationCluster<T, X>();
+        protected UniqueObjectRelationCluster<TUniqueObject, XRelation> uniqueObjectRelationCluster = new UniqueObjectRelationCluster<TUniqueObject, XRelation>();
 
         public UniqueObjectRelationClusterModel()
         {
         }
 
-        public UniqueObjectRelationClusterModel(UniqueObjectRelationClusterModel<T, X> uniqueObjectRelationClusterModel)
+        public UniqueObjectRelationClusterModel(UniqueObjectRelationClusterModel<TUniqueObject, XRelation> uniqueObjectRelationClusterModel)
             : base(uniqueObjectRelationClusterModel)
         {
             if (uniqueObjectRelationClusterModel != null)
             {
-                uniqueObjectRelationCluster = uniqueObjectRelationCluster?.Clone<UniqueObjectRelationCluster<T, X>>();
+                uniqueObjectRelationCluster = uniqueObjectRelationCluster?.Clone<UniqueObjectRelationCluster<TUniqueObject, XRelation>>();
             }
         }
 
@@ -37,14 +37,14 @@ namespace DiGi.Core.Relation.Classes
             return Create.Guid(uniqueObjectRelationCluster, type);
         }
 
-        public Guid GetNewGuid<Y>() where Y : T
+        public Guid GetNewGuid<YUniqueObject>() where YUniqueObject : TUniqueObject
         {
-            return Create.Guid(uniqueObjectRelationCluster, typeof(Y));
+            return Create.Guid(uniqueObjectRelationCluster, typeof(YUniqueObject));
         }
 
-        public Y GetObject<Y>(Func<Y, bool> func = null) where Y : T
+        public YUniqueObject GetObject<YUniqueObject>(Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
-            if (TryGetObject(out Y result, func))
+            if (TryGetObject(out YUniqueObject result, func))
             {
                 return result;
             }
@@ -52,19 +52,19 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public Y GetObject<Y>(GuidReference guidReference) where Y : T
+        public YUniqueObject GetObject<YUniqueObject>(GuidReference guidReference) where YUniqueObject : TUniqueObject
         {
             if(guidReference == null)
             {
                 return default;
             }
 
-            return uniqueObjectRelationCluster.GetValue<Y>(guidReference);
+            return uniqueObjectRelationCluster.GetValue<YUniqueObject>(guidReference);
         }
 
-        public List<Y> GetObjects<Y>(Func<Y, bool> func = null) where Y : T
+        public List<YUniqueObject> GetObjects<YUniqueObject>(Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
-            if (TryGetObjects(out List<Y> result, func))
+            if (TryGetObjects(out List<YUniqueObject> result, func))
             {
                 return result;
             }
@@ -72,9 +72,9 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
         
-        public Y GetRelation<Y>(Func<Y, bool> func = null) where Y : X
+        public YUniqueObject GetRelation<YUniqueObject>(Func<YUniqueObject, bool> func = null) where YUniqueObject : XRelation
         {
-            if (TryGetRelation(out Y result, func))
+            if (TryGetRelation(out YUniqueObject result, func))
             {
                 return result;
             }
@@ -82,23 +82,23 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public Y GetRelation<Y>(T uniqueObject, Func<Y, bool> func = null) where Y : X
+        public URelation GetRelation<URelation>(TUniqueObject uniqueObject, Func<URelation, bool> func = null) where URelation : XRelation
         {
             if(uniqueObject == null)
             {
                 return default;
             }
 
-            Y relation = uniqueObjectRelationCluster.GetRelation(new GuidReference(uniqueObject), func);
+            URelation relation = uniqueObjectRelationCluster.GetRelation(new GuidReference(uniqueObject), func);
             if(relation == null)
             {
                 return default;
             }
 
-            return relation.Clone<Y>();
+            return relation.Clone<URelation>();
         }
 
-        public bool TryGetRelation<Y>(T uniqueObject, out Y relation, Func<Y, bool> func = null) where Y : X
+        public bool TryGetRelation<URelation>(TUniqueObject uniqueObject, out URelation relation, Func<URelation, bool> func = null) where URelation : XRelation
         {
             relation = default;
             if(uniqueObject == null)
@@ -106,18 +106,18 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if(!uniqueObjectRelationCluster.TryGetRelation<Y>(new GuidReference(uniqueObject), out relation, func) || relation == null)
+            if(!uniqueObjectRelationCluster.TryGetRelation<URelation>(new GuidReference(uniqueObject), out relation, func) || relation == null)
             {
                 return false;
             }
 
-            relation = relation.Clone<Y>();
+            relation = relation.Clone<URelation>();
             return relation != null;
         }
 
-        public List<Y> GetRelations<Y>(Func<Y, bool> func = null) where Y : X
+        public List<URelation> GetRelations<URelation>(Func<URelation, bool> func = null) where URelation : XRelation
         {
-            if (TryGetRelations(out List<Y> result, func))
+            if (TryGetRelations(out List<URelation> result, func))
             {
                 return result;
             }
@@ -125,14 +125,14 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public List<U> GetRelatedObjects<U>(T uniqueObject, Func<U, bool> func = null) where U : T
+        public List<YUniqueObject> GetRelatedObjects<YUniqueObject>(TUniqueObject uniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
             if (uniqueObject == null)
             {
                 return null;
             }
 
-            if (!TryGetRelatedObjects<U>(uniqueObject, out List<U> result, func))
+            if (!TryGetRelatedObjects(uniqueObject, out List<YUniqueObject> result, func))
             {
                 return null;
             }
@@ -140,12 +140,12 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public U GetRelatedObject<U>(T uniqueObject, Func<U, bool> func = null) where U : T
+        public YUniqueObject GetRelatedObject<YUniqueObject>(TUniqueObject uniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
-            return uniqueObjectRelationCluster.GetRelatedValue<U>(uniqueObject, func);
+            return uniqueObjectRelationCluster.GetRelatedValue<YUniqueObject>(uniqueObject, func);
         }
 
-        public virtual bool TryGetObject<U>(out U uniqueObject, Func<U, bool> func = null) where U : T
+        public virtual bool TryGetObject<YUniqueObject>(out YUniqueObject uniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
             uniqueObject = default;
 
@@ -154,16 +154,16 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if(!uniqueObjectRelationCluster.TryGetValue(out U uniqueObject_Temp, func) || uniqueObject_Temp == null)
+            if(!uniqueObjectRelationCluster.TryGetValue(out YUniqueObject uniqueObject_Temp, func) || uniqueObject_Temp == null)
             {
                 return false;
             }
 
-            uniqueObject = uniqueObject_Temp.Clone<U>();
+            uniqueObject = uniqueObject_Temp.Clone<YUniqueObject>();
             return uniqueObject != null;
         }
 
-        public virtual bool TryGetObjects<U>(out List<U> uniqueObjects, Func<U, bool> func = null) where U : T
+        public virtual bool TryGetObjects<YUniqueObject>(out List<YUniqueObject> uniqueObjects, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
             uniqueObjects = null;
 
@@ -172,20 +172,20 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetValues(out List<U> uniqueObjects_Temp, func) || uniqueObjects_Temp == null)
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<YUniqueObject> uniqueObjects_Temp, func) || uniqueObjects_Temp == null)
             {
                 return false;
             }
 
-            uniqueObjects = new List<U>();
-            foreach(U uniqeObject in uniqueObjects_Temp)
+            uniqueObjects = new List<YUniqueObject>();
+            foreach(YUniqueObject uniqeObject in uniqueObjects_Temp)
             {
                 if(uniqeObject == null)
                 {
                     continue;
                 }
 
-                U uniqeObject_Temp = uniqeObject.Clone<U>();
+                YUniqueObject uniqeObject_Temp = uniqeObject.Clone<YUniqueObject>();
                 if(uniqeObject_Temp == null)
                 {
                     continue;
@@ -197,7 +197,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
 
-        public virtual bool TryGetRelation<U>(out U relation, Func<U, bool> func = null) where U : X
+        public virtual bool TryGetRelation<URelation>(out URelation relation, Func<URelation, bool> func = null) where URelation : XRelation
         {
             relation = default;
 
@@ -206,16 +206,16 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetRelation(out U relation_Temp, func) || relation_Temp == null)
+            if (!uniqueObjectRelationCluster.TryGetRelation(out URelation relation_Temp, func) || relation_Temp == null)
             {
                 return false;
             }
 
-            relation = relation_Temp.Clone<U>();
+            relation = relation_Temp.Clone<URelation>();
             return relation != null;
         }
 
-        public virtual bool TryGetRelations<U>(out List<U> relations, Func<U, bool> func = null) where U : X
+        public virtual bool TryGetRelations<URelation>(out List<URelation> relations, Func<URelation, bool> func = null) where URelation : XRelation
         {
             relations = null;
 
@@ -224,20 +224,20 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetRelations(out List<U> relations_Temp, func) || relations_Temp == null)
+            if (!uniqueObjectRelationCluster.TryGetRelations(out List<URelation> relations_Temp, func) || relations_Temp == null)
             {
                 return false;
             }
 
-            relations = new List<U>();
-            foreach (U relation in relations_Temp)
+            relations = new List<URelation>();
+            foreach (URelation relation in relations_Temp)
             {
                 if (relation == null)
                 {
                     continue;
                 }
 
-                U relation_Temp = relation.Clone<U>();
+                URelation relation_Temp = relation.Clone<URelation>();
                 if (relation_Temp == null)
                 {
                     continue;
@@ -249,7 +249,12 @@ namespace DiGi.Core.Relation.Classes
             return relations != null && relations.Count != 0;
         }
 
-        public virtual bool TryGetRelatedObjects<U>(T uniqueObject,  out List<U> uniqueObjects, Func<U, bool> func = null) where U : T
+        public virtual bool TryGetRelatedObjects<YUniqueObject>(TUniqueObject uniqueObject,  out List<YUniqueObject> uniqueObjects, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
+        {
+            return TryGetRelatedObjects<YUniqueObject, XRelation>(uniqueObject, out uniqueObjects, func);
+        }
+
+        public virtual bool TryGetRelatedObjects<YUniqueObject, URelation>(TUniqueObject uniqueObject, out List<YUniqueObject> uniqueObjects, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject where URelation : XRelation
         {
             uniqueObjects = null;
 
@@ -258,20 +263,20 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetRelatedValues(out List<U> uniqueObjects_Temp, uniqueObject, func) || uniqueObjects_Temp == null)
+            if (!uniqueObjectRelationCluster.TryGetRelatedValues<YUniqueObject, URelation>(out List<YUniqueObject> uniqueObjects_Temp, uniqueObject, func) || uniqueObjects_Temp == null)
             {
                 return false;
             }
 
-            uniqueObjects = new List<U>();
-            foreach (U uniqeObject in uniqueObjects_Temp)
+            uniqueObjects = new List<YUniqueObject>();
+            foreach (YUniqueObject uniqeObject in uniqueObjects_Temp)
             {
                 if (uniqeObject == null)
                 {
                     continue;
                 }
 
-                U uniqeObject_Temp = uniqeObject.Clone<U>();
+                YUniqueObject uniqeObject_Temp = uniqeObject.Clone<YUniqueObject>();
                 if (uniqeObject_Temp == null)
                 {
                     continue;
@@ -283,22 +288,40 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
 
-        public virtual bool TryGetRelatedObject<U>(T uniqueObject, out U uniqueObjects, Func<U, bool> func = null) where U : T
+        public virtual bool TryGetRelatedObject<YUniqueObject>(TUniqueObject uniqueObject, out YUniqueObject relatedUniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
-            uniqueObjects = default;
+            relatedUniqueObject = default;
 
             if (uniqueObjectRelationCluster == null)
             {
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetRelatedValue(out U uniqueObject_Temp, uniqueObject, func) || uniqueObject_Temp == null)
+            if (!uniqueObjectRelationCluster.TryGetRelatedValue(out YUniqueObject uniqueObject_Temp, uniqueObject, func) || uniqueObject_Temp == null)
             {
                 return false;
             }
 
-            uniqueObject = uniqueObject_Temp.Clone<U>();
-            return uniqueObject != null;
+            relatedUniqueObject = uniqueObject_Temp.Clone<YUniqueObject>();
+            return relatedUniqueObject != null;
+        }
+
+        public virtual bool TryGetRelatedObject<YUniqueObject, URelation>(TUniqueObject uniqueObject, out YUniqueObject relatedUniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject where URelation : XRelation
+        {
+            relatedUniqueObject = default;
+
+            if (uniqueObjectRelationCluster == null)
+            {
+                return false;
+            }
+
+            if (!uniqueObjectRelationCluster.TryGetRelatedValue<YUniqueObject, URelation>(out YUniqueObject uniqueObject_Temp, uniqueObject, func) || uniqueObject_Temp == null)
+            {
+                return false;
+            }
+
+            relatedUniqueObject = uniqueObject_Temp.Clone<YUniqueObject>();
+            return relatedUniqueObject != null;
         }
     }
 }
