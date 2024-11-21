@@ -16,6 +16,19 @@ namespace DiGi.Core
         /// <returns>Comparison Type Result</returns>
         public static bool Compare(this double value_1, double value_2, NumberComparisonType numberComparisonType)
         {
+            return Compare(value_1, value_2, numberComparisonType, 0);
+        }
+
+        /// <summary>
+        /// Compares two numbers using NumberComparisonType (Example: NumberComparisonType.Greater returns true if value_1 greater than value_2)
+        /// </summary>
+        /// <param name="value_1">First value</param>
+        /// <param name="value_2">Second value</param>
+        /// <param name="numberComparisonType">Number Comparison Type example Equals etc.</param>
+        /// <param name="tolerance">Comparison tolerance</param>
+        /// <returns>Comparison Type Result</returns>
+        public static bool Compare(this double value_1, double value_2, NumberComparisonType numberComparisonType, double tolerance)
+        {
             switch (numberComparisonType)
             {
                 case NumberComparisonType.Equals:
@@ -23,32 +36,32 @@ namespace DiGi.Core
                         return true;
                     if (double.IsNaN(value_1) || double.IsNaN(value_2))
                         return false;
-                    return value_1.Equals(value_2);
+                    return value_1.AlmostEquals(value_2, tolerance);
 
                 case NumberComparisonType.Greater:
                     if (double.IsNaN(value_1) || double.IsNaN(value_2))
                         return false;
-                    return value_1 > value_2;
+                    return value_1 > value_2 - tolerance;
 
                 case NumberComparisonType.GreaterOrEquals:
                     if (double.IsNaN(value_1) || double.IsNaN(value_2))
                         return false;
-                    return value_1 >= value_2;
+                    return value_1 >= value_2 - tolerance;
 
                 case NumberComparisonType.Less:
                     if (double.IsNaN(value_1) || double.IsNaN(value_2))
                         return false;
-                    return value_1 < value_2;
+                    return value_1 < value_2 + tolerance;
 
                 case NumberComparisonType.LessOrEquals:
                     if (double.IsNaN(value_1) || double.IsNaN(value_2))
                         return false;
-                    return value_1 <= value_2;
+                    return value_1 <= value_2 + tolerance;
 
                 case NumberComparisonType.NotEquals:
                     if (double.IsNaN(value_1) || double.IsNaN(value_2))
                         return false;
-                    return value_1 != value_2;
+                    return !value_1.AlmostEquals(value_2, tolerance);
             }
 
             return false;
