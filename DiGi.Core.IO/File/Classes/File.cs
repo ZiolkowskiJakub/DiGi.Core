@@ -138,7 +138,7 @@ namespace DiGi.Core.IO.File.Classes
 
             metadataStorage.SetMetadata(fileMetadata);
 
-            string json = Convert.ToString((ISerializableObject)metadataStorage);
+            string json = Convert.ToSystem_String((ISerializableObject)metadataStorage);
             if(string.IsNullOrWhiteSpace(json))
             {
                 return false;

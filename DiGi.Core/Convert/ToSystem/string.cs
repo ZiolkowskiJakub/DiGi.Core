@@ -8,22 +8,22 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
-        public static string ToString(this ISerializableObject serializableObject)
+        public static string ToSystem_String(this ISerializableObject serializableObject)
         {
-            return ToString(serializableObject, null);
+            return ToSystem_String(serializableObject, null);
         }
         
-        public static string ToString(this IEnumerable<ISerializableObject> serializableObjects)
+        public static string ToSystem_String(this IEnumerable<ISerializableObject> serializableObjects)
         {
-            return ToString(serializableObjects, null);
+            return ToSystem_String(serializableObjects, null);
         }
 
-        public static string ToString<T>(this IEnumerable<T> serializableObjects) where T :ISerializableObject
+        public static string ToSystem_String<T>(this IEnumerable<T> serializableObjects) where T :ISerializableObject
         {
-            return ToString(serializableObjects, null);
+            return ToSystem_String(serializableObjects, null);
         }
 
-        public static string ToString(this ISerializableObject serializableObject, JsonSerializerOptions jsonSerializerOptions)
+        public static string ToSystem_String(this ISerializableObject serializableObject, JsonSerializerOptions jsonSerializerOptions)
         {
             if (serializableObject == null)
             {
@@ -40,7 +40,7 @@ namespace DiGi.Core
             //return jsonObject.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToString(this IEnumerable<ISerializableObject> serializableObjects, JsonSerializerOptions jsonSerializerOptions)
+        public static string ToSystem_String(this IEnumerable<ISerializableObject> serializableObjects, JsonSerializerOptions jsonSerializerOptions)
         {
             if (serializableObjects == null)
             {
@@ -57,7 +57,7 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToString<T>(this IEnumerable<T> serializableObjects, JsonSerializerOptions jsonSerializerOptions) where T : ISerializableObject 
+        public static string ToSystem_String<T>(this IEnumerable<T> serializableObjects, JsonSerializerOptions jsonSerializerOptions) where T : ISerializableObject 
         {
             if (serializableObjects == null)
             {
@@ -74,7 +74,7 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToString(this TypeReference typeReference, string uniqueId, string format)
+        public static string ToSystem_String(this TypeReference typeReference, string uniqueId, string format)
         {
             string result = typeReference?.ToString();
             if (!string.IsNullOrWhiteSpace(result))
@@ -104,7 +104,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static string ToString(this ISerializableReference serializableReference, string source)
+        public static string ToSystem_String(this ISerializableReference serializableReference, string source)
         {
             if(serializableReference == null)
             {

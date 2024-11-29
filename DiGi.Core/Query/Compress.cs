@@ -41,7 +41,7 @@ namespace DiGi.Core
 
         public static string Compress(this ISerializableObject serializableObject)
         {
-            string @string = Convert.ToString(serializableObject);
+            string @string = Convert.ToSystem_String(serializableObject);
             if (string.IsNullOrEmpty(@string))
             {
                 return @string;
@@ -52,7 +52,7 @@ namespace DiGi.Core
 
         public static string Compress<T>(this IEnumerable<T> serializableObject) where T : ISerializableObject
         {
-            string json = Convert.ToString(serializableObject);
+            string json = Convert.ToSystem_String(serializableObject);
             if (string.IsNullOrEmpty(json))
             {
                 return json;

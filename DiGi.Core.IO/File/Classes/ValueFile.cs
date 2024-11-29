@@ -109,7 +109,7 @@ namespace DiGi.Core.IO.File.Classes
                     zipArchiveEntry.Delete();
                 }
 
-                string json = Convert.ToString(Value);
+                string json = Convert.ToSystem_String(Value);
                 if(!string.IsNullOrWhiteSpace(json))
                 {
                     zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Value);

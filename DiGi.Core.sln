@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiGi.Core.IO", "DiGi.Core.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiGi.Core.Relation", "DiGi.Core.Relation\DiGi.Core.Relation.csproj", "{DEC3D14C-1E6A-4959-B00D-30E2B4E09BB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiGi.Core.Drawing", "DiGi.Core.Drawing\DiGi.Core.Drawing.csproj", "{8945B740-1E62-4978-BE79-AD7361F762F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DEC3D14C-1E6A-4959-B00D-30E2B4E09BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEC3D14C-1E6A-4959-B00D-30E2B4E09BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEC3D14C-1E6A-4959-B00D-30E2B4E09BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8945B740-1E62-4978-BE79-AD7361F762F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8945B740-1E62-4978-BE79-AD7361F762F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8945B740-1E62-4978-BE79-AD7361F762F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8945B740-1E62-4978-BE79-AD7361F762F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

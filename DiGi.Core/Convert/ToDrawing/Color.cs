@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
-        public static Color ToColor(uint @uint)
+        public static Color ToDrawing(uint @uint)
         {
             byte a = (byte)(@uint >> 24);
             byte b = (byte)(@uint >> 16);
@@ -14,7 +14,7 @@ namespace DiGi.Core
             return Color.FromArgb(a, r, g, b);
         }
 
-        public static Color ToColor(int @int, byte alpha = 255)
+        public static Color ToDrawing(int @int, byte alpha = 255)
         {
             byte b = (byte)(@int >> 16);
             byte g = (byte)(@int >> 8);
@@ -22,7 +22,7 @@ namespace DiGi.Core
             return Color.FromArgb(alpha, r, g, b);
         }
 
-        public static Color ToColor(string value)
+        public static Color ToDrawing(string value)
         {
             string hex = value.Replace("#", string.Empty);
             NumberStyles numberStyles = NumberStyles.HexNumber;
@@ -38,6 +38,17 @@ namespace DiGi.Core
             }
 
             return Color.FromArgb(a, r, g, b);
+        }
+
+        public static Color ToDrawing(this Classes.Color color)
+        {
+            if(color == null)
+            {
+                return Color.Empty;
+            }
+
+            return Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
+
         }
     }
 }

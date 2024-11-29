@@ -69,7 +69,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return Convert.ToString(reference, Source);
+            return Convert.ToSystem_String(reference, Source);
         }
 
         [JsonIgnore]

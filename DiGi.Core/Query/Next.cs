@@ -33,13 +33,15 @@ namespace DiGi.Core
                 return -1;
             }
 
-            int result = index + 1;
-            while (result >= count)
-            {
-                result -= count;
-            }
+            return (index + 1) % count;
 
-            return result;
+            //int result = index + 1;
+            //while (result >= count)
+            //{
+            //    result -= count;
+            //}
+
+            //return result;
         }
     }
 

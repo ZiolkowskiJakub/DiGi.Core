@@ -48,7 +48,7 @@ namespace DiGi.Core.Classes
 
         public override string ToString()
         {
-            return Convert.ToString(TypeReference, UniqueId, Constans.Reference.Format.Guid);
+            return Convert.ToSystem_String(TypeReference, UniqueId, Constans.Reference.Format.Guid);
         }
 
         public override ISerializableObject Clone()

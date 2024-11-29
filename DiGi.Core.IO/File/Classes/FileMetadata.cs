@@ -24,7 +24,7 @@ namespace DiGi.Core.IO.File.Classes
         public FileMetadata(Type type, string path)
             : base()
         {
-            this.type = Query.FullTypeName(type);
+            this.type = Core.Query.FullTypeName(type);
             created = DateTime.Now;
             modified = DateTime.Now;
             this.path = path;
@@ -33,7 +33,7 @@ namespace DiGi.Core.IO.File.Classes
         public FileMetadata(Type type)
             : base()
         {
-            this.type = Query.FullTypeName(type);
+            this.type = Core.Query.FullTypeName(type);
             created = DateTime.Now;
             modified = DateTime.Now;
             path = null;

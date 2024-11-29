@@ -360,7 +360,7 @@ namespace DiGi.Core
                     string @string = (string)@object;
                     if (@string.StartsWith("##"))
                     {
-                        result = Convert.ToColor(@string);
+                        result = Convert.ToDrawing(@string);
                         if (!result.Equals(System.Drawing.Color.Empty))
                         {
                             return true;
@@ -370,18 +370,18 @@ namespace DiGi.Core
                     int @int;
                     if (int.TryParse(@string, out @int))
                     {
-                        result = Convert.ToColor(@int);
+                        result = Convert.ToDrawing(@int);
                         return true;
                     }
 
                     uint @uint;
                     if (uint.TryParse(@string, out @uint))
                     {
-                        result = Convert.ToColor(@uint);
+                        result = Convert.ToDrawing(@uint);
                         return true;
                     }
 
-                    result = Convert.ToColor(@string);
+                    result = Convert.ToDrawing(@string);
                     if (!result.Equals(System.Drawing.Color.Empty))
                         return true;
 
@@ -393,12 +393,12 @@ namespace DiGi.Core
                 }
                 else if (@object is int)
                 {
-                    result = Convert.ToColor((int)@object);
+                    result = Convert.ToDrawing((int)@object);
                     return true;
                 }
                 else if (@object is uint)
                 {
-                    result = Convert.ToColor((uint)@object);
+                    result = Convert.ToDrawing((uint)@object);
                     return true;
                 }
             }
@@ -420,7 +420,7 @@ namespace DiGi.Core
                     {
                         if (int.TryParse((string)@object, out int int_color))
                         {
-                            result = new Classes.Color(Convert.ToColor(int_color));
+                            result = new Classes.Color(Convert.ToDrawing(int_color));
                             return true;
                         }
                         else
