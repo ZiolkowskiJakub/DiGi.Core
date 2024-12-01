@@ -4,7 +4,7 @@ namespace DiGi.Core.Drawing
 {
     public static partial class Convert
     {
-        public static System.Drawing.Pen ToDrawing(this Pen pen)
+        public static System.Drawing.Pen ToDrawing(this Classes.Pen pen)
         {
             if(pen == null)
             {

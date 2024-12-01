@@ -2,7 +2,7 @@
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-namespace DiGi.Core.Drawing
+namespace DiGi.Core.Drawing.Classes
 {
     public class Pen : SerializableObject
     {
