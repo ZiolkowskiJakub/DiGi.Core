@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.IO.Interfaces;
-using DiGi.Core.IO.Wrapper.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Classes
 {
-    internal sealed class MetadataStorage : UniqueObject, IEnumerable<IMetadata>, IWrapperObject
+    internal sealed class MetadataStorage : UniqueObject, IEnumerable<IMetadata>, IIOObject
     {
         [JsonIgnore]
         private Dictionary<TypeReference, IMetadata> dictionary = new Dictionary<TypeReference, IMetadata>();

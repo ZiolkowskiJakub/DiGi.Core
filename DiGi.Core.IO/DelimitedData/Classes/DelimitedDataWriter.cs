@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
-using DiGi.Core.IO.DelimitedData.Query;
 
 namespace DiGi.Core.IO.DelimitedData.Classes
 {
@@ -83,16 +82,6 @@ namespace DiGi.Core.IO.DelimitedData.Classes
             {
                 Write(delimitedDataRow);
             }
-        }
-
-        public void Write(DelimitedDataTable delimitedDataTable)
-        {
-            if (delimitedDataTable == null)
-            {
-                return;
-            }
-
-            delimitedDataTable.Write(this);
         }
     }
 }

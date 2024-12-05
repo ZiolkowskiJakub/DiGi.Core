@@ -1,6 +1,6 @@
 ﻿using DiGi.Core.IO.DelimitedData.Enums;
 
-namespace DiGi.Core.IO.DelimitedData.Query
+namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Query
     {
