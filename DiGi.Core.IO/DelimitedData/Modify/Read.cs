@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.IO.DelimitedData.Classes;
+using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using DiGi.Core.IO.Table.Classes;
 using System.Collections.Generic;
@@ -87,6 +88,16 @@ namespace DiGi.Core.IO.DelimitedData
             }
 
             return Read(table, new DelimitedDataReader(separator, path), columnIndex, rowIndex);
+        }
+
+        public static bool Read(this Table.Classes.Table table, string path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
+        {
+            if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+            {
+                return false;
+            }
+
+            return Read(table, new DelimitedDataReader(delimitedDataSeparator, path), columnIndex, rowIndex);
         }
     }
 }

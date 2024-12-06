@@ -557,7 +557,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return rows.Keys.Last();
+                return rows.Keys.Count == 0 ? 0 : rows.Keys.Last() + 1;
             }
         }
 
@@ -565,7 +565,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return columns.Keys.Last();
+                return columns.Keys.Count == 0 ? 0 : columns.Keys.Last() + 1;
             }
         }
     }
