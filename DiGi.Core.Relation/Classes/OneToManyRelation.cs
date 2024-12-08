@@ -83,30 +83,21 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonIgnore]
-        public List<UniqueReference> UniqueReferences_To
-        {
-            get
-            {
-                return uniqueReferences_To?.ConvertAll(x => x?.Clone<UniqueReference>());
-            }
-        }
-
-        [JsonIgnore]
         public override List<UniqueReference> UniqueReferences
         {
             get
             {
                 List<UniqueReference> result = new List<UniqueReference>();
-                if(uniqueReference_From != null)
+                if (uniqueReference_From != null)
                 {
                     result.Add(uniqueReference_From.Clone<UniqueReference>());
                 }
 
-                if(uniqueReferences_To != null)
+                if (uniqueReferences_To != null)
                 {
-                    foreach(UniqueReference uniqueReference in uniqueReferences_To)
+                    foreach (UniqueReference uniqueReference in uniqueReferences_To)
                     {
-                        if(uniqueReference == null)
+                        if (uniqueReference == null)
                         {
                             continue;
                         }
@@ -119,6 +110,14 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        [JsonIgnore]
+        public List<UniqueReference> UniqueReferences_To
+        {
+            get
+            {
+                return uniqueReferences_To?.ConvertAll(x => x?.Clone<UniqueReference>());
+            }
+        }
         public override bool Contains_From(UniqueReference uniqueReference)
         {
             return uniqueReference_From == uniqueReference;
@@ -127,6 +126,16 @@ namespace DiGi.Core.Relation.Classes
         public override bool Contains_To(UniqueReference uniqueReference)
         {
             return uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference);
+        }
+
+        public override bool Has_From()
+        {
+            return uniqueReference_From != null;
+        }
+
+        public override bool Has_To()
+        {
+            return uniqueReferences_To != null && uniqueReferences_To.Count != 0;
         }
 
         public override bool Remove(UniqueReference uniqueReference)
@@ -154,6 +163,40 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        public override List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences)
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            List<UniqueReference> result = new List<UniqueReference>();
+            if (uniqueReferences.Count() == 0)
+            {
+                return result;
+            }
+
+            if (uniqueReferences.Contains(uniqueReference_From))
+            {
+                result.Add(uniqueReference_From);
+                uniqueReference_From = null;
+            }
+
+            foreach (TUniqueReference uniqueReference in uniqueReferences)
+            {
+                if (uniqueReferences_To.Remove(uniqueReference))
+                {
+                    result.Add(uniqueReference);
+                    if (uniqueReferences_To.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public override bool Remove_From(UniqueReference uniqueReference)
         {
             if(uniqueReference != uniqueReference_From)
@@ -173,50 +216,6 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return uniqueReferences_To.Remove(uniqueReference);
-        }
-
-        public override List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences)
-        {
-            if(uniqueReferences == null)
-            {
-                return null;
-            }
-
-            List<UniqueReference> result = new List<UniqueReference>();
-            if(uniqueReferences.Count() == 0)
-            {
-                return result;
-            }
-
-            if(uniqueReferences.Contains(uniqueReference_From))
-            {
-                result.Add(uniqueReference_From);
-                uniqueReference_From = null;
-            }
-
-            foreach(TUniqueReference uniqueReference in uniqueReferences)
-            {
-                if(uniqueReferences_To.Remove(uniqueReference))
-                {
-                    result.Add(uniqueReference);
-                    if(uniqueReferences_To.Count == 0)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public override bool Has_From()
-        {
-            return uniqueReference_From != null;
-        }
-
-        public override bool Has_To()
-        {
-            return uniqueReferences_To != null && uniqueReferences_To.Count != 0;
         }
     }
 }
