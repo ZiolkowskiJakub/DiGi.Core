@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ namespace DiGi.Core.Relation
 {
     public static partial class Query
     {
-        public static HashSet<UniqueReference> UniqueReferences(this IRelation relation, bool from = true, bool to = true)
+        public static HashSet<UniqueReference> UniqueReferences(this IRelation relation, RelationSide relationSide)
         {
             if(relation == null)
             {
@@ -15,16 +16,12 @@ namespace DiGi.Core.Relation
 
             HashSet<UniqueReference> result = new HashSet<UniqueReference>();
 
-            if(!from && !to)
-            {
-                return result;
-            }
 
             if (relation is IManyToManyRelation)
             {
                 IManyToManyRelation manyToManyRelation = (IManyToManyRelation)relation;
 
-                if (from && manyToManyRelation.UniqueReferences_From != null)
+                if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && manyToManyRelation.UniqueReferences_From != null)
                 {
                     foreach(UniqueReference uniqueReference in manyToManyRelation.UniqueReferences_From)
                     {
@@ -32,7 +29,7 @@ namespace DiGi.Core.Relation
                     }
                 }
 
-                if (to && manyToManyRelation.UniqueReferences_To != null)
+                if ((relationSide == RelationSide.To || relationSide == RelationSide.Undefined) && manyToManyRelation.UniqueReferences_To != null)
                 {
                     foreach (UniqueReference uniqueReference in manyToManyRelation.UniqueReferences_To)
                     {
@@ -44,12 +41,12 @@ namespace DiGi.Core.Relation
             {
                 IOneToManyRelation oneToManyRelation = (IOneToManyRelation)relation;
 
-                if (from && oneToManyRelation.UniqueReference_From != null)
+                if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && oneToManyRelation.UniqueReference_From != null)
                 {
                     result.Add(oneToManyRelation.UniqueReference_From);
                 }
 
-                if (to && oneToManyRelation.UniqueReferences_To != null)
+                if ((relationSide == RelationSide.To || relationSide == RelationSide.Undefined) && oneToManyRelation.UniqueReferences_To != null)
                 {
                     foreach (UniqueReference uniqueReference in oneToManyRelation.UniqueReferences_To)
                     {
@@ -61,7 +58,7 @@ namespace DiGi.Core.Relation
             {
                 IManyToOneRelation manyToOneRelation = (IManyToOneRelation)relation;
 
-                if (from && manyToOneRelation.UniqueReferences_From != null)
+                if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && manyToOneRelation.UniqueReferences_From != null)
                 {
                     foreach (UniqueReference uniqueReference in manyToOneRelation.UniqueReferences_From)
                     {
@@ -69,7 +66,7 @@ namespace DiGi.Core.Relation
                     }
                 }
 
-                if (to && manyToOneRelation.UniqueReference_To != null)
+                if ((relationSide == RelationSide.To || relationSide == RelationSide.Undefined) && manyToOneRelation.UniqueReference_To != null)
                 {
                     result.Add(manyToOneRelation.UniqueReference_To);
                 }
@@ -78,12 +75,12 @@ namespace DiGi.Core.Relation
             {
                 IOneToOneRelation oneToOneRelation = (IOneToOneRelation)relation;
 
-                if (from && oneToOneRelation.UniqueReference_From != null)
+                if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && oneToOneRelation.UniqueReference_From != null)
                 {
                     result.Add(oneToOneRelation.UniqueReference_From);
                 }
 
-                if (to && oneToOneRelation.UniqueReference_To != null)
+                if ((relationSide == RelationSide.To || relationSide == RelationSide.Undefined) && oneToOneRelation.UniqueReference_To != null)
                 {
                     result.Add(oneToOneRelation.UniqueReference_To);
                 }

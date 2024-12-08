@@ -1,33 +1,26 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Relation.Enums;
 using System.Collections.Generic;
 
 namespace DiGi.Core.Relation.Interfaces
 {
     public interface IRelation : ISerializableObject
     {
-        System.Type GetType_From();
-
-        System.Type GetType_To();
+        System.Type GetType(RelationSide relationSide);
 
         List<UniqueReference> UniqueReferences { get; }
 
-        bool Contains(UniqueReference uniqueReference);
+        bool Contains(RelationSide relationSide, UniqueReference uniqueReference);
 
-        bool Contains_From(UniqueReference uniqueReference);
+        bool Has(RelationSide relationSide);
 
-        bool Contains_To(UniqueReference uniqueReference);
+        bool Remove(RelationSide relationSide, UniqueReference uniqueReference);
 
-        bool Has_From();
-
-        bool Has_To();
-
-        bool Remove(UniqueReference uniqueReference);
-
-        List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
+        List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
     }
 
-    public interface IRelation<X, Y> : IRelation where X : IUniqueObject where Y : IUniqueObject
+    public interface IRelation<From, To> : IRelation where From : IUniqueObject where To : IUniqueObject
     {
 
     }

@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace DiGi.Core.Relation.Classes
         }
     }
 
-    public abstract class ManyToOneRelation<X, Y> : Relation<X, Y>, IManyToOneRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    public abstract class ManyToOneRelation<From, To> : Relation<From, To>, IManyToOneRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
         [JsonInclude, JsonPropertyName("UniqueReferences_From")]
         private List<UniqueReference> uniqueReferences_From;
@@ -50,7 +51,7 @@ namespace DiGi.Core.Relation.Classes
             this.uniqueReferences_From = uniqueReferences_From == null ? null : uniqueReferences_From.ToList().ConvertAll(x => x?.Clone<UniqueReference>());
         }
 
-        public ManyToOneRelation(ManyToOneRelation<X, Y> manyToOneRelation)
+        public ManyToOneRelation(ManyToOneRelation<From, To> manyToOneRelation)
             : base()
         {
             if(manyToOneRelation != null)
@@ -60,7 +61,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public ManyToOneRelation(IEnumerable<X> uniqueObjects_From, Y uniqueObject_To)
+        public ManyToOneRelation(IEnumerable<From> uniqueObjects_From, To uniqueObject_To)
             : base()
         {
             uniqueReference_To = uniqueObject_To == null ? null : new GuidReference(uniqueObject_To);
@@ -119,7 +120,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public override bool Remove(UniqueReference uniqueReference)
+        public override bool Remove(RelationSide relationSide, UniqueReference uniqueReference)
         {
             if (uniqueReference == null)
             {
@@ -127,45 +128,30 @@ namespace DiGi.Core.Relation.Classes
             }
 
             bool result = false;
-            if (uniqueReference_To == uniqueReference)
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                uniqueReference_To = null;
-                result = true;
+                if (uniqueReference_To == uniqueReference)
+                {
+                    uniqueReference_To = null;
+                    result = true;
+                }
             }
 
-            if (uniqueReferences_From != null)
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReferences_From.Remove(uniqueReference))
+                if (uniqueReferences_From != null)
                 {
-                    result = true;
+                    if (uniqueReferences_From.Remove(uniqueReference))
+                    {
+                        result = true;
+                    }
                 }
             }
 
             return result;
         }
 
-        public override bool Remove_To(UniqueReference uniqueReference)
-        {
-            if (uniqueReference != uniqueReference_To)
-            {
-                return false;
-            }
-
-            uniqueReference_To = null;
-            return true;
-        }
-
-        public override bool Remove_From(UniqueReference uniqueReference)
-        {
-            if (uniqueReference == null || uniqueReferences_From == null)
-            {
-                return false;
-            }
-
-            return uniqueReferences_From.Remove(uniqueReference);
-        }
-
-        public override List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences)
+        public override List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences)
         {
             if (uniqueReferences == null)
             {
@@ -178,20 +164,26 @@ namespace DiGi.Core.Relation.Classes
                 return result;
             }
 
-            if (uniqueReferences.Contains(uniqueReference_To))
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                result.Add(uniqueReference_To);
-                uniqueReference_To = null;
+                if (uniqueReferences.Contains(uniqueReference_To))
+                {
+                    result.Add(uniqueReference_To);
+                    uniqueReference_To = null;
+                }
             }
 
-            foreach (TUniqueReference uniqueReference in uniqueReferences)
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReferences_From.Remove(uniqueReference))
+                foreach (TUniqueReference uniqueReference in uniqueReferences)
                 {
-                    result.Add(uniqueReference);
-                    if (uniqueReferences_From.Count == 0)
+                    if (uniqueReferences_From.Remove(uniqueReference))
                     {
-                        break;
+                        result.Add(uniqueReference);
+                        if (uniqueReferences_From.Count == 0)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -199,14 +191,48 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public override bool Has_From()
+        public override bool Has(RelationSide relationSide)
         {
-            return uniqueReferences_From != null && uniqueReferences_From.Count != 0;
+            bool result = false;
+
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReferences_From != null && uniqueReferences_From.Count != 0;
+            }
+
+            if (result)
+            {
+                return result;
+            }
+
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReference_To != null;
+            }
+
+            return result;
         }
 
-        public override bool Has_To()
+        public override bool Contains(RelationSide relationSide, UniqueReference uniqueReference)
         {
-            return uniqueReference_To != null;
+            bool result = false;
+
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReferences_From != null && uniqueReferences_From.Contains(uniqueReference);
+            }
+
+            if (result)
+            {
+                return result;
+            }
+
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReference_To == uniqueReference;
+            }
+
+            return result;
         }
     }
 }

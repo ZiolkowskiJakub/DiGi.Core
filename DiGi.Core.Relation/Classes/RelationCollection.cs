@@ -41,7 +41,7 @@ namespace DiGi.Core.Relation.Classes
             for (int i = count; i >= 0; i--)
             {
                 T relation = this[i];
-                if (relation == null || !relation.Contains(uniqueReference))
+                if (relation == null || !relation.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
                 }
@@ -80,7 +80,7 @@ namespace DiGi.Core.Relation.Classes
             foreach (T relation in this)
             {
                 X x = relation is X ? (X)relation : default;
-                if (x == null || !x.Contains(uniqueReference))
+                if (x == null || !x.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
                 }
@@ -128,7 +128,7 @@ namespace DiGi.Core.Relation.Classes
             foreach (T relation in this)
             {
                 X x = relation is X ? (X)relation : default;
-                if (x == null || !x.Contains(uniqueReference))
+                if (x == null || !x.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
                 }

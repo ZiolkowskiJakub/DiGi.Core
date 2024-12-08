@@ -1,19 +1,20 @@
-﻿using DiGi.Core.Relation.Interfaces;
+﻿using DiGi.Core.Relation.Enums;
+using DiGi.Core.Relation.Interfaces;
 
 namespace DiGi.Core.Relation
 {
     public static partial class Query
     {
-        public static bool IsValid(this IRelation relation, System.Type type, bool from = true, bool to = true)
+        public static bool IsValid(this IRelation relation, System.Type type, RelationSide relationSide)
         {
             if(relation == null)
             {
                 return false;
             }
 
-            if(from)
+            if(relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                System.Type type_Relation = relation.GetType_From();
+                System.Type type_Relation = relation.GetType(RelationSide.From);
                 if (type_Relation == null && type == null)
                 {
                     return true;
@@ -25,9 +26,9 @@ namespace DiGi.Core.Relation
                 }
             }
 
-            if (to)
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                System.Type type_Relation = relation.GetType_To();
+                System.Type type_Relation = relation.GetType(RelationSide.To);
                 if (type_Relation == null && type == null)
                 {
                     return true;

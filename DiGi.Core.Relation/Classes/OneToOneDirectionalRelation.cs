@@ -44,8 +44,6 @@ namespace DiGi.Core.Relation.Classes
     /// <typeparam name="YUniqueObject">Related Unique Object</typeparam>
     public class OneToOneDirectionalRelation<XUniqueObject, YUniqueObject> : OneToOneRelation<XUniqueObject, YUniqueObject>, IDirectionalRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
-        
-        
         public OneToOneDirectionalRelation(UniqueReference uniqueReference_From, UniqueReference uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {

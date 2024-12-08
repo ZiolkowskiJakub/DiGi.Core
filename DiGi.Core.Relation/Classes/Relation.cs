@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -31,37 +32,20 @@ namespace DiGi.Core.Relation.Classes
         [JsonIgnore]
         public abstract List<UniqueReference> UniqueReferences { get; }
 
-        public bool Contains(UniqueReference uniqueReference)
-        {
-            bool? contains = UniqueReferences?.Contains(uniqueReference);
+        public abstract bool Contains(RelationSide relationSide, UniqueReference uniqueReference);
 
-            return contains != null && contains.HasValue  && contains.Value;
-        }
+        public abstract Type GetType(RelationSide relationSide);
 
-        public abstract bool Contains_From(UniqueReference uniqueReference);
+        public abstract bool Has(RelationSide relationSide);
 
-        public abstract bool Contains_To(UniqueReference uniqueReference);
+        public abstract bool Remove(RelationSide relationSide, UniqueReference uniqueReference);
 
-        public abstract Type GetType_From();
-
-        public abstract Type GetType_To();
-
-        public abstract bool Remove(UniqueReference uniqueReference);
-
-        public abstract List<UniqueReference> Remove<TUniqueReference>(IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
-
-        public abstract bool Remove_From(UniqueReference uniqueReference);
-
-        public abstract bool Remove_To(UniqueReference uniqueReference);
-        
-        public abstract bool Has_From();
-        
-        public abstract bool Has_To();
+        public abstract List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
     }
 
-    public abstract class Relation<X, Y> : Relation, IRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    public abstract class Relation<From, To> : Relation, IRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
-        public Relation(Relation<X, Y> relation)
+        public Relation(Relation<From, To> relation)
             : base(relation)
         {
 
@@ -79,14 +63,18 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public override Type GetType_From()
+        public override Type GetType(RelationSide relationSide)
         {
-            return typeof(X);
-        }
+            switch(relationSide)
+            {
+                case RelationSide.From:
+                    return typeof(From);
 
-        public override Type GetType_To()
-        {
-            return typeof(Y);
+                case RelationSide.To:
+                    return typeof(To);
+            }
+
+            return null;
         }
     }
 }

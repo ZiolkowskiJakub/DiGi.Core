@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -188,9 +189,9 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public List<UUniqueObject> GetValues<UUniqueObject>(XRelation relation, bool from = true, bool to = true) where UUniqueObject : TUniqueObject
+        public List<UUniqueObject> GetValues<UUniqueObject>(XRelation relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
         {
-            HashSet<UniqueReference> uniqueReferences = Query.UniqueReferences(relation, from, to);
+            HashSet<UniqueReference> uniqueReferences = Query.UniqueReferences(relation, relationSide);
             if(uniqueReferences == null)
             {
                 return null;
@@ -227,18 +228,18 @@ namespace DiGi.Core.Relation.Classes
             List<UUniqueObject> result = new List<UUniqueObject>();
             foreach (XRelation relation in relations)
             {
-                if (!relation.Contains_From(guidReference) && Query.IsValid(relation, typeof(UUniqueObject), true, false))
+                if (!relation.Contains(RelationSide.From, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
                 {
-                    List<UUniqueObject> values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, true, false)?.Cast<GuidReference>());
+                    List<UUniqueObject> values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From)?.Cast<GuidReference>());
                     if (values != null)
                     {
                         result.AddRange(values);
                     }
                 }
 
-                if (!relation.Contains_To(guidReference) && Query.IsValid(relation, typeof(UUniqueObject), false, true))
+                if (!relation.Contains(RelationSide.To, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
                 {
-                    List<UUniqueObject> values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, false, true)?.Cast<GuidReference>());
+                    List<UUniqueObject> values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To)?.Cast<GuidReference>());
                     if (values != null)
                     {
                         result.AddRange(values);
@@ -282,9 +283,9 @@ namespace DiGi.Core.Relation.Classes
 
             foreach (XRelation relation in relations)
             {
-                if (!relation.Contains_From(guidReference) && Query.IsValid(relation, typeof(UUniqueObject), true, false))
+                if (!relation.Contains(RelationSide.From, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
                 {
-                    List<UUniqueObject> relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, true, false)?.Cast<GuidReference>());
+                    List<UUniqueObject> relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From)?.Cast<GuidReference>());
                     if (relatedValues != null)
                     {
                         foreach (UUniqueObject relatedValue in relatedValues)
@@ -299,9 +300,9 @@ namespace DiGi.Core.Relation.Classes
                     }
                 }
 
-                if (!relation.Contains_To(guidReference) && Query.IsValid(relation, typeof(UUniqueObject), false, true))
+                if (!relation.Contains(RelationSide.To, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
                 {
-                    List<UUniqueObject> relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, false, true)?.Cast<GuidReference>());
+                    List<UUniqueObject> relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To)?.Cast<GuidReference>());
                     if (relatedValues != null)
                     {
                         foreach (UUniqueObject relatedValue in relatedValues)

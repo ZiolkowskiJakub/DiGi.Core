@@ -33,9 +33,9 @@ namespace DiGi.Core.Relation.Classes
         }
     }
 
-    public class OneToManyBidirectionalRelation<X, Y> : OneToManyRelation<X, Y>, IBidirectionalRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    public class OneToManyBidirectionalRelation<From, To> : OneToManyRelation<From, To>, IBidirectionalRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
-        public OneToManyBidirectionalRelation(X uniqueObject_From, IEnumerable<Y> uniqueObjects_To)
+        public OneToManyBidirectionalRelation(From uniqueObject_From, IEnumerable<To> uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
 
@@ -47,7 +47,7 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public OneToManyBidirectionalRelation(OneToManyBidirectionalRelation<X, Y> oneToManyBidirectionalRelation)
+        public OneToManyBidirectionalRelation(OneToManyBidirectionalRelation<From, To> oneToManyBidirectionalRelation)
             : base(oneToManyBidirectionalRelation)
         {
 

@@ -37,9 +37,9 @@ namespace DiGi.Core.Relation.Classes
         }
     }
 
-    public class OneToOneBidirectionalRelation<X, Y> : OneToOneRelation<X, Y>, IBidirectionalRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    public class OneToOneBidirectionalRelation<From, To> : OneToOneRelation<From, To>, IBidirectionalRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
-        public OneToOneBidirectionalRelation(OneToOneBidirectionalRelation<X, Y> oneToOneBidirectionalRelation)
+        public OneToOneBidirectionalRelation(OneToOneBidirectionalRelation<From, To> oneToOneBidirectionalRelation)
             : base(oneToOneBidirectionalRelation)
         {
 
@@ -51,7 +51,7 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public OneToOneBidirectionalRelation(X uniqueObject_From, Y uniqueObject_To)
+        public OneToOneBidirectionalRelation(From uniqueObject_From, To uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
 
@@ -65,7 +65,7 @@ namespace DiGi.Core.Relation.Classes
 
         public override ISerializableObject Clone()
         {
-            return new OneToOneBidirectionalRelation<X, Y>(this);
+            return new OneToOneBidirectionalRelation<From, To>(this);
         }
     }
 }
