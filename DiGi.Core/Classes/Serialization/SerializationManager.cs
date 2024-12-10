@@ -70,8 +70,6 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-
-
         public SerializationMethodCollection GetSerializationMethodCollection(Type type, bool update = true)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))

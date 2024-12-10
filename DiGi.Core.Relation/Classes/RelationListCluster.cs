@@ -40,6 +40,83 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        public List<URelation> GetValues<URelation>(UniqueReference uniqueReference, Func<URelation, bool> func = null) where URelation : XRelation
+        {
+            List<RelationListClusterReference> relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
+            if (relationListClusterRefereces == null)
+            {
+                return null;
+            }
+
+            return GetValues<URelation>(relationListClusterRefereces);
+        }
+
+        public List<XRelation> Remove<XUniqueReference>(IEnumerable<XUniqueReference> uniqueReferences) where XUniqueReference : UniqueReference
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            List<XUniqueReference> uniqueReferences_Temp = new List<XUniqueReference>(uniqueReferences.Distinct());
+
+            List<RelationListClusterReference> relationListClusterReferences = GetRelationListClusterReferences<XRelation, XUniqueReference>(uniqueReferences_Temp);
+            if (relationListClusterReferences == null || relationListClusterReferences.Count == 0)
+            {
+                return null;
+            }
+
+            List<XRelation> result = new List<XRelation>();
+
+            List<RelationListClusterReference> relationListClusterReferences_ToRemove = new List<RelationListClusterReference>();
+
+            foreach (RelationListClusterReference relationListClusterReference in relationListClusterReferences)
+            {
+                XRelation relation = GetValue<XRelation>(relationListClusterReference);
+
+                List<UniqueReference> uniqueReferences_Removed = relation.Remove(RelationSide.Undefined, uniqueReferences_Temp);
+                if (uniqueReferences_Removed == null || uniqueReferences_Removed.Count == 0)
+                {
+                    continue;
+                }
+
+                result.Add(relation);
+
+                if (!relation.Has(RelationSide.Undefined))
+                {
+                    relationListClusterReferences_ToRemove.Add(relationListClusterReference);
+                }
+            }
+
+            if (relationListClusterReferences_ToRemove != null && relationListClusterReferences_ToRemove.Count != 0)
+            {
+                base.Remove(relationListClusterReferences_ToRemove);
+            }
+
+            return result;
+        }
+
+        public bool Remove(UniqueReference uniqueReference)
+        {
+            if (uniqueReference == null)
+            {
+                return false;
+            }
+
+            List<XRelation> relations = Remove(new UniqueReference[] { uniqueReference });
+            return relations != null && relations.Count > 0;
+        }
+
+        protected override TypeReference GetKey_1(XRelation value)
+        {
+            return Create.TypeReference(value?.GetType(RelationSide.From));
+        }
+
+        protected override TypeReference GetKey_2(XRelation value)
+        {
+            return Create.TypeReference(value?.GetType(RelationSide.To));
+        }
+
         private List<RelationListClusterReference> GetRelationListClusterReferences<U, X>(IEnumerable<X> uniqueReferences, Func<U, bool> func = null) where U : XRelation where X : UniqueReference
         {
             if(uniqueReferences == null)
@@ -147,83 +224,6 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return GetRelationListClusterReferences(new UniqueReference[] { uniqueReference }, func);
-        }
-
-        public List<URelation> GetValues<URelation>(UniqueReference uniqueReference, Func<URelation, bool> func = null) where URelation : XRelation
-        {
-            List<RelationListClusterReference> relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
-            if(relationListClusterRefereces == null)
-            {
-                return null;
-            }
-
-            return GetValues<URelation>(relationListClusterRefereces);
-        }
-
-        public List<XRelation> Remove<XUniqueReference>(IEnumerable<XUniqueReference> uniqueReferences) where XUniqueReference: UniqueReference
-        {
-            if (uniqueReferences == null)
-            {
-                return null;
-            }
-
-            List<XUniqueReference> uniqueReferences_Temp = new List<XUniqueReference>(uniqueReferences.Distinct());
-
-            List<RelationListClusterReference> relationListClusterReferences = GetRelationListClusterReferences<XRelation, XUniqueReference>(uniqueReferences_Temp);
-            if (relationListClusterReferences == null || relationListClusterReferences.Count == 0)
-            {
-                return null;
-            }
-
-            List<XRelation> result = new List<XRelation>();
-
-            List<RelationListClusterReference> relationListClusterReferences_ToRemove = new List<RelationListClusterReference>();
-
-            foreach (RelationListClusterReference relationListClusterReference in relationListClusterReferences)
-            {
-                XRelation relation = GetValue<XRelation>(relationListClusterReference);
-
-                List<UniqueReference> uniqueReferences_Removed = relation.Remove(RelationSide.Undefined, uniqueReferences_Temp);
-                if(uniqueReferences_Removed == null || uniqueReferences_Removed.Count == 0)
-                {
-                    continue;
-                }
-
-                result.Add(relation);
-
-                if(!relation.Has(RelationSide.Undefined))
-                {
-                    relationListClusterReferences_ToRemove.Add(relationListClusterReference);
-                }
-            }
-
-            if (relationListClusterReferences_ToRemove != null && relationListClusterReferences_ToRemove.Count != 0)
-            {
-                base.Remove(relationListClusterReferences_ToRemove);
-            }
-
-            return result;
-        }
-
-        public bool Remove(UniqueReference uniqueReference)
-        {
-            if(uniqueReference == null)
-            {
-                return false;
-            }
-
-            List<XRelation> relations = Remove(new UniqueReference[] { uniqueReference });
-            return relations != null && relations.Count > 0;
-        }
-
-        protected override TypeReference GetKey_1(XRelation value)
-        {
-            return Create.TypeReference(value?.GetType(RelationSide.From));
-        }
-
-        protected override TypeReference GetKey_2(XRelation value)
-        {
-            return Create.TypeReference(value?.GetType(RelationSide.To));
         }
     }
 

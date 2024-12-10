@@ -31,11 +31,6 @@ namespace DiGi.Core.Relation.Classes
         {
 
         }
-
-        public override ISerializableObject Clone()
-        {
-            return new OneToManyDirectionalRelation(this);
-        }
     }
 
     /// <summary>
@@ -45,8 +40,6 @@ namespace DiGi.Core.Relation.Classes
     /// <typeparam name="YUniqueObject">Related Unique Object</typeparam>
     public class OneToManyDirectionalRelation<XUniqueObject, YUniqueObject> : OneToManyRelation<XUniqueObject, YUniqueObject>, IDirectionalRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
-        
-        
         public OneToManyDirectionalRelation(UniqueReference uniqueReference_From, IEnumerable<UniqueReference> uniqueReferences_To)
             : base(uniqueReference_From, uniqueReferences_To)
         {
@@ -71,9 +64,5 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public override ISerializableObject Clone()
-        {
-            return new OneToManyDirectionalRelation<XUniqueObject, YUniqueObject>(this);
-        }
     }
 }

@@ -35,19 +35,19 @@ namespace DiGi.Core.Drawing.Classes
 
         }
 
-        public double Thickness
-        {
-            get
-            {
-                return thickness;
-            }
-        }
-
         public Color Color
         {
             get
             {
                 return color?.Clone<Color>();
+            }
+        }
+
+        public double Thickness
+        {
+            get
+            {
+                return thickness;
             }
         }
     }

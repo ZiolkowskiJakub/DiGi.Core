@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class ExternalReference : SerializableReference
+    public abstract class ExternalReference : SerializableReference, IExternalReference
     {
         [JsonInclude, JsonPropertyName("Source")]
         private string source;

@@ -28,45 +28,61 @@ namespace DiGi.Core.Relation.Classes
         {
         }
 
-        public bool Remove(UniqueReference uniqueReference)
+        public X Find<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
         {
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
-                return false;
+                return default;
             }
 
-            int count = Count;
-
-            bool result = false;
-            for (int i = count; i >= 0; i--)
+            foreach (T relation in this)
             {
-                T relation = this[i];
-                if (relation == null || !relation.Contains(Enums.RelationSide.Undefined, uniqueReference))
+                X x = relation is X ? (X)relation : default;
+                if (x == null || !x.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
                 }
 
-                if (relation is IOneToOneRelation)
+                if (func != null)
                 {
-                    RemoveAt(i);
-                    result = true;
+                    if (func.Invoke(x))
+                    {
+                        return x;
+                    }
+
                     continue;
                 }
 
-                throw new NotImplementedException();
+                return x;
             }
 
-            return result;
+            return default;
         }
 
-        public bool Remove(T relation)
+        public X Find<X>(Func<X, bool> func = null) where X : T
         {
-            if (relation == null)
+            foreach (T relation in this)
             {
-                return false;
+                X x = relation is X ? (X)relation : default;
+                if (x == null)
+                {
+                    continue;
+                }
+
+                if (func != null)
+                {
+                    if (func.Invoke(x))
+                    {
+                        return x;
+                    }
+
+                    continue;
+                }
+
+                return x;
             }
 
-            return Remove(relation);
+            return default;
         }
 
         public List<X> FindAll<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
@@ -118,62 +134,45 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public X Find<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
+        public bool Remove(UniqueReference uniqueReference)
         {
-            if (uniqueReference == null)
+            if(uniqueReference == null)
             {
-                return default;
+                return false;
             }
 
-            foreach (T relation in this)
+            int count = Count;
+
+            bool result = false;
+            for (int i = count; i >= 0; i--)
             {
-                X x = relation is X ? (X)relation : default;
-                if (x == null || !x.Contains(Enums.RelationSide.Undefined, uniqueReference))
+                T relation = this[i];
+                if (relation == null || !relation.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
                 }
 
-                if(func != null)
+                if (relation is IOneToOneRelation)
                 {
-                    if (func.Invoke(x))
-                    {
-                        return x;
-                    }
-
+                    RemoveAt(i);
+                    result = true;
                     continue;
                 }
 
-                return x;
+                throw new NotImplementedException();
             }
 
-            return default;
+            return result;
         }
 
-        public X Find<X>(Func<X, bool> func = null) where X : T
+        public bool Remove(T relation)
         {
-            foreach (T relation in this)
+            if (relation == null)
             {
-                X x = relation is X ? (X)relation : default;
-                if (x == null)
-                {
-                    continue;
-                }
-
-                if (func != null )
-                {
-                    if(func.Invoke(x))
-                    {
-                        return x;
-                    }
-
-                    continue;
-                }
-
-                return x;
+                return false;
             }
 
-            return default;
+            return Remove(relation);
         }
-
     }
 }

@@ -70,6 +70,24 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonIgnore]
+        public UniqueReference UniqueReference_From
+        {
+            get
+            {
+                return uniqueReference_From?.Clone<UniqueReference>();
+            }
+        }
+
+        [JsonIgnore]
+        public UniqueReference UniqueReference_To
+        {
+            get
+            {
+                return uniqueReference_To?.Clone<UniqueReference>();
+            }
+        }
+
+        [JsonIgnore]
         public override List<UniqueReference> UniqueReferences
         {
             get
@@ -88,23 +106,49 @@ namespace DiGi.Core.Relation.Classes
                 return result;
             }
         }
-
-        [JsonIgnore]
-        public UniqueReference UniqueReference_From
+        
+        public override bool Contains(RelationSide relationSide, UniqueReference uniqueReference)
         {
-            get
+            bool result = false;
+
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                return uniqueReference_From?.Clone<UniqueReference>();
+                result = uniqueReference_From == uniqueReference;
             }
+
+            if (result)
+            {
+                return result;
+            }
+
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReference_To == uniqueReference;
+            }
+
+            return result;
         }
 
-        [JsonIgnore]
-        public UniqueReference UniqueReference_To
+        public override bool Has(RelationSide relationSide)
         {
-            get
+            bool result = false;
+
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                return uniqueReference_To?.Clone<UniqueReference>();
+                result = uniqueReference_From != null;
             }
+
+            if (result)
+            {
+                return result;
+            }
+
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReference_To != null;
+            }
+
+            return result;
         }
 
         public override bool Remove(RelationSide relationSide, UniqueReference uniqueReference)
@@ -134,6 +178,28 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return result;
+        }
+
+        public override bool Add(RelationSide relationSide, UniqueReference uniqueReference)
+        {
+            if (uniqueReference == null || relationSide == RelationSide.Undefined)
+            {
+                return false;
+            }
+
+            if (relationSide == RelationSide.To)
+            {
+                uniqueReference_To = uniqueReference;
+                return true;
+            }
+
+            if (relationSide == RelationSide.From)
+            {
+                uniqueReference_From = uniqueReference;
+                return true;
+            }
+
+            return true;
         }
 
         public override List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences)
@@ -168,50 +234,6 @@ namespace DiGi.Core.Relation.Classes
                         uniqueReference_From = null;
                     }
                 }
-            }
-
-            return result;
-        }
-
-        public override bool Has(RelationSide relationSide)
-        {
-            bool result = false;
-
-            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReference_From != null;
-            }
-
-            if (result)
-            {
-                return result;
-            }
-
-            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReference_To != null;
-            }
-
-            return result;
-        }
-
-        public override bool Contains(RelationSide relationSide, UniqueReference uniqueReference)
-        {
-            bool result = false;
-
-            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReference_From == uniqueReference;
-            }
-
-            if (result)
-            {
-                return result;
-            }
-
-            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReference_To == uniqueReference;
             }
 
             return result;

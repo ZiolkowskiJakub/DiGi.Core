@@ -30,11 +30,6 @@ namespace DiGi.Core.Relation.Classes
         {
 
         }
-
-        public override ISerializableObject Clone()
-        {
-            return new OneToOneBidirectionalRelation(this);
-        }
     }
 
     public class OneToOneBidirectionalRelation<From, To> : OneToOneRelation<From, To>, IBidirectionalRelation<From, To> where From : IUniqueObject where To : IUniqueObject
@@ -61,11 +56,6 @@ namespace DiGi.Core.Relation.Classes
             : base(jsonObject)
         {
 
-        }
-
-        public override ISerializableObject Clone()
-        {
-            return new OneToOneBidirectionalRelation<From, To>(this);
         }
     }
 }

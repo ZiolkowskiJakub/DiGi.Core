@@ -120,6 +120,50 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        public override bool Contains(RelationSide relationSide, UniqueReference uniqueReference)
+        {
+            bool result = false;
+
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference);
+            }
+
+            if (result)
+            {
+                return result;
+            }
+
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReference_From == uniqueReference;
+            }
+
+            return result;
+        }
+
+        public override bool Has(RelationSide relationSide)
+        {
+            bool result = false;
+
+            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReferences_To != null && uniqueReferences_To.Count != 0;
+            }
+
+            if (result)
+            {
+                return result;
+            }
+
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
+            {
+                result = uniqueReference_From != null;
+            }
+
+            return result;
+        }
+
         public override bool Remove(RelationSide relationSide, UniqueReference uniqueReference)
         {
             if (uniqueReference == null)
@@ -150,6 +194,34 @@ namespace DiGi.Core.Relation.Classes
 
             return result;
         }
+
+        public override bool Add(RelationSide relationSide, UniqueReference uniqueReference)
+        {
+            if (uniqueReference == null || relationSide == RelationSide.Undefined)
+            {
+                return false;
+            }
+
+            if (relationSide == RelationSide.From)
+            {
+                uniqueReference_From = uniqueReference;
+                return true;
+            }
+
+            if (relationSide == RelationSide.To)
+            {
+                if(uniqueReferences_To == null)
+                {
+                    uniqueReferences_To = new List<UniqueReference>();
+                }
+
+                uniqueReferences_To.Add(uniqueReference);
+                return true;
+            }
+
+            return false;
+        }
+
 
         public override List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences)
         {
@@ -186,50 +258,6 @@ namespace DiGi.Core.Relation.Classes
                         }
                     }
                 }
-            }
-
-            return result;
-        }
-
-        public override bool Has(RelationSide relationSide)
-        {
-            bool result = false;
-
-            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReferences_To!= null && uniqueReferences_To.Count != 0;
-            }
-
-            if (result)
-            {
-                return result;
-            }
-
-            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReference_From != null;
-            }
-
-            return result;
-        }
-
-        public override bool Contains(RelationSide relationSide, UniqueReference uniqueReference)
-        {
-            bool result = false;
-
-            if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference);
-            }
-
-            if (result)
-            {
-                return result;
-            }
-
-            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
-            {
-                result = uniqueReference_From == uniqueReference;
             }
 
             return result;

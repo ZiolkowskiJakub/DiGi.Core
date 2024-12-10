@@ -40,6 +40,8 @@ namespace DiGi.Core.Relation.Classes
 
         public abstract bool Remove(RelationSide relationSide, UniqueReference uniqueReference);
 
+        public abstract bool Add(RelationSide relationSide, UniqueReference uniqueReference);
+
         public abstract List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
     }
 

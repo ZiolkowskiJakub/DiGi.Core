@@ -67,10 +67,5 @@ namespace DiGi.Core.Relation.Classes
         {
 
         }
-
-        public override ISerializableObject Clone()
-        {
-            return new OneToOneDirectionalRelation<XUniqueObject, YUniqueObject>(this);
-        }
     }
 }

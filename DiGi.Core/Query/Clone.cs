@@ -1,7 +1,9 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json.Nodes;
 
 
 namespace DiGi.Core
@@ -12,7 +14,7 @@ namespace DiGi.Core
         {
             if(serializableObject == null)
             {
-                return default(T);
+                return default;
             }
 
             MethodInfo methodInfo = typeof(ISerializableObject).GetMethod(Constans.Serialization.MethodName.Clone, new Type[] { });
@@ -22,12 +24,34 @@ namespace DiGi.Core
             }
 
             object @object = methodInfo.Invoke(serializableObject, new object[] { });
+            if(@object == null)
+            {
+                return default;
+            }
+
             if(@object is T)
             {
                 return (T)@object;
             }
 
-            return default(T);
+            if(!@object.GetType().IsAssignableFrom(typeof(T)))
+            {
+                return default;
+            }
+
+            SerializationConstructor serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(FullTypeName(serializableObject));
+            if(serializationConstructor == null)
+            {
+                return default;
+            }
+
+            JsonObject jsonObject = serializableObject.ToJsonObject();
+            if (jsonObject == null)
+            {
+                return default;
+            }
+
+            return Create.SerializableObject<T>(jsonObject);
         }
 
         public static List<T> Clone<T>(this IEnumerable<T> serializableObjects) where T : ISerializableObject
