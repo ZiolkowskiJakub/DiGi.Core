@@ -10,7 +10,7 @@ namespace DiGi.Core
     {
         public static string ToSystem_String(this ISerializableObject serializableObject)
         {
-            return ToSystem_String(serializableObject, null);
+            return ToSystem_String(serializableObject, Settings.SerializationManager.JsonSerializerOptions);
         }
         
         public static string ToSystem_String(this IEnumerable<ISerializableObject> serializableObjects)

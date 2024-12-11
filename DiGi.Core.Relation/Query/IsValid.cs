@@ -34,7 +34,7 @@ namespace DiGi.Core.Relation
                     return true;
                 }
 
-                if (type != null && type.IsAssignableFrom(type_Relation))
+                if (type != null && type_Relation.IsAssignableFrom(type)) //type.IsAssignableFrom(type_Relation)
                 {
                     return true;
                 }

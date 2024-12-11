@@ -2,6 +2,12 @@
 {
     public static class Serialization
     {
+        public static class LiteralName
+        {
+            public const string PositiveInfinity = "Infinity";
+            public const string NegativeInfinity = "-Infinity";
+        }
+
         public static class PropertyName
         {
             public const string Type = "_type";

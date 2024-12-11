@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
@@ -21,6 +22,43 @@ namespace DiGi.Core.Classes
         {
             min = range.min;
             max = range.max;
+        }
+
+        public Range(IEnumerable<T> values)
+        {
+            if(values != null)
+            {
+                dynamic min = null;
+                dynamic max = null;
+                foreach(T value in values)
+                {
+                    if(value == null)
+                    {
+                        continue;
+                    }
+
+                    if(min == null)
+                    {
+                        min = value;
+                        max = value;
+                    }
+                    else
+                    {
+                        min = System.Math.Min(value as dynamic, min);
+                        max = System.Math.Max(value as dynamic, max);
+                    }
+                }
+
+                if(min != null)
+                {
+                    this.min = min;
+                }
+
+                if (max != null)
+                {
+                    this.max = max;
+                }
+            }
         }
 
         public Range(JsonObject jsonObject)

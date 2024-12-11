@@ -1,6 +1,8 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
@@ -8,12 +10,13 @@ namespace DiGi.Core.Classes
     {
         private Dictionary<string, SerializationConstructor> dictionary_SerializationConstructor = new Dictionary<string, SerializationConstructor>();
         private Dictionary<string, SerializationMethodCollection> dictionary_SerializationMethodCollection = new Dictionary<string, SerializationMethodCollection>();
-    
         public SerializationManager()
         {
 
         }
 
+        public JsonSerializerOptions JsonSerializerOptions { get; set; } = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
+        
         public SerializationConstructor GetSerializationConstructor(Type type, bool update = true)
         {
             if(type == null || !typeof(ISerializableObject).IsAssignableFrom(type))

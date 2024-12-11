@@ -9,20 +9,48 @@ namespace DiGi.Core
             result = double.NaN;
 
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return false;
+            }
 
             string value_1_String = value.Trim().Split(' ')[0];
+            if (!double.TryParse(value_1_String, out double value_1))
+            {
+                if(value_1_String == Constans.Serialization.LiteralName.PositiveInfinity)
+                {
+                    result = double.PositiveInfinity;
+                    return true;
+                }
+
+                if (value_1_String == Constans.Serialization.LiteralName.NegativeInfinity)
+                {
+                    result = double.NegativeInfinity;
+                    return true;
+                }
+
+                value_1 = double.NaN;
+            }
+            else
+            {
+                if(double.IsNaN(value_1))
+                {
+                    result = value_1;
+                    return true;
+                }
+
+                if (double.IsInfinity(value_1))
+                {
+                    result = value_1;
+                    return true;
+                }
+            }
+
             string value_2_String = value_1_String;
             string value_3_String = value_2_String;
 
             value_1_String = value_1_String.Replace(",", ".");
 
             value_2_String = value_2_String.Replace(".", ",");
-
-            if (!double.TryParse(value_1_String, out double value_1))
-            {
-                value_1 = double.NaN;
-            }
 
             if (!double.TryParse(value_2_String, out double value_2))
             {

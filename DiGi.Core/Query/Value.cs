@@ -155,7 +155,20 @@ namespace DiGi.Core
 
             if (type_Temp == typeof(double))
             {
-                return jsonNode.GetValue<double>();
+                switch(jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<double>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out double @double))
+                        {
+                            return @double;
+                        }
+                        break;
+                }
+
+                return double.NaN;
             }
 
             if (type_Temp == typeof(float))
