@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiGi.Core.Classes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace DiGi.Core
     {
         public static IList List(Type type)
         {
-            if(type == null)
+            if (type == null)
             {
                 return null;
             }
