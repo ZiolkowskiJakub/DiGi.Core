@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.IO.DelimitedData.Classes;
+using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using DiGi.Core.IO.Table.Classes;
 using System;
@@ -58,7 +59,29 @@ namespace DiGi.Core.IO.DelimitedData
                 return false;
             }
 
-            return Write(table, new DelimitedDataWriter(separator, path), func);
+            bool result = false;
+            using (DelimitedDataWriter delimitedDataWriter = new DelimitedDataWriter(separator, path))
+            {
+                result = Write(table, delimitedDataWriter, func);
+            }
+
+            return result;
+        }
+
+        public static bool Write(this Table.Classes.Table table, string path, DelimitedDataSeparator delimitedDataSeparator, Func<object, string> func = null)
+        {
+            if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+            {
+                return false;
+            }
+
+            bool result = false;
+            using (DelimitedDataWriter delimitedDataWriter = new DelimitedDataWriter(delimitedDataSeparator.Separator(), path))
+            {
+                result = Write(table, delimitedDataWriter, func);
+            }
+
+            return result;
         }
     }
 }

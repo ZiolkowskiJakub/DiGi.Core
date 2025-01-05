@@ -1,9 +1,5 @@
-﻿using DiGi.Core.IO.DelimitedData.Classes;
-using DiGi.Core.IO.DelimitedData.Enums;
+﻿using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
-using DiGi.Core.IO.Table.Classes;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Core.IO.DelimitedData
 {

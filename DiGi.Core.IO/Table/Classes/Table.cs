@@ -1,12 +1,6 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.IO.Interfaces;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Table.Classes
 {
