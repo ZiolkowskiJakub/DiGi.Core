@@ -39,22 +39,22 @@ namespace DiGi.Core.Relation.Classes
     public abstract class OneToOneRelation<From, To> : Relation<From, To>, IOneToOneRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
         [JsonInclude, JsonPropertyName("UniqueReference_From")]
-        private UniqueReference uniqueReference_From;
+        private IUniqueReference uniqueReference_From;
 
         [JsonInclude, JsonPropertyName("UniqueReference_To")]
-        private UniqueReference uniqueReference_To;
+        private IUniqueReference uniqueReference_To;
 
         public OneToOneRelation(OneToOneRelation<From, To> oneToOneRelation)
             : base()
         {
-            uniqueReference_From = oneToOneRelation.uniqueReference_From?.Clone<UniqueReference>();
-            uniqueReference_To = oneToOneRelation.uniqueReference_To?.Clone<UniqueReference>();
+            uniqueReference_From = oneToOneRelation.uniqueReference_From?.Clone<IUniqueReference>();
+            uniqueReference_To = oneToOneRelation.uniqueReference_To?.Clone<IUniqueReference>();
         }
 
-        public OneToOneRelation(UniqueReference uniqueReference_From, UniqueReference uniqueReference_To)
+        public OneToOneRelation(IUniqueReference uniqueReference_From, IUniqueReference uniqueReference_To)
         {
-            uniqueReference_From = uniqueReference_From?.Clone<UniqueReference>();
-            uniqueReference_To = uniqueReference_To?.Clone<UniqueReference>();
+            uniqueReference_From = uniqueReference_From?.Clone<IUniqueReference>();
+            uniqueReference_To = uniqueReference_To?.Clone<IUniqueReference>();
         }
 
         public OneToOneRelation(From uniqueObject_From, To uniqueObject_To)
@@ -70,44 +70,44 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonIgnore]
-        public UniqueReference UniqueReference_From
+        public IUniqueReference UniqueReference_From
         {
             get
             {
-                return uniqueReference_From?.Clone<UniqueReference>();
+                return uniqueReference_From?.Clone<IUniqueReference>();
             }
         }
 
         [JsonIgnore]
-        public UniqueReference UniqueReference_To
+        public IUniqueReference UniqueReference_To
         {
             get
             {
-                return uniqueReference_To?.Clone<UniqueReference>();
+                return uniqueReference_To?.Clone<IUniqueReference>();
             }
         }
 
         [JsonIgnore]
-        public override List<UniqueReference> UniqueReferences
+        public override List<IUniqueReference> UniqueReferences
         {
             get
             {
-                List<UniqueReference> result = new List<UniqueReference>();
+                List<IUniqueReference> result = new List<IUniqueReference>();
                 if (uniqueReference_From != null)
                 {
-                    result.Add(uniqueReference_From.Clone<UniqueReference>());
+                    result.Add(uniqueReference_From.Clone<IUniqueReference>());
                 }
 
                 if (uniqueReference_To != null)
                 {
-                    result.Add(uniqueReference_To.Clone<UniqueReference>());
+                    result.Add(uniqueReference_To.Clone<IUniqueReference>());
                 }
 
                 return result;
             }
         }
         
-        public override bool Contains(RelationSide relationSide, UniqueReference uniqueReference)
+        public override bool Contains(RelationSide relationSide, IUniqueReference uniqueReference)
         {
             bool result = false;
 
@@ -151,7 +151,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public override bool Remove(RelationSide relationSide, UniqueReference uniqueReference)
+        public override bool Remove(RelationSide relationSide, IUniqueReference uniqueReference)
         {
             if (uniqueReference == null)
             {
@@ -180,7 +180,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public override bool Add(RelationSide relationSide, UniqueReference uniqueReference)
+        public override bool Add(RelationSide relationSide, IUniqueReference uniqueReference)
         {
             if (uniqueReference == null || relationSide == RelationSide.Undefined)
             {
@@ -202,14 +202,14 @@ namespace DiGi.Core.Relation.Classes
             return true;
         }
 
-        public override List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences)
+        public override List<TUniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences)
         {
             if (uniqueReferences == null)
             {
                 return null;
             }
 
-            List<UniqueReference> result = new List<UniqueReference>();
+            List<TUniqueReference> result = new List<TUniqueReference>();
             if (uniqueReferences.Count() == 0)
             {
                 return result;
@@ -217,20 +217,23 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReferences.Contains(uniqueReference_To))
+                if(uniqueReference_To is TUniqueReference)
                 {
-                    result.Add(uniqueReference_To);
-                    uniqueReference_To = null;
+                    if (uniqueReferences.Contains((TUniqueReference)uniqueReference_To))
+                    {
+                        result.Add((TUniqueReference)uniqueReference_To);
+                        uniqueReference_To = null;
+                    }
                 }
             }
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                foreach (TUniqueReference uniqueReference in uniqueReferences)
+                if (uniqueReference_From is TUniqueReference)
                 {
-                    if (uniqueReferences.Contains(uniqueReference_From))
+                    if (uniqueReferences.Contains((TUniqueReference)uniqueReference_From))
                     {
-                        result.Add(uniqueReference_From);
+                        result.Add((TUniqueReference)uniqueReference_From);
                         uniqueReference_From = null;
                     }
                 }

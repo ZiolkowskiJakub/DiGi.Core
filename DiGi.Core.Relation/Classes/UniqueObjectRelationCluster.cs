@@ -223,14 +223,14 @@ namespace DiGi.Core.Relation.Classes
 
         public List<UUniqueObject> GetValues<UUniqueObject>(XRelation relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
         {
-            HashSet<UniqueReference> uniqueReferences = Query.UniqueReferences(relation, relationSide);
+            HashSet<IUniqueReference> uniqueReferences = Query.UniqueReferences(relation, relationSide);
             if (uniqueReferences == null)
             {
                 return null;
             }
 
             List<GuidReference> guidReferences = new List<GuidReference>();
-            foreach (UniqueReference uniqueReference in uniqueReferences)
+            foreach (IUniqueReference uniqueReference in uniqueReferences)
             {
                 if (uniqueReference is GuidReference)
                 {

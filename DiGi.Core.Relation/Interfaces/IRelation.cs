@@ -9,15 +9,15 @@ namespace DiGi.Core.Relation.Interfaces
     {
         System.Type GetType(RelationSide relationSide);
 
-        List<UniqueReference> UniqueReferences { get; }
+        List<IUniqueReference> UniqueReferences { get; }
 
-        bool Contains(RelationSide relationSide, UniqueReference uniqueReference);
+        bool Contains(RelationSide relationSide, IUniqueReference uniqueReference);
 
         bool Has(RelationSide relationSide);
 
-        bool Remove(RelationSide relationSide, UniqueReference uniqueReference);
+        bool Remove(RelationSide relationSide, IUniqueReference uniqueReference);
 
-        List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
+        List<TUniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : IUniqueReference;
     }
 
     public interface IRelation<From, To> : IRelation where From : IUniqueObject where To : IUniqueObject

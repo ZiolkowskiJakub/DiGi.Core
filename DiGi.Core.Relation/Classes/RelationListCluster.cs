@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System;
@@ -40,7 +41,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public List<URelation> GetValues<URelation>(UniqueReference uniqueReference, Func<URelation, bool> func = null) where URelation : XRelation
+        public List<URelation> GetValues<URelation>(IUniqueReference uniqueReference, Func<URelation, bool> func = null) where URelation : XRelation
         {
             List<RelationListClusterReference> relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
             if (relationListClusterRefereces == null)
@@ -51,7 +52,7 @@ namespace DiGi.Core.Relation.Classes
             return GetValues<URelation>(relationListClusterRefereces);
         }
 
-        public List<XRelation> Remove<XUniqueReference>(IEnumerable<XUniqueReference> uniqueReferences) where XUniqueReference : UniqueReference
+        public List<XRelation> Remove<XUniqueReference>(IEnumerable<XUniqueReference> uniqueReferences) where XUniqueReference : IUniqueReference
         {
             if (uniqueReferences == null)
             {
@@ -74,7 +75,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 XRelation relation = GetValue<XRelation>(relationListClusterReference);
 
-                List<UniqueReference> uniqueReferences_Removed = relation.Remove(RelationSide.Undefined, uniqueReferences_Temp);
+                List<XUniqueReference> uniqueReferences_Removed = relation.Remove(RelationSide.Undefined, uniqueReferences_Temp);
                 if (uniqueReferences_Removed == null || uniqueReferences_Removed.Count == 0)
                 {
                     continue;
@@ -96,14 +97,14 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public bool Remove(UniqueReference uniqueReference)
+        public bool Remove(IUniqueReference uniqueReference)
         {
             if (uniqueReference == null)
             {
                 return false;
             }
 
-            List<XRelation> relations = Remove(new UniqueReference[] { uniqueReference });
+            List<XRelation> relations = Remove(new IUniqueReference[] { uniqueReference });
             return relations != null && relations.Count > 0;
         }
 
@@ -117,7 +118,7 @@ namespace DiGi.Core.Relation.Classes
             return Create.TypeReference(value?.GetType(RelationSide.To));
         }
 
-        private List<RelationListClusterReference> GetRelationListClusterReferences<U, X>(IEnumerable<X> uniqueReferences, Func<U, bool> func = null) where U : XRelation where X : UniqueReference
+        private List<RelationListClusterReference> GetRelationListClusterReferences<U, X>(IEnumerable<X> uniqueReferences, Func<U, bool> func = null) where U : XRelation where X : IUniqueReference
         {
             if(uniqueReferences == null)
             {
@@ -216,14 +217,14 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        private List<RelationListClusterReference> GetRelationListClusterReferences<U>(UniqueReference uniqueReference, Func<U, bool> func = null) where U : XRelation
+        private List<RelationListClusterReference> GetRelationListClusterReferences<U>(IUniqueReference uniqueReference, Func<U, bool> func = null) where U : XRelation
         {
             if(uniqueReference == null)
             {
                 return null;
             }
 
-            return GetRelationListClusterReferences(new UniqueReference[] { uniqueReference }, func);
+            return GetRelationListClusterReferences(new IUniqueReference[] { uniqueReference }, func);
         }
     }
 

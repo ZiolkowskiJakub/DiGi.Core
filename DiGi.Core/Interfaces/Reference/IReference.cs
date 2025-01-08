@@ -1,6 +1,6 @@
 ﻿namespace DiGi.Core.Interfaces
 {
-    public interface IExternalReference: IReference
+    public interface IReference : IObject
     {
     }
 }

@@ -30,19 +30,19 @@ namespace DiGi.Core.Relation.Classes
         }
 
         [JsonIgnore]
-        public abstract List<UniqueReference> UniqueReferences { get; }
+        public abstract List<IUniqueReference> UniqueReferences { get; }
 
-        public abstract bool Contains(RelationSide relationSide, UniqueReference uniqueReference);
+        public abstract bool Contains(RelationSide relationSide, IUniqueReference uniqueReference);
 
         public abstract Type GetType(RelationSide relationSide);
 
         public abstract bool Has(RelationSide relationSide);
 
-        public abstract bool Remove(RelationSide relationSide, UniqueReference uniqueReference);
+        public abstract bool Remove(RelationSide relationSide, IUniqueReference uniqueReference);
 
-        public abstract bool Add(RelationSide relationSide, UniqueReference uniqueReference);
+        public abstract bool Add(RelationSide relationSide, IUniqueReference uniqueReference);
 
-        public abstract List<UniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : UniqueReference;
+        public abstract List<TUniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences) where TUniqueReference : IUniqueReference;
     }
 
     public abstract class Relation<From, To> : Relation, IRelation<From, To> where From : IUniqueObject where To : IUniqueObject

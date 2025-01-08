@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+﻿using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
@@ -7,14 +7,14 @@ namespace DiGi.Core.Relation
 {
     public static partial class Query
     {
-        public static HashSet<UniqueReference> UniqueReferences(this IRelation relation, RelationSide relationSide)
+        public static HashSet<IUniqueReference> UniqueReferences(this IRelation relation, RelationSide relationSide)
         {
             if(relation == null)
             {
                 return null;
             }
 
-            HashSet<UniqueReference> result = new HashSet<UniqueReference>();
+            HashSet<IUniqueReference> result = new HashSet<IUniqueReference>();
 
 
             if (relation is IManyToManyRelation)
@@ -23,7 +23,7 @@ namespace DiGi.Core.Relation
 
                 if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && manyToManyRelation.UniqueReferences_From != null)
                 {
-                    foreach(UniqueReference uniqueReference in manyToManyRelation.UniqueReferences_From)
+                    foreach(IUniqueReference uniqueReference in manyToManyRelation.UniqueReferences_From)
                     {
                         result.Add(uniqueReference);
                     }
@@ -31,7 +31,7 @@ namespace DiGi.Core.Relation
 
                 if ((relationSide == RelationSide.To || relationSide == RelationSide.Undefined) && manyToManyRelation.UniqueReferences_To != null)
                 {
-                    foreach (UniqueReference uniqueReference in manyToManyRelation.UniqueReferences_To)
+                    foreach (IUniqueReference uniqueReference in manyToManyRelation.UniqueReferences_To)
                     {
                         result.Add(uniqueReference);
                     }
@@ -48,7 +48,7 @@ namespace DiGi.Core.Relation
 
                 if ((relationSide == RelationSide.To || relationSide == RelationSide.Undefined) && oneToManyRelation.UniqueReferences_To != null)
                 {
-                    foreach (UniqueReference uniqueReference in oneToManyRelation.UniqueReferences_To)
+                    foreach (IUniqueReference uniqueReference in oneToManyRelation.UniqueReferences_To)
                     {
                         result.Add(uniqueReference);
                     }
@@ -60,7 +60,7 @@ namespace DiGi.Core.Relation
 
                 if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && manyToOneRelation.UniqueReferences_From != null)
                 {
-                    foreach (UniqueReference uniqueReference in manyToOneRelation.UniqueReferences_From)
+                    foreach (IUniqueReference uniqueReference in manyToOneRelation.UniqueReferences_From)
                     {
                         result.Add(uniqueReference);
                     }

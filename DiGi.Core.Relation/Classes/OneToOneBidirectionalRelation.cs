@@ -13,7 +13,7 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public OneToOneBidirectionalRelation(UniqueReference uniqueReference_From, UniqueReference uniqueReference_To)
+        public OneToOneBidirectionalRelation(IUniqueReference uniqueReference_From, IUniqueReference uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {
 
@@ -40,7 +40,7 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public OneToOneBidirectionalRelation(UniqueReference uniqueReference_From, UniqueReference uniqueReference_To)
+        public OneToOneBidirectionalRelation(IUniqueReference uniqueReference_From, IUniqueReference uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {
 

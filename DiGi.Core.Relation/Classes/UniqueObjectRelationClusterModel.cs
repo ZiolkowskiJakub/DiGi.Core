@@ -157,6 +157,24 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObject != null;
         }
 
+        public bool TryGetObject<YUniqueObject>(GuidReference guidReference, out YUniqueObject uniqueObject) where YUniqueObject : TUniqueObject
+        {
+            uniqueObject = default;
+
+            if (uniqueObjectRelationCluster == null)
+            {
+                return false;
+            }
+
+            if (!uniqueObjectRelationCluster.TryGetValue(guidReference, out YUniqueObject uniqueObject_Temp) || uniqueObject_Temp == null)
+            {
+                return false;
+            }
+
+            uniqueObject = uniqueObject_Temp.Clone<YUniqueObject>();
+            return uniqueObject != null;
+        }
+
         public virtual bool TryGetObjects<YUniqueObject>(out List<YUniqueObject> uniqueObjects, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
             uniqueObjects = null;
@@ -195,14 +213,14 @@ namespace DiGi.Core.Relation.Classes
         {
             uniqueObjects = null;
 
-            HashSet<UniqueReference> uniqueReferences = Query.UniqueReferences(relation, relationSide);
+            HashSet<IUniqueReference> uniqueReferences = Query.UniqueReferences(relation, relationSide);
             if (uniqueReferences == null || uniqueReferences.Count == 0)
             {
                 return false;
             }
 
             uniqueObjects = new List<YUniqueObject>();
-            foreach (UniqueReference uniqueReference in uniqueReferences)
+            foreach (IUniqueReference uniqueReference in uniqueReferences)
             {
                 GuidReference guidReference = uniqueReference as GuidReference;
 
