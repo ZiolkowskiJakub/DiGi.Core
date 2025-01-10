@@ -59,8 +59,8 @@ namespace DiGi.Core.Relation.Classes
 
         public OneToOneRelation(From uniqueObject_From, To uniqueObject_To)
         {
-            uniqueReference_From = uniqueObject_From == null ? null : new GuidReference(uniqueObject_From);
-            uniqueReference_To = uniqueObject_To == null ? null : new GuidReference(uniqueObject_To);
+            uniqueReference_From = uniqueObject_From == null ? null : Create.UniqueReference(uniqueObject_From);
+            uniqueReference_To = uniqueObject_To == null ? null : Create.UniqueReference(uniqueObject_To);
         }
 
         public OneToOneRelation(JsonObject jsonObject)

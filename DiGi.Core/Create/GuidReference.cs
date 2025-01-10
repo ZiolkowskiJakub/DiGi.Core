@@ -6,7 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static UniqueReference GuidReference<T>(this T @object, Func<T, Guid> func)
+        public static GuidReference GuidReference<T>(this T @object, Func<T, Guid> func)
         {
             if(@object == null || func == null)
             {

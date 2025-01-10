@@ -5,7 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
-    public class UniqueObjectValueCluster<TValue> : SerializableObjectValueCluster<TypeReference, GuidReference, TValue> where TValue : IUniqueObject
+    public class UniqueObjectValueCluster<TValue> : SerializableObjectValueCluster<TypeReference, IUniqueReference, TValue> where TValue : IUniqueObject
     {
         public UniqueObjectValueCluster()
             : base()
@@ -27,26 +27,26 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public bool Remove(GuidReference key_2)
+        public bool Remove(IUniqueReference key_2)
         {
             if(key_2 == null)
             {
                 return false;
             }
 
-            List<GuidReference> guidReferences = Remove(new GuidReference[] { key_2 });
-            return guidReferences != null && guidReferences.Count > 0;
+            List<IUniqueReference> uniqueReferences = Remove(new IUniqueReference[] { key_2 });
+            return uniqueReferences != null && uniqueReferences.Count > 0;
         }
 
-        public virtual List<GuidReference> Remove(IEnumerable<GuidReference> keys_2)
+        public virtual List<IUniqueReference> Remove(IEnumerable<IUniqueReference> keys_2)
         {
             if(keys_2 == null)
             {
                 return null;
             }
 
-            List<GuidReference> result = new List<GuidReference>();
-            foreach(GuidReference key_2 in keys_2)
+            List<IUniqueReference> result = new List<IUniqueReference>();
+            foreach(IUniqueReference key_2 in keys_2)
             {
                 TypeReference typeReference = key_2?.TypeReference;
                 if(typeReference == null)
@@ -78,7 +78,7 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                if (Remove(new GuidReference(value)))
+                if (Remove(Create.UniqueReference(value)))
                 {
                     result.Add(value);
                 }
@@ -97,14 +97,14 @@ namespace DiGi.Core.Classes
             return new TypeReference(value);
         }
 
-        protected override GuidReference GetKey_2(TValue value)
+        protected override IUniqueReference GetKey_2(TValue value)
         {
             if (value == null)
             {
                 return null;
             }
 
-            return new GuidReference(value);
+            return Create.UniqueReference(value);
         }
 
         public List<TypeReference> GetTypeReferences()

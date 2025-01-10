@@ -5,6 +5,6 @@ namespace DiGi.Core.Interfaces
 {
     public interface IUniqueObject : ISerializableObject
     {
-        Guid Guid { get; }
+        string UniqueId { get; }
     }
 }

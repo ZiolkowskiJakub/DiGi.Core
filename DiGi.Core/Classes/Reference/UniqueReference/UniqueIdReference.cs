@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -24,6 +25,15 @@ namespace DiGi.Core.Classes
             if (uniqueId != null)
             {
                 this.uniqueId = uniqueId;
+            }
+        }
+
+        public UniqueIdReference(IUniqueIdObject uniqueIdObject)
+            : base(uniqueIdObject)
+        {
+            if (uniqueIdObject != null)
+            {
+                uniqueId = uniqueIdObject.UniqueId;
             }
         }
 

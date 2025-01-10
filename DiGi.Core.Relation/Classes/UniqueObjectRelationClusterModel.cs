@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public abstract class UniqueObjectRelationClusterModel<TUniqueObject, XRelation> : UniqueModel where TUniqueObject : IUniqueObject where XRelation : IRelation
+    public abstract class UniqueObjectRelationClusterModel<TUniqueObject, XRelation> : GuidModel where TUniqueObject : IUniqueObject where XRelation : IRelation
     {
         [JsonInclude, JsonPropertyName("UniqueObjectRelationCluster")]
         protected UniqueObjectRelationCluster<TUniqueObject, XRelation> uniqueObjectRelationCluster = new UniqueObjectRelationCluster<TUniqueObject, XRelation>();
@@ -120,7 +120,7 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            URelation relation = uniqueObjectRelationCluster.GetRelation(new GuidReference(uniqueObject), func);
+            URelation relation = uniqueObjectRelationCluster.GetRelation(Create.UniqueReference(uniqueObject), func);
             if(relation == null)
             {
                 return default;
@@ -335,7 +335,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if(!uniqueObjectRelationCluster.TryGetRelation<URelation>(new GuidReference(uniqueObject), out relation, func) || relation == null)
+            if(!uniqueObjectRelationCluster.TryGetRelation<URelation>(Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
             {
                 return false;
             }

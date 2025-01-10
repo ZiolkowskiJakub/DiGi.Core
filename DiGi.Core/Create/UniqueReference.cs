@@ -9,14 +9,21 @@ namespace DiGi.Core
     {
         public static UniqueReference UniqueReference(this object @object)
         {
-            if(@object == null)
+            if (@object == null)
             {
                 return null;
             }
 
-            if(@object is IUniqueObject)
+            if (@object is IUniqueObject)
             {
-                return new GuidReference((IUniqueObject)@object);
+                if (@object is IUniqueIdObject)
+                {
+                    return new UniqueIdReference((IUniqueIdObject)@object);
+                }
+                else if (@object is IGuidObject)
+                {
+                    return new GuidReference((IGuidObject)@object);
+                }
             }
 
             TypeReference typeReference = null;
@@ -26,18 +33,18 @@ namespace DiGi.Core
                 if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
                 {
                     JsonValue jsonValue = jsonObject[Constans.Serialization.PropertyName.Type]?.AsValue();
-                    if(jsonValue != null && jsonValue.TryGetValue(out string fullTypeName))
+                    if (jsonValue != null && jsonValue.TryGetValue(out string fullTypeName))
                     {
                         typeReference = new TypeReference(fullTypeName);
                     }
                 }
 
-                if(jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
+                if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
                 {
                     JsonValue jsonValue = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue();
                     if (jsonValue != null)
                     {
-                        if(jsonValue.TryGetValue(out Guid guid))
+                        if (jsonValue.TryGetValue(out Guid guid))
                         {
                             return new GuidReference(typeReference, guid);
                         }
@@ -55,7 +62,7 @@ namespace DiGi.Core
             if (typeReference == null)
             {
                 Type type = @object?.GetType();
-                if(type == null)
+                if (type == null)
                 {
                     return null;
                 }
@@ -63,12 +70,17 @@ namespace DiGi.Core
                 typeReference = TypeReference(type);
             }
 
-            if(typeReference == null)
+            if (typeReference == null)
             {
                 return null;
             }
 
-            if(!Query.TryGetUniqueId(@object, out string uniqueId))
+            if (@object is IUniqueObject)
+            {
+                return new UniqueIdReference(typeReference, ((IUniqueObject)@object).UniqueId);
+            }
+
+            if (!Query.TryGetUniqueId(@object, out string uniqueId))
             {
                 return null;
             }

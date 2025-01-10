@@ -82,11 +82,11 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            GuidReference guidReference = new GuidReference(value);
+            IUniqueReference uniqueReference = Create.UniqueReference(value);
 
             foreach (XRelation relation in relations)
             {
-                if (!relation.Contains(RelationSide.From, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
+                if (!relation.Contains(RelationSide.From, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
                 {
                     List<UUniqueObject> relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From)?.Cast<GuidReference>());
                     if (relatedValues != null)
@@ -103,7 +103,7 @@ namespace DiGi.Core.Relation.Classes
                     }
                 }
 
-                if (!relation.Contains(RelationSide.To, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
+                if (!relation.Contains(RelationSide.To, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
                 {
                     List<UUniqueObject> relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To)?.Cast<GuidReference>());
                     if (relatedValues != null)
@@ -137,12 +137,12 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            GuidReference guidReference = new GuidReference(value);
+            IUniqueReference uniqueReference = Create.UniqueReference(value);
 
             List<UUniqueObject> result = new List<UUniqueObject>();
             foreach (XRelation relation in relations)
             {
-                if (!relation.Contains(RelationSide.From, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
+                if (!relation.Contains(RelationSide.From, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
                 {
                     List<UUniqueObject> values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From)?.Cast<GuidReference>());
                     if (values != null)
@@ -151,7 +151,7 @@ namespace DiGi.Core.Relation.Classes
                     }
                 }
 
-                if (!relation.Contains(RelationSide.To, guidReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
+                if (!relation.Contains(RelationSide.To, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
                 {
                     List<UUniqueObject> values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To)?.Cast<GuidReference>());
                     if (values != null)
@@ -175,14 +175,14 @@ namespace DiGi.Core.Relation.Classes
             return GetRelatedValues<UUniqueObject, XRelation>(value, func);
         }
 
-        public ZRelation GetRelation<ZRelation>(GuidReference guidReference, Func<ZRelation, bool> func = null) where ZRelation : XRelation
+        public ZRelation GetRelation<ZRelation>(IUniqueReference uniqueReference, Func<ZRelation, bool> func = null) where ZRelation : XRelation
         {
-            if (guidReference == null)
+            if (uniqueReference == null)
             {
                 return default;
             }
 
-            List<ZRelation> values = relationListCluster.GetValues(guidReference, func);
+            List<ZRelation> values = relationListCluster.GetValues(uniqueReference, func);
             if (values == null || values.Count == 0)
             {
                 return default;
@@ -198,27 +198,27 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            return GetRelations<ZRelation>(new GuidReference(uniqueObject));
+            return GetRelations<ZRelation>(Create.UniqueReference(uniqueObject));
         }
 
-        public List<ZRelation> GetRelations<ZRelation>(GuidReference guidReference) where ZRelation : XRelation
+        public List<ZRelation> GetRelations<ZRelation>(IUniqueReference uniqueReference) where ZRelation : XRelation
         {
-            if (guidReference == null)
+            if (uniqueReference == null)
             {
                 return null;
             }
 
-            return relationListCluster.GetValues<ZRelation>(guidReference);
+            return relationListCluster.GetValues<ZRelation>(uniqueReference);
         }
 
-        public List<ZRelation> GetRelations<ZRelation>(GuidReference guidReference, Func<ZRelation, bool> func = null) where ZRelation : XRelation
+        public List<ZRelation> GetRelations<ZRelation>(IUniqueReference uniqueReference, Func<ZRelation, bool> func = null) where ZRelation : XRelation
         {
-            if (guidReference == null)
+            if (uniqueReference == null)
             {
                 return null;
             }
 
-            return relationListCluster.GetValues(guidReference, func);
+            return relationListCluster.GetValues(uniqueReference, func);
         }
 
         public List<UUniqueObject> GetValues<UUniqueObject>(XRelation relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
@@ -242,9 +242,9 @@ namespace DiGi.Core.Relation.Classes
             return GetValues<UUniqueObject>(guidReferences);
         }
 
-        public override List<GuidReference> Remove(IEnumerable<GuidReference> keys_2)
+        public override List<IUniqueReference> Remove(IEnumerable<IUniqueReference> keys_2)
         {
-            List<GuidReference> result = base.Remove(keys_2);
+            List<IUniqueReference> result = base.Remove(keys_2);
             if(result == null || result.Count ==0)
             {
                 return result;
@@ -262,12 +262,12 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            GuidReference guidReference = new GuidReference(uniqueObject);
+            IUniqueReference uniqueReference = Create.UniqueReference(uniqueObject);
 
-            bool result = Remove(guidReference);
+            bool result = Remove(uniqueReference);
             if(result)
             {
-                relationListCluster.Remove(guidReference);
+                relationListCluster.Remove(uniqueReference);
             }
 
             return result;
@@ -343,9 +343,9 @@ namespace DiGi.Core.Relation.Classes
             return relation != null;
         }
 
-        public bool TryGetRelation<ZRelation>(GuidReference guidReference, out ZRelation relation, Func<ZRelation, bool> func = null) where ZRelation : XRelation
+        public bool TryGetRelation<ZRelation>(IUniqueReference uniqueReference, out ZRelation relation, Func<ZRelation, bool> func = null) where ZRelation : XRelation
         {
-            relation = GetRelation(guidReference, func);
+            relation = GetRelation(uniqueReference, func);
 
             return relation != null;
         }

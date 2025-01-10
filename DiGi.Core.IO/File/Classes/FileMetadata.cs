@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
-    public class FileMetadata : UniqueObject, IMetadata
+    public class FileMetadata : GuidObject, IMetadata
     {
         [JsonInclude, JsonPropertyName("Created"), Description("Date created")]
         private DateTime created;

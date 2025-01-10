@@ -5,37 +5,37 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class UniqueObject : SerializableObject, IUniqueObject
+    public abstract class GuidObject : UniqueObject, IGuidObject
     {
         [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Guid)]
         private Guid guid;
 
-        public UniqueObject()
+        public GuidObject()
             : base()
         {
             guid = Guid.NewGuid();
         }
 
-        public UniqueObject(Guid guid)
+        public GuidObject(Guid guid)
             :base()
         {
             this.guid = guid;
         }
 
-        public UniqueObject(JsonObject jsonObject)
+        public GuidObject(JsonObject jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public UniqueObject(UniqueObject uniqueObject)
-            : base(uniqueObject)
+        public GuidObject(GuidObject guidObject)
+            : base(guidObject)
         {
-            guid = uniqueObject != null ? uniqueObject.guid : Guid.NewGuid();
+            guid = guidObject != null ? guidObject.guid : Guid.NewGuid();
         }
 
-        public UniqueObject(Guid guid, UniqueObject uniqueObject)
-            : base(uniqueObject)
+        public GuidObject(Guid guid, GuidObject guidObject)
+            : base(guidObject)
         {
             this.guid = guid;
         }
@@ -46,6 +46,15 @@ namespace DiGi.Core.Classes
             get
             {
                 return guid;
+            }
+        }
+
+        [JsonIgnore]
+        public override string UniqueId
+        {
+            get
+            {
+                return guid.ToString("N");
             }
         }
     }

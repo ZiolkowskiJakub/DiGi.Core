@@ -12,6 +12,7 @@
         {
             public const string Type = "_type";
             public const string Guid = "Guid";
+            public const string UniqueId = "UniqueId";
         }
 
         public static class MethodName

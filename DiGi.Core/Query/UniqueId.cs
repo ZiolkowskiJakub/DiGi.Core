@@ -271,7 +271,7 @@ namespace DiGi.Core
                 return Constans.UniqueId.Null;
             }
 
-            return UniqueId(uniqueObject.Guid);
+            return uniqueObject.UniqueId;
         }
 
         public static string UniqueId(this ISerializableObject serializableObject)

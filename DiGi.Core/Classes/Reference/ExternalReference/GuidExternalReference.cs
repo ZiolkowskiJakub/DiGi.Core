@@ -6,8 +6,8 @@ namespace DiGi.Core.Classes
     public sealed class GuidExternalReference : UniqueExternalReference<GuidReference>
     {
 
-        public GuidExternalReference(string source, IUniqueObject uniqueObject)
-            : base(source, uniqueObject == null ? null : new GuidReference(uniqueObject))
+        public GuidExternalReference(string source, IGuidObject guidObject)
+            : base(source, guidObject == null ? null : new GuidReference(guidObject))
         {
 
         }

@@ -25,12 +25,12 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public GuidReference(IUniqueObject uniqueObject)
-            : base(uniqueObject)
+        public GuidReference(IGuidObject guidObject)
+            : base(guidObject)
         {
-            if(uniqueObject != null)
+            if(guidObject != null)
             {
-                guid = uniqueObject.Guid;
+                guid = guidObject.Guid;
             }
         }
 

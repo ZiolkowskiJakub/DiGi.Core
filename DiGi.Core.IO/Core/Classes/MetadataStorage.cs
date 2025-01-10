@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Classes
 {
-    internal sealed class MetadataStorage : UniqueObject, IEnumerable<IMetadata>, IIOObject
+    internal sealed class MetadataStorage : GuidObject, IEnumerable<IMetadata>, IIOObject
     {
         [JsonIgnore]
         private Dictionary<TypeReference, IMetadata> dictionary = new Dictionary<TypeReference, IMetadata>();

@@ -11,7 +11,7 @@ namespace DiGi.Core.Classes
         }
 
         public SerializableModel(SerializableModel serializableModel)
-            : base()
+            : base(serializableModel)
         {
 
         }
