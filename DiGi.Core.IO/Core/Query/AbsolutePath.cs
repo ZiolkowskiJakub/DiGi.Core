@@ -9,13 +9,19 @@
                 return null;
             }
 
-            string relativePath_Temp = relativePath;
-            if (relativePath_Temp.StartsWith("..\\"))
+            string directory_Temp = directory.Trim();
+            if (directory_Temp.EndsWith("\\"))
             {
-                relativePath_Temp = relativePath_Temp.Substring(3);
+                directory_Temp = directory_Temp.Substring(0, directory_Temp.Length - 1);
             }
 
-            return System.IO.Path.Combine(directory, relativePath_Temp);
+            string relativePath_Temp = relativePath.Trim();
+            if (relativePath_Temp.EndsWith("\\"))
+            {
+                relativePath_Temp = relativePath_Temp.Substring(0, relativePath_Temp.Length - 1);
+            }
+
+            return System.IO.Path.GetFullPath(System.IO.Path.Combine(directory_Temp, relativePath_Temp));
         }
     }
 }

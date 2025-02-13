@@ -1,6 +1,4 @@
-﻿using DiGi.Core.Classes;
-
-namespace DiGi.Core.Drawing
+﻿namespace DiGi.Core.Drawing
 {
     public static partial class Convert
     {

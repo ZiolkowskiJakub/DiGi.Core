@@ -1,4 +1,6 @@
-﻿namespace DiGi.Core.IO
+﻿using System;
+
+namespace DiGi.Core.IO
 {
     public static partial class Query
     {
@@ -26,28 +28,17 @@
                 return ".";
             }
 
-            if (path_Temp.StartsWith(relativeTo))
-            {
-                return path_Temp.Substring(relativeTo_Temp.Length + 1);
-            }
+            Uri uri_RelativeTo = new Uri(relativeTo.EndsWith("\\") ? relativeTo : relativeTo + "\\");
+            Uri uri = new Uri(path_Temp);
 
-            return path;
+            return Uri.UnescapeDataString(uri_RelativeTo.MakeRelativeUri(uri).ToString().Replace('/', '\\'));
 
-            //Uri uri_RelativeTo = new Uri(relativeTo);
-            //Uri uri = new Uri(path);
-
-            //Uri uri_Relative = uri_RelativeTo.MakeRelativeUri(uri);
-
-            //string result = uri_Relative.ToString();
-            //result = Uri.UnescapeDataString(result);
-            //result = result.Replace("/", "\\");
-
-            //if(path != result)
+            //if (path_Temp.StartsWith(relativeTo))
             //{
-            //    result = string.Format("..\\{0}", result);
+            //    return path_Temp.Substring(relativeTo_Temp.Length + 1);
             //}
 
-            //return result;
+            //return path;
         }
     }
 }
