@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Wrapper.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -66,17 +67,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperReference_1.Equals(wrapperReference_2);
         }
 
-        public override bool Equals(object @object)
-        {
-            WrapperReference wrapperReference = @object as WrapperReference;
-            if (wrapperReference == null)
-            {
-                return false;
-            }
-
-            return wrapperReference.GetHashCode() == GetHashCode();
-        }
-
         public override int GetHashCode()
         {
             if(hashCode == null || !hashCode.HasValue)
@@ -85,6 +75,31 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             return hashCode.Value;
+        }
+
+        public override bool Equals(object @object)
+        {
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is IReference)
+            {
+                return Equals((IReference)@object);
+            }
+
+            return false;
+        }
+
+        public bool Equals(IReference reference)
+        {
+            if (reference == null)
+            {
+                return false;
+            }
+
+            return reference.GetHashCode() == GetHashCode();
         }
     }
 

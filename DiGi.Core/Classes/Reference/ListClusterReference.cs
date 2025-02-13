@@ -2,7 +2,7 @@
 
 namespace DiGi.Core.Classes
 {
-    public class ListClusterReference<TKey_1, TKey_2> : IReference
+    public abstract class ListClusterReference<TKey_1, TKey_2> : IReference
     {
         public TKey_1 Key_1 { get; }
 
@@ -16,5 +16,7 @@ namespace DiGi.Core.Classes
             Key_2 = key_2;
             Index = index;
         }
+
+        public abstract bool Equals(IReference reference);
     }
 }

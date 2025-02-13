@@ -30,17 +30,6 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override bool Equals(object @object)
-        {
-            SerializableReference serializableReference = @object as SerializableReference;
-            if (serializableReference == null)
-            {
-                return false;
-            }
-
-            return serializableReference.GetHashCode() == GetHashCode();
-        }
-
         public override int GetHashCode()
         {
             if(hashCode == null)
@@ -49,6 +38,61 @@ namespace DiGi.Core.Classes
             }
 
             return hashCode.Value;
+        }
+        
+        public override bool Equals(object @object)
+        {
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is IReference)
+            {
+                return Equals((IReference)@object);
+            }
+
+            return false;
+        }
+
+        public bool Equals(IReference reference)
+        {
+            if(reference == null)
+            {
+                return false;
+            }
+
+             return reference.GetHashCode() == GetHashCode();
+        }
+
+        public static bool operator ==(SerializableReference serializableReference_1, ISerializableReference @object)
+        {
+            return serializableReference_1?.GetHashCode() == @object?.GetHashCode();
+        }
+
+        public static bool operator !=(SerializableReference serializableReference_1, ISerializableReference @object)
+        {
+            return serializableReference_1?.GetHashCode() != @object?.GetHashCode();
+        }
+
+        public static bool operator ==(SerializableReference serializableReference_1, object @object)
+        {
+            return serializableReference_1?.GetHashCode() == @object?.GetHashCode();
+        }
+
+        public static bool operator !=(SerializableReference serializableReference_1, object @object)
+        {
+            return serializableReference_1?.GetHashCode() != @object?.GetHashCode();
+        }
+
+        public static bool operator ==(object serializableReference_1, SerializableReference serializableReference_2)
+        {
+            return serializableReference_1?.GetHashCode() == serializableReference_2?.GetHashCode();
+        }
+
+        public static bool operator !=(object serializableReference_1, SerializableReference serializableReference_2)
+        {
+            return serializableReference_1?.GetHashCode() != serializableReference_2?.GetHashCode();
         }
 
         public static bool operator ==(SerializableReference serializableReference_1, SerializableReference serializableReference_2)
