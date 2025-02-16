@@ -122,11 +122,16 @@ namespace DiGi.Core.Relation.Classes
 
         public override bool Contains(RelationSide relationSide, IUniqueReference uniqueReference)
         {
+            if(uniqueReference == null)
+            {
+                return false;
+            }
+
             bool result = false;
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                result = uniqueReferences_To != null && uniqueReferences_To.Contains(uniqueReference);
+                result = uniqueReferences_To?.Find(x => uniqueReference.Equals(x)) != null;
             }
 
             if (result)
@@ -136,7 +141,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                result = uniqueReference_From == uniqueReference;
+                result = uniqueReference.Equals(uniqueReference_From);
             }
 
             return result;
@@ -174,7 +179,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = false;
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReference_From == uniqueReference)
+                if (uniqueReference.Equals(uniqueReference_From))
                 {
                     uniqueReference_From = null;
                     result = true;
@@ -183,12 +188,9 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReferences_To != null)
+                if (Modify.RemoveFirst(uniqueReferences_To, uniqueReference))
                 {
-                    if (uniqueReferences_To.Remove(uniqueReference))
-                    {
-                        result = true;
-                    }
+                    result = true;
                 }
             }
 
@@ -222,7 +224,6 @@ namespace DiGi.Core.Relation.Classes
             return false;
         }
 
-
         public override List<TUniqueReference> Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference> uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -252,7 +253,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 foreach (TUniqueReference uniqueReference in uniqueReferences)
                 {
-                    if (uniqueReferences_To.Remove(uniqueReference))
+                    if (Modify.RemoveFirst(uniqueReferences_To, uniqueReference))
                     {
                         result.Add(uniqueReference);
                         if (uniqueReferences_To.Count == 0)

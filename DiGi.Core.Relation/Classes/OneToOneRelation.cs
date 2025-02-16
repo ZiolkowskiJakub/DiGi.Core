@@ -109,11 +109,16 @@ namespace DiGi.Core.Relation.Classes
         
         public override bool Contains(RelationSide relationSide, IUniqueReference uniqueReference)
         {
+            if(uniqueReference == null)
+            {
+                return false;
+            }
+
             bool result = false;
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                result = uniqueReference_From == uniqueReference;
+                result = uniqueReference.Equals(uniqueReference_From);
             }
 
             if (result)
@@ -123,7 +128,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                result = uniqueReference_To == uniqueReference;
+                result = uniqueReference.Equals(uniqueReference_To);
             }
 
             return result;
@@ -161,7 +166,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = false;
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReference_To == uniqueReference)
+                if (uniqueReference.Equals(uniqueReference_To))
                 {
                     uniqueReference_To = null;
                     result = true;
@@ -170,7 +175,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReference_From == uniqueReference)
+                if (uniqueReference.Equals(uniqueReference_From))
                 {
                     uniqueReference_From = null;
                     result = true;
@@ -219,7 +224,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 if(uniqueReference_To is TUniqueReference)
                 {
-                    if (uniqueReferences.Contains((TUniqueReference)uniqueReference_To))
+                    if (uniqueReferences.Find(x => uniqueReference_To.Equals(x)) != null)
                     {
                         result.Add((TUniqueReference)uniqueReference_To);
                         uniqueReference_To = null;
@@ -231,7 +236,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 if (uniqueReference_From is TUniqueReference)
                 {
-                    if (uniqueReferences.Contains((TUniqueReference)uniqueReference_From))
+                    if (uniqueReferences.Find(x => uniqueReference_From.Equals(x)) != null)
                     {
                         result.Add((TUniqueReference)uniqueReference_From);
                         uniqueReference_From = null;

@@ -43,6 +43,7 @@ namespace DiGi.Core.Relation.Classes
 
         [JsonInclude, JsonPropertyName("UniqueReferences_From")]
         private List<IUniqueReference> uniqueReferences_From;
+        
         public ManyToOneRelation(IEnumerable<IUniqueReference> uniqueReferences_From, IUniqueReference uniqueReference_To)
             :base()
         {
@@ -125,7 +126,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                result = uniqueReferences_From != null && uniqueReferences_From.Contains(uniqueReference);
+                result = uniqueReferences_From?.Find(x => uniqueReference.Equals(x)) != null;
             }
 
             if (result)
@@ -135,7 +136,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                result = uniqueReference_To == uniqueReference;
+                result = uniqueReference.Equals(uniqueReference_To);
             }
 
             return result;
@@ -173,7 +174,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = false;
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReference_To == uniqueReference)
+                if (uniqueReference.Equals(uniqueReference_To))
                 {
                     uniqueReference_To = null;
                     result = true;
@@ -182,12 +183,9 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if (uniqueReferences_From != null)
+                if (Modify.RemoveFirst(uniqueReferences_From, uniqueReference))
                 {
-                    if (uniqueReferences_From.Remove(uniqueReference))
-                    {
-                        result = true;
-                    }
+                    result = true;
                 }
             }
 
@@ -238,7 +236,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 if(uniqueReference_To is TUniqueReference)
                 {
-                    if (uniqueReferences.Contains((TUniqueReference)uniqueReference_To))
+                    if (uniqueReferences.Find(x => uniqueReference_To.Equals(x)) != null)
                     {
                         result.Add((TUniqueReference)uniqueReference_To);
                         uniqueReference_To = null;
@@ -250,7 +248,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 foreach (TUniqueReference uniqueReference in uniqueReferences)
                 {
-                    if (uniqueReferences_From.Remove(uniqueReference))
+                    if (Modify.RemoveFirst(uniqueReferences_From, uniqueReference))
                     {
                         result.Add(uniqueReference);
                         if (uniqueReferences_From.Count == 0)

@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace DiGi.Core.Relation.Classes
         {
         }
 
-        public X Find<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
+        public X Find<X>(IUniqueReference uniqueReference, Func<X, bool> func = null) where X : T
         {
             if (uniqueReference == null)
             {
@@ -85,7 +86,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public List<X> FindAll<X>(UniqueReference uniqueReference, Func<X, bool> func = null) where X : T
+        public List<X> FindAll<X>(IUniqueReference uniqueReference, Func<X, bool> func = null) where X : T
         {
             if (uniqueReference == null)
             {
@@ -134,7 +135,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public bool Remove(UniqueReference uniqueReference)
+        public bool Remove(IUniqueReference uniqueReference)
         {
             if(uniqueReference == null)
             {
