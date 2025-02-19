@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using DiGi.Core.Classes;
 using System.Linq;
+using System;
 
 namespace DiGi.Core.IO.File.Classes
 {
@@ -357,7 +358,7 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
-        public IEnumerable<T> GetValues<T>(IEnumerable<int> indexes) where T :TSerializableObject
+        public IEnumerable<USerializableObject> GetValues<USerializableObject>(IEnumerable<int> indexes) where USerializableObject :TSerializableObject
         {
             IEnumerable<TSerializableObject> serializableObjects = GetValues(indexes);
             if(serializableObjects == null)
@@ -365,16 +366,37 @@ namespace DiGi.Core.IO.File.Classes
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<USerializableObject> result = new List<USerializableObject>();
             foreach(TSerializableObject serializableObject in serializableObjects)
             {
-                if(serializableObject is T)
+                if(serializableObject is USerializableObject)
                 {
-                    result.Add((T)serializableObject);
+                    result.Add((USerializableObject)serializableObject);
                 }
                 else
                 {
                     result.Add(default);
+                }
+            }
+
+            return result;
+        }
+
+        public IEnumerable<USerializableObject> GetValues<USerializableObject>() where USerializableObject : TSerializableObject
+        {
+            IEnumerable<TSerializableObject> values = GetValues();
+            if(values == null)
+            {
+                return null;
+            }
+
+            List<USerializableObject> result = new List<USerializableObject>();
+
+            foreach (TSerializableObject value in values)
+            {
+                if(value is USerializableObject)
+                {
+                    result.Add((USerializableObject)value);
                 }
             }
 
@@ -397,6 +419,16 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        public HashSet<UniqueReference> RemoveAll<USerializableObject>(Func<USerializableObject, bool> func) where USerializableObject : TSerializableObject
+        {
+            return Remove(func);
+        }
+
+        public UniqueReference RemoveFirst<USerializableObject>(Func<USerializableObject, bool> func) where USerializableObject : TSerializableObject
+        {
+            return Remove(func, 1)?.FirstOrDefault();
+        }
+        
         public override bool Save()
         {
             bool result = base.Save();
@@ -432,12 +464,12 @@ namespace DiGi.Core.IO.File.Classes
         private IEnumerable<TSerializableObject> GetValues()
         {
             List<TSerializableObject> result = Pull();
-            if(dictionary == null)
+            if (dictionary == null)
             {
                 dictionary = new Dictionary<UniqueReference, TSerializableObject>();
             }
 
-            if(result == null)
+            if (result == null)
             {
                 result = new List<TSerializableObject>();
             }
@@ -456,10 +488,10 @@ namespace DiGi.Core.IO.File.Classes
                 result[index] = keyValuePair.Value;
             }
 
-            foreach(TSerializableObject serializableObject in result)
+            foreach (TSerializableObject serializableObject in result)
             {
                 UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
-                if(uniqueReference == null)
+                if (uniqueReference == null)
                 {
                     continue;
                 }
@@ -472,7 +504,7 @@ namespace DiGi.Core.IO.File.Classes
 
             return result;
         }
-       
+
         private List<TSerializableObject> Pull(IEnumerable<UniqueReference> uniqueReferences = null)
         {
             if (dictionary == null)
@@ -532,7 +564,7 @@ namespace DiGi.Core.IO.File.Classes
                             }
                         }
                     }
-                    
+
                     zipArchiveEntries = zipArchiveEntries_Temp;
                 }
 
@@ -634,6 +666,106 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        private HashSet<UniqueReference> Remove<USerializableObject>(Func<USerializableObject, bool> func, uint maxCount = uint.MaxValue) where USerializableObject : TSerializableObject
+        {
+            if (func == null || maxCount < 1)
+            {
+                return null;
+            }
+
+            if (this.dictionary == null)
+            {
+                Open();
+            }
+
+            HashSet<UniqueReference> result = new HashSet<UniqueReference>();
+
+            foreach (KeyValuePair<UniqueReference, TSerializableObject> keyValuePair in this.dictionary)
+            {
+                USerializableObject uSerializableObject = keyValuePair.Value is USerializableObject ? (USerializableObject)keyValuePair.Value : default;
+                if (uSerializableObject == null || !func.Invoke(uSerializableObject))
+                {
+                    continue;
+                }
+
+                dictionary[keyValuePair.Key] = default;
+
+                result.Add(keyValuePair.Key);
+                if (result.Count >= maxCount)
+                {
+                    return result;
+                }
+            }
+
+            using (ZipArchive zipArchive = ZipFile.Open(Path, ZipArchiveMode.Update))
+            {
+                List<ZipArchiveEntry> zipArchiveEntries = zipArchive.Entries?.ToList();
+                if (zipArchiveEntries == null || zipArchiveEntries.Count == 0)
+                {
+                    return result;
+                }
+
+                for (int i = zipArchiveEntries.Count - 1; i >= 0; i--)
+                {
+                    ZipArchiveEntry zipArchiveEntry = zipArchiveEntries[i];
+
+                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(Constans.EntryName.Values))
+                    {
+                        continue;
+                    }
+
+                    USerializableObject serializableObject = default;
+
+                    using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
+                    {
+                        string json = streamReader.ReadToEnd();
+
+                        List<USerializableObject> serializableObjects = Convert.ToDiGi<USerializableObject>(json);
+                        if (serializableObjects == null || serializableObjects.Count == 0)
+                        {
+                            continue;
+                        }
+
+                        serializableObject = serializableObjects[0];
+                    }
+
+                    if (serializableObject == null)
+                    {
+                        continue;
+                    }
+
+                    UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
+                    if (result.Contains(uniqueReference))
+                    {
+                        zipArchiveEntry.Delete();
+                        continue;
+                    }
+
+                    if (!func.Invoke(serializableObject))
+                    {
+                        if (!dictionary.ContainsKey(uniqueReference))
+                        {
+                            this.dictionary[uniqueReference] = serializableObject;
+                        }
+
+                        continue;
+                    }
+
+                    zipArchiveEntry.Delete();
+
+                    result.Add(uniqueReference);
+
+                    if (result.Count >= maxCount)
+                    {
+                        return result;
+                    }
+
+                }
+            }
+
+            return result;
+        }
+        
         private void SetValues(IEnumerable<TSerializableObject> values)
         {
             if(values == null)
