@@ -72,7 +72,7 @@ namespace DiGi.Core.IO.File.Classes
 
         public UniqueReference AddValue(TSerializableObject serializableObject)
         {
-            UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
+            UniqueReference uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
             if(uniqueReference == null)
             {
                 return null;
@@ -105,6 +105,11 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             return GetValue(uniqueReference) != null;
+        }
+
+        public virtual UniqueReference GetUniqueReference(TSerializableObject serializableObject)
+        {
+            return Create.UniqueReference(serializableObject);
         }
 
         public HashSet<UniqueReference> GetUniqueReferences()
@@ -272,7 +277,7 @@ namespace DiGi.Core.IO.File.Classes
             {
                 foreach (TSerializableObject serializableObject in serializableObjects)
                 {
-                    UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
+                    UniqueReference uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
                     if (uniqueReference == null)
                     {
                         continue;
@@ -335,7 +340,15 @@ namespace DiGi.Core.IO.File.Classes
                     continue;
                 }
 
-                dictionary_SerializableObject[Create.UniqueReference(serializableObject)] = serializableObject;
+                //dictionary_SerializableObject[Create.UniqueReference(serializableObject)] = serializableObject;
+
+                UniqueReference uniqueReference = GetUniqueReference(serializableObject);
+                if(uniqueReference == null)
+                {
+                    continue;
+                }
+
+                dictionary_SerializableObject[uniqueReference] = serializableObject;
             }
 
             List<TSerializableObject> result = new List<TSerializableObject>();
@@ -419,6 +432,98 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        public HashSet<UniqueReference> Remove(IEnumerable<UniqueReference> uniqueReferences)
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            if (this.dictionary == null)
+            {
+                Open();
+            }
+
+            HashSet<UniqueReference> uniqueReferences_Temp = new HashSet<UniqueReference>(uniqueReferences);
+
+            HashSet<UniqueReference> result = new HashSet<UniqueReference>();
+
+            if (dictionary != null)
+            {
+                for (int i = uniqueReferences_Temp.Count - 1; i >= 0; i--)
+                {
+                    UniqueReference uniqueReference = uniqueReferences_Temp.ElementAt(0);
+
+                    if (dictionary.ContainsKey(uniqueReference))
+                    {
+                        uniqueReferences_Temp.Remove(uniqueReference);
+                        dictionary[uniqueReference] = default;
+                        result.Add(uniqueReference);
+                    }
+                }
+            }
+
+            if (uniqueReferences_Temp.Count == 0)
+            {
+                return result;
+            }
+
+            using (ZipArchive zipArchive = ZipFile.Open(Path, ZipArchiveMode.Update))
+            {
+                for (int i = uniqueReferences_Temp.Count - 1; i >= 0; i--)
+                {
+                    UniqueReference uniqueReference = uniqueReferences_Temp.ElementAt(0);
+
+                    string entryName = System.IO.Path.Combine(Constans.EntryName.Values, Query.Encode(uniqueReference));
+
+                    ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
+                    if (zipArchiveEntry == null)
+                    {
+                        continue;
+                    }
+
+                    zipArchiveEntry.Delete();
+                    uniqueReferences_Temp.Remove(uniqueReference);
+                    result.Add(uniqueReference);
+                }
+            }
+
+            return result;
+        }
+
+        public bool Remove(UniqueReference uniqueReference)
+        {
+            if (uniqueReference == null)
+            {
+                return false;
+            }
+
+            if (this.dictionary == null)
+            {
+                Open();
+            }
+
+            if (dictionary != null && dictionary.ContainsKey(uniqueReference))
+            {
+                dictionary[uniqueReference] = default;
+                return true;
+            }
+
+            using (ZipArchive zipArchive = ZipFile.Open(Path, ZipArchiveMode.Update))
+            {
+                string entryName = System.IO.Path.Combine(Constans.EntryName.Values, Query.Encode(uniqueReference));
+
+                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
+                if (zipArchiveEntry == null)
+                {
+                    return false;
+                }
+
+                zipArchiveEntry.Delete();
+                return true;
+            }
+        }
+
         public HashSet<UniqueReference> RemoveAll<USerializableObject>(Func<USerializableObject, bool> func) where USerializableObject : TSerializableObject
         {
             return Remove(func);
@@ -474,7 +579,7 @@ namespace DiGi.Core.IO.File.Classes
                 result = new List<TSerializableObject>();
             }
 
-            List<UniqueReference> uniqueReferences = result.ConvertAll(x => Create.UniqueReference(x));
+            List<UniqueReference> uniqueReferences = result.ConvertAll(x => GetUniqueReference(x)); //result.ConvertAll(x => Create.UniqueReference(x));
 
             foreach (KeyValuePair<UniqueReference, TSerializableObject> keyValuePair in dictionary)
             {
@@ -490,7 +595,7 @@ namespace DiGi.Core.IO.File.Classes
 
             foreach (TSerializableObject serializableObject in result)
             {
-                UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
+                UniqueReference uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
                 if (uniqueReference == null)
                 {
                     continue;
@@ -665,7 +770,7 @@ namespace DiGi.Core.IO.File.Classes
 
             return result;
         }
-
+        
         private HashSet<UniqueReference> Remove<USerializableObject>(Func<USerializableObject, bool> func, uint maxCount = uint.MaxValue) where USerializableObject : TSerializableObject
         {
             if (func == null || maxCount < 1)
@@ -734,7 +839,7 @@ namespace DiGi.Core.IO.File.Classes
                         continue;
                     }
 
-                    UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
+                    UniqueReference uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
                     if (result.Contains(uniqueReference))
                     {
                         zipArchiveEntry.Delete();
@@ -785,8 +890,8 @@ namespace DiGi.Core.IO.File.Classes
 
             foreach (TSerializableObject serializableObject in values) 
             { 
-                UniqueReference uniqueReference = Create.UniqueReference(serializableObject);
-                if(uniqueReference == null)
+                UniqueReference uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
+                if (uniqueReference == null)
                 {
                     continue;
                 }
