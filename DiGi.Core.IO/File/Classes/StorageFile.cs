@@ -164,29 +164,22 @@ namespace DiGi.Core.IO.File.Classes
 
         public TSerializableObject GetValue(UniqueReference uniqueReference)
         {
-            if(uniqueReference == null)
+            if (!TryGetValue(uniqueReference, out TSerializableObject result))
             {
                 return default;
             }
 
-            IEnumerable<TSerializableObject> serializableObjects = GetValues(new UniqueReference[] { uniqueReference });
-            if(serializableObjects == null || serializableObjects.Count() == 0)
-            {
-                return default;
-            }
-
-            return serializableObjects.ElementAt(0);
+            return result;
         }
 
         public USerializableObject GetValue<USerializableObject>(UniqueReference uniqueReference) where USerializableObject : TSerializableObject
         {
-            TSerializableObject serializableObject = GetValue(uniqueReference);
-            if(serializableObject is USerializableObject)
+            if (!TryGetValue(uniqueReference, out USerializableObject result))
             {
-                return (USerializableObject)serializableObject;
+                return default;
             }
 
-            return default;
+            return result;
         }
 
         public T GetValue<T>(int index) where T : TSerializableObject
@@ -202,13 +195,12 @@ namespace DiGi.Core.IO.File.Classes
 
         public TSerializableObject GetValue(int index)
         {
-            IEnumerable<TSerializableObject> serializableObjects = GetValues(new int[] { index });
-            if (serializableObjects == null || serializableObjects.Count() == 0)
+            if (!TryGetValue(index, out TSerializableObject result))
             {
                 return default;
             }
 
-            return serializableObjects.ElementAt(0);
+            return result;
         }
 
         public IEnumerable<USerializableObject> GetValues<USerializableObject>(IEnumerable<UniqueReference> uniqueReferences) where USerializableObject : TSerializableObject
@@ -257,7 +249,7 @@ namespace DiGi.Core.IO.File.Classes
             Dictionary<UniqueReference, TSerializableObject> dictionary = new Dictionary<UniqueReference, TSerializableObject>();
             foreach (UniqueReference uniqueReference in uniqueReferences)
             {
-                if(uniqueReference == null)
+                if (uniqueReference == null)
                 {
                     continue;
                 }
@@ -303,10 +295,10 @@ namespace DiGi.Core.IO.File.Classes
 
             return result;
         }
-        
+
         public IEnumerable<TSerializableObject> GetValues(IEnumerable<int> indexes)
         {
-            if(indexes == null)
+            if (indexes == null)
             {
                 return null;
             }
@@ -318,11 +310,11 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             int count = uniqueReferences.Count;
-            
+
             Dictionary<int, UniqueReference> dictionary_UniqueReference = new Dictionary<int, UniqueReference>();
-            foreach(int index in indexes)
+            foreach (int index in indexes)
             {
-                if(index < 0 || index >= count)
+                if (index < 0 || index >= count)
                 {
                     continue;
                 }
@@ -333,9 +325,9 @@ namespace DiGi.Core.IO.File.Classes
             IEnumerable<TSerializableObject> serializableObjects = GetValues(dictionary_UniqueReference.Values);
 
             Dictionary<UniqueReference, TSerializableObject> dictionary_SerializableObject = new Dictionary<UniqueReference, TSerializableObject>();
-            foreach(TSerializableObject serializableObject in serializableObjects)
+            foreach (TSerializableObject serializableObject in serializableObjects)
             {
-                if(serializableObject == null)
+                if (serializableObject == null)
                 {
                     continue;
                 }
@@ -343,7 +335,7 @@ namespace DiGi.Core.IO.File.Classes
                 //dictionary_SerializableObject[Create.UniqueReference(serializableObject)] = serializableObject;
 
                 UniqueReference uniqueReference = GetUniqueReference(serializableObject);
-                if(uniqueReference == null)
+                if (uniqueReference == null)
                 {
                     continue;
                 }
@@ -352,9 +344,9 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             List<TSerializableObject> result = new List<TSerializableObject>();
-            foreach(int index in indexes)
+            foreach (int index in indexes)
             {
-                if(!dictionary_UniqueReference.TryGetValue(index, out UniqueReference uniqueReference) || uniqueReference == null)
+                if (!dictionary_UniqueReference.TryGetValue(index, out UniqueReference uniqueReference) || uniqueReference == null)
                 {
                     result.Add(default);
                     continue;
@@ -371,18 +363,18 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
-        public IEnumerable<USerializableObject> GetValues<USerializableObject>(IEnumerable<int> indexes) where USerializableObject :TSerializableObject
+        public IEnumerable<USerializableObject> GetValues<USerializableObject>(IEnumerable<int> indexes) where USerializableObject : TSerializableObject
         {
             IEnumerable<TSerializableObject> serializableObjects = GetValues(indexes);
-            if(serializableObjects == null)
+            if (serializableObjects == null)
             {
                 return null;
             }
 
             List<USerializableObject> result = new List<USerializableObject>();
-            foreach(TSerializableObject serializableObject in serializableObjects)
+            foreach (TSerializableObject serializableObject in serializableObjects)
             {
-                if(serializableObject is USerializableObject)
+                if (serializableObject is USerializableObject)
                 {
                     result.Add((USerializableObject)serializableObject);
                 }
@@ -398,7 +390,7 @@ namespace DiGi.Core.IO.File.Classes
         public IEnumerable<USerializableObject> GetValues<USerializableObject>() where USerializableObject : TSerializableObject
         {
             IEnumerable<TSerializableObject> values = GetValues();
-            if(values == null)
+            if (values == null)
             {
                 return null;
             }
@@ -407,7 +399,7 @@ namespace DiGi.Core.IO.File.Classes
 
             foreach (TSerializableObject value in values)
             {
-                if(value is USerializableObject)
+                if (value is USerializableObject)
                 {
                     result.Add((USerializableObject)value);
                 }
@@ -533,7 +525,7 @@ namespace DiGi.Core.IO.File.Classes
         {
             return Remove(func, 1)?.FirstOrDefault();
         }
-        
+
         public override bool Save()
         {
             bool result = base.Save();
@@ -547,6 +539,87 @@ namespace DiGi.Core.IO.File.Classes
             return uniqueReferences != null && uniqueReferences.Count > 0;
         }
 
+        public bool TryGetValue(UniqueReference uniqueReference, out TSerializableObject serializableObject)
+        {
+            serializableObject = default;
+
+            if(uniqueReference == null)
+            {
+                return false;
+            }
+
+            if (uniqueReference == null)
+            {
+                return default;
+            }
+
+            IEnumerable<TSerializableObject> serializableObjects = GetValues(new UniqueReference[] { uniqueReference });
+            if (serializableObjects == null || serializableObjects.Count() == 0)
+            {
+                return default;
+            }
+
+            serializableObject = serializableObjects.ElementAt(0);
+
+            return serializableObject != null;
+        }
+
+        public bool TryGetValue<USerializableObject>(UniqueReference uniqueReference, out USerializableObject serializableObject) where USerializableObject : TSerializableObject
+        {
+            serializableObject = default;
+
+            if(!TryGetValue(uniqueReference, out TSerializableObject serializableObject_Temp))
+            {
+                return false;
+            }
+
+            if (serializableObject_Temp is USerializableObject)
+            {
+                serializableObject = (USerializableObject)serializableObject_Temp;
+                return true;
+            }
+
+            return false;
+        }
+        
+        public bool TryGetValue(int index, out TSerializableObject serializableObject)
+        {
+            serializableObject = default;
+
+            if(index < 0)
+            {
+                return false;
+            }
+
+            IEnumerable<TSerializableObject> serializableObjects = GetValues(new int[] { index });
+            if (serializableObjects == null || serializableObjects.Count() == 0)
+            {
+                return default;
+            }
+
+            serializableObject = serializableObjects.ElementAt(0);
+
+            return serializableObject != null;
+        }
+
+        public bool TryGetValue<USerializableObject>(int index, out USerializableObject serializableObject) where USerializableObject : TSerializableObject
+        {
+            serializableObject = default;
+
+            if (!TryGetValue(index, out TSerializableObject serializableObject_Temp))
+            {
+                return false;
+            }
+
+            if (serializableObject_Temp is USerializableObject)
+            {
+                serializableObject = (USerializableObject)serializableObject_Temp;
+                return true;
+            }
+
+            return false;
+        }
+        
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
