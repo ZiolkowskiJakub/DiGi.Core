@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Core
@@ -42,6 +43,28 @@ namespace DiGi.Core
             result = result == 0 ? count - 1 : result - 1;
 
             return result;
+        }
+
+        public static T Previous<T>(T @enum) where T : Enum
+        {
+            if (@enum == null)
+            {
+                return default;
+            }
+
+            List<int> indexes = new List<int>();
+            foreach (T @enum_Temp in System.Enum.GetValues(typeof(T)))
+            {
+                indexes.Add((int)(object)enum_Temp);
+            }
+
+            indexes.Sort();
+
+            int index = indexes.IndexOf((int)(object)@enum);
+
+            int next = Previous(indexes, index);
+
+            return (T)(object)next;
         }
     }
 
