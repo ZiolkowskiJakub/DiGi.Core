@@ -59,118 +59,31 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="delimitedDataRow"></param>
         /// <returns></returns>
-        public bool Read(DelimitedDataRow delimitedDataRow)
+        public DelimitedDataRow ReadRow()
         {
-            delimitedDataRow.LineText = ReadLine();
-            if (delimitedDataRow.LineText == null)
+            List<string> values = Query.Values(ReadLine(), separator, () => ReadLine());
+            if(values == null)
             {
-                return false;
+                return null;
             }
 
-            int position = 0;
-            int rowCount = 0;
-
-            while (position < delimitedDataRow.LineText.Length)
-            {
-                string value;
-
-                // Special handling for quoted field
-                if (delimitedDataRow.LineText[position] == '"')
-                {
-                    // Skip initial quote
-                    position++;
-
-                    // Parse quoted value
-                    int start = position;
-                    while (position < delimitedDataRow.LineText.Length)
-                    {
-                        // Test for quote character
-                        if (delimitedDataRow.LineText[position] == '"')
-                        {
-                            // Found one
-                            position++;
-
-                            // If two quotes together, keep one Otherwise, indicates end of value
-                            if (position >= delimitedDataRow.LineText.Length || delimitedDataRow.LineText[position] != '"')
-                            {
-                                position--;
-                                break;
-                            }
-                        }
-                        position++;
-
-                        //Code which read quoted text with break line symbol
-                        while (position == delimitedDataRow.LineText.Length)
-                        {
-                            string lineText = ReadLine();
-                            if (lineText == null)
-                            {
-                                break;
-                            }
-
-                            delimitedDataRow.LineText += "\n" + lineText;
-                        }
-                    }
-                    value = delimitedDataRow.LineText.Substring(start, position - start);
-                    value = value.Replace("\"\"", "\"");
-                }
-                else
-                {
-                    // Parse unquoted value
-                    int start = position;
-                    while (position < delimitedDataRow.LineText.Length && delimitedDataRow.LineText[position] != separator)
-                    {
-                        position++;
-                    }
-
-                    value = delimitedDataRow.LineText.Substring(start, position - start);
-                }
-
-                // Add field to list
-                if (rowCount < delimitedDataRow.Count)
-                {
-                    delimitedDataRow[rowCount] = value;
-                }
-                else
-                {
-                    delimitedDataRow.Add(value);
-                }
-                rowCount++;
-
-                // Eat up to and including next comma
-                while (position < delimitedDataRow.LineText.Length && delimitedDataRow.LineText[position] != separator)
-                {
-                    position++;
-                }
-
-                if (position < delimitedDataRow.LineText.Length)
-                {
-                    position++;
-                }
-            }
-            // Delete any unused items
-            while (delimitedDataRow.Count > rowCount)
-            {
-                delimitedDataRow.RemoveAt(rowCount);
-            }
-
-            // Return true if any columns read
-            return delimitedDataRow.Count > 0;
+            return new DelimitedDataRow(values);
         }
 
         /// <summary>
         /// Reads a rows of data from a CSV file
         /// </summary>
         /// <returns>List of the rows</returns>
-        public new List<DelimitedDataRow> Read()
+        public List<DelimitedDataRow> ReadRows()
         {
             List<DelimitedDataRow> delimitedDataRows = new List<DelimitedDataRow>();
-            DelimitedDataRow delimitedDataRow = new DelimitedDataRow();
-            while (Read(delimitedDataRow))
+            DelimitedDataRow delimitedDataRow = ReadRow();
+            while (delimitedDataRow != null )
             {
                 delimitedDataRows.Add(delimitedDataRow);
-                delimitedDataRow = new DelimitedDataRow();
+                delimitedDataRow = ReadRow();
             }
+
             return delimitedDataRows;
         }
     }

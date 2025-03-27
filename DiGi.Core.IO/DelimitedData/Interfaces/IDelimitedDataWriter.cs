@@ -7,8 +7,8 @@ namespace DiGi.Core.IO.DelimitedData.Interfaces
     {
         char Separator { get; }
 
-        void Write(DelimitedDataRow DelimitedDataRow);
+        void WriteRow(DelimitedDataRow DelimitedDataRow);
 
-        void Write(IEnumerable<DelimitedDataRow> DelimitedDataRows);
+        void WriteRows(IEnumerable<DelimitedDataRow> DelimitedDataRows);
     }
 }

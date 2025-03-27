@@ -7,8 +7,8 @@ namespace DiGi.Core.IO.DelimitedData.Interfaces
     {
         char Separator { get; }
 
-        bool Read(DelimitedDataRow DelimitedDataRow);
+        DelimitedDataRow ReadRow();
 
-        List<DelimitedDataRow> Read();
+        List<DelimitedDataRow> ReadRows();
     }
 }

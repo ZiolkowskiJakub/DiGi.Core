@@ -25,13 +25,13 @@ namespace DiGi.Core.IO.DelimitedData
 
             if (columns.Any(x => x?.Name != null))
             {
-                delimitedDataWriter.Write(new DelimitedDataRow(columns.ToList().ConvertAll(x => x?.Name)));
+                delimitedDataWriter.WriteRow(new DelimitedDataRow(columns.ToList().ConvertAll(x => x?.Name)));
             }
 
             Func<object, string> func_Temp = func;
             if(func_Temp == null)
             {
-                func = x => x?.ToString();
+                func_Temp = x => x?.ToString();
             }
 
             IEnumerable<Row> rows = table.Rows;
@@ -42,10 +42,10 @@ namespace DiGi.Core.IO.DelimitedData
                     List<string> values = new List<string>();
                     foreach (Column column in columns)
                     {
-                        values.Add(func(row[column.Index]));
+                        values.Add(func_Temp(row[column.Index]));
                     }
 
-                    delimitedDataWriter.Write(new DelimitedDataRow(values));
+                    delimitedDataWriter.WriteRow(new DelimitedDataRow(values));
                 }
             }
 

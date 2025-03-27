@@ -16,8 +16,6 @@ namespace DiGi.Core.IO.DelimitedData.Classes
             AddRange(values);
         }
 
-        public string LineText { get; set; }
-
         public bool TryGetValue<T>(int index, out T value)
         {
             value = default;

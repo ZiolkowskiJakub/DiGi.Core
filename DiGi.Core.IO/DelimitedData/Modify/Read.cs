@@ -11,7 +11,7 @@ namespace DiGi.Core.IO.DelimitedData
     {
         public static bool Read(this Table.Classes.Table table, IDelimitedDataReader delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
         {
-            List<DelimitedDataRow> delimitedDataRows = delimitedDataReader?.Read();
+            List<DelimitedDataRow> delimitedDataRows = delimitedDataReader?.ReadRows();
             if (delimitedDataRows == null || delimitedDataRows.Count == 0)
             {
                 return false;
