@@ -215,6 +215,33 @@ namespace DiGi.Core
                     return true;
                 }
             }
+            else if (type_Temp == typeof(ushort))
+            {
+                if (@object == null)
+                {
+                    return false;
+                }
+
+                if (@object is Type)
+                {
+                    return false;
+                }
+
+                if (@object is string)
+                {
+                    ushort @ushort;
+                    if (ushort.TryParse((string)@object, out @ushort))
+                    {
+                        result = @ushort;
+                        return true;
+                    }
+                }
+                else if (IsNumeric(@object))
+                {
+                    result = System.Convert.ToUInt16(@object);
+                    return true;
+                }
+            }
             else if (type_Temp == typeof(byte))
             {
                 if (@object == null)
@@ -238,33 +265,6 @@ namespace DiGi.Core
                 else if (IsNumeric(@object))
                 {
                     result = System.Convert.ToByte(@object);
-                    return true;
-                }
-            }
-            else if (type_Temp == typeof(int))
-            {
-                if (@object == null)
-                {
-                    return false;
-                }
-
-                if (@object is Type)
-                {
-                    return false;
-                }
-
-                if (@object is string)
-                {
-                    int @int;
-                    if (int.TryParse((string)@object, out @int))
-                    {
-                        result = @int;
-                        return true;
-                    }
-                }
-                else if (IsNumeric(@object))
-                {
-                    result = System.Convert.ToInt16(@object);
                     return true;
                 }
             }
@@ -292,6 +292,37 @@ namespace DiGi.Core
                 else if (IsNumeric(@object))
                 {
                     result = System.Convert.ToInt32(@object);
+                    return true;
+                }
+            }
+            else if (type_Temp == typeof(ulong))
+            {
+                if (@object == null)
+                {
+                    return false;
+                }
+
+                if (@object is Type)
+                {
+                    return false;
+                }
+
+                if (@object is string)
+                {
+                    if (ulong.TryParse((string)@object, out ulong @ulong))
+                    {
+                        result = @ulong;
+                        return true;
+                    }
+                }
+                else if (IsNumeric(@object))
+                {
+                    result = System.Convert.ToInt32(@object);
+                    return true;
+                }
+                else if (@object is Enum)
+                {
+                    result = (int)@object;
                     return true;
                 }
             }

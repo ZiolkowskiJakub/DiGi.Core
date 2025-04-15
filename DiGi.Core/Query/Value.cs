@@ -135,22 +135,74 @@ namespace DiGi.Core
 
             if (type_Temp == typeof(int))
             {
-                return jsonNode.GetValue<int>();
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<int>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out int @int))
+                        {
+                            return @int;
+                        }
+                        break;
+                }
+
+                return null;
             }
 
             if (type_Temp == typeof(uint))
             {
-                return jsonNode.GetValue<uint>();
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<uint>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out uint @uint))
+                        {
+                            return @uint;
+                        }
+                        break;
+                }
+
+                return null;
             }
 
             if (type_Temp == typeof(short))
             {
-                return jsonNode.GetValue<short>();
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<short>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out short @short))
+                        {
+                            return @short;
+                        }
+                        break;
+                }
+
+                return null;
             }
 
             if (type_Temp == typeof(ushort))
             {
-                return jsonNode.GetValue<ushort>();
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<ushort>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out ushort @ushort))
+                        {
+                            return @ushort;
+                        }
+                        break;
+                }
+
+                return null;
             }
 
             if (type_Temp == typeof(double))
@@ -168,17 +220,43 @@ namespace DiGi.Core
                         break;
                 }
 
-                return double.NaN;
+                return null;
             }
 
             if (type_Temp == typeof(float))
             {
-                return jsonNode.GetValue<float>();
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<float>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out float @float))
+                        {
+                            return @float;
+                        }
+                        break;
+                }
+
+                return null;
             }
 
             if (type_Temp == typeof(byte))
             {
-                return jsonNode.GetValue<byte>();
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<byte>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out byte @byte))
+                        {
+                            return @byte;
+                        }
+                        break;
+                }
+
+                return null;
             }
 
             if (type_Temp == typeof(System.Drawing.Color))
