@@ -40,6 +40,13 @@ namespace DiGi.Core.Classes
             this.guid = guid;
         }
 
+        public virtual IGuidObject Duplicate(Guid? guid = null)
+        {
+            GuidObject result = Query.Clone(this);
+            result.guid = guid == null ? Guid.NewGuid() : guid.Value;
+            return result;
+        }
+
         [JsonIgnore]
         public Guid Guid
         {

@@ -15,18 +15,18 @@ namespace DiGi.Core
         /// <returns>True if item has been added</returns>
         public static bool Add<T>(this List<T> list, T item, Func<T, bool> func)
         {
-            if(list == null)
+            if (list == null)
             {
                 return false;
             }
 
-            if(func == null || list.Count == 0)
+            if (func == null || list.Count == 0)
             {
                 list.Add(item);
                 return true;
             }
 
-            for(int i =0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 if (func.Invoke(list[i]))
                 {

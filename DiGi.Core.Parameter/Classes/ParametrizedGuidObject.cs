@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Parameter.Interfaces;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Parameter.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -69,6 +70,14 @@ namespace DiGi.Core.Parameter.Classes
             {
                 return Core.Query.UniqueId(guid);
             }
+        }
+
+        public IGuidObject Duplicate(Guid? guid = null)
+        {
+            ParametrizedGuidObject parametrizedGuidObject = this.Clone<ParametrizedGuidObject>();
+            parametrizedGuidObject.guid = guid == null ? Guid.NewGuid() : guid.Value;
+
+            return parametrizedGuidObject;
         }
     }
 }
