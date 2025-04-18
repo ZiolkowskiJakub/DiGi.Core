@@ -79,38 +79,6 @@ namespace DiGi.Core
                     return true;
                 }
             }
-            else if (type_Temp == typeof(int))
-            {
-                if (@object == null)
-                {
-                    return false;
-                }
-
-                if (@object is Type)
-                {
-                    return false;
-                }
-
-                if (@object is string)
-                {
-                    int @int;
-                    if (int.TryParse((string)@object, out @int))
-                    {
-                        result = @int;
-                        return true;
-                    }
-                }
-                else if (IsNumeric(@object))
-                {
-                    result = System.Convert.ToInt32(@object);
-                    return true;
-                }
-                else if (@object is Enum)
-                {
-                    result = (int)@object;
-                    return true;
-                }
-            }
             else if (type_Temp == typeof(double))
             {
                 if (@object == null)
@@ -152,7 +120,84 @@ namespace DiGi.Core
                     if ((bool)@object)
                         @int = 1;
 
-                    result = @int;
+                    result = System.Convert.ToDouble(@int);
+                    return true;
+                }
+            }
+            else if (type_Temp == typeof(float))
+            {
+                if (@object == null)
+                {
+                    return false;
+                }
+
+                if (@object is Type)
+                {
+                    return false;
+                }
+
+                if (@object is string)
+                {
+                    double @double;
+                    if (TryParseDouble((string)@object, out @double))
+                    {
+                        result = System.Convert.ToSingle(@double);
+                        return true;
+                    }
+                }
+                else if (IsNumeric(@object) && !(@object is Type))
+                {
+                    result = System.Convert.ToSingle(@object);
+                    return true;
+                }
+                else if (@object is bool)
+                {
+                    float @float = 0;
+                    if ((bool)@object)
+                        @float = 1;
+
+                    result = @float;
+                    return true;
+                }
+                else if (@object is int)
+                {
+                    int @int = 0;
+                    if ((bool)@object)
+                        @int = 1;
+
+                    result = System.Convert.ToSingle(@int);
+                    return true;
+                }
+            }
+            else if (type_Temp == typeof(int))
+            {
+                if (@object == null)
+                {
+                    return false;
+                }
+
+                if (@object is Type)
+                {
+                    return false;
+                }
+
+                if (@object is string)
+                {
+                    int @int;
+                    if (int.TryParse((string)@object, out @int))
+                    {
+                        result = @int;
+                        return true;
+                    }
+                }
+                else if (IsNumeric(@object))
+                {
+                    result = System.Convert.ToInt32(@object);
+                    return true;
+                }
+                else if (@object is Enum)
+                {
+                    result = (int)@object;
                     return true;
                 }
             }

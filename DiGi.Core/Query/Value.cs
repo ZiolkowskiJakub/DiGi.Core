@@ -3,6 +3,7 @@ using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 
@@ -207,7 +208,7 @@ namespace DiGi.Core
 
             if (type_Temp == typeof(double))
             {
-                switch(jsonNode.GetValueKind())
+                switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Number:
                         return jsonNode.GetValue<double>();
@@ -219,7 +220,6 @@ namespace DiGi.Core
                         }
                         break;
                 }
-
                 return null;
             }
 
@@ -237,7 +237,6 @@ namespace DiGi.Core
                         }
                         break;
                 }
-
                 return null;
             }
 
