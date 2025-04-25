@@ -81,7 +81,7 @@ namespace DiGi.Core.IO.File.Classes
                         JsonNode jsonNode = JsonNode.Parse(streamReader.ReadToEnd());
                         if (jsonNode != null)
                         {
-                            values = Create.SerializableObjects<TSerializableObject>((JsonArray)jsonNode);
+                            values = Core.Create.SerializableObjects<TSerializableObject>((JsonArray)jsonNode);
                         }
                     }
                 }
@@ -112,7 +112,7 @@ namespace DiGi.Core.IO.File.Classes
 
                 if (values != null)
                 {
-                    JsonNode jsonNode = Create.JsonNode(values);
+                    JsonNode jsonNode = Core.Create.JsonNode(values);
                     if (jsonNode != null)
                     {
                         zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Values);

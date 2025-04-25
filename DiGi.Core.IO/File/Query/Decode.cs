@@ -12,7 +12,7 @@ namespace DiGi.Core.IO.File
                 return null;
             }
 
-            if(!Core.Query.TryParse(HttpUtility.UrlDecode(text), out UniqueReference uniqueReference))
+            if(!DiGi.Core.Query.TryParse(HttpUtility.UrlDecode(text), out UniqueReference uniqueReference))
             {
                 return null;
             }

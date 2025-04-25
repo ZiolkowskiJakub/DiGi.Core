@@ -5,21 +5,21 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class ListCluster<TKey_1, TKey_2, TValue> : Cluster<TKey_1, TKey_2, TValue>
+    public abstract class List<TKey_1, TKey_2, TValue> : Cluster<TKey_1, TKey_2, TValue>
     {
         [JsonIgnore]
         private Dictionary<TKey_1, Dictionary<TKey_2, List<TValue>>> dictionary = new Dictionary<TKey_1, Dictionary<TKey_2, List<TValue>>>();
 
-        public ListCluster()
+        public List()
         {
         }
 
-        public ListCluster(IEnumerable<TValue> values)
+        public List(IEnumerable<TValue> values)
             : base(values)
         {
         }
 
-        public ListCluster(ListCluster<TKey_1, TKey_2, TValue> valueCluster)
+        public List(List<TKey_1, TKey_2, TValue> valueCluster)
             : base(valueCluster)
         {
         }

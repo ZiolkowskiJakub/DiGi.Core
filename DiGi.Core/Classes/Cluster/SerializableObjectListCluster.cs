@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class SerializableObjectListCluster<TKey_1, TKey_2, TValue> : ListCluster<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
+    public abstract class SerializableObjectListCluster<TKey_1, TKey_2, TValue> : List<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
     {
         [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
         private string fullTypeName => Query.FullTypeName(GetType());

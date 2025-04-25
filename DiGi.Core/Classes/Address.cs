@@ -22,10 +22,13 @@ namespace DiGi.Core.Classes
         public Address(Address address)
             : base()
         {
-            street = address.street;
-            city = address.city;
-            postalCode = address.postalCode;
-            countryCode = address.countryCode;
+            if(address != null)
+            {
+                street = address.street;
+                city = address.city;
+                postalCode = address.postalCode;
+                countryCode = address.countryCode;
+            }
         }
 
         public Address(string street, string city, string postalCode, CountryCode countryCode)

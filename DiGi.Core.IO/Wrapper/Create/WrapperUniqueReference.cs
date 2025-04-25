@@ -15,20 +15,20 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Type))
+            if (jsonObject.ContainsKey(DiGi.Core.Constans.Serialization.PropertyName.Type))
             {
-                string fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
+                string fullTypeName = jsonObject[DiGi.Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
                     if(Query.IsWrapperUniqueReference(jsonObject))
                     {
-                        return Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
+                        return DiGi.Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
                     }
 
-                    if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Guid))
+                    if (jsonObject.ContainsKey(DiGi.Core.Constans.Serialization.PropertyName.Guid))
                     {
-                        object @object = jsonObject[Core.Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
-                        if (Core.Query.TryConvert(@object, out Guid guid))
+                        object @object = jsonObject[DiGi.Core.Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
+                        if (DiGi.Core.Query.TryConvert(@object, out Guid guid))
                         {
                             return new WrapperGuidReference(fullTypeName, guid);
                         }
@@ -36,7 +36,7 @@ namespace DiGi.Core.IO.Wrapper
                 }
             }
 
-            return WrapperUniqueReference(Core.Create.UniqueReference(jsonObject));
+            return WrapperUniqueReference(DiGi.Core.Create.UniqueReference(jsonObject));
         }
 
         internal static IWrapperUniqueReference WrapperUniqueReference(this JsonNode jsonNode)

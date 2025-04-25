@@ -3,6 +3,7 @@ using DiGi.Core.IO.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Classes
@@ -25,6 +26,12 @@ namespace DiGi.Core.IO.Classes
             {
                 Metadatas = metadataStorage.Metadatas;
             }
+        }
+
+        public MetadataStorage(JsonObject jsonObject)
+            :base(jsonObject)
+        {
+
         }
 
         public TMetadata GetMetadata<TMetadata>() where TMetadata : IMetadata

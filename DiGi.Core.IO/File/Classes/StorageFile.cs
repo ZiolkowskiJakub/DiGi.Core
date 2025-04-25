@@ -109,7 +109,7 @@ namespace DiGi.Core.IO.File.Classes
 
         public virtual UniqueReference GetUniqueReference(TSerializableObject serializableObject)
         {
-            return Create.UniqueReference(serializableObject);
+            return Core.Create.UniqueReference(serializableObject);
         }
 
         public HashSet<UniqueReference> GetUniqueReferences()

@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.Wrapper
                 return false;
             }
 
-            if(!Core.Query.TryParse(value, out IReference reference))
+            if(!DiGi.Core.Query.TryParse(value, out IReference reference))
             {
                 return false;
             }

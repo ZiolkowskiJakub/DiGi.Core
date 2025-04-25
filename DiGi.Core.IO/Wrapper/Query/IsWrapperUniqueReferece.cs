@@ -13,18 +13,18 @@ namespace DiGi.Core.IO.Wrapper
                 return false;
             }
 
-            if (!jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Type))
+            if (!jsonObject.ContainsKey(DiGi.Core.Constans.Serialization.PropertyName.Type))
             {
                 return false;
             }
 
-            string fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
+            string fullTypeName = jsonObject[DiGi.Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
             if(string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return false;
             }
 
-            if (Core.Query.FullTypeName(typeof(WrapperUniqueIdReference)) == fullTypeName || Core.Query.FullTypeName(typeof(WrapperGuidReference)) == fullTypeName)
+            if (DiGi.Core.Query.FullTypeName(typeof(WrapperUniqueIdReference)) == fullTypeName || DiGi.Core.Query.FullTypeName(typeof(WrapperGuidReference)) == fullTypeName)
             {
                 return true;
             }

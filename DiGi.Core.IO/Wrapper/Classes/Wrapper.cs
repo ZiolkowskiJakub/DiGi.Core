@@ -454,7 +454,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return default;
             }
 
-            return Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+            return DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject);
         }
 
         public List<JsonNode> Read(IEnumerable<UniqueReference> uniqueReferences)
@@ -514,7 +514,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                     continue;
                 }
 
-                TSerializableObject serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+                TSerializableObject serializableObject = DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject);
                 if(serializableObject == null)
                 {
                     continue;
@@ -594,7 +594,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             List<TSerializableObject> result = new List<TSerializableObject>();
             foreach (JsonNode jsonNode in jsonNodes) 
             {
-                TSerializableObject serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonNode as JsonObject);
+                TSerializableObject serializableObject = DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonNode as JsonObject);
                 if(serializableObject == null)
                 {
                     continue;

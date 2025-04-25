@@ -118,7 +118,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             value = default;
 
-            if(!Core.Query.TryConvert(this[index], out value))
+            if(!DiGi.Core.Query.TryConvert(this[index], out value))
             {
                 return false;
             }
