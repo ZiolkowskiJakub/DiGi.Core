@@ -68,7 +68,10 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            dictionary_SerializationConstructor[fullTypeName] = result;
+            lock (dictionary_SerializationConstructor)
+            {
+                dictionary_SerializationConstructor[fullTypeName] = result;
+            }
 
             return result;
         }
@@ -102,7 +105,10 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            dictionary_SerializationMethodCollection[fullTypeName] = result;
+            lock(dictionary_SerializationMethodCollection)
+            {
+                dictionary_SerializationMethodCollection[fullTypeName] = result;
+            }
 
             return result;
         }
