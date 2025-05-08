@@ -146,6 +146,11 @@ namespace DiGi.Core.IO.File.Classes
                 disposed = true;
             }
         }
+
+        public static explicit operator TSerializableObject(ValueFile<TSerializableObject> valueFile)
+        {
+            return valueFile.value;
+        }
     }
 
     public class ValueFile : ValueFile<ISerializableObject>
@@ -165,7 +170,6 @@ namespace DiGi.Core.IO.File.Classes
         public ValueFile(ValueFile valueFile)
             :base(valueFile)
         {
-
         }
     }
 }
