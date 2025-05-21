@@ -24,7 +24,11 @@ namespace DiGi.Core.IO.DelimitedData
 
                 // Implement special handling for values that contain comma or quote Enclose in
                 // quotes and double up any double quotes
-                if (value.IndexOfAny(new char[] { '"', separator, '\n' }) != -1)
+                if(value == null)
+                {
+                    stringBuilder.Append(string.Empty);
+                }
+                else if (value.IndexOfAny(new char[] { '"', separator, '\n' }) != -1)
                 {
                     stringBuilder.AppendFormat("\"{0}\"", value.Replace("\"", "\"\""));
                 }

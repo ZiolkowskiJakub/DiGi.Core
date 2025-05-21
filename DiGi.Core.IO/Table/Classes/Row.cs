@@ -51,6 +51,14 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        public int Count
+        {
+            get
+            {
+                return values.Count;
+            }
+        }
+
         public int Index
         {
             get
@@ -66,7 +74,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return new HashSet<int>(values.Keys);
             }
         }
-
+        
         public object this[int index]
         {
             get
@@ -78,6 +86,25 @@ namespace DiGi.Core.IO.Table.Classes
 
                 return result;
             }
+        }
+
+        public object[] GetValues()
+        {
+            int count = values.Keys.Last() + 1;
+
+            object[] result = new object[count];
+
+            foreach (int index in values.Keys)
+            {
+                result[index] = values[index];
+            }
+
+            return result;
+        }
+
+        public bool RemoveValue(int index)
+        {
+            return values.Remove(index);
         }
 
         public List<int> RemoveValues(IEnumerable<int> indexes)
@@ -103,12 +130,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             return result;
         }
-
-        public bool RemoveValue(int index)
-        {
-            return values.Remove(index);
-        }
-
+        
         public void SetValue(int index, object value)
         {
             values[index] = value;
@@ -124,20 +146,6 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             return true; 
-        }
-
-        public object[] GetValues()
-        {
-            int count = values.Keys.Last() + 1;
-
-            object[] result = new object[count];
-
-            foreach(int index in values.Keys)
-            {
-                result[index] = values[index];
-            }
-
-            return result;
         }
     }
 }
