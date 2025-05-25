@@ -140,12 +140,37 @@ namespace DiGi.Core.IO.Table.Classes
         {
             value = default;
 
-            if(!DiGi.Core.Query.TryConvert(this[index], out value))
+            if(!Core.Query.TryConvert(this[index], out value))
             {
                 return false;
             }
 
             return true; 
+        }
+
+        public T GetValue<T>(int index, T defaultValue = default, bool tryConvert = true)
+        {
+            if (!values.TryGetValue(index, out object value))
+            {
+                return defaultValue;
+            }
+
+            if(value is T)
+            {
+                return (T)value;
+            }
+
+            if(!tryConvert)
+            {
+                return defaultValue;
+            }
+
+            if(!Core.Query.TryConvert<T>(value, out T result))
+            {
+                return defaultValue;
+            }
+
+            return result;
         }
     }
 }

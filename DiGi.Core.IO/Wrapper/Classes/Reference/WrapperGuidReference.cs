@@ -33,7 +33,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperGuidReference(System.Type type, System.Guid guid)
             : base()
         {
-            fullTypeName = DiGi.Core.Query.FullTypeName(type);
+            fullTypeName = Core.Query.FullTypeName(type);
             this.guid = guid;
         }
 
