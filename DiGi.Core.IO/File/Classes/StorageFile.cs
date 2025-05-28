@@ -234,19 +234,19 @@ namespace DiGi.Core.IO.File.Classes
                 return null;
             }
 
-            if (this.dictionary == null)
+            if (dictionary == null)
             {
                 Open();
             }
 
-            if (this.dictionary == null)
+            if (dictionary == null)
             {
-                this.dictionary = new Dictionary<UniqueReference, TSerializableObject>();
+                dictionary = new Dictionary<UniqueReference, TSerializableObject>();
             }
 
             HashSet<UniqueReference> uniqueReferences_Pull = new HashSet<UniqueReference>();
 
-            Dictionary<UniqueReference, TSerializableObject> dictionary = new Dictionary<UniqueReference, TSerializableObject>();
+            Dictionary<UniqueReference, TSerializableObject> dictionary_Temp = new Dictionary<UniqueReference, TSerializableObject>();
             foreach (UniqueReference uniqueReference in uniqueReferences)
             {
                 if (uniqueReference == null)
@@ -256,7 +256,7 @@ namespace DiGi.Core.IO.File.Classes
 
                 if (dictionary.TryGetValue(uniqueReference, out TSerializableObject serializableObject))
                 {
-                    dictionary[uniqueReference] = serializableObject;
+                    dictionary_Temp[uniqueReference] = serializableObject;
                 }
                 else
                 {
@@ -275,15 +275,15 @@ namespace DiGi.Core.IO.File.Classes
                         continue;
                     }
 
+                    dictionary_Temp[uniqueReference] = serializableObject;
                     dictionary[uniqueReference] = serializableObject;
-                    this.dictionary[uniqueReference] = serializableObject;
                 }
             }
 
             List<TSerializableObject> result = new List<TSerializableObject>();
             foreach (UniqueReference uniqueReference in uniqueReferences)
             {
-                if (uniqueReference != null && dictionary.TryGetValue(uniqueReference, out TSerializableObject serializableObject))
+                if (uniqueReference != null && dictionary_Temp.TryGetValue(uniqueReference, out TSerializableObject serializableObject))
                 {
                     result.Add(serializableObject);
                 }
@@ -431,7 +431,7 @@ namespace DiGi.Core.IO.File.Classes
                 return null;
             }
 
-            if (this.dictionary == null)
+            if (dictionary == null)
             {
                 Open();
             }
@@ -490,7 +490,7 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            if (this.dictionary == null)
+            if (dictionary == null)
             {
                 Open();
             }
@@ -851,14 +851,14 @@ namespace DiGi.Core.IO.File.Classes
                 return null;
             }
 
-            if (this.dictionary == null)
+            if (dictionary == null)
             {
                 Open();
             }
 
             HashSet<UniqueReference> result = new HashSet<UniqueReference>();
 
-            foreach (KeyValuePair<UniqueReference, TSerializableObject> keyValuePair in this.dictionary)
+            foreach (KeyValuePair<UniqueReference, TSerializableObject> keyValuePair in dictionary)
             {
                 USerializableObject uSerializableObject = keyValuePair.Value is USerializableObject ? (USerializableObject)keyValuePair.Value : default;
                 if (uSerializableObject == null || !func.Invoke(uSerializableObject))
@@ -923,7 +923,7 @@ namespace DiGi.Core.IO.File.Classes
                     {
                         if (!dictionary.ContainsKey(uniqueReference))
                         {
-                            this.dictionary[uniqueReference] = serializableObject;
+                            dictionary[uniqueReference] = serializableObject;
                         }
 
                         continue;
