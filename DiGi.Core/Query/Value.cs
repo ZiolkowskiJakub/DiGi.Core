@@ -332,20 +332,44 @@ namespace DiGi.Core
                 {
                     IDictionary dictionary = Create.Dictionary(genericType_Key, genericType_Value);
 
-                    JsonArray jsonArray = jsonNode.AsArray();
-                    if (jsonArray != null)
+                    switch(jsonNode.GetValueKind())
                     {
-                        foreach (JsonNode jsonNode_Temp in jsonArray)
-                        {
-                            object key = Value(jsonNode_Temp["Key"], genericType_Key);
-                            if (key != null)
+                        case System.Text.Json.JsonValueKind.Array:
+                            JsonArray jsonArray = jsonNode.AsArray();
+                            if (jsonArray != null)
                             {
-                                dictionary[key] = Value(jsonNode_Temp["Value"], genericType_Value);
-                            }
-                        }
+                                foreach (JsonNode jsonNode_Temp in jsonArray)
+                                {
+                                    object key = Value(jsonNode_Temp["Key"], genericType_Key);
+                                    if (key != null)
+                                    {
+                                        dictionary[key] = Value(jsonNode_Temp["Value"], genericType_Value);
+                                    }
+                                }
 
-                        return Activator.CreateInstance(type, dictionary);
+                                return Activator.CreateInstance(type, dictionary);
+                            }
+                            break;
+
+                        case System.Text.Json.JsonValueKind.Object:
+                            JsonObject jsonObject = jsonNode.AsObject();
+                            if (jsonObject != null)
+                            {
+                                foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
+                                {
+                                    object key = Value(keyValuePair.Key, genericType_Key);
+                                    if (key != null)
+                                    {
+                                        dictionary[key] = Value(keyValuePair.Value, genericType_Value);
+                                    }
+                                }
+
+                                return Activator.CreateInstance(type, dictionary);
+                            }
+                            break;
                     }
+
+
                 }
             }
 
@@ -425,6 +449,27 @@ namespace DiGi.Core
                         return Activator.CreateInstance(type, list);
                     }
                 }
+            }
+
+            if (type_Temp.IsGenericType && type_Temp.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+            {
+                Type type_Key = type_Temp.GenericTypeArguments[0];
+                Type type_Value = type_Temp.GenericTypeArguments[1];
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Object:
+                        JsonObject jsonObject = jsonNode.AsObject();
+                        if(jsonObject != null && jsonObject.ContainsKey("Key") && jsonObject.ContainsKey("Value"))
+                        {
+                            object key = Value(jsonObject["Key"], type_Key);
+                            object value_Temp = Value(jsonObject["Value"], type_Value);
+                            return Activator.CreateInstance(type_Temp, key, value_Temp);
+                        }
+                        break;
+                }
+
+
+                
             }
 
             return null;

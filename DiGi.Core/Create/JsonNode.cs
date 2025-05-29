@@ -27,12 +27,27 @@ namespace DiGi.Core
             }
             else if (!(object_Temp is string) && object_Temp is IEnumerable)
             {
-                JsonArray jsonArray = new JsonArray();
-                foreach (object object_Temp_Temp in (IEnumerable)object_Temp)
+                if(object_Temp is IDictionary)
                 {
-                    jsonArray.Add(JsonNode(object_Temp_Temp));
+                    IDictionary dictionary = (IDictionary)object_Temp;
+
+                    JsonObject jsonObject = new JsonObject();
+                    foreach(object key in dictionary.Keys)
+                    {
+                        jsonObject[key is string ? (string)key : JsonNode(key).ToString()] = JsonNode(dictionary[key]);
+                    }
+
+                    return jsonObject;
                 }
-                return jsonArray;
+                else
+                {
+                    JsonArray jsonArray = new JsonArray();
+                    foreach (object object_Temp_Temp in (IEnumerable)object_Temp)
+                    {
+                        jsonArray.Add(JsonNode(object_Temp_Temp));
+                    }
+                    return jsonArray;
+                }
             }
             else
             {
