@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiGi.Core.IO.File.Interfaces
+﻿namespace DiGi.Core.IO.File.Interfaces
 {
     internal interface IValueFile : IFile
     { 

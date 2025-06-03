@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiGi.Core
+﻿namespace DiGi.Core
 {
     public static partial class Query
     {

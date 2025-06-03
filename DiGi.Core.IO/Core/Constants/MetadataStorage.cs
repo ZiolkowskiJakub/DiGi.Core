@@ -1,6 +1,4 @@
-﻿using DiGi.Core.IO.Wrapper.Classes;
-
-namespace DiGi.Core.IO.Constans
+﻿namespace DiGi.Core.IO.Constans
 {
     public static class MetadataStorage
     {

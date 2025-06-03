@@ -79,6 +79,16 @@ namespace DiGi.Core.Parameter.Classes
             return parameterGroups.GetValue(uniqueId);
         }
 
+        public object GetValue(System.Enum @enum)
+        {
+            if(@enum == null)
+            {
+                return null;
+            }
+
+            return parameterGroups.GetValue((EnumParameterDefinition)@enum);
+        }
+
         public bool Remove(IParameterDefinition parameterDefinition)
         {
             return parameterGroups.Remove(parameterDefinition);
@@ -92,6 +102,16 @@ namespace DiGi.Core.Parameter.Classes
         public bool SetValue(IParameterDefinition parameterDefinition, object value, SetValueSettings setValueSettings = null)
         {
             return parameterGroups.SetValue(parameterDefinition, value, setValueSettings);
+        }
+
+        public bool SetValue(System.Enum @enum, object value, SetValueSettings setValueSettings = null)
+        {
+            if(@enum == null)
+            {
+                return false;
+            }
+
+            return parameterGroups.SetValue((EnumParameterDefinition)@enum, value, setValueSettings);
         }
 
         public bool SetValue(string name, object value, SetValueSettings setValueSettings = null)
@@ -112,6 +132,11 @@ namespace DiGi.Core.Parameter.Classes
         public bool TryGetValue(IParameterDefinition parameterDefinition, out object value)
         {
             return TryGetValue(parameterDefinition, out value);
+        }
+
+        public bool TryGetValue(System.Enum @enum, out object value)
+        {
+            return TryGetValue((EnumParameterDefinition)@enum, out value);
         }
 
         public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value)

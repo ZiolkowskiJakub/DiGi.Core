@@ -1,5 +1,4 @@
-﻿using DiGi.Core.Enums;
-using DiGi.Core.IO.DelimitedData.Enums;
+﻿using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using System.Collections.Generic;
 using System.IO;

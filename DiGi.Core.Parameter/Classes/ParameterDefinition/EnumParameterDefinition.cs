@@ -35,69 +35,17 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
-        public override string Description
-        {
-            get
-            {
-                return Query.ParameterProperties(@enum)?.Description;
-            }
-        }
-
         public override AccessType AccessType
         {
             get
             {
                 ParameterProperties parameterProperties = Query.ParameterProperties(@enum);
-                if(parameterProperties == null)
+                if (parameterProperties == null)
                 {
                     return AccessType.ReadWrite;
                 }
 
                 return parameterProperties.AccessType;
-            }
-        }
-
-        public override string UniqueId
-        {
-            get
-            {
-                return Query.ParameterProperties(@enum)?.UniqueId;
-            }
-        }
-
-        public override string Name
-        {
-            get
-            {
-                return Query.ParameterProperties(@enum)?.Name;
-            }
-        }
-
-        public override string GroupName
-        {
-            get
-            {
-                string result = Query.ParameterProperties(@enum)?.GroupName;
-
-                if(result == null)
-                {
-                    result = @enum?.GetType()?.Namespace;
-                }
-
-                if(result == null)
-                {
-                    result = Constans.Names.DefaultGroupName;
-                }
-
-                return result;
-            }
-        }
-
-        public override ParameterValue ParameterValue
-        {
-            get
-            {
-                return Query.ParameterValue<ParameterValue>(@enum);
             }
         }
 
@@ -109,9 +57,96 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        public override string Description
+        {
+            get
+            {
+                return Query.ParameterProperties(@enum)?.Description;
+            }
+        }
+        
+        public override string GroupName
+        {
+            get
+            {
+                string result = Query.ParameterProperties(@enum)?.GroupName;
+
+                if (result == null)
+                {
+                    result = @enum?.GetType()?.Namespace;
+                }
+
+                if (result == null)
+                {
+                    result = Constans.Names.DefaultGroupName;
+                }
+
+                return result;
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return Query.ParameterProperties(@enum)?.Name;
+            }
+        }
+
+        public override ParameterValue ParameterValue
+        {
+            get
+            {
+                return Query.ParameterValue<ParameterValue>(@enum);
+            }
+        }
+
+        public override string UniqueId
+        {
+            get
+            {
+                return Query.ParameterProperties(@enum)?.UniqueId;
+            }
+        }
+        
+        public static explicit operator Enum(EnumParameterDefinition enumParameterDefinition)
+        {
+            if (enumParameterDefinition == null)
+            {
+                return null;
+            }
+
+            return enumParameterDefinition.@enum;
+        }
+
+        public static explicit operator EnumParameterDefinition(Enum @enum)
+        {
+            if (@enum == null)
+            {
+                return null;
+            }
+
+            return new EnumParameterDefinition(@enum);
+        }
+
         public override ISerializableObject Clone()
         {
             return new EnumParameterDefinition(this);
+        }
+
+        public override bool FromJsonObject(JsonObject jsonObject)
+        {
+            if (jsonObject == null)
+            {
+                return false;
+            }
+
+            if (jsonObject.ContainsKey("Enum"))
+            {
+                Core.Query.TryGetEnum(jsonObject["Enum"].GetValue<string>(), out @enum);
+            }
+
+            return true;
         }
 
         public override JsonObject ToJsonObject()
@@ -121,21 +156,6 @@ namespace DiGi.Core.Parameter.Classes
             result.Add("Enum", Core.Query.FullName(@enum));
 
             return result;
-        }
-
-        public override bool FromJsonObject(JsonObject jsonObject)
-        {
-            if(jsonObject == null)
-            {
-                return false;
-            }
-
-            if(jsonObject.ContainsKey("Enum"))
-            {
-                Core.Query.TryGetEnum(jsonObject["Enum"].GetValue<string>(), out @enum);
-            }
-
-            return true;
         }
     }
 }

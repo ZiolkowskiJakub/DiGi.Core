@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Nodes;
-
-namespace DiGi.Core.Interfaces
+﻿namespace DiGi.Core.Interfaces
 {
     public interface ISerializableResult : IResult, ISerializableObject
     {

@@ -1,5 +1,4 @@
-﻿using DiGi.Core.IO.DelimitedData.Classes;
-using DiGi.Core.IO.Table.Classes;
+﻿using DiGi.Core.IO.Table.Classes;
 using System.Collections.Generic;
 using System.Linq;
 

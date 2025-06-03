@@ -1,5 +1,4 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 
 namespace DiGi.Core.Relation.Interfaces

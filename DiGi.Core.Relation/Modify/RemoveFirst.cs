@@ -1,5 +1,4 @@
 ﻿using DiGi.Core.Interfaces;
-using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
 
 namespace DiGi.Core.Relation
