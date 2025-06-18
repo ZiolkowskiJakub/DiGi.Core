@@ -147,7 +147,7 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
-        public object GetValue(IParameterDefinition parameterDefinition)
+        public object GetValue(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
         {
             if(parameterDefinition?.UniqueId == null)
             {
@@ -158,14 +158,14 @@ namespace DiGi.Core.Parameter.Classes
             {
                 if (parameterGroup != null && parameterGroup.Contains(parameterDefinition))
                 {
-                    return parameterGroup.GetValue(parameterDefinition);
+                    return parameterGroup.GetValue(parameterDefinition, getValueSettings);
                 }
             }
 
             return null;
         }
 
-        public object GetValue(string uniqueId)
+        public object GetValue(string uniqueId, GetValueSettings getValueSettings = null)
         {
             if (uniqueId == null)
             {
@@ -176,11 +176,29 @@ namespace DiGi.Core.Parameter.Classes
             {
                 if (parameterGroup != null && parameterGroup.Contains(uniqueId))
                 {
-                    return parameterGroup.GetValue(uniqueId);
+                    return parameterGroup.GetValue(uniqueId, getValueSettings);
                 }
             }
 
             return null;
+        }
+
+        public T GetValue<T>(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
+        {
+            if (parameterDefinition?.UniqueId == null)
+            {
+                return default;
+            }
+
+            foreach (ParameterGroup parameterGroup in dictionary.Values)
+            {
+                if (parameterGroup != null && parameterGroup.Contains(parameterDefinition))
+                {
+                    return parameterGroup.GetValue<T>(parameterDefinition, getValueSettings);
+                }
+            }
+
+            return default;
         }
 
         public bool Remove(IParameterDefinition parameterDefinition)
@@ -319,7 +337,7 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
-        public bool TryGetValue(string uniqueId, out object value)
+        public bool TryGetValue(string uniqueId, out object value, GetValueSettings getValueSettings = null)
         {
             if (uniqueId == null)
             {
@@ -329,7 +347,7 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.TryGetValue(uniqueId, out value))
+                if (parameterGroup != null && parameterGroup.TryGetValue(uniqueId, out value, getValueSettings))
                 {
                     return true;
                 }
@@ -338,7 +356,7 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
-        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value)
+        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value, GetValueSettings getValueSettings = null)
         {
             if (parameterDefinition.UniqueId == null)
             {
@@ -348,7 +366,7 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition.UniqueId, out value))
+                if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition.UniqueId, out value, getValueSettings))
                 {
                     return true;
                 }
@@ -357,7 +375,7 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
-        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value)
+        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value, GetValueSettings getValueSettings = null)
         {
             if(parameterDefinition.UniqueId == null)
             {
@@ -367,7 +385,7 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition, out value))
+                if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition, out value, getValueSettings))
                 {
                     return true;
                 }
@@ -376,7 +394,7 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
-        public bool TryGetValue<T>(string uniqueId, out T value)
+        public bool TryGetValue<T>(string uniqueId, out T value, GetValueSettings getValueSettings = null)
         {
             if(uniqueId == null)
             {
@@ -386,7 +404,7 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.TryGetValue(uniqueId, out value))
+                if (parameterGroup != null && parameterGroup.TryGetValue(uniqueId, out value, getValueSettings))
                 {
                     return true;
                 }

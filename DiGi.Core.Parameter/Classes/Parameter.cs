@@ -82,37 +82,69 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public T GetValue<T>()
+        public T GetValue<T>(GetValueSettings getValueSettings = null)
         {
-            return value is T ? (T)value : default;
+            if(!TryGetValue(out T result, getValueSettings))
+            {
+                return default;
+            }
+
+            return result;
         }
 
-        public bool TryGetValue<T>(out T value)
+        public bool TryGetValue<T>(out T value, GetValueSettings getValueSettings = null)
         {
             value = default;
 
-            if(!Core.Query.TryConvert(value, out T result))
+            if(getValueSettings == null)
+            {
+                getValueSettings = new GetValueSettings();
+            }
+
+            if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
+            {
+                if(getValueSettings.TryConvert)
+                {
+                    return Core.Query.TryConvert(this.value, out value);
+                }
+
+                if(this.value is T)
+                {
+                    value = (T)this.value;
+                    return true;
+                }
+
+                return false;
+            }
+
+            ComplexParameterDefinition complexParameterDefinition = parameterDefinition as ComplexParameterDefinition;
+            if (complexParameterDefinition == null)
             {
                 return false;
             }
 
-            value = result;
-            return true;
+            if (getValueSettings.CheckAccessType && !complexParameterDefinition.AccessType.Read())
+            {
+                return false;
+            }
+
+            if (getValueSettings.TryConvert)
+            {
+                return Core.Query.TryConvert(this.value, out value);
+            }
+
+            if (this.value is T)
+            {
+                value = (T)this.value;
+                return true;
+            }
+
+            return false;
         }
 
         public bool SetValue(object value, SetValueSettings setValueSettings = null)
         {
-            if (setValueSettings == null)
-            {
-                setValueSettings = new SetValueSettings();
-            }
-
-            if (parameterDefinition == null)
-            {
-                return false;
-            }
-
-            if (parameterDefinition is SimpleParameterDefinition)
+            if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
             {
                 this.value = value is ISerializableObject ? ((ISerializableObject)value).Clone() : value;
                 return true;
@@ -122,6 +154,11 @@ namespace DiGi.Core.Parameter.Classes
             if (complexParameterDefinition == null)
             {
                 return false;
+            }
+
+            if (setValueSettings == null)
+            {
+                setValueSettings = new SetValueSettings();
             }
 
             if (setValueSettings.CheckAccessType && !complexParameterDefinition.AccessType.Write())

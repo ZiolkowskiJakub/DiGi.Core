@@ -9,7 +9,9 @@ namespace DiGi.Core.Parameter.Interfaces
     {
         bool Contains(IParameterDefinition parameterDefinition);
 
-        object GetValue(IParameterDefinition parameterDefinition);
+        object GetValue(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null);
+
+        T GetValue<T>(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null);
 
         List<IParameterDefinition> GetParameterDefinitions(string parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true);
 
@@ -17,8 +19,8 @@ namespace DiGi.Core.Parameter.Interfaces
 
         bool SetValue(IParameterDefinition parameterDefinition, object value, SetValueSettings setValueSettings = null);
 
-        bool TryGetValue(IParameterDefinition parameterDefinition, out object value);
+        bool TryGetValue(IParameterDefinition parameterDefinition, out object value, GetValueSettings getValueSettings = null);
 
-        bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value);
+        bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value, GetValueSettings getValueSettings = null);
     }
 }

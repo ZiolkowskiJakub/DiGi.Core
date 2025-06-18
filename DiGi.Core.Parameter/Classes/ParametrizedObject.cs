@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Parameter.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -69,24 +70,44 @@ namespace DiGi.Core.Parameter.Classes
             return parameterGroups.GetParameterDefinitions<T>(parameterName, textComparisonType, caseSensitive);
         }
 
-        public object GetValue(IParameterDefinition parameterDefinition)
+        public object GetValue(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
         {
-            return parameterGroups.GetValue(parameterDefinition);
+            return parameterGroups.GetValue(parameterDefinition, getValueSettings);
         }
 
-        public object GetValue(string uniqueId)
+        public object GetValue(string uniqueId, GetValueSettings getValueSettings = null)
         {
-            return parameterGroups.GetValue(uniqueId);
+            return parameterGroups.GetValue(uniqueId, getValueSettings);
         }
 
-        public object GetValue(System.Enum @enum)
+        public object GetValue(Enum @enum, GetValueSettings getValueSettings = null)
         {
             if(@enum == null)
             {
                 return null;
             }
 
-            return parameterGroups.GetValue((EnumParameterDefinition)@enum);
+            return parameterGroups.GetValue((EnumParameterDefinition)@enum, getValueSettings);
+        }
+
+        public T GetValue<T>(Enum @enum, GetValueSettings getValueSettings = null)
+        {
+            if (@enum == null)
+            {
+                return default;
+            }
+
+            return parameterGroups.GetValue<T>((EnumParameterDefinition)@enum, getValueSettings);
+        }
+
+        public T GetValue<T>(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
+        {
+            if (parameterDefinition == null)
+            {
+                return default;
+            }
+
+            return parameterGroups.GetValue<T>(parameterDefinition, getValueSettings);
         }
 
         public bool Remove(IParameterDefinition parameterDefinition)
@@ -124,29 +145,34 @@ namespace DiGi.Core.Parameter.Classes
             return parameterGroups.SetValue(parameter);
         }
 
-        public bool TryGetValue(string uniqueId, out object value)
+        public bool TryGetValue(string uniqueId, out object value, GetValueSettings getValueSettings = null)
         {
-            return TryGetValue(uniqueId, out value);
+            return TryGetValue(uniqueId, out value, getValueSettings);
         }
 
-        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value)
+        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value, GetValueSettings getValueSettings = null)
         {
-            return TryGetValue(parameterDefinition, out value);
+            return TryGetValue(parameterDefinition, out value, getValueSettings);
         }
 
-        public bool TryGetValue(System.Enum @enum, out object value)
+        public bool TryGetValue(System.Enum @enum, out object value, GetValueSettings getValueSettings = null)
         {
-            return TryGetValue((EnumParameterDefinition)@enum, out value);
+            return TryGetValue((EnumParameterDefinition)@enum, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value)
+        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value, GetValueSettings getValueSettings = null)
         {
-            return parameterGroups.TryGetValue(parameterDefinition, out value);
+            return parameterGroups.TryGetValue(parameterDefinition, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(string uniqueId, out T value)
+        public bool TryGetValue<T>(System.Enum @enum, out T value, GetValueSettings getValueSettings = null)
         {
-            return parameterGroups.TryGetValue(uniqueId, out value);
+            return parameterGroups.TryGetValue((EnumParameterDefinition)@enum, out value, getValueSettings);
+        }
+
+        public bool TryGetValue<T>(string uniqueId, out T value, GetValueSettings getValueSettings = null)
+        {
+            return parameterGroups.TryGetValue(uniqueId, out value, getValueSettings);
         }
     }
 }

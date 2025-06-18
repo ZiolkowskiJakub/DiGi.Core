@@ -16,7 +16,13 @@ namespace DiGi.Core
                 return value;
             }
 
-            return (double)(Math.Round((decimal)value / (decimal)tolerance) * (decimal)tolerance);
+            double value_Temp = Math.Abs(value / tolerance);
+            if(value_Temp < (double)decimal.MaxValue)
+            {
+                return System.Convert.ToDouble(Math.Round(System.Convert.ToDecimal(value) / System.Convert.ToDecimal(tolerance)) * System.Convert.ToDecimal(tolerance));
+            }
+
+            return Math.Round(value_Temp) * tolerance;
         }
     }
 

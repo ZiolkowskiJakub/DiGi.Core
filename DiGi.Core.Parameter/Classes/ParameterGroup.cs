@@ -11,6 +11,7 @@ namespace DiGi.Core.Parameter.Classes
 {
     public class ParameterGroup : SerializableObject, IEnumerable<Parameter>
     {
+        [JsonIgnore]
         private Dictionary<string, Parameter> dictionary = new Dictionary<string, Parameter>();
 
         [JsonInclude, JsonPropertyName("Name")]
@@ -43,6 +44,7 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
+        [JsonIgnore]
         public string Name
         {
             get
@@ -129,12 +131,12 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
-        public object GetValue(IParameterDefinition parameterDefinition)
+        public object GetValue(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
         {
-            return GetValue(parameterDefinition?.UniqueId);
+            return GetValue(parameterDefinition?.UniqueId, getValueSettings);
         }
 
-        public object GetValue(string uniqueId)
+        public object GetValue(string uniqueId, GetValueSettings getValueSettings = null)
         {
             if (uniqueId == null)
             {
@@ -147,7 +149,28 @@ namespace DiGi.Core.Parameter.Classes
                 return null;
             }
 
-            return parameter.GetValue<object>();
+            return parameter.GetValue<object>(getValueSettings);
+        }
+
+        public T GetValue<T>(string uniqueId, GetValueSettings getValueSettings = null)
+        {
+            if (uniqueId == null)
+            {
+                return default;
+            }
+
+            Parameter parameter = dictionary[uniqueId];
+            if (parameter == null)
+            {
+                return default;
+            }
+
+            return parameter.GetValue<T>(getValueSettings);
+        }
+
+        public T GetValue<T>(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
+        {
+            return GetValue<T>(parameterDefinition?.UniqueId, getValueSettings);
         }
 
         public bool Remove(IParameterDefinition parameterDefinition)
@@ -218,13 +241,13 @@ namespace DiGi.Core.Parameter.Classes
 
             if (!dictionary.TryGetValue(parameterDefinition.UniqueId, out Parameter parameter) && parameter == null)
             {
-                Parameter paremeter = Create.Parameter(parameterDefinition, value, setValueSettings);
+                parameter = Create.Parameter(parameterDefinition, value, setValueSettings);
                 if(parameter == null)
                 {
                     return false;
                 }
 
-                dictionary[parameterDefinition.UniqueId] = paremeter;
+                dictionary[parameterDefinition.UniqueId] = parameter;
                 return true;
             }
 
@@ -242,7 +265,7 @@ namespace DiGi.Core.Parameter.Classes
             return true;
         }
 
-        public bool TryGetValue(string uniqueId, out object value)
+        public bool TryGetValue(string uniqueId, out object value, GetValueSettings getValueSettings = null)
         {
             value = null;
             if (uniqueId == null)
@@ -256,10 +279,10 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            return parameter.TryGetValue(out value);
+            return parameter.TryGetValue(out value, getValueSettings);
         }
 
-        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value)
+        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value, GetValueSettings getValueSettings = null)
         {
             value = default;
             if(parameterDefinition == null)
@@ -267,10 +290,10 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            return TryGetValue(parameterDefinition.UniqueId, out value);
+            return TryGetValue(parameterDefinition.UniqueId, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(string uniqueId, out T value)
+        public bool TryGetValue<T>(string uniqueId, out T value, GetValueSettings getValueSettings = null)
         {
             value = default;
             if (uniqueId == null)
@@ -278,16 +301,15 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            Parameter parameter = dictionary[uniqueId];
-            if (parameter == null)
+            if(!dictionary.TryGetValue(uniqueId, out Parameter parameter) || parameter == null)
             {
                 return false;
             }
 
-            return parameter.TryGetValue(out value);
+            return parameter.TryGetValue(out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value)
+        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value, GetValueSettings getValueSettings = null)
         {
             value = default;
             if(parameterDefinition == null)
@@ -295,7 +317,7 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            return TryGetValue(parameterDefinition.UniqueId, out value);
+            return TryGetValue(parameterDefinition.UniqueId, out value, getValueSettings);
         }
         
         private List<Parameter> GetParameters()
