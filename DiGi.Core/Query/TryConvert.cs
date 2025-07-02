@@ -649,8 +649,14 @@ namespace DiGi.Core
                     {
                         if(TryConvert(@object, out int index) && System.Enum.IsDefined(type_Temp, index))
                         {
-                            result = array.GetValue(index);
-                            return true;
+                            foreach(Enum @enum in array)
+                            {
+                                if((int)(object)@enum == index)
+                                {
+                                    result = @enum;
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }

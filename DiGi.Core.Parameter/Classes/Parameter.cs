@@ -139,6 +139,19 @@ namespace DiGi.Core.Parameter.Classes
                 return true;
             }
 
+            //TODO: Implement conversion of ParameterValue (2025.06.27)
+            //START
+            ParameterValue parameterValue = complexParameterDefinition.ParameterValue;
+            if (parameterValue != null && parameterValue.TryConvert(this.value, out object value_Temp))
+            {
+                if (value_Temp is T)
+                {
+                    value = (T)value_Temp;
+                    return true;
+                }
+            }
+            //END
+
             return false;
         }
 
