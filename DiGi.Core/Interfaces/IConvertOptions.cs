@@ -1,6 +1,6 @@
 ﻿namespace DiGi.Core.Interfaces
 {
-    public interface IConvertOptions : ISerializableObject
+    public interface IConvertOptions : IOptions
     {
     }
 }

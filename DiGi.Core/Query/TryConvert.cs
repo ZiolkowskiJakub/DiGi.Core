@@ -478,6 +478,14 @@ namespace DiGi.Core
                     return true;
                 }
             }
+            else if(type_Temp == typeof(Enum))
+            {
+                if(@object != null && @object is Enum)
+                {
+                    result = @object;
+                    return true;
+                }
+            }
             else if (typeof(ISerializableObject).IsAssignableFrom(type_Temp))
             {
                 if (@object is string)
@@ -617,7 +625,7 @@ namespace DiGi.Core
                 }
 
                 Array array = System.Enum.GetValues(type_Temp);
-                if(array != null && array.Length != 0)
+                if (array != null && array.Length != 0)
                 {
                     if (@object is string)
                     {
@@ -647,11 +655,11 @@ namespace DiGi.Core
 
                     if (IsNumeric(@object))
                     {
-                        if(TryConvert(@object, out int index) && System.Enum.IsDefined(type_Temp, index))
+                        if (TryConvert(@object, out int index) && System.Enum.IsDefined(type_Temp, index))
                         {
-                            foreach(Enum @enum in array)
+                            foreach (Enum @enum in array)
                             {
-                                if((int)(object)@enum == index)
+                                if ((int)(object)@enum == index)
                                 {
                                     result = @enum;
                                     return true;

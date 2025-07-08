@@ -14,8 +14,16 @@ namespace DiGi.Core.Classes
 
         public Range(T value_1, T value_2)
         {
-            min = System.Math.Min(value_1 as dynamic, value_2 as dynamic);
-            max = System.Math.Max(value_1 as dynamic, value_2 as dynamic);
+            if(value_1 as dynamic <= value_2 as dynamic)
+            {
+                min = value_1;
+                max = value_2;
+            }
+            else 
+            {
+                min = value_2;
+                max = value_1;
+            }
         }
 
         public Range(Range<T> range)
@@ -44,8 +52,15 @@ namespace DiGi.Core.Classes
                     }
                     else
                     {
-                        min = System.Math.Min(value as dynamic, min);
-                        max = System.Math.Max(value as dynamic, max);
+                        if((value as dynamic) < min)
+                        {
+                            min = value;
+                        }
+
+                        if ((value as dynamic) > max)
+                        {
+                            max = value;
+                        }
                     }
                 }
 
@@ -67,6 +82,7 @@ namespace DiGi.Core.Classes
             
         }
 
+        [JsonIgnore]
         public T Max
         {
             get
@@ -75,6 +91,7 @@ namespace DiGi.Core.Classes
             }
         }
 
+        [JsonIgnore]
         public T Min
         {
             get
@@ -200,7 +217,8 @@ namespace DiGi.Core.Classes
             return !Out(range, tolerance);
         }
 
-        public T Length
+        [JsonIgnore]
+        public virtual T Length
         {
             get
             {
