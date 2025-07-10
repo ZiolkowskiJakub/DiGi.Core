@@ -191,14 +191,25 @@ namespace DiGi.Core.Relation.Classes
             return values[0];
         }
 
-        public List<ZRelation> GetRelations<ZRelation>(TUniqueObject uniqueObject) where ZRelation : XRelation
+        public ZRelation GetRelation<ZRelation>(TUniqueObject value, Func<ZRelation, bool> func = null) where ZRelation : XRelation
+        {
+            List<ZRelation> relations = GetRelations(value, func);
+            if (relations == null || relations.Count == 0)
+            {
+                return default;
+            }
+
+            return relations[0];
+        }
+
+        public List<ZRelation> GetRelations<ZRelation>(TUniqueObject uniqueObject, Func<ZRelation, bool> func = null) where ZRelation : XRelation
         {
             if (uniqueObject == null)
             {
                 return null;
             }
 
-            return GetRelations<ZRelation>(Create.UniqueReference(uniqueObject));
+            return GetRelations(Create.UniqueReference(uniqueObject), func);
         }
 
         public List<ZRelation> GetRelations<ZRelation>(IUniqueReference uniqueReference) where ZRelation : XRelation

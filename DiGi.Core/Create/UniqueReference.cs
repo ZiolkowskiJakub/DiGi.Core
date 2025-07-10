@@ -16,14 +16,15 @@ namespace DiGi.Core
 
             if (@object is IUniqueObject)
             {
-                if (@object is IUniqueIdObject)
-                {
-                    return new UniqueIdReference((IUniqueIdObject)@object);
-                }
-                else if (@object is IGuidObject)
+                if (@object is IGuidObject)
                 {
                     return new GuidReference((IGuidObject)@object);
                 }
+                else if (@object is IUniqueIdObject)
+                {
+                    return new UniqueIdReference((IUniqueIdObject)@object);
+                }
+
             }
 
             TypeReference typeReference = null;
