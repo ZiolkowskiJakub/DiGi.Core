@@ -1,8 +1,6 @@
-﻿using DiGi.Core.Enums;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
