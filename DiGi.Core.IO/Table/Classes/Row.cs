@@ -165,7 +165,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return defaultValue;
             }
 
-            if(!Core.Query.TryConvert<T>(value, out T result))
+            if(!Core.Query.TryConvert(value, out T result))
             {
                 return defaultValue;
             }

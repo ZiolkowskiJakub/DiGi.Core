@@ -85,7 +85,7 @@ namespace DiGi.Core.Relation.Classes
 
         public YUniqueObject GetRelatedObject<YUniqueObject>(TUniqueObject uniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
         {
-            return uniqueObjectRelationCluster.GetRelatedValue<YUniqueObject>(uniqueObject, func);
+            return uniqueObjectRelationCluster.GetRelatedValue(uniqueObject, func);
         }
 
         public List<YUniqueObject> GetRelatedObjects<YUniqueObject>(TUniqueObject uniqueObject, Func<YUniqueObject, bool> func = null) where YUniqueObject : TUniqueObject
@@ -335,7 +335,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if(!uniqueObjectRelationCluster.TryGetRelation<URelation>(Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
+            if(!uniqueObjectRelationCluster.TryGetRelation(Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
             {
                 return false;
             }

@@ -11,7 +11,8 @@ namespace DiGi.Core.Parameter.Classes
 {
     public class ParameterGroups : SerializableObject, IEnumerable<ParameterGroup>
     {
-        public Dictionary<string, ParameterGroup> dictionary = new Dictionary<string, ParameterGroup>();
+        [JsonIgnore]
+        private Dictionary<string, ParameterGroup> dictionary = new Dictionary<string, ParameterGroup>();
 
         public ParameterGroups()
             : base()

@@ -20,9 +20,9 @@ namespace DiGi.Core
                 return Enums.DataType.Undefined;
             }
 
-            if(@object is System.Type)
+            if(@object is Type)
             {
-                return DataType((System.Type)@object, out nullable);
+                return DataType((Type)@object, out nullable);
             }
 
             return DataType(@object.GetType(), out nullable);

@@ -125,7 +125,7 @@ namespace DiGi.Core.Parameter.Classes
             return parameterGroups.SetValue(parameterDefinition, value, setValueSettings);
         }
 
-        public bool SetValue(System.Enum @enum, object value, SetValueSettings setValueSettings = null)
+        public bool SetValue(Enum @enum, object value, SetValueSettings setValueSettings = null)
         {
             if(@enum == null)
             {
@@ -155,7 +155,7 @@ namespace DiGi.Core.Parameter.Classes
             return TryGetValue(parameterDefinition, out value, getValueSettings);
         }
 
-        public bool TryGetValue(System.Enum @enum, out object value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue(Enum @enum, out object value, GetValueSettings getValueSettings = null)
         {
             return TryGetValue((EnumParameterDefinition)@enum, out value, getValueSettings);
         }
@@ -165,7 +165,7 @@ namespace DiGi.Core.Parameter.Classes
             return parameterGroups.TryGetValue(parameterDefinition, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(System.Enum @enum, out T value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue<T>(Enum @enum, out T value, GetValueSettings getValueSettings = null)
         {
             return parameterGroups.TryGetValue((EnumParameterDefinition)@enum, out value, getValueSettings);
         }
