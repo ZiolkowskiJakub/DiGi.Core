@@ -92,6 +92,24 @@ namespace DiGi.Core.Parameter.Classes
             return GetEnumerator();
         }
 
+        public List<TParameterDefinition> GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition
+        {
+            List<TParameterDefinition> result = new List<TParameterDefinition>();
+
+            foreach (Parameter parameter in dictionary.Values)
+            {
+                IParameterDefinition parameterDefinition = parameter?.ParameterDefinition;
+                if (parameterDefinition == null || !(parameterDefinition is TParameterDefinition))
+                {
+                    continue;
+                }
+
+                result.Add((TParameterDefinition)parameterDefinition);
+            }
+
+            return result;
+        }
+
         public List<IParameterDefinition> GetParameterDefinitions(string name, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true)
         {
             List<IParameterDefinition> result = new List<IParameterDefinition>();

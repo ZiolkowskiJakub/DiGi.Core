@@ -70,6 +70,11 @@ namespace DiGi.Core.Parameter.Classes
             return parameterGroups.GetParameterDefinitions<T>(parameterName, textComparisonType, caseSensitive);
         }
 
+        public List<TParameterDefinition> GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition
+        {
+            return parameterGroups?.GetParameterDefinitions<TParameterDefinition>();
+        }
+
         public object GetValue(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
         {
             return parameterGroups.GetValue(parameterDefinition, getValueSettings);

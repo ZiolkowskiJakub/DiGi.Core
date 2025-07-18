@@ -108,6 +108,21 @@ namespace DiGi.Core.Parameter.Classes
             return GetEnumerator();
         }
 
+        public List<TParameterDefinition> GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition
+        {
+            List<TParameterDefinition> result = new List<TParameterDefinition>();
+            foreach (ParameterGroup parameterGroup in dictionary.Values)
+            {
+                List<TParameterDefinition> parameterDefinitions = parameterGroup?.GetParameterDefinitions<TParameterDefinition>();
+                if (parameterDefinitions != null)
+                {
+                    result.AddRange(parameterDefinitions);
+                }
+            }
+
+            return result;
+        }
+
         public List<IParameterDefinition> GetParameterDefinitions(string parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true)
         {
             if(parameterName == null)

@@ -13,6 +13,32 @@ namespace DiGi.Core
                 return false;
             }
 
+            //Required due to issue parsing values such as "4.9999999999999996E-06"
+            int index = value.ToUpper().IndexOf("E");
+            if (index != -1)
+            {
+                string value_Prefix = value.Substring(0, index);
+                string value_Sufix = "1" + value.Substring(index);
+
+                if(!double.TryParse(value_Sufix, out double factor))
+                {
+                    return false;
+                }
+
+                if(value_Prefix.Length == 0)
+                {
+                    result = factor;
+                    return true;
+                }
+                else if (TryParseDouble(value_Prefix, out result))
+                {
+                    result = result * factor;
+                    return true;
+                }
+
+                return false;
+            }
+
             string value_1_String = value.Trim().Split(' ')[0];
             if (!double.TryParse(value_1_String, out double value_1))
             {
