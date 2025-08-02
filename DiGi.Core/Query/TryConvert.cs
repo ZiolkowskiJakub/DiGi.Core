@@ -637,7 +637,7 @@ namespace DiGi.Core
 
                         foreach (Enum @enum in array)
                         {
-                            string name = nameof(@enum).ToUpper();
+                            string name = @enum.ToString().ToUpper();
                             if (@string.Equals(name))
                             {
                                 result = @enum;
@@ -650,6 +650,12 @@ namespace DiGi.Core
                                 result = @enum;
                                 return true;
                             }
+                        }
+
+                        if(int.TryParse(@string, out int index) && System.Enum.IsDefined(type_Temp, index))
+                        {
+                            result = array.GetValue(@index);
+                            return true;
                         }
                     }
 
