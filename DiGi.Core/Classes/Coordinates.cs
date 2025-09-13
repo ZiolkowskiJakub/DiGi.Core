@@ -7,12 +7,12 @@ namespace DiGi.Core.Classes
     public class Coordinates : SerializableObject, ICoordinates
     {
         [JsonInclude, JsonPropertyName("Latitude")]
-        private double latitude;
+        private readonly double latitude;
 
         [JsonInclude, JsonPropertyName("Longitude")]
-        private double longitude;
+        private readonly double longitude;
 
-        public Coordinates(Coordinates coordinates)
+        public Coordinates(Coordinates? coordinates)
             : base()
         {
             if(coordinates != null)
@@ -29,7 +29,7 @@ namespace DiGi.Core.Classes
             this.latitude = latitude;
         }
 
-        public Coordinates(JsonObject jsonObject)
+        public Coordinates(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }

@@ -11,20 +11,20 @@ namespace DiGi.Core.Classes
 
         }
 
-        public SerializableResult(JsonObject jsonObject)
-            :base(jsonObject)
+        public SerializableResult(JsonObject? jsonObject)
+            : base(jsonObject)
         {
 
         }
 
-        public SerializableResult(SerializableResult serializableResult)
+        public SerializableResult(SerializableResult? serializableResult)
             : base(serializableResult)
         {
 
         }
     }
 
-    public abstract class SerializableResult<T> : SerializableResult, ISerializableResult<T> where T: ISerializableObject
+    public abstract class SerializableResult<T> : SerializableResult, ISerializableResult<T> where T : ISerializableObject
     {
         public SerializableResult()
             : base()
@@ -32,13 +32,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public SerializableResult(JsonObject jsonObject)
+        public SerializableResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public SerializableResult(SerializableResult<T> serializableResult)
+        public SerializableResult(SerializableResult<T>? serializableResult)
             : base(serializableResult)
         {
 

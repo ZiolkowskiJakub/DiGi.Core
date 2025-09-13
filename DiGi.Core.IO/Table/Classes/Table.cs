@@ -6,8 +6,8 @@ namespace DiGi.Core.IO.Table.Classes
 {
     public class Table : ITableObject
     {
-        private SortedDictionary<int, Column> columns = new SortedDictionary<int, Column>();
-        private SortedDictionary<int, Row> rows = new SortedDictionary<int, Row>();
+        private readonly SortedDictionary<int, Column> columns = [];
+        private readonly SortedDictionary<int, Row> rows = [];
 
         public Table()
         {
@@ -46,11 +46,11 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public object this[int columnIndex, int rowIndex]
+        public object? this[int columnIndex, int rowIndex]
         {
             get
             {
-                if (!TryGetValue(columnIndex, rowIndex, out object result))
+                if (!TryGetValue(columnIndex, rowIndex, out object? result))
                 {
                     if (!columns.TryGetValue(columnIndex, out Column column) || column == null)
                     {
@@ -64,7 +64,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public object this[Column column, Row row]
+        public object? this[Column? column, Row? row]
         {
             get
             {
@@ -74,8 +74,7 @@ namespace DiGi.Core.IO.Table.Classes
                 }
 
                 int columnIndex = column.Index;
-
-                if (!columns.TryGetValue(columnIndex, out Column column_Table) || column == null)
+                if (!columns.TryGetValue(columnIndex, out _) || column == null)
                 {
                     return null;
                 }
@@ -89,23 +88,23 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public Column AddColumn()
+        public Column? AddColumn()
         {
-            return AddColumn((Type)null);
+            return AddColumn(null as Type);
         }
 
-        public Column AddColumn(Type type)
+        public Column? AddColumn(Type? type)
         {
             int index = GetNextColumnIndex();
 
-            Column column = new Column(index, type);
+            Column? column = new(index, type);
 
             columns[index] = column;
 
             return new Column(column);
         }
 
-        public Column AddColumn(Column column)
+        public Column? AddColumn(Column? column)
         {
             if(column == null)
             {
@@ -120,7 +119,7 @@ namespace DiGi.Core.IO.Table.Classes
             return new Column(column);
         }
 
-        public Column AddColumn(string name, Type type = null)
+        public Column? AddColumn(string? name, Type? type = null)
         {
             return AddColumn(new Column(name, type));
         }
@@ -129,13 +128,13 @@ namespace DiGi.Core.IO.Table.Classes
         {
             int index = rows.Count == 0 ? 0 : rows.Last().Key + 1;
 
-            Row row = new Row(index);
+            Row row = new(index);
             rows[index] = row;
 
             return row;
         }
 
-        public Row AddRow(Row row, bool tryConvert = true)
+        public Row? AddRow(Row? row, bool tryConvert = true)
         {
             if (row == null)
             {
@@ -150,10 +149,10 @@ namespace DiGi.Core.IO.Table.Classes
                 index_Row = index_Row_New;
             }
 
-            Dictionary<int, object> values = new Dictionary<int, object>();
+            Dictionary<int, object?> values = [];
             foreach (int index_Column in row.Indexes)
             {
-                if (!TryGetValidValue(index_Column, row[index_Column], out object value, tryConvert))
+                if (!TryGetValidValue(index_Column, row[index_Column], out object? value, tryConvert))
                 {
                     continue;
                 }
@@ -161,27 +160,27 @@ namespace DiGi.Core.IO.Table.Classes
                 values[index_Column] = value;
             }
 
-            Row row_New = new Row(index_Row, values);
+            Row row_New = new(index_Row, values);
 
             rows[index_Row] = row_New;
 
             return new Row(row_New);
         }
 
-        public Row AddRow(IDictionary<string, object> values, bool addMissingColumns = true)
+        public Row? AddRow(IDictionary<string, object?>? values, bool addMissingColumns = true)
         {
             if (values == null)
             {
                 return null;
             }
 
-            Dictionary<int, object> dictionary = new Dictionary<int, object>();
-            foreach (KeyValuePair<string, object> keyValuePair in values)
+            Dictionary<int, object?> dictionary = [];
+            foreach (KeyValuePair<string, object?> keyValuePair in values)
             {
                 int columnIndex = GetColumnIndex(keyValuePair.Key);
                 if (columnIndex == -1 && addMissingColumns)
                 {
-                    Column column = AddColumn(keyValuePair.Key);
+                    Column? column = AddColumn(keyValuePair.Key);
                     if (column != null)
                     {
                         columnIndex = column.Index;
@@ -199,15 +198,15 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(dictionary);
         }
 
-        public Row AddRow(IDictionary<string, object> values, Func<string, string, bool> func)
+        public Row? AddRow(IDictionary<string, object?>? values, Func<string?, string?, bool>? func)
         {
             if (values == null)
             {
                 return null;
             }
 
-            Dictionary<int, object> dictionary = new Dictionary<int, object>();
-            foreach (KeyValuePair<string, object> keyValuePair in values)
+            Dictionary<int, object?> dictionary = [];
+            foreach (KeyValuePair<string, object?> keyValuePair in values)
             {
                 int index = GetColumnIndex(keyValuePair.Key, func);
                 if (index != -1)
@@ -219,12 +218,12 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(new Row(dictionary));
         }
 
-        public Row AddRow(IDictionary<string, object> values, Enums.TextComparisonType textComparisonType, bool caseSensitive)
+        public Row? AddRow(IDictionary<string, object?> values, Enums.TextComparisonType textComparisonType, bool caseSensitive)
         {
             return AddRow(values, (x, y) => Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
-        public Row AddRow(IDictionary<int, object> values)
+        public Row? AddRow(IDictionary<int, object?>? values)
         {
             if (values == null)
             {
@@ -234,16 +233,16 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(new Row(values));
         }
 
-        public Row AddRow(IEnumerable<object> values)
+        public Row? AddRow(IEnumerable<object?>? values)
         {
             if (values == null)
             {
                 return null;
             }
 
-            Dictionary<int, object> dictionary = new Dictionary<int, object>();
+            Dictionary<int, object?> dictionary = [];
             int index = 0;
-            foreach (object value in values)
+            foreach (object? value in values)
             {
                 dictionary[index] = value;
                 index++;
@@ -252,7 +251,7 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(dictionary);
         }
 
-        public Column GetColumn(int index)
+        public Column? GetColumn(int index)
         {
             if (!columns.TryGetValue(index, out Column column))
             {
@@ -262,19 +261,21 @@ namespace DiGi.Core.IO.Table.Classes
             return column == null ? null : new Column(column);
         }
 
-        public int GetColumnIndex(string name, Func<string, string, bool> func = null)
+        public int GetColumnIndex(string? name, Func<string?, string?, bool>? func = null)
         {
-            Func<string, string, bool> func_Temp = func;
-            if (func_Temp == null)
-            {
-                func_Temp = (x, y) => x == y;
-            }
+            Func<string?, string?, bool>? func_Temp = func;
+            func_Temp ??= (x, y) => x == y;
 
             foreach (Column column in columns.Values)
             {
+                if(column == null)
+                {
+                    continue;
+                }
+
                 if (func_Temp.Invoke(column?.Name, name))
                 {
-                    return column.Index;
+                    return column!.Index;
                 }
             }
 
@@ -286,7 +287,17 @@ namespace DiGi.Core.IO.Table.Classes
             return GetColumnIndex(name, (x, y) => Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
-        public Row GetRow(int index)
+        public int GetNextColumnIndex()
+        {
+            if (columns == null)
+            {
+                return -1;
+            }
+
+            return columns.Count == 0 ? 0 : columns.Last().Key + 1;
+        }
+
+        public Row? GetRow(int index)
         {
             if (!rows.TryGetValue(index, out Row row) || row == null)
             {
@@ -296,19 +307,19 @@ namespace DiGi.Core.IO.Table.Classes
             return new Row(row);
         }
 
-        public object GetValue(int columnIndex, int rowIndex)
+        public object? GetValue(int columnIndex, int rowIndex)
         {
             return this[columnIndex, rowIndex];
         }
 
-        public object GetValue(Column column, Row row)
+        public object? GetValue(Column? column, Row? row)
         {
             return this[column, row];
         }
 
-        public T GetValue<T>(int columnIndex, int rowIndex)
+        public T? GetValue<T>(int columnIndex, int rowIndex)
         {
-            if (!TryGetValue(columnIndex, rowIndex, out T result))
+            if (!TryGetValue(columnIndex, rowIndex, out T? result))
             {
                 return default;
             }
@@ -316,9 +327,9 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
 
-        public T GetValue<T>(Column column, Row row)
+        public T? GetValue<T>(Column? column, Row? row)
         {
-            if (!TryGetValue(column, row, out T result))
+            if (!TryGetValue(column, row, out T? result))
             {
                 return default;
             }
@@ -326,7 +337,7 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
 
-        public object[] GetValues(int rowIndex)
+        public object?[]? GetValues(int rowIndex)
         {
             if (!rows.TryGetValue(rowIndex, out Row row) || row == null)
             {
@@ -343,7 +354,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return false;
             }
 
-            List<int> indexes = RemoveColumns(new int[] { index });
+            List<int>? indexes = RemoveColumns([index]);
             if (indexes == null || indexes.Count == 0)
             {
                 return false;
@@ -352,14 +363,14 @@ namespace DiGi.Core.IO.Table.Classes
             return indexes.Contains(index);
         }
 
-        public List<int> RemoveColumns(IEnumerable<int> indexes)
+        public List<int>? RemoveColumns(IEnumerable<int>? indexes)
         {
             if (indexes == null)
             {
                 return null;
             }
 
-            List<int> result = new List<int>();
+            List<int> result = [];
             foreach (int index in indexes)
             {
                 if (columns.Remove(index))
@@ -383,7 +394,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return false;
             }
 
-            List<int> indexes = RemoveRows(new int[] { index });
+            List<int>? indexes = RemoveRows([index]);
             if (indexes == null || indexes.Count == 0)
             {
                 return false;
@@ -392,14 +403,14 @@ namespace DiGi.Core.IO.Table.Classes
             return indexes.Contains(index);
         }
 
-        public List<int> RemoveRows(IEnumerable<int> indexes)
+        public List<int>? RemoveRows(IEnumerable<int>? indexes)
         {
             if (indexes == null)
             {
                 return null;
             }
 
-            List<int> result = new List<int>();
+            List<int> result = [];
             foreach (int index in indexes)
             {
                 if (rows.Remove(index))
@@ -408,7 +419,7 @@ namespace DiGi.Core.IO.Table.Classes
                 }
             }
 
-            List<Row> rows_All = new List<Row>(rows.Values);
+            List<Row> rows_All = [.. rows.Values];
             int count = rows_All.Count;
 
             rows.Clear();
@@ -421,14 +432,14 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
 
-        public bool SetValue(int columnIndex, int rowIndex, object value, bool tryConvert = true)
+        public bool SetValue(int columnIndex, int rowIndex, object? value, bool tryConvert = true)
         {
             if (!rows.TryGetValue(rowIndex, out Row row) || row == null)
             {
                 return false;
             }
 
-            if (!TryGetValidValue(columnIndex, value, out object convertedValue, tryConvert))
+            if (!TryGetValidValue(columnIndex, value, out object? convertedValue, tryConvert))
             {
                 return false;
             }
@@ -437,7 +448,7 @@ namespace DiGi.Core.IO.Table.Classes
             return true;
         }
 
-        public bool TryGetColumn(string name, out Column column, Enums.TextComparisonType textComparisonType = Enums.TextComparisonType.Equals, bool caseSensitive = true)
+        public bool TryGetColumn(string? name, out Column? column, Enums.TextComparisonType textComparisonType = Enums.TextComparisonType.Equals, bool caseSensitive = true)
         {
             column = null;
 
@@ -456,7 +467,7 @@ namespace DiGi.Core.IO.Table.Classes
             return true;
         }
 
-        public bool TryGetValidValue(int columnIndex, object @in, out object @out, bool tryConvert = true)
+        public bool TryGetValidValue(int columnIndex, object? @in, out object? @out, bool tryConvert = true)
         {
             @out = null;
 
@@ -468,7 +479,7 @@ namespace DiGi.Core.IO.Table.Classes
             return column.TryGetValidValue(@in, out @out, tryConvert);
         }
 
-        public bool TryGetValue<T>(int columnIndex, int rowIndex, out T value)
+        public bool TryGetValue<T>(int columnIndex, int rowIndex, out T? value)
         {
             value = default;
 
@@ -485,7 +496,7 @@ namespace DiGi.Core.IO.Table.Classes
             return true;
         }
 
-        public bool TryGetValue<T>(Column column, Row row, out T value)
+        public bool TryGetValue<T>(Column? column, Row? row, out T? value)
         {
             value = default;
 
@@ -497,14 +508,14 @@ namespace DiGi.Core.IO.Table.Classes
             return TryGetValue(column.Index, row.Index, out value);
         }
 
-        public Column UpdateColumn(int index, string name, Type type = null)
+        public Column? UpdateColumn(int index, string? name, Type? type = null)
         {
             if(!columns.TryGetValue(index, out Column column))
             {
                 return null;
             }
 
-            Type type_Temp = type == null ? typeof(object) : type;
+            Type type_Temp = type ?? typeof(object);
 
             bool typeUpdate = column.Type != type_Temp; 
 
@@ -516,7 +527,7 @@ namespace DiGi.Core.IO.Table.Classes
             {
                 foreach(Row row in rows.Values)
                 {
-                    if(!row.TryGetValue(index, out object value))
+                    if(!row.TryGetValue(index, out object? value))
                     {
                         continue;
                     }
@@ -534,15 +545,15 @@ namespace DiGi.Core.IO.Table.Classes
             return new Column(column);
         }
        
-        public Row UpdateRow(int index, IDictionary<string, object> values, Func<string, string, bool> func = null)
+        public Row? UpdateRow(int index, IDictionary<string, object?>? values, Func<string?, string?, bool>? func = null)
         {
             if (values == null || index > rows.Keys.Last())
             {
                 return null;
             }
 
-            Dictionary<int, object> dictionary = new Dictionary<int, object>();
-            foreach (KeyValuePair<string, object> keyValuePair in values)
+            Dictionary<int, object?> dictionary = [];
+            foreach (KeyValuePair<string, object?> keyValuePair in values)
             {
                 int index_Column = GetColumnIndex(keyValuePair.Key, func);
                 if (index_Column != -1)
@@ -554,7 +565,7 @@ namespace DiGi.Core.IO.Table.Classes
             return UpdateRow(index, dictionary);
         }
 
-        public Row UpdateRow(int index, IDictionary<int, object> values)
+        public Row? UpdateRow(int index, IDictionary<int, object?>? values)
         {
             if (values == null || index > rows.Keys.Last())
             {
@@ -564,14 +575,14 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(new Row(index, values));
         }
 
-        public Row UpdateRow(int index, IEnumerable<object> values)
+        public Row? UpdateRow(int index, IEnumerable<object>? values)
         {
             if (values == null || index > rows.Keys.Last())
             {
                 return null;
             }
 
-            Dictionary<int, object> dictionary = new Dictionary<int, object>();
+            Dictionary<int, object?> dictionary = [];
             int index_Column = 0;
             foreach (object value in values)
             {
@@ -580,16 +591,6 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             return UpdateRow(index, dictionary);
-        }
-
-        public int GetNextColumnIndex()
-        {
-            if(columns == null)
-            {
-                return -1;
-            }
-
-            return columns.Count == 0 ? 0 : columns.Last().Key + 1;
         }
     }
 }

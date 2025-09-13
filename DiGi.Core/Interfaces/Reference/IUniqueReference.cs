@@ -4,6 +4,6 @@ namespace DiGi.Core.Interfaces
 {
     public interface IUniqueReference : IInstanceRelatedSerializableReference
     {
-        TypeReference TypeReference { get; }
+        TypeReference? TypeReference { get; }
     }
 }

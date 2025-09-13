@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
     public abstract class ExternalReferenceGuidResult<TUniqueObject, UExternalReference> : GuidResult<TUniqueObject> where TUniqueObject: IUniqueObject where UExternalReference : IExternalReference
     {
         [JsonInclude, JsonPropertyName("Reference")]
-        private UExternalReference reference;
+        private readonly UExternalReference? reference;
 
         public ExternalReferenceGuidResult()
             : base()
@@ -15,19 +15,19 @@ namespace DiGi.Core.Classes
 
         }
 
-        public ExternalReferenceGuidResult(UExternalReference reference)
+        public ExternalReferenceGuidResult(UExternalReference? reference)
             : base()
         {
             this.reference = reference;
         }
 
-        public ExternalReferenceGuidResult(JsonObject jsonObject)
+        public ExternalReferenceGuidResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ExternalReferenceGuidResult(ExternalReferenceGuidResult<TUniqueObject, UExternalReference> externalReferenceGuidResult)
+        public ExternalReferenceGuidResult(ExternalReferenceGuidResult<TUniqueObject, UExternalReference>? externalReferenceGuidResult)
             : base(externalReferenceGuidResult)
         {
             if (externalReferenceGuidResult != null)
@@ -37,7 +37,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public UExternalReference Reference
+        public UExternalReference? Reference
         {
             get
             {

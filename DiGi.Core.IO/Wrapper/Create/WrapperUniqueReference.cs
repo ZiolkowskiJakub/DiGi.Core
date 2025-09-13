@@ -8,7 +8,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Create
     {
-        internal static IWrapperUniqueReference WrapperUniqueReference(this JsonObject jsonObject)
+        internal static IWrapperUniqueReference? WrapperUniqueReference(this JsonObject? jsonObject)
         {
             if(jsonObject == null)
             {
@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.Wrapper
 
             if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Type))
             {
-                string fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
+                string? fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
                     if(Query.IsWrapperUniqueReference(jsonObject))
@@ -27,7 +27,7 @@ namespace DiGi.Core.IO.Wrapper
 
                     if (jsonObject.ContainsKey(Core.Constans.Serialization.PropertyName.Guid))
                     {
-                        object @object = jsonObject[Core.Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
+                        object? @object = jsonObject[Core.Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
                         if (Core.Query.TryConvert(@object, out Guid guid))
                         {
                             return new WrapperGuidReference(fullTypeName, guid);
@@ -39,47 +39,47 @@ namespace DiGi.Core.IO.Wrapper
             return WrapperUniqueReference(Core.Create.UniqueReference(jsonObject));
         }
 
-        internal static IWrapperUniqueReference WrapperUniqueReference(this JsonNode jsonNode)
+        internal static IWrapperUniqueReference? WrapperUniqueReference(this JsonNode? jsonNode)
         {
             if(jsonNode == null)
             {
                 return null;
             }
 
-            if (jsonNode is JsonObject)
+            if (jsonNode is JsonObject jsonObject)
             {
-                return WrapperUniqueReference((JsonObject)jsonNode);
+                return WrapperUniqueReference(jsonObject);
             }
 
-            if(jsonNode is JsonArray)
+            if(jsonNode is JsonArray jsonArray)
             {
-                return WrapperUniqueIdReference((JsonArray)jsonNode);
+                return WrapperUniqueIdReference(jsonArray);
             }
 
-            if (jsonNode is JsonValue)
+            if (jsonNode is JsonValue jsonValue)
             {
-                return WrapperUniqueIdReference((JsonValue)jsonNode);
+                return WrapperUniqueIdReference(jsonValue);
             }
 
             return null;
 
         }
 
-        internal static IWrapperUniqueReference WrapperUniqueReference(this UniqueReference uniqueReference)
+        internal static IWrapperUniqueReference? WrapperUniqueReference(this UniqueReference? uniqueReference)
         {
-            if(uniqueReference == null)
+            if(uniqueReference is null)
             {
                 return null;
             }
 
-            if(uniqueReference is GuidReference)
+            if(uniqueReference is GuidReference guidReference)
             {
-                return new WrapperGuidReference((GuidReference)uniqueReference);
+                return new WrapperGuidReference(guidReference);
             }
 
-            if(uniqueReference is UniqueIdReference)
+            if(uniqueReference is UniqueIdReference uniqueIdReference)
             {
-                return new WrapperUniqueIdReference((UniqueIdReference)uniqueReference);
+                return new WrapperUniqueIdReference(uniqueIdReference);
             }
 
             throw new NotImplementedException();

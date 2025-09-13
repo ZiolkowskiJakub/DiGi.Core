@@ -7,9 +7,13 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static string Description(this Enum @enum)
+        public static string? Description(this Enum? @enum)
         {
-            Type type = @enum.GetType();
+            Type? type = @enum?.GetType();
+            if(type == null)
+            {
+                return null;
+            }
 
             Type type_Temp = Nullable.GetUnderlyingType(type);
             if (type_Temp != null)
@@ -17,17 +21,17 @@ namespace DiGi.Core
                 type = type_Temp;
             }
 
-            FieldInfo fieldInfo = type.GetField(@enum.ToString());
+            FieldInfo fieldInfo = type.GetField(@enum!.ToString());
 
-            DescriptionAttribute[] descriptionAttributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-
-            if (descriptionAttributes != null && descriptionAttributes.Any())
+            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
+            {
                 return descriptionAttributes[0].Description;
+            }
 
             return @enum.ToString();
         }
 
-        public static string Description(this Type type)
+        public static string? Description(this Type? type)
         {
             Type type_Temp = Nullable.GetUnderlyingType(type);
             if (type_Temp != null)
@@ -35,9 +39,13 @@ namespace DiGi.Core
                 type = type_Temp;
             }
 
-            DescriptionAttribute[] descriptionAttributes = type.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+            if(type == null)
+            {
+                return null;
+            }
 
-            if (descriptionAttributes != null && descriptionAttributes.Any())
+
+            if (type.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
             {
                 return descriptionAttributes[0].Description;
             }

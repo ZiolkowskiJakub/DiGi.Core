@@ -13,12 +13,12 @@ namespace DiGi.Core
         /// <returns>Clamp value</returns>
         public static T Clamp<T>(this T value, T min, T max)
         {
-            if ((dynamic)value < (dynamic)min)
+            if ((dynamic)value! < (dynamic)min!)
             {
                 return min;
             }
 
-            if ((dynamic)value > (dynamic)max)
+            if ((dynamic)value! > (dynamic)max!)
             {
                 return max;
             }
@@ -26,9 +26,9 @@ namespace DiGi.Core
             return value;
         }
 
-        public static Range<T> Clamp<T>(this Range<T> range, T min, T max)
+        public static Range<T>? Clamp<T>(this Range<T>? range, T min, T max)
         {
-            if (range == null)
+            if (range is null)
             {
                 return null;
             }

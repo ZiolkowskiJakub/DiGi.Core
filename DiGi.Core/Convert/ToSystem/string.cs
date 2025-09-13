@@ -8,29 +8,29 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
-        public static string ToSystem_String(this ISerializableObject serializableObject)
+        public static string? ToSystem_String(this ISerializableObject? serializableObject)
         {
             return ToSystem_String(serializableObject, Settings.SerializationManager.JsonSerializerOptions);
         }
         
-        public static string ToSystem_String(this IEnumerable<ISerializableObject> serializableObjects)
+        public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects)
         {
             return ToSystem_String(serializableObjects, null);
         }
 
-        public static string ToSystem_String<T>(this IEnumerable<T> serializableObjects) where T :ISerializableObject
+        public static string? ToSystem_String<T>(this IEnumerable<T>? serializableObjects) where T :ISerializableObject
         {
             return ToSystem_String(serializableObjects, null);
         }
 
-        public static string ToSystem_String(this ISerializableObject serializableObject, JsonSerializerOptions jsonSerializerOptions)
+        public static string? ToSystem_String(this ISerializableObject? serializableObject, JsonSerializerOptions? jsonSerializerOptions)
         {
             if (serializableObject == null)
             {
                 return null;
             }
 
-            JsonObject jsonObject = serializableObject.ToJsonObject();
+            JsonObject? jsonObject = serializableObject.ToJsonObject();
             if(jsonObject == null)
             {
                 return null;
@@ -40,14 +40,14 @@ namespace DiGi.Core
             //return jsonObject.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToSystem_String(this IEnumerable<ISerializableObject> serializableObjects, JsonSerializerOptions jsonSerializerOptions)
+        public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions)
         {
             if (serializableObjects == null)
             {
                 return null;
             }
 
-            JsonArray jsonArray = new JsonArray();
+            JsonArray jsonArray = [];
             foreach(ISerializableObject serializableObject in serializableObjects)
             {
                 jsonArray.Add(serializableObject?.ToJsonObject());
@@ -57,15 +57,15 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToSystem_String<T>(this IEnumerable<T> serializableObjects, JsonSerializerOptions jsonSerializerOptions) where T : ISerializableObject 
+        public static string? ToSystem_String<USerializableObject>(this IEnumerable<USerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions) where USerializableObject : ISerializableObject 
         {
             if (serializableObjects == null)
             {
                 return null;
             }
 
-            JsonArray jsonArray = new JsonArray();
-            foreach (ISerializableObject serializableObject in serializableObjects)
+            JsonArray jsonArray = [];
+            foreach (USerializableObject serializableObject in serializableObjects)
             {
                 jsonArray.Add(serializableObject?.ToJsonObject());
             }
@@ -74,9 +74,9 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string ToSystem_String(this TypeReference typeReference, string uniqueId, string format)
+        public static string? ToSystem_String(this TypeReference? typeReference, string? uniqueId, string? format)
         {
-            string result = typeReference?.ToString();
+            string? result = typeReference?.ToString();
             if (!string.IsNullOrWhiteSpace(result))
             {
                 result += Constans.Reference.Separator;
@@ -104,7 +104,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static string ToSystem_String(this ISerializableReference serializableReference, string source)
+        public static string? ToSystem_String(this ISerializableReference? serializableReference, string? source)
         {
             if(serializableReference == null)
             {

@@ -76,28 +76,16 @@ namespace DiGi.Core
         /// <returns>Comparison Type Result</returns>
         public static bool Compare(this DateTime value_1, DateTime value_2, NumberComparisonType numberComparisonType)
         {
-            switch (numberComparisonType)
+            return numberComparisonType switch
             {
-                case NumberComparisonType.Equals:
-                    return value_1.Equals(value_2);
-
-                case NumberComparisonType.Greater:
-                    return value_1 > value_2;
-
-                case NumberComparisonType.GreaterOrEquals:
-                    return value_1 >= value_2;
-
-                case NumberComparisonType.Less:
-                    return value_1 < value_2;
-
-                case NumberComparisonType.LessOrEquals:
-                    return value_1 <= value_2;
-
-                case NumberComparisonType.NotEquals:
-                    return value_1 != value_2;
-            }
-
-            return false;
+                NumberComparisonType.Equals => value_1.Equals(value_2),
+                NumberComparisonType.Greater => value_1 > value_2,
+                NumberComparisonType.GreaterOrEquals => value_1 >= value_2,
+                NumberComparisonType.Less => value_1 < value_2,
+                NumberComparisonType.LessOrEquals => value_1 <= value_2,
+                NumberComparisonType.NotEquals => value_1 != value_2,
+                _ => false,
+            };
         }
 
         /// <summary>
@@ -108,17 +96,17 @@ namespace DiGi.Core
         /// <param name="textComparisonType">Text Comparison Type</param>
         /// <param name="caseSensitive">Case Sensitive</param>
         /// <returns>Bool</returns>
-        public static bool Compare(this string value_1, string value_2, TextComparisonType textComparisonType, bool caseSensitive = true)
+        public static bool Compare(this string? value_1, string? value_2, TextComparisonType textComparisonType, bool caseSensitive = true)
         {
-            string value_1_Temp = value_1;
-            string value_2_Temp = value_2;
+            string? value_1_Temp = value_1;
+            string? value_2_Temp = value_2;
             if (!caseSensitive)
             {
                 if (!string.IsNullOrEmpty(value_1_Temp))
-                    value_1_Temp = value_1_Temp.ToLower();
+                    value_1_Temp = value_1_Temp?.ToLower();
 
                 if (!string.IsNullOrEmpty(value_2_Temp))
-                    value_2_Temp = value_2_Temp.ToLower();
+                    value_2_Temp = value_2_Temp?.ToLower();
             }
 
             switch (textComparisonType)
@@ -161,26 +149,32 @@ namespace DiGi.Core
             return false;
         }
 
-        public static List<bool> Compare(this IEnumerable<string> values, string value, TextComparisonType textComparisonType, bool caseSensitive = true)
+        public static List<bool>? Compare(this IEnumerable<string>? values, string? value, TextComparisonType textComparisonType, bool caseSensitive = true)
         {
             if (values == null)
+            {
                 return null;
+            }
 
-            List<bool> result = new List<bool>();
+            List<bool> result = [];
             foreach (string value_Temp in values)
+            {
                 result.Add(Compare(value_Temp, value, textComparisonType, caseSensitive));
+            }
 
             return result;
         }
 
-        public static List<bool> Compare(this IEnumerable<double> values, double value, NumberComparisonType numberComparisonType)
+        public static List<bool>? Compare(this IEnumerable<double>? values, double value, NumberComparisonType numberComparisonType)
         {
             if (values == null)
                 return null;
 
-            List<bool> result = new List<bool>();
+            List<bool> result = [];
             foreach (double value_Temp in values)
+            {
                 result.Add(Compare(value_Temp, value, numberComparisonType));
+            }
 
             return result;
         }

@@ -6,14 +6,14 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Create
     {
-        public static List<Column> Columns(this IEnumerable<string> names)
+        public static List<Column>? Columns(this IEnumerable<string>? names)
         {
             if(names == null)
             {
                 return null;
             }
 
-            List<Column> result = new List<Column>();
+            List<Column> result = [];
 
             int count = names.Count();
 

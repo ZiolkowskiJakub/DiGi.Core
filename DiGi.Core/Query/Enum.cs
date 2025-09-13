@@ -4,9 +4,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static Enum Enum(string text, Type type)
+        public static Enum? Enum(string? text, Type? type)
         {
-            if(TryGetEnum(text, type, out Enum @enum))
+            if(TryGetEnum(text, type, out Enum? @enum))
             {
                 return @enum;
             }
@@ -14,9 +14,9 @@ namespace DiGi.Core
             return null;
         }
 
-        public static T Enum<T>(string text, T @default) where T : Enum
+        public static TEnum? Enum<TEnum>(string? text, TEnum? @default) where TEnum : Enum
         {
-            if (TryGetEnum(text, out T @enum))
+            if (TryGetEnum(text, out TEnum? @enum))
             {
                 return @enum;
             }
@@ -24,9 +24,9 @@ namespace DiGi.Core
             return @default;
         }
 
-        public static T Enum<T>(string text) where T : Enum
+        public static TEnum? Enum<TEnum>(string? text) where TEnum : Enum
         {
-            if (TryGetEnum(text, out T @enum))
+            if (TryGetEnum(text, out TEnum? @enum))
             {
                 return @enum;
             }
@@ -36,7 +36,7 @@ namespace DiGi.Core
                 return @enum;
             }
 
-            return default(T);
+            return default;
         }
     }
 

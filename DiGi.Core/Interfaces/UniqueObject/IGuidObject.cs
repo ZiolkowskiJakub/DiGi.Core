@@ -7,6 +7,6 @@ namespace DiGi.Core.Interfaces
     {
         Guid Guid { get; }
 
-        IGuidObject Duplicate(Guid? guid = null);
+        IGuidObject? Duplicate(Guid? guid = null);
     }
 }

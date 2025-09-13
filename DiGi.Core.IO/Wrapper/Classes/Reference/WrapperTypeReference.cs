@@ -8,9 +8,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
     internal sealed class WrapperTypeReference : WrapperReference<TypeReference>
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
-        private string fullTypeName;
+        private readonly string? fullTypeName;
 
-        public WrapperTypeReference(TypeReference typeReference)
+        public WrapperTypeReference(TypeReference? typeReference)
             : base()
         {
             if(typeReference != null)
@@ -19,7 +19,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
-        public WrapperTypeReference(WrapperTypeReference wrapperTypeReference)
+        public WrapperTypeReference(WrapperTypeReference? wrapperTypeReference)
             :base(wrapperTypeReference)
         {
             if(wrapperTypeReference != null)
@@ -28,14 +28,14 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
-        public WrapperTypeReference(JsonObject jsonObject)
+        public WrapperTypeReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public override TypeReference Reference
+        public override TypeReference? Reference
         {
             get
             {
@@ -43,7 +43,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new WrapperTypeReference(this);
         }

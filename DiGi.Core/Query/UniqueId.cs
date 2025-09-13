@@ -7,7 +7,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static string UniqueId(this string value)
+        public static string UniqueId(this string? value)
         {
             if (value == null)
             {
@@ -150,14 +150,14 @@ namespace DiGi.Core
             return UniqueId(value.Value);
         }
 
-        public static string UniqueId(JsonNode value)
+        public static string UniqueId(JsonNode? value)
         {
             if (value == null)
             {
                 return Constans.UniqueId.Null;
             }
 
-            switch(value.GetValueKind())
+            switch (value.GetValueKind())
             {
                 case System.Text.Json.JsonValueKind.Number:
                     return UniqueId(value.AsValue());
@@ -179,20 +179,26 @@ namespace DiGi.Core
 
                 case System.Text.Json.JsonValueKind.Array:
                     return UniqueId(value.AsArray());
+
+                case System.Text.Json.JsonValueKind.Undefined:
+                    break;
+                
+                default:
+                    break;
             }
 
-            return null;
+            return Constans.UniqueId.Null;
         }
 
-        public static string UniqueId(JsonArray value)
+        public static string UniqueId(JsonArray? value)
         {
             if (value == null)
             {
                 return Constans.UniqueId.Null;
             }
 
-            List<string> uniqueIds = new List<string>();
-            foreach(JsonNode jsonNode in value)
+            List<string> uniqueIds = [];
+            foreach(JsonNode? jsonNode in value)
             {
                 uniqueIds.Add(UniqueId(jsonNode));
             }
@@ -200,9 +206,9 @@ namespace DiGi.Core
             return UniqueId(string.Join(string.Empty, uniqueIds));
         }
 
-        public static string UniqueId(JsonValue value)
+        public static string UniqueId(JsonValue? value)
         {
-            object @object = value?.GetValue<object>();
+            object? @object = value?.GetValue<object>();
             if(@object == null)
             {
                 return Constans.UniqueId.Null;
@@ -211,7 +217,7 @@ namespace DiGi.Core
             return UniqueId(@object as dynamic);
         }
 
-        public static string UniqueId(this JsonObject value)
+        public static string UniqueId(this JsonObject? value)
         {
             if (value == null)
             {
@@ -220,7 +226,7 @@ namespace DiGi.Core
 
             if(value.ContainsKey(Constans.Serialization.PropertyName.Type) && value.ContainsKey(Constans.Serialization.PropertyName.Guid))
             {
-                JsonValue jsonValue = value[Constans.Serialization.PropertyName.Guid]?.AsValue();
+                JsonValue? jsonValue = value[Constans.Serialization.PropertyName.Guid]?.AsValue();
 
                 if (jsonValue != null)
                 {
@@ -229,7 +235,7 @@ namespace DiGi.Core
                         return UniqueId(guid);
                     }
 
-                    if (jsonValue.TryGetValue(out string @string) && TryConvert(@string, out guid))
+                    if (jsonValue.TryGetValue(out string? @string) && TryConvert(@string, out guid))
                     {
                         return UniqueId(guid);
                     }
@@ -239,7 +245,7 @@ namespace DiGi.Core
             return UniqueId(value.ToString());
         }
 
-        public static string UniqueId(this Enum @enum)
+        public static string UniqueId(this Enum? @enum)
         {
             if(@enum == null)
             {
@@ -264,26 +270,26 @@ namespace DiGi.Core
             return UniqueId(@guid.Value);
         }
 
-        public static string UniqueId(this IUniqueObject uniqueObject)
+        public static string UniqueId(this IUniqueObject? uniqueObject)
         {
             if(uniqueObject == null)
             {
                 return Constans.UniqueId.Null;
             }
 
-            return uniqueObject.UniqueId;
+            return uniqueObject?.UniqueId ?? Constans.UniqueId.Null;
         }
 
-        public static string UniqueId(this ISerializableObject serializableObject)
+        public static string UniqueId(this ISerializableObject? serializableObject)
         {
             if (serializableObject == null)
             {
                 return Constans.UniqueId.Null;
             }
 
-            if(serializableObject is IUniqueObject)
+            if(serializableObject is IUniqueObject uniqueObject)
             {
-                return UniqueId((IUniqueObject)serializableObject);
+                return UniqueId(uniqueObject);
             }
 
             return UniqueId(serializableObject.ToJsonObject());

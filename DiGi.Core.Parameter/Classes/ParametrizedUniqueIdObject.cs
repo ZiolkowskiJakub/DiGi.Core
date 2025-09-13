@@ -8,7 +8,7 @@ namespace DiGi.Core.Parameter.Classes
     public abstract class ParametrizedUniqueIdObject : ParametrizedObject, IParametrizedUniqueIdObject
     {
         [JsonInclude, JsonPropertyName(Core.Constans.Serialization.PropertyName.UniqueId)]
-        private string uniqueId;
+        private readonly string? uniqueId;
 
         public ParametrizedUniqueIdObject()
             : base()
@@ -16,44 +16,44 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
-        public ParametrizedUniqueIdObject(string uniqueId)
+        public ParametrizedUniqueIdObject(string? uniqueId)
             : base()
         {
             this.uniqueId = uniqueId;
         }
 
-        public ParametrizedUniqueIdObject(JsonObject jsonObject)
+        public ParametrizedUniqueIdObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ParametrizedUniqueIdObject(IEnumerable<Parameter> parameters)
+        public ParametrizedUniqueIdObject(IEnumerable<Parameter>? parameters)
             : base(parameters)
         {
 
         }
 
-        public ParametrizedUniqueIdObject(ParameterGroups parameterGroups)
-            : base(parameterGroups)
+        public ParametrizedUniqueIdObject(ParameterGroupCollection? parameterGroupCollection)
+            : base(parameterGroupCollection)
         {
 
         }
 
-        public ParametrizedUniqueIdObject(ParametrizedUniqueIdObject parametrizedUniqueIdObject)
+        public ParametrizedUniqueIdObject(ParametrizedUniqueIdObject? parametrizedUniqueIdObject)
             : base(parametrizedUniqueIdObject)
         {
             uniqueId = parametrizedUniqueIdObject?.uniqueId;
         }
 
-        public ParametrizedUniqueIdObject(string uniqueId, ParametrizedUniqueIdObject parametrizedUniqueIdObject)
+        public ParametrizedUniqueIdObject(string? uniqueId, ParametrizedUniqueIdObject? parametrizedUniqueIdObject)
             : base(parametrizedUniqueIdObject)
         {
             this.uniqueId = uniqueId;
         }
 
         [JsonIgnore]
-        public string UniqueId
+        public string? UniqueId
         {
             get
             {

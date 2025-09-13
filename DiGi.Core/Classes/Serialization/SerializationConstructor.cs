@@ -6,16 +6,16 @@ namespace DiGi.Core.Classes
 {
     public class SerializationConstructor
     {
-        private string fullTypeName;
-        private ConstructorInfo constructorInfo;
+        private readonly string? fullTypeName;
+        private readonly ConstructorInfo? constructorInfo;
 
-        internal SerializationConstructor(string fullTypeName, ConstructorInfo constructorInfo)
+        internal SerializationConstructor(string? fullTypeName, ConstructorInfo? constructorInfo)
         {
             this.fullTypeName = fullTypeName;
             this.constructorInfo = constructorInfo;
         }
 
-        public T Create<T>(JsonObject jsonObject) where T : ISerializableObject
+        public T? Create<T>(JsonObject? jsonObject) where T : ISerializableObject
         {
             if(jsonObject == null || constructorInfo == null)
             {
@@ -24,19 +24,19 @@ namespace DiGi.Core.Classes
 
 
             ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
-            parameterInfos = parameterInfos == null ? new ParameterInfo[0] : parameterInfos;
+            parameterInfos ??= [];
 
             if(parameterInfos.Length > 1)
             {
                 return default;
             }
 
-            T result = default;
+            T? result = default;
 
             if(parameterInfos.Length != 0 && parameterInfos[0].ParameterType == typeof(JsonObject))
             {
-                object @object = constructorInfo.Invoke(new object[] { jsonObject });
-                if(!(@object is T))
+                object @object = constructorInfo.Invoke([jsonObject]);
+                if(@object is not T)
                 {
                     return result;
                 }
@@ -45,8 +45,8 @@ namespace DiGi.Core.Classes
             }
             else
             {
-                object @object = constructorInfo.Invoke(new object[] { });
-                if (!(@object is T))
+                object @object = constructorInfo.Invoke([]);
+                if (@object is not T)
                 {
                     return result;
                 }

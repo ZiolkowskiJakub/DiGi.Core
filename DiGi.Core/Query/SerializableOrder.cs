@@ -6,15 +6,14 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static int? SerializableOrder(this MemberInfo memberInfo)
+        public static int? SerializableOrder(this MemberInfo? memberInfo)
         {
             if (memberInfo == null)
             {
                 return null;
             }
 
-            JsonPropertyOrderAttribute[] jsonPropertyOrderAttributes = memberInfo.GetCustomAttributes(typeof(JsonPropertyOrderAttribute), false) as JsonPropertyOrderAttribute[];
-            if(jsonPropertyOrderAttributes == null || jsonPropertyOrderAttributes.Length == 0)
+            if (memberInfo.GetCustomAttributes(typeof(JsonPropertyOrderAttribute), false) is not JsonPropertyOrderAttribute[] jsonPropertyOrderAttributes || jsonPropertyOrderAttributes.Length == 0)
             {
                 return null;
             }

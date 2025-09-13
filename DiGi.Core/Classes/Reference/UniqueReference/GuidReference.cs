@@ -10,22 +10,22 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Guid")]
         private Guid guid = Guid.Empty;
 
-        public GuidReference(string fullTypeName, Guid guid)
+        public GuidReference(string? fullTypeName, Guid guid)
             : base(fullTypeName)
         {
             this.guid = guid;
         }
 
-        public GuidReference(GuidReference guidReference)
+        public GuidReference(GuidReference? guidReference)
             : base(guidReference)
         {
-            if (guidReference != null)
+            if (guidReference is not null)
             {
                 guid = guidReference.guid;
             }
         }
 
-        public GuidReference(IGuidObject guidObject)
+        public GuidReference(IGuidObject? guidObject)
             : base(guidObject)
         {
             if(guidObject != null)
@@ -34,24 +34,24 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public GuidReference(TypeReference typeReference, Guid guid)
+        public GuidReference(TypeReference? typeReference, Guid guid)
             : base(typeReference)
         {
             this.guid = guid;
         }
 
-        public GuidReference(JsonObject jsonObject)
+        public GuidReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return Convert.ToSystem_String(TypeReference, UniqueId, Constans.Reference.Format.Guid);
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new GuidReference(this);
         }
@@ -66,7 +66,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public override string UniqueId
+        public override string? UniqueId
         {
             get
             {

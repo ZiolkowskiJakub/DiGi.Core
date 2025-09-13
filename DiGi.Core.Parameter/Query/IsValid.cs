@@ -6,14 +6,14 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
-        public static bool IsValid(this ParameterType parameterType, object value)
+        public static bool IsValid(this ParameterType parameterType, object? value)
         {
             if(parameterType == Enums.ParameterType.Undefined)
             {
                 return true;
             }
 
-            switch(parameterType)
+            switch (parameterType)
             {
                 case Enums.ParameterType.Boolean:
                     return value is bool;
@@ -35,6 +35,15 @@ namespace DiGi.Core.Parameter
 
                 case Enums.ParameterType.String:
                     return value is string || value is null;
+
+                case Enums.ParameterType.Undefined:
+                    break;
+
+                case Enums.ParameterType.Guid:
+                    return value is System.Guid;
+
+                default:
+                    break;
             }
 
             return false;

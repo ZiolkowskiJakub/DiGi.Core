@@ -23,6 +23,9 @@
                 case Enums.UTC.Minus0930:
                     return -9.5;
 
+                case Enums.UTC.Minus0900:
+                    return -9.0;
+
                 case Enums.UTC.Minus0800:
                     return -8.0;
 
@@ -121,6 +124,12 @@
 
                 case Enums.UTC.Plus1400:
                     return 14.0;
+
+                case Enums.UTC.Undefined:
+                    break;
+
+                default:
+                    break;
             }
 
             return double.NaN;

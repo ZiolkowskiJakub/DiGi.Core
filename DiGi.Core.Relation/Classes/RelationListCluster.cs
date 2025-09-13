@@ -17,23 +17,23 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public RelationListCluster(IEnumerable<XRelation> relations)
+        public RelationListCluster(IEnumerable<XRelation>? relations)
             :base(relations)
         {
         }
 
-        public RelationListCluster(RelationListCluster<XRelation> relationListCluster)
+        public RelationListCluster(RelationListCluster<XRelation>? relationListCluster)
             :base(relationListCluster)
         {
         }
 
-        public RelationListCluster(JsonObject jsonObject)
+        public RelationListCluster(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public List<TypeReference> TypeReferences_From
+        public List<TypeReference>? TypeReferences_From
         {
             get
             {
@@ -41,9 +41,9 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        public List<URelation> GetValues<URelation>(IUniqueReference uniqueReference, Func<URelation, bool> func = null) where URelation : XRelation
+        public List<URelation>? GetValues<URelation>(IUniqueReference? uniqueReference, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
-            List<RelationListClusterReference> relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
+            List<RelationListClusterReference>? relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
             if (relationListClusterRefereces == null)
             {
                 return null;
@@ -52,30 +52,34 @@ namespace DiGi.Core.Relation.Classes
             return GetValues<URelation>(relationListClusterRefereces);
         }
 
-        public List<XRelation> Remove<XUniqueReference>(IEnumerable<XUniqueReference> uniqueReferences) where XUniqueReference : IUniqueReference
+        public List<XRelation>? Remove<XUniqueReference>(IEnumerable<XUniqueReference>? uniqueReferences) where XUniqueReference : IUniqueReference
         {
             if (uniqueReferences == null)
             {
                 return null;
             }
 
-            List<XUniqueReference> uniqueReferences_Temp = new List<XUniqueReference>(uniqueReferences.Distinct());
+            List<XUniqueReference> uniqueReferences_Temp = [.. uniqueReferences.Distinct()];
 
-            List<RelationListClusterReference> relationListClusterReferences = GetRelationListClusterReferences<XRelation, XUniqueReference>(uniqueReferences_Temp);
+            List<RelationListClusterReference>? relationListClusterReferences = GetRelationListClusterReferences<XRelation, XUniqueReference>(uniqueReferences_Temp);
             if (relationListClusterReferences == null || relationListClusterReferences.Count == 0)
             {
                 return null;
             }
 
-            List<XRelation> result = new List<XRelation>();
+            List<XRelation> result = [];
 
-            List<RelationListClusterReference> relationListClusterReferences_ToRemove = new List<RelationListClusterReference>();
+            List<RelationListClusterReference> relationListClusterReferences_ToRemove = [];
 
             foreach (RelationListClusterReference relationListClusterReference in relationListClusterReferences)
             {
-                XRelation relation = GetValue<XRelation>(relationListClusterReference);
+                XRelation? relation = GetValue<XRelation>(relationListClusterReference);
+                if(relation == null)
+                {
+                    continue;
+                }
 
-                List<XUniqueReference> uniqueReferences_Removed = relation.Remove(RelationSide.Undefined, uniqueReferences_Temp);
+                List<XUniqueReference>? uniqueReferences_Removed = relation.Remove(RelationSide.Undefined, uniqueReferences_Temp);
                 if (uniqueReferences_Removed == null || uniqueReferences_Removed.Count == 0)
                 {
                     continue;
@@ -97,43 +101,43 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public bool Remove(IUniqueReference uniqueReference)
+        public bool Remove(IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null)
             {
                 return false;
             }
 
-            List<XRelation> relations = Remove(new IUniqueReference[] { uniqueReference });
+            List<XRelation>? relations = Remove([uniqueReference]);
             return relations != null && relations.Count > 0;
         }
 
-        protected override TypeReference GetKey_1(XRelation value)
+        protected override TypeReference? GetKey_1(XRelation? value)
         {
             return Create.TypeReference(value?.GetType(RelationSide.From));
         }
 
-        protected override TypeReference GetKey_2(XRelation value)
+        protected override TypeReference? GetKey_2(XRelation? value)
         {
             return Create.TypeReference(value?.GetType(RelationSide.To));
         }
 
-        private List<RelationListClusterReference> GetRelationListClusterReferences<U, X>(IEnumerable<X> uniqueReferences, Func<U, bool> func = null) where U : XRelation where X : IUniqueReference
+        private List<RelationListClusterReference>? GetRelationListClusterReferences<URelation, XUniqueReference>(IEnumerable<XUniqueReference>? uniqueReferences, Func<URelation?, bool>? func = null) where URelation : XRelation where XUniqueReference : IUniqueReference
         {
             if(uniqueReferences == null)
             {
                 return null;
             }
 
-            HashSet<X> uniqueReferences_Temp = new HashSet<X>();
-            HashSet<Type> types = new HashSet<Type>();
-            foreach(X uniqueReference in uniqueReferences)
+            HashSet<XUniqueReference> uniqueReferences_Temp = [];
+            HashSet<Type> types = [];
+            foreach(XUniqueReference uniqueReference in uniqueReferences)
             {
-                Type type = uniqueReference?.TypeReference?.Type();
+                Type? type = uniqueReference?.TypeReference?.Type();
                 if(type != null)
                 {
                     types.Add(type);
-                    uniqueReferences_Temp.Add(uniqueReference);
+                    uniqueReferences_Temp.Add(uniqueReference!);
                 }
             }
 
@@ -142,24 +146,30 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            List<TypeReference> typeReferences_1 = GetKeys_1();
+            List<TypeReference>? typeReferences_1 = GetKeys_1();
             if (typeReferences_1 == null)
             {
                 return null;
             }
 
-            List<RelationListClusterReference> result = new List<RelationListClusterReference>();
+            List<RelationListClusterReference> result = [];
             foreach (TypeReference typeReference_1 in typeReferences_1)
             {
-                Type type_1 = typeReference_1?.Type();
+                Type? type_1 = typeReference_1?.Type();
                 if (type_1 == null)
                 {
                     continue;
                 }
 
-                foreach (TypeReference typeReference_2 in GetKeys_2(typeReference_1))
+                List<TypeReference>? typeReferences = GetKeys_2(typeReference_1);
+                if(typeReferences == null)
                 {
-                    Type type_2 = typeReference_2?.Type();
+                    continue;
+                }
+
+                foreach (TypeReference? typeReference_2 in typeReferences)
+                {
+                    Type? type_2 = typeReference_2?.Type();
                     if (type_2 == null)
                     {
                         continue;
@@ -183,14 +193,14 @@ namespace DiGi.Core.Relation.Classes
                         continue;
                     }
 
-                    Func<U, bool> func_Temp = new Func<U, bool>(x =>
+                    Func<URelation?, bool> func_Temp = new (x =>
                     {
-                        if (func != null && !func.Invoke(x))
+                        if (x == null || func != null && !func.Invoke(x))
                         {
                             return false;
                         }
 
-                        foreach(X uniqueReference_Temp in uniqueReferences_Temp)
+                        foreach(XUniqueReference uniqueReference_Temp in uniqueReferences_Temp)
                         {
                             if(x.Contains(RelationSide.Undefined, uniqueReference_Temp))
                             {
@@ -201,7 +211,7 @@ namespace DiGi.Core.Relation.Classes
                         return false;
                     });
 
-                    List<int> indexes = GetIndexes(typeReference_1, typeReference_2, func_Temp);
+                    List<int>? indexes = GetIndexes(typeReference_1, typeReference_2, func_Temp);
                     if (indexes == null)
                     {
                         continue;
@@ -217,14 +227,14 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        private List<RelationListClusterReference> GetRelationListClusterReferences<U>(IUniqueReference uniqueReference, Func<U, bool> func = null) where U : XRelation
+        private List<RelationListClusterReference>? GetRelationListClusterReferences<U>(IUniqueReference? uniqueReference, Func<U?, bool>? func = null) where U : XRelation
         {
             if(uniqueReference == null)
             {
                 return null;
             }
 
-            return GetRelationListClusterReferences(new IUniqueReference[] { uniqueReference }, func);
+            return GetRelationListClusterReferences([uniqueReference], func);
         }
     }
 
@@ -236,19 +246,19 @@ namespace DiGi.Core.Relation.Classes
 
         }
 
-        public RelationListCluster(IEnumerable<IRelation> relations)
+        public RelationListCluster(IEnumerable<IRelation>? relations)
             : base(relations)
         {
 
         }
 
-        public RelationListCluster(RelationListCluster relationCluster)
+        public RelationListCluster(RelationListCluster? relationCluster)
             : base(relationCluster)
         {
 
         }
 
-        public RelationListCluster(JsonObject jsonObject)
+        public RelationListCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

@@ -8,16 +8,16 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static List<MemberInfo> SerializableMemberInfos(this Type type)
+        public static List<MemberInfo>? SerializableMemberInfos(this Type? type)
         {
             if(type == null)
             {
                 return null;
             }
 
-            List<MemberInfo> result = new List<MemberInfo>();
+            List<MemberInfo> result = [];
 
-            List<MemberInfo> memberInfos = SerializableMemberInfos(type.BaseType);
+            List<MemberInfo>? memberInfos = SerializableMemberInfos(type.BaseType);
             if(memberInfos != null)
             {
                 result.AddRange(memberInfos);
@@ -26,7 +26,7 @@ namespace DiGi.Core
             PropertyInfo[] propertyInfos = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < propertyInfos.Length; i++)
             {
-                object[] objects = propertyInfos[i]?.GetCustomAttributes(typeof(JsonIgnoreAttribute), false);
+                object[]? objects = propertyInfos[i]?.GetCustomAttributes(typeof(JsonIgnoreAttribute), false);
                 if (objects == null || objects.Length == 0)
                 {
                     result.Add(propertyInfos[i]);
@@ -36,7 +36,7 @@ namespace DiGi.Core
             FieldInfo[] fieldInfos = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < fieldInfos.Length; i++)
             {
-                object[] objects = fieldInfos[i]?.GetCustomAttributes(typeof(JsonIncludeAttribute), false);
+                object[]? objects = fieldInfos[i]?.GetCustomAttributes(typeof(JsonIncludeAttribute), false);
                 if (objects != null && objects.Length != 0)
                 {
                     result.Add(fieldInfos[i]);

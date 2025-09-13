@@ -7,25 +7,22 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static T SerializableObject<T>(this JsonObject jsonObject) where T : ISerializableObject
+        public static T? SerializableObject<T>(this JsonObject? jsonObject) where T : ISerializableObject
         {
             if (jsonObject == null)
             {
                 return default;
             }
 
-            SerializationConstructor serializationConstructor = null;
+            SerializationConstructor? serializationConstructor = null;
 
-            string fullTypeName = Query.FullTypeName(jsonObject);
+            string? fullTypeName = Query.FullTypeName(jsonObject);
             if (!string.IsNullOrWhiteSpace(fullTypeName))
             {
                 serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(fullTypeName);
             }
 
-            if (serializationConstructor == null)
-            {
-                serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(typeof(SerializableObjectWrapper));
-            }
+            serializationConstructor ??= Settings.SerializationManager.GetSerializationConstructor(typeof(SerializableObjectWrapper));
 
             if(serializationConstructor == null)
             {

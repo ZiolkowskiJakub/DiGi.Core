@@ -4,56 +4,56 @@ namespace DiGi.Core.IO.Table.Classes
 {
     public class Column : ITableObject
     {
-        private int index = -1;
-        private string name;
-        private Type type;
+        private readonly int index = -1;
+        private readonly string? name;
+        private readonly Type? type;
 
         public Column(int index)
         {
             this.index = index;
-            this.name = null;
-            this.type = typeof(object);
+            name = null;
+            type = typeof(object);
         }
 
-        public Column(int index, string name, Type type)
+        public Column(int index, string? name, Type? type)
         {
             this.index = index;
             this.name = name;
-            this.type = type == null ? typeof(object) : type;
+            this.type = type ?? typeof(object);
         }
 
-        public Column(int index, Type type)
+        public Column(int index, Type? type)
         {
             name = null;
 
             this.index = index;
-            this.type = type == null ? typeof(object) : type;
+            this.type = type ?? typeof(object);
         }
 
-        public Column(string name, Type type)
+        public Column(string? name, Type? type)
         {
             this.name = name;
-            this.type = type == null ? typeof(object) : type;
+            this.type = type ?? typeof(object);
         }
 
-        public Column(Column column)
+        public Column(Column? column)
         {
             if(column != null)
             {
                 index = column.index;
                 name = column.name;
-                type = column.type == null ? typeof(object) : column.type;
+                type = column.type ?? typeof(object);
             }
         }
 
-        public Column(int index, Column column)
+        public Column(int index, Column? column)
         {
             this.index = index;
 
             if (column != null)
             {
                 name = column.name;
-                type = column.type == null ? typeof(object) : column.type;
+                type = column.type ?? typeof(object);
             }
         }
 
@@ -65,7 +65,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public string Name
+        public string? Name
         {
             get
             {
@@ -73,7 +73,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public Type Type
+        public Type? Type
         {
             get
             {
@@ -81,7 +81,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public bool TryGetValidValue(object @in, out object @out, bool tryConvert = true)
+        public bool TryGetValidValue(object? @in, out object? @out, bool tryConvert = true)
         {
             @out = null;
 

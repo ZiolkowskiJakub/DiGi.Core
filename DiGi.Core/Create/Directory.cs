@@ -4,14 +4,14 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static bool Directory(string directory)
+        public static bool Directory(string? directory)
         {
             if (string.IsNullOrWhiteSpace(directory))
             {
                 return false;
             }
 
-            List<string> directories = Query.Directories(directory);
+            List<string>? directories = Query.Directories(directory);
             if(directories == null || directories.Count == 0)
             {
                 return false;

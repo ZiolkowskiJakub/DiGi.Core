@@ -5,7 +5,7 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
-        public static bool Locked(this FileInfo fileInfo)
+        public static bool Locked(this FileInfo? fileInfo)
         {
             if(fileInfo == null)
             {
@@ -14,10 +14,8 @@ namespace DiGi.Core.IO
 
             try
             {
-                using (FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-                {
-                    fileStream.Close();
-                }
+                using FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+                fileStream.Close();
             }
             catch (Exception)
             {

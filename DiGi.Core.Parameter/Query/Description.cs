@@ -7,21 +7,23 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
-        public static string Description(this Enum @enum)
+        public static string? Description(this Enum? @enum)
         {
-            FieldInfo fieldInfo = @enum.GetType().GetField(@enum.ToString());
+            FieldInfo? fieldInfo = @enum?.GetType()?.GetField(@enum?.ToString());
+            if(fieldInfo is null)
+            {
+                return null;
+            }
 
-            DescriptionAttribute[] descriptionAttributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-
-            if (descriptionAttributes != null && descriptionAttributes.Any())
+            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
             {
                 return descriptionAttributes[0].Description;
             }
 
-            return @enum.ToString();
+            return @enum!.ToString();
         }
 
-        public static string Description(this Type type)
+        public static string? Description(this Type? type)
         {
             if (type == null)
             {
@@ -36,8 +38,7 @@ namespace DiGi.Core.Parameter
 
             foreach (object @object in objects)
             {
-                DescriptionAttribute descriptionAttribute = @object as DescriptionAttribute;
-                if (descriptionAttribute != null)
+                if (@object is DescriptionAttribute descriptionAttribute)
                 {
                     return descriptionAttribute.Description;
                 }

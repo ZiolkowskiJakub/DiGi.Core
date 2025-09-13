@@ -2,7 +2,7 @@
 {
     public static partial class Convert
     {
-        public static System.Drawing.Pen ToDrawing(this Classes.Pen pen)
+        public static System.Drawing.Pen? ToDrawing(this Classes.Pen? pen)
         {
             if(pen == null)
             {

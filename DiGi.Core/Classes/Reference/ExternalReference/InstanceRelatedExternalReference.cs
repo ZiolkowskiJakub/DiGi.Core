@@ -5,19 +5,19 @@ namespace DiGi.Core.Classes
 {
     public abstract class InstanceRelatedExternalReference<TInstanceRelatedSerializableReference> : ExternalReference<TInstanceRelatedSerializableReference> where TInstanceRelatedSerializableReference : IInstanceRelatedSerializableReference
     {
-        public InstanceRelatedExternalReference(string source, TInstanceRelatedSerializableReference reference)
+        public InstanceRelatedExternalReference(string? source, TInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {
 
         }
 
-        public InstanceRelatedExternalReference(JsonObject jsonObject)
+        public InstanceRelatedExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public InstanceRelatedExternalReference(InstanceRelatedExternalReference<TInstanceRelatedSerializableReference> externalReference)
+        public InstanceRelatedExternalReference(InstanceRelatedExternalReference<TInstanceRelatedSerializableReference>? externalReference)
         : base(externalReference)
         {
 
@@ -27,19 +27,19 @@ namespace DiGi.Core.Classes
     public sealed class InstanceRelatedExternalReference : InstanceRelatedExternalReference<IInstanceRelatedSerializableReference>
     {
 
-        public InstanceRelatedExternalReference(string source, IInstanceRelatedSerializableReference reference)
+        public InstanceRelatedExternalReference(string? source, IInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {
 
         }
 
-        public InstanceRelatedExternalReference(JsonObject jsonObject)
+        public InstanceRelatedExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public InstanceRelatedExternalReference(InstanceRelatedExternalReference externalReference)
+        public InstanceRelatedExternalReference(InstanceRelatedExternalReference? externalReference)
         : base(externalReference)
         {
 

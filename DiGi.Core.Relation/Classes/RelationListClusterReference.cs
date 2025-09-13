@@ -4,15 +4,9 @@ using System.Collections.Generic;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class RelationListClusterReference : ListClusterReference<TypeReference, TypeReference>
+    public class RelationListClusterReference(TypeReference? key_1, TypeReference? key_2, int index) : ListClusterReference<TypeReference, TypeReference>(key_1, key_2, index)
     {
-        public RelationListClusterReference(TypeReference key_1, TypeReference key_2, int index)
-            :base(key_1, key_2, index)
-        {
-
-        }
-
-        public override bool Equals(IReference reference)
+        public override bool Equals(IReference? reference)
         {
             if(reference == null)
             {
@@ -24,7 +18,7 @@ namespace DiGi.Core.Relation.Classes
 
         public override int GetHashCode()
         {
-            List<int> values = new List<int>();
+            List<int> values = [];
             if(Key_1 != null)
             {
                 values.Add(Key_1.GetHashCode());
@@ -37,7 +31,7 @@ namespace DiGi.Core.Relation.Classes
 
             values.Add(Index);
 
-            return Core.Query.HashCode(values.ToArray());
+            return Core.Query.HashCode([.. values]);
         }
 
     }

@@ -10,7 +10,7 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Modify
     {
-        public static bool Write(this Table.Classes.Table table, IDelimitedDataWriter delimitedDataWriter, Func<object, string> func = null)
+        public static bool Write(this Table.Classes.Table? table, IDelimitedDataWriter? delimitedDataWriter, Func<object?, string?>? func = null)
         {
             if (table == null || delimitedDataWriter == null)
             {
@@ -25,34 +25,31 @@ namespace DiGi.Core.IO.DelimitedData
 
             if (columns.Any(x => x?.Name != null))
             {
-                delimitedDataWriter.WriteRow(new DelimitedDataRow(columns.ToList().ConvertAll(x => x?.Name)));
+                delimitedDataWriter.WriteRow([.. columns.ToList().ConvertAll(x => x?.Name)]);
             }
 
-            Func<object, string> func_Temp = func;
-            if(func_Temp == null)
-            {
-                func_Temp = x => x?.ToString();
-            }
+            Func<object?, string?>? func_Temp = func;
+            func_Temp ??= x => x?.ToString();
 
             IEnumerable<Row> rows = table.Rows;
             if (rows != null)
             {
                 foreach (Row row in rows)
                 {
-                    List<string> values = new List<string>();
+                    List<string?>? values = [];
                     foreach (Column column in columns)
                     {
                         values.Add(func_Temp(row[column.Index]));
                     }
 
-                    delimitedDataWriter.WriteRow(new DelimitedDataRow(values));
+                    delimitedDataWriter.WriteRow([.. values]);
                 }
             }
 
             return true;
         }
 
-        public static bool Write(this Table.Classes.Table table, string path, char separator, Func<object, string> func = null)
+        public static bool Write(this Table.Classes.Table? table, string? path, char separator, Func<object?, string?>? func = null)
         {
             if(table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
@@ -60,7 +57,7 @@ namespace DiGi.Core.IO.DelimitedData
             }
 
             bool result = false;
-            using (DelimitedDataWriter delimitedDataWriter = new DelimitedDataWriter(separator, path))
+            using (DelimitedDataWriter delimitedDataWriter = new(separator, path))
             {
                 result = Write(table, delimitedDataWriter, func);
             }
@@ -68,7 +65,7 @@ namespace DiGi.Core.IO.DelimitedData
             return result;
         }
 
-        public static bool Write(this Table.Classes.Table table, string path, DelimitedDataSeparator delimitedDataSeparator, Func<object, string> func = null)
+        public static bool Write(this Table.Classes.Table? table, string? path, DelimitedDataSeparator delimitedDataSeparator, Func<object?, string?>? func = null)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
@@ -76,7 +73,7 @@ namespace DiGi.Core.IO.DelimitedData
             }
 
             bool result = false;
-            using (DelimitedDataWriter delimitedDataWriter = new DelimitedDataWriter(delimitedDataSeparator.Separator(), path))
+            using (DelimitedDataWriter delimitedDataWriter = new(delimitedDataSeparator.Separator(), path))
             {
                 result = Write(table, delimitedDataWriter, func);
             }

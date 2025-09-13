@@ -11,13 +11,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public ConvertOptions(ConvertOptions convertOptions)
+        public ConvertOptions(ConvertOptions? convertOptions)
             : base(convertOptions)
         {
 
         }
 
-        public ConvertOptions(JsonObject jsonObject)
+        public ConvertOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

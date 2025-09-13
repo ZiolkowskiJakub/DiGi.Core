@@ -8,14 +8,14 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static string FullTypeName(this JsonObject jsonObject)
+        public static string? FullTypeName(this JsonObject? jsonObject)
         {
             if (jsonObject == null)
             {
                 return null;
             }
 
-            if(!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode jsonNode) || jsonNode == null)
+            if(!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode? jsonNode) || jsonNode == null)
             {
                 return null;
             }
@@ -26,7 +26,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            if(!jsonValue.TryGetValue(out string result))
+            if(!jsonValue.TryGetValue(out string? result))
             {
                 return null;
             }
@@ -35,7 +35,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static string FullTypeName(Type type)
+        public static string? FullTypeName(Type? type)
         {
             if (type == null)
             {
@@ -52,7 +52,7 @@ namespace DiGi.Core
                 Type[] types_Generic = type.GetGenericArguments();
                 if (types_Generic != null && types_Generic.Length != 0)
                 {
-                    List<string> typeNames = new List<string>();
+                    List<string> typeNames = [];
                     foreach (Type type_Generic in types_Generic)
                     {
                         typeNames.Add(string.Format("[{0}]", FullTypeName(type_Generic)));
@@ -65,7 +65,7 @@ namespace DiGi.Core
             return string.Format("{0},{1}", type.FullName, type.Assembly.GetName().Name);
         }
 
-        public static string FullTypeName(ISerializableObject serializableObject)
+        public static string? FullTypeName(ISerializableObject? serializableObject)
         {
             if (serializableObject == null)
             {

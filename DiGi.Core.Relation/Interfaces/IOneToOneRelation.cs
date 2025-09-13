@@ -4,12 +4,12 @@ namespace DiGi.Core.Relation.Interfaces
 {
     public interface IOneToOneRelation : IRelation
     {
-        IUniqueReference UniqueReference_From { get; }
+        IUniqueReference? UniqueReference_From { get; }
 
-        IUniqueReference UniqueReference_To { get; }
+        IUniqueReference? UniqueReference_To { get; }
     }
 
-    public interface IOneToOneRelation<X, Y> : IOneToOneRelation, IRelation<X, Y> where X : IUniqueObject where Y : IUniqueObject
+    public interface IOneToOneRelation<XUniqueObject, YUniqueObject> : IOneToOneRelation, IRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
 
     }

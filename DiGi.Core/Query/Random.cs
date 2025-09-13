@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static double Random(Random random, double start, double end, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(Random? random, double start, double end, double tolerance = Constans.Tolerance.MacroDistance)
         {
             if(random == null)
             {
@@ -15,9 +15,9 @@ namespace DiGi.Core
             return Random(random, new Range<double>(start, end), tolerance);
         }
 
-        public static double Random(Random random, Range<double> range, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(Random? random, Range<double>? range, double tolerance = Constans.Tolerance.MacroDistance)
         {
-            if (range == null || random == null)
+            if (range is null || random is null)
             {
                 return double.NaN;
             }
@@ -30,9 +30,9 @@ namespace DiGi.Core
             return Random(new Range<double>(start, end), seed, tolerance);
         }
 
-        public static double Random(Range<double> range, int seed = -1, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(Range<double>? range, int seed = -1, double tolerance = Constans.Tolerance.MacroDistance)
         {
-            if (range == null)
+            if (range is null)
             {
                 return double.NaN;
             }
@@ -42,9 +42,9 @@ namespace DiGi.Core
             return Round(range.Min + ((range.Max - range.Min) * random.NextDouble()), tolerance);
         }
 
-        public static int Random(Range<int> range, int seed = -1)
+        public static int Random(Range<int>? range, int seed = -1)
         {
-            if (range == null)
+            if (range is null)
             {
                 return int.MinValue;
             }
@@ -59,7 +59,7 @@ namespace DiGi.Core
             return Random(new Range<int>(start, end), seed);
         }
 
-        public static int Random(Random random, int start, int end)
+        public static int Random(Random? random, int start, int end)
         {
             if (random == null)
             {
@@ -69,9 +69,9 @@ namespace DiGi.Core
             return Random(random, new Range<int>(start, end));
         }
 
-        public static int Random(Random random, Range<int> range)
+        public static int Random(Random? random, Range<int>? range)
         {
-            if (random == null)
+            if (random == null || range is null)
             {
                 return int.MinValue;
             }
@@ -79,7 +79,7 @@ namespace DiGi.Core
             return random.Next(range.Min, range.Max);
         }
 
-        public static bool Random(Random random)
+        public static bool Random(Random? random)
         {
             if(random == null)
             {

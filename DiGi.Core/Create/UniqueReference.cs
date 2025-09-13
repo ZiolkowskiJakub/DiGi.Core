@@ -7,7 +7,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static UniqueReference UniqueReference(this object @object)
+        public static UniqueReference? UniqueReference(this object? @object)
         {
             if (@object == null)
             {
@@ -16,25 +16,24 @@ namespace DiGi.Core
 
             if (@object is IUniqueObject)
             {
-                if (@object is IGuidObject)
+                if (@object is IGuidObject guidObject)
                 {
-                    return new GuidReference((IGuidObject)@object);
+                    return new GuidReference(guidObject);
                 }
-                else if (@object is IUniqueIdObject)
+                else if (@object is IUniqueIdObject uniqueIdObject)
                 {
-                    return new UniqueIdReference((IUniqueIdObject)@object);
+                    return new UniqueIdReference(uniqueIdObject);
                 }
 
             }
 
-            TypeReference typeReference = null;
-            if (@object is JsonObject)
+            TypeReference? typeReference = null;
+            if (@object is JsonObject jsonObject)
             {
-                JsonObject jsonObject = (JsonObject)@object;
                 if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
                 {
-                    JsonValue jsonValue = jsonObject[Constans.Serialization.PropertyName.Type]?.AsValue();
-                    if (jsonValue != null && jsonValue.TryGetValue(out string fullTypeName))
+                    JsonValue? jsonValue = jsonObject[Constans.Serialization.PropertyName.Type]?.AsValue();
+                    if (jsonValue != null && jsonValue.TryGetValue(out string? fullTypeName))
                     {
                         typeReference = new TypeReference(fullTypeName);
                     }
@@ -42,7 +41,7 @@ namespace DiGi.Core
 
                 if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
                 {
-                    JsonValue jsonValue = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue();
+                    JsonValue? jsonValue = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue();
                     if (jsonValue != null)
                     {
                         if (jsonValue.TryGetValue(out Guid guid))
@@ -50,7 +49,7 @@ namespace DiGi.Core
                             return new GuidReference(typeReference, guid);
                         }
 
-                        if (jsonValue.TryGetValue(out string @string) && Query.TryConvert(@string, out guid))
+                        if (jsonValue.TryGetValue(out string? @string) && Query.TryConvert(@string, out guid))
                         {
                             return new GuidReference(typeReference, guid);
                         }
@@ -62,7 +61,7 @@ namespace DiGi.Core
 
             if (typeReference == null)
             {
-                Type type = @object?.GetType();
+                Type? type = @object?.GetType();
                 if (type == null)
                 {
                     return null;
@@ -76,12 +75,12 @@ namespace DiGi.Core
                 return null;
             }
 
-            if (@object is IUniqueObject)
+            if (@object is IUniqueObject uniqueObject)
             {
-                return new UniqueIdReference(typeReference, ((IUniqueObject)@object).UniqueId);
+                return new UniqueIdReference(typeReference, uniqueObject.UniqueId);
             }
 
-            if (!Query.TryGetUniqueId(@object, out string uniqueId))
+            if (!Query.TryGetUniqueId(@object, out string? uniqueId) || uniqueId is null)
             {
                 return null;
             }

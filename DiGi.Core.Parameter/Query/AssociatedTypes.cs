@@ -5,7 +5,7 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
-        public static AssociatedTypes AssociatedTypes(Type type)
+        public static AssociatedTypes? AssociatedTypes(Type? type)
         {
             if (type == null)
             {
@@ -25,8 +25,7 @@ namespace DiGi.Core.Parameter
 
             foreach (object @object in objects)
             {
-                AssociatedTypes parameterTypes = @object as AssociatedTypes;
-                if (parameterTypes != null)
+                if (@object is AssociatedTypes parameterTypes)
                 {
                     return parameterTypes;
                 }

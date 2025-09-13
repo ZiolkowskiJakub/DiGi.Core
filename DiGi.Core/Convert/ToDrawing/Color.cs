@@ -22,8 +22,13 @@ namespace DiGi.Core
             return Color.FromArgb(alpha, r, g, b);
         }
 
-        public static Color ToDrawing(string value)
+        public static Color ToDrawing(string? value)
         {
+            if(value is null)
+            {
+                return Color.Empty;
+            }
+
             string hex = value.Replace("#", string.Empty);
             NumberStyles numberStyles = NumberStyles.HexNumber;
 
@@ -40,9 +45,9 @@ namespace DiGi.Core
             return Color.FromArgb(a, r, g, b);
         }
 
-        public static Color ToDrawing(this Classes.Color color)
+        public static Color ToDrawing(this Classes.Color? color)
         {
-            if(color == null)
+            if(color is null)
             {
                 return Color.Empty;
             }

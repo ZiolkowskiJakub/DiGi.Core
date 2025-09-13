@@ -4,20 +4,20 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
-        public static string RelativePath(string relativeTo, string path)
+        public static string? RelativePath(string? relativeTo, string? path)
         {
             if (string.IsNullOrWhiteSpace(relativeTo) || string.IsNullOrWhiteSpace(path))
             {
                 return null;
             }
 
-            string relativeTo_Temp = relativeTo.Trim();
+            string relativeTo_Temp = relativeTo!.Trim();
             if (relativeTo_Temp.EndsWith("\\"))
             {
                 relativeTo_Temp = relativeTo_Temp.Substring(0, relativeTo_Temp.Length - 1);
             }
 
-            string path_Temp = path.Trim();
+            string path_Temp = path!.Trim();
             if (path_Temp.EndsWith("\\"))
             {
                 path_Temp = path_Temp.Substring(0, path_Temp.Length - 1);
@@ -28,8 +28,8 @@ namespace DiGi.Core.IO
                 return ".";
             }
 
-            Uri uri_RelativeTo = new Uri(relativeTo.EndsWith("\\") ? relativeTo : relativeTo + "\\");
-            Uri uri = new Uri(path_Temp);
+            Uri uri_RelativeTo = new(relativeTo.EndsWith("\\") ? relativeTo : relativeTo + "\\");
+            Uri uri = new(path_Temp);
 
             return Uri.UnescapeDataString(uri_RelativeTo.MakeRelativeUri(uri).ToString().Replace('/', '\\'));
 

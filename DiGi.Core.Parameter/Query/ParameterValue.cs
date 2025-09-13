@@ -5,9 +5,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
-        public static T ParameterValue<T>(Enum @enum) where T : ParameterValue
+        public static TParameterValue? ParameterValue<TParameterValue>(Enum? @enum) where TParameterValue : ParameterValue
         {
-            return Core.Query.CustomAttribute<T>(@enum);
+            return Core.Query.CustomAttribute<TParameterValue>(@enum);
         }
     }
 }

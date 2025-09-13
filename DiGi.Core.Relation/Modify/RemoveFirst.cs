@@ -5,7 +5,7 @@ namespace DiGi.Core.Relation
 {
     public static partial class Modify
     {
-        public static bool RemoveFirst<T>(this List<T> references, IReference reference) where T : IReference
+        public static bool RemoveFirst<TReference>(this List<TReference>? references, IReference? reference) where TReference : IReference
         {
             if (references == null || reference == null)
             {

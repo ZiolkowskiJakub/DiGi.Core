@@ -8,45 +8,45 @@ namespace DiGi.Core.Classes
     public class TypeReference : SerializableReference, ITypeRelatedSerializableReference
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
-        private string fullTypeName;
+        private readonly string? fullTypeName;
 
-        public TypeReference(JsonObject jsonObject)
+        public TypeReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public TypeReference(TypeReference typeReference)
+        public TypeReference(TypeReference? typeReference)
             : base(typeReference)
         {
             fullTypeName = typeReference?.fullTypeName;
         }
 
-        public TypeReference(string fullTypeName)
+        public TypeReference(string? fullTypeName)
             : base()
         {
             this.fullTypeName = fullTypeName;
         }
 
-        public TypeReference(Type type)
+        public TypeReference(Type? type)
             : base()
         {
             fullTypeName = Query.FullTypeName(type);
         }
 
-        public TypeReference(IObject @object)
+        public TypeReference(IObject? @object)
             : base()
         {
-            fullTypeName = Query.FullTypeName(@object.GetType());
+            fullTypeName = Query.FullTypeName(@object?.GetType());
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new TypeReference(fullTypeName);
         }
 
         [JsonIgnore]
-        public string FullTypeName
+        public string? FullTypeName
         {
             get
             {
@@ -54,23 +54,36 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
-            return fullTypeName == null ? string.Empty : fullTypeName;
+            return fullTypeName ?? string.Empty;
         }
 
-        public static bool operator ==(TypeReference typeReference_1, TypeReference typeReference_2)
+        public override bool Equals(object? obj)
+        {
+            return obj is TypeReference reference &&
+                   base.Equals(obj) &&
+                   fullTypeName == reference.fullTypeName &&
+                   FullTypeName == reference.FullTypeName;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public static bool operator ==(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
             return typeReference_1?.fullTypeName == typeReference_2?.fullTypeName;
         }
 
-        public static bool operator !=(TypeReference typeReference_1, TypeReference typeReference_2)
+        public static bool operator !=(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
             return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
         }
 
-        public static implicit operator TypeReference(Type type) => type.TypeReference();
+        public static implicit operator TypeReference?(Type? type) => type?.TypeReference();
 
-        public static implicit operator Type(TypeReference typeReference) => Query.Type(typeReference);
+        public static implicit operator Type?(TypeReference? typeReference) => Query.Type(typeReference);
     }
 }

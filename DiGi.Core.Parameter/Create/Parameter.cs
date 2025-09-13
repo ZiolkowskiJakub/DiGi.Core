@@ -5,14 +5,14 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Create
     {
-        public static Classes.Parameter Parameter(this IParameterDefinition parameterDefinition, object value, SetValueSettings setValueSettings = null)
+        public static Classes.Parameter? Parameter(this IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null)
         {
             if(parameterDefinition == null)
             {
                 return null;
             }
 
-            Classes.Parameter result = new Classes.Parameter(parameterDefinition);
+            Classes.Parameter? result = new(parameterDefinition);
             if(!result.SetValue(value, setValueSettings))
             {
                 return null;
@@ -21,14 +21,14 @@ namespace DiGi.Core.Parameter
             return result;
         }
 
-        public static Classes.Parameter Parameter(string name, object value)
+        public static Classes.Parameter? Parameter(string? name, object? value)
         {
             if(name == null)
             {
                 return null;
             }
 
-            SimpleParameterDefinition simpleParameterDefinition  = new SimpleParameterDefinition(name);
+            SimpleParameterDefinition simpleParameterDefinition  = new(name);
             if(simpleParameterDefinition == null || !simpleParameterDefinition.IsValid(value))
             {
                 return null;

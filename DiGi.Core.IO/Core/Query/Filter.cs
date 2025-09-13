@@ -5,23 +5,23 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
-        public static string Filter(params FileFilter[] fileFilters)
+        public static string? Filter(params FileFilter[]? fileFilters)
         {
             if(fileFilters == null)
             {
                 return null;
             }
 
-            List<string> values = new List<string>();
+            List<string> values = [];
             foreach(FileFilter fileFilter in fileFilters)
             {
-                string value = fileFilter?.ToString();
+                string? value = fileFilter?.ToString();
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     continue;
                 }
 
-                values.Add(value);
+                values.Add(value!);
             }
 
             return string.Join("|", values);

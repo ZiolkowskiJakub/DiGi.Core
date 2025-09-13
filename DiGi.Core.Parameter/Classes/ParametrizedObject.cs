@@ -10,17 +10,17 @@ namespace DiGi.Core.Parameter.Classes
 {
     public class ParametrizedObject : SerializableObject, IParametrizedObject
     {
-        [JsonInclude, JsonPropertyName("ParameterGroups")]
-        private ParameterGroups parameterGroups = new ParameterGroups();
+        [JsonInclude, JsonPropertyName("ParameterGroupCollection")]
+        private readonly ParameterGroupCollection parameterGroupCollection = new();
 
-        public ParametrizedObject(IEnumerable<Parameter> parameters)
+        public ParametrizedObject(IEnumerable<Parameter>? parameters)
             : base()
         {
             if(parameters != null)
             {
                 foreach(Parameter parameter in parameters)
                 {
-                    parameterGroups.SetValue(parameter);
+                    parameterGroupCollection.SetValue(parameter);
                 }
             }
         }
@@ -30,154 +30,166 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
-        public ParametrizedObject(ParameterGroups parameterGroups)
+        public ParametrizedObject(ParameterGroupCollection? parameterGroupCollection)
         {
-            this.parameterGroups = parameterGroups == null ? null : new ParameterGroups(parameterGroups);
+            this.parameterGroupCollection = parameterGroupCollection == null ? new ParameterGroupCollection() : new ParameterGroupCollection(parameterGroupCollection);
         }
 
-        public ParametrizedObject(JsonObject jsonObject)
+        public ParametrizedObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ParametrizedObject(ParametrizedObject parametrizedObject)
+        public ParametrizedObject(ParametrizedObject? parametrizedObject)
             : base()
         {
             if(parametrizedObject != null) 
             {
-                parameterGroups = parametrizedObject.parameterGroups == null ? null : new ParameterGroups(parametrizedObject.parameterGroups);
+                parameterGroupCollection = parametrizedObject.parameterGroupCollection == null ? new ParameterGroupCollection() : new ParameterGroupCollection(parametrizedObject.parameterGroupCollection);
             }
         }
 
-        public bool Contains(string uniqueId)
+        public bool Contains(string? uniqueId)
         {
-            return parameterGroups.Contains(uniqueId);
+            return parameterGroupCollection.Contains(uniqueId);
         }
 
-        public bool Contains(IParameterDefinition parameterDefinition)
+        public bool Contains(IParameterDefinition? parameterDefinition)
         {
-            return parameterGroups.Contains(parameterDefinition);
+            return parameterGroupCollection.Contains(parameterDefinition);
         }
 
-        public List<IParameterDefinition> GetParameterDefinitions(string parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true)
+        public List<IParameterDefinition>? GetParameterDefinitions(string? parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true)
         {
-            return parameterGroups.GetParameterDefinitions(parameterName, textComparisonType, caseSensitive);
+            return parameterGroupCollection?.GetParameterDefinitions(parameterName, textComparisonType, caseSensitive);
         }
 
-        public List<T> GetParameterDefinitions<T>(string parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true) where T : IParameterDefinition
+        public List<TParameterDefinition>? GetParameterDefinitions<TParameterDefinition>(string? parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true) where TParameterDefinition : IParameterDefinition
         {
-            return parameterGroups.GetParameterDefinitions<T>(parameterName, textComparisonType, caseSensitive);
+            return parameterGroupCollection?.GetParameterDefinitions<TParameterDefinition>(parameterName, textComparisonType, caseSensitive);
         }
 
-        public List<TParameterDefinition> GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition
+        public List<TParameterDefinition>? GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition
         {
-            return parameterGroups?.GetParameterDefinitions<TParameterDefinition>();
+            return parameterGroupCollection?.GetParameterDefinitions<TParameterDefinition>();
         }
 
-        public object GetValue(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
+        public object? GetValue(IParameterDefinition? parameterDefinition, GetValueSettings? getValueSettings = null)
         {
-            return parameterGroups.GetValue(parameterDefinition, getValueSettings);
+            return parameterGroupCollection?.GetValue(parameterDefinition, getValueSettings);
         }
 
-        public object GetValue(string uniqueId, GetValueSettings getValueSettings = null)
+        public object? GetValue(string? uniqueId, GetValueSettings? getValueSettings = null)
         {
-            return parameterGroups.GetValue(uniqueId, getValueSettings);
+            return parameterGroupCollection?.GetValue(uniqueId, getValueSettings);
         }
 
-        public object GetValue(Enum @enum, GetValueSettings getValueSettings = null)
+        public object? GetValue(Enum? @enum, GetValueSettings? getValueSettings = null)
         {
             if(@enum == null)
             {
                 return null;
             }
 
-            return parameterGroups.GetValue((EnumParameterDefinition)@enum, getValueSettings);
+            return parameterGroupCollection.GetValue((EnumParameterDefinition)@enum!, getValueSettings);
         }
 
-        public T GetValue<T>(Enum @enum, GetValueSettings getValueSettings = null)
+        public T? GetValue<T>(Enum? @enum, GetValueSettings? getValueSettings = null)
         {
             if (@enum == null)
             {
                 return default;
             }
 
-            return parameterGroups.GetValue<T>((EnumParameterDefinition)@enum, getValueSettings);
+            return parameterGroupCollection.GetValue<T>((EnumParameterDefinition)@enum!, getValueSettings);
         }
 
-        public T GetValue<T>(IParameterDefinition parameterDefinition, GetValueSettings getValueSettings = null)
+        public T? GetValue<T>(IParameterDefinition? parameterDefinition, GetValueSettings? getValueSettings = null)
         {
             if (parameterDefinition == null)
             {
                 return default;
             }
 
-            return parameterGroups.GetValue<T>(parameterDefinition, getValueSettings);
+            return parameterGroupCollection.GetValue<T>(parameterDefinition, getValueSettings);
         }
 
-        public bool Remove(IParameterDefinition parameterDefinition)
+        public bool Remove(IParameterDefinition? parameterDefinition)
         {
-            return parameterGroups.Remove(parameterDefinition);
+            return parameterGroupCollection.Remove(parameterDefinition);
         }
 
-        public bool Remove(string uniqueId)
+        public bool Remove(string? uniqueId)
         {
-            return parameterGroups.Remove(uniqueId);
+            return parameterGroupCollection.Remove(uniqueId);
         }
 
-        public bool SetValue(IParameterDefinition parameterDefinition, object value, SetValueSettings setValueSettings = null)
+        public bool SetValue(IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null)
         {
-            return parameterGroups.SetValue(parameterDefinition, value, setValueSettings);
+            return parameterGroupCollection.SetValue(parameterDefinition, value, setValueSettings);
         }
 
-        public bool SetValue(Enum @enum, object value, SetValueSettings setValueSettings = null)
+        public bool SetValue(Enum? @enum, object? value, SetValueSettings? setValueSettings = null)
         {
             if(@enum == null)
             {
                 return false;
             }
 
-            return parameterGroups.SetValue((EnumParameterDefinition)@enum, value, setValueSettings);
+            return parameterGroupCollection.SetValue((EnumParameterDefinition)@enum!, value, setValueSettings);
         }
 
-        public bool SetValue(string name, object value, SetValueSettings setValueSettings = null)
+        public bool SetValue(string? name, object? value, SetValueSettings? setValueSettings = null)
         {
-            return parameterGroups.SetValue(name, value, setValueSettings);
+            return parameterGroupCollection.SetValue(name, value, setValueSettings);
         }
 
-        public bool SetValue(Parameter parameter)
+        public bool SetValue(Parameter? parameter)
         {
-            return parameterGroups.SetValue(parameter);
+            return parameterGroupCollection.SetValue(parameter);
         }
 
-        public bool TryGetValue(string uniqueId, out object value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue(string? uniqueId, out object? value, GetValueSettings? getValueSettings = null)
         {
             return TryGetValue(uniqueId, out value, getValueSettings);
         }
 
-        public bool TryGetValue(IParameterDefinition parameterDefinition, out object value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue(IParameterDefinition? parameterDefinition, out object? value, GetValueSettings? getValueSettings = null)
         {
-            return TryGetValue(parameterDefinition, out value, getValueSettings);
+            return parameterGroupCollection.TryGetValue(parameterDefinition, out value, getValueSettings);
         }
 
-        public bool TryGetValue(Enum @enum, out object value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue(Enum? @enum, out object? value, GetValueSettings? getValueSettings = null)
         {
-            return TryGetValue((EnumParameterDefinition)@enum, out value, getValueSettings);
+            value = null;
+            if (@enum == null)
+            {
+                return false;
+            }
+
+            return TryGetValue((EnumParameterDefinition)@enum!, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue<T>(IParameterDefinition? parameterDefinition, out T? value, GetValueSettings? getValueSettings = null)
         {
-            return parameterGroups.TryGetValue(parameterDefinition, out value, getValueSettings);
+            return parameterGroupCollection.TryGetValue(parameterDefinition, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(Enum @enum, out T value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue<T>(Enum? @enum, out T? value, GetValueSettings? getValueSettings = null)
         {
-            return parameterGroups.TryGetValue((EnumParameterDefinition)@enum, out value, getValueSettings);
+            if(@enum is null)
+            {
+                value = default;
+                return false;
+            }
+
+            return parameterGroupCollection.TryGetValue((EnumParameterDefinition)@enum!, out value, getValueSettings);
         }
 
-        public bool TryGetValue<T>(string uniqueId, out T value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue<T>(string? uniqueId, out T? value, GetValueSettings? getValueSettings = null)
         {
-            return parameterGroups.TryGetValue(uniqueId, out value, getValueSettings);
+            return parameterGroupCollection.TryGetValue(uniqueId, out value, getValueSettings);
         }
     }
 }

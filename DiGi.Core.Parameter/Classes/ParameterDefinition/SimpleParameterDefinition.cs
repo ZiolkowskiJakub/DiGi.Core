@@ -7,21 +7,21 @@ namespace DiGi.Core.Parameter.Classes
     public class SimpleParameterDefinition : ParameterDefinition
     {
         [JsonInclude, JsonPropertyName("Name"), Description("Name")]
-        private string name;
+        private readonly string? name;
 
-        public SimpleParameterDefinition(string name)
+        public SimpleParameterDefinition(string? name)
             : base()
         {
             this.name = name;
         }
 
-        public SimpleParameterDefinition(JsonObject jsonObject)
+        public SimpleParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public SimpleParameterDefinition(SimpleParameterDefinition simpleParameterDefinition)
+        public SimpleParameterDefinition(SimpleParameterDefinition? simpleParameterDefinition)
             : base(simpleParameterDefinition)
         {
             if (simpleParameterDefinition != null)
@@ -31,7 +31,10 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override string Name
+        public override string GroupName => Constans.Names.DefaultGroupName;
+
+        [JsonIgnore]
+        public override string? Name
         {
             get
             {
@@ -43,7 +46,7 @@ namespace DiGi.Core.Parameter.Classes
         public override Enums.ParameterType ParameterType => Enums.ParameterType.Undefined;
 
         [JsonIgnore]
-        public override string UniqueId 
+        public override string? UniqueId 
         {
             get
             {
@@ -51,10 +54,7 @@ namespace DiGi.Core.Parameter.Classes
             } 
         }
 
-        [JsonIgnore]
-        public override string GroupName => Constans.Names.DefaultGroupName;
-
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             return base.IsValid(value);
         }

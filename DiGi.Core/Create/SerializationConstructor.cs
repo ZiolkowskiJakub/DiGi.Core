@@ -7,23 +7,23 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static SerializationConstructor SerializationConstructor(this System.Type type)
+        public static SerializationConstructor? SerializationConstructor(this System.Type? type)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
             {
                 return null;
             }
 
-            string fullTypeName = Query.FullTypeName(type);
+            string? fullTypeName = Query.FullTypeName(type);
             if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }
 
-            ConstructorInfo constructorInfo = null;
-            ConstructorInfo constructorInfo_Empty = null;
+            ConstructorInfo? constructorInfo = null;
+            ConstructorInfo? constructorInfo_Empty = null;
 
-            ConstructorInfo[] constructorInfos = null;
+            ConstructorInfo[]? constructorInfos;
 
             constructorInfos = type.GetConstructors();
             if (constructorInfos != null && constructorInfos.Length != 0)

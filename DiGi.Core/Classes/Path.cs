@@ -5,16 +5,16 @@ using System.IO;
 namespace DiGi.Core.Classes
 {
     [Description("File path or directory")]
-    public struct Path
+    public readonly struct Path
     {
-        private string value;
+        private readonly string? value;
 
-        public Path(string value)
+        public Path(string? value)
         {
             this.value = value; 
         }
 
-        public Path(params string[] values)
+        public Path(params string[]? values)
         {
             value = null;
             if(values != null && values.Length > 0)
@@ -23,73 +23,30 @@ namespace DiGi.Core.Classes
             }
         }
 
-
-        public static implicit operator Path(string value)
+        public Path(Path? path)
         {
-            return new Path(value);
+            value = path?.value;
         }
 
-
-        public static implicit operator string(Path path)
+        public bool DirectoryExists
         {
-            if(path == null)
+            get
             {
-                return null;
+                DirectoryInfo? directoryInfo = GetDirectoryInfo();
+                if (directoryInfo == null)
+                {
+                    return false;
+                }
+
+                return directoryInfo.Exists;
             }
-
-            return path.value;
-        }
-        
-        public static bool operator !=(Path path_1, Path path_2)
-        {
-            if (ReferenceEquals(path_1, null) && ReferenceEquals(path_2, null))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(path_1, null) || ReferenceEquals(path_2, null))
-            {
-                return true;
-            }
-
-            return path_1.value != path_2.value;
-        }
-
-        public static bool operator ==(Path path_1, Path path_2)
-        {
-            if (ReferenceEquals(path_1, null) && ReferenceEquals(path_2, null))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(path_1, null) || ReferenceEquals(path_2, null))
-            {
-                return false;
-            }
-
-            return path_1.value == path_2.value;
-        }
-
-        public static Path operator +(Path path, string value)
-        {
-            if(path == null && value == null)
-            {
-                return null;
-            }
-
-            if(value == null)
-            {
-                return null;
-            }
-
-            return new Path(path, value);
         }
 
         public Path? DirectoryPath
         {
             get
             {
-                if(value == null)
+                if (value == null)
                 {
                     return null;
                 }
@@ -105,33 +62,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public string FileName
-        {
-            get
-            {
-                if (value == null)
-                {
-                    return null;
-                }
-
-                return System.IO.Path.GetFileName(value);
-            }
-        }
-
-        public string FileNameWithoutExtension
-        {
-            get
-            {
-                if (value == null)
-                {
-                    return null;
-                }
-
-                return System.IO.Path.GetFileNameWithoutExtension(value);
-            }
-        }
-
-        public string Extension
+        public string? Extension
         {
             get
             {
@@ -144,12 +75,167 @@ namespace DiGi.Core.Classes
             }
         }
 
+        public bool FileExists
+        {
+            get
+            {
+                FileInfo? fileInfo = GetFileInfo();
+                if (fileInfo == null)
+                {
+                    return false;
+                }
+
+                return fileInfo.Exists;
+            }
+        }
+
+        public string? FileName
+        {
+            get
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+                return System.IO.Path.GetFileName(value);
+            }
+        }
+
+        public string? FileNameWithoutExtension
+        {
+            get
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+                return System.IO.Path.GetFileNameWithoutExtension(value);
+            }
+        }
+
         public bool IsEmpty
         {
             get
             {
                 return string.IsNullOrWhiteSpace(value);
             }
+        }
+
+        public static implicit operator Path(string value)
+        {
+            return new Path(value);
+        }
+
+        public static implicit operator string?(Path? path)
+        {
+            if(path is null || !path.HasValue)
+            {
+                return null;
+            }
+
+            return path.Value.value;
+        }
+        
+        public static bool operator !=(Path? path_1, Path? path_2)
+        {
+            if (path_1 is null && path_2 is null)
+            {
+                return false;
+            }
+
+            if (path_1 is null || path_2 is null)
+            {
+                return true;
+            }
+
+            return path_1.Value.value != path_2.Value.value;
+        }
+
+        public static Path? operator +(Path? path, string value)
+        {
+            if (path == null && value == null)
+            {
+                return null;
+            }
+
+            if (value == null)
+            {
+                return null;
+            }
+
+            if (path is null || path.Value == null)
+            {
+                return new Path(value);
+            }
+
+            return new Path(path.Value!, value);
+        }
+
+        public static bool operator ==(Path? path_1, Path? path_2)
+        {
+            if (path_1 is null && path_2 is null)
+            {
+                return true;
+            }
+
+            if (path_1 is null || path_2 is null)
+            {
+                return false;
+            }
+
+            return path_1.Value.value == path_2.Value.value;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Path path && value == path.value;
+        }
+
+        public DirectoryInfo? GetDirectoryInfo()
+        {
+            if (!IsValid())
+            {
+                return null;
+            }
+
+            DirectoryInfo? result;
+            try
+            {
+                result = new DirectoryInfo(value);
+            }
+            catch
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public FileInfo? GetFileInfo()
+        {
+            if (!IsValid())
+            {
+                return null;
+            }
+
+            FileInfo? result;
+            try
+            {
+                result = new FileInfo(value);
+            }
+            catch
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public override int GetHashCode()
+        {
+            return value?.GetHashCode() ?? 0;
         }
 
         public bool IsValid(UriKind uriKind)
@@ -167,74 +253,5 @@ namespace DiGi.Core.Classes
         {
             return IsValid(UriKind.RelativeOrAbsolute);
         }
-
-        public FileInfo GetFileInfo()
-        {
-            if(!IsValid())
-            {
-                return null;
-            }
-
-            FileInfo result = null;
-            try
-            {
-                result = new FileInfo(value);
-            }
-            catch
-            {
-                result = null;
-            }
-
-            return result;
-        }
-
-        public DirectoryInfo GetDirectoryInfo()
-        {
-            if (!IsValid())
-            {
-                return null;
-            }
-
-            DirectoryInfo result = null;
-            try
-            {
-                result = new DirectoryInfo(value);
-            }
-            catch
-            {
-                result = null;
-            }
-
-            return result;
-        }
-
-        public bool FileExists
-        {
-            get
-            {
-                FileInfo fileInfo = GetFileInfo();
-                if(fileInfo == null)
-                {
-                    return false;
-                }
-
-                return fileInfo.Exists;
-            }
-        }
-
-        public bool DirectoryExists
-        {
-            get
-            {
-                DirectoryInfo directoryInfo = GetDirectoryInfo();
-                if (directoryInfo == null)
-                {
-                    return false;
-                }
-
-                return directoryInfo.Exists;
-            }
-        }
-
     }
 }

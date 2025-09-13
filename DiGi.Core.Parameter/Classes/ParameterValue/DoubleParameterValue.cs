@@ -1,14 +1,19 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Enums;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
     public class DoubleParameterValue : ParameterValue
     {
-        private double min = double.NaN;
-        private double max = double.NaN;
+        [JsonInclude, JsonPropertyName("Min")]
+        private readonly double min = double.NaN;
 
+        [JsonInclude, JsonPropertyName("Max")]
+        private readonly double max = double.NaN;
+
+        [JsonIgnore]
         public override ParameterType ParameterType => ParameterType.Double;
 
         public DoubleParameterValue()
@@ -43,13 +48,13 @@ namespace DiGi.Core.Parameter.Classes
             this.min = min;
         }
 
-        public DoubleParameterValue(JsonObject jsonObject)
+        public DoubleParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public DoubleParameterValue(DoubleParameterValue doubleParameterValue)
+        public DoubleParameterValue(DoubleParameterValue? doubleParameterValue)
             : base(doubleParameterValue)
         {
             if(doubleParameterValue != null)
@@ -59,7 +64,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public override bool TryConvert(object value_In, out object value_Out)
+        public override bool TryConvert(object? value_In, out object? value_Out)
         {
             if (!base.TryConvert(value_In, out value_Out))
             {
@@ -69,9 +74,9 @@ namespace DiGi.Core.Parameter.Classes
             return IsValid(value_Out);
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
-            if (!(value is double))
+            if (value is not double)
             {
                 return false;
             }
@@ -97,51 +102,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new DoubleParameterValue(this);
-        }
-
-        public override bool FromJsonObject(JsonObject jsonObject)
-        {
-            bool result = base.FromJsonObject(jsonObject);
-            if(!result)
-            {
-                return result;
-            }
-
-            if (jsonObject.ContainsKey("Min"))
-            {
-                min = (double)jsonObject["Min"];
-            }
-
-            if (jsonObject.ContainsKey("Max"))
-            {
-                max = (double)jsonObject["Max"];
-            }
-
-            return true;
-        }
-
-        public override JsonObject ToJsonObject()
-        {
-            JsonObject result = base.ToJsonObject();
-            if(result == null)
-            {
-                return result;
-            }
-
-            if (!double.IsNaN(min))
-            {
-                result["Min"] = min;
-            }
-
-            if (!double.IsNaN(max))
-            {
-                result["Max"] = max;
-            }
-
-            return result;
         }
     }
 }

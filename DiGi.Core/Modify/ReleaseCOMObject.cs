@@ -4,21 +4,20 @@ namespace DiGi.Core
 {
     public static partial class Modify
     {
-        public static bool ReleaseCOMObject(this object cOMObject)
+        public static bool ReleaseCOMObject(this object? cOMObject)
         {
             if (cOMObject == null)
             {
                 return false;
             }
 
-            int referenceCount = 0;
+            int referenceCount;
             do
             {
                 referenceCount = Marshal.FinalReleaseComObject(cOMObject);
             }
             while (referenceCount > 0);
 
-            cOMObject = null;
             return true;
         }
     }

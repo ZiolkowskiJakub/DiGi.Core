@@ -6,7 +6,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static bool IsWrapperUniqueReference(this JsonObject jsonObject)
+        internal static bool IsWrapperUniqueReference(this JsonObject? jsonObject)
         {
             if(jsonObject == null)
             {
@@ -18,7 +18,7 @@ namespace DiGi.Core.IO.Wrapper
                 return false;
             }
 
-            string fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type].AsValue()?.GetValue<string>();
+            string? fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
             if(string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return false;
@@ -32,7 +32,7 @@ namespace DiGi.Core.IO.Wrapper
             return false;
         }
 
-        internal static bool IsWrapperUniqueReference(this JsonObject jsonObject, out IWrapperUniqueReference wrapperUniqueReference)
+        internal static bool IsWrapperUniqueReference(this JsonObject? jsonObject, out IWrapperUniqueReference? wrapperUniqueReference)
         {
             wrapperUniqueReference = null;
 

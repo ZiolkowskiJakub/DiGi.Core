@@ -16,18 +16,19 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
-        public WrapperReference(WrapperReference wrapperReference)
+        public WrapperReference(WrapperReference? wrapperReference)
+            :base(wrapperReference)
         {
 
         }
 
-        public WrapperReference(JsonObject jsonObject)
+        public WrapperReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public static bool operator !=(WrapperReference wrapperReference_1, WrapperReference wrapperReference_2)
+        public static bool operator !=(WrapperReference? wrapperReference_1, WrapperReference? wrapperReference_2)
         {
             if (Equals(wrapperReference_1, wrapperReference_2))
             {
@@ -47,7 +48,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return !wrapperReference_1.Equals(wrapperReference_2);
         }
 
-        public static bool operator ==(WrapperReference wrapperReference_1, WrapperReference wrapperReference_2)
+        public static bool operator ==(WrapperReference? wrapperReference_1, WrapperReference? wrapperReference_2)
         {
             if (Equals(wrapperReference_1, wrapperReference_2))
             {
@@ -77,22 +78,22 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return hashCode.Value;
         }
 
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
             if (@object == null)
             {
                 return false;
             }
 
-            if (@object is IReference)
+            if (@object is IReference reference)
             {
-                return Equals((IReference)@object);
+                return Equals(reference);
             }
 
             return false;
         }
 
-        public bool Equals(IReference reference)
+        public bool Equals(IReference? reference)
         {
             if (reference == null)
             {
@@ -110,22 +111,22 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
         }
 
-        public WrapperReference(WrapperReference<TSerializableReference> wrapperReference)
+        public WrapperReference(WrapperReference<TSerializableReference>? wrapperReference)
             : base(wrapperReference)
         {
 
         }
         
-        public WrapperReference(JsonObject jsonObject)
+        public WrapperReference(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public abstract TSerializableReference Reference { get; }
+        public abstract TSerializableReference? Reference { get; }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return Reference?.ToString();
         }

@@ -7,14 +7,14 @@ namespace DiGi.Core.Parameter.Classes
 {
     public abstract class ParameterDefinition : SerializableObject, IParameterDefinition
     {
-        public ParameterDefinition(JsonObject jsonObject)
+        public ParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ParameterDefinition(ParameterDefinition parameterDefinition)
-            : base()
+        public ParameterDefinition(ParameterDefinition? parameterDefinition)
+            : base(parameterDefinition)
         {
 
         }
@@ -26,23 +26,23 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public abstract string Name { get; }
+        public abstract string? Name { get; }
 
         [JsonIgnore]
         public abstract Enums.ParameterType ParameterType { get; }
 
         [JsonIgnore]
-        public abstract string UniqueId { get; }
+        public abstract string? UniqueId { get; }
 
         [JsonIgnore]
-        public abstract string GroupName { get; }
+        public abstract string? GroupName { get; }
 
         public bool Equals(IParameterDefinition? parameterDefinition)
         {
             return parameterDefinition?.UniqueId == UniqueId;
         }
 
-        public virtual bool IsValid(object value)
+        public virtual bool IsValid(object? value)
         {
             return Query.IsValid(ParameterType, value);
         }

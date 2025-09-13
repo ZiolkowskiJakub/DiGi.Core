@@ -5,7 +5,7 @@ namespace DiGi.Core.IO.File
 {
     public static partial class Query
     {
-        public static string Encode(string text)
+        public static string? Encode(string? text)
         {
             if(text == null)
             {
@@ -15,9 +15,9 @@ namespace DiGi.Core.IO.File
             return HttpUtility.UrlEncode(text);
         }
 
-        public static string Encode(this UniqueReference uniqueReference)
+        public static string? Encode(this UniqueReference? uniqueReference)
         {
-            if(uniqueReference == null)
+            if(uniqueReference is null)
             {
                 return null;
             }

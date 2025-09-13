@@ -7,6 +7,6 @@
 
     internal interface IValueFile<T> : IValueFile
     {
-        T Value { get; set; }
+        T? Value { get; set; }
     }
 }

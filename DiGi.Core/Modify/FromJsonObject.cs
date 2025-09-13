@@ -7,7 +7,7 @@ namespace DiGi.Core
 {
     public static partial class Modify
     {
-        public static bool FromJsonObject(this ISerializableObject serializableObject, JsonObject jsonObject)
+        public static bool FromJsonObject(this ISerializableObject? serializableObject, JsonObject? jsonObject)
         {
             if(serializableObject == null || jsonObject == null)
             {
@@ -19,7 +19,7 @@ namespace DiGi.Core
                 serializableObject.FromJsonObject(jsonObject);
             }
 
-            SerializationMethodCollection serializationMethodCollection = Settings.SerializationManager.GetSerializationMethodCollection(serializableObject);
+            SerializationMethodCollection? serializationMethodCollection = Settings.SerializationManager.GetSerializationMethodCollection(serializableObject);
             if (serializationMethodCollection == null )
             {
                 return false;

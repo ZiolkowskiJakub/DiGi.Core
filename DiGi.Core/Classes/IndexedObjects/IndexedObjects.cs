@@ -9,20 +9,20 @@ namespace DiGi.Core.Classes
 {
     public class IndexedObjects<T> : SerializableObject, IIndexedObjects<T>
     {
-        SortedDictionary<int, T> sortedDictionary = new SortedDictionary<int, T>();
+        private readonly SortedDictionary<int, T?> sortedDictionary = [];
 
         public IndexedObjects()
         {
 
         }
 
-        public IndexedObjects(JsonObject jsonObject)
+        public IndexedObjects(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public IndexedObjects(IEnumerable<T> values)
+        public IndexedObjects(IEnumerable<T>? values)
         {
             if (values != null)
             {
@@ -35,7 +35,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public IndexedObjects(IEnumerable<T> values, int startIndex)
+        public IndexedObjects(IEnumerable<T>? values, int startIndex)
         {
             if (values != null)
             {
@@ -48,24 +48,24 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public IndexedObjects(SortedDictionary<int, T> dictionary)
+        public IndexedObjects(SortedDictionary<int, T?>? sortedDictionary)
         {
-            if (dictionary != null)
+            if (sortedDictionary != null)
             {
-                foreach (KeyValuePair<int, T> keyValuePair in dictionary)
+                foreach (KeyValuePair<int, T?> keyValuePair in sortedDictionary)
                 {
-                    sortedDictionary[keyValuePair.Key] = keyValuePair.Value;
+                    this.sortedDictionary[keyValuePair.Key] = keyValuePair.Value;
                 }
             }
         }
 
-        public IndexedObjects(IndexedObjects<T> indexedObjects)
+        public IndexedObjects(IndexedObjects<T>? indexedObjects)
             : this(indexedObjects?.sortedDictionary)
         {
 
         }
 
-        public IndexedObjects(int startIndex, int count, T value)
+        public IndexedObjects(int startIndex, int count, T? value)
         {
             int end = startIndex + count;
             for (int i = startIndex; i < end; i++)
@@ -75,13 +75,13 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public T this[int index]
+        public T? this[int index]
         {
             get
             {
-                if (!sortedDictionary.TryGetValue(index, out T value))
+                if (!sortedDictionary.TryGetValue(index, out T? value))
                 {
-                    return default(T);
+                    return default;
                 }
 
                 return value;
@@ -93,11 +93,11 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public bool TryGetValue(int index, out T result)
+        public bool TryGetValue(int index, out T? result)
         {
             if (!sortedDictionary.ContainsKey(index))
             {
-                result = default(T);
+                result = default;
                 return false;
             }
 
@@ -105,24 +105,24 @@ namespace DiGi.Core.Classes
             return true;
         }
 
-        public T GetValue(int index)
+        public T? GetValue(int index)
         {
             return this[index];
         }
 
-        public List<T> GetValues(Range<int> range)
+        public List<T?>? GetValues(Range<int>? range)
         {
-            if (range == null)
+            if (range is null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<T?> result = [];
             for (int i = range.Min; i <= range.Max; i++)
             {
-                if (!sortedDictionary.TryGetValue(i, out T value))
+                if (!sortedDictionary.TryGetValue(i, out T? value))
                 {
-                    value = default(T);
+                    value = default;
                 }
 
                 result.Add(value);
@@ -131,9 +131,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public List<T> GetValues(Range<int> range, bool bounded)
+        public List<T?>? GetValues(Range<int>? range, bool bounded)
         {
-            if (range == null)
+            if (range is null)
             {
                 return null;
             }
@@ -143,16 +143,28 @@ namespace DiGi.Core.Classes
                 return GetValues(range);
             }
 
-            Range<int> range_Temp = new Range<int>(GetMinIndex().Value, GetMaxIndex().Value);
+            int? minIndex = GetMinIndex();
+            if(minIndex is null)
+            {
+                return null;
+            }
 
-            List<T> result = new List<T>();
+            int? maxIndex = GetMaxIndex();
+            if (maxIndex is null)
+            {
+                return null;
+            }
+
+            Range<int> range_Temp = new(minIndex.Value, maxIndex.Value);
+
+            List<T?> result = [];
             for (int i = range.Min; i <= range.Max; i++)
             {
                 int index = Query.BoundedIndex(range_Temp, i);
 
-                if (!sortedDictionary.TryGetValue(index, out T value))
+                if (!sortedDictionary.TryGetValue(index, out T? value))
                 {
-                    value = default(T);
+                    value = default;
                 }
 
                 result.Add(value);
@@ -161,13 +173,13 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public bool Add(int index, T value)
+        public bool Add(int index, T? value)
         {
             sortedDictionary[index] = value;
             return true;
         }
 
-        public bool Add(Range<int> range, T value)
+        public bool Add(Range<int> range, T? value)
         {
             for (int i = range.Min; i <= range.Max; i++)
             {
@@ -210,7 +222,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public IEnumerable<T> Values
+        public IEnumerable<T?>? Values
         {
             get
             {
@@ -219,7 +231,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public IEnumerable<int> Keys
+        public IEnumerable<int>? Keys
         {
             get
             {
@@ -229,7 +241,12 @@ namespace DiGi.Core.Classes
 
         public IEnumerator<T> GetEnumerator()
         {
-            return sortedDictionary?.Values?.GetEnumerator();
+            if(sortedDictionary?.Values is null)
+            {
+                return Enumerable.Empty<T>().GetEnumerator();
+            }
+
+            return sortedDictionary.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -239,7 +256,7 @@ namespace DiGi.Core.Classes
 
         public int? GetMinIndex()
         {
-            IEnumerable<int> keys = Keys;
+            IEnumerable<int>? keys = Keys;
             if (keys == null || keys.Count() == 0)
             {
                 return null;
@@ -250,7 +267,7 @@ namespace DiGi.Core.Classes
 
         public int? GetMaxIndex()
         {
-            IEnumerable<int> keys = Keys;
+            IEnumerable<int>? keys = Keys;
             if (keys == null || keys.Count() == 0)
             {
                 return null;
@@ -259,28 +276,43 @@ namespace DiGi.Core.Classes
             return keys.Max(x => x);
         }
 
-        public override bool FromJsonObject(JsonObject jsonObject)
+        public override bool FromJsonObject(JsonObject? jsonObject)
         {
+            if (jsonObject is null)
+            {
+                return false;
+            }
+
             bool result = base.FromJsonObject(jsonObject);
             if(!result)
             {
                 return result;
             }
 
-            if(jsonObject.TryGetPropertyValue("Values", out JsonNode jsonNode) && jsonNode != null)
+            if(jsonObject.TryGetPropertyValue("Values", out JsonNode? jsonNode) && jsonNode != null)
             {
                 JsonArray jsonArray = jsonNode.AsArray();
-                foreach(JsonObject jsonObject_Temp in jsonArray)
+                foreach(JsonNode? jsonNode_Temp in jsonArray)
                 {
-                    if(!jsonObject_Temp.TryGetPropertyValue("Index", out JsonNode jsonNode_Index) || !jsonObject_Temp.TryGetPropertyValue("Value", out JsonNode jsonNode_Value))
+                    if (jsonNode_Temp is not JsonObject jsonObject_Temp)
                     {
                         continue;
                     }
 
-                    object value = Query.Value(jsonNode_Value, typeof(T));
-                    if(value is T)
+                    if(!jsonObject_Temp.TryGetPropertyValue("Index", out JsonNode? jsonNode_Index) || !jsonObject_Temp.TryGetPropertyValue("Value", out JsonNode? jsonNode_Value))
                     {
-                        sortedDictionary[(int)jsonNode_Index] = (T)value;
+                        continue;
+                    }
+
+                    if(jsonNode_Index is null)
+                    {
+                        continue;
+                    }
+
+                    object? value = Query.Value(jsonNode_Value, typeof(T));
+                    if(value is T t)
+                    {
+                        sortedDictionary[(int)jsonNode_Index] = t;
                     }
                 }
             }
@@ -288,9 +320,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public override JsonObject ToJsonObject()
+        public override JsonObject? ToJsonObject()
         {
-            JsonObject result = base.ToJsonObject();
+            JsonObject? result = base.ToJsonObject();
             if(result == null)
             {
                 return null;
@@ -298,12 +330,14 @@ namespace DiGi.Core.Classes
 
             if(sortedDictionary != null)
             {
-                JsonArray jsonArray = new JsonArray();
-                foreach(KeyValuePair<int, T> keyValuePair in sortedDictionary)
+                JsonArray jsonArray = [];
+                foreach(KeyValuePair<int, T?> keyValuePair in sortedDictionary)
                 {
-                    JsonObject jsonObject_Temp = new JsonObject();
-                    jsonObject_Temp.Add("Index", keyValuePair.Key);
-                    jsonObject_Temp.Add("Value", Create.JsonNode(keyValuePair.Value));
+                    JsonObject jsonObject_Temp = new()
+                    {
+                        { "Index", keyValuePair.Key },
+                        { "Value", Create.JsonNode(keyValuePair.Value) }
+                    };
 
                     jsonArray.Add(jsonObject_Temp);
                 }

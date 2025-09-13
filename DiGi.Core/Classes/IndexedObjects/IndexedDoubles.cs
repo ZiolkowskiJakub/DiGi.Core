@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -43,7 +44,7 @@ namespace DiGi.Core.Classes
 
         public void Sum(IndexedDoubles indexedDoubles)
         {
-            IEnumerable<int> keys = indexedDoubles?.Keys;
+            IEnumerable<int>? keys = indexedDoubles?.Keys;
             if (keys == null)
             {
                 return;
@@ -51,7 +52,7 @@ namespace DiGi.Core.Classes
 
             foreach (int index in keys)
             {
-                double value = indexedDoubles[index];
+                double value = indexedDoubles![index];
                 if (double.IsNaN(value) || value == 0)
                 {
                     continue;
@@ -63,9 +64,14 @@ namespace DiGi.Core.Classes
 
         public int GetMaxValueIndex()
         {
-            IEnumerable<int> keys = Keys;
-
             int result = -1;
+
+            IEnumerable<int>? keys = Keys;
+            if (keys == null || keys.Count() == 0)
+            {
+                return result;
+            }
+
             double max = double.MinValue;
             foreach (int key in keys)
             {
@@ -87,9 +93,14 @@ namespace DiGi.Core.Classes
 
         public int GetMinValueIndex()
         {
-            IEnumerable<int> keys = Keys;
-
             int result = -1;
+
+            IEnumerable<int>? keys = Keys;
+            if (keys == null || keys.Count() == 0)
+            {
+                return result;
+            }
+
             double min = double.MaxValue;
             foreach (int key in keys)
             {
@@ -133,7 +144,7 @@ namespace DiGi.Core.Classes
 
         public double GetSum()
         {
-            IEnumerable<int> keys = Keys;
+            IEnumerable<int>? keys = Keys;
             if (keys == null)
             {
                 return double.NaN;

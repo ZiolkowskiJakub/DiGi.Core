@@ -4,7 +4,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static object Default(this Type type)
+        public static object? Default(this Type? type)
         {
             if (type != null && type.IsValueType && Nullable.GetUnderlyingType(type) == null)
             {

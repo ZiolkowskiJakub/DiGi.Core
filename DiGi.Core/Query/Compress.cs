@@ -14,7 +14,7 @@ namespace DiGi.Core
         /// </summary>
         /// <param name="string">String to be compressed</param>
         /// <returns>Compressed string</returns>
-        public static string Compress(this string @string)
+        public static string? Compress(this string? @string)
         {
             if (@string == null)
             {
@@ -39,9 +39,9 @@ namespace DiGi.Core
             return System.Convert.ToBase64String(gZipBuffer);
         }
 
-        public static string Compress(this ISerializableObject serializableObject)
+        public static string? Compress(this ISerializableObject? serializableObject)
         {
-            string @string = Convert.ToSystem_String(serializableObject);
+            string? @string = Convert.ToSystem_String(serializableObject);
             if (string.IsNullOrEmpty(@string))
             {
                 return @string;
@@ -50,9 +50,9 @@ namespace DiGi.Core
             return Compress(@string);
         }
 
-        public static string Compress<T>(this IEnumerable<T> serializableObject) where T : ISerializableObject
+        public static string? Compress<T>(this IEnumerable<T>? serializableObject) where T : ISerializableObject
         {
-            string json = Convert.ToSystem_String(serializableObject);
+            string? json = Convert.ToSystem_String(serializableObject);
             if (string.IsNullOrEmpty(json))
             {
                 return json;

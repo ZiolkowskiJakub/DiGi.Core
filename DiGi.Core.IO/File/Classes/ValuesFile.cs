@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using DiGi.Core.IO.File.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.Linq;
 
 namespace DiGi.Core.IO.File.Classes
 {
@@ -14,31 +15,46 @@ namespace DiGi.Core.IO.File.Classes
         private bool disposed = false;
 
         [JsonInclude, JsonPropertyName("Values")]
-        private List<TSerializableObject> values;
+        private List<TSerializableObject?>? values;
 
-        public ValuesFile(string path)
+        public ValuesFile(string? path)
             : base(path)
         {
 
         }
 
-        public ValuesFile(JsonObject jsonObject)
+        public ValuesFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ValuesFile(ValuesFile<TSerializableObject> valuesFile)
+        public ValuesFile(ValuesFile<TSerializableObject>? valuesFile)
             : base(valuesFile)
         {
             if (valuesFile != null)
             {
-                values = valuesFile.values.ConvertAll(x => x == null ? default : x.Clone<TSerializableObject>());
+                if(valuesFile.values != null)
+                {
+                    values = [];
+                    foreach(TSerializableObject? serializableObject in valuesFile.values)
+                    {
+                        if(serializableObject is null)
+                        {
+                            values.Add(default);
+                            continue;
+                        }
+                        else
+                        {
+                            values.Add(serializableObject.Clone<TSerializableObject>());
+                        }
+                    }
+                }
             }
         }
 
         [JsonIgnore]
-        public IEnumerable<TSerializableObject> Values
+        public IEnumerable<TSerializableObject?>? Values
         {
             get
             {
@@ -47,7 +63,7 @@ namespace DiGi.Core.IO.File.Classes
 
             set
             {
-                this.values = value == null ? null : new List<TSerializableObject>(value);
+                this.values = value == null ? null : [.. value];
             }
         }
 
@@ -59,7 +75,7 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            string path = Path;
+            string? path = Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
@@ -70,18 +86,23 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            values = new List<TSerializableObject>();
-            using (ZipArchive zipArchive = ZipFile.OpenRead(path))
+            values = [];
+            using ZipArchive zipArchive = ZipFile.OpenRead(path);
+
+            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Values);
+            if (zipArchiveEntry != null)
             {
-                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Values);
-                if (zipArchiveEntry != null)
+                using StreamReader streamReader = new(zipArchiveEntry.Open());
+
+                JsonNode? jsonNode = JsonNode.Parse(streamReader.ReadToEnd());
+                if (jsonNode != null)
                 {
-                    using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
+                    if(jsonNode is JsonArray jsonArray)
                     {
-                        JsonNode jsonNode = JsonNode.Parse(streamReader.ReadToEnd());
-                        if (jsonNode != null)
+                        values = [];
+                        foreach (JsonObject? jsonObject in jsonArray.Cast<JsonObject?>())
                         {
-                            values = Core.Create.SerializableObjects<TSerializableObject>((JsonArray)jsonNode);
+                            values.Add(Core.Create.SerializableObject<TSerializableObject>(jsonObject));
                         }
                     }
                 }
@@ -98,32 +119,24 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            string path = Path;
-
-
+            string? path = Path;
 
             using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update))
             {
                 ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Values);
-                if (zipArchiveEntry != null)
-                {
-                    zipArchiveEntry.Delete();
-                }
+                zipArchiveEntry?.Delete();
 
                 if (values != null)
                 {
-                    JsonNode jsonNode = Core.Create.JsonNode(values);
+                    JsonNode? jsonNode = Core.Create.JsonNode(values);
                     if (jsonNode != null)
                     {
                         zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Values);
 
-                        using (Stream stream = zipArchiveEntry.Open())
-                        {
-                            using (StreamWriter streamWriter = new StreamWriter(stream))
-                            {
-                                streamWriter.Write(jsonNode.ToString());
-                            }
-                        }
+                        using Stream stream = zipArchiveEntry.Open();
+                        using StreamWriter streamWriter = new(stream);
+
+                        streamWriter.Write(jsonNode.ToString());
                     }
                 }
             }
@@ -145,7 +158,7 @@ namespace DiGi.Core.IO.File.Classes
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
 
-                Values = null;
+                //Values = null;
 
                 disposed = true;
             }
@@ -154,19 +167,19 @@ namespace DiGi.Core.IO.File.Classes
 
     public class ValuesFile : ValuesFile<ISerializableObject>
     {
-        public ValuesFile(string path)
+        public ValuesFile(string? path)
             : base(path)
         {
 
         }
 
-        public ValuesFile(JsonObject jsonObject)
+        public ValuesFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ValuesFile(ValuesFile valuesFile)
+        public ValuesFile(ValuesFile? valuesFile)
             : base(valuesFile)
         {
 

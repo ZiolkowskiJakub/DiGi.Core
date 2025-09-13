@@ -7,11 +7,11 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static List<MethodInfo> ExtensionMethodInfos(Type type = null)
+        public static List<MethodInfo> ExtensionMethodInfos(Type? type = null)
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            List<MethodInfo> result = new List<MethodInfo>();
+            List<MethodInfo> result = [];
 
             foreach (Assembly assembly in assemblies)
             {
@@ -20,13 +20,14 @@ namespace DiGi.Core
                     continue;
                 }
 
-                Type[] types_Assembly = null;
+                Type[]? types_Assembly = null;
                 try
                 {
                     types_Assembly = assembly.GetTypes();
                 }
                 catch (Exception exception)
                 {
+                    string message = exception.Message;
                     continue;
                 }
 

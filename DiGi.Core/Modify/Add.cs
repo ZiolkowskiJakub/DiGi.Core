@@ -13,7 +13,7 @@ namespace DiGi.Core
         /// <param name="item">Item to be added</param>
         /// <param name="func">Condition</param>
         /// <returns>True if item has been added</returns>
-        public static bool Add<T>(this List<T> list, T item, Func<T, bool> func)
+        public static bool Add<T>(this List<T>? list, T item, Func<T, bool> func)
         {
             if (list == null)
             {

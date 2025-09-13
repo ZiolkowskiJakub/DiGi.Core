@@ -7,25 +7,25 @@ namespace DiGi.Core.Relation.Classes
 {
     public class OneToOneDirectionalRelation : OneToOneRelation<IUniqueObject, IUniqueObject>
     {
-        public OneToOneDirectionalRelation(UniqueReference uniqueReference_From, UniqueReference uniqueReference_To)
+        public OneToOneDirectionalRelation(UniqueReference? uniqueReference_From, UniqueReference? uniqueReference_To)
             :base(uniqueReference_From, uniqueReference_To)
         {
 
         }
 
-        public OneToOneDirectionalRelation(OneToOneDirectionalRelation oneToOneDirectionalRelation)
+        public OneToOneDirectionalRelation(OneToOneDirectionalRelation? oneToOneDirectionalRelation)
             : base(oneToOneDirectionalRelation)
         {
 
         }
 
-        public OneToOneDirectionalRelation(IUniqueObject uniqueObject_From, IUniqueObject uniqueObject_To)
+        public OneToOneDirectionalRelation(IUniqueObject? uniqueObject_From, IUniqueObject? uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
 
         }
 
-        public OneToOneDirectionalRelation(JsonObject jsonObject)
+        public OneToOneDirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -44,25 +44,25 @@ namespace DiGi.Core.Relation.Classes
     /// <typeparam name="YUniqueObject">Related Unique Object</typeparam>
     public class OneToOneDirectionalRelation<XUniqueObject, YUniqueObject> : OneToOneRelation<XUniqueObject, YUniqueObject>, IDirectionalRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
-        public OneToOneDirectionalRelation(UniqueReference uniqueReference_From, UniqueReference uniqueReference_To)
+        public OneToOneDirectionalRelation(UniqueReference? uniqueReference_From, UniqueReference? uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {
 
         }
 
-        public OneToOneDirectionalRelation(OneToOneDirectionalRelation<XUniqueObject, YUniqueObject> oneToOneDirectionalRelation)
+        public OneToOneDirectionalRelation(OneToOneDirectionalRelation<XUniqueObject, YUniqueObject>? oneToOneDirectionalRelation)
             : base(oneToOneDirectionalRelation)
         {
 
         }
 
-        public OneToOneDirectionalRelation(XUniqueObject uniqueObject_From, YUniqueObject uniqueObject_To)
+        public OneToOneDirectionalRelation(XUniqueObject? uniqueObject_From, YUniqueObject? uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
 
         }
 
-        public OneToOneDirectionalRelation(JsonObject jsonObject)
+        public OneToOneDirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

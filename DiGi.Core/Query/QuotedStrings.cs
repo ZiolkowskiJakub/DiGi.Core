@@ -5,11 +5,16 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static List<string> QuotedStrings(string text, string separator = ",")
+        public static List<string>? QuotedStrings(string? text, string separator = ",")
         {
-            var fields = new List<string>();
+            if(text == null)
+            {
+                return null;
+            }
+
+            List<string> fields = [];
             bool inQuotes = false;
-            var field = new StringBuilder();
+            StringBuilder stringBuilder = new ();
             int separatorLength = separator.Length;
 
             for (int i = 0; i < text.Length; i++)
@@ -18,7 +23,7 @@ namespace DiGi.Core
 
                 if (c == '"' && (i + 1 < text.Length && text[i + 1] == '"')) // Escaped quote
                 {
-                    field.Append('"');
+                    stringBuilder.Append('"');
                     i++; // Skip the next quote
                 }
                 else if (c == '"') // Start or end of quoted field
@@ -27,19 +32,19 @@ namespace DiGi.Core
                 }
                 else if (!inQuotes && i + separatorLength <= text.Length && text.Substring(i, separatorLength) == separator) // Field delimiter
                 {
-                    fields.Add(field.ToString());
-                    field.Clear();
+                    fields.Add(stringBuilder.ToString());
+                    stringBuilder.Clear();
                     i += separatorLength - 1; // Skip the separator
                 }
                 else // Regular character
                 {
-                    field.Append(c);
+                    stringBuilder.Append(c);
                 }
             }
 
-            if (field.Length > 0)
+            if (stringBuilder.Length > 0)
             {
-                fields.Add(field.ToString()); // Add the last field
+                fields.Add(stringBuilder.ToString()); // Add the last field
             }
 
             return fields;

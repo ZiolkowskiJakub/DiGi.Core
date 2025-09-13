@@ -4,10 +4,10 @@ namespace DiGi.Core.Interfaces
 {
     public interface ISerializableObject : IObject
     {
-        JsonObject ToJsonObject();
+        JsonObject? ToJsonObject();
 
-        bool FromJsonObject(JsonObject jsonObject);
+        bool FromJsonObject(JsonObject? jsonObject);
 
-        ISerializableObject Clone();
+        ISerializableObject? Clone();
     }
 }

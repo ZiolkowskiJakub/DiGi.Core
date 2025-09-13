@@ -18,13 +18,12 @@ namespace DiGi.Core
                 return System.Text.Json.JsonValueKind.String;
             }
 
-            if(value is bool)
+            if (value is bool value_Temp)
             {
-                bool value_Temp = (bool)value;
                 return value_Temp ? System.Text.Json.JsonValueKind.True : System.Text.Json.JsonValueKind.False;
             }
 
-            if(value is JsonObject)
+            if (value is JsonObject)
             {
                 return System.Text.Json.JsonValueKind.Object;
             }

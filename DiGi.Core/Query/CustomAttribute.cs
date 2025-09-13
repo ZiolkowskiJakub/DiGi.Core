@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static T CustomAttribute<T>(Enum @enum) where T : Attribute
+        public static TAttribute? CustomAttribute<TAttribute>(Enum? @enum) where TAttribute : Attribute
         {
             if (@enum == null)
             {
@@ -18,10 +18,10 @@ namespace DiGi.Core
                 return default;
             }
 
-            return CustomAttribute<T>(memberInfos[0]);
+            return CustomAttribute<TAttribute>(memberInfos[0]);
         }
 
-        public static T CustomAttribute<T>(Type type, string text) where T : Attribute
+        public static TAttribute? CustomAttribute<TAttribute>(Type? type, string? text) where TAttribute : Attribute
         {
             if (type == null || string.IsNullOrEmpty(text))
             {
@@ -34,10 +34,10 @@ namespace DiGi.Core
                 return default;
             }
 
-            return CustomAttribute<T>(memberInfos[0]);
+            return CustomAttribute<TAttribute>(memberInfos[0]);
         }
 
-        public static T CustomAttribute<T>(this MemberInfo memberInfo) where T : Attribute
+        public static TAttribute? CustomAttribute<TAttribute>(this MemberInfo? memberInfo) where TAttribute : Attribute
         {
             if (memberInfo == null)
             {
@@ -52,10 +52,12 @@ namespace DiGi.Core
 
             foreach (Attribute attribute in attributes)
             {
-                if (attribute is T)
+                if (attribute is not TAttribute)
                 {
-                    return (T)attribute;
+                    continue;
                 }
+
+                return (TAttribute)attribute;
             }
 
             return default;

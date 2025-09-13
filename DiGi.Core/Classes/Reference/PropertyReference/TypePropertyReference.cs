@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
     public class TypePropertyReference : PropertyReference<TypeReference>, ITypeRelatedSerializableReference
     {
         [JsonIgnore]
-        public string FullTypeName
+        public string? FullTypeName
         {
             get
             {

@@ -8,25 +8,25 @@ namespace DiGi.Core.Relation.Classes
 {
     public class OneToManyDirectionalRelation : OneToManyRelation<IUniqueObject, IUniqueObject>
     {
-        public OneToManyDirectionalRelation(UniqueReference uniqueReference_From, IEnumerable<UniqueReference> uniqueReferences_To)
+        public OneToManyDirectionalRelation(UniqueReference? uniqueReference_From, IEnumerable<UniqueReference>? uniqueReferences_To)
             :base(uniqueReference_From, uniqueReferences_To)
         {
 
         }
 
-        public OneToManyDirectionalRelation(OneToManyDirectionalRelation oneToManyDirectionalRelation)
+        public OneToManyDirectionalRelation(OneToManyDirectionalRelation? oneToManyDirectionalRelation)
             : base(oneToManyDirectionalRelation)
         {
 
         }
 
-        public OneToManyDirectionalRelation(IUniqueObject uniqueObject_From, IEnumerable<IUniqueObject> uniqueObjects_To)
+        public OneToManyDirectionalRelation(IUniqueObject? uniqueObject_From, IEnumerable<IUniqueObject>? uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
 
         }
 
-        public OneToManyDirectionalRelation(JsonObject jsonObject)
+        public OneToManyDirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -40,25 +40,25 @@ namespace DiGi.Core.Relation.Classes
     /// <typeparam name="YUniqueObject">Related Unique Object</typeparam>
     public class OneToManyDirectionalRelation<XUniqueObject, YUniqueObject> : OneToManyRelation<XUniqueObject, YUniqueObject>, IDirectionalRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
-        public OneToManyDirectionalRelation(UniqueReference uniqueReference_From, IEnumerable<UniqueReference> uniqueReferences_To)
+        public OneToManyDirectionalRelation(UniqueReference? uniqueReference_From, IEnumerable<UniqueReference>? uniqueReferences_To)
             : base(uniqueReference_From, uniqueReferences_To)
         {
 
         }
 
-        public OneToManyDirectionalRelation(OneToManyDirectionalRelation<XUniqueObject, YUniqueObject> oneToManyDirectionalRelation)
+        public OneToManyDirectionalRelation(OneToManyDirectionalRelation<XUniqueObject, YUniqueObject>? oneToManyDirectionalRelation)
             : base(oneToManyDirectionalRelation)
         {
 
         }
 
-        public OneToManyDirectionalRelation(XUniqueObject uniqueObject_From, IEnumerable<YUniqueObject> uniqueObjects_To)
+        public OneToManyDirectionalRelation(XUniqueObject? uniqueObject_From, IEnumerable<YUniqueObject>? uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
 
         }
 
-        public OneToManyDirectionalRelation(JsonObject jsonObject)
+        public OneToManyDirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

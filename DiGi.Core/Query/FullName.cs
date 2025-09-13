@@ -4,7 +4,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static string FullName(this Enum @enum)
+        public static string? FullName(this Enum? @enum)
         {
             if(@enum == null)
             {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace DiGi.Core.IO
 {
     public static partial class Modify
     {
-        public static HashSet<int> UpdateLines(string path, Dictionary<int, string> lineDictionary)
+        public static HashSet<int>? UpdateLines(string? path, Dictionary<int, string?>? lineDictionary)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path) || lineDictionary == null)
             {
@@ -16,38 +15,33 @@ namespace DiGi.Core.IO
             string path_Temp = Path.GetTempFileName();
 
 
-            HashSet<int> result = null;
+            HashSet<int>? result = null;
 
             try
             {
-                
-                using (StreamReader streamReader = new StreamReader(path))
+
+                using StreamReader streamReader = new(path);
+                using StreamWriter streamWriter = new(path_Temp);
+                result = [];
+
+                int index = 0;
+
+                string? line;
+                while ((line = streamReader.ReadLine()) != null)
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(path_Temp))
+                    if (lineDictionary.TryGetValue(index, out string? line_Temp))
                     {
-                        result = new HashSet<int>();
-
-                        int index = 0;
-
-                        string line;
-                        while ((line = streamReader.ReadLine()) != null)
-                        {
-                            if (lineDictionary.TryGetValue(index, out string line_Temp))
-                            {
-                                line = line_Temp;
-                                result.Add(index);
-                            }
-
-                            streamWriter.WriteLine(line);
-                            index++;
-                        }
+                        line = line_Temp;
+                        result.Add(index);
                     }
+
+                    streamWriter.WriteLine(line);
+                    index++;
                 }
             }
-            catch (Exception exception)
+            catch
             {
                 System.IO.File.Delete(path_Temp);
-;
             }
 
             if (System.IO.File.Exists(path_Temp))

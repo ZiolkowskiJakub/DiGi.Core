@@ -6,14 +6,14 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Create
     {
-        public static List<Type> Types(this JsonArray jsonArray)
+        public static List<Type>? Types(this JsonArray? jsonArray)
         {
             if(jsonArray == null)
             {
                 return null;
             }
 
-            List<Type> result = new List<Type>();
+            List<Type> result = [];
             foreach(JsonNode? jsonNode in jsonArray)
             {
                 if(jsonNode == null)
@@ -32,7 +32,7 @@ namespace DiGi.Core.Parameter
                     continue;
                 }
 
-                Type type = Core.Query.Type(fullTypeName);
+                Type? type = Core.Query.Type(fullTypeName);
                 if(type == null)
                 {
                     continue;

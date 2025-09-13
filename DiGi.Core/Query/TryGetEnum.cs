@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool TryGetEnum(string text, out Enum @enum)
+        public static bool TryGetEnum(string? text, out Enum? @enum)
         {
             @enum = default;
             if(string.IsNullOrWhiteSpace(text))
@@ -13,13 +13,13 @@ namespace DiGi.Core
                 return false;
             }
 
-            string[] values = text.Split(':');
+            string[] values = text!.Split(':');
             if(values.Length < 2)
             {
                 return false;
             }
 
-            Type type = Type(values[0]);
+            Type? type = Type(values[0]);
             if(type == null)
             {
                 return false;
@@ -28,7 +28,7 @@ namespace DiGi.Core
             return TryGetEnum(values[1], type, out @enum);
         }
 
-        public static bool TryGetEnum(this string text, Type type, out Enum @enum)
+        public static bool TryGetEnum(this string? text, Type? type, out Enum? @enum)
         {
             @enum = null;
 
@@ -52,12 +52,17 @@ namespace DiGi.Core
                 }
             }
 
-            List<string> texts = new List<string>();
-            string text_Temp = null;
+            List<string> texts = [];
+            string? text_Temp;
 
             foreach (Enum @enum_Temp in array)
             {
                 text_Temp = @enum_Temp.Description();
+                if(text_Temp == null)
+                {
+                    continue;
+                }
+
                 texts.Add(text_Temp);
                 if (text_Temp.Equals(text))
                 {
@@ -67,7 +72,7 @@ namespace DiGi.Core
 
             }
 
-            text_Temp = text.ToUpper().Replace(" ", string.Empty);
+            text_Temp = text?.ToUpper().Replace(" ", string.Empty);
             for (int i = 0; i < array.Length; i++)
             {
                 if (texts[i].ToUpper().Replace(" ", string.Empty).Equals(text_Temp))
@@ -89,21 +94,21 @@ namespace DiGi.Core
             return false;
         }
 
-        public static bool TryGetEnum<T>(this string text, out T @enum) where T : Enum
+        public static bool TryGetEnum<TEnum>(this string? text, out TEnum? @enum) where TEnum : Enum
         {
             @enum = default;
-            if (!TryGetEnum(text, typeof(T), out Enum @enum_Temp))
+            if (!TryGetEnum(text, typeof(TEnum), out Enum? @enum_Temp))
             {
                 return false;
             }
 
-            if (enum_Temp is T)
+            if (enum_Temp is not TEnum)
             {
-                @enum = (T)enum_Temp;
-                return true;
+                return false;
             }
 
-            return false;
+            @enum = (TEnum)enum_Temp;
+            return true;
         }
     }
 

@@ -7,42 +7,40 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
-        public static List<T> ToDiGi<T>(string json) where T : ISerializableObject
+        public static List<T>? ToDiGi<T>(string? json) where T : ISerializableObject
         {
             if (string.IsNullOrWhiteSpace(json))
             {
                 return null;
             }
 
-            JsonNode jsonNode = JsonNode.Parse(json);
+            JsonNode? jsonNode = JsonNode.Parse(json!);
             if(jsonNode == null)
             {
                 return null;
             }
 
-            if(jsonNode is JsonObject)
+            if(jsonNode is JsonObject jsonObject)
             {
-                T serializableObject = Create.SerializableObject<T>((JsonObject)jsonNode);
+                T? serializableObject = Create.SerializableObject<T>(jsonObject);
                 if(serializableObject == null)
                 {
                     return null;
                 }
 
-                return new List<T> { serializableObject };
+                return [serializableObject];
             }
 
-            List<T> result = null;
+            List<T>? result = null;
 
-            if(jsonNode is JsonArray)
+            if(jsonNode is JsonArray jsonArray)
             {
-                result = new List<T>();
-
-                JsonArray jsonArray = (JsonArray)jsonNode;
-                foreach(object @object in jsonArray)
+                result = [];
+                foreach(object? @object in jsonArray)
                 {
-                    if(@object is JsonObject)
+                    if(@object is JsonObject jsonObject_Temp)
                     {
-                        T serializableObject = Create.SerializableObject<T>((JsonObject)@object);
+                        T? serializableObject = Create.SerializableObject<T>(jsonObject_Temp);
                         if (serializableObject == null)
                         {
                             continue;
@@ -56,7 +54,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<T> ToDiGi<T>(Classes.Path? path) where T : ISerializableObject
+        public static List<T>? ToDiGi<T>(Classes.Path? path) where T : ISerializableObject
         {
             if(path == null || path.Value == null || !path.HasValue || !path.Value.IsValid())
             {
@@ -79,7 +77,7 @@ namespace DiGi.Core
             return ToDiGi<T>(json);
         }
 
-        public static List<T> ToDiGi<T>(byte[] bytes) where T : ISerializableObject
+        public static List<T>? ToDiGi<T>(byte[]? bytes) where T : ISerializableObject
         {
             if(bytes == null)
             {

@@ -5,14 +5,14 @@ namespace DiGi.Core
 {
     public static partial class Modify
     {
-        public static void Sort<T>(this List<T> list, Func<T, IComparable> func)
+        public static void Sort<T>(this List<T>? list, Func<T, IComparable>? func)
         {
             if (list == null || func == null)
             {
                 return;
             }
 
-            List<Tuple<T, IComparable>> tuples = new List<Tuple<T, IComparable>>();
+            List<Tuple<T, IComparable>> tuples = [];
             for (int i = 0; i < list.Count; i++)
             {
                 tuples.Add(new Tuple<T, IComparable>(list[i], func.Invoke(list[i])));

@@ -3,15 +3,17 @@ using DiGi.Core.Parameter.Enums;
 using System;
 using System.Linq;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
     public class ObjectParameterValue : ParameterValue
     {
-        private bool inheritance = true;
-        private Type[] types;
+        [JsonInclude, JsonPropertyName("Inheritance")]
+        private readonly bool inheritance = true;
 
-        public override ParameterType ParameterType => ParameterType.Object;
+        [JsonInclude, JsonPropertyName("Types")]
+        private readonly Type[]? types;
 
         public ObjectParameterValue()
             : base()
@@ -26,16 +28,16 @@ namespace DiGi.Core.Parameter.Classes
             this.inheritance = inheritance;
         }
 
-        public ObjectParameterValue(JsonObject jsonObject)
+        public ObjectParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ObjectParameterValue(ObjectParameterValue objectParameterValue)
+        public ObjectParameterValue(ObjectParameterValue? objectParameterValue)
             : base(objectParameterValue)
         {
-            if(objectParameterValue != null)
+            if (objectParameterValue != null)
             {
                 inheritance = objectParameterValue.inheritance;
                 types = objectParameterValue.types?.ToArray();
@@ -43,72 +45,23 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
-        public override ISerializableObject Clone()
+        [JsonIgnore]
+        public override ParameterType ParameterType => ParameterType.Object;
+        
+        public override ISerializableObject? Clone()
         {
             return new ObjectParameterValue(this);
         }
 
-        public override bool FromJsonObject(JsonObject jsonObject)
-        {
-            bool result = base.FromJsonObject(jsonObject);
-            if(!result)
-            {
-                return result;
-            }
-
-            if(jsonObject.ContainsKey("Inheritance"))
-            {
-                inheritance = (bool)jsonObject["Inheritance"];
-            }
-
-            if (jsonObject.ContainsKey("Types"))
-            {
-                types = Create.Types((JsonArray)jsonObject["Types"])?.ToArray();
-            }
-
-            return result;
-        }
-
-        public override JsonObject ToJsonObject()
-        {
-            JsonObject result = base.ToJsonObject();
-            if(result == null)
-            {
-                return null;
-            }
-
-            if(!inheritance)
-            {
-                result["Inheritance"] = inheritance;
-            }
-
-            if(types != null)
-            {
-                result["Types"] = Create.JsonArray(types);
-            }
-
-            return result;
-        }
-
-        public override bool TryConvert(object value_In, out object value_Out)
-        {
-            if (!base.TryConvert(value_In, out value_Out))
-            {
-                return false;
-            }
-
-            return IsValid(value_Out);
-        }
-
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             bool result = base.IsValid(value);
-            if(!result)
+            if (!result)
             {
                 return result;
             }
 
-            Type type = value?.GetType();
+            Type? type = value?.GetType();
             if (type == null)
             {
                 return true;
@@ -138,6 +91,16 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             return result;
+        }
+
+        public override bool TryConvert(object? value_In, out object? value_Out)
+        {
+            if (!base.TryConvert(value_In, out value_Out))
+            {
+                return false;
+            }
+
+            return IsValid(value_Out);
         }
     }
 }

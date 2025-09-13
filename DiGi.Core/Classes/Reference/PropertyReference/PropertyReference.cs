@@ -6,30 +6,30 @@ namespace DiGi.Core.Classes
     public abstract class PropertyReference : SerializableReference
     {
         [JsonInclude, JsonPropertyName("PropertyName")]
-        private string propertyName;
+        private readonly string? propertyName;
 
-        public PropertyReference(string propertyName)
+        public PropertyReference(string? propertyName)
         {
             this.propertyName = propertyName;
         }
 
-        public PropertyReference(JsonObject jsonObject)
+        public PropertyReference(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public PropertyReference(PropertyReference propertyReference)
+        public PropertyReference(PropertyReference? propertyReference)
             : base(propertyReference)
         {
-            if(propertyReference != null)
+            if(propertyReference is not null)
             {
                 propertyName = propertyReference.PropertyName;
             }
         }
 
         [JsonIgnore]
-        public string PropertyName
+        public string? PropertyName
         {
             get
             {
@@ -41,9 +41,9 @@ namespace DiGi.Core.Classes
     public abstract class PropertyReference<USerializableReference> : PropertyReference where USerializableReference : SerializableReference
     {
         [JsonInclude, JsonPropertyName("Reference")]
-        private USerializableReference reference;
+        private readonly USerializableReference? reference;
 
-        public PropertyReference(USerializableReference reference, string propertyName)
+        public PropertyReference(USerializableReference? reference, string? propertyName)
             :base(propertyName)
         {
             this.reference = reference;
@@ -55,10 +55,10 @@ namespace DiGi.Core.Classes
 
         }
 
-        public PropertyReference(PropertyReference<USerializableReference> propertyReference)
+        public PropertyReference(PropertyReference<USerializableReference>? propertyReference)
             : base(propertyReference)
         {
-            if (propertyReference != null)
+            if (propertyReference is not null)
             {
                 reference = propertyReference.reference;
             }
@@ -66,7 +66,7 @@ namespace DiGi.Core.Classes
 
 
         [JsonIgnore]
-        public USerializableReference Reference
+        public USerializableReference? Reference
         {
             get
             {
@@ -74,9 +74,9 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
-            return string.Format("{0}{1}", reference.ToString(), Constans.Reference.Separator) + string.Format(Constans.Reference.Format.Property, PropertyName);
+            return string.Format("{0}{1}", reference?.ToString(), Constans.Reference.Separator) + string.Format(Constans.Reference.Format.Property, PropertyName);
         }
     }
 }

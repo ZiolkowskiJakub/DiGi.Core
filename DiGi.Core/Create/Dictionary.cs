@@ -6,14 +6,14 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static IDictionary Dictionary(Type key, Type value)
+        public static IDictionary? Dictionary(Type? key, Type? value)
         {
             if(key == null || value == null)
             {
                 return null;
             }
 
-            return (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(new[] { key, value }));
+            return (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType([key, value]));
         }
     }
 }

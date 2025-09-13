@@ -5,16 +5,16 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static List<string> Directories(string directory)
+        public static List<string>? Directories(string? directory)
         {
             if(string.IsNullOrWhiteSpace(directory))
             {
                 return null;
             }
 
-            List<string> result = new List<string>();
+            List<string> result = [];
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(directory);
+            DirectoryInfo directoryInfo = new(directory);
             result.Add(directoryInfo.ToString());
 
             while (directoryInfo != null)
@@ -29,7 +29,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<string> Directories(DirectoryInfo directoryInfo)
+        public static List<string>? Directories(DirectoryInfo? directoryInfo)
         {
             if(directoryInfo == null)
             {

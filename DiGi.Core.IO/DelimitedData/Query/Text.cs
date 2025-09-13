@@ -5,16 +5,16 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Query
     {
-        public static string Text(this IEnumerable<string> values, char separator)
+        public static string? Text(this IEnumerable<string?>? values, char separator)
         {
             if (values == null)
             {
                 return null;
             }
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             bool firstColumn = true;
-            foreach (string value in values)
+            foreach (string? value in values)
             {
                 // Add separator if this isn't the first value
                 if (!firstColumn)
@@ -28,7 +28,7 @@ namespace DiGi.Core.IO.DelimitedData
                 {
                     stringBuilder.Append(string.Empty);
                 }
-                else if (value.IndexOfAny(new char[] { '"', separator, '\n' }) != -1)
+                else if (value.IndexOfAny(['"', separator, '\n']) != -1)
                 {
                     stringBuilder.AppendFormat("\"{0}\"", value.Replace("\"", "\"\""));
                 }

@@ -7,23 +7,23 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Modify
     {
-        public static bool Append(string path, Table.Classes.Table table, char separator, Func<object, string> func = null)
+        public static bool Append(string? path, Table.Classes.Table? table, char separator, Func<object?, string?>? func = null)
         {
             if (table == null || string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
 
-            IEnumerable<Column> columns_Table = table.Columns;
+            IEnumerable<Column>? columns_Table = table.Columns;
             if (columns_Table == null)
             {
                 return false;
             }
 
-            List<Column> columns = null;
+            List<Column>? columns = null;
             if (System.IO.File.Exists(path))
             {
-                List<string> lines = IO.Query.Lines(path, 1);
+                List<string>? lines = IO.Query.Lines(path, 1);
                 if (lines != null && lines.Count != 0)
                 {
                     columns = Create.Columns(Query.Values(lines[0], separator));
@@ -33,7 +33,7 @@ namespace DiGi.Core.IO.DelimitedData
 
             if (columns == null || columns.Count == 0)
             {
-                columns = new List<Column>(columns_Table);
+                columns = [.. columns_Table];
 
                 System.IO.File.AppendAllText(path, columns_Table.ToList().ConvertAll(x => x?.Name).Text(separator) + '\n');
             }
@@ -62,28 +62,30 @@ namespace DiGi.Core.IO.DelimitedData
 
                 if (updated)
                 {
-                    IO.Modify.UpdateLine(path, 0, columns.ToList().ConvertAll(x => x?.Name).Text(separator));
+                    IO.Modify.UpdateLine(path, 0, columns?.ToList().ConvertAll(x => x?.Name).Text(separator));
                 }
             }
 
-            Func<object, string> func_Temp = func;
-            if (func_Temp == null)
+            if(columns == null)
             {
-                func_Temp = x => x?.ToString();
+                return false;
             }
+
+            Func<object?, string?>? func_Temp = func;
+            func_Temp ??= x => x?.ToString();
 
             IEnumerable<Row> rows = table.Rows;
             if (rows != null)
             {
                 foreach (Row row in rows)
                 {
-                    List<string> values = new List<string>();
+                    List<string> values = [];
                     foreach (Column column in columns)
                     {
-                        values.Add(func_Temp(row[column.Index]));
+                        values.Add(func_Temp(row[column.Index]) ?? string.Empty);
                     }
 
-                    System.IO.File.AppendAllText(path, values.Text(separator) + '\n');
+                    System.IO.File.AppendAllText(path, values?.Text(separator) + '\n');
                 }
             }
 

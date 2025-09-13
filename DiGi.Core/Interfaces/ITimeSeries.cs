@@ -4,6 +4,6 @@ namespace DiGi.Core.Interfaces
 {
     public interface ITimeSeries : ISerializableObject
     {
-        DateTime[] GetDateTimes();
+        DateTime[]? GetDateTimes();
     }
 }

@@ -7,10 +7,10 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Modify
     {
-        internal static WrapperNode Unwrap(this WrapperNodeCluster wrapperNodeCluster, WrapperNode wrapperNode, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences)
+        internal static WrapperNode? Unwrap(this WrapperNodeCluster? wrapperNodeCluster, WrapperNode? wrapperNode, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences)
         {
             missingWrapperUniqueReferences = null;
-            if (wrapperNode?.JsonNode == null)
+            if (wrapperNode?.JsonNode == null || wrapperNodeCluster == null)
             {
                 return null;
             }
@@ -20,21 +20,26 @@ namespace DiGi.Core.IO.Wrapper
                 return new WrapperNode(wrapperNode.JsonNode);
             }
 
-            WrapperNode wrapperNode_Temp = wrapperNode;
+            WrapperNode? wrapperNode_Temp = wrapperNode!;
 
-            missingWrapperUniqueReferences = new HashSet<IWrapperUniqueReference>();
+            missingWrapperUniqueReferences = [];
 
             if (wrapperNode_Temp.IsWrapperUniqueReference())
             {
                 wrapperNode_Temp = wrapperNodeCluster.GetValue(wrapperNode_Temp.WrapperUniqueReference);
                 if(wrapperNode_Temp == null)
                 {
-                    missingWrapperUniqueReferences.Add(wrapperNode.WrapperUniqueReference);
+                    IWrapperUniqueReference? wrapperUniqueReference = wrapperNode.WrapperUniqueReference;
+                    if (wrapperUniqueReference != null)
+                    {
+                        missingWrapperUniqueReferences.Add(wrapperUniqueReference);
+                    }
+
                     return null;
                 }
             }
 
-            if(wrapperNode_Temp.IsUnwrapped(out HashSet<WrapperNode> wrapperNodes_Wrapped))
+            if(wrapperNode_Temp.IsUnwrapped(out HashSet<WrapperNode>? wrapperNodes_Wrapped))
             {
                 return wrapperNode_Temp;
             }
@@ -44,16 +49,16 @@ namespace DiGi.Core.IO.Wrapper
                 return wrapperNode_Temp;
             }
 
-            HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences_Temp = null;
+            List<WrapperNode> wrapperNodes_Unwrapped = [];
 
-            List<WrapperNode> wrapperNodes_Unwrapped = new List<WrapperNode>();
-            foreach(WrapperNode wrapperNode_Wrapped in wrapperNodes_Wrapped)
+            HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences_Temp;
+            foreach (WrapperNode wrapperNode_Wrapped in wrapperNodes_Wrapped)
             {
-                WrapperNode wrapperNode_Unwrapped = Unwrap(wrapperNodeCluster, wrapperNode_Wrapped, out missingWrapperUniqueReferences_Temp);
+                WrapperNode? wrapperNode_Unwrapped = Unwrap(wrapperNodeCluster, wrapperNode_Wrapped, out missingWrapperUniqueReferences_Temp);
 
-                if(missingWrapperUniqueReferences_Temp != null)
+                if (missingWrapperUniqueReferences_Temp != null)
                 {
-                    foreach(IWrapperUniqueReference wrapperUniqueReference in missingWrapperUniqueReferences_Temp)
+                    foreach (IWrapperUniqueReference wrapperUniqueReference in missingWrapperUniqueReferences_Temp)
                     {
                         missingWrapperUniqueReferences.Add(wrapperUniqueReference);
                     }
@@ -67,18 +72,16 @@ namespace DiGi.Core.IO.Wrapper
                 wrapperNodes_Unwrapped.Add(wrapperNode_Unwrapped);
             }
 
-            WrapperNode result = null;
+            JsonNode? jsonNode = wrapperNode_Temp.JsonNode;
 
-            JsonNode jsonNode = wrapperNode_Temp.JsonNode;
-            if(jsonNode is JsonObject)
+            WrapperNode? result;
+            if (jsonNode is JsonObject jsonObject)
             {
-                JsonObject jsonObject = (JsonObject)jsonNode;
                 Replace(jsonObject, wrapperNodes_Unwrapped, out missingWrapperUniqueReferences_Temp);
                 result = new WrapperNode(wrapperNode.WrapperUniqueReference, jsonObject);
             }
-            else if(jsonNode is JsonArray)
+            else if (jsonNode is JsonArray jsonArray)
             {
-                JsonArray jsonArray = (JsonArray)jsonNode;
                 Replace(jsonArray, wrapperNodes_Unwrapped, out missingWrapperUniqueReferences_Temp);
                 result = new WrapperNode(wrapperNode.WrapperUniqueReference as WrapperUniqueIdReference, jsonArray);
             }
@@ -100,7 +103,7 @@ namespace DiGi.Core.IO.Wrapper
             return result;
         }
 
-        internal static JsonObject Unwrap(this WrapperNodeCluster wrapperNodeCluster, JsonObject jsonObject, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences)
+        internal static JsonObject? Unwrap(this WrapperNodeCluster? wrapperNodeCluster, JsonObject? jsonObject, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences)
         {
             missingWrapperUniqueReferences = null;
 
@@ -109,12 +112,12 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            WrapperNode wrapperNode = Unwrap(wrapperNodeCluster, new WrapperNode(jsonObject), out missingWrapperUniqueReferences);
+            WrapperNode? wrapperNode = Unwrap(wrapperNodeCluster, new WrapperNode(jsonObject), out missingWrapperUniqueReferences);
 
-            return wrapperNode.JsonNode as JsonObject;
+            return wrapperNode?.JsonNode as JsonObject;
         }
 
-        internal static JsonArray Unwrap(this WrapperNodeCluster wrapperNodeCluster, JsonArray jsonArray, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences)
+        internal static JsonArray? Unwrap(this WrapperNodeCluster? wrapperNodeCluster, JsonArray? jsonArray, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences)
         {
             missingWrapperUniqueReferences = null;
 
@@ -123,9 +126,9 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            WrapperNode wrapperNode = Unwrap(wrapperNodeCluster, new WrapperNode(jsonArray), out missingWrapperUniqueReferences);
+            WrapperNode? wrapperNode = Unwrap(wrapperNodeCluster, new WrapperNode(jsonArray), out missingWrapperUniqueReferences);
 
-            return wrapperNode.JsonNode as JsonArray;
+            return wrapperNode?.JsonNode as JsonArray;
         }
     }
 }

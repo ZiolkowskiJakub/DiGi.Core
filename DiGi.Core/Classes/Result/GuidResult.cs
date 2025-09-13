@@ -11,20 +11,20 @@ namespace DiGi.Core.Classes
 
         }
 
-        public GuidResult(JsonObject jsonObject)
+        public GuidResult(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public GuidResult(GuidResult guidResult)
+        public GuidResult(GuidResult? guidResult)
             : base(guidResult)
         {
 
         }
     }
 
-    public abstract class GuidResult<T> : GuidResult, IUniqueResult<T> where T: IUniqueObject
+    public abstract class GuidResult<TUniqueObject> : GuidResult, IUniqueResult<TUniqueObject> where TUniqueObject: IUniqueObject
     {
         public GuidResult()
             : base()
@@ -32,13 +32,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public GuidResult(JsonObject jsonObject)
+        public GuidResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public GuidResult(GuidResult<T> guidResult)
+        public GuidResult(GuidResult<TUniqueObject>? guidResult)
             : base(guidResult)
         {
 

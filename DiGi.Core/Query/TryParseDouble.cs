@@ -32,29 +32,27 @@ namespace DiGi.Core
                 }
                 else if (TryParseDouble(value_Prefix, out result))
                 {
-                    result = result * factor;
+                    result *= factor;
                     return true;
                 }
 
                 return false;
             }
 
-            string value_1_String = value.Trim().Split(' ')[0];
-            if (!double.TryParse(value_1_String, out double value_1))
+            string @string = value.Trim().Split(' ')[0];
+            if (!double.TryParse(@string, out double value_1))
             {
-                if(value_1_String == Constans.Serialization.LiteralName.PositiveInfinity)
+                if(@string == Constans.Serialization.LiteralName.PositiveInfinity)
                 {
                     result = double.PositiveInfinity;
                     return true;
                 }
 
-                if (value_1_String == Constans.Serialization.LiteralName.NegativeInfinity)
+                if (@string == Constans.Serialization.LiteralName.NegativeInfinity)
                 {
                     result = double.NegativeInfinity;
                     return true;
                 }
-
-                value_1 = double.NaN;
             }
             else
             {
@@ -71,72 +69,142 @@ namespace DiGi.Core
                 }
             }
 
-            string value_2_String = value_1_String;
-            string value_3_String = value_2_String;
+            @string = value.Trim().Replace(" ", string.Empty);
 
-            value_1_String = value_1_String.Replace(",", ".");
+            // Find last separator
+            int lastDot = @string.LastIndexOf('.');
+            int lastComma = @string.LastIndexOf(',');
+            int separatorIndex = Math.Max(lastDot, lastComma);
 
-            value_2_String = value_2_String.Replace(".", ",");
-
-            if (!double.TryParse(value_2_String, out double value_2))
+            char? decimalSeparator = null;
+            if (separatorIndex >= 0)
             {
-                value_2 = double.NaN;
+                decimalSeparator = @string[separatorIndex];
             }
 
-            if (!double.TryParse(value_3_String, out double value_3))
+            string integerPart;
+            string fractionalPart = "";
+
+            if (separatorIndex >= 0)
             {
-                value_3 = double.NaN;
+                integerPart = @string.Substring(0, separatorIndex);
+                fractionalPart = @string.Substring(separatorIndex + 1);
+            }
+            else
+            {
+                integerPart = @string;
             }
 
-            double truncate_1 = double.MinValue;
-            if (!double.IsNaN(value_1))
+            // --- Check for ambiguity ---
+            // If both '.' and ',' exist before the last one -> ambiguous
+            if (lastDot >= 0 && lastComma >= 0)
             {
-                truncate_1 = Math.Abs(value_1 % 1);
+                if (decimalSeparator == '.' && lastComma < lastDot || decimalSeparator == ',' && lastDot < lastComma)
+                {
+                    // Example: "1.234,56" or "1,234.56" is fine (thousands + decimal)
+                }
+                else
+                {
+                    // Mixed or unclear usage → reject
+                    return false;
+                }
             }
 
-            double truncate_2 = double.MinValue;
-            if (!double.IsNaN(value_2))
+            // Remove only thousand separators
+            if (decimalSeparator == '.')
             {
-                truncate_2 = Math.Abs(value_2 % 1);
+                integerPart = integerPart.Replace(",", "").Replace(" ", "");
+            }
+            else if (decimalSeparator == ',')
+            {
+                integerPart = integerPart.Replace(".", "").Replace(" ", "");
+            }
+            else
+            {
+                integerPart = integerPart.Replace(",", "").Replace(".", "").Replace(" ", "");
             }
 
-            double truncate_3 = double.MinValue;
-            if (!double.IsNaN(value_3))
+            // Build normalized with '.' as decimal separator
+            string normalized = separatorIndex >= 0 ? integerPart + "." + fractionalPart : integerPart;
+
+            // Ensure only digits + '.' remain
+            foreach (char c in normalized)
             {
-                truncate_3 = Math.Abs(value_3 % 1);
+                if (!(char.IsDigit(c) || c == '.'))
+                {
+                    return false;
+                }
             }
 
-            if (truncate_1 == truncate_2 && truncate_1 == truncate_3 && truncate_1 == double.MinValue)
-            {
-                return false;
-            }
+            // Parse
+            return double.TryParse(normalized, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result);
 
-            if (truncate_1 == truncate_2 && truncate_2 == truncate_3)
-            {
-                result = Math.Min(value_1, value_2);
-                result = Math.Min(result, value_3);
-                return true;
-            }
+            //string value_2_String = value_1_String;
+            //string value_3_String = value_2_String;
 
-            if (truncate_1 >= truncate_2 && truncate_1 >= truncate_3)
-            {
-                result = value_1;
-                return true;
-            }
+            //value_1_String = value_1_String.Replace(",", ".");
 
-            if (truncate_2 >= truncate_1 && truncate_2 >= truncate_3)
-            {
-                result = value_2;
-                return true;
-            }
+            //value_2_String = value_2_String.Replace(".", ",");
 
-            if (truncate_3 >= truncate_1 && truncate_3 >= truncate_1)
-            {
-                result = value_2;
-                return true;
-            }
+            //if (!double.TryParse(value_2_String, out double value_2))
+            //{
+            //    value_2 = double.NaN;
+            //}
 
-            return false;
+            //if (!double.TryParse(value_3_String, out double value_3))
+            //{
+            //    value_3 = double.NaN;
+            //}
+
+            //double truncate_1 = double.MinValue;
+            //if (!double.IsNaN(value_1))
+            //{
+            //    truncate_1 = Math.Abs(value_1 % 1);
+            //}
+
+            //double truncate_2 = double.MinValue;
+            //if (!double.IsNaN(value_2))
+            //{
+            //    truncate_2 = Math.Abs(value_2 % 1);
+            //}
+
+            //double truncate_3 = double.MinValue;
+            //if (!double.IsNaN(value_3))
+            //{
+            //    truncate_3 = Math.Abs(value_3 % 1);
+            //}
+
+            //if (truncate_1 == truncate_2 && truncate_1 == truncate_3 && truncate_1 == double.MinValue)
+            //{
+            //    return false;
+            //}
+
+            //if (truncate_1 == truncate_2 && truncate_2 == truncate_3)
+            //{
+            //    result = Math.Min(value_1, value_2);
+            //    result = Math.Min(result, value_3);
+            //    return true;
+            //}
+
+            //if (truncate_1 >= truncate_2 && truncate_1 >= truncate_3)
+            //{
+            //    result = value_1;
+            //    return true;
+            //}
+
+            //if (truncate_2 >= truncate_1 && truncate_2 >= truncate_3)
+            //{
+            //    result = value_2;
+            //    return true;
+            //}
+
+            //if (truncate_3 >= truncate_1 && truncate_3 >= truncate_1)
+            //{
+            //    result = value_2;
+            //    return true;
+            //}
+
+            //return false;
         }
     }
 

@@ -7,12 +7,12 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static DataType DataType(this object @object)
+        public static DataType DataType(this object? @object)
         {
-            return DataType(@object, out bool nullable);
+            return DataType(@object, out _);
         }
 
-        public static DataType DataType(this object @object, out bool nullable)
+        public static DataType DataType(this object? @object, out bool nullable)
         {
             nullable = false;
             if(@object == null)
@@ -20,21 +20,21 @@ namespace DiGi.Core
                 return Enums.DataType.Undefined;
             }
 
-            if(@object is Type)
+            if(@object is Type type)
             {
-                return DataType((Type)@object, out nullable);
+                return DataType(type, out nullable);
             }
 
             return DataType(@object.GetType(), out nullable);
 
         }
 
-        public static DataType DataType(this Type type)
+        public static DataType DataType(this Type? type)
         {
-            return DataType(type, out bool nullable);
+            return DataType(type, out _);
         }
 
-        public static DataType DataType(this Type type, out bool nullable)
+        public static DataType DataType(this Type? type, out bool nullable)
         {
             nullable = false;
             if(type == null)

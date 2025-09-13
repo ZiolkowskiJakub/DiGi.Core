@@ -8,12 +8,12 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Modify
     {
-        internal static HashSet<IWrapperUniqueReference> Replace(this JsonObject jsonObject, IEnumerable<WrapperNode> wrapperNodes)
+        internal static HashSet<IWrapperUniqueReference>? Replace(this JsonObject jsonObject, IEnumerable<WrapperNode> wrapperNodes)
         {
-            return Replace(jsonObject, wrapperNodes, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences);
+            return Replace(jsonObject, wrapperNodes, out HashSet<IWrapperUniqueReference>? _);
         }
 
-        internal static HashSet<IWrapperUniqueReference> Replace(this JsonObject jsonObject, IEnumerable<WrapperNode> wrapperNodes, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences)
+        internal static HashSet<IWrapperUniqueReference>? Replace(this JsonObject jsonObject, IEnumerable<WrapperNode> wrapperNodes, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences)
         {
             missingWrapperUniqueReferences = null;
 
@@ -22,28 +22,27 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            missingWrapperUniqueReferences = new HashSet<IWrapperUniqueReference>();
+            missingWrapperUniqueReferences = [];
 
-            HashSet<string> names = new HashSet<string>();
-            foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
+            HashSet<string> names = [];
+            foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
             {
                 names.Add(keyValuePair.Key);
             }
 
-            HashSet<IWrapperUniqueReference> result = new HashSet<IWrapperUniqueReference>();
+            HashSet<IWrapperUniqueReference> result = [];
             foreach (string name in names)
             {
-                if(!jsonObject.TryGetPropertyValue(name, out JsonNode jsonNode))
+                if(!jsonObject.TryGetPropertyValue(name, out JsonNode? jsonNode))
                 {
                     continue;
                 }
 
-                if (jsonNode is JsonObject)
+                if (jsonNode is JsonObject jsonObject_Temp)
                 {
-                    JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference wrapperUniqueReference))
+                    if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference? wrapperUniqueReference) && wrapperUniqueReference != null)
                     {
-                        WrapperNode wrapperNode = wrapperNodes.Find(x => wrapperUniqueReference.Equals(x.WrapperUniqueReference));
+                        WrapperNode? wrapperNode = wrapperNodes.Find(x => x?.WrapperUniqueReference is not null && wrapperUniqueReference.Equals(x.WrapperUniqueReference));
                         if (wrapperNode != null)
                         {
                             jsonObject[name] = wrapperNode.JsonNode;
@@ -55,10 +54,9 @@ namespace DiGi.Core.IO.Wrapper
                         }
                     }
                 }
-                else if (jsonNode is JsonArray)
+                else if (jsonNode is JsonArray jsonArray_Temp)
                 {
-                    JsonArray jsonArray_Temp = (JsonArray)jsonNode;
-                    HashSet<IWrapperUniqueReference> wrapperUniqueReferences = Replace(jsonArray_Temp, wrapperNodes, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences_Temp);
+                    HashSet<IWrapperUniqueReference>? wrapperUniqueReferences = Replace(jsonArray_Temp, wrapperNodes, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences_Temp);
                     if (wrapperUniqueReferences != null && wrapperUniqueReferences.Count != 0)
                     {
                         foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
@@ -82,12 +80,12 @@ namespace DiGi.Core.IO.Wrapper
             return result;
         }
 
-        internal static HashSet<IWrapperUniqueReference> Replace(this JsonArray jsonArray, IEnumerable<WrapperNode> wrapperNodes)
+        internal static HashSet<IWrapperUniqueReference>? Replace(this JsonArray? jsonArray, IEnumerable<WrapperNode>? wrapperNodes)
         {
-            return Replace(jsonArray, wrapperNodes, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences);
+            return Replace(jsonArray, wrapperNodes, out HashSet<IWrapperUniqueReference>? _);
         }
 
-        internal static HashSet<IWrapperUniqueReference> Replace(this JsonArray jsonArray, IEnumerable<WrapperNode> wrapperNodes, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences)
+        internal static HashSet<IWrapperUniqueReference>? Replace(this JsonArray? jsonArray, IEnumerable<WrapperNode>? wrapperNodes, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences)
         {
             missingWrapperUniqueReferences = null;
 
@@ -96,23 +94,22 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            HashSet<IWrapperUniqueReference> result = new HashSet<IWrapperUniqueReference>();
+            HashSet<IWrapperUniqueReference> result = [];
             int count = jsonArray.Count;
             if (count == 0)
             {
                 return result;
             }
 
-            missingWrapperUniqueReferences = new HashSet<IWrapperUniqueReference>();
+            missingWrapperUniqueReferences = [];
             for (int i = 0; i < count; i++)
             {
-                JsonNode jsonNode = jsonArray[i];
-                if (jsonNode is JsonObject)
+                JsonNode? jsonNode = jsonArray[i];
+                if (jsonNode is JsonObject jsonObject_Temp)
                 {
-                    JsonObject jsonObject_Temp = (JsonObject)jsonNode;
-                    if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference wrapperUniqueReference))
+                    if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference? wrapperUniqueReference) && wrapperUniqueReference != null)
                     {
-                        WrapperNode wrapperNode = wrapperNodes.Find(x => wrapperUniqueReference.Equals(x.WrapperUniqueReference));
+                        WrapperNode? wrapperNode = wrapperNodes.Find(x => x != null && wrapperUniqueReference.Equals(x.WrapperUniqueReference!));
                         if (wrapperNode != null)
                         {
                             jsonArray[i] = wrapperNode.JsonNode;
@@ -124,10 +121,9 @@ namespace DiGi.Core.IO.Wrapper
                         }
                     }
                 }
-                else if (jsonNode is JsonArray)
+                else if (jsonNode is JsonArray jsonArray_Temp)
                 {
-                    JsonArray jsonArray_Temp = (JsonArray)jsonNode;
-                    HashSet<IWrapperUniqueReference> wrapperReferences = Replace(jsonArray_Temp, wrapperNodes, out HashSet<IWrapperUniqueReference> missingWrapperUniqueReferences_Temp);
+                    HashSet<IWrapperUniqueReference>? wrapperReferences = Replace(jsonArray_Temp, wrapperNodes, out HashSet<IWrapperUniqueReference>? missingWrapperUniqueReferences_Temp);
                     if (wrapperReferences != null && wrapperReferences.Count != 0)
                     {
                         foreach (IWrapperUniqueReference wrapperReference in wrapperReferences)
@@ -138,9 +134,9 @@ namespace DiGi.Core.IO.Wrapper
                         jsonArray[i] = jsonArray_Temp;
                     }
 
-                    if(missingWrapperUniqueReferences_Temp != null)
+                    if (missingWrapperUniqueReferences_Temp != null)
                     {
-                        foreach(IWrapperUniqueReference wrapperUniqueReference_Temp in missingWrapperUniqueReferences_Temp)
+                        foreach (IWrapperUniqueReference wrapperUniqueReference_Temp in missingWrapperUniqueReferences_Temp)
                         {
                             missingWrapperUniqueReferences.Add(wrapperUniqueReference_Temp);
                         }

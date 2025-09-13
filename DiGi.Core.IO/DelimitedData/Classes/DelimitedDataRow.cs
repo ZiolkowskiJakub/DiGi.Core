@@ -11,12 +11,15 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         {
         }
 
-        public DelimitedDataRow(IEnumerable<string> values)
+        public DelimitedDataRow(IEnumerable<string>? values)
         {
-            AddRange(values);
+            if(values != null)
+            {
+                AddRange(values);
+            }
         }
 
-        public bool TryGetValue<T>(int index, out T value)
+        public bool TryGetValue<T>(int index, out T? value)
         {
             value = default;
             if (index < 0 || index >= Count)

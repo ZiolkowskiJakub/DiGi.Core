@@ -11,13 +11,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public UniqueResult(JsonObject jsonObject)
+        public UniqueResult(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public UniqueResult(UniqueResult uniqueResult)
+        public UniqueResult(UniqueResult? uniqueResult)
             : base(uniqueResult)
         {
 
@@ -32,13 +32,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public UniqueResult(JsonObject jsonObject)
+        public UniqueResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public UniqueResult(UniqueResult<T> uniqueResult)
+        public UniqueResult(UniqueResult<T>? uniqueResult)
             : base(uniqueResult)
         {
 

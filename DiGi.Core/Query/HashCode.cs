@@ -2,7 +2,7 @@
 {
     public static partial class Query
     {
-        public static int HashCode(params int[] values)
+        public static int HashCode(params int[]? values)
         {
             if(values == null)
             {

@@ -5,9 +5,9 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static ObjectPath ObjectPath(string text)
+        public static ObjectPath? ObjectPath(string? text)
         {
-            List<string> names = Query.QuotedStrings(text, Classes.ObjectPath.Separator);
+            List<string>? names = Query.QuotedStrings(text, Classes.ObjectPath.Separator);
             if(names == null)
             {
                 return null;

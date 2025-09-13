@@ -4,9 +4,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static int BoundedIndex(this Range<int> range, int index)
+        public static int BoundedIndex(this Range<int>? range, int index)
         {
-            if (range == null)
+            if (range is null)
             {
                 return int.MinValue;
             }

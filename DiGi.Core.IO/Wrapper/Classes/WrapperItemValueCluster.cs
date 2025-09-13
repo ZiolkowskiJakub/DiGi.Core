@@ -10,19 +10,19 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
-        protected override TypeReference GetKey_1(WrapperItem value)
+        protected override TypeReference? GetKey_1(WrapperItem? value)
         {
-            return value.UniqueReference?.TypeReference;
+            return value?.UniqueReference?.TypeReference;
         }
 
-        protected override UniqueReference GetKey_2(WrapperItem value)
+        protected override UniqueReference? GetKey_2(WrapperItem? value)
         {
-            return value.UniqueReference;
+            return value?.UniqueReference;
         }
 
-        public JsonNode GetValue(UniqueReference uniqueReference)
+        public JsonNode? GetValue(UniqueReference? uniqueReference)
         {
-            if (uniqueReference == null)
+            if (uniqueReference is null)
             {
                 return null;
             }
@@ -30,9 +30,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return GetValue<WrapperItem>(uniqueReference.TypeReference, uniqueReference)?.JsonNode;
         }
 
-        public TJsonNode GetValue<TJsonNode>(UniqueReference uniqueReference) where TJsonNode : JsonNode
+        public TJsonNode? GetValue<TJsonNode>(UniqueReference? uniqueReference) where TJsonNode : JsonNode
         {
-            if (uniqueReference == null)
+            if (uniqueReference is null)
             {
                 return null;
             }

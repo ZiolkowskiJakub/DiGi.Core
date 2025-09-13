@@ -5,9 +5,9 @@ namespace DiGi.Core.Classes
 {
     public class AnyOf
     {
-        private object value;
+        private object? value;
 
-        public AnyOf(object value, Type type = null)
+        public AnyOf(object? value, Type? type = null)
         {
             if (type == null)
             {
@@ -28,9 +28,9 @@ namespace DiGi.Core.Classes
             this.value = value;
         }
 
-        public virtual Type[] Types => new Type[] { typeof(object) };
+        public virtual Type[] Types => [typeof(object)];
 
-        public object Value
+        public object? Value
         {
             get
             {
@@ -46,21 +46,21 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public static implicit operator AnyOf(int value) => new AnyOf(value, typeof(int));
+        public static implicit operator AnyOf(int value) => new(value, typeof(int));
 
-        public static implicit operator AnyOf(string value) => new AnyOf(value, typeof(string));
+        public static implicit operator AnyOf(string value) => new(value, typeof(string));
 
-        public static implicit operator AnyOf(double value) => new AnyOf(value, typeof(double));
+        public static implicit operator AnyOf(double value) => new(value, typeof(double));
 
-        public static implicit operator AnyOf(Guid value) => new AnyOf(value, typeof(Guid));
+        public static implicit operator AnyOf(Guid value) => new(value, typeof(Guid));
 
-        public static implicit operator AnyOf(DateTime value) => new AnyOf(value, typeof(DateTime));
+        public static implicit operator AnyOf(DateTime value) => new(value, typeof(DateTime));
 
-        public static implicit operator AnyOf(long value) => new AnyOf(value, typeof(long));
+        public static implicit operator AnyOf(long value) => new(value, typeof(long));
 
-        public static implicit operator AnyOf(bool value) => new AnyOf(value, typeof(bool));
+        public static implicit operator AnyOf(bool value) => new(value, typeof(bool));
 
-        public static implicit operator string(AnyOf value) => value?.ToString();
+        public static implicit operator string?(AnyOf value) => value?.ToString();
 
         public static bool operator !=(AnyOf anyOf, object @object)
         {
@@ -69,19 +69,34 @@ namespace DiGi.Core.Classes
 
         public static bool operator ==(AnyOf anyOf, object @object)
         {
-            if (ReferenceEquals(anyOf, null) || ReferenceEquals(anyOf.value, null))
+            if (anyOf is null || anyOf.value is null)
             {
-                return ReferenceEquals(@object, null) ? true : false;
+                if(@object is null)
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             return anyOf.value.Equals(@object);
         }
 
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
-            if (ReferenceEquals(this, null))
+            if (this is null)
             {
-                return ReferenceEquals(@object, null) ? true : false;
+                if(@object is null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            if(value is null)
+            {
+                return @object is null;
             }
 
             return value.Equals(@object);
@@ -97,7 +112,7 @@ namespace DiGi.Core.Classes
             return value.GetHashCode();
         }
 
-        public new Type GetType()
+        public new Type? GetType()
         {
             if (value == null)
             {
@@ -107,17 +122,17 @@ namespace DiGi.Core.Classes
             return value.GetType();
         }
 
-        public T GetValue<T>()
+        public T? GetValue<T>()
         {
-            if (value is T)
+            if (value is T result)
             {
-                return (T)value;
+                return result;
             }
 
             return default;
         }
 
-        public bool IsValid(object value)
+        public bool IsValid(object? value)
         {
             if (Types == null || Types.Length == 0)
             {
@@ -140,22 +155,17 @@ namespace DiGi.Core.Classes
             return Types.Contains(value?.GetType());
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return value?.ToString();
         }
     }
 
-    public class AnyOf<T> : AnyOf
+    public class AnyOf<T>(T value) : AnyOf(value)
     {
-        public AnyOf(T value)
-            : base(value)
-        {
-        }
+        public override Type[] Types => [typeof(T)];
 
-        public override Type[] Types => new Type[] { typeof(T) };
-
-        public static implicit operator T(AnyOf<T> anyOf) => anyOf == null ? default : anyOf.GetValue<T>();
+        public static implicit operator T?(AnyOf<T> anyOf) => anyOf is null ? default : anyOf.GetValue<T>();
     }
 
     public class AnyOf<T, K> : AnyOf
@@ -170,14 +180,14 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public override Type[] Types => new Type[] { typeof(T), typeof(K) };
+        public override Type[] Types => [typeof(T), typeof(K)];
 
-        public static implicit operator AnyOf<T, K>(T value) => new AnyOf<T, K>(value);
+        public static implicit operator AnyOf<T, K>(T value) => new(value);
 
-        public static implicit operator AnyOf<T, K>(K value) => new AnyOf<T, K>(value);
+        public static implicit operator AnyOf<T, K>(K value) => new(value);
 
-        public static implicit operator T(AnyOf<T, K> anyOf) => anyOf == null ? default : anyOf.GetValue<T>();
+        public static implicit operator K?(AnyOf<T, K> anyOf) => anyOf is null ? default : anyOf.GetValue<K>();
 
-        public static implicit operator K(AnyOf<T, K> anyOf) => anyOf == null ? default : anyOf.GetValue<K>();
+        public static implicit operator T?(AnyOf<T, K> anyOf) => anyOf is null ? default : anyOf.GetValue<T>();
     }
 }

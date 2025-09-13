@@ -7,22 +7,22 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static List<T> SerializableObjects<T>(this JsonArray jsonArray) where T : ISerializableObject
+        public static List<T>? SerializableObjects<T>(this JsonArray? jsonArray) where T : ISerializableObject
         {
             if (jsonArray == null)
             {
                 return default;
             }
 
-            List < T > result = new List<T> ();
-            foreach (JsonNode jsonNode in jsonArray)
+            List < T > result = [];
+            foreach (JsonNode? jsonNode in jsonArray)
             {
-                if(!(jsonNode is JsonObject))
+                if(jsonNode is not JsonObject)
                 {
                     continue;
                 }
 
-                T serializableObject = SerializableObject<T>((JsonObject)jsonNode);
+                T? serializableObject = SerializableObject<T>((JsonObject)jsonNode);
                 if(serializableObject != null)
                 {
                     result.Add(serializableObject);

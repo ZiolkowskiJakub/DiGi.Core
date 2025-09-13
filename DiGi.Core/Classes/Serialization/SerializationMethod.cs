@@ -4,8 +4,8 @@ namespace DiGi.Core.Classes
 {
     public class SerializationMethod
     {
-        private MemberInfo memberInfo;
-        private string name;
+        private readonly MemberInfo memberInfo;
+        private readonly string name;
 
         internal SerializationMethod(MemberInfo memberInfo, string name)
         {

@@ -12,14 +12,14 @@ namespace DiGi.Core
         /// <param name="color_2">End Color</param>
         /// <param name="count">Number of colors</param>
         /// <returns>Lerped Colors</returns>
-        public static List<Color> Lerps(this Color color_1, Color color_2, int count)
+        public static List<Color>? Lerps(this Color color_1, Color color_2, int count)
         {
             if (count < 1)
             {
                 return null;
             }
 
-            List<Color> result = new List<Color>();
+            List<Color> result = [];
 
             double value = 0;
             for (int i = 0; i < count; i++)

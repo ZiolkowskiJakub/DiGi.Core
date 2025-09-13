@@ -22,28 +22,32 @@ namespace DiGi.Core.Classes
             this.guid = guid;
         }
 
-        public GuidObject(JsonObject jsonObject)
+        public GuidObject(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public GuidObject(GuidObject guidObject)
+        public GuidObject(GuidObject? guidObject)
             : base(guidObject)
         {
             guid = guidObject != null ? guidObject.guid : Guid.NewGuid();
         }
 
-        public GuidObject(Guid guid, GuidObject guidObject)
+        public GuidObject(Guid guid, GuidObject? guidObject)
             : base(guidObject)
         {
             this.guid = guid;
         }
 
-        public virtual IGuidObject Duplicate(Guid? guid = null)
+        public virtual IGuidObject? Duplicate(Guid? guid = null)
         {
-            GuidObject result = Query.Clone(this);
-            result.guid = guid == null ? Guid.NewGuid() : guid.Value;
+            GuidObject? result = Query.Clone(this);
+            if(result != null)
+            {
+                result.guid = guid == null ? Guid.NewGuid() : guid.Value;
+            }
+
             return result;
         }
 
@@ -57,7 +61,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public override string UniqueId
+        public override string? UniqueId
         {
             get
             {

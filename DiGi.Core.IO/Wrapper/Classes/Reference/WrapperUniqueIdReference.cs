@@ -8,22 +8,22 @@ namespace DiGi.Core.IO.Wrapper.Classes
     internal sealed class WrapperUniqueIdReference : WrapperUniqueReference<UniqueIdReference>
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
-        private string fullTypeName;
+        private readonly string? fullTypeName;
 
         [JsonInclude, JsonPropertyName("UniqueId")]
-        private string uniqueId;
+        private readonly string? uniqueId;
 
-        public WrapperUniqueIdReference(UniqueIdReference uniqueIdReference)
+        public WrapperUniqueIdReference(UniqueIdReference? uniqueIdReference)
             : base()
         {
-            if (uniqueIdReference != null)
+            if (uniqueIdReference is not null)
             {
                 fullTypeName = uniqueIdReference.TypeReference?.FullTypeName;
                 uniqueId = uniqueIdReference.UniqueId;
             }
         }
 
-        public WrapperUniqueIdReference(WrapperUniqueIdReference wrapperUniqueIdReference)
+        public WrapperUniqueIdReference(WrapperUniqueIdReference? wrapperUniqueIdReference)
             : base(wrapperUniqueIdReference)
         {
             if (wrapperUniqueIdReference != null)
@@ -33,21 +33,21 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
-        public WrapperUniqueIdReference(string fullTypeName, string uniqueId)
+        public WrapperUniqueIdReference(string? fullTypeName, string? uniqueId)
             : base()
         {
             this.fullTypeName = fullTypeName;
             this.uniqueId = uniqueId;
         }
 
-        public WrapperUniqueIdReference(JsonObject jsonObject)
+        public WrapperUniqueIdReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public override UniqueIdReference Reference
+        public override UniqueIdReference? Reference
         {
             get
             {
@@ -55,7 +55,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new WrapperUniqueIdReference(this);
         }

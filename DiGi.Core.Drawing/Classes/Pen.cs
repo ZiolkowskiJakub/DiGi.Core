@@ -7,19 +7,19 @@ namespace DiGi.Core.Drawing.Classes
     public class Pen : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Color")]
-        private Color color;
+        private readonly Color? color;
 
         [JsonInclude, JsonPropertyName("Thickness")]
-        private double thickness;
+        private readonly double thickness;
 
-        public Pen(Color color, double thickness)
+        public Pen(Color? color, double thickness)
             : base()
         {
             this.color = color;
             this.thickness = thickness;
         }
 
-        public Pen(Pen pen)
+        public Pen(Pen? pen)
             : base(pen)
         {
             if (pen != null)
@@ -29,13 +29,13 @@ namespace DiGi.Core.Drawing.Classes
             }
         }
 
-        public Pen(JsonObject jsonObject)
+        public Pen(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public Color Color
+        public Color? Color
         {
             get
             {

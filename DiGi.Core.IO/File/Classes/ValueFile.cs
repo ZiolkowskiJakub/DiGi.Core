@@ -14,21 +14,21 @@ namespace DiGi.Core.IO.File.Classes
         private bool disposed = false;
 
         [JsonInclude, JsonPropertyName("Value")]
-        private TSerializableObject value;
+        private TSerializableObject? value;
 
-        public ValueFile(string path)
+        public ValueFile(string? path)
             : base(path)
         {
 
         }
 
-        public ValueFile(JsonObject jsonObject)
+        public ValueFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ValueFile(ValueFile<TSerializableObject> valueFile)
+        public ValueFile(ValueFile<TSerializableObject>? valueFile)
             : base(valueFile)
         {
             if(valueFile != null)
@@ -38,7 +38,7 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         [JsonIgnore]
-        public TSerializableObject Value
+        public TSerializableObject? Value
         {
             get
             {
@@ -59,7 +59,7 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            string path = Path;
+            string? path = Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
@@ -70,21 +70,19 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            using (ZipArchive zipArchive = ZipFile.OpenRead(path))
-            {
-                ZipArchiveEntry zipArchiveEntry = null;
+            using ZipArchive zipArchive = ZipFile.OpenRead(path);
 
-                zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Value);
-                if (zipArchiveEntry != null)
+            ZipArchiveEntry? zipArchiveEntry = null;
+
+            zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Value);
+            if (zipArchiveEntry != null)
+            {
+                using StreamReader streamReader = new(zipArchiveEntry.Open());
+
+                List<TSerializableObject>? ts = Convert.ToDiGi<TSerializableObject>(streamReader.ReadToEnd());
+                if (ts != null && ts.Count != 0)
                 {
-                    using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
-                    {
-                        List<TSerializableObject> ts = Convert.ToDiGi<TSerializableObject>(streamReader.ReadToEnd());
-                        if (ts != null && ts.Count != 0)
-                        {
-                            Value = ts[0];
-                        }
-                    }
+                    Value = ts[0];
                 }
             }
 
@@ -99,28 +97,22 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            string path = Path;
+            string? path = Path;
 
             using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update))
             {
                 ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Value);
-                if (zipArchiveEntry != null)
-                {
-                    zipArchiveEntry.Delete();
-                }
+                zipArchiveEntry?.Delete();
 
-                string json = Convert.ToSystem_String(Value);
+                string? json = Convert.ToSystem_String(Value);
                 if(!string.IsNullOrWhiteSpace(json))
                 {
                     zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Value);
 
-                    using (Stream stream = zipArchiveEntry.Open())
-                    {
-                        using (StreamWriter streamWriter = new StreamWriter(stream))
-                        {
-                            streamWriter.Write(json);
-                        }
-                    }
+                    using Stream stream = zipArchiveEntry.Open();
+                    using StreamWriter streamWriter = new(stream);
+
+                    streamWriter.Write(json);
                 }
             }
 
@@ -141,33 +133,38 @@ namespace DiGi.Core.IO.File.Classes
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
 
-                Value = default;
+                //Value = default;
 
                 disposed = true;
             }
         }
 
-        public static explicit operator TSerializableObject(ValueFile<TSerializableObject> valueFile)
+        public static explicit operator TSerializableObject?(ValueFile<TSerializableObject>? valueFile)
         {
+            if(valueFile == null)
+            {
+                return default;
+            }
+
             return valueFile.value;
         }
     }
 
     public class ValueFile : ValueFile<ISerializableObject>
     {
-        public ValueFile(string path)
+        public ValueFile(string? path)
             :base(path) 
         { 
 
         }
 
-        public ValueFile(JsonObject jsonObject)
+        public ValueFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ValueFile(ValueFile valueFile)
+        public ValueFile(ValueFile? valueFile)
             :base(valueFile)
         {
         }

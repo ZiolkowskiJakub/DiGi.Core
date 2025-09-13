@@ -9,9 +9,14 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Modify
     {
-        public static bool Read(this Table.Classes.Table table, IDelimitedDataReader delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
+        public static bool Read(this Table.Classes.Table? table, IDelimitedDataReader? delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
         {
-            List<DelimitedDataRow> delimitedDataRows = delimitedDataReader?.ReadRows();
+            if(table == null)
+            {
+                return false;
+            }
+
+            List<DelimitedDataRow>? delimitedDataRows = delimitedDataReader?.ReadRows();
             if (delimitedDataRows == null || delimitedDataRows.Count == 0)
             {
                 return false;
@@ -36,7 +41,7 @@ namespace DiGi.Core.IO.DelimitedData
 
                 for (int i = 0; i < columnCount; i++)
                 {
-                    Column column = table.GetColumn(i);
+                    Column? column = table.GetColumn(i);
                     if(column != null)
                     {
                         table.UpdateColumn(i, delimitedDataRow_Column[i], typeof(string));
@@ -52,7 +57,7 @@ namespace DiGi.Core.IO.DelimitedData
                 columnCount = delimitedDataRows.ConvertAll(x => x.Count).Max();
                 for (int i = 0; i < columnCount; i++)
                 {
-                    Column column = table.GetColumn(i);
+                    Column? column = table.GetColumn(i);
                     if (column != null)
                     {
                         table.UpdateColumn(i, column.Name, typeof(string));
@@ -68,7 +73,7 @@ namespace DiGi.Core.IO.DelimitedData
 
             for (int i = rowIndex; i < rowCount; i++)
             {
-                Dictionary<int, object> dictionary = new Dictionary<int, object>();
+                Dictionary<int, object?> dictionary = [];
                 for (int j = 0; j < delimitedDataRows[i].Count; j++)
                 {
                     dictionary[j] = delimitedDataRows[i][j];
@@ -80,7 +85,7 @@ namespace DiGi.Core.IO.DelimitedData
             return true;
         }
 
-        public static bool Read(this Table.Classes.Table table, string path, char separator, int columnIndex = 0, int rowIndex = 1)
+        public static bool Read(this Table.Classes.Table? table, string? path, char separator, int columnIndex = 0, int rowIndex = 1)
         {
             if(table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
@@ -90,7 +95,7 @@ namespace DiGi.Core.IO.DelimitedData
             return Read(table, new DelimitedDataReader(separator, path), columnIndex, rowIndex);
         }
 
-        public static bool Read(this Table.Classes.Table table, string path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
+        public static bool Read(this Table.Classes.Table? table, string? path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {

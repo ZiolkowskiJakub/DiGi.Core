@@ -2,20 +2,22 @@
 using DiGi.Core.Parameter.Enums;
 using System;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
     public class EnumParameterDefinition : ComplexParameterDefinition
     {
-        private Enum @enum;
+        [JsonInclude, JsonPropertyName("Enum")]
+        private Enum? @enum;
 
-        public EnumParameterDefinition(JsonObject jsonObject)
+        public EnumParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public EnumParameterDefinition(EnumParameterDefinition enumParameterDefinition)
+        public EnumParameterDefinition(EnumParameterDefinition? enumParameterDefinition)
             : base(enumParameterDefinition)
         {
             if(enumParameterDefinition != null)
@@ -24,7 +26,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public EnumParameterDefinition(Enum @enum)
+        public EnumParameterDefinition(Enum? @enum)
         {
             this.@enum = @enum;
         }
@@ -39,7 +41,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                ParameterProperties parameterProperties = Query.ParameterProperties(@enum);
+                ParameterProperties? parameterProperties = Query.ParameterProperties(@enum);
                 if (parameterProperties == null)
                 {
                     return AccessType.ReadWrite;
@@ -49,15 +51,15 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public override AssociatedTypes AssociatedTypes
+        public override AssociatedTypes? AssociatedTypes
         {
             get
             {
-                return Query.AssociatedTypes(@enum.GetType());
+                return Query.AssociatedTypes(@enum?.GetType());
             }
         }
 
-        public override string Description
+        public override string? Description
         {
             get
             {
@@ -69,23 +71,15 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                string result = Query.ParameterProperties(@enum)?.GroupName;
+                string? result = Query.ParameterProperties(@enum)?.GroupName;
 
-                if (result == null)
-                {
-                    result = @enum?.GetType()?.Namespace;
-                }
+                result ??= @enum?.GetType()?.Namespace;
 
-                if (result == null)
-                {
-                    result = Constans.Names.DefaultGroupName;
-                }
-
-                return result;
+                return result ?? Constans.Names.DefaultGroupName;
             }
         }
 
-        public override string Name
+        public override string? Name
         {
             get
             {
@@ -93,7 +87,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public override ParameterValue ParameterValue
+        public override ParameterValue? ParameterValue
         {
             get
             {
@@ -101,7 +95,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public override string UniqueId
+        public override string? UniqueId
         {
             get
             {
@@ -109,7 +103,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
         
-        public static explicit operator Enum(EnumParameterDefinition enumParameterDefinition)
+        public static explicit operator Enum?(EnumParameterDefinition? enumParameterDefinition)
         {
             if (enumParameterDefinition == null)
             {
@@ -119,7 +113,7 @@ namespace DiGi.Core.Parameter.Classes
             return enumParameterDefinition.@enum;
         }
 
-        public static explicit operator EnumParameterDefinition(Enum @enum)
+        public static explicit operator EnumParameterDefinition?(Enum? @enum)
         {
             if (@enum == null)
             {
@@ -129,12 +123,12 @@ namespace DiGi.Core.Parameter.Classes
             return new EnumParameterDefinition(@enum);
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new EnumParameterDefinition(this);
         }
 
-        public override bool FromJsonObject(JsonObject jsonObject)
+        public override bool FromJsonObject(JsonObject? jsonObject)
         {
             if (jsonObject == null)
             {
@@ -143,7 +137,7 @@ namespace DiGi.Core.Parameter.Classes
 
             if (jsonObject.ContainsKey("Enum"))
             {
-                Core.Query.TryGetEnum(jsonObject["Enum"].GetValue<string>(), out @enum);
+                Core.Query.TryGetEnum(jsonObject["Enum"]?.GetValue<string>(), out @enum);
             }
 
             return true;
@@ -151,9 +145,11 @@ namespace DiGi.Core.Parameter.Classes
 
         public override JsonObject ToJsonObject()
         {
-            JsonObject result = new JsonObject();
-            result.Add(Core.Constans.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()));
-            result.Add("Enum", Core.Query.FullName(@enum));
+            JsonObject result = new()
+            {
+                { Core.Constans.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()) },
+                { "Enum", Core.Query.FullName(@enum) }
+            };
 
             return result;
         }

@@ -4,7 +4,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static T[,] Array<T>(string path, string separator = "\t", bool removeEmptyLines = true, T @default = default)
+        public static T?[,]? Array<T>(string? path, string separator = "\t", bool removeEmptyLines = true, T? @default = default)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
             {
@@ -19,7 +19,7 @@ namespace DiGi.Core
 
             int maxCount = -1;
 
-            List<List<T>> values = new List<List<T>>();
+            List<List<T?>> values = [];
             foreach (string line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line) && removeEmptyLines)
@@ -27,16 +27,16 @@ namespace DiGi.Core
                     continue;
                 }
 
-                string[] valueStrings = line.Split(new string[] { separator }, System.StringSplitOptions.None);
+                string[] valueStrings = line.Split([separator], System.StringSplitOptions.None);
                 if (valueStrings.Length > maxCount)
                 {
                     maxCount = valueStrings.Length;
                 }
 
-                List<T> row = new List<T>();
+                List<T?> row = [];
                 foreach (string valueString in valueStrings)
                 {
-                    if (!Query.TryConvert(valueString, out T value))
+                    if (!Query.TryConvert(valueString, out T? value))
                     {
                         value = @default;
                     }
@@ -47,7 +47,7 @@ namespace DiGi.Core
                 values.Add(row);
             }
 
-            T[,] result = new T[values.Count, maxCount];
+            T?[,] result = new T[values.Count, maxCount];
             for (int i = 0; i < values.Count; i++)
             {
                 for (int j = 0; j < values[i].Count; j++)

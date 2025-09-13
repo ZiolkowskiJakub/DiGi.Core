@@ -7,38 +7,38 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class RelationCollection<T> : SerializableObjectCollection<T> where T : IRelation
+    public class RelationCollection<TRelation> : SerializableObjectCollection<TRelation> where TRelation : IRelation
     {
         public RelationCollection() 
             :base()
         { 
         }
 
-        public RelationCollection(IEnumerable<T> relations)
+        public RelationCollection(IEnumerable<TRelation>? relations)
             : base(relations)
         {
         }
 
-        public RelationCollection(RelationCollection<T> relationCollection)
+        public RelationCollection(RelationCollection<TRelation>? relationCollection)
             : base(relationCollection)
         {
         }
 
-        public RelationCollection(JsonObject jsonObject)
+        public RelationCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
-        public X Find<X>(IUniqueReference uniqueReference, Func<X, bool> func = null) where X : T
+        public XRelation? Find<XRelation>(IUniqueReference? uniqueReference, Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
             if (uniqueReference == null)
             {
                 return default;
             }
 
-            foreach (T relation in this)
+            foreach (TRelation relation in this)
             {
-                X x = relation is X ? (X)relation : default;
+                XRelation? x = relation is XRelation xRelation ? xRelation : default;
                 if (x == null || !x.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
@@ -60,11 +60,11 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public X Find<X>(Func<X, bool> func = null) where X : T
+        public XRelation? Find<XRelation>(Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
-            foreach (T relation in this)
+            foreach (TRelation relation in this)
             {
-                X x = relation is X ? (X)relation : default;
+                XRelation? x = relation is XRelation x_Temp ? x_Temp : default;
                 if (x == null)
                 {
                     continue;
@@ -86,17 +86,17 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
-        public List<X> FindAll<X>(IUniqueReference uniqueReference, Func<X, bool> func = null) where X : T
+        public List<XRelation>? FindAll<XRelation>(IUniqueReference? uniqueReference, Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
             if (uniqueReference == null)
             {
                 return null;
             }
 
-            List<X> result = new List<X>();
-            foreach (T relation in this)
+            List<XRelation> result = [];
+            foreach (TRelation relation in this)
             {
-                X x = relation is X ? (X)relation : default;
+                XRelation? x = relation is XRelation xRelation ? xRelation : default;
                 if (x == null || !x.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
@@ -113,12 +113,12 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public List<X> FindAll<X>(Func<X, bool> func = null) where X : T
+        public List<XRelation>? FindAll<XRelation>(Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
-            List<X> result = new List<X>();
-            foreach (T relation in this)
+            List<XRelation> result = [];
+            foreach (TRelation relation in this)
             {
-                X x = relation is X ? (X)relation : default;
+                XRelation? x = relation is XRelation xRelation ? xRelation : default;
                 if (x == null)
                 {
                     continue;
@@ -135,7 +135,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
-        public bool Remove(IUniqueReference uniqueReference)
+        public bool Remove(IUniqueReference? uniqueReference)
         {
             if(uniqueReference == null)
             {
@@ -147,7 +147,7 @@ namespace DiGi.Core.Relation.Classes
             bool result = false;
             for (int i = count; i >= 0; i--)
             {
-                T relation = this[i];
+                TRelation relation = this[i];
                 if (relation == null || !relation.Contains(Enums.RelationSide.Undefined, uniqueReference))
                 {
                     continue;
@@ -164,16 +164,6 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return result;
-        }
-
-        public bool Remove(T relation)
-        {
-            if (relation == null)
-            {
-                return false;
-            }
-
-            return Remove(relation);
         }
     }
 }

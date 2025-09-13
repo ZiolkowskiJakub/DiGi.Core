@@ -9,14 +9,14 @@ namespace DiGi.Core.Classes
     public class Tag : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Value"), Description("Value")]
-        private object value;
+        private object? value;
 
-        private Tag(object value)
+        private Tag(object? value)
         {
             Value = value;
         }
 
-        private Tag(JsonObject jsonObject)
+        private Tag(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -28,7 +28,7 @@ namespace DiGi.Core.Classes
 
         }
 
-        private Tag(Tag tag)
+        private Tag(Tag? tag)
             : base()
         {
             if(tag != null)
@@ -37,7 +37,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public Tag(string value)
+        public Tag(string? value)
         {
             Value = value;
         }
@@ -57,13 +57,13 @@ namespace DiGi.Core.Classes
             Value = value;
         }
 
-        public Tag(ISerializableObject value)
+        public Tag(ISerializableObject? value)
         {
             Value = value;
         }
 
         [JsonIgnore]
-        public object Value
+        public object? Value
         {
             get
             {
@@ -75,7 +75,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Tag(Value);
         }

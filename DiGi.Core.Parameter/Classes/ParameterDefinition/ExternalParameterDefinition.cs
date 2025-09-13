@@ -1,40 +1,41 @@
-﻿using DiGi.Core.Parameter.Enums;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Parameter.Enums;
 using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
-    public class ExternalParameterDefinition : ComplexParameterDefinition
+    public class ExternalParameterDefinition : ComplexParameterDefinition, INamedObject
     {
         [JsonInclude, JsonPropertyName("Guid")]
         private Guid guid;
 
         [JsonInclude, JsonPropertyName("Name")]
-        private string name;
+        private readonly string? name;
 
         [JsonInclude, JsonPropertyName("Description")]
-        private string description;
+        private readonly string? description;
 
         [JsonInclude, JsonPropertyName("AccessType")]
-        private AccessType accessType;
+        private readonly AccessType accessType;
 
         [JsonInclude, JsonPropertyName("ParameterValue")]
-        private ParameterValue parameterValue;
+        private readonly ParameterValue? parameterValue;
 
         [JsonInclude, JsonPropertyName("AssociatedTypes")]
-        private AssociatedTypes associatedTypes;
+        private readonly AssociatedTypes? associatedTypes;
 
         [JsonInclude, JsonPropertyName("GroupName")]
-        private string groupName;
+        private readonly string? groupName;
 
-        public ExternalParameterDefinition(JsonObject jsonObject)
+        public ExternalParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ExternalParameterDefinition(ExternalParameterDefinition externalParameterDefinition)
+        public ExternalParameterDefinition(ExternalParameterDefinition? externalParameterDefinition)
             : base(externalParameterDefinition)
         {
             if(externalParameterDefinition != null)
@@ -49,7 +50,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public ExternalParameterDefinition(Guid guid, string name, string description, AccessType accessType, ParameterValue parameterValue, AssociatedTypes associatedTypes, string groupName)
+        public ExternalParameterDefinition(Guid guid, string? name, string? description, AccessType accessType, ParameterValue? parameterValue, AssociatedTypes associatedTypes, string? groupName)
         {
             this.guid = guid;
             this.name = name;
@@ -76,7 +77,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override string Name
+        public override string? Name
         {
             get
             {
@@ -85,7 +86,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override string Description 
+        public override string? Description 
         {
             get
             {
@@ -94,7 +95,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override ParameterValue ParameterValue
+        public override ParameterValue? ParameterValue
         {
             get
             {
@@ -103,7 +104,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override AssociatedTypes AssociatedTypes
+        public override AssociatedTypes? AssociatedTypes
         {
             get
             {
@@ -121,7 +122,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override string GroupName
+        public override string? GroupName
         {
             get
             {
@@ -129,7 +130,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             bool result = base.IsValid(value);
             if (!result)
@@ -137,7 +138,7 @@ namespace DiGi.Core.Parameter.Classes
                 return result;
             }
 
-            ParameterValue parameterValue = ParameterValue;
+            ParameterValue? parameterValue = ParameterValue;
             if(parameterValue != null)
             {
                 result = parameterValue.IsValid(value);

@@ -2,6 +2,7 @@
 using DiGi.Core.Parameter.Enums;
 using System;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
@@ -9,7 +10,8 @@ namespace DiGi.Core.Parameter.Classes
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public abstract class ParameterValue : Attribute, ISerializableObject
     {
-        private bool nullable = true;
+        [JsonInclude, JsonPropertyName("Nullable")]
+        private readonly bool nullable = true;
 
         public ParameterValue()
         {
@@ -21,7 +23,7 @@ namespace DiGi.Core.Parameter.Classes
             this.nullable = nullable;
         }
 
-        public ParameterValue(ParameterValue parameterValue)
+        public ParameterValue(ParameterValue? parameterValue)
         {
             if(parameterValue != null)
             {
@@ -29,31 +31,22 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public ParameterValue(JsonObject jsonObject)
+        public ParameterValue(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
 
+        [JsonIgnore]
         public abstract ParameterType ParameterType { get; }
 
-        public abstract ISerializableObject Clone();
+        public abstract ISerializableObject? Clone();
 
-        public virtual bool FromJsonObject(JsonObject jsonObject)
+        public bool FromJsonObject(JsonObject? jsonObject)
         {
-            if (jsonObject == null)
-            {
-                return false;
-            }
-
-            if (jsonObject.ContainsKey("Nullable"))
-            {
-                nullable = (bool)jsonObject["Nullable"];
-            }
-
-            return true;
+            return FromJsonObject(jsonObject);
         }
 
-        public virtual bool IsValid(object value)
+        public virtual bool IsValid(object? value)
         {
             if(value == null)
             {
@@ -63,20 +56,12 @@ namespace DiGi.Core.Parameter.Classes
             return Query.IsValid(ParameterType, value);
         }
 
-        public virtual JsonObject ToJsonObject()
+        public JsonObject? ToJsonObject()
         {
-            JsonObject result = new JsonObject();
-            result[Core.Constans.Serialization.PropertyName.Type] = Core.Query.FullTypeName(GetType());
-
-            if (!nullable)
-            {
-                result["Nullable"] = nullable;
-            }
-
-            return result;
+            return Convert.ToJson(this);
         }
 
-        public virtual bool TryConvert(object value_In, out object value_Out)
+        public virtual bool TryConvert(object? value_In, out object? value_Out)
         {
             value_Out = default;
 
@@ -109,7 +94,7 @@ namespace DiGi.Core.Parameter.Classes
                     return true;
 
                 case ParameterType.String:
-                    string @string;
+                    string? @string;
                     if (!Core.Query.TryConvert(value_In, out @string))
                     {
                         return false;
@@ -149,7 +134,7 @@ namespace DiGi.Core.Parameter.Classes
                     return true;
 
                 case ParameterType.Object:
-                    if (!(value_In is ISerializableObject))
+                    if (value_In is not ISerializableObject)
                     {
                         return false;
                     }
@@ -188,7 +173,7 @@ namespace DiGi.Core.Parameter.Classes
                     return true;
 
                 case ParameterType.Color:
-                    Core.Classes.Color color = null;
+                    Core.Classes.Color? color;
                     if (!Core.Query.TryConvert(value_In, out color))
                     {
                         return false;

@@ -1,11 +1,13 @@
 ﻿using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Enums;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
     public class GuidParameterValue : ParameterValue
     {
+        [JsonIgnore]
         public override ParameterType ParameterType => ParameterType.Guid;
 
         public GuidParameterValue()
@@ -20,18 +22,18 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
-        public GuidParameterValue(JsonObject jsonObject)
+        public GuidParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public GuidParameterValue(GuidParameterValue guidParameterValue)
+        public GuidParameterValue(GuidParameterValue? guidParameterValue)
             : base(guidParameterValue)
         {
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new GuidParameterValue(this);
         }

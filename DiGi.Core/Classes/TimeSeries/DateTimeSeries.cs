@@ -9,10 +9,10 @@ namespace DiGi.Core.Classes
     public class DateTimeSeries : SerializableObject, ITimeSeries
     {
         [JsonInclude, JsonPropertyName("Range")]
-        private DateTimeRange range;
+        private readonly DateTimeRange? range;
 
         [JsonInclude, JsonPropertyName("Step")]
-        private long step;
+        private readonly long step;
 
         public DateTimeSeries(DateTime dateTime_1, DateTime dateTime_2, long step)
         {
@@ -26,31 +26,31 @@ namespace DiGi.Core.Classes
             step = -1;
         }
 
-        public DateTimeSeries(DateTimeRange range, long step)
+        public DateTimeSeries(DateTimeRange? range, long step)
             : base()
         {
             this.range = Query.Clone(range);
             this.step = step;
         }
 
-        public DateTimeSeries(DateTimeSeries dateTimeSeries)
+        public DateTimeSeries(DateTimeSeries? dateTimeSeries)
             : base(dateTimeSeries)
         {
-            if(dateTimeSeries != null)
+            if (dateTimeSeries != null)
             {
                 range = Query.Clone(dateTimeSeries.range);
                 step = dateTimeSeries.step;
             }
         }
 
-        public DateTimeSeries(JsonObject jsonObject)
+        public DateTimeSeries(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public DateTimeRange Range
+        public DateTimeRange? Range
         {
             get
             {
@@ -67,9 +67,9 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public DateTime[] GetDateTimes()
+        public DateTime[]? GetDateTimes()
         {
-            if(range == null)
+            if(range is null)
             {
                 return null;
             }
@@ -84,7 +84,7 @@ namespace DiGi.Core.Classes
                 return [range.Min, range.Max];
             }
 
-            List<DateTime> dateTimes = new List<DateTime>() { range.Min };
+            List<DateTime> dateTimes = [range.Min];
             int index = dateTimes.Count - 1;
 
             while (dateTimes[index] < range.Max)
@@ -93,7 +93,7 @@ namespace DiGi.Core.Classes
                 index++;
             }
 
-            return dateTimes.ToArray();
+            return [.. dateTimes];
         }
     }
 }

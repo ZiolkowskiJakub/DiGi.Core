@@ -7,39 +7,39 @@ namespace DiGi.Core.IO.DelimitedData.Classes
 {
     public class DelimitedDataReader : StreamReader, IDelimitedDataReader
     {
-        private char separator;
+        private readonly char separator;
 
-        public DelimitedDataReader(char separator, Stream stream)
+        public DelimitedDataReader(char separator, Stream? stream)
             : base(stream)
         {
             this.separator = separator;
         }
 
-        public DelimitedDataReader(char separator, string path)
+        public DelimitedDataReader(char separator, string? path)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             this.separator = separator;
         }
 
-        public DelimitedDataReader(char separator, IEnumerable<string> lines)
-            : base(lines.MemoryStream())
+        public DelimitedDataReader(char separator, IEnumerable<string>? lines)
+            : base(lines?.MemoryStream())
         {
             this.separator = separator;
         }
 
-        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, IEnumerable<string> lines)
-            : base(lines.MemoryStream())
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, IEnumerable<string>? lines)
+            : base(lines?.MemoryStream())
         {
             separator = delimitedDataSeparator.Separator();
         }
 
-        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string path)
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string? path)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             separator = delimitedDataSeparator.Separator();
         }
 
-        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string path, System.Text.Encoding encoding)
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string? path, System.Text.Encoding encoding)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), encoding)
         {
             separator = delimitedDataSeparator.Separator();
@@ -58,15 +58,15 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="delimitedDataRow"></param>
         /// <returns></returns>
-        public DelimitedDataRow ReadRow()
+        public DelimitedDataRow? ReadRow()
         {
-            List<string> values = Query.Values(ReadLine(), separator, () => ReadLine());
+            List<string>? values = Query.Values(ReadLine(), separator, () => ReadLine());
             if(values == null)
             {
                 return null;
             }
 
-            return new DelimitedDataRow(values);
+            return [.. values];
         }
 
         /// <summary>
@@ -75,8 +75,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <returns>List of the rows</returns>
         public List<DelimitedDataRow> ReadRows()
         {
-            List<DelimitedDataRow> delimitedDataRows = new List<DelimitedDataRow>();
-            DelimitedDataRow delimitedDataRow = ReadRow();
+            List<DelimitedDataRow> delimitedDataRows = [];
+            DelimitedDataRow? delimitedDataRow = ReadRow();
             while (delimitedDataRow != null )
             {
                 delimitedDataRows.Add(delimitedDataRow);

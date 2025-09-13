@@ -10,13 +10,13 @@ namespace DiGi.Core.Classes
 
         }
 
-        public Options(Options options)
-            : base(options)
+        public Options(Options? options)
+            :base(options)
         {
 
         }
 
-        public Options(JsonObject jsonObject)
+        public Options(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

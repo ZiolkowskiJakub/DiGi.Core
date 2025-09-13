@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Nodes;
@@ -10,80 +9,80 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static T Clone<T>(this T serializableObject) where T: ISerializableObject
+        public static TSerializableObject? Clone<TSerializableObject>(this TSerializableObject? serializableObject) where TSerializableObject : ISerializableObject
         {
-            if(serializableObject == null)
+            if (serializableObject == null)
             {
                 return default;
             }
 
-            MethodInfo methodInfo = typeof(ISerializableObject).GetMethod(Constans.Serialization.MethodName.Clone, new Type[] { });
-            if(methodInfo == null)
-            {
-                return default(T);
-            }
-
-            object @object = methodInfo.Invoke(serializableObject, new object[] { });
-            if(@object == null)
+            MethodInfo methodInfo = typeof(ISerializableObject).GetMethod(Constans.Serialization.MethodName.Clone, []);
+            if (methodInfo == null)
             {
                 return default;
             }
 
-            if(@object is T)
-            {
-                return (T)@object;
-            }
-
-            if(!@object.GetType().IsAssignableFrom(typeof(T)))
+            object @object = methodInfo.Invoke(serializableObject, []);
+            if (@object == null)
             {
                 return default;
             }
 
-            SerializationConstructor serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(FullTypeName(serializableObject));
-            if(serializationConstructor == null)
+            if (@object is TSerializableObject serializableObject_Temp)
+            {
+                return serializableObject_Temp;
+            }
+
+            if (!@object.GetType().IsAssignableFrom(typeof(TSerializableObject)))
             {
                 return default;
             }
 
-            JsonObject jsonObject = serializableObject.ToJsonObject();
+            SerializationConstructor? serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(FullTypeName(serializableObject));
+            if (serializationConstructor == null)
+            {
+                return default;
+            }
+
+            JsonObject? jsonObject = serializableObject.ToJsonObject();
             if (jsonObject == null)
             {
                 return default;
             }
 
-            return Create.SerializableObject<T>(jsonObject);
+            return Create.SerializableObject<TSerializableObject>(jsonObject);
         }
 
-        public static List<T> Clone<T>(this IEnumerable<T> serializableObjects) where T : ISerializableObject
+        public static List<T?>? Clone<T>(this IEnumerable<T?>? serializableObjects) where T : ISerializableObject
         {
-            if(serializableObjects == null)
+            if (serializableObjects == null)
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
-            foreach(T serializableObject in serializableObjects)
+            List<T?> result = [];
+            foreach (T? serializableObject in serializableObjects)
             {
-                result.Add(serializableObject == null ? default(T) : Clone(serializableObject));
+                result.Add(serializableObject == null ? default : Clone(serializableObject));
             }
 
             return result;
         }
 
-        public static T[] Clone<T>(this T[] values)
+        public static T?[]? Clone<T>(this T?[]? values)
         {
-            if(values == null)
+            if (values == null)
             {
                 return null;
             }
 
-            if(values.Length == 0)
+            if (values.Length == 0)
             {
-                return new T[0];
+                return [];
             }
 
-            T[] result = new T[values.Length];
-            for(int i =0; i < values.Length; i++)
+            T?[] result = new T[values.Length];
+            for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
             }
@@ -91,5 +90,4 @@ namespace DiGi.Core
             return result;
         }
     }
-
 }

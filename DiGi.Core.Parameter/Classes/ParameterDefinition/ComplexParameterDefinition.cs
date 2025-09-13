@@ -5,13 +5,13 @@ namespace DiGi.Core.Parameter.Classes
 {
     public abstract class ComplexParameterDefinition : ParameterDefinition
     {
-        public ComplexParameterDefinition(JsonObject jsonObject)
+        public ComplexParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ComplexParameterDefinition(ComplexParameterDefinition complexParameterDefinition)
+        public ComplexParameterDefinition(ComplexParameterDefinition? complexParameterDefinition)
             : base(complexParameterDefinition)
         {
 
@@ -23,11 +23,11 @@ namespace DiGi.Core.Parameter.Classes
 
         }
 
-        public abstract string Description { get; }
+        public abstract string? Description { get; }
 
-        public abstract ParameterValue ParameterValue { get; }
+        public abstract ParameterValue? ParameterValue { get; }
 
-        public abstract AssociatedTypes AssociatedTypes { get; }
+        public abstract AssociatedTypes? AssociatedTypes { get; }
 
         public abstract AccessType AccessType { get; }
 
@@ -35,8 +35,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                ParameterValue parameterValue = ParameterValue;
-
+                ParameterValue? parameterValue = ParameterValue;
                 if(parameterValue == null)
                 {
                     return ParameterType.Undefined;
@@ -46,7 +45,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             bool result = base.IsValid(value);
             if (!result)
@@ -54,7 +53,7 @@ namespace DiGi.Core.Parameter.Classes
                 return result;
             }
 
-            ParameterValue parameterValue = ParameterValue;
+            ParameterValue? parameterValue = ParameterValue;
             if(parameterValue != null)
             {
                 result = parameterValue.IsValid(value);

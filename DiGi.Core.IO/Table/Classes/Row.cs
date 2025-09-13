@@ -5,49 +5,49 @@ namespace DiGi.Core.IO.Table.Classes
 {
     public class Row : ITableObject
     {
-        private int index = -1;
-        private SortedDictionary<int, object> values = new SortedDictionary<int, object>();
+        private readonly int index = -1;
+        private readonly SortedDictionary<int, object?> values = [];
 
         public Row(int index)
         {
             this.index = index;
         }
 
-        public Row(int index, IDictionary<int, object> values)
+        public Row(int index, IDictionary<int, object?>? values)
             : this(index)
         {
             if(values != null)
             {
-                this.values = new SortedDictionary<int, object>(values);
+                this.values = new SortedDictionary<int, object?>(values);
             }
         }
 
-        public Row(IDictionary<int, object> values)
+        public Row(IDictionary<int, object?>? values)
         {
             if (values != null)
             {
-                this.values = new SortedDictionary<int, object>(values);
+                this.values = new SortedDictionary<int, object?>(values);
             }
         }
 
-        public Row(Row row)
+        public Row(Row? row)
         {
             if(row != null)
             {
                 index = row.index;
                 if(row.values != null)
                 {
-                    values = new SortedDictionary<int, object>(row.values);
+                    values = new SortedDictionary<int, object?>(row.values);
                 }
             }
         }
 
-        public Row(int index, Row row)
+        public Row(int index, Row? row)
         {
             this.index = index;
             if(row != null)
             {
-                values = new SortedDictionary<int, object>(row.values);
+                values = new SortedDictionary<int, object?>(row.values);
             }
         }
 
@@ -71,15 +71,15 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return new HashSet<int>(values.Keys);
+                return [.. values.Keys];
             }
         }
         
-        public object this[int index]
+        public object? this[int index]
         {
             get
             {
-                if(!values.TryGetValue(index, out object result))
+                if(!values.TryGetValue(index, out object? result))
                 {
                     return null;
                 }
@@ -88,11 +88,11 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public object[] GetValues()
+        public object?[] GetValues()
         {
             int count = values.Keys.Last() + 1;
 
-            object[] result = new object[count];
+            object?[] result = new object[count];
 
             foreach (int index in values.Keys)
             {
@@ -107,14 +107,14 @@ namespace DiGi.Core.IO.Table.Classes
             return values.Remove(index);
         }
 
-        public List<int> RemoveValues(IEnumerable<int> indexes)
+        public List<int>? RemoveValues(IEnumerable<int>? indexes)
         {
             if(indexes == null)
             {
                 return null;
             }
 
-            List<int> result = new List<int>();
+            List<int> result = [];
             if(values.Count == 0)
             {
                 return result;
@@ -131,15 +131,13 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
         
-        public void SetValue(int index, object value)
+        public void SetValue(int index, object? value)
         {
             values[index] = value;
         }
 
-        public bool TryGetValue<T>(int index, out T value)
+        public bool TryGetValue<T>(int index, out T? value)
         {
-            value = default;
-
             if(!Core.Query.TryConvert(this[index], out value))
             {
                 return false;
@@ -148,16 +146,16 @@ namespace DiGi.Core.IO.Table.Classes
             return true; 
         }
 
-        public T GetValue<T>(int index, T defaultValue = default, bool tryConvert = true)
+        public T? GetValue<T>(int index, T? defaultValue = default, bool tryConvert = true)
         {
-            if (!values.TryGetValue(index, out object value))
+            if (!values.TryGetValue(index, out object? value))
             {
                 return defaultValue;
             }
 
-            if(value is T)
+            if(value is T t)
             {
-                return (T)value;
+                return t;
             }
 
             if(!tryConvert)
@@ -165,7 +163,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return defaultValue;
             }
 
-            if(!Core.Query.TryConvert(value, out T result))
+            if(!Core.Query.TryConvert(value, out T? result))
             {
                 return defaultValue;
             }

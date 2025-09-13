@@ -18,30 +18,30 @@ namespace DiGi.Core.IO.File.Classes
         private bool disposed = false;
 
         [JsonInclude, JsonPropertyName("MetadataStorage"), Description("MetadataStorage")]
-        private MetadataStorage metadataStorage = new MetadataStorage();
+        private MetadataStorage metadataStorage = new();
 
-        public File(string path)
+        public File(string? path)
             : base()
         {
             metadataStorage.SetMetadata(new FileMetadata(GetType(), path));
         }
 
-        public File(JsonObject jsonObject)
+        public File(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public File(File file)
+        public File(File? file)
             : base()
         {
             if (file != null)
             {
-                metadataStorage = metadataStorage.Clone<MetadataStorage>();
+                this.metadataStorage = file.metadataStorage.Clone<MetadataStorage>() ?? new();
             }
         }
 
-        public TMetadata GetMetadata<TMetadata>() where TMetadata : IMetadata
+        public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
         {
             if(metadataStorage == null)
             {
@@ -51,7 +51,7 @@ namespace DiGi.Core.IO.File.Classes
             return metadataStorage.GetMetadata<TMetadata>();
         }
 
-        public void SetMetadata(IMetadata metadata)
+        public void SetMetadata(IMetadata? metadata)
         {
             if(metadata == null || metadata is FileMetadata)
             {
@@ -61,7 +61,7 @@ namespace DiGi.Core.IO.File.Classes
             metadataStorage.SetMetadata(metadata);
         }
 
-        public string Path
+        public string? Path
         {
             get
             {
@@ -70,11 +70,8 @@ namespace DiGi.Core.IO.File.Classes
 
             set
             {
-                FileMetadata fileMetadata = GetMetadata<FileMetadata>();
-                if(fileMetadata == null)
-                {
-                    fileMetadata = new FileMetadata(GetType());
-                }
+                FileMetadata? fileMetadata = GetMetadata<FileMetadata>();
+                fileMetadata ??= new FileMetadata(GetType());
 
                 fileMetadata.Path = value;
                 metadataStorage.SetMetadata(fileMetadata);
@@ -83,7 +80,7 @@ namespace DiGi.Core.IO.File.Classes
 
         public virtual bool Open()
         {
-            string path = Path;
+            string? path = Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
@@ -94,25 +91,24 @@ namespace DiGi.Core.IO.File.Classes
                 return false;
             }
 
-            using (ZipArchive zipArchive = ZipFile.OpenRead(path))
-            {
-                ZipArchiveEntry zipArchiveEntry = null;
+            using ZipArchive zipArchive = ZipFile.OpenRead(path);
 
-                zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
-                if (zipArchiveEntry != null)
-                {
-                    using (StreamReader streamReader = new StreamReader(zipArchiveEntry.Open()))
-                    {
-                        metadataStorage = Convert.ToDiGi<MetadataStorage>(streamReader.ReadToEnd())?.FirstOrDefault();
-                        Path = path;
-                    }
-                }
+            ZipArchiveEntry zipArchiveEntry;
+
+            zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
+            if (zipArchiveEntry != null)
+            {
+                using StreamReader streamReader = new (zipArchiveEntry.Open());
+                MetadataStorage? metadataStorage = Convert.ToDiGi<MetadataStorage>(streamReader.ReadToEnd())?.FirstOrDefault();
+
+                this.metadataStorage = metadataStorage ?? new();
+                Path = path;
             }
 
             return true;
         }
 
-        public bool Open(string path)
+        public bool Open(string? path)
         {
             Path = path;
 
@@ -121,14 +117,10 @@ namespace DiGi.Core.IO.File.Classes
 
         public virtual bool Save()
         {
-            FileMetadata fileMetadata = GetMetadata<FileMetadata>();
-            
-            if (fileMetadata == null)
-            {
-                fileMetadata = new FileMetadata(GetType());
-            }
+            FileMetadata? fileMetadata = GetMetadata<FileMetadata>();
+            fileMetadata ??= new FileMetadata(GetType());
 
-            string path = fileMetadata.Path;
+            string? path = fileMetadata.Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
@@ -138,35 +130,27 @@ namespace DiGi.Core.IO.File.Classes
 
             metadataStorage.SetMetadata(fileMetadata);
 
-            string json = Convert.ToSystem_String((ISerializableObject)metadataStorage);
+            string? json = Convert.ToSystem_String((ISerializableObject)metadataStorage);
             if(string.IsNullOrWhiteSpace(json))
             {
                 return false;
             }
 
-            using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update))
-            {
-                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
-                if (zipArchiveEntry != null)
-                {
-                    zipArchiveEntry.Delete();
-                }
+            using ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update);
 
-                zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.MetadataStorage);
+            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
+            zipArchiveEntry?.Delete();
 
-                using (Stream stream = zipArchiveEntry.Open())
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(stream))
-                    {
-                        streamWriter.Write(json);
-                    }
-                }
-            }
+            zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.MetadataStorage);
+
+            using Stream stream = zipArchiveEntry.Open();
+            using StreamWriter streamWriter = new(stream);
+            streamWriter.Write(json);
 
             return true;
         }
 
-        public bool SaveAs(string path)
+        public bool SaveAs(string? path)
         {
             Path = path;
             return Save();
@@ -184,7 +168,7 @@ namespace DiGi.Core.IO.File.Classes
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
 
-                metadataStorage = null;
+                //metadataStorage = null;
 
                 disposed = true;
             }

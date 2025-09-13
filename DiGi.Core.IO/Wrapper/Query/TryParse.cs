@@ -7,7 +7,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static bool TryParse(string value, out IWrapperReference wrapperReference)
+        internal static bool TryParse(string? value, out IWrapperReference? wrapperReference)
         {
             wrapperReference = null;
 
@@ -16,44 +16,44 @@ namespace DiGi.Core.IO.Wrapper
                 return false;
             }
 
-            if(!Core.Query.TryParse(value, out IReference reference))
+            if(!Core.Query.TryParse(value, out IReference? reference))
             {
                 return false;
             }
 
-            if(reference is TypeReference)
+            if(reference is TypeReference typeReference)
             {
-                wrapperReference = new WrapperTypeReference((TypeReference)reference);
+                wrapperReference = new WrapperTypeReference(typeReference);
                 return true;
             }
 
-            if (reference is UniqueIdReference)
+            if (reference is UniqueIdReference uniqueIdReference)
             {
-                wrapperReference = new WrapperUniqueIdReference((UniqueIdReference)reference);
+                wrapperReference = new WrapperUniqueIdReference(uniqueIdReference);
                 return true;
             }
 
-            if (reference is GuidReference)
+            if (reference is GuidReference guidReference)
             {
-                wrapperReference = new WrapperGuidReference((GuidReference)reference);
+                wrapperReference = new WrapperGuidReference(guidReference);
                 return true;
             }
 
             return false;
         }
 
-        internal static bool TryParse<TWrapperReference>(string value, out TWrapperReference wrapperReference) where TWrapperReference : IWrapperReference
+        internal static bool TryParse<TWrapperReference>(string? value, out TWrapperReference? wrapperReference) where TWrapperReference : IWrapperReference
         {
             wrapperReference = default;
 
-            if (!TryParse(value, out IWrapperReference wrapperReference_Temp))
+            if (!TryParse(value, out IWrapperReference? wrapperReference_Temp))
             {
                 return false;
             }
 
-            if (wrapperReference_Temp is TWrapperReference)
+            if (wrapperReference_Temp is TWrapperReference reference)
             {
-                wrapperReference = (TWrapperReference)wrapperReference_Temp;
+                wrapperReference = reference;
                 return true;
             }
 

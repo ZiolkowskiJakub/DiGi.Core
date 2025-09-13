@@ -4,7 +4,7 @@ namespace DiGi.Core.Drawing
 {
     public static partial class Query
     {
-        public static bool CompareByPixels(this Image image_1, Image image_2)
+        public static bool CompareByPixels(this Image? image_1, Image? image_2)
         {
             if(image_1 == null && image_2 == null)
             {
@@ -16,8 +16,8 @@ namespace DiGi.Core.Drawing
                 return false;
             }
 
-            using Bitmap bitmap_1 = new Bitmap(image_1);
-            using Bitmap bitmap_2 = new Bitmap(image_2);
+            using Bitmap bitmap_1 = new (image_1);
+            using Bitmap bitmap_2 = new (image_2);
 
             if (bitmap_1.Width != bitmap_2.Width || bitmap_1.Height != bitmap_2.Height)
             {

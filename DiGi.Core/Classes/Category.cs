@@ -12,17 +12,17 @@ namespace DiGi.Core.Classes
     public class Category : SerializableObject, IEquatable<Category>
     {
         [JsonIgnore]
-        private Dictionary<string, Category> dictionary;
+        private Dictionary<string, Category>? dictionary;
 
         [JsonInclude, JsonPropertyName("Name"), Description("Category Name")]
-        private string name;
-        public Category(string name)
+        private readonly string? name;
+        public Category(string? name)
             :base()
         {
             this.name = name;
         }
 
-        public Category(string name, IEnumerable<Category> subCategories)
+        public Category(string? name, IEnumerable<Category>? subCategories)
         {
             this.name = name;
             if (subCategories != null)
@@ -34,23 +34,31 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public Category(JsonObject jsonObject)
+        public Category(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Category(Category category)
-            :base()
+        public Category(Category? category)
+            :base(category)
         {
-            if(category != null)
+            if(category is not null)
             {
                 name = category.Name;
+                if (category.dictionary != null)
+                {
+                    dictionary = [];
+                    foreach (KeyValuePair<string, Category> keyValuePair in category.dictionary)
+                    {
+                        dictionary[keyValuePair.Key] = keyValuePair.Value;
+                    }
+                }
             }
         }
 
         [JsonIgnore]
-        public string Name
+        public string? Name
         {
             get
             {
@@ -59,7 +67,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonInclude, JsonPropertyName("SubCategories"), Description("Category SubCategories")]
-        public List<Category> SubCategories
+        public List<Category>? SubCategories
         {
             get
             {
@@ -68,10 +76,16 @@ namespace DiGi.Core.Classes
                     return null;
                 }
 
-                List<Category> result = new List<Category>();
-                foreach (Category category in dictionary.Values)
+                List<Category> result = [];
+                foreach (Category? category in dictionary.Values)
                 {
-                    result.Add(category?.Clone<Category>());
+                    Category? category_Temp = Query.Clone(category);
+                    if(category_Temp is null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(category_Temp);
                 }
 
                 return result;
@@ -79,24 +93,24 @@ namespace DiGi.Core.Classes
 
             set
             {
-                dictionary.Clear();
+                dictionary?.Clear();
                 AddRange(value);
             }
         }
 
         
-        public static implicit operator Category(string name)
+        public static implicit operator Category?(string? name)
         {
             return new Category(name);
         }
 
         
-        public static implicit operator string(Category category)
+        public static implicit operator string?(Category? category)
         {
-            return category.name;
+            return category?.name;
         }
 
-        public static bool operator !=(Category category_1, Category category_2)
+        public static bool operator !=(Category? category_1, Category? category_2)
         {
             if (Equals(category_1, category_2))
             {
@@ -116,7 +130,7 @@ namespace DiGi.Core.Classes
             return !category_1.Equals(category_2);
         }
 
-        public static bool operator ==(Category category_1, Category category_2)
+        public static bool operator ==(Category? category_1, Category? category_2)
         {
             if (Equals(category_1, category_2))
             {
@@ -136,35 +150,38 @@ namespace DiGi.Core.Classes
             return category_1.Equals(category_2);
         }
 
-        public bool Add(Category category)
+        public bool Add(Category? category)
         {
             if (category?.Name == null)
             {
                 return false;
             }
 
-            if (dictionary == null)
+            dictionary ??= [];
+
+            Category? category_Temp = category.Clone<Category>();
+            if(category_Temp is null)
             {
-                dictionary = new Dictionary<string, Category>();
+                return false;
             }
 
-            dictionary[category.Name] = category.Clone<Category>();
+            dictionary[category.Name] = category_Temp;
             return true;
         }
 
-        public Category Add(string name)
+        public Category? Add(string? name)
         {
             if(name == null)
             {
                 return null;
             }
 
-            Category result = new Category(name);
+            Category result = new(name);
 
             return Add(result) ? result : null;
         }
 
-        public void AddRange(IEnumerable<Category> subCategories)
+        public void AddRange(IEnumerable<Category>? subCategories)
         {
             if (subCategories == null)
             {
@@ -177,12 +194,12 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
-            Category result = new Category(name);
+            Category result = new(name);
             if(dictionary != null)
             {
-                dictionary = new Dictionary<string, Category>();
+                dictionary = [];
                 foreach(Category category in dictionary.Values)
                 {
                     result.Add(category);
@@ -192,7 +209,7 @@ namespace DiGi.Core.Classes
             return result;
         }
         
-        public bool Equals(Category category)
+        public bool Equals(Category? category)
         {
             if(category == null)
             {
@@ -202,9 +219,9 @@ namespace DiGi.Core.Classes
             return GetHashCode() == category.GetHashCode();
         }
 
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
-            if(!(@object is Category))
+            if(@object is not Category)
             {
                 return false;
             }
@@ -236,7 +253,7 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
             return name?.ToString();
         }

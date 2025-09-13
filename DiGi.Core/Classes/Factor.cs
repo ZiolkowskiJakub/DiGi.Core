@@ -1,15 +1,14 @@
 ﻿using DiGi.Core.Interfaces;
-using System;
 using System.ComponentModel;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public struct Factor : IObject, ISerializableObject
+    public readonly struct Factor : IObject, ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Value"), Description("Value [0-1]")]
-        private double value = double.NaN;
+        private readonly double value = double.NaN;
 
         public Factor()
         {
@@ -26,7 +25,7 @@ namespace DiGi.Core.Classes
             value = factor.value;
         }
 
-        public Factor(JsonObject jsonObject)
+        public Factor(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
@@ -53,19 +52,24 @@ namespace DiGi.Core.Classes
             return System.Convert.ToSingle(factor.value);
         }
 
-        public ISerializableObject Clone()
+        public ISerializableObject? Clone()
         {
             return new Factor(value);
         }
 
-        public bool FromJsonObject(JsonObject jsonObject)
+        public bool FromJsonObject(JsonObject? jsonObject)
         {
             return Modify.FromJsonObject(this, jsonObject);
         }
 
-        public JsonObject ToJsonObject()
+        public JsonObject? ToJsonObject()
         {
             return Convert.ToJson(this);
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
         }
     }
 }

@@ -15,16 +15,16 @@ namespace DiGi.Core.Classes
 
         }
 
-        public SerializableReference(JsonObject jsonObject)
+        public SerializableReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public SerializableReference(SerializableReference serializableReference)
+        public SerializableReference(SerializableReference? serializableReference)
             : base(serializableReference)
         {
-            if(serializableReference != null)
+            if(serializableReference is not null)
             {
                 hashCode = serializableReference.hashCode;
             }
@@ -32,10 +32,7 @@ namespace DiGi.Core.Classes
 
         public override int GetHashCode()
         {
-            if(hashCode == null)
-            {
-                hashCode = ToString().GetHashCode();
-            }
+            hashCode ??= ToString().GetHashCode();
 
             return hashCode.Value;
         }
@@ -47,9 +44,9 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            if (@object is IReference)
+            if (@object is IReference reference)
             {
-                return Equals((IReference)@object);
+                return Equals(reference);
             }
 
             return false;

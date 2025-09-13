@@ -3,25 +3,27 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
     [AttributeUsage(AttributeTargets.Enum, AllowMultiple = false)]
     public class AssociatedTypes : Attribute, IEnumerable, ISerializableObject
     {
-        private Type[] types;
+        [JsonInclude, JsonPropertyName("Types")]
+        private readonly Type[]? types;
 
-        public AssociatedTypes(params Type[] values)
+        public AssociatedTypes(params Type[]? values)
         {
             types = values;
         }
 
-        public AssociatedTypes(JsonObject jsonObject)
+        public AssociatedTypes(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
 
-        public AssociatedTypes(AssociatedTypes associatedTypes)
+        public AssociatedTypes(AssociatedTypes? associatedTypes)
         {
             if(associatedTypes != null)
             {
@@ -29,7 +31,8 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public Type[] Types
+        [JsonIgnore]
+        public Type[]? Types
         {
             get
             {
@@ -37,39 +40,34 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public virtual ISerializableObject Clone()
+        public virtual ISerializableObject? Clone()
         {
             return new AssociatedTypes(types);
         }
 
-        public virtual bool FromJsonObject(JsonObject jsonObject)
+        public virtual bool FromJsonObject(JsonObject? jsonObject)
         {
-            if(jsonObject == null)
-            {
-                return false;
-            }
-
-            if(jsonObject.ContainsKey("Types"))
-            {
-                types = Create.Types((JsonArray)jsonObject["Types"])?.ToArray();
-            }
-
-            return true;
+            return Modify.FromJsonObject(this, jsonObject);
         }
 
         public IEnumerator GetEnumerator()
         {
-            return types?.GetEnumerator();
+            if(types == null)
+            {
+                return Enumerable.Empty<Type>().GetEnumerator();
+            }
+
+            return types.GetEnumerator();
         }
 
-        public virtual bool IsValid(Type type)
+        public virtual bool IsValid(Type? type)
         {
-            if (types == null || types.Length == 0)
+            if (types == null || types.Length == 0 || type == null)
             {
                 return false;
             }
 
-            foreach (Type type_Temp in types)
+            foreach (Type? type_Temp in types)
             {
                 if (type_Temp == null)
                 {
@@ -90,17 +88,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
-        public virtual JsonObject ToJsonObject()
+        public virtual JsonObject? ToJsonObject()
         {
-            JsonObject result = new JsonObject();
-            result[Core.Constans.Serialization.PropertyName.Type] = Core.Query.FullTypeName(GetType());
-
-            if(types != null)
-            {
-                result["Types"] = Create.JsonArray(types);
-            }
-
-            return result;
+            return Convert.ToJson(this);
         }
     }
 }

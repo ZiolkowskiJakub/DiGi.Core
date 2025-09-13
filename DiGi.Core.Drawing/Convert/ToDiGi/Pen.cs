@@ -2,7 +2,7 @@
 {
     public static partial class Convert
     {
-        public static Classes.Pen ToDiGi(this System.Drawing.Pen pen)
+        public static Classes.Pen? ToDiGi(this System.Drawing.Pen? pen)
         {
             if(pen == null)
             {

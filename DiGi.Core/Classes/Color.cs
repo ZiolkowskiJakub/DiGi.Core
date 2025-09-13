@@ -9,16 +9,16 @@ namespace DiGi.Core.Classes
     public class Color : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Alpha"), Description("Color Alpha")]
-        private byte alpha;
+        private readonly byte alpha;
 
         [JsonInclude, JsonPropertyName("Blue"), Description("Color Blue")]
-        private byte blue;
+        private readonly byte blue;
 
         [JsonInclude, JsonPropertyName("Green"), Description("Color Green")]
-        private byte green;
+        private readonly byte green;
 
         [JsonInclude, JsonPropertyName("Red"), Description("Color Red")]
-        private byte red;
+        private readonly byte red;
         public Color(byte alpha, byte red, byte green, byte blue)
         {
             this.alpha = alpha;
@@ -95,9 +95,9 @@ namespace DiGi.Core.Classes
         }
 
 
-        public static implicit operator System.Drawing.Color(Color color)
+        public static implicit operator System.Drawing.Color(Color? color)
         {
-            if (color == null)
+            if (color is null)
             {
                 return System.Drawing.Color.Empty;
             }
@@ -117,7 +117,7 @@ namespace DiGi.Core.Classes
             return new Color(value);
         }
 
-        public static bool operator !=(Color color_1, Color color_2)
+        public static bool operator !=(Color? color_1, Color? color_2)
         {
             if (Equals(color_1, color_2))
             {
@@ -137,7 +137,7 @@ namespace DiGi.Core.Classes
             return color_1.alpha != color_2.alpha || color_1.red != color_2.red || color_1.green != color_2.green && color_1.blue != color_2.blue;
         }
 
-        public static bool operator ==(Color color_1, Color color_2)
+        public static bool operator ==(Color? color_1, Color? color_2)
         {
             if (Equals(color_1, color_2))
             {
@@ -157,10 +157,9 @@ namespace DiGi.Core.Classes
             return color_1.alpha == color_2.alpha && color_1.red == color_2.red && color_1.green == color_2.green && color_1.blue == color_2.blue;
         }
 
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
-            Color color = @object as Color;
-            if (color == null)
+            if (@object is not Color color)
             {
                 return false;
             }

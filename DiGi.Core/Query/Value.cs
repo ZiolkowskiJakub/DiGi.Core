@@ -10,7 +10,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static object Value(this JsonNode jsonNode, Type type)
+        public static object? Value(this JsonNode? jsonNode, Type? type)
         {
             if (jsonNode == null || type == null)
             {
@@ -32,26 +32,28 @@ namespace DiGi.Core
 
             if(nullable)
             {
-                object value_Temp = jsonNode.GetValue<object>();
-                if(value_Temp == null)
+                if(jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Object)
                 {
-                    return null;
+                    object value_Temp = jsonNode.GetValue<object>();
+                    if (value_Temp == null)
+                    {
+                        return null;
+                    }
                 }
             }
 
             if (type_Temp.IsEnum)
             {
-                JsonValue jsonValue = jsonNode as JsonValue;
-                if (jsonValue == null)
+                if (jsonNode is not JsonValue jsonValue)
                 {
                     return null;
                 }
 
-                object value_Temp = null;
+                object? value_Temp = null;
                 switch(jsonValue.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.String:
-                        if (jsonValue.TryGetValue(out string @string))
+                        if (jsonValue.TryGetValue(out string? @string))
                         {
                             value_Temp = @string;
                         }
@@ -74,7 +76,7 @@ namespace DiGi.Core
 
                     if(value_Temp == null)
                     {
-                        if (jsonValue.TryGetValue(out string @string))
+                        if (jsonValue.TryGetValue(out string? @string))
                         {
                             value_Temp = @string;
                         }
@@ -259,7 +261,12 @@ namespace DiGi.Core
 
             if (type_Temp == typeof(System.Drawing.Color))
             {
-                Color color = Create.SerializableObject<Color>(jsonNode.AsObject());
+                Color? color = Create.SerializableObject<Color>(jsonNode.AsObject());
+                if(color is null)
+                {
+                    return System.Drawing.Color.Empty;
+                }
+
                 return (System.Drawing.Color)color;
             }
 
@@ -283,10 +290,10 @@ namespace DiGi.Core
                     Array array = Array.CreateInstance(type_Array, jsonArray.Count);
                     for (int i = 0; i < jsonArray.Count; i++)
                     {
-                        object @object = Value(jsonArray[i], type_Array);
+                        object? @object = Value(jsonArray[i], type_Array);
                         if (@object != null && !type_Array.IsAssignableFrom(@object.GetType()))
                         {
-                            @object = type_Array.GetConstructor(new Type[] { @object.GetType() })?.Invoke(new object[] { @object });
+                            @object = type_Array.GetConstructor([@object.GetType()])?.Invoke([@object]);
                         }
 
                         array.SetValue(@object, i);
@@ -298,20 +305,24 @@ namespace DiGi.Core
 
             if (typeof(IList).IsAssignableFrom(type_Temp))
             {
-                Type genericType = type_Temp.GenericTypeArguments?[0];
+                Type? genericType = type_Temp.GenericTypeArguments?[0];
                 if (genericType != null)
                 {
-                    IList list = Create.List(genericType);
+                    IList? list = Create.List(genericType);
+                    if(list == null)
+                    {
+                        return null;
+                    }
 
                     JsonArray jsonArray = jsonNode.AsArray();
                     if (jsonArray != null)
                     {
-                        foreach (JsonNode jsonNode_Temp in jsonArray)
+                        foreach (JsonNode? jsonNode_Temp in jsonArray)
                         {
-                            object @object = Value(jsonNode_Temp, genericType);
+                            object? @object = Value(jsonNode_Temp, genericType);
                             if (@object != null && !genericType.IsAssignableFrom(@object.GetType()))
                             {
-                                @object = genericType.GetConstructor(new Type[] { @object.GetType() })?.Invoke(new object[] { @object });
+                                @object = genericType.GetConstructor([@object.GetType()])?.Invoke([@object]);
                             }
 
                             list.Add(@object);
@@ -324,12 +335,16 @@ namespace DiGi.Core
 
             if (typeof(IDictionary).IsAssignableFrom(type_Temp))
             {
-                Type genericType_Key = type.GenericTypeArguments?[0];
-                Type genericType_Value = type.GenericTypeArguments?[1];
+                Type? genericType_Key = type.GenericTypeArguments?[0];
+                Type? genericType_Value = type.GenericTypeArguments?[1];
 
                 if (genericType_Key != null && genericType_Value != null)
                 {
-                    IDictionary dictionary = Create.Dictionary(genericType_Key, genericType_Value);
+                    IDictionary? dictionary = Create.Dictionary(genericType_Key, genericType_Value);
+                    if(dictionary is null)
+                    {
+                        return null;
+                    }
 
                     switch(jsonNode.GetValueKind())
                     {
@@ -337,9 +352,14 @@ namespace DiGi.Core
                             JsonArray jsonArray = jsonNode.AsArray();
                             if (jsonArray != null)
                             {
-                                foreach (JsonNode jsonNode_Temp in jsonArray)
+                                foreach (JsonNode? jsonNode_Temp in jsonArray)
                                 {
-                                    object key = Value(jsonNode_Temp["Key"], genericType_Key);
+                                    if(jsonNode_Temp is null)
+                                    {
+                                        continue;
+                                    }
+
+                                    object? key = Value(jsonNode_Temp["Key"], genericType_Key);
                                     if (key != null)
                                     {
                                         dictionary[key] = Value(jsonNode_Temp["Value"], genericType_Value);
@@ -354,9 +374,9 @@ namespace DiGi.Core
                             JsonObject jsonObject = jsonNode.AsObject();
                             if (jsonObject != null)
                             {
-                                foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
+                                foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
                                 {
-                                    object key = Value(keyValuePair.Key, genericType_Key);
+                                    object? key = Value(keyValuePair.Key, genericType_Key);
                                     if (key != null)
                                     {
                                         dictionary[key] = Value(keyValuePair.Value, genericType_Value);
@@ -367,12 +387,10 @@ namespace DiGi.Core
                             }
                             break;
                     }
-
-
                 }
             }
 
-            object value = null;
+            object? value = null;
             switch (jsonNode.GetValueKind())
             {
                 case System.Text.Json.JsonValueKind.String:
@@ -396,7 +414,7 @@ namespace DiGi.Core
                     break;
 
                 case System.Text.Json.JsonValueKind.Object:
-                    ISerializableObject serializableObject = Create.SerializableObject<ISerializableObject>((JsonObject)jsonNode);
+                    ISerializableObject? serializableObject = Create.SerializableObject<ISerializableObject>((JsonObject)jsonNode);
                     if(serializableObject is SerializableObjectWrapper)
                     {
                         value = serializableObject.ToJsonObject();
@@ -409,27 +427,31 @@ namespace DiGi.Core
                     break;
             }
 
-            if (TryConvert(value, out object result, type))
+            if (TryConvert(value, out object? result, type))
             {
                 return result;
             }
 
             if(typeof(IEnumerable).IsAssignableFrom(type_Temp))
             {
-                Type genericType = type_Temp.GenericTypeArguments?[0];
+                Type? genericType = type_Temp.GenericTypeArguments?[0];
                 if (genericType != null)
                 {
-                    IList list = Create.List(genericType);
+                    IList? list = Create.List(genericType);
+                    if ( list == null)
+                    {
+                        return null;
+                    }
 
                     JsonArray jsonArray = jsonNode.AsArray();
                     if (jsonArray != null)
                     {
-                        foreach (JsonNode jsonNode_Temp in jsonArray)
+                        foreach (JsonNode? jsonNode_Temp in jsonArray)
                         {
-                            object @object = Value(jsonNode_Temp, genericType);
+                            object? @object = Value(jsonNode_Temp, genericType);
                             if (@object != null && !genericType.IsAssignableFrom(@object.GetType()))
                             {
-                                @object = genericType.GetConstructor(new Type[] { @object.GetType() })?.Invoke(new object[] { @object });
+                                @object = genericType.GetConstructor([@object.GetType()])?.Invoke([@object]);
                             }
 
                             list.Add(@object);
@@ -452,23 +474,25 @@ namespace DiGi.Core
 
             if (type_Temp.IsGenericType && type_Temp.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
             {
-                Type type_Key = type_Temp.GenericTypeArguments[0];
-                Type type_Value = type_Temp.GenericTypeArguments[1];
-                switch (jsonNode.GetValueKind())
+                Type[] types_GenericArguments = type_Temp.GetGenericArguments();
+                if(types_GenericArguments != null && types_GenericArguments.Length >= 2)
                 {
-                    case System.Text.Json.JsonValueKind.Object:
-                        JsonObject jsonObject = jsonNode.AsObject();
-                        if(jsonObject != null && jsonObject.ContainsKey("Key") && jsonObject.ContainsKey("Value"))
-                        {
-                            object key = Value(jsonObject["Key"], type_Key);
-                            object value_Temp = Value(jsonObject["Value"], type_Value);
-                            return Activator.CreateInstance(type_Temp, key, value_Temp);
-                        }
-                        break;
+                    Type? type_Key = types_GenericArguments[0];
+                    Type? type_Value = types_GenericArguments[1];
+                    switch (jsonNode.GetValueKind())
+                    {
+                        case System.Text.Json.JsonValueKind.Object:
+                            JsonObject jsonObject = jsonNode.AsObject();
+                            if (jsonObject != null && jsonObject.ContainsKey("Key") && jsonObject.ContainsKey("Value"))
+                            {
+                                object? key = Value(jsonObject["Key"], type_Key);
+                                object? value_Temp = Value(jsonObject["Value"], type_Value);
+                                return Activator.CreateInstance(type_Temp, key, value_Temp);
+                            }
+                            break;
+                    }
                 }
 
-
-                
             }
 
             return null;

@@ -8,41 +8,45 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static SerializationMethodCollection SerializationMethodCollection(this Type type)
+        public static SerializationMethodCollection? SerializationMethodCollection(this Type? type)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
             {
                 return null;
             }
 
-            string fullTypeName = Query.FullTypeName(type);
+            string? fullTypeName = Query.FullTypeName(type);
             if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }
 
-            List<MemberInfo> memberInfos = Query.SerializableMemberInfos(type);
+            List<MemberInfo>? memberInfos = Query.SerializableMemberInfos(type);
             if (memberInfos == null || memberInfos.Count == 0)
             {
                 return new SerializationMethodCollection(fullTypeName);
             }
 
-            List<Tuple<MemberInfo, string>> tuples = new List<Tuple<MemberInfo, string>>();
-            List<Tuple<MemberInfo, string, int>> tuples_Order = new List<Tuple<MemberInfo, string, int>>();
+            List<Tuple<MemberInfo, string>> tuples = [];
+            List<Tuple<MemberInfo, string, int>> tuples_Order = [];
             for (int i = 0; i < memberInfos.Count; i++)
             {
                 MemberInfo memberInfo = memberInfos[i];
 
                 int? order = Query.SerializableOrder(memberInfo);
-                string name = Query.SerializableName(memberInfo);
+                string? name = Query.SerializableName(memberInfo);
+                if(string.IsNullOrEmpty(name))
+                {
+                    continue;
+                }
 
                 if (order == null || !order.HasValue)
                 {
-                    tuples.Add(new Tuple<MemberInfo, string>(memberInfo, name));
+                    tuples.Add(new Tuple<MemberInfo, string>(memberInfo, name!));
                 }
                 else
                 {
-                    tuples_Order.Add(new Tuple<MemberInfo, string, int>(memberInfo, name, order.Value));
+                    tuples_Order.Add(new Tuple<MemberInfo, string, int>(memberInfo, name!, order.Value));
                 }
             }
 
@@ -56,7 +60,7 @@ namespace DiGi.Core
                 }
             }
 
-            List<SerializationMethod> serializationMethods = new List<SerializationMethod>();
+            List<SerializationMethod> serializationMethods = [];
             for (int i = 0; i < tuples.Count; i++)
             {
                 serializationMethods.Add(new SerializationMethod(tuples[i].Item1, tuples[i].Item2));

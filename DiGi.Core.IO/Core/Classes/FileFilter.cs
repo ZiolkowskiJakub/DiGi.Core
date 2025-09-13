@@ -10,43 +10,43 @@ namespace DiGi.Core.IO.Classes
     public sealed class FileFilter : SerializableObject, IIOObject
     {
         [JsonInclude, JsonPropertyName("Extensions")]
-        private List<string> extensions;
+        private readonly List<string>? extensions;
 
         [JsonInclude, JsonPropertyName("Name")]
-        private string name;
+        private readonly string? name;
 
-        public FileFilter(string name, IEnumerable<string> extensions)
+        public FileFilter(string? name, IEnumerable<string>? extensions)
             : base()
         {
             this.name = name;
-            this.extensions = extensions == null ? null : new List<string>(extensions);
+            this.extensions = extensions == null ? null : [.. extensions];
         }
 
-        public FileFilter(FileFilter fileFilter)
+        public FileFilter(FileFilter? fileFilter)
             : base(fileFilter)
         {
             if (fileFilter != null)
             {
                 name = fileFilter.name;
-                extensions = fileFilter.extensions == null ? null : new List<string>(fileFilter.extensions);
+                extensions = fileFilter.extensions == null ? null : [.. fileFilter.extensions];
             }
         }
 
-        public FileFilter(JsonObject jsonObject)
+        public FileFilter(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public List<string> Extensions
+        public List<string>? Extensions
         {
             get
             {
-                return extensions == null ? null : new List<string>(extensions);
+                return extensions == null ? null : [.. extensions];
             }
         }
 
-        public string Name
+        public string? Name
         {
             get
             {
@@ -54,12 +54,12 @@ namespace DiGi.Core.IO.Classes
             }
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new FileFilter(this);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return ToString().Equals((obj as FileFilter)?.ToString());
         }
@@ -71,7 +71,7 @@ namespace DiGi.Core.IO.Classes
         
         public override string ToString()
         {
-            List<string> values = new List<string>();
+            List<string> values = [];
             if (extensions != null)
             {
                 foreach (string extension in extensions)
@@ -85,7 +85,7 @@ namespace DiGi.Core.IO.Classes
                 }
             }
 
-            return string.Format("{0} ({1})|{1}", name == null ? string.Empty : name, string.Join(";", values));
+            return string.Format("{0} ({1})|{1}", name ?? string.Empty, string.Join(";", values));
         }
     }
 }

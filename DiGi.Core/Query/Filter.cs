@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool Filter<T>(this IEnumerable<T> values, Func<T, bool> func, out List<T> values_In, out List<T> values_Out)
+        public static bool Filter<T>(this IEnumerable<T>? values, Func<T?, bool> func, out List<T>? values_In, out List<T>? values_Out)
         {
             values_In = null;
             values_Out = null;
@@ -15,8 +15,8 @@ namespace DiGi.Core
                 return false;
             }
 
-            values_In = new List<T>();
-            values_Out = new List<T>();
+            values_In = [];
+            values_Out = [];
 
             foreach(T value in values)
             {

@@ -5,7 +5,7 @@ namespace DiGi.Core.Relation
 {
     public static partial class Query
     {
-        public static bool IsValid(this IRelation relation, System.Type type, RelationSide relationSide)
+        public static bool IsValid(this IRelation? relation, System.Type? type, RelationSide relationSide)
         {
             if(relation == null)
             {
@@ -14,7 +14,7 @@ namespace DiGi.Core.Relation
 
             if(relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                System.Type type_Relation = relation.GetType(RelationSide.From);
+                System.Type? type_Relation = relation.GetType(RelationSide.From);
                 if (type_Relation == null && type == null)
                 {
                     return true;
@@ -28,13 +28,13 @@ namespace DiGi.Core.Relation
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                System.Type type_Relation = relation.GetType(RelationSide.To);
+                System.Type? type_Relation = relation.GetType(RelationSide.To);
                 if (type_Relation == null && type == null)
                 {
                     return true;
                 }
 
-                if (type != null && type_Relation.IsAssignableFrom(type)) //type.IsAssignableFrom(type_Relation)
+                if (type != null && type_Relation is not null && type_Relation.IsAssignableFrom(type)) //type.IsAssignableFrom(type_Relation)
                 {
                     return true;
                 }

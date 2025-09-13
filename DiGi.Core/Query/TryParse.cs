@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool TryParse(this string value, out IReference reference)
+        public static bool TryParse(this string? value, out IReference? reference)
         {
             reference = default;
 
@@ -14,33 +14,33 @@ namespace DiGi.Core
                 return false;
             }
 
-            if (!value.Contains(",") || !value.Contains(","))
+            if (!value!.Contains(",") || !value!.Contains(","))
             {
                 return false;
             }
 
-            string[] values = value.Split(new string[] { Constans.Reference.Separator }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] values = value.Split([Constans.Reference.Separator], System.StringSplitOptions.RemoveEmptyEntries);
             if (values.Length == 0)
             {
                 return false;
             }
 
-            string externalReference = values[0]?.Trim();
-            if (externalReference.StartsWith("\"") && externalReference.EndsWith("\""))
+            string? externalReference = values[0]?.Trim();
+            if (!string.IsNullOrWhiteSpace(externalReference) && externalReference!.StartsWith("\"") && externalReference!.EndsWith("\""))
             {
                 string source = externalReference.Substring(1, externalReference.Length - 2);
 
                 externalReference = value.Substring(values[0].Length);
                 externalReference = externalReference.Substring(externalReference.IndexOf(Constans.Reference.Separator) + 2);
-                if(TryParse(externalReference, out IReference reference_Temp))
+                if(TryParse(externalReference, out IReference? reference_Temp))
                 {
-                    if(reference_Temp is ITypeRelatedSerializableReference)
+                    if(reference_Temp is ITypeRelatedSerializableReference typeRelatedSerializableReference)
                     {
-                        reference = new TypeRelatedExternalReference(source, (ITypeRelatedSerializableReference)reference_Temp);
+                        reference = new TypeRelatedExternalReference(source, typeRelatedSerializableReference);
                     }
-                    else if(reference_Temp is IInstanceRelatedSerializableReference)
+                    else if(reference_Temp is IInstanceRelatedSerializableReference instanceRelatedSerializableReference)
                     {
-                        reference = new InstanceRelatedExternalReference(source, (IInstanceRelatedSerializableReference)reference_Temp);
+                        reference = new InstanceRelatedExternalReference(source, instanceRelatedSerializableReference);
                     }
                     else
                     {
@@ -51,7 +51,7 @@ namespace DiGi.Core
                 return reference != null;
             }
 
-            TypeReference typeReference = new TypeReference(values[0].Trim());
+            TypeReference typeReference = new(values[0].Trim());
 
             if (values.Length == 1)
             {
@@ -61,7 +61,7 @@ namespace DiGi.Core
 
             string uniqueId = values[1].Trim();
 
-            string propertyName = null;
+            string? propertyName;
 
             if (uniqueId.StartsWith("\"") && uniqueId.EndsWith("\""))
             {
@@ -99,15 +99,15 @@ namespace DiGi.Core
                 if (propertyName.StartsWith("\"") && propertyName.EndsWith("\""))
                 {
                     propertyName = propertyName.Substring(1, uniqueId.Length - 2);
-                    if(reference is GuidReference)
+                    if(reference is GuidReference guidReference)
                     {
-                        reference = new GuidPropertyReference((GuidReference)reference, propertyName);
+                        reference = new GuidPropertyReference(guidReference, propertyName);
                         return true;
                     }
 
-                    if(reference is UniqueIdReference)
+                    if(reference is UniqueIdReference uniqueIdReference)
                     {
-                        reference = new UniqueIdPropertyReference((UniqueIdReference)reference, propertyName);
+                        reference = new UniqueIdPropertyReference(uniqueIdReference, propertyName);
                         return true;
                     }
                 }
@@ -116,18 +116,18 @@ namespace DiGi.Core
             return false;
         }
 
-        public static bool TryParse<UReference>(this string value, out UReference reference) where UReference : IReference
+        public static bool TryParse<UReference>(this string? value, out UReference? reference) where UReference : IReference
         {
             reference = default;
 
-            if(!TryParse(value, out IReference reference_Temp))
+            if(!TryParse(value, out IReference? reference_Temp))
             {
                 return false;
             }
 
-            if (reference_Temp is UReference)
+            if (reference_Temp is UReference uReference_Temp)
             {
-                reference = (UReference)reference_Temp;
+                reference = uReference_Temp;
                 return true;
             }
 

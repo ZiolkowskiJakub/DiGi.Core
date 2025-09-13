@@ -6,12 +6,12 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool IsNumeric(this object @object)
+        public static bool IsNumeric(this object? @object)
         {
-            return IsNumeric(@object, out bool isInteger);
+            return IsNumeric(@object, out _);
         }
 
-        public static bool IsNumeric(this object @object, out bool isInteger)
+        public static bool IsNumeric(this object? @object, out bool isInteger)
         {
             isInteger = false;
 
@@ -20,27 +20,33 @@ namespace DiGi.Core
                 return false;
             }
 
-            if(@object is DataType)
+            if(@object is DataType dataType)
             {
-                return IsNumeric((DataType)@object, out isInteger);
+                return IsNumeric(dataType, out isInteger);
             }
 
-            if (@object is Type)
+            if (@object is Type type)
             {
-                return IsNumeric((Type)@object, out isInteger);
+                return IsNumeric(type, out isInteger);
             }
 
             return IsNumeric(@object.GetType(), out isInteger);
         }
 
-        public static bool IsNumeric(this Type type)
+        public static bool IsNumeric(this Type? type)
         {
-            return IsNumeric(type, out bool isInteger);
+            return IsNumeric(type, out _);
         }
 
-        public static bool IsNumeric(this Type type, out bool isInteger)
+        public static bool IsNumeric(this Type? type, out bool isInteger)
         {
             isInteger = false;
+
+            if (type == null)
+            {
+                return false;
+            }
+
             switch (System.Type.GetTypeCode(type))
             {
                 case TypeCode.Byte:

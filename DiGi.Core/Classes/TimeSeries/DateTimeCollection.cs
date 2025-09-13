@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -10,36 +11,35 @@ namespace DiGi.Core.Classes
     public class DateTimeCollection : SerializableObject, ITimeSeries, ICollection<DateTime>
     {
         [JsonInclude, JsonPropertyName("DateTimes")]
-        private List<DateTime> dateTimes = new List<DateTime>();
-
+        private readonly List<DateTime> dateTimes = [];
         public DateTimeCollection() 
             :base()
         {
 
         }
 
-        public DateTimeCollection(IEnumerable<DateTime> dateTimes)
+        public DateTimeCollection(IEnumerable<DateTime>? dateTimes)
             : base()
         {
 
             if(dateTimes != null)
             {
-                this.dateTimes = new List<DateTime>(dateTimes);
+                this.dateTimes = [.. dateTimes];
             }
         }
 
-        public DateTimeCollection(JsonObject jsonObject)
+        public DateTimeCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public DateTimeCollection(DateTimeCollection dateTimeCollection)
+        public DateTimeCollection(DateTimeCollection? dateTimeCollection)
             : base(dateTimeCollection)
         {
             if(dateTimeCollection != null)
             {
-                dateTimes = new List<DateTime>(dateTimeCollection.dateTimes);
+                dateTimes = [.. dateTimeCollection.dateTimes];
             }
         }
 
@@ -59,7 +59,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public static implicit operator DateTime[](DateTimeCollection dateTimeCollection)
+        public static implicit operator DateTime[]?(DateTimeCollection? dateTimeCollection)
         {
             if (dateTimeCollection == null)
             {
@@ -69,44 +69,59 @@ namespace DiGi.Core.Classes
             return dateTimeCollection.dateTimes?.ToArray();
         }
 
-        public static implicit operator DateTimeCollection(List<DateTime> dateTimes)
+        public static implicit operator DateTimeCollection?(List<DateTime>? dateTimes)
         {
             if (dateTimes == null)
             {
                 return null;
             }
 
-            return new DateTimeCollection(dateTimes);
+            return [.. dateTimes];
         }
 
-        public static implicit operator DateTimeCollection(DateTime[] dateTimes)
+        public static implicit operator DateTimeCollection?(DateTime[]? dateTimes)
         {
             if (dateTimes == null)
             {
                 return null;
             }
 
-            return new DateTimeCollection(dateTimes);
+            return [.. dateTimes];
         }
 
-        public static implicit operator DateTimeCollection(DateTime dateTime)
+        public static implicit operator DateTimeCollection?(DateTime? dateTime)
         {
-            return new DateTimeCollection([dateTime]);
+            if(dateTime == null || !dateTime.HasValue)
+            {
+                return null;
+            }
+
+            return new ([dateTime.Value]);
         }
 
-        public static implicit operator List<DateTime>(DateTimeCollection dateTimeCollection)
+        public static implicit operator List<DateTime>?(DateTimeCollection? dateTimeCollection)
         {
             if (dateTimeCollection == null)
             {
                 return null;
             }
 
-            return new List<DateTime>(dateTimeCollection.dateTimes);
+            return [.. dateTimeCollection.dateTimes];
         }
 
-        public void Add(DateTime item)
+        public void Add(DateTime dateTime)
         {
-            dateTimes.Add(item);
+            dateTimes.Add(dateTime);
+        }
+
+        public void Add(DateTime? dateTime)
+        {
+            if (dateTime == null || !dateTime.HasValue)
+            {
+                return;
+            }
+
+            dateTimes.Add(dateTime.Value);
         }
 
         public void Clear()
@@ -114,24 +129,39 @@ namespace DiGi.Core.Classes
             dateTimes.Clear();
         }
 
-        public bool Contains(DateTime item)
+        public bool Contains(DateTime? dateTime)
         {
-            return dateTimes.Contains(item);
+            if(dateTime is null || !dateTime.HasValue)
+            {
+                return false;
+            }
+
+            return dateTimes.Contains(dateTime.Value);
         }
 
-        public void CopyTo(DateTime[] array, int arrayIndex)
+        public bool Contains(DateTime dateTime)
         {
+            return dateTimes.Contains(dateTime);
+        }
+
+        public void CopyTo(DateTime[]? array, int arrayIndex)
+        {
+            if(array is null)
+            {
+                return;
+            }
+
             dateTimes.CopyTo(array, arrayIndex);
         }
 
-        public DateTime[] GetDateTimes()
+        public DateTime[]? GetDateTimes()
         {
             return dateTimes?.ToArray();
         }
 
         public IEnumerator<DateTime> GetEnumerator()
         {
-            return dateTimes.GetEnumerator();
+            return dateTimes?.GetEnumerator() ?? Enumerable.Empty<DateTime>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -139,9 +169,19 @@ namespace DiGi.Core.Classes
             return GetEnumerator();
         }
 
-        public bool Remove(DateTime item)
+        public bool Remove(DateTime? dateTime)
         {
-            return dateTimes.Remove(item);
+            if(dateTimes is null || dateTime is null)
+            {
+                return false;
+            }
+
+            return dateTimes.Remove(dateTime.Value);
+        }
+
+        public bool Remove(DateTime dateTime)
+        {
+            return dateTimes.Remove(dateTime);
         }
     }
 }

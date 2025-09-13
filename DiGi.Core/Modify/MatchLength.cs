@@ -4,8 +4,13 @@ namespace DiGi.Core
 {
     public static partial class Modify
     {
-        public static bool MatchLength<T, X>(List<T> list_1, List<X> list_2)
+        public static bool MatchLength<T, X>(List<T>? list_1, List<X>? list_2)
         {
+            if(list_1 == null || list_2 == null)
+            {
+                return false;
+            }
+
             if ((object)list_1 == (object)list_2)
             {
                 return true;

@@ -6,14 +6,14 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static IList List(Type type)
+        public static IList? List(Type? type)
         {
             if (type == null)
             {
                 return null;
             }
 
-            return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(new[] { type }));
+            return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType([type]));
         }
     }
 }

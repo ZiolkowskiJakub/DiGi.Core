@@ -9,45 +9,45 @@ namespace DiGi.Core.Parameter.Classes
     public class Parameter : SerializableObject
     {
         [JsonInclude, JsonPropertyName("ParameterDefinition")]
-        private IParameterDefinition parameterDefinition;
+        private readonly IParameterDefinition? parameterDefinition;
 
         [JsonInclude, JsonPropertyName("Value")]
-        private object value;
+        private object? value;
 
-        public Parameter(JsonObject jsonObject)
+        public Parameter(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Parameter(Parameter parameter)
-            : this(parameter?.ParameterDefinition, parameter.value)
+        public Parameter(Parameter? parameter)
+            : this(parameter?.ParameterDefinition, parameter?.value)
         {
 
         }
 
-        internal Parameter(IParameterDefinition parameterDefinition, object value)
+        internal Parameter(IParameterDefinition? parameterDefinition, object? value)
         {
-            this.parameterDefinition = parameterDefinition == null ? null : parameterDefinition.Clone<IParameterDefinition>();
-            this.value = value is ISerializableObject ? ((ISerializableObject)value).Clone() : value;
+            this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
+            this.value = value is ISerializableObject serializableObject ? serializableObject.Clone() : value;
         }
 
-        internal Parameter(IParameterDefinition parameterDefinition)
+        internal Parameter(IParameterDefinition? parameterDefinition)
         {
-            this.parameterDefinition = parameterDefinition == null ? null : parameterDefinition.Clone<IParameterDefinition>();
+            this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
         }
 
         [JsonIgnore]
-        public IParameterDefinition ParameterDefinition
+        public IParameterDefinition? ParameterDefinition
         {
             get
             {
-                return parameterDefinition == null ? null : parameterDefinition.Clone<IParameterDefinition>();
+                return parameterDefinition?.Clone<IParameterDefinition>();
             }
         }
         
         [JsonIgnore]
-        public string Name
+        public string? Name
         {
             get
             {
@@ -65,7 +65,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public string UniqueId
+        public string? UniqueId
         {
             get
             {
@@ -74,7 +74,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public object Value
+        public object? Value
         {
             get
             {
@@ -82,9 +82,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public T GetValue<T>(GetValueSettings getValueSettings = null)
+        public T? GetValue<T>(GetValueSettings? getValueSettings = null)
         {
-            if(!TryGetValue(out T result, getValueSettings))
+            if(!TryGetValue(out T? result, getValueSettings))
             {
                 return default;
             }
@@ -92,14 +92,11 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
-        public bool TryGetValue<T>(out T value, GetValueSettings getValueSettings = null)
+        public bool TryGetValue<T>(out T? value, GetValueSettings? getValueSettings = null)
         {
             value = default;
 
-            if(getValueSettings == null)
-            {
-                getValueSettings = new GetValueSettings();
-            }
+            getValueSettings ??= new GetValueSettings();
 
             if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
             {
@@ -108,17 +105,16 @@ namespace DiGi.Core.Parameter.Classes
                     return Core.Query.TryConvert(this.value, out value);
                 }
 
-                if(this.value is T)
+                if(this.value is T t_Temp)
                 {
-                    value = (T)this.value;
+                    value = t_Temp;
                     return true;
                 }
 
                 return false;
             }
 
-            ComplexParameterDefinition complexParameterDefinition = parameterDefinition as ComplexParameterDefinition;
-            if (complexParameterDefinition == null)
+            if (parameterDefinition is not ComplexParameterDefinition complexParameterDefinition)
             {
                 return false;
             }
@@ -133,20 +129,20 @@ namespace DiGi.Core.Parameter.Classes
                 return Core.Query.TryConvert(this.value, out value);
             }
 
-            if (this.value is T)
+            if (this.value is T t)
             {
-                value = (T)this.value;
+                value = t;
                 return true;
             }
 
             //TODO: Implement conversion of ParameterValue (2025.06.27)
             //START
-            ParameterValue parameterValue = complexParameterDefinition.ParameterValue;
-            if (parameterValue != null && parameterValue.TryConvert(this.value, out object value_Temp))
+            ParameterValue? parameterValue = complexParameterDefinition.ParameterValue;
+            if (parameterValue != null && parameterValue.TryConvert(this.value, out object? value_Temp))
             {
-                if (value_Temp is T)
+                if (value_Temp is T t_Temp)
                 {
-                    value = (T)value_Temp;
+                    value = t_Temp;
                     return true;
                 }
             }
@@ -155,31 +151,27 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
-        public bool SetValue(object value, SetValueSettings setValueSettings = null)
+        public bool SetValue(object? value, SetValueSettings? setValueSettings = null)
         {
             if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
             {
-                this.value = value is ISerializableObject ? ((ISerializableObject)value).Clone() : value;
+                this.value = value is ISerializableObject @object ? @object.Clone() : value;
                 return true;
             }
 
-            ComplexParameterDefinition complexParameterDefinition = parameterDefinition as ComplexParameterDefinition;
-            if (complexParameterDefinition == null)
+            if (parameterDefinition is not ComplexParameterDefinition complexParameterDefinition)
             {
                 return false;
             }
 
-            if (setValueSettings == null)
-            {
-                setValueSettings = new SetValueSettings();
-            }
+            setValueSettings ??= new SetValueSettings();
 
             if (setValueSettings.CheckAccessType && !complexParameterDefinition.AccessType.Write())
             {
                 return false;
             }
 
-            ParameterValue parameterValue = complexParameterDefinition.ParameterValue;
+            ParameterValue? parameterValue = complexParameterDefinition.ParameterValue;
             if (parameterValue == null)
             {
                 return false;

@@ -6,34 +6,28 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static JsonObject Wrap(this JsonObject jsonObject, ref Dictionary<IWrapperUniqueReference, JsonObject> dictionary)
+        internal static JsonObject? Wrap(this JsonObject jsonObject, ref Dictionary<IWrapperUniqueReference, JsonObject> dictionary)
         {
             if (jsonObject == null)
             {
                 return null;
             }
 
-            JsonObject result = null;
 
-            IWrapperUniqueReference wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject);
-            if (wrapperUniqueReference != null && dictionary != null && dictionary.TryGetValue(wrapperUniqueReference, out result))
+            IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject);
+            if (wrapperUniqueReference != null && dictionary != null && dictionary.TryGetValue(wrapperUniqueReference, out JsonObject? result))
             {
                 return result;
             }
 
-            if (dictionary == null)
-            {
-                dictionary = new Dictionary<IWrapperUniqueReference, JsonObject>();
-            }
+            dictionary ??= [];
 
             result = (JsonObject)jsonObject.DeepClone();
 
-            foreach (KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
+            foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
             {
-                if (keyValuePair.Value is JsonObject)
+                if (keyValuePair.Value is JsonObject jsonObject_Temp)
                 {
-                    JsonObject jsonObject_Temp = (JsonObject)keyValuePair.Value;
-
                     wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject_Temp);
                     if (wrapperUniqueReference != null)
                     {
@@ -41,26 +35,23 @@ namespace DiGi.Core.IO.Wrapper
                         result[keyValuePair.Key] = wrapperUniqueReference.ToJsonObject();
                     }
                 }
-                else if (keyValuePair.Value is JsonArray)
+                else if (keyValuePair.Value is JsonArray jsonArray_Temp)
                 {
-                    result[keyValuePair.Key] = Wrap((JsonArray)keyValuePair.Value, ref dictionary);
+                    result[keyValuePair.Key] = Wrap(jsonArray_Temp, ref dictionary);
                 }
             }
 
             return result;
         }
 
-        internal static JsonArray Wrap(this JsonArray jsonArray, ref Dictionary<IWrapperUniqueReference, JsonObject> dictionary)
+        internal static JsonArray? Wrap(this JsonArray? jsonArray, ref Dictionary<IWrapperUniqueReference, JsonObject> dictionary)
         {
             if (jsonArray == null)
             {
                 return null;
             }
 
-            if (dictionary == null)
-            {
-                dictionary = new Dictionary<IWrapperUniqueReference, JsonObject>();
-            }
+            dictionary ??= [];
 
             JsonArray result = (JsonArray)jsonArray.DeepClone();
 
@@ -68,18 +59,18 @@ namespace DiGi.Core.IO.Wrapper
             {
                 if (result[i] is JsonObject)
                 {
-                    JsonObject jsonObject_Temp = (JsonObject)result[i];
+                    JsonObject? jsonObject_Temp = (JsonObject?)result[i];
 
-                    IWrapperUniqueReference wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject_Temp);
+                    IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject_Temp);
                     if (wrapperUniqueReference != null)
                     {
-                        dictionary[wrapperUniqueReference] = jsonObject_Temp;
+                        dictionary[wrapperUniqueReference] = jsonObject_Temp!;
                         result[i] = wrapperUniqueReference.ToJsonObject();
                     }
                 }
                 else if (result[i] is JsonArray)
                 {
-                    result[i] = Wrap((JsonArray)result[i], ref dictionary);
+                    result[i] = Wrap(result[i] as JsonArray, ref dictionary);
                 }
             }
 

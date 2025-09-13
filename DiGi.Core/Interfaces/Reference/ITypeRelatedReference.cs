@@ -2,6 +2,6 @@
 {
     public interface ITypeRelatedReference : IReference
     {
-        string FullTypeName { get; }
+        string? FullTypeName { get; }
     }
 }

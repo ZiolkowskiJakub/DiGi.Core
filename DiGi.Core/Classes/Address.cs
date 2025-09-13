@@ -8,18 +8,18 @@ namespace DiGi.Core.Classes
     public class Address : SerializableObject, IAddress
     {
         [JsonInclude, JsonPropertyName("Street")]
-        private string street;
+        private readonly string? street;
 
         [JsonInclude, JsonPropertyName("City")]
-        private string city;
+        private readonly string? city;
 
         [JsonInclude, JsonPropertyName("PostalCode")]
-        private string postalCode;
+        private readonly string? postalCode;
 
         [JsonInclude, JsonPropertyName("CountryCode")]
-        private CountryCode countryCode;
+        private readonly CountryCode countryCode;
 
-        public Address(Address address)
+        public Address(Address? address)
             : base()
         {
             if(address != null)
@@ -31,7 +31,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public Address(string street, string city, string postalCode, CountryCode countryCode)
+        public Address(string? street, string? city, string? postalCode, CountryCode countryCode)
             : base()
         {
             this.street = street;
@@ -40,13 +40,13 @@ namespace DiGi.Core.Classes
             this.countryCode = countryCode;
         }
 
-        public Address(JsonObject jsonObject)
+        public Address(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
         [JsonIgnore]
-        public string Street
+        public string? Street
         {
             get
             {
@@ -55,7 +55,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public string City
+        public string? City
         {
             get
             {
@@ -64,7 +64,7 @@ namespace DiGi.Core.Classes
         }
 
         [JsonIgnore]
-        public string PostalCode
+        public string? PostalCode
         {
             get
             {

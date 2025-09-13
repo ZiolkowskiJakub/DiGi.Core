@@ -24,31 +24,31 @@ namespace DiGi.Core.Parameter.Classes
             this.guid = guid;
         }
 
-        public ParametrizedGuidObject(JsonObject jsonObject)
+        public ParametrizedGuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public ParametrizedGuidObject(IEnumerable<Parameter> parameters)
+        public ParametrizedGuidObject(IEnumerable<Parameter>? parameters)
             : base(parameters)
         {
 
         }
 
-        public ParametrizedGuidObject(ParameterGroups parameterGroups)
-            : base(parameterGroups)
+        public ParametrizedGuidObject(ParameterGroupCollection? parameterGroupCollection)
+            : base(parameterGroupCollection)
         {
 
         }
 
-        public ParametrizedGuidObject(ParametrizedGuidObject parametrizedGuidObject)
+        public ParametrizedGuidObject(ParametrizedGuidObject? parametrizedGuidObject)
             : base(parametrizedGuidObject)
         {
             guid = parametrizedGuidObject != null ? parametrizedGuidObject.guid : Guid.NewGuid();
         }
 
-        public ParametrizedGuidObject(Guid guid, ParametrizedGuidObject parametrizedGuidObject)
+        public ParametrizedGuidObject(Guid guid, ParametrizedGuidObject? parametrizedGuidObject)
             : base(parametrizedGuidObject)
         {
             this.guid = guid;
@@ -64,7 +64,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public string UniqueId
+        public string? UniqueId
         {
             get
             {
@@ -72,10 +72,13 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public IGuidObject Duplicate(Guid? guid = null)
+        public IGuidObject? Duplicate(Guid? guid = null)
         {
-            ParametrizedGuidObject parametrizedGuidObject = this.Clone<ParametrizedGuidObject>();
-            parametrizedGuidObject.guid = guid == null ? Guid.NewGuid() : guid.Value;
+            ParametrizedGuidObject? parametrizedGuidObject = this.Clone<ParametrizedGuidObject>();
+            if(parametrizedGuidObject != null)
+            {
+                parametrizedGuidObject.guid = guid == null ? Guid.NewGuid() : guid.Value;
+            }
 
             return parametrizedGuidObject;
         }

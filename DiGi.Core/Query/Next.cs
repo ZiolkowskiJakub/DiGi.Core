@@ -6,11 +6,11 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static T Next<T>(this IEnumerable<T> values, int index)
+        public static T? Next<T>(this IEnumerable<T?>? values, int index)
         {
             if (values == null)
             {
-                return default(T);
+                return default;
             }
 
             int index_Temp = Next(values.Count(), index);
@@ -45,15 +45,15 @@ namespace DiGi.Core
             //return result;
         }
 
-        public static T Next<T>(T @enum) where T: Enum
+        public static TEnum? Next<TEnum>(TEnum? @enum) where TEnum: Enum
         {
             if(@enum == null)
             {
                 return default;
             }
 
-            List<int> indexes = new List<int>();
-            foreach(T @enum_Temp in System.Enum.GetValues(typeof(T)))
+            List<int> indexes = [];
+            foreach(TEnum @enum_Temp in System.Enum.GetValues(typeof(TEnum)))
             {
                 indexes.Add((int)(object)enum_Temp);
             }
@@ -64,7 +64,7 @@ namespace DiGi.Core
 
             int next = Next(indexes, index);
 
-            return (T)(object)next;
+            return (TEnum)(object)next;
         }
     }
 

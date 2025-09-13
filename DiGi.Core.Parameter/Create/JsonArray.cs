@@ -6,17 +6,17 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Create
     {
-        public static JsonArray JsonArray(this IEnumerable<Type> types)
+        public static JsonArray? JsonArray(this IEnumerable<Type>? types)
         {
             if(types == null)
             {
                 return null;
             }
 
-            JsonArray result = new JsonArray();
+            JsonArray result = [];
             foreach(Type type in types)
             {
-                string fullTypeName = Core.Query.FullTypeName(type);
+                string? fullTypeName = Core.Query.FullTypeName(type);
                 if (string.IsNullOrWhiteSpace(fullTypeName))
                 {
                     continue;

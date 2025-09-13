@@ -6,32 +6,42 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static HashSet<IWrapperUniqueReference> WrapperUniqueReferences(this JsonObject jsonObject)
+        internal static HashSet<IWrapperUniqueReference>? WrapperUniqueReferences(this JsonObject? jsonObject)
         {
             if(jsonObject == null)
             {
                 return null;
             }
 
-            HashSet<IWrapperUniqueReference> result = new HashSet<IWrapperUniqueReference>();
-            foreach(KeyValuePair<string, JsonNode> keyValuePair in jsonObject)
+            HashSet<IWrapperUniqueReference> result = [];
+            foreach(KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
             {
-                JsonNode jsonNode = keyValuePair.Value;
-                if(jsonNode is JsonObject)
+                JsonNode? jsonNode = keyValuePair.Value;
+                if (jsonNode is JsonObject jsonObject_Temp)
                 {
-                    JsonObject jsonObject_Temp = (JsonObject)jsonNode;
                     if (IsWrapperUniqueReference(jsonObject_Temp))
                     {
-                        result.Add(Create.WrapperUniqueReference(jsonObject_Temp));
+                        IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject_Temp);
+                        if (wrapperUniqueReference == null)
+                        {
+                            continue;
+                        }
+
+                        result.Add(wrapperUniqueReference);
                     }
                 }
-                else if(jsonNode is JsonArray)
+                else if (jsonNode is JsonArray jsonArray_Temp)
                 {
-                    HashSet<IWrapperUniqueReference> wrapperUniqueReferences = WrapperUniqueReferences((JsonArray)jsonNode);
-                    if(wrapperUniqueReferences != null)
+                    HashSet<IWrapperUniqueReference>? wrapperUniqueReferences = WrapperUniqueReferences(jsonArray_Temp);
+                    if (wrapperUniqueReferences != null)
                     {
-                        foreach(IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
+                        foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
                         {
+                            if (wrapperUniqueReference == null)
+                            {
+                                continue;
+                            }
+
                             result.Add(wrapperUniqueReference);
                         }
                     }
@@ -41,31 +51,41 @@ namespace DiGi.Core.IO.Wrapper
             return result;
         }
 
-        internal static HashSet<IWrapperUniqueReference> WrapperUniqueReferences(this JsonArray jsonArray)
+        internal static HashSet<IWrapperUniqueReference>? WrapperUniqueReferences(this JsonArray? jsonArray)
         {
             if (jsonArray == null)
             {
                 return null;
             }
 
-            HashSet<IWrapperUniqueReference> result = new HashSet<IWrapperUniqueReference>();
-            foreach (JsonNode jsonNode in jsonArray)
+            HashSet<IWrapperUniqueReference> result = [];
+            foreach (JsonNode? jsonNode in jsonArray)
             {
-                if (jsonNode is JsonObject)
+                if (jsonNode is JsonObject jsonObject_Temp)
                 {
-                    JsonObject jsonObject_Temp = (JsonObject)jsonNode;
                     if (IsWrapperUniqueReference(jsonObject_Temp))
                     {
-                        result.Add(Create.WrapperUniqueReference(jsonObject_Temp));
+                        IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject_Temp);
+                        if (wrapperUniqueReference == null)
+                        {
+                            continue;
+                        }
+
+                        result.Add(wrapperUniqueReference);
                     }
                 }
-                else if (jsonNode is JsonArray)
+                else if (jsonNode is JsonArray jsonArray_Temp)
                 {
-                    HashSet<IWrapperUniqueReference> wrapperUniquReferences = WrapperUniqueReferences((JsonArray)jsonNode);
+                    HashSet<IWrapperUniqueReference>? wrapperUniquReferences = WrapperUniqueReferences(jsonArray_Temp);
                     if (wrapperUniquReferences != null)
                     {
                         foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniquReferences)
                         {
+                            if (wrapperUniqueReference == null)
+                            {
+                                continue;
+                            }
+
                             result.Add(wrapperUniqueReference);
                         }
                     }

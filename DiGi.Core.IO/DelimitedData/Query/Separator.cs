@@ -6,17 +6,13 @@ namespace DiGi.Core.IO.DelimitedData
     {
         public static char Separator(this DelimitedDataSeparator delimitedDataSeparator)
         {
-            switch (delimitedDataSeparator)
+            return delimitedDataSeparator switch
             {
-                case DelimitedDataSeparator.Comma:
-                    return ',';
-
-                case DelimitedDataSeparator.Tab:
-                    return '\t';
-
-                default:
-                    return '\n';
-            }
+                DelimitedDataSeparator.Comma => ',',
+                DelimitedDataSeparator.Tab => '\t',
+                DelimitedDataSeparator.Undefined => '\t',
+                _ => '\n',
+            };
         }
     }
 }

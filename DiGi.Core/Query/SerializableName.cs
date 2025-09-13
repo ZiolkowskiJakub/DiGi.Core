@@ -6,7 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static string SerializableName(this MemberInfo memberInfo)
+        public static string? SerializableName(this MemberInfo? memberInfo)
         {
             if (memberInfo == null)
             {
@@ -15,8 +15,7 @@ namespace DiGi.Core
 
             string result = memberInfo.Name;
 
-            JsonPropertyNameAttribute[] jsonPropertyNameAttributes = memberInfo.GetCustomAttributes(typeof(JsonPropertyNameAttribute), false) as JsonPropertyNameAttribute[];
-            if(jsonPropertyNameAttributes == null || jsonPropertyNameAttributes.Length == 0)
+            if (memberInfo.GetCustomAttributes(typeof(JsonPropertyNameAttribute), false) is not JsonPropertyNameAttribute[] jsonPropertyNameAttributes || jsonPropertyNameAttributes.Length == 0)
             {
                 return result;
             }

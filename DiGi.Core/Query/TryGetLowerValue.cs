@@ -6,11 +6,11 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool TryGetLowerValue<TKey, T>(this SortedDictionary<TKey, T> sortedDictionary, TKey key, out T value, bool lowerLimit = true, bool upperLimit = false) where TKey : IComparable<TKey>
+        public static bool TryGetLowerValue<TKey, TValue>(this SortedDictionary<TKey, TValue>? sortedDictionary, TKey? key, out TValue? value, bool lowerLimit = true, bool upperLimit = false) where TKey : IComparable<TKey>
         {
             value = default;
 
-            if (sortedDictionary == null || sortedDictionary.Count == 0)
+            if (sortedDictionary == null || sortedDictionary.Count == 0|| key is null)
             {
                 return false;
             }
@@ -47,7 +47,7 @@ namespace DiGi.Core
                 return true;
             }
 
-            List<TKey> keysTemp = new List<TKey>(keys);
+            List<TKey> keysTemp = [.. keys];
             keysTemp.Reverse();
 
             foreach (TKey keyTemp in keysTemp)

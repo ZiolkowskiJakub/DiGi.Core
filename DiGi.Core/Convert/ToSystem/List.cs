@@ -5,25 +5,25 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
-        public static List<T> ToSystem<T>(this Range<T> range, T step)
+        public static List<T>? ToSystem<T>(this Range<T>? range, T step)
         {
-            if(range == null)
+            if(range is null || step is null)
             {
                 return null;
             }
 
-            if ((dynamic)step.Equals(0))
+            if ((dynamic)step!.Equals(0))
             {
                 return null;
             }
 
-            List<T> result = new List<T>();
+            List<T> result = [];
 
             if((dynamic)step > 0)
             {
                 T value = range.Min;
                 T max = range.Max;
-                while ((dynamic)value <= (dynamic)max)
+                while ((dynamic)value! <= (dynamic)max!)
                 {
                     result.Add(value);
                     value += (dynamic)step;
@@ -33,7 +33,7 @@ namespace DiGi.Core
             {
                 T value = range.Max;
                 T min = range.Min;
-                while ((dynamic)value >= (dynamic)min)
+                while ((dynamic)value! >= (dynamic)min!)
                 {
                     result.Add(value);
                     value -= (dynamic)step;

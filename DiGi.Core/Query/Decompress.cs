@@ -14,7 +14,7 @@ namespace DiGi.Core
         /// </summary>
         /// <param name="string">Compressed string to be decompressed</param>
         /// <returns>Decompressed string</returns>
-        public static string Decompress(this string @string)
+        public static string? Decompress(this string? @string)
         {
             if (@string == null)
             {
@@ -22,31 +22,31 @@ namespace DiGi.Core
             }
 
             byte[] gZipBuffer = System.Convert.FromBase64String(@string);
-            using (var memoryStream = new MemoryStream())
+            
+            using var memoryStream = new MemoryStream();
+
+            int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
+            memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
+
+            var buffer = new byte[dataLength];
+
+            memoryStream.Position = 0;
+            using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
             {
-                int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
-                memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
-
-                var buffer = new byte[dataLength];
-
-                memoryStream.Position = 0;
-                using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-                {
-                    gZipStream.Read(buffer, 0, buffer.Length);
-                }
-
-                return Encoding.UTF8.GetString(buffer);
+                gZipStream.Read(buffer, 0, buffer.Length);
             }
+
+            return Encoding.UTF8.GetString(buffer);
         }
 
-        public static List<T> Decompress<T>(this string @string) where T : ISerializableObject
+        public static List<T>? Decompress<T>(this string? @string) where T : ISerializableObject
         {
             if (string.IsNullOrWhiteSpace(@string))
             {
                 return null;
             }
 
-            string string_Decompress = Decompress(@string);
+            string? string_Decompress = Decompress(@string);
             if (string.IsNullOrWhiteSpace(@string))
             {
                 return null;

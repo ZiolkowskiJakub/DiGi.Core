@@ -6,7 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
-        public static JsonObject ToJson(this ISerializableObject serializableObject)
+        public static JsonObject? ToJson(this ISerializableObject? serializableObject)
         {
             if (serializableObject == null)
             {
@@ -18,7 +18,7 @@ namespace DiGi.Core
                 return serializableObject.ToJsonObject();
             }
 
-            SerializationMethodCollection serializationMethodCollection = Settings.SerializationManager.GetSerializationMethodCollection(serializableObject);
+            SerializationMethodCollection? serializationMethodCollection = Settings.SerializationManager.GetSerializationMethodCollection(serializableObject);
             if(serializationMethodCollection == null)
             {
                 return null;

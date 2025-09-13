@@ -13,18 +13,18 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public Cluster(IEnumerable<TValue> values)
+        public Cluster(IEnumerable<TValue>? values)
         {
             SetValues(values);
         }
 
-        public Cluster(Cluster<TKey_1, TKey_2, TValue> cluster)
+        public Cluster(Cluster<TKey_1, TKey_2, TValue>? cluster)
         {
             SetValues(cluster);
         }
 
         [JsonInclude, JsonPropertyName("Values")]
-        public List<TValue> Values
+        public List<TValue>? Values
         {
             get
             {
@@ -37,18 +37,23 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public abstract bool Add(TValue value);
+        public abstract bool Add(TValue? value);
 
-        public List<U> AddRange<U>(IEnumerable<U> values) where U : TValue
+        public List<UValue>? AddRange<UValue>(IEnumerable<UValue?>? values) where UValue : TValue
         {
             if (values == null)
             {
                 return null;
             }
 
-            List<U> result = new List<U>();
-            foreach (U value in values)
+            List<UValue> result = [];
+            foreach (UValue? value in values)
             {
+                if(value is null)
+                {
+                    continue;
+                }
+
                 if (Add(value))
                 {
                     result.Add(value);
@@ -60,21 +65,15 @@ namespace DiGi.Core.Classes
 
         public abstract void Clear();
 
-        public abstract bool Contains(TKey_1 key_1);
+        public abstract bool Contains(TKey_1? key_1);
 
-        public abstract bool Contains(TKey_1 key_1, TKey_2 key_2);
+        public abstract bool Contains(TKey_1? key_1, TKey_2? key_2);
 
-        public abstract bool Contains(TValue value);
+        public abstract bool Contains(TValue? value);
 
         public IEnumerator<TValue> GetEnumerator()
         {
-            List<TValue> values = Values;
-            if (values == null)
-            {
-                values = new List<TValue>();
-            }
-
-            return values.GetEnumerator();
+            return Values?.GetEnumerator() ?? Enumerable.Empty<TValue>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -82,18 +81,18 @@ namespace DiGi.Core.Classes
             return GetEnumerator();
         }
 
-        public virtual List<U> GetValues<U>(TKey_1 key_1) where U : TValue
+        public virtual List<UValue>? GetValues<UValue>(TKey_1? key_1) where UValue : TValue
         {
-            List<U> values = GetValues<U>();
+            List<UValue>? values = GetValues<UValue>();
             if (values == null)
             {
                 return null;
             }
 
-            List<U> result = new List<U>();
-            foreach (U value in values)
+            List<UValue> result = [];
+            foreach (UValue value in values)
             {
-                if (key_1.Equals(GetKey_1(value)))
+                if (key_1 == null || key_1.Equals(GetKey_1(value)))
                 {
                     result.Add(value);
                 }
@@ -102,9 +101,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public List<U> GetValues<U>(Func<U, bool> func) where U : TValue
+        public List<UValue>? GetValues<UValue>(Func<UValue?, bool>? func) where UValue : TValue
         {
-            List<U> result = GetValues<U>();
+            List<UValue>? result = GetValues<UValue>();
             if (func == null || result == null || result.Count == 0)
             {
                 return result;
@@ -113,7 +112,7 @@ namespace DiGi.Core.Classes
             int count = result.Count;
             for (int i = count - 1; i >= 0; i--)
             {
-                if (func.Invoke(result[i]))
+                if (func != null && func.Invoke(result[i]))
                 {
                     continue;
                 }
@@ -124,9 +123,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public virtual U GetValue<U>(Func<U, bool> func) where U : TValue
+        public virtual UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : TValue
         {
-            List<U> values = GetValues(func);
+            List<UValue>? values = GetValues(func);
             if (values == null || values.Count == 0)
             {
                 return default;
@@ -135,51 +134,51 @@ namespace DiGi.Core.Classes
             return values[0];
         }
 
-        public bool TryGetValue<U>(out U value, Func<U, bool> func) where U : TValue
+        public bool TryGetValue<UValue>(out UValue? value, Func<UValue?, bool>? func) where UValue : TValue
         {
             value = GetValue(func);
             return value != null;
         }
 
-        public bool TryGetValues<U>(TKey_1 key_1, out List<U> values) where U : TValue
+        public bool TryGetValues<UValue>(TKey_1? key_1, out List<UValue>? values) where UValue : TValue
         {
-            values = GetValues<U>(key_1);
+            values = GetValues<UValue>(key_1);
             return values != null && values.Count != 0;
         }
 
-        public bool TryGetValues<U>(out List<U> values, Func<U, bool> func) where U : TValue
+        public bool TryGetValues<UValue>(out List<UValue>? values, Func<UValue?, bool>? func) where UValue : TValue
         {
             values = GetValues(func);
             return values != null && values.Count != 0;
         }
 
-        public virtual bool IsValid(TValue value)
+        public virtual bool IsValid(TValue? value)
         {
             return value != null;
         }
 
-        public abstract bool Remove(TKey_1 key_1);
+        public abstract bool Remove(TKey_1? key_1);
 
-        public abstract bool Remove(TKey_1 key_1, TKey_2 key_2);
+        public abstract bool Remove(TKey_1? key_1, TKey_2? key_2);
 
-        public abstract bool Remove(TValue value);
+        public abstract bool Remove(TValue? value);
 
-        protected abstract TKey_1 GetKey_1(TValue value);
+        protected abstract TKey_1? GetKey_1(TValue? value);
 
-        protected abstract TKey_2 GetKey_2(TValue value);
+        protected abstract TKey_2? GetKey_2(TValue? value);
 
-        public virtual List<TKey_1> GetKeys_1()
+        public virtual List<TKey_1>? GetKeys_1()
         {
-            List<TValue> values = GetValues<TValue>();
+            List<TValue>? values = GetValues<TValue>();
             if (values == null)
             {
                 return null;
             }
 
-            HashSet<TKey_1> result = new HashSet<TKey_1>();
+            HashSet<TKey_1> result = [];
             foreach (TValue value in values)
             {
-                TKey_1 key_1 = GetKey_1(value);
+                TKey_1? key_1 = GetKey_1(value);
                 if (key_1 == null)
                 {
                     continue;
@@ -188,23 +187,23 @@ namespace DiGi.Core.Classes
                 result.Add(key_1);
             }
 
-            return result.ToList();
+            return [.. result];
         }
 
-        public virtual List<TKey_2> GetKeys_2(TKey_1 key_1)
+        public virtual List<TKey_2>? GetKeys_2(TKey_1? key_1)
         {
             if(key_1 == null)
             {
                 return null;
             }
 
-            List<TValue> values = GetValues<TValue>();
+            List<TValue>? values = GetValues<TValue>();
             if (values == null)
             {
                 return null;
             }
 
-            HashSet<TKey_2> result = new HashSet<TKey_2>();
+            HashSet<TKey_2> result = [];
             foreach (TValue value in values)
             {
                 if (!key_1.Equals(GetKey_1(value)))
@@ -212,7 +211,7 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                TKey_2 key_2 = GetKey_2(value);
+                TKey_2? key_2 = GetKey_2(value);
                 if (key_2 == null)
                 {
                     continue;
@@ -221,12 +220,12 @@ namespace DiGi.Core.Classes
                 result.Add(key_2);
             }
 
-            return result.ToList();
+            return [.. result];
         }
 
-        public abstract List<U> GetValues<U>() where U : TValue;
+        public abstract List<UValue>? GetValues<UValue>() where UValue : TValue;
 
-        protected bool SetValues(IEnumerable<TValue> values)
+        protected bool SetValues(IEnumerable<TValue>? values)
         {
             if (values == null)
             {

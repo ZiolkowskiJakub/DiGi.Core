@@ -9,10 +9,10 @@ namespace DiGi.Core
         {
             if(seed == -1)
             {
-                return Enumerable.Repeat(-1, count).ToList();
+                return [.. Enumerable.Repeat(-1, count)];
             }
 
-            List<int> result = new List<int>();
+            List<int> result = [];
             result.Add(seed);
             for (int i = 1; i < count; i++)
             {

@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static List<List<X>> Split<X>(this IEnumerable<X> values, int maxCount)
+        public static List<List<X>>? Split<X>(this IEnumerable<X>? values, int maxCount)
         {
             if (values == null || maxCount < 1)
             {
@@ -14,12 +14,12 @@ namespace DiGi.Core
 
             if (values.Count() <= maxCount)
             {
-                return new List<List<X>> { new List<X>(values) };
+                return [[.. values]];
             }
 
-            List<List<X>> result = new List<List<X>>();
+            List<List<X>> result = [];
 
-            List<X> values_Temp = new List<X>();
+            List<X> values_Temp = [];
 
             foreach (X value in values)
             {
@@ -28,7 +28,7 @@ namespace DiGi.Core
                 if (values_Temp.Count == maxCount)
                 {
                     result.Add(values_Temp);
-                    values_Temp = new List<X>();
+                    values_Temp = [];
                 }
             }
 

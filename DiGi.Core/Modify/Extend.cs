@@ -11,7 +11,7 @@ namespace DiGi.Core
         /// <param name="list">List</param>
         /// <param name="count">New length of the list</param>
         /// <returns>True if new items added. False if list is longer than given count value, list is empty or null</returns>
-        public static bool Extend<T>(this List<T> list, int count)
+        public static bool Extend<T>(this List<T>? list, int count)
         {
             if(list == null || list.Count == 0)
             {

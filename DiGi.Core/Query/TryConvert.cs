@@ -8,7 +8,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool TryConvert(this object @object, out object result, Type type)
+        public static bool TryConvert(this object? @object, out object? result, Type? type)
         {
             result = default;
 
@@ -18,26 +18,21 @@ namespace DiGi.Core
                 return true;
             }
 
-            Type type_Object = @object?.GetType();
+            Type? type_Object = @object?.GetType();
             if (type_Object == type || type == null)
             {
                 result = @object;
                 return true;
             }
 
-            Type type_Temp = Nullable.GetUnderlyingType(type);
-            if (type_Temp == null)
-            {
-                type_Temp = type;
-            }
-
+            Type type_Temp = Nullable.GetUnderlyingType(type) ?? type;
             if (type_Temp == typeof(string))
             {
                 if (@object != null)
                 {
-                    if (@object is ISerializableObject)
+                    if (@object is ISerializableObject serializableObject)
                     {
-                        result = ((ISerializableObject)@object).ToJsonObject()?.ToString();
+                        result = serializableObject.ToJsonObject()?.ToString();
                     }
 
                     if (result == default)
@@ -60,16 +55,15 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string string_Temp)
                 {
-                    bool @bool;
-                    if (bool.TryParse((string)@object, out @bool))
+                    if (bool.TryParse(string_Temp, out bool @bool))
                     {
                         result = @bool;
                         return true;
                     }
 
-                    string @string = ((string)@object).Trim().ToUpper();
+                    string @string = string_Temp.Trim().ToUpper();
                     result = (@string.Equals("1") || @string.Equals("YES") || @string.Equals("TRUE"));
                     return true;
                 }
@@ -91,24 +85,23 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    double @double;
-                    if (TryParseDouble((string)@object, out @double))
+                    if (TryParseDouble(@string, out double @double))
                     {
                         result = @double;
                         return true;
                     }
                 }
-                else if (IsNumeric(@object) && !(@object is Type))
+                else if (IsNumeric(@object) && @object is not System.Type)
                 {
                     result = System.Convert.ToDouble(@object);
                     return true;
                 }
-                else if (@object is bool)
+                else if (@object is bool @bool)
                 {
                     double @double = 0;
-                    if ((bool)@object)
+                    if (@bool)
                         @double = 1;
 
                     result = @double;
@@ -124,6 +117,50 @@ namespace DiGi.Core
                     return true;
                 }
             }
+            else if (type_Temp == typeof(decimal))
+            {
+                if (@object == null)
+                {
+                    return false;
+                }
+
+                if (@object is Type)
+                {
+                    return false;
+                }
+
+                if (@object is string @string)
+                {
+                    if (TryParseDouble(@string, out double @double))
+                    {
+                        result = System.Convert.ToDecimal(@double);
+                        return true;
+                    }
+                }
+                else if (IsNumeric(@object) && @object is not System.Type)
+                {
+                    result = System.Convert.ToDecimal(@object);
+                    return true;
+                }
+                else if (@object is bool @bool)
+                {
+                    decimal @decimal = 0;
+                    if (@bool)
+                        @decimal = 1;
+
+                    result = @decimal;
+                    return true;
+                }
+                else if (@object is int)
+                {
+                    int @int = 0;
+                    if ((bool)@object)
+                        @int = 1;
+
+                    result = System.Convert.ToDecimal(@int);
+                    return true;
+                }
+            }
             else if (type_Temp == typeof(float))
             {
                 if (@object == null)
@@ -136,24 +173,23 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    double @double;
-                    if (TryParseDouble((string)@object, out @double))
+                    if (TryParseDouble(@string, out double @double))
                     {
                         result = System.Convert.ToSingle(@double);
                         return true;
                     }
                 }
-                else if (IsNumeric(@object) && !(@object is Type))
+                else if (IsNumeric(@object) && @object is not System.Type)
                 {
                     result = System.Convert.ToSingle(@object);
                     return true;
                 }
-                else if (@object is bool)
+                else if (@object is bool @bool)
                 {
                     float @float = 0;
-                    if ((bool)@object)
+                    if (@bool)
                         @float = 1;
 
                     result = @float;
@@ -181,10 +217,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    int @int;
-                    if (int.TryParse((string)@object, out @int))
+                    if (int.TryParse(@string, out int @int))
                     {
                         result = @int;
                         return true;
@@ -213,10 +248,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    uint @uint;
-                    if (uint.TryParse((string)@object, out @uint))
+                    if (uint.TryParse(@string, out uint @uint))
                     {
                         result = @uint;
                         return true;
@@ -227,9 +261,9 @@ namespace DiGi.Core
                     result = System.Convert.ToUInt32(@object);
                     return true;
                 }
-                else if (@object is Classes.Color)
+                else if (@object is Classes.Color color)
                 {
-                    result = ((Classes.Color)@object).Value;
+                    result = color.Value;
                     return true;
                 }
             }
@@ -245,10 +279,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    short @short;
-                    if (short.TryParse((string)@object, out @short))
+                    if (short.TryParse(@string, out short @short))
                     {
                         result = @short;
                         return true;
@@ -272,10 +305,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    ushort @ushort;
-                    if (ushort.TryParse((string)@object, out @ushort))
+                    if (ushort.TryParse(@string, out ushort @ushort))
                     {
                         result = @ushort;
                         return true;
@@ -299,9 +331,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    if (byte.TryParse((string)@object, out byte @byte))
+                    if (byte.TryParse(@string, out byte @byte))
                     {
                         result = @byte;
                         return true;
@@ -325,10 +357,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    long @long;
-                    if (long.TryParse((string)@object, out @long))
+                    if (long.TryParse(@string, out long @long))
                     {
                         result = @long;
                         return true;
@@ -352,9 +383,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    if (ulong.TryParse((string)@object, out ulong @ulong))
+                    if (ulong.TryParse(@string, out ulong @ulong))
                     {
                         result = @ulong;
                         return true;
@@ -383,9 +414,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    if (Guid.TryParse((string)@object, out Guid guid))
+                    if (Guid.TryParse(@string, out Guid guid))
                     {
                         result = guid;
                         return true;
@@ -404,10 +435,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    DateTime dateTime;
-                    if (DateTime.TryParse((string)@object, out dateTime))
+                    if (DateTime.TryParse(@string, out DateTime dateTime))
                     {
                         result = dateTime;
                         return true;
@@ -415,7 +445,7 @@ namespace DiGi.Core
                 }
                 else if (IsNumeric(@object))
                 {
-                    result = @object is double ? DateTime.FromOADate((double)@object) : new DateTime(System.Convert.ToInt64(@object));
+                    result = @object is double @double ? DateTime.FromOADate(@double) : new DateTime(System.Convert.ToInt64(@object));
                     return true;
                 }
             }
@@ -431,9 +461,8 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    string @string = (string)@object;
                     if (@string.StartsWith("##"))
                     {
                         result = Convert.ToDrawing(@string);
@@ -443,15 +472,13 @@ namespace DiGi.Core
                         }
                     }
 
-                    int @int;
-                    if (int.TryParse(@string, out @int))
+                    if (int.TryParse(@string, out int @int))
                     {
                         result = Convert.ToDrawing(@int);
                         return true;
                     }
 
-                    uint @uint;
-                    if (uint.TryParse(@string, out @uint))
+                    if (uint.TryParse(@string, out uint @uint))
                     {
                         result = Convert.ToDrawing(@uint);
                         return true;
@@ -462,19 +489,19 @@ namespace DiGi.Core
                         return true;
 
                 }
-                else if (@object is Classes.Color)
+                else if (@object is Classes.Color color)
                 {
-                    result = (System.Drawing.Color)((Classes.Color)@object);
+                    result = (System.Drawing.Color)color;
                     return true;
                 }
-                else if (@object is int)
+                else if (@object is int @int)
                 {
-                    result = Convert.ToDrawing((int)@object);
+                    result = Convert.ToDrawing(@int);
                     return true;
                 }
-                else if (@object is uint)
+                else if (@object is uint unit)
                 {
-                    result = Convert.ToDrawing((uint)@object);
+                    result = Convert.ToDrawing(unit);
                     return true;
                 }
             }
@@ -488,9 +515,9 @@ namespace DiGi.Core
             }
             else if (typeof(ISerializableObject).IsAssignableFrom(type_Temp))
             {
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    List<ISerializableObject> serializableObjects = Convert.ToDiGi<ISerializableObject>((string)@object);
+                    List<ISerializableObject>? serializableObjects = Convert.ToDiGi<ISerializableObject>(@string);
                     if (serializableObjects != null && serializableObjects.Count != 0)
                     {
                         ISerializableObject serializableObject = serializableObjects.Find(x => x != null && type_Temp.IsAssignableFrom(x.GetType()));
@@ -502,14 +529,14 @@ namespace DiGi.Core
                     }
                     else if (typeof(Classes.Color).IsAssignableFrom(type_Temp))
                     {
-                        if (int.TryParse((string)@object, out int int_color))
+                        if (int.TryParse(@string, out int int_color))
                         {
                             result = new Classes.Color(Convert.ToDrawing(int_color));
                             return true;
                         }
                         else
                         {
-                            string value = (string)@object;
+                            string value = @string;
                             if (!string.IsNullOrWhiteSpace(value) && value.Contains(","))
                             {
                                 string[] values = value.Split(',');
@@ -552,15 +579,15 @@ namespace DiGi.Core
 
                 if (type_Object == typeof(System.Drawing.Color))
                 {
-                    result = new Classes.Color((System.Drawing.Color)@object);
+                    result = new Classes.Color((System.Drawing.Color)@object!);
                     return true;
                 }
             }
             else if (typeof(JsonObject).IsAssignableFrom(type_Temp))
             {
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    result = JsonNode.Parse((string)@object);
+                    result = JsonNode.Parse(@string);
                     return true;
                 }
             }
@@ -569,10 +596,8 @@ namespace DiGi.Core
                 if (@object == null)
                     return false;
 
-                if (@object is string)
+                if (@object is string @string)
                 {
-                    string @string = (string)@object;
-
                     Type type_Result = result.GetType();
 
                     Array array = System.Enum.GetValues(type_Result);
@@ -588,8 +613,7 @@ namespace DiGi.Core
                         }
                     }
 
-                    int @int;
-                    if (int.TryParse(@string, out @int))
+                    if (int.TryParse(@string, out int @int))
                     {
                         if (System.Enum.IsDefined(type_Temp, @int))
                         {
@@ -627,9 +651,9 @@ namespace DiGi.Core
                 Array array = System.Enum.GetValues(type_Temp);
                 if (array != null && array.Length != 0)
                 {
-                    if (@object is string)
+                    if (@object is string @string_Temp)
                     {
-                        string @string = ((string)@object).Replace(" ", string.Empty).ToUpper();
+                        string @string = @string_Temp.Replace(" ", string.Empty).ToUpper();
                         if (string.IsNullOrEmpty(@string))
                         {
                             return false;
@@ -644,7 +668,7 @@ namespace DiGi.Core
                                 return true;
                             }
 
-                            string description = Description(@enum)?.Replace(" ", string.Empty)?.ToUpper();
+                            string? description = Description(@enum)?.Replace(" ", string.Empty)?.ToUpper();
                             if (@string.Equals(description))
                             {
                                 result = @enum;
@@ -680,19 +704,28 @@ namespace DiGi.Core
             return false;
         }
 
-        public static bool TryConvert<T>(this object @object, out T result)
+        public static bool TryConvert<T>(this object? @object, out T? result)
         {
             result = default;
 
-            object result_Object;
-            if (!TryConvert(@object, out result_Object, typeof(T)))
+            if (!TryConvert(@object, out object? result_Object, typeof(T)))
+            {
                 return false;
+            }
 
-            result = (T)result_Object;
+            if (result_Object is null)
+            {
+                result = default;
+            }
+            else
+            {
+                result = (T)result_Object;
+            }
+
             return true;
         }
 
-        public static bool TryConvert(this object @object, out object result, DataType dataType)
+        public static bool TryConvert(this object? @object, out object? result, DataType dataType)
         {
             result = null;
             if(dataType == Enums.DataType.Undefined)

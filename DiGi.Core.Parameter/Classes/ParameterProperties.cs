@@ -6,26 +6,26 @@ namespace DiGi.Core.Parameter.Classes
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ParameterProperties : Attribute
     {
-        private string uniqueId = null;
-        private string name = null;
-        private string description = null;
-        private AccessType accessType = AccessType.ReadWrite;
-        private string groupName = null;
+        private readonly string? uniqueId = null;
+        private readonly string? name = null;
+        private readonly string? description = null;
+        private readonly AccessType accessType = AccessType.ReadWrite;
+        private readonly string? groupName = null;
 
-        public ParameterProperties(string uniqueId, string name)
+        public ParameterProperties(string? uniqueId, string? name)
         {
             this.uniqueId = uniqueId;
             this.name = name;
         }
 
-        public ParameterProperties(string uniqueId, string name, string description)
+        public ParameterProperties(string? uniqueId, string? name, string? description)
         {
             this.uniqueId = uniqueId;
             this.name = name;
             this.description = description;
         }
 
-        public ParameterProperties(string uniqueId, string name, string description, AccessType accessType)
+        public ParameterProperties(string? uniqueId, string? name, string? description, AccessType accessType)
         {
             this.uniqueId = uniqueId;
             this.name = name;
@@ -33,7 +33,7 @@ namespace DiGi.Core.Parameter.Classes
             this.accessType = accessType;
         }
 
-        public ParameterProperties(string uniqueId, string name, string description, AccessType accessType, string groupName)
+        public ParameterProperties(string? uniqueId, string? name, string? description, AccessType accessType, string? groupName)
         {
             this.uniqueId = uniqueId;
             this.name = name;
@@ -42,19 +42,19 @@ namespace DiGi.Core.Parameter.Classes
             this.groupName = groupName;
         }
 
-        public ParameterProperties(string name)
+        public ParameterProperties(string? name)
         {
             this.name = name;
         }
 
-        public ParameterProperties(string name, string description, AccessType accessType)
+        public ParameterProperties(string? name, string? description, AccessType accessType)
         {
             this.name = name;
             this.description = description;
             this.accessType = accessType;
         }
 
-        public string Name
+        public string? Name
         {
             get
             {
@@ -62,7 +62,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public string Description
+        public string? Description
         {
             get
             {
@@ -70,15 +70,15 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public string UniqueId
+        public string? UniqueId
         {
             get
             {
-                return uniqueId == null ? name : uniqueId;
+                return uniqueId ?? name;
             }
         }
 
-        public string GroupName
+        public string? GroupName
         {
             get
             {

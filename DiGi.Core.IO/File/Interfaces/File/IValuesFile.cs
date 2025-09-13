@@ -9,6 +9,6 @@ namespace DiGi.Core.IO.File.Interfaces
 
     internal interface IValuesFile<T> : IValuesFile
     {
-        IEnumerable<T> Values { get; set; }
+        IEnumerable<T?>? Values { get; set; }
     }
 }

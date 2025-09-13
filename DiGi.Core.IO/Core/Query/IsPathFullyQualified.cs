@@ -4,9 +4,14 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
-        public static bool IsPathFullyQualified(string path)
+        public static bool IsPathFullyQualified(string? path)
         {
-            var root = Path.GetPathRoot(path);
+            string root = Path.GetPathRoot(path);
+            if(string.IsNullOrWhiteSpace(root))
+            {
+                return false;
+            }
+
             return root.StartsWith(@"\\") || root.EndsWith(@"\") && root != @"\";
         }
     }

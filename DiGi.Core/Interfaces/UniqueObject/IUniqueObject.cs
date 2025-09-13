@@ -2,6 +2,6 @@
 {
     public interface IUniqueObject : ISerializableObject
     {
-        string UniqueId { get; }
+        string? UniqueId { get; }
     }
 }

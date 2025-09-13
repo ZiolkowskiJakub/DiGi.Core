@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -9,7 +10,7 @@ namespace DiGi.Core.Classes
     public class SerializableObjectCollection<T> : SerializableObject, ICollection<T> where T : ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Values")]
-        private List<T> values = new List<T>();
+        private readonly List<T> values = [];
 
         public SerializableObjectCollection()
             :base()
@@ -17,7 +18,7 @@ namespace DiGi.Core.Classes
 
         }
 
-        public SerializableObjectCollection(IEnumerable<T> serializableObjects) 
+        public SerializableObjectCollection(IEnumerable<T>? serializableObjects) 
         {
             if(serializableObjects != null)
             {
@@ -25,18 +26,18 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public SerializableObjectCollection(JsonObject jsonObject)
+        public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public SerializableObjectCollection(SerializableObjectCollection<T> serializableObjectCollection)
+        public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
             : base()
         {
             if(serializableObjectCollection?.values != null)
             {
-                values = new List<T>(serializableObjectCollection.values);
+                values = [.. serializableObjectCollection.values];
             }
         }
 
@@ -66,44 +67,44 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public static explicit operator List<T>(SerializableObjectCollection<T> serializableObjectCollection)
+        public static explicit operator List<T>?(SerializableObjectCollection<T>? serializableObjectCollection)
         {
             if (serializableObjectCollection == null)
             {
                 return null;
             }
 
-            return serializableObjectCollection.values == null ? new List<T>() : new List<T>(serializableObjectCollection.values);
+            return serializableObjectCollection.values == null ? [] : [.. serializableObjectCollection.values];
         }
 
-        public static explicit operator SerializableObjectCollection<T>(List<T> serializableObjects)
+        public static explicit operator SerializableObjectCollection<T>?(List<T>? serializableObjects)
         {
             if (serializableObjects == null)
             {
                 return null;
             }
 
-            return new SerializableObjectCollection<T>(serializableObjects);
+            return [.. serializableObjects];
         }
 
-        public static explicit operator SerializableObjectCollection<T>(T[] serializableObjects)
+        public static explicit operator SerializableObjectCollection<T>?(T[]? serializableObjects)
         {
             if (serializableObjects == null)
             {
                 return null;
             }
 
-            return new SerializableObjectCollection<T>(serializableObjects);
+            return [.. serializableObjects];
         }
 
-        public static explicit operator T[](SerializableObjectCollection<T> serializableObjectCollection)
+        public static explicit operator T[]?(SerializableObjectCollection<T>? serializableObjectCollection)
         {
             if (serializableObjectCollection == null)
             {
                 return null;
             }
 
-            return serializableObjectCollection.values == null ? new T[] { } : serializableObjectCollection.values.ToArray();
+            return serializableObjectCollection.values == null ? [] : [.. serializableObjectCollection.values];
         }
 
         public void Add(T serializableObject)
@@ -116,14 +117,14 @@ namespace DiGi.Core.Classes
             values?.Clear();
         }
 
-        public virtual ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new SerializableObjectCollection<T>(values);
         }
 
-        public bool Contains(T item)
+        public bool Contains(T? item)
         {
-            if (values == null)
+            if (values == null || item == null)
             {
                 return false;
             }
@@ -166,7 +167,7 @@ namespace DiGi.Core.Classes
 
         public IEnumerator<T> GetEnumerator()
         {
-            return values?.GetEnumerator();
+            return values?.GetEnumerator() ?? Enumerable.Empty<T>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -174,9 +175,9 @@ namespace DiGi.Core.Classes
             return GetEnumerator();
         }
         
-        public bool Remove(T item)
+        public bool Remove(T? item)
         {
-            if(values == null)
+            if(values == null || item == null)
             {
                 return false;
             }
@@ -198,19 +199,19 @@ namespace DiGi.Core.Classes
 
         }
 
-        public SerializableObjectCollection(IEnumerable<ISerializableObject> serializableObjects)
+        public SerializableObjectCollection(IEnumerable<ISerializableObject>? serializableObjects)
             : base(serializableObjects)
         {
 
         }
 
-        public SerializableObjectCollection(JsonObject jsonObject)
+        public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public SerializableObjectCollection(SerializableObjectCollection serializableObjectCollection)
+        public SerializableObjectCollection(SerializableObjectCollection? serializableObjectCollection)
             : base(serializableObjectCollection)
         {
 

@@ -6,7 +6,7 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Query
     {
-        public static List<string> Values(this string line, char separator, Func<string> nextLine = null)
+        public static List<string>? Values(this string? line, char separator, Func<string>? nextLine = null)
         {
             if (line == null)
             {
@@ -16,7 +16,7 @@ namespace DiGi.Core.IO.DelimitedData
             int position = 0;
             int rowCount = 0;
 
-            DelimitedDataRow result = new DelimitedDataRow();
+            DelimitedDataRow result = [];
 
             while (position < line.Length)
             {
@@ -50,7 +50,7 @@ namespace DiGi.Core.IO.DelimitedData
                         //Code which read quoted text with break line symbol
                         while (position == line.Length)
                         {
-                            string lineText = nextLine?.Invoke();
+                            string? lineText = nextLine?.Invoke();
                             if (lineText == null)
                             {
                                 break;

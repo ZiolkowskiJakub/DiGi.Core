@@ -1,53 +1,73 @@
 ﻿namespace DiGi.Core.Parameter.Classes
 {
-    public struct SerializableValue
+    public readonly struct SerializableValue
     {
-        private object value;
+        private readonly object? value;
 
-        private SerializableValue(object value)
+        private SerializableValue(object? value)
         {
             this.value = value;
         }
 
-        public static implicit operator SerializableValue(string value)
+        public static implicit operator SerializableValue?(string? value)
         {
             return new SerializableValue(value);
         }
 
 
-        public static implicit operator string(SerializableValue serializableValue)
+        public static implicit operator string?(SerializableValue? serializableValue)
         {
-            return serializableValue.value as string;
+            if (serializableValue == null)
+            {
+                return null;
+            }
+
+            return serializableValue.Value.value as string;
         }
 
-        public static bool operator !=(SerializableValue serializableValue_1, SerializableValue serializableValue_2)
+        public static bool operator !=(SerializableValue? serializableValue_1, SerializableValue? serializableValue_2)
         {
-            if (ReferenceEquals(serializableValue_1, null) && ReferenceEquals(serializableValue_2, null))
+            if (serializableValue_1 is null && serializableValue_2 is null)
             {
                 return false;
             }
 
-            if (ReferenceEquals(serializableValue_1, null) || ReferenceEquals(serializableValue_2, null))
+            if (serializableValue_1 is null || serializableValue_2 is null)
             {
                 return true;
             }
 
-            return serializableValue_1.value != serializableValue_2.value;
+            return serializableValue_1.Value.value != serializableValue_2.Value.value;
         }
 
-        public static bool operator ==(SerializableValue serializableValue_1, SerializableValue serializableValue_2)
+        public static bool operator ==(SerializableValue? serializableValue_1, SerializableValue? serializableValue_2)
         {
-            if (ReferenceEquals(serializableValue_1, null) && ReferenceEquals(serializableValue_2, null))
+            if (serializableValue_1 is null && serializableValue_2 is null)
             {
                 return true;
             }
 
-            if (ReferenceEquals(serializableValue_1, null) || ReferenceEquals(serializableValue_2, null))
+            if (serializableValue_1 is null || serializableValue_2 is null)
             {
                 return false;
             }
 
-            return serializableValue_1.value == serializableValue_2.value;
+            return serializableValue_1.Value.value == serializableValue_2.Value.value;
+        }
+
+        public override readonly bool Equals(object? obj)
+        {
+            if(obj is SerializableValue serializableValue)
+            {
+                return serializableValue.GetHashCode() == GetHashCode();  
+            }
+
+            return false;
+        }
+
+        public override readonly int GetHashCode()
+        {
+            return value?.GetHashCode()?? -1;
         }
     }
 }

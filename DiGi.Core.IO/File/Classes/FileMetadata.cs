@@ -10,18 +10,18 @@ namespace DiGi.Core.IO.File.Classes
     public class FileMetadata : GuidObject, IMetadata
     {
         [JsonInclude, JsonPropertyName("Created"), Description("Date created")]
-        private DateTime created;
+        private readonly DateTime created;
 
         [JsonInclude, JsonPropertyName("Modified"), Description("Date modified")]
         private DateTime modified;
 
         [JsonInclude, JsonPropertyName("Path"), Description("Path")]
-        private string path;
+        private string? path;
 
         [JsonInclude, JsonPropertyName("Type"), Description("Type")]
-        private string type = null;
+        private readonly string? type = null;
 
-        public FileMetadata(Type type, string path)
+        public FileMetadata(Type? type, string? path)
             : base()
         {
             this.type = Core.Query.FullTypeName(type);
@@ -30,7 +30,7 @@ namespace DiGi.Core.IO.File.Classes
             this.path = path;
         }
 
-        public FileMetadata(Type type)
+        public FileMetadata(Type? type)
             : base()
         {
             this.type = Core.Query.FullTypeName(type);
@@ -39,7 +39,7 @@ namespace DiGi.Core.IO.File.Classes
             path = null;
         }
 
-        public FileMetadata(FileMetadata fileMetadata)
+        public FileMetadata(FileMetadata? fileMetadata)
             : base(fileMetadata)
         {
             if (fileMetadata != null)
@@ -51,7 +51,7 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
-        public FileMetadata(JsonObject jsonObject)
+        public FileMetadata(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -65,7 +65,7 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
-        public string Type
+        public string? Type
         {
             get
             {
@@ -86,7 +86,7 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
-        public string Path
+        public string? Path
         {
             get
             {

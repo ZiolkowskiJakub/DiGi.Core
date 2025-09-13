@@ -6,7 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool Equals(this byte[] bytes_1, byte[] bytes_2)
+        public static bool Equals(this byte[]? bytes_1, byte[]? bytes_2)
         {
             if(bytes_1 == null && bytes_2 == null)
             {
@@ -34,7 +34,7 @@ namespace DiGi.Core
             return true;
         }
 
-        public static bool Equals(this IEnumerable enumerable_1, IEnumerable enumerable_2)
+        public static bool Equals(this IEnumerable? enumerable_1, IEnumerable? enumerable_2)
         {
             if(enumerable_1 == null && enumerable_2 == null)
             {
@@ -46,7 +46,7 @@ namespace DiGi.Core
                 return false;
             }
 
-            List<object> objects = new List<object>();
+            List<object> objects = [];
             foreach (object @object in enumerable_1)
             {
                 objects.Add(@object);
@@ -66,9 +66,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if(object_1 is IEnumerable && object_2 is IEnumerable)
+                if(object_1 is IEnumerable enumerable_1_Temp && object_2 is IEnumerable enumerable_2_Temp)
                 {
-                    if(!Equals((IEnumerable)object_1, (IEnumerable)object_2))
+                    if(!Equals(enumerable_1_Temp, enumerable_2_Temp))
                     {
                         return false;
                     }
@@ -92,7 +92,7 @@ namespace DiGi.Core
             return true;
         }
 
-        public static bool Equals<T>(this IEnumerable<T> enumerable_1, IEnumerable<T> enumerable_2)
+        public static bool Equals<T>(this IEnumerable<T>? enumerable_1, IEnumerable<T>? enumerable_2)
         {
             if(enumerable_1 == null && enumerable_2 == null)
             {
@@ -127,9 +127,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if(object_1 is IEnumerable && object_2 is IEnumerable)
+                if(object_1 is IEnumerable enumerable_1_Temp && object_2 is IEnumerable enumerable_2_Temp)
                 {
-                    if (!Equals((IEnumerable)object_1, (IEnumerable)object_2))
+                    if (!Equals(enumerable_1_Temp, enumerable_2_Temp))
                     {
                         return false;
                     }

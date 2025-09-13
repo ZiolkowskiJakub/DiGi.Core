@@ -6,21 +6,21 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static UniqueReference UniqueReference(this IWrapperUniqueReference wrapperUniqueReference)
+        internal static UniqueReference? UniqueReference(this IWrapperUniqueReference? wrapperUniqueReference)
         {
             if(wrapperUniqueReference == null)
             {
                 return null;
             }
 
-            if(wrapperUniqueReference is WrapperGuidReference)
+            if(wrapperUniqueReference is WrapperGuidReference wrapperGuidReference)
             {
-                return ((WrapperGuidReference)wrapperUniqueReference).Reference;
+                return wrapperGuidReference.Reference;
             }
 
-            if (wrapperUniqueReference is WrapperUniqueIdReference)
+            if (wrapperUniqueReference is WrapperUniqueIdReference wrapperUniqueIdReference)
             {
-                return ((WrapperUniqueIdReference)wrapperUniqueReference).Reference;
+                return wrapperUniqueIdReference.Reference;
             }
 
             throw new System.NotImplementedException();

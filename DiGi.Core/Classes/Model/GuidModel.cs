@@ -10,13 +10,13 @@ namespace DiGi.Core.Classes
             
         }
 
-        public GuidModel(GuidModel guidModel)
+        public GuidModel(GuidModel? guidModel)
             :base(guidModel)
         {
 
         }
 
-        public GuidModel(JsonObject jsonObject)
+        public GuidModel(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

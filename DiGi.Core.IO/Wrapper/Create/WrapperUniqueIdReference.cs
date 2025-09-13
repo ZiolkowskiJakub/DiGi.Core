@@ -6,15 +6,14 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Create
     {
-        internal static WrapperUniqueIdReference WrapperUniqueIdReference(this JsonArray jsonArray)
+        internal static WrapperUniqueIdReference? WrapperUniqueIdReference(this JsonArray? jsonArray)
         {
             if(jsonArray == null)
             {
                 return null;
             }
 
-            UniqueIdReference uniqueIdReference = Core.Create.UniqueReference(jsonArray) as UniqueIdReference;
-            if (uniqueIdReference == null)
+            if (Core.Create.UniqueReference(jsonArray) is not UniqueIdReference uniqueIdReference)
             {
                 return null;
             }
@@ -22,15 +21,14 @@ namespace DiGi.Core.IO.Wrapper
             return new WrapperUniqueIdReference(uniqueIdReference);
         }
 
-        internal static WrapperUniqueIdReference WrapperUniqueIdReference(this JsonValue jsonValue)
+        internal static WrapperUniqueIdReference? WrapperUniqueIdReference(this JsonValue? jsonValue)
         {
             if (jsonValue == null)
             {
                 return null;
             }
 
-            UniqueIdReference uniqueIdReference = Core.Create.UniqueReference(jsonValue) as UniqueIdReference;
-            if (uniqueIdReference == null)
+            if (Core.Create.UniqueReference(jsonValue) is not UniqueIdReference uniqueIdReference)
             {
                 return null;
             }

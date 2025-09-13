@@ -7,7 +7,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static T Object<T>(params object[] objects)
+        public static T? Object<T>(params object[] objects)
         {
             Type type = typeof(T);
 
@@ -19,15 +19,15 @@ namespace DiGi.Core
 
             int count = objects == null ? 0 : objects.Length;
 
-            object result = null;
+            object? result = null;
 
-            ConstructorInfo constructorInfo = type.GetConstructor(objects.ToList().ConvertAll(x => x?.GetType()).ToArray());
+            ConstructorInfo constructorInfo = type.GetConstructor([.. objects.ToList().ConvertAll(x => x?.GetType())]);
             if (constructorInfo != null)
             {
                 result = constructorInfo.Invoke(objects);
-                if (result is T)
+                if (result is T t)
                 {
-                    return (T)result;
+                    return t;
                 }
             }
 
@@ -36,20 +36,20 @@ namespace DiGi.Core
                 ParameterInfo[] parameterInfos = constructorInfo_Temp.GetParameters();
                 if ((parameterInfos == null || parameterInfos.Length == 0) && count == 0)
                 {
-                    result = constructorInfo_Temp.Invoke(new object[0]);
-                    if (result is T)
+                    result = constructorInfo_Temp.Invoke([]);
+                    if (result is T t_Temp)
                     {
-                        return (T)result;
+                        return t_Temp;
                     }
                 }
 
-                if (parameterInfos.Length != count)
+                if (parameterInfos!.Length != count)
                 {
                     continue;
                 }
 
-                List<object> objects_Temp = new List<object>(objects);
-                List<object> parameteres = new List<object>();
+                List<object> objects_Temp = objects == null ? [] : [.. objects];
+                List<object> parameteres = [];
                 foreach (ParameterInfo parameterInfo in parameterInfos)
                 {
                     object parameter = objects_Temp.Find(x => parameterInfo.ParameterType.IsAssignableFrom(x.GetType()));
@@ -67,10 +67,10 @@ namespace DiGi.Core
                     continue;
                 }
 
-                result = constructorInfo_Temp.Invoke(parameteres.ToArray());
-                if (result is T)
+                result = constructorInfo_Temp.Invoke([.. parameteres]);
+                if (result is T t)
                 {
-                    return (T)result;
+                    return t;
                 }
             }
 

@@ -6,12 +6,12 @@ namespace DiGi.Core.Parameter.Interfaces
 {
     public interface IParametrizedObject : ISerializableObject
     {
-        List<TParameterDefinition> GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition;
+        List<TParameterDefinition>? GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition;
 
-        bool Remove(IParameterDefinition parameterDefinition);
+        bool Remove(IParameterDefinition? parameterDefinition);
 
-        bool SetValue(IParameterDefinition parameterDefinition, object value, SetValueSettings setValueSettings = null);
+        bool SetValue(IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null);
 
-        bool TryGetValue<T>(IParameterDefinition parameterDefinition, out T value, GetValueSettings getValueSettings = null);
+        bool TryGetValue<T>(IParameterDefinition? parameterDefinition, out T? value, GetValueSettings? getValueSettings = null);
     }
 }
