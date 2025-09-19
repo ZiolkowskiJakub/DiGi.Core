@@ -4,4 +4,9 @@
     {
         bool Update();
     }
+
+    public interface IUpdater<TValue> : IUpdater
+    {
+        TValue? Value { set; get; }
+    }
 }
