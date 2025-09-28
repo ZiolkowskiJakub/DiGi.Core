@@ -85,7 +85,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 if (!relation.Contains(RelationSide.From, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
                 {
-                    List<UUniqueObject>? relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From)?.Cast<GuidReference>());
+                    List<UUniqueObject>? relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From));
                     if (relatedValues != null)
                     {
                         foreach (UUniqueObject relatedValue in relatedValues)
@@ -102,7 +102,7 @@ namespace DiGi.Core.Relation.Classes
 
                 if (!relation.Contains(RelationSide.To, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
                 {
-                    List<UUniqueObject>? relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To)?.Cast<GuidReference>());
+                    List<UUniqueObject>? relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To));
                     if (relatedValues != null)
                     {
                         foreach (UUniqueObject relatedValue in relatedValues)
@@ -141,7 +141,7 @@ namespace DiGi.Core.Relation.Classes
             {
                 if (!relation.Contains(RelationSide.From, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From))
                 {
-                    List<UUniqueObject>? values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From)?.Cast<GuidReference>());
+                    List<UUniqueObject>? values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.From));
                     if (values != null)
                     {
                         result.AddRange(values);
@@ -150,7 +150,7 @@ namespace DiGi.Core.Relation.Classes
 
                 if (!relation.Contains(RelationSide.To, uniqueReference) && Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To))
                 {
-                    List<UUniqueObject>? values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To)?.Cast<GuidReference>());
+                    List<UUniqueObject>? values = GetValues<UUniqueObject>(Query.UniqueReferences(relation, RelationSide.To));
                     if (values != null)
                     {
                         result.AddRange(values);
@@ -229,7 +229,7 @@ namespace DiGi.Core.Relation.Classes
             return relationListCluster.GetValues(uniqueReference, func);
         }
 
-        public List<UUniqueObject>? GetValues<UUniqueObject>(XRelation relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
+        public List<UUniqueObject>? GetValues<UUniqueObject>(XRelation? relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
         {
             HashSet<IUniqueReference>? uniqueReferences = Query.UniqueReferences(relation, relationSide);
             if (uniqueReferences == null)
@@ -237,17 +237,18 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            List<GuidReference> guidReferences = [];
-            foreach (IUniqueReference uniqueReference in uniqueReferences)
+            return GetValues<UUniqueObject>(uniqueReferences);
+        }
+
+        public UUniqueObject? GetValue<UUniqueObject>(XRelation? relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
+        {
+            HashSet<IUniqueReference>? uniqueReferences = Query.UniqueReferences(relation, relationSide);
+            if (uniqueReferences == null || uniqueReferences.Count == 0)
             {
-                if (uniqueReference is GuidReference guidReference)
-                {
-                    guidReferences.Add(guidReference);
-                }
+                return default;
             }
 
-
-            return GetValues<UUniqueObject>(guidReferences);
+            return GetValue<UUniqueObject>(uniqueReferences.First());
         }
 
         public override List<IUniqueReference>? Remove(IEnumerable<IUniqueReference>? keys_2)

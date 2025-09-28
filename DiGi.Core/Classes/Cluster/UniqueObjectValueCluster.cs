@@ -239,31 +239,31 @@ namespace DiGi.Core.Classes
             return default;
         }
 
-        public UValue? GetValue<UValue>(GuidReference? guidReference) where UValue : TValue
+        public UValue? GetValue<UValue>(IUniqueReference? uniqueReference) where UValue : TValue
         {
-            if(guidReference is null)
+            if(uniqueReference is null)
             {
                 return default;
             }
 
-            return GetValue<UValue>(guidReference.TypeReference, guidReference);
+            return GetValue<UValue>(uniqueReference.TypeReference, uniqueReference);
         }
 
-        public bool TryGetValue<UValue>(GuidReference? guidReference, out UValue? value) where UValue : TValue
+        public bool TryGetValue<UValue>(IUniqueReference? uniqueReference, out UValue? value) where UValue : TValue
         {
-            return TryGetValue(guidReference?.TypeReference, guidReference, out value);
+            return TryGetValue(uniqueReference?.TypeReference, uniqueReference, out value);
         }
 
-        public bool TryGetValues<UValue>(IEnumerable<GuidReference>? guidReferences, out List<UValue>? values) where UValue : TValue
+        public bool TryGetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences, out List<UValue>? values) where UValue : TValue
         {
             values = null;
-            if(guidReferences == null)
+            if(uniqueReferences == null)
             {
                 return false;
             }
 
             values = [];
-            foreach(GuidReference guidReference in guidReferences)
+            foreach(IUniqueReference guidReference in uniqueReferences)
             {
                 UValue? u = GetValue<UValue>(guidReference);
                 if(u != null)
@@ -275,9 +275,9 @@ namespace DiGi.Core.Classes
             return values != null && values.Count != 0;
         }
 
-        public List<UValue>? GetValues<UValue>(IEnumerable<GuidReference>? guidReferences) where UValue : TValue
+        public List<UValue>? GetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences) where UValue : TValue
         {
-            if(!TryGetValues(guidReferences, out List<UValue>? result))
+            if(!TryGetValues(uniqueReferences, out List<UValue>? result))
             {
                 return null;
             }
@@ -285,15 +285,15 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public bool Contains(GuidReference? guidReference)
+        public bool Contains(IUniqueReference? uniqueReference)
         {
-            TypeReference? typeReference = guidReference?.TypeReference;
+            TypeReference? typeReference = uniqueReference?.TypeReference;
             if(typeReference == null)
             {
                 return false;
             }
 
-            return Contains(typeReference, guidReference);
+            return Contains(typeReference, uniqueReference);
         }
     }
 }
