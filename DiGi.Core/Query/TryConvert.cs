@@ -1,7 +1,10 @@
 ﻿using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -694,6 +697,74 @@ namespace DiGi.Core
                                     result = @enum;
                                     return true;
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+            else if(typeof(IEnumerable).IsAssignableFrom(type_Temp))
+            {
+                if (type_Temp.IsArray)
+                {
+                    Type elementType = type_Temp.GetElementType();
+
+                    if (@object is IEnumerable enumerable)
+                    {
+                        List<object?> objects = [];
+                        foreach (object? object_Temp in enumerable)
+                        {
+                            if(TryConvert(object_Temp, out object? @object_Converted, elementType))
+                            {
+                                objects.Add(@object_Converted);
+                            }
+                        }
+
+                        Array array = Array.CreateInstance(elementType, objects.Count);
+                        for (int i = 0; i < objects.Count; i++)
+                        {
+                            array.SetValue(objects[i], i);
+                        }
+
+                        result = array;
+                        return true;
+
+                    }
+                    else if (TryConvert(@object, out object? @object_Converted, elementType))
+                    {
+                        Array array = Array.CreateInstance(elementType, 1);
+                        array.SetValue(object_Converted, 0);
+                        result = array;
+                        return true;
+                    }
+                }
+
+                if (type_Temp.IsGenericType)
+                {
+                    MethodInfo? methodInfo = type_Temp.GetMethod("Add");
+                    if (methodInfo is not null)
+                    {
+                        Type elementType = type_Temp.GetGenericArguments()[0];
+                        object enumerable = Activator.CreateInstance(type_Temp);
+
+                        if (@object is IEnumerable enumerable_Temp)
+                        {
+                            foreach (object? object_Temp in enumerable_Temp)
+                            {
+                                if (TryConvert(object_Temp, out object? @object_Converted, elementType))
+                                {
+                                    methodInfo.Invoke(enumerable, [@object_Converted]); 
+                                }
+                            }
+                            result = enumerable;
+                            return true;
+                        }
+                        else
+                        {
+                            if (TryConvert(@object, out object? @object_Converted, elementType))
+                            {
+                                methodInfo.Invoke(enumerable, [@object_Converted]);
+                                result = enumerable;
+                                return true;
                             }
                         }
                     }

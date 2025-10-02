@@ -17,7 +17,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            if(jsonNode.GetType() == type)
+            if (jsonNode.GetType() == type)
             {
                 return jsonNode;
             }
@@ -423,7 +423,10 @@ namespace DiGi.Core
                     {
                         value = serializableObject;
                     }
+                    break;
 
+                case System.Text.Json.JsonValueKind.Array:
+                    value = jsonNode;
                     break;
             }
 

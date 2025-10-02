@@ -1,65 +1,58 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
-using System.ComponentModel;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public class Tag : SerializableObject
+    public class Tag : Value
     {
-        [JsonInclude, JsonPropertyName("Value"), Description("Value")]
-        private object? value;
-
-        private Tag(object? value)
-        {
-            Value = value;
-        }
-
         private Tag(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        private Tag()
-            : base()
+        private Tag(Tag? tag)
+            : base(tag)
         {
 
         }
 
-        private Tag(Tag? tag)
-            : base()
+        private Tag(object? tag)
+            : base(tag)
         {
-            if(tag != null)
-            {
-                Value = tag.Value;
-            }
+
         }
 
         public Tag(string? value)
+            :base(value)
         {
-            Value = value;
+
         }
 
         public Tag(double value)
+            :base(value)
         {
-            Value = value;
+
         }
 
         public Tag(DateTime value)
+            :base(value)
         {
-            Value = value;
+
         }
 
         public Tag(int value)
+            :base(value)
         {
-            Value = value;
+
         }
 
         public Tag(ISerializableObject? value)
+            :base(value)
         {
-            Value = value;
+
         }
 
         [JsonIgnore]

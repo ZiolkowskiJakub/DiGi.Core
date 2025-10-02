@@ -13,6 +13,8 @@
             public const string Type = "_type";
             public const string Guid = "Guid";
             public const string UniqueId = "UniqueId";
+            public const string ValueType = "ValueType";
+            public const string Value = "Value";
         }
 
         public static class MethodName

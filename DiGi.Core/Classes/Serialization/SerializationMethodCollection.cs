@@ -75,6 +75,33 @@ namespace DiGi.Core.Classes
                 }
             }
 
+            if(serializableObject is IValue && jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.ValueType, out JsonNode? jsonNode_ValueType) && jsonNode_ValueType is not null && jsonObject.ContainsKey(Constans.Serialization.PropertyName.Value))
+            {
+                if (this[Constans.Serialization.PropertyName.Value]?.MemberInfo is MemberInfo memberInfo)
+                {
+                    object? value = null;
+                    if (memberInfo is PropertyInfo propertyInfo)
+                    {
+                        if (propertyInfo.SetMethod != null)
+                        {
+                            value = propertyInfo.GetValue(serializableObject);
+                        }
+                    }
+                    else if (memberInfo is FieldInfo fieldInfo)
+                    {
+                        value = fieldInfo.GetValue(serializableObject);
+                    }
+
+                    if (value != null && Query.Type(jsonNode_ValueType.GetValue<string>()) is System.Type type)
+                    {
+                        if(!type.IsAssignableFrom(value.GetType()) && Query.TryConvert(value, out object? value_Converted, type))
+                        {
+                            (memberInfo as dynamic).SetValue(serializableObject, value_Converted);
+                        }
+                    }
+                }
+            }
+
             return true;
         }
 
