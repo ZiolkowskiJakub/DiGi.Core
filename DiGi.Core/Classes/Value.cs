@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -29,6 +28,7 @@ namespace DiGi.Core.Classes
                 this.value = value.value;
             }
         }
+        
         TObject? IValue<TObject>.Value => value;
 
         [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.ValueType)]
@@ -39,6 +39,7 @@ namespace DiGi.Core.Classes
                 return value?.GetType();
             }
         }
+
         public override bool FromJsonObject(JsonObject? jsonObject)
         {
             return base.FromJsonObject(jsonObject);
@@ -181,6 +182,7 @@ namespace DiGi.Core.Classes
         {
 
         }
+        
         public override ISerializableObject? Clone()
         {
             return new Value(value);
