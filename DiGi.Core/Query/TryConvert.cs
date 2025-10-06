@@ -516,6 +516,14 @@ namespace DiGi.Core
                     return true;
                 }
             }
+            else if(type_Temp == typeof(Type))
+            {
+                if(@object is string @string && !string.IsNullOrWhiteSpace(@string))
+                {
+                    result = Type(@string);
+                    return true;
+                }
+            }
             else if (typeof(ISerializableObject).IsAssignableFrom(type_Temp))
             {
                 if (@object is string @string)
@@ -679,7 +687,7 @@ namespace DiGi.Core
                             }
                         }
 
-                        if(int.TryParse(@string, out int index) && System.Enum.IsDefined(type_Temp, index))
+                        if (int.TryParse(@string, out int index) && System.Enum.IsDefined(type_Temp, index))
                         {
                             result = array.GetValue(@index);
                             return true;
@@ -702,7 +710,7 @@ namespace DiGi.Core
                     }
                 }
             }
-            else if(typeof(IEnumerable).IsAssignableFrom(type_Temp))
+            else if (typeof(IEnumerable).IsAssignableFrom(type_Temp))
             {
                 if (type_Temp.IsArray)
                 {
@@ -713,7 +721,7 @@ namespace DiGi.Core
                         List<object?> objects = [];
                         foreach (object? object_Temp in enumerable)
                         {
-                            if(TryConvert(object_Temp, out object? @object_Converted, elementType))
+                            if (TryConvert(object_Temp, out object? @object_Converted, elementType))
                             {
                                 objects.Add(@object_Converted);
                             }
@@ -752,7 +760,7 @@ namespace DiGi.Core
                             {
                                 if (TryConvert(object_Temp, out object? @object_Converted, elementType))
                                 {
-                                    methodInfo.Invoke(enumerable, [@object_Converted]); 
+                                    methodInfo.Invoke(enumerable, [@object_Converted]);
                                 }
                             }
                             result = enumerable;
