@@ -40,11 +40,6 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override bool FromJsonObject(JsonObject? jsonObject)
-        {
-            return base.FromJsonObject(jsonObject);
-        }
-
         public XObject? GetValue<XObject>() where XObject : TObject
         {
             if (value is XObject)
@@ -53,11 +48,6 @@ namespace DiGi.Core.Classes
             }
 
             return default;
-        }
-
-        public override JsonObject? ToJsonObject()
-        {
-            return base.ToJsonObject();
         }
     }
 
@@ -173,6 +163,12 @@ namespace DiGi.Core.Classes
 
         public Value(JsonObject? jsonObject)
             : base(jsonObject)
+        {
+
+        }
+
+        public Value(Type? type)
+            : base(type)
         {
 
         }
