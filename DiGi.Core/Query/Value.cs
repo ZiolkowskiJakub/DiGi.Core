@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace DiGi.Core
@@ -270,6 +272,16 @@ namespace DiGi.Core
                 return (System.Drawing.Color)color;
             }
 
+            if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
+            {
+                if (Value(jsonNode, typeof(string)) is not string fullName)
+                {
+                    return null;
+                }
+
+                return Type(fullName); 
+            }
+
             if (IsNumeric(type_Temp))
             {
                 return jsonNode.GetValue<double>();
@@ -390,8 +402,14 @@ namespace DiGi.Core
                 }
             }
 
+            System.Text.Json.JsonValueKind jsonValueKind = jsonNode.GetValueKind();
+            if(jsonValueKind is System.Text.Json.JsonValueKind.Object && jsonNode is not JsonObject)
+            {
+                jsonNode = JsonNode.Parse(jsonNode.ToJsonString())!.AsObject();
+            }
+
             object? value = null;
-            switch (jsonNode.GetValueKind())
+            switch (jsonValueKind)
             {
                 case System.Text.Json.JsonValueKind.String:
                     value = jsonNode.GetValue<string>();
@@ -414,14 +432,19 @@ namespace DiGi.Core
                     break;
 
                 case System.Text.Json.JsonValueKind.Object:
-                    ISerializableObject? serializableObject = Create.SerializableObject<ISerializableObject>((JsonObject)jsonNode);
-                    if(serializableObject is SerializableObjectWrapper)
+                    JsonObject jsonObject = (JsonObject)jsonNode;
+
+                    if(jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
                     {
-                        value = serializableObject.ToJsonObject();
-                    }
-                    else
-                    {
-                        value = serializableObject;
+                        ISerializableObject? serializableObject = Create.SerializableObject<ISerializableObject>(jsonObject);
+                        if (serializableObject is SerializableObjectWrapper)
+                        {
+                            value = serializableObject.ToJsonObject();
+                        }
+                        else
+                        {
+                            value = serializableObject;
+                        }
                     }
                     break;
 

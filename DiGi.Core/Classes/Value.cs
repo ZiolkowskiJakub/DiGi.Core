@@ -77,6 +77,12 @@ namespace DiGi.Core.Classes
 
         }
 
+        public Value(bool value)
+            : base(value)
+        {
+
+        }
+
         public Value(byte value)
             : base(value)
         {
@@ -155,6 +161,12 @@ namespace DiGi.Core.Classes
 
         }
 
+        public Value(bool[]? value)
+                : base(value)
+        {
+
+        }
+
         public Value(ISerializableObject? value)
             : base(value)
         {
@@ -167,8 +179,8 @@ namespace DiGi.Core.Classes
 
         }
 
-        public Value(Type? type)
-            : base(type)
+        public Value(Type? value)
+            : base(value)
         {
 
         }

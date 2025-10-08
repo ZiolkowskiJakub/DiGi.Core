@@ -516,7 +516,7 @@ namespace DiGi.Core
                     return true;
                 }
             }
-            else if(type_Temp.IsSubclassOf(typeof(Type)))
+            else if(type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
             {
                 if(@object is string @string && !string.IsNullOrWhiteSpace(@string))
                 {

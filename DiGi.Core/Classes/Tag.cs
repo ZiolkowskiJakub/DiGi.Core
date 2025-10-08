@@ -43,6 +43,12 @@ namespace DiGi.Core.Classes
 
         }
 
+        public Tag(bool value)
+            : base(value)
+        {
+
+        }
+
         public Tag(int value)
             :base(value)
         {

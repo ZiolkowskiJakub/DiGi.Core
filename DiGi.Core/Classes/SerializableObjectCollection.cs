@@ -117,11 +117,6 @@ namespace DiGi.Core.Classes
             values?.Clear();
         }
 
-        public override ISerializableObject? Clone()
-        {
-            return new SerializableObjectCollection<T>(values);
-        }
-
         public bool Contains(T? item)
         {
             if (values == null || item == null)
@@ -215,6 +210,11 @@ namespace DiGi.Core.Classes
             : base(serializableObjectCollection)
         {
 
+        }
+
+        public override ISerializableObject? Clone()
+        {
+            return new SerializableObjectCollection(this);
         }
     }
 }
