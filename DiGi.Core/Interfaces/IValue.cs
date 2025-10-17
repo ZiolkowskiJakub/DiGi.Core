@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DiGi.Core.Interfaces
+﻿namespace DiGi.Core.Interfaces
 {
     public interface IValue : IObject
     {
