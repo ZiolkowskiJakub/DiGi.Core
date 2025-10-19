@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -73,7 +73,13 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            dictionary[name] = value.ToString();
+            string text = value.ToString(CultureInfo.InvariantCulture);
+            if (!text.Contains(".")) 
+            {
+                text += ".0";
+            }
+
+            dictionary[name] = text;
             return true;
         }
 
@@ -108,9 +114,50 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public object? GetValue(string name)
+        {
+            if (name == null)
+            {
+                return false;
+            }
+
+            if (!dictionary.TryGetValue(name, out string text) || text == null)
+            {
+                return false;
+            }
+
+            if (text.StartsWith("\"") && text.EndsWith("\""))
+            {
+                text = text.Substring(1, text.Length - 1);
+                return text;
+            }
+
+            if (int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int @int))
+            {
+                return @int;
+            }
+                
+            if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double @double))
+            {
+                return @double;
+            }
+
+            if(text.ToUpper() == "TRUE")
+            {
+                return true;
+            }
+
+            if (text.ToUpper() == "FALSE")
+            {
+                return true;
+            }
+
+            return null;
+        }
+
         public bool Read(string path)
         {
-            if (path == null || System.IO.File.Exists(path))
+            if (path == null || !System.IO.File.Exists(path))
             {
                 return false;
             }
@@ -133,6 +180,11 @@ namespace DiGi.Core.Classes
 
                 string name = line.Substring(0, index);
                 string text = line.Substring(index + 1);
+
+                if (text.StartsWith("\"") && text.EndsWith("\""))
+                {
+                    text = text.Substring(1, text.Length - 2);
+                }
 
                 Add(name, text);
                 result = true;
@@ -157,7 +209,7 @@ namespace DiGi.Core.Classes
 
             if(text.StartsWith("\"") && text.EndsWith("\""))
             {
-                text = text.Substring(1, text.Length - 1);
+                text = text.Substring(1, text.Length - 2);
             }
 
             return Query.TryConvert(text, out value);

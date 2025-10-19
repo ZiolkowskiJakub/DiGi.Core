@@ -6,7 +6,7 @@ namespace DiGi.Core
     {
         public static ConfigurationFile? ConfigurationFile(string path)
         {
-            if (path == null || System.IO.File.Exists(path))
+            if (path == null || !System.IO.File.Exists(path))
             {
                 return null;
             }
