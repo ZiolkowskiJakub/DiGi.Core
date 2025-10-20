@@ -396,4 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/DiGi.Core/Classes/SerializationConstructor.cs
+
+# User specific files
+[Uu]ser [Ff]iles/

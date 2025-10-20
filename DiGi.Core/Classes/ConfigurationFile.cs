@@ -55,7 +55,7 @@ namespace DiGi.Core.Classes
             return true;
         }
 
-        public bool Add(string name, string value)
+        public bool Add(string name, string? value)
         {
             if (name == null || value == null)
             {
@@ -74,7 +74,7 @@ namespace DiGi.Core.Classes
             }
 
             string text = value.ToString(CultureInfo.InvariantCulture);
-            if (!text.Contains(".")) 
+            if (!text.Contains("."))
             {
                 text += ".0";
             }
@@ -94,6 +94,24 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        public bool Append(ConfigurationFile? configurationFile)
+        {
+            if(configurationFile?.dictionary is not Dictionary<string, string> dictionary)
+            {
+                return false;
+            }
+
+            bool result = false;
+
+            foreach(KeyValuePair<string, string> keyValuePair in dictionary)
+            {
+                this.dictionary[keyValuePair.Key] = keyValuePair.Value;
+                result = true;
+            }
+
+            return result;
+        }
+        
         public bool Contains(string? name)
         {
             if(name is null)
@@ -112,6 +130,16 @@ namespace DiGi.Core.Classes
             }
 
             return result;
+        }
+
+        public T? GetValue<T>(string name, T? defaultValue)
+        {
+            if(!TryGetValue(name, out T? result))
+            {
+                return defaultValue;
+            }
+
+            return defaultValue;
         }
 
         public object? GetValue(string name)
