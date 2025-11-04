@@ -14,7 +14,6 @@
             return new SerializableValue(value);
         }
 
-
         public static implicit operator string?(SerializableValue? serializableValue)
         {
             if (serializableValue == null)

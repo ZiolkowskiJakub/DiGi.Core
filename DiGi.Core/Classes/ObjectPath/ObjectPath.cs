@@ -48,6 +48,16 @@ namespace DiGi.Core.Classes
             Path = path?.Clone<TObjectPath>();
         }
 
+        public ObjectPath(ObjectPath<TObjectPath>? path)
+            : base(path)
+        {
+            if (path != null)
+            {
+                name = path.name;
+                this.path = path.path?.Clone<TObjectPath>();
+            }
+        }
+
         [JsonIgnore]
         public static string Separator { get; } = "->";
 
@@ -101,32 +111,60 @@ namespace DiGi.Core.Classes
                 return path.Add(names);
             }
 
-            List<string> names_Temp = [.. names];
-
-            TObjectPath? result = null;
-
-            TObjectPath? path_Last = null;  
-            foreach (string name_Temp in names_Temp)
+            List<TObjectPath> paths = [];
+            foreach (string name in names)
             {
-                TObjectPath? path_Temp = Create(name_Temp);
-                if(path_Temp == null)
+                if (Create(name) is TObjectPath newPath)
                 {
-                    continue;
+                    paths.Add(newPath);
                 }
-
-                if (path_Last == null)
-                {
-                    result = path_Temp;
-                }
-                else
-                {
-                    path_Last.Path = path_Temp;
-                }
-
-                path_Last = path_Temp;
             }
 
+            if (paths.Count == 0)
+            {
+                return null;
+            }
+
+            while (paths.Count > 1)
+            {
+                int count = paths.Count;
+
+                paths[count - 2].Path = paths[count - 1];
+
+                paths.RemoveAt(count - 1);
+            }
+
+            TObjectPath? result = paths[0];
+
             Path = result;
+
+            return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ToString() == obj?.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
+        public List<string> GetNames(bool includeName = true)
+        {
+            List<string> result = [];
+            if (includeName)
+            {
+                result.Add(Name);
+            }
+
+            TObjectPath? currentPath = Path;
+            while (currentPath != null)
+            {
+                result.Add(currentPath.Name);
+                currentPath = currentPath.Path;
+            }
 
             return result;
         }
@@ -135,25 +173,15 @@ namespace DiGi.Core.Classes
         {
             string result = Name ?? string.Empty;
             result = string.Format("\"{0}\"", result.Replace("\"", "\"\""));
-            if (Path != null)
+            if (path != null)
             {
-                result += Separator + Path.ToString();
+                result += Separator + path.ToString();
             }
 
             return result;
         }
 
         protected abstract TObjectPath? Create(string name);
-
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return ToString() == obj?.ToString();
-        }
     }
 
     public class ObjectPath : ObjectPath<ObjectPath>

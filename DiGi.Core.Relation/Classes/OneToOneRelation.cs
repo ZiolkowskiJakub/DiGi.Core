@@ -114,7 +114,29 @@ namespace DiGi.Core.Relation.Classes
                 return result;
             }
         }
-        
+
+        public override bool Add(RelationSide relationSide, IUniqueReference? uniqueReference)
+        {
+            if (uniqueReference == null || relationSide == RelationSide.Undefined)
+            {
+                return false;
+            }
+
+            if (relationSide == RelationSide.To)
+            {
+                uniqueReference_To = uniqueReference;
+                return true;
+            }
+
+            if (relationSide == RelationSide.From)
+            {
+                uniqueReference_From = uniqueReference;
+                return true;
+            }
+
+            return true;
+        }
+
         public override bool Contains(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             if(uniqueReference == null)
@@ -195,29 +217,7 @@ namespace DiGi.Core.Relation.Classes
 
             return result;
         }
-
-        public override bool Add(RelationSide relationSide, IUniqueReference? uniqueReference)
-        {
-            if (uniqueReference == null || relationSide == RelationSide.Undefined)
-            {
-                return false;
-            }
-
-            if (relationSide == RelationSide.To)
-            {
-                uniqueReference_To = uniqueReference;
-                return true;
-            }
-
-            if (relationSide == RelationSide.From)
-            {
-                uniqueReference_From = uniqueReference;
-                return true;
-            }
-
-            return true;
-        }
-
+        
         public override List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)

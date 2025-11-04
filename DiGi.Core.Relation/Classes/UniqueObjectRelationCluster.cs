@@ -229,17 +229,6 @@ namespace DiGi.Core.Relation.Classes
             return relationListCluster.GetValues(uniqueReference, func);
         }
 
-        public List<UUniqueObject>? GetValues<UUniqueObject>(XRelation? relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
-        {
-            HashSet<IUniqueReference>? uniqueReferences = Query.UniqueReferences(relation, relationSide);
-            if (uniqueReferences == null)
-            {
-                return null;
-            }
-
-            return GetValues<UUniqueObject>(uniqueReferences);
-        }
-
         public UUniqueObject? GetValue<UUniqueObject>(XRelation? relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
         {
             HashSet<IUniqueReference>? uniqueReferences = Query.UniqueReferences(relation, relationSide);
@@ -251,6 +240,17 @@ namespace DiGi.Core.Relation.Classes
             return GetValue<UUniqueObject>(uniqueReferences.First());
         }
 
+        public List<UUniqueObject>? GetValues<UUniqueObject>(XRelation? relation, RelationSide relationSide) where UUniqueObject : TUniqueObject
+        {
+            HashSet<IUniqueReference>? uniqueReferences = Query.UniqueReferences(relation, relationSide);
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            return GetValues<UUniqueObject>(uniqueReferences);
+        }
+        
         public override List<IUniqueReference>? Remove(IEnumerable<IUniqueReference>? keys_2)
         {
             List<IUniqueReference>? result = base.Remove(keys_2);

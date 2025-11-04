@@ -38,15 +38,6 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public IParameterDefinition? ParameterDefinition
-        {
-            get
-            {
-                return parameterDefinition?.Clone<IParameterDefinition>();
-            }
-        }
-        
-        [JsonIgnore]
         public string? Name
         {
             get
@@ -55,6 +46,15 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        [JsonIgnore]
+        public IParameterDefinition? ParameterDefinition
+        {
+            get
+            {
+                return parameterDefinition?.Clone<IParameterDefinition>();
+            }
+        }
+        
         [JsonIgnore]
         public Enums.ParameterType ParameterType
         {
@@ -90,6 +90,46 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             return result;
+        }
+
+        public bool SetValue(object? value, SetValueSettings? setValueSettings = null)
+        {
+            if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
+            {
+                this.value = value is ISerializableObject @object ? @object.Clone() : value;
+                return true;
+            }
+
+            if (parameterDefinition is not ComplexParameterDefinition complexParameterDefinition)
+            {
+                return false;
+            }
+
+            setValueSettings ??= new SetValueSettings();
+
+            if (setValueSettings.CheckAccessType && !complexParameterDefinition.AccessType.Write())
+            {
+                return false;
+            }
+
+            ParameterValue? parameterValue = complexParameterDefinition.ParameterValue;
+            if (parameterValue == null)
+            {
+                return false;
+            }
+
+            if (setValueSettings.TryConvert && !parameterValue.TryConvert(value, out value))
+            {
+                return false;
+            }
+
+            if (!parameterValue.IsValid(value))
+            {
+                return false;
+            }
+
+            this.value = value;
+            return true;
         }
 
         public bool TryGetValue<T>(out T? value, GetValueSettings? getValueSettings = null)
@@ -149,46 +189,6 @@ namespace DiGi.Core.Parameter.Classes
             //END
 
             return false;
-        }
-
-        public bool SetValue(object? value, SetValueSettings? setValueSettings = null)
-        {
-            if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
-            {
-                this.value = value is ISerializableObject @object ? @object.Clone() : value;
-                return true;
-            }
-
-            if (parameterDefinition is not ComplexParameterDefinition complexParameterDefinition)
-            {
-                return false;
-            }
-
-            setValueSettings ??= new SetValueSettings();
-
-            if (setValueSettings.CheckAccessType && !complexParameterDefinition.AccessType.Write())
-            {
-                return false;
-            }
-
-            ParameterValue? parameterValue = complexParameterDefinition.ParameterValue;
-            if (parameterValue == null)
-            {
-                return false;
-            }
-
-            if (setValueSettings.TryConvert && !parameterValue.TryConvert(value, out value))
-            {
-                return false;
-            }
-
-            if(!parameterValue.IsValid(value))
-            {
-                return false;
-            }
-
-            this.value = value;
-            return true;
         }
     }
 }

@@ -2,12 +2,9 @@
 {
     public class GetValueSettings
     {
-        public bool TryConvert { get; set; } = false;
-        public bool CheckAccessType { get; set; } = true;
-
-        public GetValueSettings() 
+        public GetValueSettings()
         {
-            
+
         }
 
         public GetValueSettings(bool tryConvert, bool checkAccessType)
@@ -15,5 +12,9 @@
             TryConvert = tryConvert;
             CheckAccessType = checkAccessType;
         }
+
+        public bool CheckAccessType { get; set; } = true;
+        
+        public bool TryConvert { get; set; } = false;
     }
 }

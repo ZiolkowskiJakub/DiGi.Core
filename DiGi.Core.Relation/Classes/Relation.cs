@@ -32,6 +32,8 @@ namespace DiGi.Core.Relation.Classes
         [JsonIgnore]
         public abstract List<IUniqueReference>? UniqueReferences { get; }
 
+        public abstract bool Add(RelationSide relationSide, IUniqueReference? uniqueReference);
+
         public abstract bool Contains(RelationSide relationSide, IUniqueReference? uniqueReference);
 
         public abstract Type? GetType(RelationSide relationSide);
@@ -39,9 +41,7 @@ namespace DiGi.Core.Relation.Classes
         public abstract bool Has(RelationSide relationSide);
 
         public abstract bool Remove(RelationSide relationSide, IUniqueReference? uniqueReference);
-
-        public abstract bool Add(RelationSide relationSide, IUniqueReference? uniqueReference);
-
+        
         public abstract List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences) where TUniqueReference : IUniqueReference;
     }
 

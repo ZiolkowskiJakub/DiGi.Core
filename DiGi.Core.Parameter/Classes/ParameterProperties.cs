@@ -6,12 +6,11 @@ namespace DiGi.Core.Parameter.Classes
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ParameterProperties : Attribute
     {
-        private readonly string? uniqueId = null;
-        private readonly string? name = null;
-        private readonly string? description = null;
         private readonly AccessType accessType = AccessType.ReadWrite;
+        private readonly string? description = null;
         private readonly string? groupName = null;
-
+        private readonly string? name = null;
+        private readonly string? uniqueId = null;
         public ParameterProperties(string? uniqueId, string? name)
         {
             this.uniqueId = uniqueId;
@@ -54,11 +53,11 @@ namespace DiGi.Core.Parameter.Classes
             this.accessType = accessType;
         }
 
-        public string? Name
+        public AccessType AccessType
         {
             get
             {
-                return name;
+                return accessType;
             }
         }
 
@@ -70,14 +69,6 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public string? UniqueId
-        {
-            get
-            {
-                return uniqueId ?? name;
-            }
-        }
-
         public string? GroupName
         {
             get
@@ -86,11 +77,19 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        public AccessType AccessType
+        public string? Name
         {
             get
             {
-                return accessType;
+                return name;
+            }
+        }
+        
+        public string? UniqueId
+        {
+            get
+            {
+                return uniqueId ?? name;
             }
         }
     }
