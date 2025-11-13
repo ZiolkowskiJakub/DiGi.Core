@@ -24,8 +24,8 @@ namespace DiGi.Core.Classes
 
         }
 
-        public GuidExternalReference(GuidExternalReference externalReference)
-        : base(externalReference)
+        public GuidExternalReference(GuidExternalReference guidExternalReference)
+            : base(guidExternalReference)
         {
 
         }
