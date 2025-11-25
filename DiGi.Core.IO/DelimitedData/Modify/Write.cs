@@ -25,7 +25,7 @@ namespace DiGi.Core.IO.DelimitedData
 
             if (columns.Any(x => x?.Name != null))
             {
-                delimitedDataWriter.WriteRow([.. columns.ToList().ConvertAll(x => x?.Name)]);
+                delimitedDataWriter.WriteRow([.. columns.ToList().ConvertAll(x => x?.Name ?? string.Empty)]);
             }
 
             Func<object?, string?>? func_Temp = func;
@@ -36,10 +36,10 @@ namespace DiGi.Core.IO.DelimitedData
             {
                 foreach (Row row in rows)
                 {
-                    List<string?>? values = [];
+                    List<string> values = [];
                     foreach (Column column in columns)
                     {
-                        values.Add(func_Temp(row[column.Index]));
+                        values.Add(func_Temp(row[column.Index]) ?? string.Empty);
                     }
 
                     delimitedDataWriter.WriteRow([.. values]);
