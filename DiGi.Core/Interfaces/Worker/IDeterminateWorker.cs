@@ -1,6 +1,6 @@
 ﻿namespace DiGi.Core.Interfaces
 {
-    public interface IDeterminateWorker
+    public interface IDeterminateWorker : IWorker
     {
         double Maximum { get; set; }
 
