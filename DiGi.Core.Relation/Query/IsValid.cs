@@ -7,12 +7,12 @@ namespace DiGi.Core.Relation
     {
         public static bool IsValid(this IRelation? relation, System.Type? type, RelationSide relationSide)
         {
-            if(relation == null)
+            if (relation == null)
             {
                 return false;
             }
 
-            if(relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
+            if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
                 System.Type? type_Relation = relation.GetType(RelationSide.From);
                 if (type_Relation == null && type == null)

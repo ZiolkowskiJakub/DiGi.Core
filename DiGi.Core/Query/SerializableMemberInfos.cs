@@ -10,7 +10,7 @@ namespace DiGi.Core
     {
         public static List<MemberInfo>? SerializableMemberInfos(this Type? type)
         {
-            if(type == null)
+            if (type == null)
             {
                 return null;
             }
@@ -18,7 +18,7 @@ namespace DiGi.Core
             List<MemberInfo> result = [];
 
             List<MemberInfo>? memberInfos = SerializableMemberInfos(type.BaseType);
-            if(memberInfos != null)
+            if (memberInfos != null)
             {
                 result.AddRange(memberInfos);
             }

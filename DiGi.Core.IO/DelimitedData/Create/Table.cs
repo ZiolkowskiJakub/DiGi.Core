@@ -14,7 +14,7 @@ namespace DiGi.Core.IO.DelimitedData
         /// <returns></returns>
         public static Table.Classes.Table? Table(this IDelimitedDataReader? delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
         {
-            if(delimitedDataReader == null)
+            if (delimitedDataReader == null)
             {
                 return null;
             }
@@ -45,7 +45,7 @@ namespace DiGi.Core.IO.DelimitedData
                 return null;
             }
 
-            Table.Classes.Table result = new ();
+            Table.Classes.Table result = new();
             result.Read(path, delimitedDataSeparator, columnIndex, rowIndex);
 
             return result;

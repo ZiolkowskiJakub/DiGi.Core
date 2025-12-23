@@ -7,9 +7,6 @@ namespace DiGi.Core.Classes
 {
     public abstract class SerializableObjectListCluster<TKey_1, TKey_2, TValue> : List<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
     {
-        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
-        private string? FullTypeName => Query.FullTypeName(GetType());
-
         public SerializableObjectListCluster()
             : base()
         {
@@ -30,6 +27,9 @@ namespace DiGi.Core.Classes
         {
             FromJsonObject(jsonObject);
         }
+
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
+        private string? FullTypeName => Query.FullTypeName(GetType());
 
         public virtual ISerializableObject? Clone()
         {

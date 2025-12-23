@@ -8,32 +8,32 @@ namespace DiGi.Core.Parameter
     {
         public static List<Type>? Types(this JsonArray? jsonArray)
         {
-            if(jsonArray == null)
+            if (jsonArray == null)
             {
                 return null;
             }
 
             List<Type> result = [];
-            foreach(JsonNode? jsonNode in jsonArray)
+            foreach (JsonNode? jsonNode in jsonArray)
             {
-                if(jsonNode == null)
+                if (jsonNode == null)
                 {
                     continue;
                 }
 
-                if(jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.String)
+                if (jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.String)
                 {
                     continue;
                 }
 
                 string fullTypeName = jsonNode.GetValue<string>();
-                if(string.IsNullOrWhiteSpace(fullTypeName))
+                if (string.IsNullOrWhiteSpace(fullTypeName))
                 {
                     continue;
                 }
 
                 Type? type = Core.Query.Type(fullTypeName);
-                if(type == null)
+                if (type == null)
                 {
                     continue;
                 }

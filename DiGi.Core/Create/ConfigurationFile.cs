@@ -11,7 +11,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            ConfigurationFile result = new ();
+            ConfigurationFile result = new();
             result.Read(path);
 
             return result;

@@ -14,7 +14,7 @@ namespace DiGi.Core.Classes
         {
 
         }
-        
+
         public Factor(double value)
         {
             this.value = double.IsNaN(value) ? double.NaN : Query.Clamp(value, 0, 1);

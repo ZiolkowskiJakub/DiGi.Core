@@ -17,9 +17,9 @@ namespace DiGi.Core
 
             using (MD5 mD5 = MD5.Create())
             {
-                using MemoryStream memoryStream = new ();
+                using MemoryStream memoryStream = new();
 
-                StreamWriter streamWriter = new (memoryStream);
+                StreamWriter streamWriter = new(memoryStream);
 
                 streamWriter.Write(value);
                 streamWriter.Flush();

@@ -1,11 +1,11 @@
 ﻿using DiGi.Core.Interfaces;
-using System.IO.Compression;
-using System.IO;
-using System.Text.Json.Nodes;
 using DiGi.Core.IO.File.Interfaces;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
@@ -34,12 +34,12 @@ namespace DiGi.Core.IO.File.Classes
         {
             if (valuesFile != null)
             {
-                if(valuesFile.values != null)
+                if (valuesFile.values != null)
                 {
                     values = [];
-                    foreach(TSerializableObject? serializableObject in valuesFile.values)
+                    foreach (TSerializableObject? serializableObject in valuesFile.values)
                     {
-                        if(serializableObject is null)
+                        if (serializableObject is null)
                         {
                             values.Add(default);
                             continue;
@@ -97,7 +97,7 @@ namespace DiGi.Core.IO.File.Classes
                 JsonNode? jsonNode = JsonNode.Parse(streamReader.ReadToEnd());
                 if (jsonNode != null)
                 {
-                    if(jsonNode is JsonArray jsonArray)
+                    if (jsonNode is JsonArray jsonArray)
                     {
                         values = [];
                         foreach (JsonObject? jsonObject in jsonArray.Cast<JsonObject?>())

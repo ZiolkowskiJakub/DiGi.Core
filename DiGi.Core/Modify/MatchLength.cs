@@ -6,7 +6,7 @@ namespace DiGi.Core
     {
         public static bool MatchLength<T, X>(List<T>? list_1, List<X>? list_2)
         {
-            if(list_1 == null || list_2 == null)
+            if (list_1 == null || list_2 == null)
             {
                 return false;
             }

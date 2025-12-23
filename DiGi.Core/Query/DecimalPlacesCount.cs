@@ -12,7 +12,7 @@ namespace DiGi.Core
             {
                 return 0;
             }
-               
+
             return @string.Length - index - 1;
         }
     }

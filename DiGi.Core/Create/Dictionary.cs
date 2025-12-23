@@ -8,7 +8,7 @@ namespace DiGi.Core
     {
         public static IDictionary? Dictionary(Type? key, Type? value)
         {
-            if(key == null || value == null)
+            if (key == null || value == null)
             {
                 return null;
             }

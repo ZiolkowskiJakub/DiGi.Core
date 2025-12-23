@@ -8,7 +8,7 @@ namespace DiGi.Core.IO.Wrapper
     {
         internal static bool IsWrapperUniqueReference(this JsonObject? jsonObject)
         {
-            if(jsonObject == null)
+            if (jsonObject == null)
             {
                 return false;
             }
@@ -19,7 +19,7 @@ namespace DiGi.Core.IO.Wrapper
             }
 
             string? fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
-            if(string.IsNullOrWhiteSpace(fullTypeName))
+            if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace DiGi.Core.IO.Wrapper
         {
             wrapperUniqueReference = null;
 
-            if(!IsWrapperUniqueReference(jsonObject))
+            if (!IsWrapperUniqueReference(jsonObject))
             {
                 return false;
             }

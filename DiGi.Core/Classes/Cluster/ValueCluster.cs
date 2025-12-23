@@ -60,7 +60,7 @@ namespace DiGi.Core.Classes
 
         public override bool Contains(TKey_1? key_1)
         {
-            if(key_1 == null)
+            if (key_1 == null)
             {
                 return false;
             }
@@ -70,7 +70,7 @@ namespace DiGi.Core.Classes
 
         public override bool Contains(TKey_1? key_1, TKey_2? key_2)
         {
-            if(key_1 == null || key_2 == null)
+            if (key_1 == null || key_2 == null)
             {
                 return false;
             }
@@ -232,7 +232,7 @@ namespace DiGi.Core.Classes
 
         public override bool Remove(TKey_1? key_1)
         {
-            if(key_1 is null)
+            if (key_1 is null)
             {
                 return false;
             }
@@ -242,7 +242,7 @@ namespace DiGi.Core.Classes
 
         public override bool Remove(TKey_1? key_1, TKey_2? key_2)
         {
-            if(key_1 is null || key_2 is null)
+            if (key_1 is null || key_2 is null)
             {
                 return false;
             }
@@ -276,7 +276,7 @@ namespace DiGi.Core.Classes
 
             return Remove(key_1, key_2);
         }
-        
+
         public bool TryGetValue<UValue>(TKey_1? key_1, TKey_2? key_2, out UValue? value) where UValue : TValue
         {
             value = GetValue<UValue>(key_1, key_2);

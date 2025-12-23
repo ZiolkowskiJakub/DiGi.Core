@@ -7,7 +7,7 @@ namespace DiGi.Core
     {
         public static int[]? Values(this Range<int>? range)
         {
-            if(range is null)
+            if (range is null)
             {
                 return null;
             }

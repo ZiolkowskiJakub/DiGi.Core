@@ -5,7 +5,7 @@ namespace DiGi.Core.Classes
 {
     public class DateTimeRange : Range<DateTime>
     {
-        public DateTimeRange(DateTime value_1, DateTime value_2) 
+        public DateTimeRange(DateTime value_1, DateTime value_2)
             : base(value_1, value_2)
         {
         }

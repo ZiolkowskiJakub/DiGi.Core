@@ -8,7 +8,7 @@ namespace DiGi.Core
         public static byte[]? ToSystem_Bytes(this ISerializableObject? serializableObject)
         {
             string? json = ToSystem_String(serializableObject);
-            if(json == null)
+            if (json == null)
             {
                 return null;
             }

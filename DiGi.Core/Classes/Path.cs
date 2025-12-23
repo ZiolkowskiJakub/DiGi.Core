@@ -11,13 +11,13 @@ namespace DiGi.Core.Classes
 
         public Path(string? value)
         {
-            this.value = value; 
+            this.value = value;
         }
 
         public Path(params string[]? values)
         {
             value = null;
-            if(values != null && values.Length > 0)
+            if (values != null && values.Length > 0)
             {
                 value = System.IO.Path.Combine(values);
             }
@@ -130,14 +130,14 @@ namespace DiGi.Core.Classes
 
         public static implicit operator string?(Path? path)
         {
-            if(path is null || !path.HasValue)
+            if (path is null || !path.HasValue)
             {
                 return null;
             }
 
             return path.Value.value;
         }
-        
+
         public static bool operator !=(Path? path_1, Path? path_2)
         {
             if (path_1 is null && path_2 is null)
@@ -240,7 +240,7 @@ namespace DiGi.Core.Classes
 
         public bool IsValid(UriKind uriKind)
         {
-            if(IsEmpty)
+            if (IsEmpty)
             {
                 return false;
             }

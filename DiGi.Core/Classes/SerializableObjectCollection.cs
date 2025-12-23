@@ -13,14 +13,14 @@ namespace DiGi.Core.Classes
         private readonly List<T> values = [];
 
         public SerializableObjectCollection()
-            :base()
+            : base()
         {
 
         }
 
-        public SerializableObjectCollection(IEnumerable<T>? serializableObjects) 
+        public SerializableObjectCollection(IEnumerable<T>? serializableObjects)
         {
-            if(serializableObjects != null)
+            if (serializableObjects != null)
             {
                 values.AddRange(serializableObjects);
             }
@@ -35,7 +35,7 @@ namespace DiGi.Core.Classes
         public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
             : base()
         {
-            if(serializableObjectCollection?.values != null)
+            if (serializableObjectCollection?.values != null)
             {
                 values = [.. serializableObjectCollection.values];
             }
@@ -169,10 +169,10 @@ namespace DiGi.Core.Classes
         {
             return GetEnumerator();
         }
-        
+
         public bool Remove(T? item)
         {
-            if(values == null || item == null)
+            if (values == null || item == null)
             {
                 return false;
             }

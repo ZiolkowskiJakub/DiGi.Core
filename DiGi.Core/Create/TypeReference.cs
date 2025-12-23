@@ -7,7 +7,7 @@ namespace DiGi.Core
         public static TypeReference? TypeReference(this System.Type? type)
         {
             string? fullTypeName = Query.FullTypeName(type);
-            if(string.IsNullOrWhiteSpace(fullTypeName))
+            if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using DiGi.Core.Interfaces;
 
 namespace DiGi.Core
 {
@@ -8,13 +8,13 @@ namespace DiGi.Core
     {
         public static JsonArray? ToJson<T>(this IEnumerable<T>? serializableObjects) where T : ISerializableObject
         {
-            if(serializableObjects == null)
+            if (serializableObjects == null)
             {
                 return null;
             }
 
             JsonArray result = [];
-            foreach(T serializableObject in serializableObjects)
+            foreach (T serializableObject in serializableObjects)
             {
                 JsonObject? jsonObject = serializableObject?.ToJsonObject();
                 result.Add(jsonObject);

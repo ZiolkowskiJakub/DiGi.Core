@@ -7,7 +7,7 @@ namespace DiGi.Core.IO.File
     {
         public static string? Encode(string? text)
         {
-            if(text == null)
+            if (text == null)
             {
                 return null;
             }
@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.File
 
         public static string? Encode(this UniqueReference? uniqueReference)
         {
-            if(uniqueReference is null)
+            if (uniqueReference is null)
             {
                 return null;
             }

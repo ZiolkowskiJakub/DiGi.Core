@@ -10,7 +10,7 @@ namespace DiGi.Core
         public static string? Description(this Enum? @enum)
         {
             Type? type = @enum?.GetType();
-            if(type == null)
+            if (type == null)
             {
                 return null;
             }
@@ -39,7 +39,7 @@ namespace DiGi.Core
                 type = type_Temp;
             }
 
-            if(type == null)
+            if (type == null)
             {
                 return null;
             }

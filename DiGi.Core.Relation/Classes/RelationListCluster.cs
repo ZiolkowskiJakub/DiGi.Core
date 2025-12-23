@@ -9,26 +9,26 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class RelationListCluster<XRelation> : SerializableObjectListCluster<TypeReference, TypeReference, XRelation> where XRelation : IRelation 
+    public class RelationListCluster<XRelation> : SerializableObjectListCluster<TypeReference, TypeReference, XRelation> where XRelation : IRelation
     {
-        public RelationListCluster() 
-            :base()
-        { 
+        public RelationListCluster()
+            : base()
+        {
 
         }
 
         public RelationListCluster(IEnumerable<XRelation>? relations)
-            :base(relations)
+            : base(relations)
         {
         }
 
         public RelationListCluster(RelationListCluster<XRelation>? relationListCluster)
-            :base(relationListCluster)
+            : base(relationListCluster)
         {
         }
 
         public RelationListCluster(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -74,7 +74,7 @@ namespace DiGi.Core.Relation.Classes
             foreach (RelationListClusterReference relationListClusterReference in relationListClusterReferences)
             {
                 XRelation? relation = GetValue<XRelation>(relationListClusterReference);
-                if(relation == null)
+                if (relation == null)
                 {
                     continue;
                 }
@@ -124,24 +124,24 @@ namespace DiGi.Core.Relation.Classes
 
         private List<RelationListClusterReference>? GetRelationListClusterReferences<URelation, XUniqueReference>(IEnumerable<XUniqueReference>? uniqueReferences, Func<URelation?, bool>? func = null) where URelation : XRelation where XUniqueReference : IUniqueReference
         {
-            if(uniqueReferences == null)
+            if (uniqueReferences == null)
             {
                 return null;
             }
 
             HashSet<XUniqueReference> uniqueReferences_Temp = [];
             HashSet<Type> types = [];
-            foreach(XUniqueReference uniqueReference in uniqueReferences)
+            foreach (XUniqueReference uniqueReference in uniqueReferences)
             {
                 Type? type = uniqueReference?.TypeReference?.Type();
-                if(type != null)
+                if (type != null)
                 {
                     types.Add(type);
                     uniqueReferences_Temp.Add(uniqueReference!);
                 }
             }
 
-            if(types.Count == 0)
+            if (types.Count == 0)
             {
                 return null;
             }
@@ -162,7 +162,7 @@ namespace DiGi.Core.Relation.Classes
                 }
 
                 List<TypeReference>? typeReferences = GetKeys_2(typeReference_1);
-                if(typeReferences == null)
+                if (typeReferences == null)
                 {
                     continue;
                 }
@@ -177,7 +177,7 @@ namespace DiGi.Core.Relation.Classes
 
                     bool @break = true;
 
-                    foreach(Type type in types)
+                    foreach (Type type in types)
                     {
                         if (!type_1.IsAssignableFrom(type) && !type_2.IsAssignableFrom(type))
                         {
@@ -193,16 +193,16 @@ namespace DiGi.Core.Relation.Classes
                         continue;
                     }
 
-                    Func<URelation?, bool> func_Temp = new (x =>
+                    Func<URelation?, bool> func_Temp = new(x =>
                     {
                         if (x == null || func != null && !func.Invoke(x))
                         {
                             return false;
                         }
 
-                        foreach(XUniqueReference uniqueReference_Temp in uniqueReferences_Temp)
+                        foreach (XUniqueReference uniqueReference_Temp in uniqueReferences_Temp)
                         {
-                            if(x.Contains(RelationSide.Undefined, uniqueReference_Temp))
+                            if (x.Contains(RelationSide.Undefined, uniqueReference_Temp))
                             {
                                 return true;
                             }
@@ -229,7 +229,7 @@ namespace DiGi.Core.Relation.Classes
 
         private List<RelationListClusterReference>? GetRelationListClusterReferences<U>(IUniqueReference? uniqueReference, Func<U?, bool>? func = null) where U : XRelation
         {
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return null;
             }

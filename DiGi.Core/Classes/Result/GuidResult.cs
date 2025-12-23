@@ -12,7 +12,7 @@ namespace DiGi.Core.Classes
         }
 
         public GuidResult(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -24,7 +24,7 @@ namespace DiGi.Core.Classes
         }
     }
 
-    public abstract class GuidResult<TUniqueObject> : GuidResult, IUniqueResult<TUniqueObject> where TUniqueObject: IUniqueObject
+    public abstract class GuidResult<TUniqueObject> : GuidResult, IUniqueResult<TUniqueObject> where TUniqueObject : IUniqueObject
     {
         public GuidResult()
             : base()

@@ -12,13 +12,13 @@ namespace DiGi.Core.Classes
         }
 
         public CategoryPath(string name)
-            :base(name)
+            : base(name)
         {
-            
+
         }
 
         public CategoryPath(string name, CategoryPath path)
-            :base(name, path)
+            : base(name, path)
         {
 
         }

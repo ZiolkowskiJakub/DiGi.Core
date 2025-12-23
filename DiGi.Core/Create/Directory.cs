@@ -12,16 +12,16 @@ namespace DiGi.Core
             }
 
             List<string>? directories = Query.Directories(directory);
-            if(directories == null || directories.Count == 0)
+            if (directories == null || directories.Count == 0)
             {
                 return false;
             }
 
             directories.Reverse();
 
-            foreach(string directory_Temp in directories)
+            foreach (string directory_Temp in directories)
             {
-                if(System.IO.Directory.Exists(directory_Temp))
+                if (System.IO.Directory.Exists(directory_Temp))
                 {
                     continue;
                 }

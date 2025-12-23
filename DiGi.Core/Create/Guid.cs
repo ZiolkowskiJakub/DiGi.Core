@@ -1,22 +1,22 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using System;
 using System.Security.Cryptography;
 using System.Text;
-using System;
 
 namespace DiGi.Core
 {
     public static partial class Create
     {
-        public static Guid Guid<TUniqueObject>(this UniqueObjectValueCluster<TUniqueObject>? uniqueObjectValueCluster,  Type? type) where TUniqueObject: IUniqueObject
+        public static Guid Guid<TUniqueObject>(this UniqueObjectValueCluster<TUniqueObject>? uniqueObjectValueCluster, Type? type) where TUniqueObject : IUniqueObject
         {
-            if(uniqueObjectValueCluster == null || type == null)
+            if (uniqueObjectValueCluster == null || type == null)
             {
                 return System.Guid.Empty;
             }
 
             GuidReference? guidReference = uniqueObjectValueCluster.GuidReference(type);
-            if(guidReference is null)
+            if (guidReference is null)
             {
                 return System.Guid.Empty;
             }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using DiGi.Core.Interfaces;
 
 
 namespace DiGi.Core
@@ -14,16 +14,16 @@ namespace DiGi.Core
                 return default;
             }
 
-            List < T > result = [];
+            List<T> result = [];
             foreach (JsonNode? jsonNode in jsonArray)
             {
-                if(jsonNode is not JsonObject)
+                if (jsonNode is not JsonObject)
                 {
                     continue;
                 }
 
                 T? serializableObject = SerializableObject<T>((JsonObject)jsonNode);
-                if(serializableObject != null)
+                if (serializableObject != null)
                 {
                     result.Add(serializableObject);
                 }

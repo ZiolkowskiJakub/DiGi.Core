@@ -7,34 +7,34 @@ namespace DiGi.Core
     {
         public static JsonArray? Flatten(this JsonArray? jsonArray)
         {
-            if(jsonArray == null)
+            if (jsonArray == null)
             {
                 return null;
             }
 
             List<JsonNode?> jsonNodes = [];
-            foreach(JsonNode? jsonNode in jsonArray)
+            foreach (JsonNode? jsonNode in jsonArray)
             {
-                if(jsonNode == null)
+                if (jsonNode == null)
                 {
                     jsonNodes.Add(jsonNode);
                     continue;
                 }
 
-                if(jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Array)
+                if (jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Array)
                 {
                     jsonNodes.Add(jsonNode);
                     continue;
                 }
 
                 JsonArray jsonArray_Temp = jsonNode.AsArray();
-                if(jsonArray_Temp == null)
+                if (jsonArray_Temp == null)
                 {
                     jsonNodes.Add(jsonNode);
                     continue;
                 }
 
-                foreach(JsonNode? jsonNode_Temp in jsonArray_Temp)
+                foreach (JsonNode? jsonNode_Temp in jsonArray_Temp)
                 {
                     if (jsonNode == null || jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Array)
                     {
@@ -50,7 +50,7 @@ namespace DiGi.Core
                     }
 
                     jsonArray_Temp_Temp = Flatten(jsonArray_Temp_Temp);
-                    if(jsonArray_Temp_Temp != null)
+                    if (jsonArray_Temp_Temp != null)
                     {
                         foreach (JsonNode? jsonNode_Temp_Temp in jsonArray_Temp_Temp)
                         {
@@ -61,7 +61,7 @@ namespace DiGi.Core
             }
 
             JsonArray result = [];
-            foreach(JsonNode? jsonNode in jsonNodes)
+            foreach (JsonNode? jsonNode in jsonNodes)
             {
                 result.Add(jsonNode?.DeepClone());
             }

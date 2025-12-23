@@ -16,7 +16,7 @@ namespace DiGi.Core.IO.Table.Classes
         public Row(int index, IDictionary<int, object?>? values)
             : this(index)
         {
-            if(values != null)
+            if (values != null)
             {
                 this.values = new SortedDictionary<int, object?>(values);
             }
@@ -32,10 +32,10 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Row(Row? row)
         {
-            if(row != null)
+            if (row != null)
             {
                 index = row.index;
-                if(row.values != null)
+                if (row.values != null)
                 {
                     values = new SortedDictionary<int, object?>(row.values);
                 }
@@ -45,7 +45,7 @@ namespace DiGi.Core.IO.Table.Classes
         public Row(int index, Row? row)
         {
             this.index = index;
-            if(row != null)
+            if (row != null)
             {
                 values = new SortedDictionary<int, object?>(row.values);
             }
@@ -74,18 +74,43 @@ namespace DiGi.Core.IO.Table.Classes
                 return [.. values.Keys];
             }
         }
-        
+
         public object? this[int index]
         {
             get
             {
-                if(!values.TryGetValue(index, out object? result))
+                if (!values.TryGetValue(index, out object? result))
                 {
                     return null;
                 }
 
                 return result;
             }
+        }
+
+        public T? GetValue<T>(int index, T? defaultValue = default, bool tryConvert = true)
+        {
+            if (!values.TryGetValue(index, out object? value))
+            {
+                return defaultValue;
+            }
+
+            if (value is T t)
+            {
+                return t;
+            }
+
+            if (!tryConvert)
+            {
+                return defaultValue;
+            }
+
+            if (!Core.Query.TryConvert(value, out T? result))
+            {
+                return defaultValue;
+            }
+
+            return result;
         }
 
         public object?[] GetValues()
@@ -109,20 +134,20 @@ namespace DiGi.Core.IO.Table.Classes
 
         public List<int>? RemoveValues(IEnumerable<int>? indexes)
         {
-            if(indexes == null)
+            if (indexes == null)
             {
                 return null;
             }
 
             List<int> result = [];
-            if(values.Count == 0)
+            if (values.Count == 0)
             {
                 return result;
             }
 
-            foreach (int index in indexes) 
+            foreach (int index in indexes)
             {
-                if(values.Remove(index))
+                if (values.Remove(index))
                 {
                     result.Add(index);
                 }
@@ -130,7 +155,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             return result;
         }
-        
+
         public void SetValue(int index, object? value)
         {
             values[index] = value;
@@ -138,37 +163,12 @@ namespace DiGi.Core.IO.Table.Classes
 
         public bool TryGetValue<T>(int index, out T? value)
         {
-            if(!Core.Query.TryConvert(this[index], out value))
+            if (!Core.Query.TryConvert(this[index], out value))
             {
                 return false;
             }
 
-            return true; 
-        }
-
-        public T? GetValue<T>(int index, T? defaultValue = default, bool tryConvert = true)
-        {
-            if (!values.TryGetValue(index, out object? value))
-            {
-                return defaultValue;
-            }
-
-            if(value is T t)
-            {
-                return t;
-            }
-
-            if(!tryConvert)
-            {
-                return defaultValue;
-            }
-
-            if(!Core.Query.TryConvert(value, out T? result))
-            {
-                return defaultValue;
-            }
-
-            return result;
+            return true;
         }
     }
 }

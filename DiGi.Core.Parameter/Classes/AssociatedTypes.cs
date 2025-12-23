@@ -25,7 +25,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public AssociatedTypes(AssociatedTypes? associatedTypes)
         {
-            if(associatedTypes != null)
+            if (associatedTypes != null)
             {
                 types = associatedTypes.Types?.ToArray();
             }
@@ -52,7 +52,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public IEnumerator GetEnumerator()
         {
-            if(types == null)
+            if (types == null)
             {
                 return Enumerable.Empty<Type>().GetEnumerator();
             }

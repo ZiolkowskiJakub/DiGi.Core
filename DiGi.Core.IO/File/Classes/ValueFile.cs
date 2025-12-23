@@ -1,9 +1,9 @@
 ﻿using DiGi.Core.Interfaces;
-using System.IO.Compression;
-using System.IO;
-using System.Text.Json.Nodes;
 using DiGi.Core.IO.File.Interfaces;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
@@ -31,7 +31,7 @@ namespace DiGi.Core.IO.File.Classes
         public ValueFile(ValueFile<TSerializableObject>? valueFile)
             : base(valueFile)
         {
-            if(valueFile != null)
+            if (valueFile != null)
             {
                 value = valueFile.value == null ? default : valueFile.value.Clone<TSerializableObject>();
             }
@@ -51,10 +51,20 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        public static explicit operator TSerializableObject?(ValueFile<TSerializableObject>? valueFile)
+        {
+            if (valueFile == null)
+            {
+                return default;
+            }
+
+            return valueFile.value;
+        }
+
         public override bool Open()
         {
             bool result = base.Open();
-            if(!result)
+            if (!result)
             {
                 return false;
             }
@@ -92,7 +102,7 @@ namespace DiGi.Core.IO.File.Classes
         public override bool Save()
         {
             bool result = base.Save();
-            if(!result)
+            if (!result)
             {
                 return false;
             }
@@ -105,7 +115,7 @@ namespace DiGi.Core.IO.File.Classes
                 zipArchiveEntry?.Delete();
 
                 string? json = Convert.ToSystem_String(Value);
-                if(!string.IsNullOrWhiteSpace(json))
+                if (!string.IsNullOrWhiteSpace(json))
                 {
                     zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Value);
 
@@ -138,23 +148,13 @@ namespace DiGi.Core.IO.File.Classes
                 disposed = true;
             }
         }
-
-        public static explicit operator TSerializableObject?(ValueFile<TSerializableObject>? valueFile)
-        {
-            if(valueFile == null)
-            {
-                return default;
-            }
-
-            return valueFile.value;
-        }
     }
 
     public class ValueFile : ValueFile<ISerializableObject>
     {
         public ValueFile(string? path)
-            :base(path) 
-        { 
+            : base(path)
+        {
 
         }
 
@@ -165,7 +165,7 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         public ValueFile(ValueFile? valueFile)
-            :base(valueFile)
+            : base(valueFile)
         {
         }
     }

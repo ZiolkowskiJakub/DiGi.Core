@@ -13,7 +13,7 @@ namespace DiGi.Core
                 return System.Text.Json.JsonValueKind.Null;
             }
 
-            if(value is string)
+            if (value is string)
             {
                 return System.Text.Json.JsonValueKind.String;
             }
@@ -28,12 +28,12 @@ namespace DiGi.Core
                 return System.Text.Json.JsonValueKind.Object;
             }
 
-            if(value is JsonArray)
+            if (value is JsonArray)
             {
                 return System.Text.Json.JsonValueKind.Array;
             }
 
-            if(IsNumeric(value))
+            if (IsNumeric(value))
             {
                 return System.Text.Json.JsonValueKind.Number;
             }

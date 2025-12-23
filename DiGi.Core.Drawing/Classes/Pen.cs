@@ -30,7 +30,7 @@ namespace DiGi.Core.Drawing.Classes
         }
 
         public Pen(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }

@@ -6,7 +6,7 @@ namespace DiGi.Core
     {
         public static Enum? Enum(string? text, Type? type)
         {
-            if(TryGetEnum(text, type, out Enum? @enum))
+            if (TryGetEnum(text, type, out Enum? @enum))
             {
                 return @enum;
             }
@@ -31,7 +31,7 @@ namespace DiGi.Core
                 return @enum;
             }
 
-            if(TryGetEnum("Undefined", out @enum))
+            if (TryGetEnum("Undefined", out @enum))
             {
                 return @enum;
             }

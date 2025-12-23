@@ -9,7 +9,7 @@ namespace DiGi.Core.Relation
     {
         public static HashSet<IUniqueReference>? UniqueReferences(this IRelation? relation, RelationSide relationSide)
         {
-            if(relation == null)
+            if (relation == null)
             {
                 return null;
             }

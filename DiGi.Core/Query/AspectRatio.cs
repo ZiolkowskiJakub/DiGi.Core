@@ -6,14 +6,14 @@ namespace DiGi.Core
     {
         public static double AspectRatio(this double value_1, double value_2, bool normalized = false)
         {
-            if(double.IsNaN(value_1) || double.IsNaN(value_2))
+            if (double.IsNaN(value_1) || double.IsNaN(value_2))
             {
                 return double.NaN;
             }
 
             if (!normalized)
             {
-                if(value_2 == 0)
+                if (value_2 == 0)
                 {
                     return double.NaN;
                 }

@@ -5,7 +5,6 @@ namespace DiGi.Core.Classes
 {
     public sealed class TypeRelatedExternalReference : ExternalReference<ITypeRelatedSerializableReference>
     {
-
         public TypeRelatedExternalReference(string source, ITypeRelatedSerializableReference reference)
             : base(source, reference)
         {

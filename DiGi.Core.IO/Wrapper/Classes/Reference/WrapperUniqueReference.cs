@@ -11,13 +11,13 @@ namespace DiGi.Core.IO.Wrapper.Classes
         private WrapperTypeReference? wrapperTypeReference;
 
         public WrapperUniqueReference()
-            :base()
-        { 
+            : base()
+        {
 
         }
 
         public WrapperUniqueReference(WrapperUniqueReference<TUniqueReference>? wrapperUniqueReference)
-            :base(wrapperUniqueReference)
+            : base(wrapperUniqueReference)
         {
 
         }
@@ -33,7 +33,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
             get
             {
-                if(wrapperTypeReference == null)
+                if (wrapperTypeReference == null)
                 {
                     wrapperTypeReference = new WrapperTypeReference(Reference?.TypeReference);
                 }

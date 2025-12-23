@@ -8,7 +8,7 @@ namespace DiGi.Core.IO.DelimitedData
     {
         public static List<Column>? Columns(this IEnumerable<string>? names)
         {
-            if(names == null)
+            if (names == null)
             {
                 return null;
             }
@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.DelimitedData
 
             int count = names.Count();
 
-            if(count == 0)
+            if (count == 0)
             {
                 return result;
             }

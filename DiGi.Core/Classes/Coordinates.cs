@@ -15,7 +15,7 @@ namespace DiGi.Core.Classes
         public Coordinates(Coordinates? coordinates)
             : base()
         {
-            if(coordinates != null)
+            if (coordinates != null)
             {
                 latitude = coordinates.latitude;
                 longitude = coordinates.longitude;

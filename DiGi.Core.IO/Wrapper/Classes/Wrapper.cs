@@ -21,13 +21,13 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public UniqueReference? Add(ISerializableObject? value)
         {
-            if(value == null)
+            if (value == null)
             {
                 return null;
             }
 
             List<IWrapperUniqueReference>? wrapperUniqueReferences = AddRange(new object[] { value });
-            if(wrapperUniqueReferences == null || wrapperUniqueReferences.Count == 0)
+            if (wrapperUniqueReferences == null || wrapperUniqueReferences.Count == 0)
             {
                 return null;
             }
@@ -62,30 +62,30 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperUniqueReferences[0]?.UniqueReference() as UniqueIdReference;
         }
 
-        public List<UniqueReference>? AddRange<TSerializableObject>(IEnumerable<TSerializableObject>? serializableObjects) where TSerializableObject : ISerializableObject 
+        public List<UniqueReference>? AddRange<TSerializableObject>(IEnumerable<TSerializableObject>? serializableObjects) where TSerializableObject : ISerializableObject
         {
-            if(serializableObjects == null)
+            if (serializableObjects == null)
             {
                 return null;
             }
 
             List<object> objects = [];
-            foreach(TSerializableObject serializableObject in serializableObjects)
+            foreach (TSerializableObject serializableObject in serializableObjects)
             {
                 objects.Add(serializableObject);
             }
 
             List<IWrapperUniqueReference>? wrapperUniqueReferences = AddRange(objects);
-            if(wrapperUniqueReferences == null)
+            if (wrapperUniqueReferences == null)
             {
                 return null;
             }
 
             List<UniqueReference> result = [];
-            foreach(IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
+            foreach (IWrapperUniqueReference wrapperUniqueReference in wrapperUniqueReferences)
             {
                 UniqueReference? uniqueReference = wrapperUniqueReference.UniqueReference();
-                if(uniqueReference is null)
+                if (uniqueReference is null)
                 {
                     continue;
                 }
@@ -204,7 +204,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             return result;
         }
-        
+
         public List<TSerializableObject>? Read<TSerializableObject>(IEnumerable<UniqueReference> uniqueReferences) where TSerializableObject : ISerializableObject
         {
             List<JsonNode>? jsonNodes = Read(uniqueReferences);
@@ -249,6 +249,52 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return serializableObjects[0];
         }
 
+        public List<JsonNode>? Read(IEnumerable<UniqueReference>? uniqueReferences)
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            HashSet<IWrapperUniqueReference> wrapperUniqueReferences = [];
+            foreach (UniqueReference uniqueReference in uniqueReferences)
+            {
+                if (uniqueReference is null)
+                {
+                    continue;
+                }
+
+                IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(uniqueReference);
+                if (wrapperUniqueReference == null)
+                {
+                    continue;
+                }
+
+                wrapperUniqueReferences.Add(wrapperUniqueReference);
+            }
+
+            HashSet<WrapperNode>? wrapperNodes = Read(wrapperUniqueReferences);
+            if (wrapperNodes == null)
+            {
+                return null;
+            }
+
+            List<JsonNode> result = [];
+            foreach (UniqueReference uniqueReference in uniqueReferences)
+            {
+                WrapperNode? wrapperNode = wrapperNodeCluster.GetValue(uniqueReference);
+                JsonNode? jsonNode = wrapperNode?.JsonNode;
+                if (jsonNode == null)
+                {
+                    continue;
+                }
+
+                result.Add(jsonNode);
+            }
+
+            return result;
+        }
+
         public void SetMetadata(IMetadata metadata)
         {
             MetadataStorage? metadataStorage = Read<MetadataStorage>(Constans.MetadataStorage.WrapperGuidReference);
@@ -257,6 +303,119 @@ namespace DiGi.Core.IO.Wrapper.Classes
             metadataStorage.SetMetadata(metadata);
 
             SetMetadataStorage(metadataStorage);
+        }
+
+        public IEnumerable<UniqueReference>? Write(IEnumerable<UniqueReference>? uniqueReferences)
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            HashSet<IWrapperUniqueReference?> wrapperUniqueReferences = [];
+            foreach (UniqueReference uniqueReference in uniqueReferences)
+            {
+                if (uniqueReference is null)
+                {
+                    continue;
+                }
+
+                wrapperUniqueReferences.Add(Create.WrapperUniqueReference(uniqueReference));
+            }
+
+            IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences_Temp = Write(wrapperUniqueReferences);
+            if (wrapperUniqueReferences_Temp == null || wrapperUniqueReferences_Temp.Count() == 0)
+            {
+                return null;
+            }
+
+
+            HashSet<UniqueReference> result = [];
+            foreach (IWrapperUniqueReference? wrapperUniqueReference_Temp in wrapperUniqueReferences_Temp)
+            {
+                UniqueReference? uniqueReference = wrapperUniqueReference_Temp?.UniqueReference();
+                if (uniqueReference is null)
+                {
+                    continue;
+                }
+
+                result.Add(uniqueReference);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<UniqueReference>? Write()
+        {
+            IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences = Write(null as IEnumerable<WrapperTypeReference>);
+            if (wrapperUniqueReferences == null)
+            {
+                return null;
+            }
+
+            HashSet<UniqueReference> result = [];
+            foreach (IWrapperUniqueReference? wrapperUniqueReference in wrapperUniqueReferences)
+            {
+                UniqueReference? uniqueReference = wrapperUniqueReference?.UniqueReference();
+                if (uniqueReference is null)
+                {
+                    continue;
+                }
+
+                result.Add(uniqueReference);
+            }
+            return result;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposed = true;
+            }
+        }
+
+        protected abstract bool Pull(IEnumerable<WrapperItem>? wrapperItems);
+
+        protected abstract bool Pull(out IEnumerable<TypeReference>? typeReferences);
+
+        protected abstract bool Pull(TypeReference? typeReference, out IEnumerable<UniqueReference>? uniqueReferences);
+
+        protected abstract bool Push(IEnumerable<WrapperItem>? wrapperItems);
+
+        private List<IWrapperUniqueReference>? AddRange(IEnumerable<object>? objects)
+        {
+            if (objects == null)
+            {
+                return null;
+            }
+
+            WrapperMetadata wrapperMetadata = GetWrapperMetadata();
+
+            List<IWrapperUniqueReference> result = [];
+            foreach (object @object in objects)
+            {
+                IWrapperUniqueReference wrapperUniqueReference = wrapperNodeCluster.Add(@object as dynamic);
+                if (wrapperUniqueReference is null)
+                {
+                    continue;
+                }
+
+                result.Add(wrapperUniqueReference);
+
+                wrapperMetadata.References.Add(wrapperUniqueReference.ToString());
+            }
+
+            SetWrapperMetadata(wrapperMetadata);
+
+            return result;
         }
 
         private MetadataStorage GetMetadataStorage()
@@ -385,52 +544,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperNodes.First();
         }
 
-        public List<JsonNode>? Read(IEnumerable<UniqueReference>? uniqueReferences)
-        {
-            if (uniqueReferences == null)
-            {
-                return null;
-            }
-
-            HashSet<IWrapperUniqueReference> wrapperUniqueReferences = [];
-            foreach (UniqueReference uniqueReference in uniqueReferences)
-            {
-                if (uniqueReference is null)
-                {
-                    continue;
-                }
-
-                IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(uniqueReference);
-                if (wrapperUniqueReference == null)
-                {
-                    continue;
-                }
-
-                wrapperUniqueReferences.Add(wrapperUniqueReference);
-            }
-
-            HashSet<WrapperNode>? wrapperNodes = Read(wrapperUniqueReferences);
-            if (wrapperNodes == null)
-            {
-                return null;
-            }
-
-            List<JsonNode> result = [];
-            foreach (UniqueReference uniqueReference in uniqueReferences)
-            {
-                WrapperNode? wrapperNode = wrapperNodeCluster.GetValue(uniqueReference);
-                JsonNode? jsonNode = wrapperNode?.JsonNode;
-                if (jsonNode == null)
-                {
-                    continue;
-                }
-
-                result.Add(jsonNode);
-            }
-
-            return result;
-        }
-
         private TSerializableObject? Read<TSerializableObject>(IWrapperUniqueReference wrapperUniqueReference) where TSerializableObject : ISerializableObject
         {
             if (Read(wrapperUniqueReference)?.JsonNode is not JsonObject jsonObject)
@@ -439,6 +552,56 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             return Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+        }
+
+        private HashSet<WrapperNode>? Read(IEnumerable<TypeReference>? typeReferences)
+        {
+            if (typeReferences == null)
+            {
+                if (!Pull(out typeReferences) || typeReferences == null)
+                {
+                    return null;
+                }
+            }
+
+            HashSet<WrapperNode> result = [];
+            foreach (TypeReference typeReference in typeReferences)
+            {
+                if (!Pull(typeReference, out IEnumerable<UniqueReference>? uniqueReferences) || uniqueReferences == null)
+                {
+                    continue;
+                }
+
+                HashSet<IWrapperUniqueReference> wrapperUniqueReferences = [];
+                foreach (UniqueReference uniqueReference in uniqueReferences)
+                {
+                    IWrapperUniqueReference? wrapperUniqueReference = uniqueReference.WrapperUniqueReference();
+                    if (wrapperUniqueReference == null)
+                    {
+                        continue;
+                    }
+
+                    wrapperUniqueReferences.Add(wrapperUniqueReference);
+                }
+
+                HashSet<WrapperNode>? wrapperNodes_TypeReference = Read(wrapperUniqueReferences);
+                if (wrapperNodes_TypeReference == null)
+                {
+                    continue;
+                }
+
+                foreach (WrapperNode wrapperNode_TypeReference in wrapperNodes_TypeReference)
+                {
+                    if (wrapperNodes_TypeReference == null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(wrapperNode_TypeReference);
+                }
+            }
+
+            return result;
         }
 
         private void SetMetadataStorage(MetadataStorage metadataStorage)
@@ -456,122 +619,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             SetMetadata(wrapperMetadata);
         }
 
-        public IEnumerable<UniqueReference>? Write(IEnumerable<UniqueReference>? uniqueReferences)
-        {
-            if (uniqueReferences == null)
-            {
-                return null;
-            }
-
-            HashSet<IWrapperUniqueReference?> wrapperUniqueReferences = [];
-            foreach (UniqueReference uniqueReference in uniqueReferences)
-            {
-                if (uniqueReference is null)
-                {
-                    continue;
-                }
-
-                wrapperUniqueReferences.Add(Create.WrapperUniqueReference(uniqueReference));
-            }
-
-            IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences_Temp = Write(wrapperUniqueReferences);
-            if (wrapperUniqueReferences_Temp == null || wrapperUniqueReferences_Temp.Count() == 0)
-            {
-                return null;
-            }
-
-
-            HashSet<UniqueReference> result = [];
-            foreach (IWrapperUniqueReference? wrapperUniqueReference_Temp in wrapperUniqueReferences_Temp)
-            {
-                UniqueReference? uniqueReference = wrapperUniqueReference_Temp?.UniqueReference();
-                if (uniqueReference is null)
-                {
-                    continue;
-                }
-
-                result.Add(uniqueReference);
-            }
-
-            return result;
-        }
-
-        public IEnumerable<UniqueReference>? Write()
-        {
-            IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences = Write(null as IEnumerable<WrapperTypeReference>);
-            if (wrapperUniqueReferences == null)
-            {
-                return null;
-            }
-
-            HashSet<UniqueReference> result = [];
-            foreach (IWrapperUniqueReference? wrapperUniqueReference in wrapperUniqueReferences)
-            {
-                UniqueReference? uniqueReference = wrapperUniqueReference?.UniqueReference();
-                if (uniqueReference is null)
-                {
-                    continue;
-                }
-
-                result.Add(uniqueReference);
-            }
-            return result;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                disposed = true;
-            }
-        }
-
-        protected abstract bool Pull(IEnumerable<WrapperItem>? wrapperItems);
-
-        protected abstract bool Pull(out IEnumerable<TypeReference>? typeReferences);
-
-        protected abstract bool Pull(TypeReference? typeReference, out IEnumerable<UniqueReference>? uniqueReferences);
-
-        protected abstract bool Push(IEnumerable<WrapperItem>? wrapperItems);
-
-        private List<IWrapperUniqueReference>? AddRange(IEnumerable<object>? objects)
-        {
-            if(objects == null)
-            {
-                return null;
-            }
-
-            WrapperMetadata wrapperMetadata = GetWrapperMetadata();
-
-            List<IWrapperUniqueReference> result = [];
-            foreach(object @object in objects)
-            {
-                IWrapperUniqueReference wrapperUniqueReference = wrapperNodeCluster.Add(@object as dynamic);
-                if(wrapperUniqueReference is null)
-                {
-                    continue;
-                }
-
-                result.Add(wrapperUniqueReference);
-
-                wrapperMetadata.References.Add(wrapperUniqueReference.ToString());
-            }
-
-            SetWrapperMetadata(wrapperMetadata);
-
-            return result;
-        }
-        
         private IEnumerable<IWrapperUniqueReference?>? Write(IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences)
         {
-            if(wrapperUniqueReferences == null)
+            if (wrapperUniqueReferences == null)
             {
                 return null;
             }
@@ -620,23 +670,23 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             return wrapperItems.ConvertAll(x => Create.WrapperUniqueReference(x.UniqueReference));
         }
-        
+
         private IEnumerable<IWrapperUniqueReference>? Write(IEnumerable<WrapperTypeReference>? wrapperTypeReferences)
         {
-            if(wrapperTypeReferences == null)
+            if (wrapperTypeReferences == null)
             {
                 wrapperTypeReferences = wrapperNodeCluster?.GetKeys_1();
-                if(wrapperTypeReferences == null)
+                if (wrapperTypeReferences == null)
                 {
                     return null;
                 }
             }
 
             HashSet<IWrapperUniqueReference> result = [];
-            foreach(WrapperTypeReference wrapperTypeReference in wrapperTypeReferences)
+            foreach (WrapperTypeReference wrapperTypeReference in wrapperTypeReferences)
             {
                 IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences = wrapperNodeCluster?.GetKeys_2(wrapperTypeReference);
-                if(wrapperTypeReferences == null)
+                if (wrapperTypeReferences == null)
                 {
                     continue;
                 }
@@ -647,7 +697,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                     continue;
                 }
 
-                if(wrapperUniqueReferences != null)
+                if (wrapperUniqueReferences != null)
                 {
                     foreach (IWrapperUniqueReference? wrapperUniqueReference in wrapperUniqueReferences)
                     {
@@ -663,58 +713,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             return result;
         }
-        
-        private HashSet<WrapperNode>? Read(IEnumerable<TypeReference>? typeReferences)
-        {
-            if(typeReferences == null)
-            {
-                if (!Pull(out typeReferences) || typeReferences == null)
-                {
-                    return null;
-                }
-            }
-
-            HashSet<WrapperNode> result = [];
-            foreach (TypeReference typeReference in typeReferences)
-            {
-                if (!Pull(typeReference, out IEnumerable<UniqueReference>? uniqueReferences) || uniqueReferences == null)
-                {
-                    continue;
-                }
-
-                HashSet<IWrapperUniqueReference> wrapperUniqueReferences = [];
-                foreach (UniqueReference uniqueReference in uniqueReferences)
-                {
-                    IWrapperUniqueReference? wrapperUniqueReference = uniqueReference.WrapperUniqueReference();
-                    if (wrapperUniqueReference == null)
-                    {
-                        continue;
-                    }
-
-                    wrapperUniqueReferences.Add(wrapperUniqueReference);
-                }
-
-                HashSet<WrapperNode>? wrapperNodes_TypeReference = Read(wrapperUniqueReferences);
-                if(wrapperNodes_TypeReference == null)
-                {
-                    continue;
-                }
-
-                foreach(WrapperNode wrapperNode_TypeReference in wrapperNodes_TypeReference)
-                {
-                    if(wrapperNodes_TypeReference == null)
-                    {
-                        continue;
-                    }
-
-                    result.Add(wrapperNode_TypeReference);
-                }
-            }
-
-            return result;
-        }
-
-
         // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         // ~Wrapper()
         // {

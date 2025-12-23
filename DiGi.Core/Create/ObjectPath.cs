@@ -8,7 +8,7 @@ namespace DiGi.Core
         public static ObjectPath? ObjectPath(string? text)
         {
             List<string>? names = Query.QuotedStrings(text, Classes.ObjectPath.Separator);
-            if(names == null)
+            if (names == null)
             {
                 return null;
             }

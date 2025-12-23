@@ -8,13 +8,13 @@ namespace DiGi.Core.IO.Wrapper
     {
         internal static HashSet<IWrapperUniqueReference>? WrapperUniqueReferences(this JsonObject? jsonObject)
         {
-            if(jsonObject == null)
+            if (jsonObject == null)
             {
                 return null;
             }
 
             HashSet<IWrapperUniqueReference> result = [];
-            foreach(KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
+            foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
             {
                 JsonNode? jsonNode = keyValuePair.Value;
                 if (jsonNode is JsonObject jsonObject_Temp)

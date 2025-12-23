@@ -7,7 +7,7 @@ namespace DiGi.Core
     {
         public static double Random(Random? random, double start, double end, double tolerance = Constans.Tolerance.MacroDistance)
         {
-            if(random == null)
+            if (random == null)
             {
                 return double.NaN;
             }
@@ -81,7 +81,7 @@ namespace DiGi.Core
 
         public static bool Random(Random? random)
         {
-            if(random == null)
+            if (random == null)
             {
                 return false;
             }
@@ -90,7 +90,7 @@ namespace DiGi.Core
         }
 
         public static bool Random(int seed = -1)
-        { 
+        {
             Random random = seed == -1 ? new Random() : new Random(seed);
 
             return Random(random);

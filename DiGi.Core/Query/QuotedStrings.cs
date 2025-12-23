@@ -7,14 +7,14 @@ namespace DiGi.Core
     {
         public static List<string>? QuotedStrings(string? text, string separator = ",")
         {
-            if(text == null)
+            if (text == null)
             {
                 return null;
             }
 
             List<string> fields = [];
             bool inQuotes = false;
-            StringBuilder stringBuilder = new ();
+            StringBuilder stringBuilder = new();
             int separatorLength = separator.Length;
 
             for (int i = 0; i < text.Length; i++)

@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         }
 
         public WrapperReference(WrapperReference? wrapperReference)
-            :base(wrapperReference)
+            : base(wrapperReference)
         {
 
         }
@@ -70,7 +70,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public override int GetHashCode()
         {
-            if(hashCode == null || !hashCode.HasValue)
+            if (hashCode == null || !hashCode.HasValue)
             {
                 hashCode = ToString().GetHashCode();
             }
@@ -116,9 +116,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
 
         }
-        
+
         public WrapperReference(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }

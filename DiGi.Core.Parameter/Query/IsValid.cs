@@ -8,7 +8,7 @@ namespace DiGi.Core.Parameter
     {
         public static bool IsValid(this ParameterType parameterType, object? value)
         {
-            if(parameterType == Enums.ParameterType.Undefined)
+            if (parameterType == Enums.ParameterType.Undefined)
             {
                 return true;
             }

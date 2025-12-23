@@ -53,7 +53,7 @@ namespace DiGi.Core
                     return jsonArray;
                 }
             }
-            else if(object_Temp is System.Type type)
+            else if (object_Temp is System.Type type)
             {
                 return JsonValue.Create(Query.FullTypeName(type));
             }

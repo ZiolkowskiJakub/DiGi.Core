@@ -106,7 +106,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Column? AddColumn(Column? column)
         {
-            if(column == null)
+            if (column == null)
             {
                 return null;
             }
@@ -268,7 +268,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             foreach (Column column in columns.Values)
             {
-                if(column == null)
+                if (column == null)
                 {
                     continue;
                 }
@@ -510,29 +510,29 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Column? UpdateColumn(int index, string? name, Type? type = null)
         {
-            if(!columns.TryGetValue(index, out Column column))
+            if (!columns.TryGetValue(index, out Column column))
             {
                 return null;
             }
 
             Type type_Temp = type ?? typeof(object);
 
-            bool typeUpdate = column.Type != type_Temp; 
+            bool typeUpdate = column.Type != type_Temp;
 
             column = new Column(index, name, type_Temp);
 
             columns[index] = column;
 
-            if(typeUpdate)
+            if (typeUpdate)
             {
-                foreach(Row row in rows.Values)
+                foreach (Row row in rows.Values)
                 {
-                    if(!row.TryGetValue(index, out object? value))
+                    if (!row.TryGetValue(index, out object? value))
                     {
                         continue;
                     }
 
-                    if(!TryGetValidValue(index, value, out value))
+                    if (!TryGetValidValue(index, value, out value))
                     {
                         row.RemoveValue(index);
                         continue;
@@ -544,7 +544,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             return new Column(column);
         }
-       
+
         public Row? UpdateRow(int index, IDictionary<string, object?>? values, Func<string?, string?, bool>? func = null)
         {
             if (values == null || index > rows.Keys.Last())

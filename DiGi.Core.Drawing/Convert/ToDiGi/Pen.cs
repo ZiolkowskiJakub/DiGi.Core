@@ -4,7 +4,7 @@
     {
         public static Classes.Pen? ToDiGi(this System.Drawing.Pen? pen)
         {
-            if(pen == null)
+            if (pen == null)
             {
                 return null;
             }

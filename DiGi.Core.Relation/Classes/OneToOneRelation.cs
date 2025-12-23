@@ -139,7 +139,7 @@ namespace DiGi.Core.Relation.Classes
 
         public override bool Contains(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return false;
             }
@@ -148,7 +148,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if(uniqueReference_From != null)
+                if (uniqueReference_From != null)
                 {
                     result = uniqueReference.Equals(uniqueReference_From);
                 }
@@ -217,7 +217,7 @@ namespace DiGi.Core.Relation.Classes
 
             return result;
         }
-        
+
         public override List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -233,7 +233,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                if(uniqueReference_To is TUniqueReference uniqueReference_Temp_1)
+                if (uniqueReference_To is TUniqueReference uniqueReference_Temp_1)
                 {
                     if (uniqueReferences.Find(x => x is not null && uniqueReference_To.Equals(x)) != null)
                     {

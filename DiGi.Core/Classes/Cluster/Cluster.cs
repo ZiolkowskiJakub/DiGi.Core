@@ -49,7 +49,7 @@ namespace DiGi.Core.Classes
             List<UValue> result = [];
             foreach (UValue? value in values)
             {
-                if(value is null)
+                if (value is null)
                 {
                     continue;
                 }
@@ -79,6 +79,73 @@ namespace DiGi.Core.Classes
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public virtual List<TKey_1>? GetKeys_1()
+        {
+            List<TValue>? values = GetValues<TValue>();
+            if (values == null)
+            {
+                return null;
+            }
+
+            HashSet<TKey_1> result = [];
+            foreach (TValue value in values)
+            {
+                TKey_1? key_1 = GetKey_1(value);
+                if (key_1 == null)
+                {
+                    continue;
+                }
+
+                result.Add(key_1);
+            }
+
+            return [.. result];
+        }
+
+        public virtual List<TKey_2>? GetKeys_2(TKey_1? key_1)
+        {
+            if (key_1 == null)
+            {
+                return null;
+            }
+
+            List<TValue>? values = GetValues<TValue>();
+            if (values == null)
+            {
+                return null;
+            }
+
+            HashSet<TKey_2> result = [];
+            foreach (TValue value in values)
+            {
+                if (!key_1.Equals(GetKey_1(value)))
+                {
+                    continue;
+                }
+
+                TKey_2? key_2 = GetKey_2(value);
+                if (key_2 == null)
+                {
+                    continue;
+                }
+
+                result.Add(key_2);
+            }
+
+            return [.. result];
+        }
+
+        public virtual UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : TValue
+        {
+            List<UValue>? values = GetValues(func);
+            if (values == null || values.Count == 0)
+            {
+                return default;
+            }
+
+            return values[0];
         }
 
         public virtual List<UValue>? GetValues<UValue>(TKey_1? key_1) where UValue : TValue
@@ -123,16 +190,18 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public virtual UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : TValue
-        {
-            List<UValue>? values = GetValues(func);
-            if (values == null || values.Count == 0)
-            {
-                return default;
-            }
+        public abstract List<UValue>? GetValues<UValue>() where UValue : TValue;
 
-            return values[0];
+        public virtual bool IsValid(TValue? value)
+        {
+            return value != null;
         }
+
+        public abstract bool Remove(TKey_1? key_1);
+
+        public abstract bool Remove(TKey_1? key_1, TKey_2? key_2);
+
+        public abstract bool Remove(TValue? value);
 
         public bool TryGetValue<UValue>(out UValue? value, Func<UValue?, bool>? func) where UValue : TValue
         {
@@ -152,78 +221,9 @@ namespace DiGi.Core.Classes
             return values != null && values.Count != 0;
         }
 
-        public virtual bool IsValid(TValue? value)
-        {
-            return value != null;
-        }
-
-        public abstract bool Remove(TKey_1? key_1);
-
-        public abstract bool Remove(TKey_1? key_1, TKey_2? key_2);
-
-        public abstract bool Remove(TValue? value);
-
         protected abstract TKey_1? GetKey_1(TValue? value);
 
         protected abstract TKey_2? GetKey_2(TValue? value);
-
-        public virtual List<TKey_1>? GetKeys_1()
-        {
-            List<TValue>? values = GetValues<TValue>();
-            if (values == null)
-            {
-                return null;
-            }
-
-            HashSet<TKey_1> result = [];
-            foreach (TValue value in values)
-            {
-                TKey_1? key_1 = GetKey_1(value);
-                if (key_1 == null)
-                {
-                    continue;
-                }
-
-                result.Add(key_1);
-            }
-
-            return [.. result];
-        }
-
-        public virtual List<TKey_2>? GetKeys_2(TKey_1? key_1)
-        {
-            if(key_1 == null)
-            {
-                return null;
-            }
-
-            List<TValue>? values = GetValues<TValue>();
-            if (values == null)
-            {
-                return null;
-            }
-
-            HashSet<TKey_2> result = [];
-            foreach (TValue value in values)
-            {
-                if (!key_1.Equals(GetKey_1(value)))
-                {
-                    continue;
-                }
-
-                TKey_2? key_2 = GetKey_2(value);
-                if (key_2 == null)
-                {
-                    continue;
-                }
-
-                result.Add(key_2);
-            }
-
-            return [.. result];
-        }
-
-        public abstract List<UValue>? GetValues<UValue>() where UValue : TValue;
 
         protected bool SetValues(IEnumerable<TValue>? values)
         {

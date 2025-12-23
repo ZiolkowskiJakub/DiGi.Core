@@ -14,14 +14,14 @@ namespace DiGi.Core
         public static Type? Type(this TypeReference? typeReference)
         {
             string? fullTypeName = typeReference?.FullTypeName;
-            if(string.IsNullOrWhiteSpace(fullTypeName))
+            if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }
 
             return Type(fullTypeName, false);
         }
-        
+
         public static Type? Type(this string? typeName, bool ignoreCase = false)
         {
             if (string.IsNullOrEmpty(typeName))
@@ -182,7 +182,7 @@ namespace DiGi.Core
             return null;
 
         }
-    
+
         public static Type? Type(this DataType dataType)
         {
             switch (dataType)

@@ -17,7 +17,7 @@ namespace DiGi.Core
             }
 
             double value_Temp = Math.Abs(value / tolerance);
-            if(value_Temp < (double)decimal.MaxValue)
+            if (value_Temp < (double)decimal.MaxValue)
             {
                 return System.Convert.ToDouble(Math.Round(System.Convert.ToDecimal(value) / System.Convert.ToDecimal(tolerance)) * System.Convert.ToDecimal(tolerance));
             }

@@ -4,7 +4,7 @@
     {
         public static System.Drawing.Pen? ToDrawing(this Classes.Pen? pen)
         {
-            if(pen == null)
+            if (pen == null)
             {
                 return null;
             }

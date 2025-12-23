@@ -10,7 +10,7 @@ namespace DiGi.Core.IO.Wrapper
     {
         internal static IWrapperUniqueReference? WrapperUniqueReference(this JsonObject? jsonObject)
         {
-            if(jsonObject == null)
+            if (jsonObject == null)
             {
                 return null;
             }
@@ -20,7 +20,7 @@ namespace DiGi.Core.IO.Wrapper
                 string? fullTypeName = jsonObject[Core.Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
-                    if(Query.IsWrapperUniqueReference(jsonObject))
+                    if (Query.IsWrapperUniqueReference(jsonObject))
                     {
                         return Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
                     }
@@ -41,7 +41,7 @@ namespace DiGi.Core.IO.Wrapper
 
         internal static IWrapperUniqueReference? WrapperUniqueReference(this JsonNode? jsonNode)
         {
-            if(jsonNode == null)
+            if (jsonNode == null)
             {
                 return null;
             }
@@ -51,7 +51,7 @@ namespace DiGi.Core.IO.Wrapper
                 return WrapperUniqueReference(jsonObject);
             }
 
-            if(jsonNode is JsonArray jsonArray)
+            if (jsonNode is JsonArray jsonArray)
             {
                 return WrapperUniqueIdReference(jsonArray);
             }
@@ -67,17 +67,17 @@ namespace DiGi.Core.IO.Wrapper
 
         internal static IWrapperUniqueReference? WrapperUniqueReference(this UniqueReference? uniqueReference)
         {
-            if(uniqueReference is null)
+            if (uniqueReference is null)
             {
                 return null;
             }
 
-            if(uniqueReference is GuidReference guidReference)
+            if (uniqueReference is GuidReference guidReference)
             {
                 return new WrapperGuidReference(guidReference);
             }
 
-            if(uniqueReference is UniqueIdReference uniqueIdReference)
+            if (uniqueReference is UniqueIdReference uniqueIdReference)
             {
                 return new WrapperUniqueIdReference(uniqueIdReference);
             }

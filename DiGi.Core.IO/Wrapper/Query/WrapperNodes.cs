@@ -7,7 +7,7 @@ namespace DiGi.Core.IO.Wrapper
 {
     public static partial class Query
     {
-        internal static HashSet<WrapperNode>? WrapperNodes<TJsonNode>(this JsonObject? jsonObject, bool includeNested , WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
+        internal static HashSet<WrapperNode>? WrapperNodes<TJsonNode>(this JsonObject? jsonObject, bool includeNested, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
         {
             if (jsonObject == null)
             {
@@ -40,12 +40,12 @@ namespace DiGi.Core.IO.Wrapper
                     continue;
                 }
 
-                if(jsonNode is JsonObject jsonObject_Temp && includeNested)
+                if (jsonNode is JsonObject jsonObject_Temp && includeNested)
                 {
                     HashSet<WrapperNode>? wrapperNodes = WrapperNodes<TJsonNode>(jsonObject_Temp, includeNested, wrapState);
-                    if(wrapperNodes != null)
+                    if (wrapperNodes != null)
                     {
-                        foreach(WrapperNode wrapperNode in wrapperNodes)
+                        foreach (WrapperNode wrapperNode in wrapperNodes)
                         {
                             result.Add(new WrapperNode(jsonNode), wrapState);
                         }

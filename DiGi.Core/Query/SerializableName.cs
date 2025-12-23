@@ -24,7 +24,7 @@ namespace DiGi.Core
             {
                 string name = jsonPropertyNameAttributes[i].Name;
 
-                if(!string.IsNullOrWhiteSpace(name))
+                if (!string.IsNullOrWhiteSpace(name))
                 {
                     return name;
                 }

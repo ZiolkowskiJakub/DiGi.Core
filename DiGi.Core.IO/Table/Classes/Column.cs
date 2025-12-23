@@ -38,7 +38,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Column(Column? column)
         {
-            if(column != null)
+            if (column != null)
             {
                 index = column.index;
                 name = column.name;
@@ -59,9 +59,9 @@ namespace DiGi.Core.IO.Table.Classes
 
         public int Index
         {
-            get 
-            { 
-                return index; 
+            get
+            {
+                return index;
             }
         }
 

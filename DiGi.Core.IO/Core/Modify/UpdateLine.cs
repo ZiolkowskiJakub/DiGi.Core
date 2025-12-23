@@ -12,7 +12,7 @@ namespace DiGi.Core.IO
             }
 
             HashSet<int>? indexes = UpdateLines(path, new Dictionary<int, string?> { { index, line } });
-            
+
             return indexes != null && indexes.Contains(index);
         }
     }

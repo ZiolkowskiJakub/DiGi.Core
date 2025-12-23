@@ -75,7 +75,7 @@ namespace DiGi.Core.Parameter.Classes
         public IGuidObject? Duplicate(Guid? guid = null)
         {
             ParametrizedGuidObject? parametrizedGuidObject = this.Clone<ParametrizedGuidObject>();
-            if(parametrizedGuidObject != null)
+            if (parametrizedGuidObject != null)
             {
                 parametrizedGuidObject.guid = guid == null ? Guid.NewGuid() : guid.Value;
             }

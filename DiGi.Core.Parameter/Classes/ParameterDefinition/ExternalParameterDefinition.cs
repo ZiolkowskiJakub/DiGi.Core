@@ -38,7 +38,7 @@ namespace DiGi.Core.Parameter.Classes
         public ExternalParameterDefinition(ExternalParameterDefinition? externalParameterDefinition)
             : base(externalParameterDefinition)
         {
-            if(externalParameterDefinition != null)
+            if (externalParameterDefinition != null)
             {
                 guid = externalParameterDefinition.guid;
                 name = externalParameterDefinition.name;
@@ -86,12 +86,12 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override string? Description 
+        public override string? Description
         {
             get
             {
                 return description;
-            } 
+            }
         }
 
         [JsonIgnore]
@@ -113,8 +113,8 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override AccessType AccessType 
-        { 
+        public override AccessType AccessType
+        {
             get
             {
                 return accessType;
@@ -139,7 +139,7 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             ParameterValue? parameterValue = ParameterValue;
-            if(parameterValue != null)
+            if (parameterValue != null)
             {
                 result = parameterValue.IsValid(value);
             }

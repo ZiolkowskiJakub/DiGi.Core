@@ -40,11 +40,6 @@ namespace DiGi.Core.Classes
             fullTypeName = Query.FullTypeName(@object?.GetType());
         }
 
-        public override ISerializableObject? Clone()
-        {
-            return new TypeReference(fullTypeName);
-        }
-
         [JsonIgnore]
         public string? FullTypeName
         {
@@ -54,9 +49,23 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override string? ToString()
+        public static implicit operator Type?(TypeReference? typeReference) => Query.Type(typeReference);
+
+        public static implicit operator TypeReference?(Type? type) => type?.TypeReference();
+
+        public static bool operator !=(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
-            return fullTypeName ?? string.Empty;
+            return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
+        }
+
+        public static bool operator ==(TypeReference? typeReference_1, TypeReference? typeReference_2)
+        {
+            return typeReference_1?.fullTypeName == typeReference_2?.fullTypeName;
+        }
+
+        public override ISerializableObject? Clone()
+        {
+            return new TypeReference(fullTypeName);
         }
 
         public override bool Equals(object? obj)
@@ -72,18 +81,9 @@ namespace DiGi.Core.Classes
             return base.GetHashCode();
         }
 
-        public static bool operator ==(TypeReference? typeReference_1, TypeReference? typeReference_2)
+        public override string? ToString()
         {
-            return typeReference_1?.fullTypeName == typeReference_2?.fullTypeName;
+            return fullTypeName ?? string.Empty;
         }
-
-        public static bool operator !=(TypeReference? typeReference_1, TypeReference? typeReference_2)
-        {
-            return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
-        }
-
-        public static implicit operator TypeReference?(Type? type) => type?.TypeReference();
-
-        public static implicit operator Type?(TypeReference? typeReference) => Query.Type(typeReference);
     }
 }

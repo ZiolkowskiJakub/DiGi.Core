@@ -32,7 +32,7 @@ namespace DiGi.Core.Parameter.Classes
 
         [JsonIgnore]
         public override ParameterType ParameterType => ParameterType.String;
-        
+
         public override ISerializableObject? Clone()
         {
             return new StringParameterValue(this);

@@ -21,7 +21,7 @@ namespace DiGi.Core.IO.Classes
         public void Add<T>(IEnumerable<T?>? values)
         {
             T?[]? values_Temp = values?.ToArray();
-            if(values_Temp == null)
+            if (values_Temp == null)
             {
                 return;
             }
@@ -32,9 +32,9 @@ namespace DiGi.Core.IO.Classes
         public void Add<T>(params T?[]? values)
         {
             List<string> values_Temp = [];
-            if(values != null)
+            if (values != null)
             {
-                foreach(T? value in values)
+                foreach (T? value in values)
                 {
                     string? text = value?.ToString();
                     values_Temp.Add(text ?? string.Empty);
@@ -90,12 +90,12 @@ namespace DiGi.Core.IO.Classes
 
         public bool Write(string? path)
         {
-            if(string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
 
-            if(!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+            if (!System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
                 return false;
             }

@@ -6,7 +6,7 @@ namespace DiGi.Core.Classes
     public class UniquePropertyReference<UUniquePropertyReference> : PropertyReference<UUniquePropertyReference>, IInstanceRelatedSerializableReference where UUniquePropertyReference : UniqueReference
     {
         public UniquePropertyReference(UUniquePropertyReference reference, string propertyName)
-            : base(reference,propertyName)
+            : base(reference, propertyName)
         {
 
         }

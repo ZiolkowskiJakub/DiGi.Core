@@ -8,20 +8,20 @@ namespace DiGi.Core.Parameter
     {
         public static ExternalParameterDefinition? ExternalParameterDefinition(Guid guid, string? name, string? description, ParameterType parameterType, Type? type, AccessType accessType = AccessType.ReadWrite, bool nullable = true, string? groupName = null)
         {
-            if(guid == Guid.Empty || name == null || parameterType == ParameterType.Undefined || type == null)
+            if (guid == Guid.Empty || name == null || parameterType == ParameterType.Undefined || type == null)
             {
                 return null;
             }
 
             ParameterValue? parameterValue = null;
-            switch(parameterType)
+            switch (parameterType)
             {
                 case ParameterType.Double:
                     parameterValue = new DoubleParameterValue(nullable);
                     break;
             }
 
-            if(parameterValue == null)
+            if (parameterValue == null)
             {
                 return null;
             }

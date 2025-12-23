@@ -16,13 +16,13 @@ namespace DiGi.Core.Classes
         }
 
         public UniqueIdObject(string? uniqueId)
-            :base()
+            : base()
         {
             this.uniqueId = uniqueId;
         }
 
         public UniqueIdObject(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -30,7 +30,7 @@ namespace DiGi.Core.Classes
         public UniqueIdObject(UniqueIdObject? uniqueIdObject)
             : base(uniqueIdObject)
         {
-            if(uniqueIdObject != null)
+            if (uniqueIdObject != null)
             {
                 uniqueId = uniqueIdObject.uniqueId;
             }

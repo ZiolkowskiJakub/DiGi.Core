@@ -3,7 +3,7 @@
 namespace DiGi.Core.IO.File.Interfaces
 {
     internal interface IFile : IDisposable
-    { 
+    {
         bool Open();
 
         bool Open(string path);

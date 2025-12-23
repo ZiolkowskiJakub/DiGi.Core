@@ -1,7 +1,7 @@
 ﻿namespace DiGi.Core.IO.File.Interfaces
 {
     internal interface IValueFile : IFile
-    { 
+    {
 
     }
 

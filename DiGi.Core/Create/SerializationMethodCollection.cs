@@ -1,7 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace DiGi.Core
@@ -35,7 +35,7 @@ namespace DiGi.Core
 
                 int? order = Query.SerializableOrder(memberInfo);
                 string? name = Query.SerializableName(memberInfo);
-                if(string.IsNullOrEmpty(name))
+                if (string.IsNullOrEmpty(name))
                 {
                     continue;
                 }

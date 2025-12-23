@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using DiGi.Core.IO.DelimitedData.Enums;
+﻿using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
+using System.Collections.Generic;
+using System.IO;
 
 namespace DiGi.Core.IO.DelimitedData.Classes
 {
@@ -50,7 +50,7 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <param name="delimitedDataRows">The rows to be written</param>
         public void WriteRows(IEnumerable<DelimitedDataRow>? delimitedDataRows)
         {
-            if(delimitedDataRows == null)
+            if (delimitedDataRows == null)
             {
                 return;
             }

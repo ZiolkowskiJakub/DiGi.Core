@@ -6,15 +6,15 @@ namespace DiGi.Core
     {
         public static List<T>? FilterNulls<T>(this IEnumerable<T?>? values)
         {
-            if(values is null)
+            if (values is null)
             {
                 return null;
             }
 
             List<T> result = [];
-            foreach(T? value in values)
+            foreach (T? value in values)
             {
-                if(value is null)
+                if (value is null)
                 {
                     continue;
                 }

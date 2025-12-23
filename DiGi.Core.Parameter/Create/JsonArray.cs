@@ -8,13 +8,13 @@ namespace DiGi.Core.Parameter
     {
         public static JsonArray? JsonArray(this IEnumerable<Type>? types)
         {
-            if(types == null)
+            if (types == null)
             {
                 return null;
             }
 
             JsonArray result = [];
-            foreach(Type type in types)
+            foreach (Type type in types)
             {
                 string? fullTypeName = Core.Query.FullTypeName(type);
                 if (string.IsNullOrWhiteSpace(fullTypeName))

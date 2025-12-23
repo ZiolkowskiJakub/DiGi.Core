@@ -8,12 +8,12 @@ namespace DiGi.Core.Classes
         private readonly JsonObject? jsonObject;
 
         public SerializableObjectWrapper()
-            :base()
+            : base()
         {
 
         }
 
-        public SerializableObjectWrapper(JsonObject? jsonObject) 
+        public SerializableObjectWrapper(JsonObject? jsonObject)
         {
             this.jsonObject = jsonObject?.DeepClone() as JsonObject;
         }

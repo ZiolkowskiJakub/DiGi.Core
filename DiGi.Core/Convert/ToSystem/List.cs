@@ -7,7 +7,7 @@ namespace DiGi.Core
     {
         public static List<T>? ToSystem<T>(this Range<T>? range, T step)
         {
-            if(range is null || step is null)
+            if (range is null || step is null)
             {
                 return null;
             }
@@ -19,7 +19,7 @@ namespace DiGi.Core
 
             List<T> result = [];
 
-            if((dynamic)step > 0)
+            if ((dynamic)step > 0)
             {
                 T value = range.Min;
                 T max = range.Max;

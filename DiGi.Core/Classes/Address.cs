@@ -21,7 +21,7 @@ namespace DiGi.Core.Classes
         public Address(Address? address)
             : base()
         {
-            if(address != null)
+            if (address != null)
             {
                 street = address.street;
                 city = address.city;

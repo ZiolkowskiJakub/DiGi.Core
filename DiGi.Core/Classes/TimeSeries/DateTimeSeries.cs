@@ -69,17 +69,17 @@ namespace DiGi.Core.Classes
 
         public DateTime[]? GetDateTimes()
         {
-            if(range is null)
+            if (range is null)
             {
                 return null;
             }
 
-            if(range.Min == range.Max)
+            if (range.Min == range.Max)
             {
                 return [range.Min];
             }
 
-            if(step <= 0)
+            if (step <= 0)
             {
                 return [range.Min, range.Max];
             }

@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Nodes;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using System.Text.Json.Nodes;
 
 
 namespace DiGi.Core
@@ -9,18 +9,18 @@ namespace DiGi.Core
     {
         public static bool FromJsonObject(this ISerializableObject? serializableObject, JsonObject? jsonObject)
         {
-            if(serializableObject == null || jsonObject == null)
+            if (serializableObject == null || jsonObject == null)
             {
                 return false;
             }
 
-            if(serializableObject is SerializableObjectWrapper)
+            if (serializableObject is SerializableObjectWrapper)
             {
                 serializableObject.FromJsonObject(jsonObject);
             }
 
             SerializationMethodCollection? serializationMethodCollection = Settings.SerializationManager.GetSerializationMethodCollection(serializableObject);
-            if (serializationMethodCollection == null )
+            if (serializationMethodCollection == null)
             {
                 return false;
             }

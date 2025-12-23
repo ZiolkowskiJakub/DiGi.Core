@@ -1,15 +1,15 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.IO.Classes;
+using DiGi.Core.IO.File.Interfaces;
+using DiGi.Core.IO.Interfaces;
 using System;
 using System.ComponentModel;
-using System.IO.Compression;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using System.Linq;
-using DiGi.Core.IO.File.Interfaces;
-using DiGi.Core.IO.Classes;
-using DiGi.Core.IO.Interfaces;
 
 namespace DiGi.Core.IO.File.Classes
 {
@@ -41,26 +41,6 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
-        public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
-        {
-            if(metadataStorage == null)
-            {
-                return default;
-            }
-
-            return metadataStorage.GetMetadata<TMetadata>();
-        }
-
-        public void SetMetadata(IMetadata? metadata)
-        {
-            if(metadata == null || metadata is FileMetadata)
-            {
-                return;
-            }
-
-            metadataStorage.SetMetadata(metadata);
-        }
-
         public string? Path
         {
             get
@@ -76,6 +56,21 @@ namespace DiGi.Core.IO.File.Classes
                 fileMetadata.Path = value;
                 metadataStorage.SetMetadata(fileMetadata);
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
+        {
+            if (metadataStorage == null)
+            {
+                return default;
+            }
+
+            return metadataStorage.GetMetadata<TMetadata>();
         }
 
         public virtual bool Open()
@@ -98,7 +93,7 @@ namespace DiGi.Core.IO.File.Classes
             zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
             if (zipArchiveEntry != null)
             {
-                using StreamReader streamReader = new (zipArchiveEntry.Open());
+                using StreamReader streamReader = new(zipArchiveEntry.Open());
                 MetadataStorage? metadataStorage = Convert.ToDiGi<MetadataStorage>(streamReader.ReadToEnd())?.FirstOrDefault();
 
                 this.metadataStorage = metadataStorage ?? new();
@@ -131,7 +126,7 @@ namespace DiGi.Core.IO.File.Classes
             metadataStorage.SetMetadata(fileMetadata);
 
             string? json = Convert.ToSystem_String((ISerializableObject)metadataStorage);
-            if(string.IsNullOrWhiteSpace(json))
+            if (string.IsNullOrWhiteSpace(json))
             {
                 return false;
             }
@@ -156,6 +151,16 @@ namespace DiGi.Core.IO.File.Classes
             return Save();
         }
 
+        public void SetMetadata(IMetadata? metadata)
+        {
+            if (metadata == null || metadata is FileMetadata)
+            {
+                return;
+            }
+
+            metadataStorage.SetMetadata(metadata);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -172,11 +177,6 @@ namespace DiGi.Core.IO.File.Classes
 
                 disposed = true;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
     }
 }

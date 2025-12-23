@@ -6,20 +6,20 @@ namespace DiGi.Core.Classes
 {
     public class Range<T> : SerializableObject
     {
-        [JsonInclude, JsonPropertyName("Min")]
-        private T? min;
-        
         [JsonInclude, JsonPropertyName("Max")]
         private T? max;
 
+        [JsonInclude, JsonPropertyName("Min")]
+        private T? min;
+
         public Range(T? value_1, T? value_2)
         {
-            if(value_1 as dynamic <= value_2 as dynamic)
+            if (value_1 as dynamic <= value_2 as dynamic)
             {
                 min = value_1;
                 max = value_2;
             }
-            else 
+            else
             {
                 min = value_2;
                 max = value_1;
@@ -28,7 +28,7 @@ namespace DiGi.Core.Classes
 
         public Range(Range<T>? range)
         {
-            if(range is not null)
+            if (range is not null)
             {
                 min = range.min;
                 max = range.max;
@@ -37,25 +37,25 @@ namespace DiGi.Core.Classes
 
         public Range(IEnumerable<T>? values)
         {
-            if(values != null)
+            if (values != null)
             {
                 dynamic? min = null;
                 dynamic? max = null;
-                foreach(T value in values)
+                foreach (T value in values)
                 {
-                    if(value == null)
+                    if (value == null)
                     {
                         continue;
                     }
 
-                    if(min == null)
+                    if (min == null)
                     {
                         min = value;
                         max = value;
                     }
                     else
                     {
-                        if((value as dynamic) < min)
+                        if ((value as dynamic) < min)
                         {
                             min = value;
                         }
@@ -67,7 +67,7 @@ namespace DiGi.Core.Classes
                     }
                 }
 
-                if(min != null)
+                if (min != null)
                 {
                     this.min = min;
                 }
@@ -80,9 +80,18 @@ namespace DiGi.Core.Classes
         }
 
         public Range(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-            
+
+        }
+
+        [JsonIgnore]
+        public virtual T Length
+        {
+            get
+            {
+                return (Max as dynamic) - (Min as dynamic);
+            }
         }
 
         [JsonIgnore]
@@ -101,6 +110,26 @@ namespace DiGi.Core.Classes
             {
                 return min!;
             }
+        }
+
+        public static bool operator !=(Range<T>? range, object? @object)
+        {
+            return !(range == @object);
+        }
+
+        public static bool operator ==(Range<T>? range, object? @object)
+        {
+            if (range is null)
+            {
+                if (@object is null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            return range.Equals(@object);
         }
 
         public bool Add(T value)
@@ -145,9 +174,27 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public override string ToString()
+        public override bool Equals(object? @object)
         {
-            return string.Format("[{0}, {1}]", min, max);
+            if (this is null)
+            {
+                if (@object is null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            return @object is Range<T> range && range.max!.Equals(max) && range.min!.Equals(min);
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 13;
+            hash = (hash * 7) + min!.GetHashCode();
+            hash = (hash * 7) + max!.GetHashCode();
+            return hash;
         }
 
         public bool In(T value)
@@ -158,16 +205,6 @@ namespace DiGi.Core.Classes
         public bool In(T value, T tolerance)
         {
             return (value as dynamic) <= (max as dynamic + tolerance as dynamic) && (value as dynamic) >= (min as dynamic - tolerance as dynamic);
-        }
-
-        public bool Out(T value)
-        {
-            return !In(value);
-        }
-
-        public bool Out(T value, T tolerance)
-        {
-            return !In(value, tolerance);
         }
 
         public bool In(Range<T>? range)
@@ -190,6 +227,26 @@ namespace DiGi.Core.Classes
             return (range.min as dynamic) <= (min as dynamic - tolerance as dynamic) && (range.max as dynamic) >= (max as dynamic + tolerance as dynamic);
         }
 
+        public bool Intersect(Range<T>? range)
+        {
+            return !Out(range);
+        }
+
+        public bool Intersect(Range<T>? range, T tolerance)
+        {
+            return !Out(range, tolerance);
+        }
+
+        public bool Out(T value)
+        {
+            return !In(value);
+        }
+
+        public bool Out(T value, T tolerance)
+        {
+            return !In(value, tolerance);
+        }
+
         public bool Out(Range<T>? range)
         {
             if (range is null)
@@ -210,66 +267,9 @@ namespace DiGi.Core.Classes
             return (range.min as dynamic) >= (max as dynamic - tolerance as dynamic) || (range.max as dynamic) <= (min as dynamic + tolerance as dynamic);
         }
 
-        public bool Intersect(Range<T>? range)
+        public override string ToString()
         {
-            return !Out(range);
-        }
-
-        public bool Intersect(Range<T>? range, T tolerance)
-        {
-            return !Out(range, tolerance);
-        }
-
-        [JsonIgnore]
-        public virtual T Length
-        {
-            get
-            {
-                return (Max as dynamic) - (Min as dynamic);
-            }
-        }
-
-        public override bool Equals(object? @object)
-        {
-            if (this is null)
-            {
-                if(@object is null)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            return @object is Range<T> range && range.max!.Equals(max) && range.min!.Equals(min);
-        }
-
-        public override int GetHashCode()
-        {
-            int hash = 13;
-            hash = (hash * 7) + min!.GetHashCode();
-            hash = (hash * 7) + max!.GetHashCode();
-            return hash;
-        }
-
-        public static bool operator ==(Range<T>? range, object? @object)
-        {
-            if (range is null)
-            {
-                if(@object is null)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            return range.Equals(@object);
-        }
-
-        public static bool operator !=(Range<T>? range, object? @object)
-        {
-            return !(range == @object);
+            return string.Format("[{0}, {1}]", min, max);
         }
     }
 }

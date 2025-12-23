@@ -8,12 +8,12 @@ namespace DiGi.Core
     {
         public static FileInfo? ToSystem_FileInfo(this ISerializableObject? serializableObject, Classes.Path? path)
         {
-            if(path == null || !path.HasValue || path.Value == null)
+            if (path == null || !path.HasValue || path.Value == null)
             {
                 return null;
             }
 
-            if(!path.Value.IsValid())
+            if (!path.Value.IsValid())
             {
                 return null;
             }
@@ -23,7 +23,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            if(!directoryPath.Value.DirectoryExists)
+            if (!directoryPath.Value.DirectoryExists)
             {
                 return null;
             }

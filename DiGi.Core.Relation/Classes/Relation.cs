@@ -18,8 +18,8 @@ namespace DiGi.Core.Relation.Classes
         }
 
         public Relation()
-            :base()
-        { 
+            : base()
+        {
 
         }
 
@@ -41,7 +41,7 @@ namespace DiGi.Core.Relation.Classes
         public abstract bool Has(RelationSide relationSide);
 
         public abstract bool Remove(RelationSide relationSide, IUniqueReference? uniqueReference);
-        
+
         public abstract List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences) where TUniqueReference : IUniqueReference;
     }
 

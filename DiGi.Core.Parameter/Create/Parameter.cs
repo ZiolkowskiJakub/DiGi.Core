@@ -1,5 +1,5 @@
-﻿using DiGi.Core.Parameter.Interfaces;
-using DiGi.Core.Parameter.Classes;
+﻿using DiGi.Core.Parameter.Classes;
+using DiGi.Core.Parameter.Interfaces;
 
 namespace DiGi.Core.Parameter
 {
@@ -7,13 +7,13 @@ namespace DiGi.Core.Parameter
     {
         public static Classes.Parameter? Parameter(this IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null)
         {
-            if(parameterDefinition == null)
+            if (parameterDefinition == null)
             {
                 return null;
             }
 
             Classes.Parameter? result = new(parameterDefinition);
-            if(!result.SetValue(value, setValueSettings))
+            if (!result.SetValue(value, setValueSettings))
             {
                 return null;
             }
@@ -23,13 +23,13 @@ namespace DiGi.Core.Parameter
 
         public static Classes.Parameter? Parameter(string? name, object? value)
         {
-            if(name == null)
+            if (name == null)
             {
                 return null;
             }
 
-            SimpleParameterDefinition simpleParameterDefinition  = new(name);
-            if(simpleParameterDefinition == null || !simpleParameterDefinition.IsValid(value))
+            SimpleParameterDefinition simpleParameterDefinition = new(name);
+            if (simpleParameterDefinition == null || !simpleParameterDefinition.IsValid(value))
             {
                 return null;
             }

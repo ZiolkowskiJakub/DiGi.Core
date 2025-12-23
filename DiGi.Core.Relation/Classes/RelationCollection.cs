@@ -9,9 +9,9 @@ namespace DiGi.Core.Relation.Classes
 {
     public class RelationCollection<TRelation> : SerializableObjectCollection<TRelation> where TRelation : IRelation
     {
-        public RelationCollection() 
-            :base()
-        { 
+        public RelationCollection()
+            : base()
+        {
         }
 
         public RelationCollection(IEnumerable<TRelation>? relations)
@@ -137,7 +137,7 @@ namespace DiGi.Core.Relation.Classes
 
         public bool Remove(IUniqueReference? uniqueReference)
         {
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return false;
             }

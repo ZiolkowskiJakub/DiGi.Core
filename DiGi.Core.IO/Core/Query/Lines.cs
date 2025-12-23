@@ -7,13 +7,13 @@ namespace DiGi.Core.IO
     {
         public static List<string>? Lines(string? path, int count)
         {
-            if(string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path) || count < 0)
+            if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path) || count < 0)
             {
                 return null;
             }
 
             List<string> result = [];
-            if(count == 0)
+            if (count == 0)
             {
                 return result;
             }
@@ -21,7 +21,7 @@ namespace DiGi.Core.IO
             int count_Temp = 0;
             using (StreamReader reader = new(path))
             {
-                while(count_Temp < count && !reader.EndOfStream)
+                while (count_Temp < count && !reader.EndOfStream)
                 {
                     result.Add(reader.ReadLine());
                     count_Temp++;

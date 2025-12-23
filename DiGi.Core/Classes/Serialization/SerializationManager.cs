@@ -16,16 +16,16 @@ namespace DiGi.Core.Classes
         }
 
         public JsonSerializerOptions JsonSerializerOptions { get; set; } = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
-        
+
         public SerializationConstructor? GetSerializationConstructor(Type? type, bool update = true)
         {
-            if(type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
+            if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
             {
                 return null;
             }
 
             string? fullTypeName = Query.FullTypeName(type);
-            if(string.IsNullOrWhiteSpace(fullTypeName))
+            if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }
@@ -33,7 +33,7 @@ namespace DiGi.Core.Classes
             return GetSerializationConstructor(fullTypeName, update);
         }
 
-        public SerializationConstructor? GetSerializationConstructor<TSerializableObject>(bool update = true) where TSerializableObject: ISerializableObject
+        public SerializationConstructor? GetSerializationConstructor<TSerializableObject>(bool update = true) where TSerializableObject : ISerializableObject
         {
             return GetSerializationConstructor(typeof(TSerializableObject), update);
         }
@@ -105,7 +105,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            lock(dictionary_SerializationMethodCollection)
+            lock (dictionary_SerializationMethodCollection)
             {
                 dictionary_SerializationMethodCollection[fullTypeName!] = result;
             }
@@ -113,7 +113,7 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public SerializationMethodCollection? GetSerializationMethodCollection<TSerializableObject>(bool update = true) where TSerializableObject :ISerializableObject
+        public SerializationMethodCollection? GetSerializationMethodCollection<TSerializableObject>(bool update = true) where TSerializableObject : ISerializableObject
         {
             return GetSerializationMethodCollection(typeof(TSerializableObject), update);
         }
@@ -121,7 +121,7 @@ namespace DiGi.Core.Classes
         public SerializationMethodCollection? GetSerializationMethodCollection(ISerializableObject? serializableObject, bool update = true)
         {
             Type? type = serializableObject?.GetType();
-            if(type == null)
+            if (type == null)
             {
                 return null;
             }

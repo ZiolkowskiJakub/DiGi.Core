@@ -66,7 +66,7 @@ namespace DiGi.Core.Classes
 
         public override bool Contains(TKey_1? key_1)
         {
-            if(key_1 == null)
+            if (key_1 == null)
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace DiGi.Core.Classes
 
         public override bool Contains(TKey_1? key_1, TKey_2? key_2)
         {
-            if(key_1 == null || key_2 == null)
+            if (key_1 == null || key_2 == null)
             {
                 return false;
             }
@@ -155,9 +155,33 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public override List<TKey_1>? GetKeys_1()
+        {
+            return dictionary.Keys?.ToList();
+        }
+
+        public override List<TKey_2>? GetKeys_2(TKey_1? key_1)
+        {
+            if (key_1 == null)
+            {
+                return null;
+            }
+
+            List<TKey_2> result = [];
+
+            if (!dictionary.TryGetValue(key_1, out Dictionary<TKey_2, List<TValue>> dictionary_1) || dictionary_1 == null)
+            {
+                return result;
+            }
+
+            result.AddRange(dictionary_1.Keys);
+
+            return result;
+        }
+
         public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default
         {
-            foreach(Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)
+            foreach (Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)
             {
                 foreach (List<TValue> values in dictionary_1.Values)
                 {
@@ -221,7 +245,7 @@ namespace DiGi.Core.Classes
             }
 
             TValue value = values[index];
-            if(value is UValue result)
+            if (value is UValue result)
             {
                 return result;
             }
@@ -327,7 +351,7 @@ namespace DiGi.Core.Classes
             foreach (ListClusterReference<TKey_1, TKey_2> listClusterReference in listClusterReferences)
             {
                 UValue? u = GetValue<UValue>(listClusterReference);
-                if(u == null)
+                if (u == null)
                 {
                     continue;
                 }
@@ -338,9 +362,36 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public override List<UValue> GetValues<UValue>() where UValue : default
+        {
+            List<UValue> result = [];
+            foreach (Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)
+            {
+                foreach (List<TValue> values in dictionary_1.Values)
+                {
+                    if (values == null)
+                    {
+                        continue;
+                    }
+
+                    int count = values.Count;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (values[i] is UValue)
+                        {
+                            result.Add((UValue)values[i]!);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public List<TValue>? Remove(IEnumerable<ListClusterReference<TKey_1, TKey_2>>? listClusterReferences)
         {
-            if(listClusterReferences == null)
+            if (listClusterReferences == null)
             {
                 return null;
             }
@@ -352,7 +403,7 @@ namespace DiGi.Core.Classes
             while (listClusterReferences_Temp.Count > 0)
             {
                 ListClusterReference<TKey_1, TKey_2> listClusterReference = listClusterReferences_Temp[0];
-                if(listClusterReference == null || listClusterReference.Key_1 == null || listClusterReference.Key_2 == null)
+                if (listClusterReference == null || listClusterReference.Key_1 == null || listClusterReference.Key_2 == null)
                 {
                     listClusterReferences_Temp.RemoveAt(0);
                     continue;
@@ -363,7 +414,7 @@ namespace DiGi.Core.Classes
 
 
                 List<TValue>? values = Remove(listClusterReference.Key_1, listClusterReference.Key_2, listClusterReferences_Temp_Temp.ConvertAll(x => x.Index));
-                if(values != null)
+                if (values != null)
                 {
                     result.AddRange(values);
                 }
@@ -371,10 +422,10 @@ namespace DiGi.Core.Classes
 
             return result;
         }
-        
+
         public override bool Remove(TKey_1? key_1)
         {
-            if(key_1 == null)
+            if (key_1 == null)
             {
                 return false;
             }
@@ -384,7 +435,7 @@ namespace DiGi.Core.Classes
 
         public override bool Remove(TKey_1? key_1, TKey_2? key_2)
         {
-            if(key_1 == null || key_2 == null)
+            if (key_1 == null || key_2 == null)
             {
                 return false;
             }
@@ -395,7 +446,7 @@ namespace DiGi.Core.Classes
             }
 
             bool result = dictionary_1.Remove(key_2);
-            if(dictionary_1.Count == 0)
+            if (dictionary_1.Count == 0)
             {
                 dictionary.Remove(key_1);
             }
@@ -444,9 +495,9 @@ namespace DiGi.Core.Classes
 
             if (values.Count == 0)
             {
-                if(dictionary_1.Remove(key_2))
+                if (dictionary_1.Remove(key_2))
                 {
-                    if(dictionary_1.Count == 0)
+                    if (dictionary_1.Count == 0)
                     {
                         dictionary.Remove(key_1);
                     }
@@ -458,7 +509,7 @@ namespace DiGi.Core.Classes
 
         public TValue? Remove(TKey_1? key_1, TKey_2? key_2, int index)
         {
-            if(index == -1 || key_1 == null || key_2 == null)
+            if (index == -1 || key_1 == null || key_2 == null)
             {
                 return default;
             }
@@ -470,7 +521,7 @@ namespace DiGi.Core.Classes
 
         public List<TValue>? Remove(TKey_1? key_1, TKey_2? key_2, IEnumerable<int> indexes)
         {
-            if(key_1 == null || key_2 == null || indexes == null || indexes.Count() == 0)
+            if (key_1 == null || key_2 == null || indexes == null || indexes.Count() == 0)
             {
                 return null;
             }
@@ -552,57 +603,6 @@ namespace DiGi.Core.Classes
             }
 
             return false;
-        }
-
-        public override List<TKey_1>? GetKeys_1()
-        {
-            return dictionary.Keys?.ToList();
-        }
-
-        public override List<TKey_2>? GetKeys_2(TKey_1? key_1)
-        {
-            if (key_1 == null)
-            {
-                return null;
-            }
-
-            List<TKey_2> result = [];
-
-            if (!dictionary.TryGetValue(key_1, out Dictionary<TKey_2, List<TValue>> dictionary_1) || dictionary_1 == null)
-            {
-                return result;
-            }
-
-            result.AddRange(dictionary_1.Keys);
-
-            return result;
-        }
-
-        public override List<UValue> GetValues<UValue>() where UValue : default
-        {
-            List<UValue> result = [];
-            foreach (Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)
-            {
-                foreach (List<TValue> values in dictionary_1.Values)
-                {
-                    if (values == null)
-                    {
-                        continue;
-                    }
-
-                    int count = values.Count;
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (values[i] is UValue)
-                        {
-                            result.Add((UValue)values[i]!);
-                        }
-                    }
-                }
-            }
-
-            return result;
         }
     }
 }

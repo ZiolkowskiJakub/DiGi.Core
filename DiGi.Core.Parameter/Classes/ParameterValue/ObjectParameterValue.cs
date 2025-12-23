@@ -47,7 +47,7 @@ namespace DiGi.Core.Parameter.Classes
 
         [JsonIgnore]
         public override ParameterType ParameterType => ParameterType.Object;
-        
+
         public override ISerializableObject? Clone()
         {
             return new ObjectParameterValue(this);

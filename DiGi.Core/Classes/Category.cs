@@ -11,13 +11,13 @@ namespace DiGi.Core.Classes
     [Description("Category")]
     public class Category : SerializableObject, IEquatable<Category>
     {
-        [JsonIgnore]
-        private Dictionary<string, Category>? dictionary;
-
         [JsonInclude, JsonPropertyName("Name"), Description("Category Name")]
         private readonly string? name;
+
+        [JsonIgnore]
+        private Dictionary<string, Category>? dictionary;
         public Category(string? name)
-            :base()
+            : base()
         {
             this.name = name;
         }
@@ -27,7 +27,7 @@ namespace DiGi.Core.Classes
             this.name = name;
             if (subCategories != null)
             {
-                foreach(Category subCategory in subCategories)
+                foreach (Category subCategory in subCategories)
                 {
                     Add(subCategory);
                 }
@@ -41,9 +41,9 @@ namespace DiGi.Core.Classes
         }
 
         public Category(Category? category)
-            :base(category)
+            : base(category)
         {
-            if(category is not null)
+            if (category is not null)
             {
                 name = category.Name;
                 if (category.dictionary != null)
@@ -80,7 +80,7 @@ namespace DiGi.Core.Classes
                 foreach (Category? category in dictionary.Values)
                 {
                     Category? category_Temp = Query.Clone(category);
-                    if(category_Temp is null)
+                    if (category_Temp is null)
                     {
                         continue;
                     }
@@ -98,13 +98,13 @@ namespace DiGi.Core.Classes
             }
         }
 
-        
+
         public static implicit operator Category?(string? name)
         {
             return new Category(name);
         }
 
-        
+
         public static implicit operator string?(Category? category)
         {
             return category?.name;
@@ -160,7 +160,7 @@ namespace DiGi.Core.Classes
             dictionary ??= [];
 
             Category? category_Temp = category.Clone<Category>();
-            if(category_Temp is null)
+            if (category_Temp is null)
             {
                 return false;
             }
@@ -171,7 +171,7 @@ namespace DiGi.Core.Classes
 
         public Category? Add(string? name)
         {
-            if(name == null)
+            if (name == null)
             {
                 return null;
             }
@@ -197,10 +197,10 @@ namespace DiGi.Core.Classes
         public override ISerializableObject? Clone()
         {
             Category result = new(name);
-            if(dictionary != null)
+            if (dictionary != null)
             {
                 dictionary = [];
-                foreach(Category category in dictionary.Values)
+                foreach (Category category in dictionary.Values)
                 {
                     result.Add(category);
                 }
@@ -208,10 +208,10 @@ namespace DiGi.Core.Classes
 
             return result;
         }
-        
+
         public bool Equals(Category? category)
         {
-            if(category == null)
+            if (category == null)
             {
                 return false;
             }
@@ -221,7 +221,7 @@ namespace DiGi.Core.Classes
 
         public override bool Equals(object? @object)
         {
-            if(@object is not Category)
+            if (@object is not Category)
             {
                 return false;
             }
@@ -233,16 +233,16 @@ namespace DiGi.Core.Classes
         {
             int result = 17;
 
-            if(name != null)
+            if (name != null)
             {
                 result = result * 23 + name.GetHashCode();
             }
 
-            if(dictionary != null)
+            if (dictionary != null)
             {
-                foreach(Category subCategory in dictionary.Values)
+                foreach (Category subCategory in dictionary.Values)
                 {
-                    if(subCategory != null)
+                    if (subCategory != null)
                     {
                         result = result * 23 + subCategory.GetHashCode();
                     }

@@ -9,7 +9,7 @@ namespace DiGi.Core.IO.File
         {
             encoding = null;
 
-            if(string.IsNullOrWhiteSpace(filePath) || !System.IO.File.Exists(filePath))
+            if (string.IsNullOrWhiteSpace(filePath) || !System.IO.File.Exists(filePath))
             {
                 return false;
             }

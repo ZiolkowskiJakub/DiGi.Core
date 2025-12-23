@@ -16,10 +16,10 @@ namespace DiGi.Core
                 return Enums.UTC.Undefined;
             }
 
-            foreach(UTC uTC in System.Enum.GetValues(typeof(UTC)))
+            foreach (UTC uTC in System.Enum.GetValues(typeof(UTC)))
             {
                 double timeOffset_Temp = uTC.TimeOffset();
-                if(timeOffset.Equals(timeOffset_Temp))
+                if (timeOffset.Equals(timeOffset_Temp))
                 {
                     return uTC;
                 }

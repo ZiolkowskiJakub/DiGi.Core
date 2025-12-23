@@ -6,17 +6,8 @@ namespace DiGi.Core.Classes
 {
     public class TypePropertyReference : PropertyReference<TypeReference>, ITypeRelatedSerializableReference
     {
-        [JsonIgnore]
-        public string? FullTypeName
-        {
-            get
-            {
-                return Reference?.FullTypeName;
-            }
-        }
-
         public TypePropertyReference(TypeReference reference, string propertyName)
-            : base(reference,propertyName)
+            : base(reference, propertyName)
         {
 
         }
@@ -31,6 +22,15 @@ namespace DiGi.Core.Classes
             : base(typePropertyReference)
         {
 
+        }
+
+        [JsonIgnore]
+        public string? FullTypeName
+        {
+            get
+            {
+                return Reference?.FullTypeName;
+            }
         }
 
         public override ISerializableObject Clone()

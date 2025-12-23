@@ -1,13 +1,13 @@
-﻿using DiGi.Core.Interfaces;
-using System.IO.Compression;
-using System.IO;
-using System.Text.Json.Nodes;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.File.Interfaces;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
@@ -18,7 +18,7 @@ namespace DiGi.Core.IO.File.Classes
 
         [JsonIgnore]
         private bool disposed = false;
-        
+
         public StorageFile(string? path)
             : base(path)
         {
@@ -34,7 +34,7 @@ namespace DiGi.Core.IO.File.Classes
         public StorageFile(StorageFile<TSerializableObject>? storageFile)
             : base(storageFile)
         {
-            
+
             if (storageFile != null)
             {
                 Values = storageFile.Values;
@@ -73,12 +73,12 @@ namespace DiGi.Core.IO.File.Classes
         public UniqueReference? AddValue(TSerializableObject? serializableObject)
         {
             UniqueReference? uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
-            if(uniqueReference is null)
+            if (uniqueReference is null)
             {
                 return null;
             }
 
-            if(dictionary == null)
+            if (dictionary == null)
             {
                 Open();
             }
@@ -138,7 +138,7 @@ namespace DiGi.Core.IO.File.Classes
                     }
 
                     UniqueReference? uniqueReference = Query.Decode(zipArchiveEntry.Name);
-                    if(uniqueReference is null)
+                    if (uniqueReference is null)
                     {
                         continue;
                     }
@@ -539,7 +539,7 @@ namespace DiGi.Core.IO.File.Classes
         {
             serializableObject = default;
 
-            if(uniqueReference is null)
+            if (uniqueReference is null)
             {
                 return false;
             }
@@ -564,7 +564,7 @@ namespace DiGi.Core.IO.File.Classes
         {
             serializableObject = default;
 
-            if(!TryGetValue(uniqueReference, out TSerializableObject? serializableObject_Temp))
+            if (!TryGetValue(uniqueReference, out TSerializableObject? serializableObject_Temp))
             {
                 return false;
             }
@@ -577,12 +577,12 @@ namespace DiGi.Core.IO.File.Classes
 
             return false;
         }
-        
+
         public bool TryGetValue(int index, out TSerializableObject? serializableObject)
         {
             serializableObject = default;
 
-            if(index < 0)
+            if (index < 0)
             {
                 return false;
             }
@@ -615,7 +615,7 @@ namespace DiGi.Core.IO.File.Classes
 
             return false;
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -774,7 +774,7 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             Dictionary<UniqueReference, string?> dictionary = [];
-            if(this.dictionary != null)
+            if (this.dictionary != null)
             {
                 if (uniqueReferences == null)
                 {
@@ -826,7 +826,7 @@ namespace DiGi.Core.IO.File.Classes
 
             return result;
         }
-        
+
         private HashSet<UniqueReference>? Remove<USerializableObject>(Func<USerializableObject?, bool>? func, uint? maxCount = uint.MaxValue) where USerializableObject : TSerializableObject
         {
             if (func == null || maxCount < 1)
@@ -839,7 +839,7 @@ namespace DiGi.Core.IO.File.Classes
                 Open();
             }
 
-            if(dictionary == null)
+            if (dictionary == null)
             {
                 return null;
             }
@@ -901,7 +901,7 @@ namespace DiGi.Core.IO.File.Classes
                     }
 
                     UniqueReference? uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
-                    if(uniqueReference is null)
+                    if (uniqueReference is null)
                     {
                         continue;
                     }
@@ -936,23 +936,23 @@ namespace DiGi.Core.IO.File.Classes
 
             return result;
         }
-        
+
         private void SetValues(IEnumerable<TSerializableObject?>? values)
         {
-            if(values == null)
+            if (values == null)
             {
                 return;
             }
 
-            if(dictionary == null)
+            if (dictionary == null)
             {
                 Open();
             }
 
             dictionary ??= [];
 
-            foreach (TSerializableObject? serializableObject in values) 
-            { 
+            foreach (TSerializableObject? serializableObject in values)
+            {
                 UniqueReference? uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
                 if (uniqueReference is null)
                 {

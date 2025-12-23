@@ -10,7 +10,7 @@ namespace DiGi.Core
         {
             value = default;
 
-            if (sortedDictionary == null || sortedDictionary.Count == 0|| key is null)
+            if (sortedDictionary == null || sortedDictionary.Count == 0 || key is null)
             {
                 return false;
             }
@@ -33,7 +33,7 @@ namespace DiGi.Core
 
             if (key.CompareTo(max) >= 0)
             {
-                if(upperLimit)
+                if (upperLimit)
                 {
                     return false;
                 }

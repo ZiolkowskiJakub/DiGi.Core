@@ -7,7 +7,7 @@ namespace DiGi.Core.IO
     {
         public static bool Locked(this FileInfo? fileInfo)
         {
-            if(fileInfo == null)
+            if (fileInfo == null)
             {
                 return false;
             }

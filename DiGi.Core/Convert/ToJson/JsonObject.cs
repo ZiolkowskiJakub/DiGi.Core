@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Nodes;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using System.Text.Json.Nodes;
 
 namespace DiGi.Core
 {
@@ -13,13 +13,13 @@ namespace DiGi.Core
                 return null;
             }
 
-            if(serializableObject is SerializableObjectWrapper)
+            if (serializableObject is SerializableObjectWrapper)
             {
                 return serializableObject.ToJsonObject();
             }
 
             SerializationMethodCollection? serializationMethodCollection = Settings.SerializationManager.GetSerializationMethodCollection(serializableObject);
-            if(serializationMethodCollection == null)
+            if (serializationMethodCollection == null)
             {
                 return null;
             }

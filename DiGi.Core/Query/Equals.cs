@@ -8,17 +8,17 @@ namespace DiGi.Core
     {
         public static bool Equals(this byte[]? bytes_1, byte[]? bytes_2)
         {
-            if(bytes_1 == null && bytes_2 == null)
+            if (bytes_1 == null && bytes_2 == null)
             {
                 return true;
             }
 
-            if(bytes_1 == null || bytes_2 == null)
+            if (bytes_1 == null || bytes_2 == null)
             {
                 return false;
             }
 
-            if(bytes_1.Length != bytes_2.Length)
+            if (bytes_1.Length != bytes_2.Length)
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace DiGi.Core
 
         public static bool Equals(this IEnumerable? enumerable_1, IEnumerable? enumerable_2)
         {
-            if(enumerable_1 == null && enumerable_2 == null)
+            if (enumerable_1 == null && enumerable_2 == null)
             {
                 return true;
             }
@@ -66,9 +66,9 @@ namespace DiGi.Core
                     return false;
                 }
 
-                if(object_1 is IEnumerable enumerable_1_Temp && object_2 is IEnumerable enumerable_2_Temp)
+                if (object_1 is IEnumerable enumerable_1_Temp && object_2 is IEnumerable enumerable_2_Temp)
                 {
-                    if(!Equals(enumerable_1_Temp, enumerable_2_Temp))
+                    if (!Equals(enumerable_1_Temp, enumerable_2_Temp))
                     {
                         return false;
                     }
@@ -84,7 +84,7 @@ namespace DiGi.Core
                 index++;
             }
 
-            if(index != objects.Count)
+            if (index != objects.Count)
             {
                 return false;
             }
@@ -94,7 +94,7 @@ namespace DiGi.Core
 
         public static bool Equals<T>(this IEnumerable<T>? enumerable_1, IEnumerable<T>? enumerable_2)
         {
-            if(enumerable_1 == null && enumerable_2 == null)
+            if (enumerable_1 == null && enumerable_2 == null)
             {
                 return true;
             }
@@ -112,22 +112,22 @@ namespace DiGi.Core
                 return false;
             }
 
-            for(int i = 0; i < count_1; i++)
+            for (int i = 0; i < count_1; i++)
             {
                 T object_1 = enumerable_1.ElementAt(i);
                 T object_2 = enumerable_2.ElementAt(i);
 
-                if(object_1 == null && object_2 == null)
+                if (object_1 == null && object_2 == null)
                 {
                     continue;
                 }
 
-                if(object_1 == null || object_2 == null)
+                if (object_1 == null || object_2 == null)
                 {
                     return false;
                 }
 
-                if(object_1 is IEnumerable enumerable_1_Temp && object_2 is IEnumerable enumerable_2_Temp)
+                if (object_1 is IEnumerable enumerable_1_Temp && object_2 is IEnumerable enumerable_2_Temp)
                 {
                     if (!Equals(enumerable_1_Temp, enumerable_2_Temp))
                     {
@@ -136,7 +136,7 @@ namespace DiGi.Core
                     continue;
                 }
 
-                if(!object_1.Equals(object_2))
+                if (!object_1.Equals(object_2))
                 {
                     return false;
                 }

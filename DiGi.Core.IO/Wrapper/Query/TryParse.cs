@@ -11,17 +11,17 @@ namespace DiGi.Core.IO.Wrapper
         {
             wrapperReference = null;
 
-            if(string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 return false;
             }
 
-            if(!Core.Query.TryParse(value, out IReference? reference))
+            if (!Core.Query.TryParse(value, out IReference? reference))
             {
                 return false;
             }
 
-            if(reference is TypeReference typeReference)
+            if (reference is TypeReference typeReference)
             {
                 wrapperReference = new WrapperTypeReference(typeReference);
                 return true;

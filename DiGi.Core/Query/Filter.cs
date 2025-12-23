@@ -18,9 +18,9 @@ namespace DiGi.Core
             values_In = [];
             values_Out = [];
 
-            foreach(T value in values)
+            foreach (T value in values)
             {
-                if(func.Invoke(value))
+                if (func.Invoke(value))
                 {
                     values_In.Add(value);
                 }

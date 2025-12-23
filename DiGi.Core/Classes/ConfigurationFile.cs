@@ -13,11 +13,11 @@ namespace DiGi.Core.Classes
         public ConfigurationFile(ConfigurationFile? configurationFile)
             : base()
         {
-            if(configurationFile != null)
+            if (configurationFile != null)
             {
-                if(configurationFile.dictionary != null)
+                if (configurationFile.dictionary != null)
                 {
-                    foreach(KeyValuePair<string, string> keyValuePair in configurationFile.dictionary)
+                    foreach (KeyValuePair<string, string> keyValuePair in configurationFile.dictionary)
                     {
                         dictionary[keyValuePair.Key] = keyValuePair.Value;
                     }
@@ -96,14 +96,14 @@ namespace DiGi.Core.Classes
 
         public bool Append(ConfigurationFile? configurationFile)
         {
-            if(configurationFile?.dictionary is not Dictionary<string, string> dictionary)
+            if (configurationFile?.dictionary is not Dictionary<string, string> dictionary)
             {
                 return false;
             }
 
             bool result = false;
 
-            foreach(KeyValuePair<string, string> keyValuePair in dictionary)
+            foreach (KeyValuePair<string, string> keyValuePair in dictionary)
             {
                 this.dictionary[keyValuePair.Key] = keyValuePair.Value;
                 result = true;
@@ -111,17 +111,17 @@ namespace DiGi.Core.Classes
 
             return result;
         }
-        
+
         public bool Contains(string? name)
         {
-            if(name is null)
+            if (name is null)
             {
                 return false;
             }
 
             return dictionary.ContainsKey(name);
         }
-        
+
         public T? GetValue<T>(string name)
         {
             if (!TryGetValue(name, out T? result))
@@ -134,7 +134,7 @@ namespace DiGi.Core.Classes
 
         public T? GetValue<T>(string name, T? defaultValue)
         {
-            if(!TryGetValue(name, out T? result))
+            if (!TryGetValue(name, out T? result))
             {
                 return defaultValue;
             }
@@ -164,13 +164,13 @@ namespace DiGi.Core.Classes
             {
                 return @int;
             }
-                
+
             if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double @double))
             {
                 return @double;
             }
 
-            if(text.ToUpper() == "TRUE")
+            if (text.ToUpper() == "TRUE")
             {
                 return true;
             }
@@ -230,28 +230,28 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            if(!dictionary.TryGetValue(name, out string text))
+            if (!dictionary.TryGetValue(name, out string text))
             {
                 return false;
             }
 
-            if(text.StartsWith("\"") && text.EndsWith("\""))
+            if (text.StartsWith("\"") && text.EndsWith("\""))
             {
                 text = text.Substring(1, text.Length - 2);
             }
 
             return Query.TryConvert(text, out value);
         }
-        
+
         public bool Write(string path)
         {
-            if(string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
 
             string directory = System.IO.Path.GetDirectoryName(path);
-            if(string.IsNullOrEmpty(directory) || !System.IO.Directory.Exists(directory))
+            if (string.IsNullOrEmpty(directory) || !System.IO.Directory.Exists(directory))
             {
                 return false;
             }

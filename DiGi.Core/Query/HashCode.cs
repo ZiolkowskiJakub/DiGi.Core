@@ -4,7 +4,7 @@
     {
         public static int HashCode(params int[]? values)
         {
-            if(values == null)
+            if (values == null)
             {
                 return 0;
             }

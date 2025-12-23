@@ -10,7 +10,7 @@ namespace DiGi.Core.Classes
     {
         private readonly List<IUpdater>? updaters;
 
-        public MultiUpdater(IEnumerable<IUpdater> updaters) 
+        public MultiUpdater(IEnumerable<IUpdater> updaters)
         {
             this.updaters = updaters == null ? null : [.. updaters];
         }
@@ -32,7 +32,7 @@ namespace DiGi.Core.Classes
             }
 
             Type? type_Value = Value?.GetType();
-            if(type_Value is null)
+            if (type_Value is null)
             {
                 return false;
             }
@@ -51,14 +51,14 @@ namespace DiGi.Core.Classes
                 Type type_Updater = updater.GetType();
 
                 PropertyInfo propertyInfo = type_Updater.GetProperty("Value");
-                if(propertyInfo is null)
+                if (propertyInfo is null)
                 {
                     continue;
                 }
 
                 Type type_Property = propertyInfo.PropertyType;
 
-                if(!type_Property.IsAssignableFrom(type_Value))
+                if (!type_Property.IsAssignableFrom(type_Value))
                 {
                     continue;
                 }

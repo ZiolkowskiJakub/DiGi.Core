@@ -46,12 +46,12 @@ namespace DiGi.Core.Parameter.Classes
         public override Enums.ParameterType ParameterType => Enums.ParameterType.Undefined;
 
         [JsonIgnore]
-        public override string? UniqueId 
+        public override string? UniqueId
         {
             get
             {
                 return name;
-            } 
+            }
         }
 
         public override bool IsValid(object? value)

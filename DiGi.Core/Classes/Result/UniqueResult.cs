@@ -12,7 +12,7 @@ namespace DiGi.Core.Classes
         }
 
         public UniqueResult(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -24,7 +24,7 @@ namespace DiGi.Core.Classes
         }
     }
 
-    public abstract class UniqueResult<T> : UniqueResult, IResult<T> where T: IUniqueObject
+    public abstract class UniqueResult<T> : UniqueResult, IResult<T> where T : IUniqueObject
     {
         public UniqueResult()
             : base()

@@ -12,8 +12,8 @@ namespace DiGi.Core.Classes
     {
         [JsonInclude, JsonPropertyName("DateTimes")]
         private readonly List<DateTime> dateTimes = [];
-        public DateTimeCollection() 
-            :base()
+        public DateTimeCollection()
+            : base()
         {
 
         }
@@ -22,7 +22,7 @@ namespace DiGi.Core.Classes
             : base()
         {
 
-            if(dateTimes != null)
+            if (dateTimes != null)
             {
                 this.dateTimes = [.. dateTimes];
             }
@@ -37,7 +37,7 @@ namespace DiGi.Core.Classes
         public DateTimeCollection(DateTimeCollection? dateTimeCollection)
             : base(dateTimeCollection)
         {
-            if(dateTimeCollection != null)
+            if (dateTimeCollection != null)
             {
                 dateTimes = [.. dateTimeCollection.dateTimes];
             }
@@ -91,12 +91,12 @@ namespace DiGi.Core.Classes
 
         public static implicit operator DateTimeCollection?(DateTime? dateTime)
         {
-            if(dateTime == null || !dateTime.HasValue)
+            if (dateTime == null || !dateTime.HasValue)
             {
                 return null;
             }
 
-            return new ([dateTime.Value]);
+            return new([dateTime.Value]);
         }
 
         public static implicit operator List<DateTime>?(DateTimeCollection? dateTimeCollection)
@@ -131,7 +131,7 @@ namespace DiGi.Core.Classes
 
         public bool Contains(DateTime? dateTime)
         {
-            if(dateTime is null || !dateTime.HasValue)
+            if (dateTime is null || !dateTime.HasValue)
             {
                 return false;
             }
@@ -146,7 +146,7 @@ namespace DiGi.Core.Classes
 
         public void CopyTo(DateTime[]? array, int arrayIndex)
         {
-            if(array is null)
+            if (array is null)
             {
                 return;
             }
@@ -171,7 +171,7 @@ namespace DiGi.Core.Classes
 
         public bool Remove(DateTime? dateTime)
         {
-            if(dateTimes is null || dateTime is null)
+            if (dateTimes is null || dateTime is null)
             {
                 return false;
             }

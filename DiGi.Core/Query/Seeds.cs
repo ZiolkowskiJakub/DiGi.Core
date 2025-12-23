@@ -7,7 +7,7 @@ namespace DiGi.Core
     {
         public static List<int> Seeds(this int count, int seed = -1)
         {
-            if(seed == -1)
+            if (seed == -1)
             {
                 return [.. Enumerable.Repeat(-1, count)];
             }

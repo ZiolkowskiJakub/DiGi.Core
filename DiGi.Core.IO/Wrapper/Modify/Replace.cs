@@ -33,7 +33,7 @@ namespace DiGi.Core.IO.Wrapper
             HashSet<IWrapperUniqueReference> result = [];
             foreach (string name in names)
             {
-                if(!jsonObject.TryGetPropertyValue(name, out JsonNode? jsonNode))
+                if (!jsonObject.TryGetPropertyValue(name, out JsonNode? jsonNode))
                 {
                     continue;
                 }

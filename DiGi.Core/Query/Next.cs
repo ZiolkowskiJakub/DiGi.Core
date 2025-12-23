@@ -45,15 +45,15 @@ namespace DiGi.Core
             //return result;
         }
 
-        public static TEnum? Next<TEnum>(TEnum? @enum) where TEnum: Enum
+        public static TEnum? Next<TEnum>(TEnum? @enum) where TEnum : Enum
         {
-            if(@enum == null)
+            if (@enum == null)
             {
                 return default;
             }
 
             List<int> indexes = [];
-            foreach(TEnum @enum_Temp in System.Enum.GetValues(typeof(TEnum)))
+            foreach (TEnum @enum_Temp in System.Enum.GetValues(typeof(TEnum)))
             {
                 indexes.Add((int)(object)enum_Temp);
             }

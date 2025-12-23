@@ -8,7 +8,7 @@ namespace DiGi.Core.Relation.Classes
     {
         public override bool Equals(IReference? reference)
         {
-            if(reference == null)
+            if (reference == null)
             {
                 return false;
             }
@@ -19,7 +19,7 @@ namespace DiGi.Core.Relation.Classes
         public override int GetHashCode()
         {
             List<int> values = [];
-            if(Key_1 != null)
+            if (Key_1 != null)
             {
                 values.Add(Key_1.GetHashCode());
             }

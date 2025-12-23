@@ -7,7 +7,7 @@ namespace DiGi.Core
     {
         public static List<string>? Directories(string? directory)
         {
-            if(string.IsNullOrWhiteSpace(directory))
+            if (string.IsNullOrWhiteSpace(directory))
             {
                 return null;
             }
@@ -31,7 +31,7 @@ namespace DiGi.Core
 
         public static List<string>? Directories(DirectoryInfo? directoryInfo)
         {
-            if(directoryInfo == null)
+            if (directoryInfo == null)
             {
                 return null;
             }

@@ -42,24 +42,20 @@ namespace DiGi.Core.Classes
 
         }
 
-        public void Sum(IndexedDoubles indexedDoubles)
+        public double GetAverage()
         {
-            IEnumerable<int>? keys = indexedDoubles?.Keys;
-            if (keys == null)
+            return GetSum() / Count;
+        }
+
+        public double GetMaxValue()
+        {
+            int index = GetMaxValueIndex();
+            if (index == -1)
             {
-                return;
+                return double.NaN;
             }
 
-            foreach (int index in keys)
-            {
-                double value = indexedDoubles![index];
-                if (double.IsNaN(value) || value == 0)
-                {
-                    continue;
-                }
-
-                this[index] = !TryGetValue(index, out double value_Temp) || double.IsNaN(value_Temp) ? value : value + value_Temp;
-            }
+            return this[index];
         }
 
         public int GetMaxValueIndex()
@@ -91,6 +87,17 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public double GetMinValue()
+        {
+            int index = GetMinValueIndex();
+            if (index == -1)
+            {
+                return double.NaN;
+            }
+
+            return this[index];
+        }
+
         public int GetMinValueIndex()
         {
             int result = -1;
@@ -120,28 +127,6 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public double GetMaxValue()
-        {
-            int index = GetMaxValueIndex();
-            if (index == -1)
-            {
-                return double.NaN;
-            }
-
-            return this[index];
-        }
-
-        public double GetMinValue()
-        {
-            int index = GetMinValueIndex();
-            if (index == -1)
-            {
-                return double.NaN;
-            }
-
-            return this[index];
-        }
-
         public double GetSum()
         {
             IEnumerable<int>? keys = Keys;
@@ -166,9 +151,24 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public double GetAverage()
+        public void Sum(IndexedDoubles indexedDoubles)
         {
-            return GetSum() / Count;
+            IEnumerable<int>? keys = indexedDoubles?.Keys;
+            if (keys == null)
+            {
+                return;
+            }
+
+            foreach (int index in keys)
+            {
+                double value = indexedDoubles![index];
+                if (double.IsNaN(value) || value == 0)
+                {
+                    continue;
+                }
+
+                this[index] = !TryGetValue(index, out double value_Temp) || double.IsNaN(value_Temp) ? value : value + value_Temp;
+            }
         }
     }
 }

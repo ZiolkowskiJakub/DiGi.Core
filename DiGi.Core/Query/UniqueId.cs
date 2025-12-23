@@ -182,7 +182,7 @@ namespace DiGi.Core
 
                 case System.Text.Json.JsonValueKind.Undefined:
                     break;
-                
+
                 default:
                     break;
             }
@@ -198,7 +198,7 @@ namespace DiGi.Core
             }
 
             List<string> uniqueIds = [];
-            foreach(JsonNode? jsonNode in value)
+            foreach (JsonNode? jsonNode in value)
             {
                 uniqueIds.Add(UniqueId(jsonNode));
             }
@@ -209,7 +209,7 @@ namespace DiGi.Core
         public static string UniqueId(JsonValue? value)
         {
             object? @object = value?.GetValue<object>();
-            if(@object == null)
+            if (@object == null)
             {
                 return Constans.UniqueId.Null;
             }
@@ -224,13 +224,13 @@ namespace DiGi.Core
                 return Constans.UniqueId.Null;
             }
 
-            if(value.ContainsKey(Constans.Serialization.PropertyName.Type) && value.ContainsKey(Constans.Serialization.PropertyName.Guid))
+            if (value.ContainsKey(Constans.Serialization.PropertyName.Type) && value.ContainsKey(Constans.Serialization.PropertyName.Guid))
             {
                 JsonValue? jsonValue = value[Constans.Serialization.PropertyName.Guid]?.AsValue();
 
                 if (jsonValue != null)
                 {
-                    if(jsonValue.TryGetValue(out Guid guid))
+                    if (jsonValue.TryGetValue(out Guid guid))
                     {
                         return UniqueId(guid);
                     }
@@ -247,7 +247,7 @@ namespace DiGi.Core
 
         public static string UniqueId(this Enum? @enum)
         {
-            if(@enum == null)
+            if (@enum == null)
             {
                 return Constans.UniqueId.Null;
             }
@@ -272,7 +272,7 @@ namespace DiGi.Core
 
         public static string UniqueId(this IUniqueObject? uniqueObject)
         {
-            if(uniqueObject == null)
+            if (uniqueObject == null)
             {
                 return Constans.UniqueId.Null;
             }
@@ -287,7 +287,7 @@ namespace DiGi.Core
                 return Constans.UniqueId.Null;
             }
 
-            if(serializableObject is IUniqueObject uniqueObject)
+            if (serializableObject is IUniqueObject uniqueObject)
             {
                 return UniqueId(uniqueObject);
             }

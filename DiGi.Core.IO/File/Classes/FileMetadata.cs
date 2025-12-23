@@ -12,15 +12,14 @@ namespace DiGi.Core.IO.File.Classes
         [JsonInclude, JsonPropertyName("Created"), Description("Date created")]
         private readonly DateTime created;
 
+        [JsonInclude, JsonPropertyName("Type"), Description("Type")]
+        private readonly string? type = null;
+
         [JsonInclude, JsonPropertyName("Modified"), Description("Date modified")]
         private DateTime modified;
 
         [JsonInclude, JsonPropertyName("Path"), Description("Path")]
         private string? path;
-
-        [JsonInclude, JsonPropertyName("Type"), Description("Type")]
-        private readonly string? type = null;
-
         public FileMetadata(Type? type, string? path)
             : base()
         {
@@ -65,14 +64,6 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
-        public string? Type
-        {
-            get
-            {
-                return type;
-            }
-        }
-
         public DateTime Modified
         {
             get
@@ -96,6 +87,14 @@ namespace DiGi.Core.IO.File.Classes
             set
             {
                 path = value;
+            }
+        }
+
+        public string? Type
+        {
+            get
+            {
+                return type;
             }
         }
     }

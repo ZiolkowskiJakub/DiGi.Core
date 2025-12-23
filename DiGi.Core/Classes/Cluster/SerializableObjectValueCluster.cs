@@ -7,15 +7,12 @@ namespace DiGi.Core.Classes
 {
     public abstract class SerializableObjectValueCluster<TKey_1, TKey_2, TValue> : ValueCluster<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
     {
-        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
-        private string? FullTypeName => Query.FullTypeName(GetType());
-
         public SerializableObjectValueCluster()
             : base()
         {
         }
 
-        public SerializableObjectValueCluster(IEnumerable<TValue> ?values)
+        public SerializableObjectValueCluster(IEnumerable<TValue>? values)
             : base(values)
         {
         }
@@ -30,6 +27,9 @@ namespace DiGi.Core.Classes
         {
             FromJsonObject(jsonObject);
         }
+
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
+        private string? FullTypeName => Query.FullTypeName(GetType());
 
         public virtual ISerializableObject? Clone()
         {

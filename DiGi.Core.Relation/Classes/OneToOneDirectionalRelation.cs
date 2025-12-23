@@ -8,7 +8,7 @@ namespace DiGi.Core.Relation.Classes
     public class OneToOneDirectionalRelation : OneToOneRelation<IUniqueObject, IUniqueObject>
     {
         public OneToOneDirectionalRelation(UniqueReference? uniqueReference_From, UniqueReference? uniqueReference_To)
-            :base(uniqueReference_From, uniqueReference_To)
+            : base(uniqueReference_From, uniqueReference_To)
         {
 
         }

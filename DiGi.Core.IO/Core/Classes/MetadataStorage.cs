@@ -29,7 +29,7 @@ namespace DiGi.Core.IO.Classes
         }
 
         public MetadataStorage(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }

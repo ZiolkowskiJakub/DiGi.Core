@@ -16,9 +16,9 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedObject(IEnumerable<Parameter>? parameters)
             : base()
         {
-            if(parameters != null)
+            if (parameters != null)
             {
-                foreach(Parameter parameter in parameters)
+                foreach (Parameter parameter in parameters)
                 {
                     parameterGroupCollection.SetValue(parameter);
                 }
@@ -44,7 +44,7 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedObject(ParametrizedObject? parametrizedObject)
             : base()
         {
-            if(parametrizedObject != null) 
+            if (parametrizedObject != null)
             {
                 parameterGroupCollection = parametrizedObject.parameterGroupCollection == null ? new ParameterGroupCollection() : new ParameterGroupCollection(parametrizedObject.parameterGroupCollection);
             }
@@ -87,7 +87,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public object? GetValue(Enum? @enum, GetValueSettings? getValueSettings = null)
         {
-            if(@enum == null)
+            if (@enum == null)
             {
                 return null;
             }
@@ -132,7 +132,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool SetValue(Enum? @enum, object? value, SetValueSettings? setValueSettings = null)
         {
-            if(@enum == null)
+            if (@enum == null)
             {
                 return false;
             }
@@ -178,7 +178,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool TryGetValue<T>(Enum? @enum, out T? value, GetValueSettings? getValueSettings = null)
         {
-            if(@enum is null)
+            if (@enum is null)
             {
                 value = default;
                 return false;

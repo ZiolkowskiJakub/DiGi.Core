@@ -14,7 +14,7 @@
         }
 
         public bool CheckAccessType { get; set; } = true;
-        
+
         public bool TryConvert { get; set; } = false;
     }
 }

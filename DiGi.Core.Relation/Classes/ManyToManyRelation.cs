@@ -44,9 +44,9 @@ namespace DiGi.Core.Relation.Classes
         private List<IUniqueReference>? uniqueReferences_To;
 
         public ManyToManyRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IEnumerable<IUniqueReference>? uniqueReferences_To)
-            :base()
+            : base()
         {
-            if(uniqueReferences_To != null)
+            if (uniqueReferences_To != null)
             {
                 this.uniqueReferences_To = [];
                 foreach (IUniqueReference? uniqueReference in uniqueReferences_To)
@@ -76,15 +76,15 @@ namespace DiGi.Core.Relation.Classes
         public ManyToManyRelation(ManyToManyRelation<From, To>? manyToManyRelation)
             : base()
         {
-            if(manyToManyRelation != null)
+            if (manyToManyRelation != null)
             {
-                if(manyToManyRelation.uniqueReferences_To != null)
+                if (manyToManyRelation.uniqueReferences_To != null)
                 {
                     uniqueReferences_To = [];
-                    foreach(IUniqueReference uniqueReference_To in manyToManyRelation.uniqueReferences_To)
+                    foreach (IUniqueReference uniqueReference_To in manyToManyRelation.uniqueReferences_To)
                     {
                         IUniqueReference? uniqueReference = uniqueReference_To?.Clone<IUniqueReference>();
-                        if(uniqueReference != null)
+                        if (uniqueReference != null)
                         {
                             uniqueReferences_To.Add(uniqueReference);
                         }
@@ -185,7 +185,7 @@ namespace DiGi.Core.Relation.Classes
         {
             get
             {
-                if(uniqueReferences_From == null)
+                if (uniqueReferences_From == null)
                 {
                     return null;
                 }
@@ -256,7 +256,7 @@ namespace DiGi.Core.Relation.Classes
 
         public override bool Contains(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return false;
             }
@@ -321,7 +321,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if(Modify.RemoveFirst(uniqueReferences_From, uniqueReference))
+                if (Modify.RemoveFirst(uniqueReferences_From, uniqueReference))
                 {
                     result = true;
                 }
@@ -329,7 +329,7 @@ namespace DiGi.Core.Relation.Classes
 
             return result;
         }
-        
+
         public override List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -345,7 +345,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                if(uniqueReferences_From != null)
+                if (uniqueReferences_From != null)
                 {
                     foreach (TUniqueReference uniqueReference in uniqueReferences)
                     {
@@ -367,7 +367,7 @@ namespace DiGi.Core.Relation.Classes
                 {
                     return result;
                 }
-                
+
                 foreach (TUniqueReference uniqueReference in uniqueReferences)
                 {
                     if (Modify.RemoveFirst(uniqueReferences_To, uniqueReference))

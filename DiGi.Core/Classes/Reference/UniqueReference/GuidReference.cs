@@ -28,7 +28,7 @@ namespace DiGi.Core.Classes
         public GuidReference(IGuidObject? guidObject)
             : base(guidObject)
         {
-            if(guidObject != null)
+            if (guidObject != null)
             {
                 guid = guidObject.Guid;
             }
@@ -44,16 +44,6 @@ namespace DiGi.Core.Classes
             : base(jsonObject)
         {
 
-        }
-
-        public override string? ToString()
-        {
-            return Convert.ToSystem_String(TypeReference, UniqueId, Constans.Reference.Format.Guid);
-        }
-
-        public override ISerializableObject? Clone()
-        {
-            return new GuidReference(this);
         }
 
         [JsonIgnore]
@@ -72,6 +62,16 @@ namespace DiGi.Core.Classes
             {
                 return Query.UniqueId(guid)?.ToString();
             }
+        }
+
+        public override ISerializableObject? Clone()
+        {
+            return new GuidReference(this);
+        }
+
+        public override string? ToString()
+        {
+            return Convert.ToSystem_String(TypeReference, UniqueId, Constans.Reference.Format.Guid);
         }
     }
 }

@@ -26,7 +26,6 @@ namespace DiGi.Core.Classes
 
     public sealed class InstanceRelatedExternalReference : InstanceRelatedExternalReference<IInstanceRelatedSerializableReference>
     {
-
         public InstanceRelatedExternalReference(string? source, IInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {

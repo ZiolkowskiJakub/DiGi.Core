@@ -51,7 +51,7 @@ namespace DiGi.Core.IO.DelimitedData
 
         public static bool Write(this Table.Classes.Table? table, string? path, char separator, Func<object?, string?>? func = null)
         {
-            if(table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+            if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
                 return false;
             }

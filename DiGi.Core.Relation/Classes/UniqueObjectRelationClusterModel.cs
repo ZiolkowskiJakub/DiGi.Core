@@ -24,7 +24,7 @@ namespace DiGi.Core.Relation.Classes
             if (uniqueObjectRelationClusterModel != null)
             {
                 UniqueObjectRelationCluster<TUniqueObject, XRelation>? uniqueObjectRelationCluster = uniqueObjectRelationClusterModel.uniqueObjectRelationCluster?.Clone<UniqueObjectRelationCluster<TUniqueObject, XRelation>>();
-                if(uniqueObjectRelationCluster != null)
+                if (uniqueObjectRelationCluster != null)
                 {
                     this.uniqueObjectRelationCluster = uniqueObjectRelationCluster;
                 }
@@ -59,7 +59,7 @@ namespace DiGi.Core.Relation.Classes
 
         public YUniqueObject? GetObject<YUniqueObject>(GuidReference? guidReference) where YUniqueObject : TUniqueObject
         {
-            if(guidReference is null)
+            if (guidReference is null)
             {
                 return default;
             }
@@ -119,13 +119,13 @@ namespace DiGi.Core.Relation.Classes
 
         public URelation? GetRelation<URelation>(TUniqueObject? uniqueObject, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
-            if(uniqueObject == null)
+            if (uniqueObject == null)
             {
                 return default;
             }
 
             URelation? relation = uniqueObjectRelationCluster.GetRelation(Create.UniqueReference(uniqueObject), func);
-            if(relation == null)
+            if (relation == null)
             {
                 return default;
             }
@@ -332,12 +332,12 @@ namespace DiGi.Core.Relation.Classes
         public bool TryGetRelation<URelation>(TUniqueObject uniqueObject, out URelation? relation, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             relation = default;
-            if(uniqueObject == null)
+            if (uniqueObject == null)
             {
                 return false;
             }
 
-            if(!uniqueObjectRelationCluster.TryGetRelation(Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
+            if (!uniqueObjectRelationCluster.TryGetRelation(Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
             {
                 return false;
             }
@@ -345,7 +345,7 @@ namespace DiGi.Core.Relation.Classes
             relation = relation.Clone<URelation>();
             return relation != null;
         }
-        
+
         public virtual bool TryGetRelation<URelation>(out URelation? relation, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             relation = default;

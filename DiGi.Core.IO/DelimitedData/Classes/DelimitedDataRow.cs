@@ -13,7 +13,7 @@ namespace DiGi.Core.IO.DelimitedData.Classes
 
         public DelimitedDataRow(IEnumerable<string>? values)
         {
-            if(values != null)
+            if (values != null)
             {
                 AddRange(values);
             }

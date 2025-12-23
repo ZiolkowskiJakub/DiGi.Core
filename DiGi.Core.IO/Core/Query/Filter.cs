@@ -7,13 +7,13 @@ namespace DiGi.Core.IO
     {
         public static string? Filter(params FileFilter[]? fileFilters)
         {
-            if(fileFilters == null)
+            if (fileFilters == null)
             {
                 return null;
             }
 
             List<string> values = [];
-            foreach(FileFilter fileFilter in fileFilters)
+            foreach (FileFilter fileFilter in fileFilters)
             {
                 string? value = fileFilter?.ToString();
                 if (string.IsNullOrWhiteSpace(value))

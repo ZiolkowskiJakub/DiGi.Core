@@ -22,7 +22,7 @@ namespace DiGi.Core
             }
 
             byte[] gZipBuffer = System.Convert.FromBase64String(@string);
-            
+
             using var memoryStream = new MemoryStream();
 
             int dataLength = BitConverter.ToInt32(gZipBuffer, 0);

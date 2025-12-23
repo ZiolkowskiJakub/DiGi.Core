@@ -27,89 +27,81 @@ namespace DiGi.Core.Classes
         {
         }
 
-        public bool Remove(IUniqueReference? key_2)
+        public bool Contains(IUniqueReference? uniqueReference)
         {
-            if(key_2 == null)
+            TypeReference? typeReference = uniqueReference?.TypeReference;
+            if (typeReference == null)
             {
                 return false;
             }
 
-            List<IUniqueReference>? uniqueReferences = Remove([key_2]);
-            return uniqueReferences != null && uniqueReferences.Count > 0;
-        }
-
-        public virtual List<IUniqueReference>? Remove(IEnumerable<IUniqueReference>? keys_2)
-        {
-            if(keys_2 == null)
-            {
-                return null;
-            }
-
-            List<IUniqueReference> result = [];
-            foreach(IUniqueReference key_2 in keys_2)
-            {
-                TypeReference? typeReference = key_2?.TypeReference;
-                if(typeReference is null)
-                {
-                    continue;
-                }
-
-                if(Remove(typeReference, key_2))
-                {
-                    result.Add(key_2!);
-                }
-            }
-
-            return result;
-        }
-
-        public virtual List<UValue>? Remove<UValue>(IEnumerable<UValue>? values) where UValue : TValue
-        {
-            if(values == null)
-            {
-                return null;
-            }
-
-            List<UValue> result = [];
-            foreach (UValue value in values)
-            {
-                if(value == null)
-                {
-                    continue;
-                }
-
-                if (Remove(Create.UniqueReference(value)))
-                {
-                    result.Add(value);
-                }
-            }
-
-            return result;
-        }
-
-        protected override TypeReference? GetKey_1(TValue? value)
-        {
-            if (value == null)
-            {
-                return null;
-            }
-
-            return new TypeReference(value);
-        }
-
-        protected override IUniqueReference? GetKey_2(TValue? value)
-        {
-            if (value == null)
-            {
-                return null;
-            }
-
-            return Create.UniqueReference(value);
+            return Contains(typeReference, uniqueReference);
         }
 
         public List<TypeReference>? GetTypeReferences()
         {
             return GetKeys_1();
+        }
+
+        public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default
+        {
+            Type type = typeof(UValue);
+
+            List<TypeReference>? typeReferences = GetKeys_1();
+            if (typeReferences == null)
+            {
+                return default;
+            }
+
+            foreach (TypeReference typeReference in typeReferences)
+            {
+                Type? type_TypeReference_Temp = typeReference?.Type();
+                if (type_TypeReference_Temp == null)
+                {
+                    continue;
+                }
+
+                if (!type.IsAssignableFrom(type_TypeReference_Temp))
+                {
+                    continue;
+                }
+
+                List<UValue>? values = base.GetValues<UValue>(typeReference);
+                if (values == null)
+                {
+                    continue;
+                }
+
+                foreach (UValue? value in values)
+                {
+                    if (value == null)
+                    {
+                        continue;
+                    }
+
+                    if (func == null)
+                    {
+                        return value;
+                    }
+
+                    if (func.Invoke(value))
+                    {
+                        return value;
+                    }
+                }
+            }
+
+            return default;
+        }
+
+        public UValue? GetValue<UValue>(IUniqueReference? uniqueReference) where UValue : TValue
+        {
+            if (uniqueReference is null)
+            {
+                return default;
+            }
+
+            return GetValue<UValue>(uniqueReference.TypeReference, uniqueReference);
         }
 
         public List<UValue>? GetValues<UValue>(TypeReference? key_1, bool exactMath) where UValue : TValue
@@ -167,16 +159,10 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public bool TryGetValues<UValue>(TypeReference? key_1, bool exactMatch, out List<UValue>? values) where UValue : TValue
-        {
-            values = GetValues<UValue>(key_1, exactMatch);
-            return values != null && values.Count != 0;
-        }
-
         public override List<UValue>? GetValues<UValue>(TypeReference? key_1) where UValue : default
         {
             return GetValues<UValue>(key_1, false);
-        }  
+        }
 
         public List<U>? GetValues<U>(Type? type)
         {
@@ -188,65 +174,74 @@ namespace DiGi.Core.Classes
             return GetValues<U>(new TypeReference(type));
         }
 
-        public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default 
+        public List<UValue>? GetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences) where UValue : TValue
         {
-            Type type = typeof(UValue);
-
-            List<TypeReference>? typeReferences = GetKeys_1();
-            if (typeReferences == null)
+            if (!TryGetValues(uniqueReferences, out List<UValue>? result))
             {
-                return default;
+                return null;
             }
 
-            foreach (TypeReference typeReference in typeReferences)
-            {
-                Type? type_TypeReference_Temp = typeReference?.Type();
-                if (type_TypeReference_Temp == null)
-                {
-                    continue;
-                }
-
-                if (!type.IsAssignableFrom(type_TypeReference_Temp))
-                {
-                    continue;
-                }
-
-                List<UValue>? values = base.GetValues<UValue>(typeReference);
-                if (values == null)
-                {
-                    continue;
-                }
-
-                foreach (UValue? value in values)
-                {
-                    if (value == null)
-                    {
-                        continue;
-                    }
-
-                    if (func == null)
-                    {
-                        return value;
-                    }
-
-                    if (func.Invoke(value))
-                    {
-                        return value;
-                    }
-                }
-            }
-
-            return default;
+            return result;
         }
 
-        public UValue? GetValue<UValue>(IUniqueReference? uniqueReference) where UValue : TValue
+        public bool Remove(IUniqueReference? key_2)
         {
-            if(uniqueReference is null)
+            if (key_2 == null)
             {
-                return default;
+                return false;
             }
 
-            return GetValue<UValue>(uniqueReference.TypeReference, uniqueReference);
+            List<IUniqueReference>? uniqueReferences = Remove([key_2]);
+            return uniqueReferences != null && uniqueReferences.Count > 0;
+        }
+
+        public virtual List<IUniqueReference>? Remove(IEnumerable<IUniqueReference>? keys_2)
+        {
+            if (keys_2 == null)
+            {
+                return null;
+            }
+
+            List<IUniqueReference> result = [];
+            foreach (IUniqueReference key_2 in keys_2)
+            {
+                TypeReference? typeReference = key_2?.TypeReference;
+                if (typeReference is null)
+                {
+                    continue;
+                }
+
+                if (Remove(typeReference, key_2))
+                {
+                    result.Add(key_2!);
+                }
+            }
+
+            return result;
+        }
+
+        public virtual List<UValue>? Remove<UValue>(IEnumerable<UValue>? values) where UValue : TValue
+        {
+            if (values == null)
+            {
+                return null;
+            }
+
+            List<UValue> result = [];
+            foreach (UValue value in values)
+            {
+                if (value == null)
+                {
+                    continue;
+                }
+
+                if (Remove(Create.UniqueReference(value)))
+                {
+                    result.Add(value);
+                }
+            }
+
+            return result;
         }
 
         public bool TryGetValue<UValue>(IUniqueReference? uniqueReference, out UValue? value) where UValue : TValue
@@ -254,19 +249,25 @@ namespace DiGi.Core.Classes
             return TryGetValue(uniqueReference?.TypeReference, uniqueReference, out value);
         }
 
+        public bool TryGetValues<UValue>(TypeReference? key_1, bool exactMatch, out List<UValue>? values) where UValue : TValue
+        {
+            values = GetValues<UValue>(key_1, exactMatch);
+            return values != null && values.Count != 0;
+        }
+
         public bool TryGetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences, out List<UValue>? values) where UValue : TValue
         {
             values = null;
-            if(uniqueReferences == null)
+            if (uniqueReferences == null)
             {
                 return false;
             }
 
             values = [];
-            foreach(IUniqueReference guidReference in uniqueReferences)
+            foreach (IUniqueReference guidReference in uniqueReferences)
             {
                 UValue? u = GetValue<UValue>(guidReference);
-                if(u != null)
+                if (u != null)
                 {
                     values.Add(u);
                 }
@@ -275,25 +276,24 @@ namespace DiGi.Core.Classes
             return values != null && values.Count != 0;
         }
 
-        public List<UValue>? GetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences) where UValue : TValue
+        protected override TypeReference? GetKey_1(TValue? value)
         {
-            if(!TryGetValues(uniqueReferences, out List<UValue>? result))
+            if (value == null)
             {
                 return null;
             }
 
-            return result;
+            return new TypeReference(value);
         }
 
-        public bool Contains(IUniqueReference? uniqueReference)
+        protected override IUniqueReference? GetKey_2(TValue? value)
         {
-            TypeReference? typeReference = uniqueReference?.TypeReference;
-            if(typeReference == null)
+            if (value == null)
             {
-                return false;
+                return null;
             }
 
-            return Contains(typeReference, uniqueReference);
+            return Create.UniqueReference(value);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace DiGi.Core.Parameter.Classes
             get
             {
                 ParameterValue? parameterValue = ParameterValue;
-                if(parameterValue == null)
+                if (parameterValue == null)
                 {
                     return ParameterType.Undefined;
                 }
@@ -54,7 +54,7 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             ParameterValue? parameterValue = ParameterValue;
-            if(parameterValue != null)
+            if (parameterValue != null)
             {
                 result = parameterValue.IsValid(value);
             }

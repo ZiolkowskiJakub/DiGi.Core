@@ -9,7 +9,7 @@ namespace DiGi.Core.Relation.Classes
     public class OneToManyDirectionalRelation : OneToManyRelation<IUniqueObject, IUniqueObject>
     {
         public OneToManyDirectionalRelation(UniqueReference? uniqueReference_From, IEnumerable<UniqueReference>? uniqueReferences_To)
-            :base(uniqueReference_From, uniqueReferences_To)
+            : base(uniqueReference_From, uniqueReferences_To)
         {
 
         }

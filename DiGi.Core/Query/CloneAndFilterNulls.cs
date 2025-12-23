@@ -16,7 +16,7 @@ namespace DiGi.Core
             List<T> result = [];
             foreach (T? serializableObject in serializableObjects)
             {
-                if(Clone(serializableObject) is T t)
+                if (Clone(serializableObject) is T t)
                 {
                     result.Add(t);
                 }

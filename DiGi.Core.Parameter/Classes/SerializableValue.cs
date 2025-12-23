@@ -56,9 +56,9 @@
 
         public override readonly bool Equals(object? obj)
         {
-            if(obj is SerializableValue serializableValue)
+            if (obj is SerializableValue serializableValue)
             {
-                return serializableValue.GetHashCode() == GetHashCode();  
+                return serializableValue.GetHashCode() == GetHashCode();
             }
 
             return false;
@@ -66,7 +66,7 @@
 
         public override readonly int GetHashCode()
         {
-            return value?.GetHashCode()?? -1;
+            return value?.GetHashCode() ?? -1;
         }
     }
 }

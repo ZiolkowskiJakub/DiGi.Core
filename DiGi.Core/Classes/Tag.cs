@@ -26,19 +26,19 @@ namespace DiGi.Core.Classes
         }
 
         public Tag(string? value)
-            :base(value)
+            : base(value)
         {
 
         }
 
         public Tag(double value)
-            :base(value)
+            : base(value)
         {
 
         }
 
         public Tag(DateTime value)
-            :base(value)
+            : base(value)
         {
 
         }
@@ -50,13 +50,13 @@ namespace DiGi.Core.Classes
         }
 
         public Tag(int value)
-            :base(value)
+            : base(value)
         {
 
         }
 
         public Tag(ISerializableObject? value)
-            :base(value)
+            : base(value)
         {
 
         }

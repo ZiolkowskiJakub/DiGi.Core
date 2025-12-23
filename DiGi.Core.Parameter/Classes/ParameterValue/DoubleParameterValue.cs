@@ -57,7 +57,7 @@ namespace DiGi.Core.Parameter.Classes
         public DoubleParameterValue(DoubleParameterValue? doubleParameterValue)
             : base(doubleParameterValue)
         {
-            if(doubleParameterValue != null)
+            if (doubleParameterValue != null)
             {
                 min = doubleParameterValue.min;
                 max = doubleParameterValue.max;
@@ -82,7 +82,7 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             bool result = base.IsValid(value);
-            if(!result)
+            if (!result)
             {
                 return result;
             }

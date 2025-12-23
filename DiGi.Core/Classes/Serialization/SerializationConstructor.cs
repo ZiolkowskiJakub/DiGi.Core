@@ -6,8 +6,8 @@ namespace DiGi.Core.Classes
 {
     public class SerializationConstructor
     {
-        private readonly string? fullTypeName;
         private readonly ConstructorInfo? constructorInfo;
+        private readonly string? fullTypeName;
 
         internal SerializationConstructor(string? fullTypeName, ConstructorInfo? constructorInfo)
         {
@@ -17,7 +17,7 @@ namespace DiGi.Core.Classes
 
         public T? Create<T>(JsonObject? jsonObject) where T : ISerializableObject
         {
-            if(jsonObject == null || constructorInfo == null)
+            if (jsonObject == null || constructorInfo == null)
             {
                 return default;
             }
@@ -26,22 +26,22 @@ namespace DiGi.Core.Classes
             ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
             parameterInfos ??= [];
 
-            if(parameterInfos.Length > 1)
+            if (parameterInfos.Length > 1)
             {
                 return default;
             }
 
             T? result = default;
 
-            if(parameterInfos.Length != 0 && parameterInfos[0].ParameterType == typeof(JsonObject))
+            if (parameterInfos.Length != 0 && parameterInfos[0].ParameterType == typeof(JsonObject))
             {
                 object @object = constructorInfo.Invoke([jsonObject]);
-                if(@object is not T)
+                if (@object is not T)
                 {
                     return result;
                 }
 
-                result = (T) @object;
+                result = (T)@object;
             }
             else
             {
@@ -58,7 +58,5 @@ namespace DiGi.Core.Classes
 
             return result;
         }
-
-
     }
 }

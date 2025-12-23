@@ -84,7 +84,7 @@ namespace DiGi.Core.Parameter.Classes
                 return name;
             }
         }
-        
+
         public string? UniqueId
         {
             get

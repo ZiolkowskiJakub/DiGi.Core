@@ -20,7 +20,7 @@ namespace DiGi.Core.Parameter.Classes
         public EnumParameterDefinition(EnumParameterDefinition? enumParameterDefinition)
             : base(enumParameterDefinition)
         {
-            if(enumParameterDefinition != null)
+            if (enumParameterDefinition != null)
             {
                 @enum = enumParameterDefinition.@enum;
             }
@@ -66,7 +66,7 @@ namespace DiGi.Core.Parameter.Classes
                 return Query.ParameterProperties(@enum)?.Description;
             }
         }
-        
+
         public override string GroupName
         {
             get
@@ -102,7 +102,7 @@ namespace DiGi.Core.Parameter.Classes
                 return Query.ParameterProperties(@enum)?.UniqueId;
             }
         }
-        
+
         public static explicit operator Enum?(EnumParameterDefinition? enumParameterDefinition)
         {
             if (enumParameterDefinition == null)

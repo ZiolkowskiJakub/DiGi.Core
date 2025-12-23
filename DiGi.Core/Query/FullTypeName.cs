@@ -15,18 +15,18 @@ namespace DiGi.Core
                 return null;
             }
 
-            if(!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode? jsonNode) || jsonNode == null)
+            if (!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode? jsonNode) || jsonNode == null)
             {
                 return null;
             }
 
             JsonValue jsonValue = jsonNode.AsValue();
-            if(jsonValue == null)
+            if (jsonValue == null)
             {
                 return null;
             }
 
-            if(!jsonValue.TryGetValue(out string? result))
+            if (!jsonValue.TryGetValue(out string? result))
             {
                 return null;
             }

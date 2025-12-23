@@ -61,7 +61,7 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         public DelimitedDataRow? ReadRow()
         {
             List<string>? values = Query.Values(ReadLine(), separator, () => ReadLine());
-            if(values == null)
+            if (values == null)
             {
                 return null;
             }
@@ -77,7 +77,7 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         {
             List<DelimitedDataRow> delimitedDataRows = [];
             DelimitedDataRow? delimitedDataRow = ReadRow();
-            while (delimitedDataRow != null )
+            while (delimitedDataRow != null)
             {
                 delimitedDataRows.Add(delimitedDataRow);
                 delimitedDataRow = ReadRow();

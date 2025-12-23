@@ -23,12 +23,12 @@ namespace DiGi.Core.Classes
 
         protected Value(Value<TObject>? value)
         {
-            if(value is not null)
+            if (value is not null)
             {
                 this.value = value.value;
             }
         }
-        
+
         TObject? IValue<TObject>.Value => value;
 
         [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.ValueType)]
@@ -190,7 +190,7 @@ namespace DiGi.Core.Classes
         {
 
         }
-        
+
         public override ISerializableObject? Clone()
         {
             return new Value(value);

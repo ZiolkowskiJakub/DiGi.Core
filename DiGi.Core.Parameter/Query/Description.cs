@@ -10,7 +10,7 @@ namespace DiGi.Core.Parameter
         public static string? Description(this Enum? @enum)
         {
             FieldInfo? fieldInfo = @enum?.GetType()?.GetField(@enum?.ToString());
-            if(fieldInfo is null)
+            if (fieldInfo is null)
             {
                 return null;
             }

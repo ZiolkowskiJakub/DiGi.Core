@@ -6,7 +6,7 @@ namespace DiGi.Core
     {
         public static string? FullName(this Enum? @enum)
         {
-            if(@enum == null)
+            if (@enum == null)
             {
                 return null;
             }

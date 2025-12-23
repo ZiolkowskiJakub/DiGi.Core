@@ -1,6 +1,6 @@
-﻿﻿using System.Text.Json.Nodes;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using System.Text.Json.Nodes;
 
 
 namespace DiGi.Core
@@ -24,7 +24,7 @@ namespace DiGi.Core
 
             serializationConstructor ??= Settings.SerializationManager.GetSerializationConstructor(typeof(SerializableObjectWrapper));
 
-            if(serializationConstructor == null)
+            if (serializationConstructor == null)
             {
                 return default;
             }

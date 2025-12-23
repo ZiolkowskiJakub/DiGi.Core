@@ -159,8 +159,8 @@ namespace DiGi.Core
         }
 
         public static List<bool>? Randoms(int count, int seed = -1)
-        { 
-            if(count <= 0)
+        {
+            if (count <= 0)
             {
                 return null;
             }

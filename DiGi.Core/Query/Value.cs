@@ -30,9 +30,9 @@ namespace DiGi.Core
                 nullable = false;
             }
 
-            if(nullable)
+            if (nullable)
             {
-                if(jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Object)
+                if (jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Object)
                 {
                     object value_Temp = jsonNode.GetValue<object>();
                     if (value_Temp == null)
@@ -50,7 +50,7 @@ namespace DiGi.Core
                 }
 
                 object? value_Temp = null;
-                switch(jsonValue.GetValueKind())
+                switch (jsonValue.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.String:
                         if (jsonValue.TryGetValue(out string? @string))
@@ -66,15 +66,15 @@ namespace DiGi.Core
                         }
                         break;
                 }
-                
-                if(value_Temp == null)
+
+                if (value_Temp == null)
                 {
                     if (jsonValue.TryGetValue(out int @int))
                     {
                         value_Temp = @int;
                     }
 
-                    if(value_Temp == null)
+                    if (value_Temp == null)
                     {
                         if (jsonValue.TryGetValue(out string? @string))
                         {
@@ -82,7 +82,7 @@ namespace DiGi.Core
                         }
                     }
 
-                    if(value_Temp == null)
+                    if (value_Temp == null)
                     {
                         if (!jsonValue.TryGetValue(out value_Temp))
                         {
@@ -91,7 +91,7 @@ namespace DiGi.Core
                     }
                 }
 
-                if(nullable && value_Temp == null)
+                if (nullable && value_Temp == null)
                 {
                     return null;
                 }
@@ -101,13 +101,13 @@ namespace DiGi.Core
                     return value_Temp;
                 }
 
-                if(nullable)
+                if (nullable)
                 {
                     return null;
                 }
 
                 Array array = System.Enum.GetValues(type_Temp);
-                if(array != null && array.Length != 0)
+                if (array != null && array.Length != 0)
                 {
                     return array.GetValue(0);
                 }
@@ -262,7 +262,7 @@ namespace DiGi.Core
             if (type_Temp == typeof(System.Drawing.Color))
             {
                 Color? color = Create.SerializableObject<Color>(jsonNode.AsObject());
-                if(color is null)
+                if (color is null)
                 {
                     return System.Drawing.Color.Empty;
                 }
@@ -277,7 +277,7 @@ namespace DiGi.Core
                     return null;
                 }
 
-                return Type(fullName); 
+                return Type(fullName);
             }
 
             if (IsNumeric(type_Temp))
@@ -319,7 +319,7 @@ namespace DiGi.Core
                 if (genericType != null)
                 {
                     IList? list = Create.List(genericType);
-                    if(list == null)
+                    if (list == null)
                     {
                         return null;
                     }
@@ -351,12 +351,12 @@ namespace DiGi.Core
                 if (genericType_Key != null && genericType_Value != null)
                 {
                     IDictionary? dictionary = Create.Dictionary(genericType_Key, genericType_Value);
-                    if(dictionary is null)
+                    if (dictionary is null)
                     {
                         return null;
                     }
 
-                    switch(jsonNode.GetValueKind())
+                    switch (jsonNode.GetValueKind())
                     {
                         case System.Text.Json.JsonValueKind.Array:
                             JsonArray jsonArray = jsonNode.AsArray();
@@ -364,7 +364,7 @@ namespace DiGi.Core
                             {
                                 foreach (JsonNode? jsonNode_Temp in jsonArray)
                                 {
-                                    if(jsonNode_Temp is null)
+                                    if (jsonNode_Temp is null)
                                     {
                                         continue;
                                     }
@@ -401,7 +401,7 @@ namespace DiGi.Core
             }
 
             System.Text.Json.JsonValueKind jsonValueKind = jsonNode.GetValueKind();
-            if(jsonValueKind is System.Text.Json.JsonValueKind.Object && jsonNode is not JsonObject)
+            if (jsonValueKind is System.Text.Json.JsonValueKind.Object && jsonNode is not JsonObject)
             {
                 jsonNode = JsonNode.Parse(jsonNode.ToJsonString())!.AsObject();
             }
@@ -432,7 +432,7 @@ namespace DiGi.Core
                 case System.Text.Json.JsonValueKind.Object:
                     JsonObject jsonObject = (JsonObject)jsonNode;
 
-                    if(jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
+                    if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
                     {
                         ISerializableObject? serializableObject = Create.SerializableObject<ISerializableObject>(jsonObject);
                         if (serializableObject is SerializableObjectWrapper)
@@ -456,13 +456,13 @@ namespace DiGi.Core
                 return result;
             }
 
-            if(typeof(IEnumerable).IsAssignableFrom(type_Temp))
+            if (typeof(IEnumerable).IsAssignableFrom(type_Temp))
             {
                 Type? genericType = type_Temp.GenericTypeArguments?[0];
                 if (genericType != null)
                 {
                     IList? list = Create.List(genericType);
-                    if ( list == null)
+                    if (list == null)
                     {
                         return null;
                     }
@@ -481,9 +481,9 @@ namespace DiGi.Core
                             list.Add(@object);
                         }
 
-                        if(type.IsAbstract)
+                        if (type.IsAbstract)
                         {
-                            if(type.IsAssignableFrom(list.GetType()))
+                            if (type.IsAssignableFrom(list.GetType()))
                             {
                                 return list;
                             }
@@ -499,7 +499,7 @@ namespace DiGi.Core
             if (type_Temp.IsGenericType && type_Temp.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
             {
                 Type[] types_GenericArguments = type_Temp.GetGenericArguments();
-                if(types_GenericArguments != null && types_GenericArguments.Length >= 2)
+                if (types_GenericArguments != null && types_GenericArguments.Length >= 2)
                 {
                     Type? type_Key = types_GenericArguments[0];
                     Type? type_Value = types_GenericArguments[1];

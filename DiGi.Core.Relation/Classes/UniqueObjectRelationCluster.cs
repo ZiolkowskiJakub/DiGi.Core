@@ -10,13 +10,13 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
-    public class UniqueObjectRelationCluster<TUniqueObject, XRelation> : UniqueObjectValueCluster<TUniqueObject> where TUniqueObject : IUniqueObject where XRelation: IRelation
+    public class UniqueObjectRelationCluster<TUniqueObject, XRelation> : UniqueObjectValueCluster<TUniqueObject> where TUniqueObject : IUniqueObject where XRelation : IRelation
     {
         [JsonInclude, JsonPropertyName("RelationListCluster"), System.ComponentModel.Description("RelationListCluster")]
         private RelationListCluster<XRelation> relationListCluster = [];
 
         public UniqueObjectRelationCluster(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -30,7 +30,7 @@ namespace DiGi.Core.Relation.Classes
         public UniqueObjectRelationCluster(UniqueObjectRelationCluster<TUniqueObject, XRelation>? uniqueObjectRelationCluster)
             : base(uniqueObjectRelationCluster)
         {
-            if(uniqueObjectRelationCluster != null)
+            if (uniqueObjectRelationCluster != null)
             {
 
                 relationListCluster = uniqueObjectRelationCluster.relationListCluster == null ? [] : [.. uniqueObjectRelationCluster.relationListCluster];
@@ -250,11 +250,11 @@ namespace DiGi.Core.Relation.Classes
 
             return GetValues<UUniqueObject>(uniqueReferences);
         }
-        
+
         public override List<IUniqueReference>? Remove(IEnumerable<IUniqueReference>? keys_2)
         {
             List<IUniqueReference>? result = base.Remove(keys_2);
-            if(result == null || result.Count ==0)
+            if (result == null || result.Count == 0)
             {
                 return result;
             }
@@ -266,7 +266,7 @@ namespace DiGi.Core.Relation.Classes
 
         public override bool Remove(TUniqueObject? uniqueObject)
         {
-            if(uniqueObject == null)
+            if (uniqueObject == null)
             {
                 return false;
             }
@@ -274,7 +274,7 @@ namespace DiGi.Core.Relation.Classes
             IUniqueReference? uniqueReference = Create.UniqueReference(uniqueObject);
 
             bool result = Remove(uniqueReference);
-            if(result)
+            if (result)
             {
                 relationListCluster.Remove(uniqueReference);
             }
@@ -290,9 +290,9 @@ namespace DiGi.Core.Relation.Classes
             }
 
             List<UUniqueObject> result = [];
-            foreach(UUniqueObject uniqueObject in uniqueObjects)
+            foreach (UUniqueObject uniqueObject in uniqueObjects)
             {
-                if(Remove(uniqueObject))
+                if (Remove(uniqueObject))
                 {
                     result.Add(uniqueObject);
                 }
@@ -303,14 +303,14 @@ namespace DiGi.Core.Relation.Classes
 
         public virtual bool Remove(XRelation? relation)
         {
-            if(relation == null)
+            if (relation == null)
             {
                 return false;
             }
 
             return relationListCluster.Remove(relation);
         }
-        
+
         public bool TryGetRelatedValue<UUniqueObject>(out UUniqueObject? uniqueObject, TUniqueObject? value, Func<UUniqueObject?, bool>? func = null) where UUniqueObject : TUniqueObject
         {
             uniqueObject = GetRelatedValue(value, func);

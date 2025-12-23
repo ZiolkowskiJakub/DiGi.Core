@@ -66,7 +66,7 @@ namespace DiGi.Core.IO.DelimitedData
                 }
             }
 
-            if(columns == null)
+            if (columns == null)
             {
                 return false;
             }
@@ -93,4 +93,4 @@ namespace DiGi.Core.IO.DelimitedData
         }
     }
 }
-   
+

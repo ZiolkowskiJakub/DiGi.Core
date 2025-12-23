@@ -8,7 +8,7 @@ namespace DiGi.Core
         public static CategoryPath? CategoryPath(string text)
         {
             List<string>? names = Query.QuotedStrings(text, Classes.CategoryPath.Separator);
-            if(names == null)
+            if (names == null)
             {
                 return null;
             }

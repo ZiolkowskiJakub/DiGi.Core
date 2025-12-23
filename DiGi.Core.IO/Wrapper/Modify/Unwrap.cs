@@ -15,7 +15,7 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            if(wrapperNode.JsonNode is JsonValue)
+            if (wrapperNode.JsonNode is JsonValue)
             {
                 return new WrapperNode(wrapperNode.JsonNode);
             }
@@ -27,7 +27,7 @@ namespace DiGi.Core.IO.Wrapper
             if (wrapperNode_Temp.IsWrapperUniqueReference())
             {
                 wrapperNode_Temp = wrapperNodeCluster.GetValue(wrapperNode_Temp.WrapperUniqueReference);
-                if(wrapperNode_Temp == null)
+                if (wrapperNode_Temp == null)
                 {
                     IWrapperUniqueReference? wrapperUniqueReference = wrapperNode.WrapperUniqueReference;
                     if (wrapperUniqueReference != null)
@@ -39,12 +39,12 @@ namespace DiGi.Core.IO.Wrapper
                 }
             }
 
-            if(wrapperNode_Temp.IsUnwrapped(out HashSet<WrapperNode>? wrapperNodes_Wrapped))
+            if (wrapperNode_Temp.IsUnwrapped(out HashSet<WrapperNode>? wrapperNodes_Wrapped))
             {
                 return wrapperNode_Temp;
             }
 
-            if(wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0)
+            if (wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0)
             {
                 return wrapperNode_Temp;
             }

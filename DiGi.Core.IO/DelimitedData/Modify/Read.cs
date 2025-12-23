@@ -11,7 +11,7 @@ namespace DiGi.Core.IO.DelimitedData
     {
         public static bool Read(this Table.Classes.Table? table, IDelimitedDataReader? delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
         {
-            if(table == null)
+            if (table == null)
             {
                 return false;
             }
@@ -42,7 +42,7 @@ namespace DiGi.Core.IO.DelimitedData
                 for (int i = 0; i < columnCount; i++)
                 {
                     Column? column = table.GetColumn(i);
-                    if(column != null)
+                    if (column != null)
                     {
                         table.UpdateColumn(i, delimitedDataRow_Column[i], typeof(string));
                     }
@@ -87,7 +87,7 @@ namespace DiGi.Core.IO.DelimitedData
 
         public static bool Read(this Table.Classes.Table? table, string? path, char separator, int columnIndex = 0, int rowIndex = 1)
         {
-            if(table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+            if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
                 return false;
             }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
 
 namespace DiGi.Core
 {
@@ -12,13 +12,13 @@ namespace DiGi.Core
         {
             return ToSystem_String(serializableObject, Settings.SerializationManager.JsonSerializerOptions);
         }
-        
+
         public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects)
         {
             return ToSystem_String(serializableObjects, null);
         }
 
-        public static string? ToSystem_String<T>(this IEnumerable<T>? serializableObjects) where T :ISerializableObject
+        public static string? ToSystem_String<T>(this IEnumerable<T>? serializableObjects) where T : ISerializableObject
         {
             return ToSystem_String(serializableObjects, null);
         }
@@ -31,7 +31,7 @@ namespace DiGi.Core
             }
 
             JsonObject? jsonObject = serializableObject.ToJsonObject();
-            if(jsonObject == null)
+            if (jsonObject == null)
             {
                 return null;
             }
@@ -48,7 +48,7 @@ namespace DiGi.Core
             }
 
             JsonArray jsonArray = [];
-            foreach(ISerializableObject serializableObject in serializableObjects)
+            foreach (ISerializableObject serializableObject in serializableObjects)
             {
                 jsonArray.Add(serializableObject?.ToJsonObject());
             }
@@ -57,7 +57,7 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        public static string? ToSystem_String<USerializableObject>(this IEnumerable<USerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions) where USerializableObject : ISerializableObject 
+        public static string? ToSystem_String<USerializableObject>(this IEnumerable<USerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions) where USerializableObject : ISerializableObject
         {
             if (serializableObjects == null)
             {
@@ -84,7 +84,7 @@ namespace DiGi.Core
 
             if (string.IsNullOrWhiteSpace(result))
             {
-                if(string.IsNullOrWhiteSpace(uniqueId))
+                if (string.IsNullOrWhiteSpace(uniqueId))
                 {
                     return null;
                 }
@@ -92,7 +92,7 @@ namespace DiGi.Core
                 result = string.Empty;
             }
 
-            if(string.IsNullOrWhiteSpace(format))
+            if (string.IsNullOrWhiteSpace(format))
             {
                 result += uniqueId;
             }
@@ -106,12 +106,12 @@ namespace DiGi.Core
 
         public static string? ToSystem_String(this ISerializableReference? serializableReference, string? source)
         {
-            if(serializableReference == null)
+            if (serializableReference == null)
             {
                 return source;
             }
 
-            if(source == null)
+            if (source == null)
             {
                 return serializableReference.ToString();
             }

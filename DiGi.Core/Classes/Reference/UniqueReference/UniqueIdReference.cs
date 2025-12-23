@@ -10,7 +10,7 @@ namespace DiGi.Core.Classes
         private readonly string uniqueId = Constans.UniqueId.Null;
 
         public UniqueIdReference(TypeReference? typeReference, string? uniqueId)
-            :base(typeReference)
+            : base(typeReference)
         {
             if (uniqueId != null)
             {
@@ -32,7 +32,7 @@ namespace DiGi.Core.Classes
         {
             if (uniqueIdObject != null)
             {
-                if(uniqueIdObject.UniqueId != null)
+                if (uniqueIdObject.UniqueId != null)
                 {
                     uniqueId = uniqueIdObject.UniqueId;
                 }
@@ -54,16 +54,6 @@ namespace DiGi.Core.Classes
 
         }
 
-        public override string? ToString()
-        {
-            return Convert.ToSystem_String(TypeReference, uniqueId, Constans.Reference.Format.UniqueId);
-        }
-
-        public override ISerializableObject? Clone()
-        {
-            return new UniqueIdReference(this);
-        }
-
         [JsonIgnore]
         public override string? UniqueId
         {
@@ -71,6 +61,16 @@ namespace DiGi.Core.Classes
             {
                 return uniqueId;
             }
+        }
+
+        public override ISerializableObject? Clone()
+        {
+            return new UniqueIdReference(this);
+        }
+
+        public override string? ToString()
+        {
+            return Convert.ToSystem_String(TypeReference, uniqueId, Constans.Reference.Format.UniqueId);
         }
     }
 }

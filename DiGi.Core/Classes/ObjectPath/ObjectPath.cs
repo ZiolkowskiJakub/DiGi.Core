@@ -62,8 +62,8 @@ namespace DiGi.Core.Classes
         public static string Separator { get; } = "->";
 
         [JsonIgnore]
-        public string Name 
-        { 
+        public string Name
+        {
             get
             {
                 return name;
@@ -91,7 +91,7 @@ namespace DiGi.Core.Classes
 
         public TObjectPath? Add(string? name)
         {
-            if(name == null)
+            if (name == null)
             {
                 return null;
             }
@@ -106,7 +106,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            if(path != null)
+            if (path != null)
             {
                 return path.Add(names);
             }
@@ -193,13 +193,13 @@ namespace DiGi.Core.Classes
         }
 
         public ObjectPath(string name)
-            :base(name)
+            : base(name)
         {
-            
+
         }
 
         public ObjectPath(string name, ObjectPath path)
-            :base(name, path)
+            : base(name, path)
         {
 
         }

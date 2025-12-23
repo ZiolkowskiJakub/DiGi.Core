@@ -13,16 +13,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperTypeReference(TypeReference? typeReference)
             : base()
         {
-            if(typeReference != null)
+            if (typeReference != null)
             {
                 fullTypeName = typeReference.FullTypeName;
             }
         }
 
         public WrapperTypeReference(WrapperTypeReference? wrapperTypeReference)
-            :base(wrapperTypeReference)
+            : base(wrapperTypeReference)
         {
-            if(wrapperTypeReference != null)
+            if (wrapperTypeReference != null)
             {
                 fullTypeName = wrapperTypeReference.fullTypeName;
             }

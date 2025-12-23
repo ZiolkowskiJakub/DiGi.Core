@@ -36,7 +36,7 @@ namespace DiGi.Core.Classes
         }
 
         public Color(JsonObject jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }

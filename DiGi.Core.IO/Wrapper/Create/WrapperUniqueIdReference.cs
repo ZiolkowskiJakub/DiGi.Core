@@ -8,7 +8,7 @@ namespace DiGi.Core.IO.Wrapper
     {
         internal static WrapperUniqueIdReference? WrapperUniqueIdReference(this JsonArray? jsonArray)
         {
-            if(jsonArray == null)
+            if (jsonArray == null)
             {
                 return null;
             }

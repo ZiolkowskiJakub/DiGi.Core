@@ -12,7 +12,7 @@ namespace DiGi.Core.Classes
         }
 
         public UniqueObject(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }

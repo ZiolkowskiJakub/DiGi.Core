@@ -24,7 +24,7 @@ namespace DiGi.Core.IO.DelimitedData
 
                 // Implement special handling for values that contain comma or quote Enclose in
                 // quotes and double up any double quotes
-                if(value == null)
+                if (value == null)
                 {
                     stringBuilder.Append(string.Empty);
                 }

@@ -24,7 +24,7 @@ namespace DiGi.Core
 
         public static Color ToDrawing(string? value)
         {
-            if(value is null)
+            if (value is null)
             {
                 return Color.Empty;
             }
@@ -47,7 +47,7 @@ namespace DiGi.Core
 
         public static Color ToDrawing(this Classes.Color? color)
         {
-            if(color is null)
+            if (color is null)
             {
                 return Color.Empty;
             }

@@ -25,7 +25,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public ParameterValue(ParameterValue? parameterValue)
         {
-            if(parameterValue != null)
+            if (parameterValue != null)
             {
                 nullable = parameterValue.nullable;
             }
@@ -48,7 +48,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public virtual bool IsValid(object? value)
         {
-            if(value == null)
+            if (value == null)
             {
                 return nullable;
             }
@@ -65,9 +65,9 @@ namespace DiGi.Core.Parameter.Classes
         {
             value_Out = default;
 
-            if(value_In == null)
+            if (value_In == null)
             {
-                if(nullable)
+                if (nullable)
                 {
                     value_Out = null;
                     return true;

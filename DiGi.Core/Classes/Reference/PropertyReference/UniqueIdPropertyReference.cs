@@ -6,7 +6,7 @@ namespace DiGi.Core.Classes
     public class UniqueIdPropertyReference : UniquePropertyReference<UniqueIdReference>
     {
         public UniqueIdPropertyReference(UniqueIdReference reference, string propertyName)
-            : base(reference,propertyName)
+            : base(reference, propertyName)
         {
 
         }

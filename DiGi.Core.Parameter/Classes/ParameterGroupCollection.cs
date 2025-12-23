@@ -23,9 +23,9 @@ namespace DiGi.Core.Parameter.Classes
 
         public ParameterGroupCollection(IEnumerable<Parameter>? parameters)
         {
-            if(parameters != null)
+            if (parameters != null)
             {
-                foreach(Parameter parameter in parameters)
+                foreach (Parameter parameter in parameters)
                 {
                     SetValue(parameter);
                 }
@@ -39,7 +39,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         public ParameterGroupCollection(ParameterGroupCollection? parameterGroupCollection)
-            :base(parameterGroupCollection)
+            : base(parameterGroupCollection)
         {
             this.ParameterGroups = parameterGroupCollection?.ParameterGroups;
 
@@ -88,7 +88,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool Contains(string? uniqueId)
         {
-            if(uniqueId == null)
+            if (uniqueId == null)
             {
                 return false;
             }
@@ -106,7 +106,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool Contains(IParameterDefinition? parameterDefinition)
         {
-            if(parameterDefinition?.UniqueId == null)
+            if (parameterDefinition?.UniqueId == null)
             {
                 return false;
             }
@@ -149,7 +149,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public List<IParameterDefinition>? GetParameterDefinitions(string? parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true)
         {
-            if(parameterName == null)
+            if (parameterName == null)
             {
                 return null;
             }
@@ -169,7 +169,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public List<TParameterDefinition>? GetParameterDefinitions<TParameterDefinition>(string? parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true) where TParameterDefinition : IParameterDefinition
         {
-            if(parameterName == null)
+            if (parameterName == null)
             {
                 return null;
             }
@@ -189,7 +189,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public object? GetValue(IParameterDefinition? parameterDefinition, GetValueSettings? getValueSettings = null)
         {
-            if(parameterDefinition?.UniqueId == null)
+            if (parameterDefinition?.UniqueId == null)
             {
                 return null;
             }
@@ -279,7 +279,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool SetValue(IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null)
         {
-            if(parameterDefinition == null)
+            if (parameterDefinition == null)
             {
                 return false;
             }
@@ -287,14 +287,14 @@ namespace DiGi.Core.Parameter.Classes
             string? groupName = parameterDefinition.GroupName;
             groupName ??= Constans.Names.DefaultGroupName;
 
-            if(!dictionary.TryGetValue(groupName, out ParameterGroup parameterGroup) || parameterGroup == null)
+            if (!dictionary.TryGetValue(groupName, out ParameterGroup parameterGroup) || parameterGroup == null)
             {
                 parameterGroup = new ParameterGroup(groupName);
                 dictionary[groupName] = parameterGroup;
             }
 
             bool result = parameterGroup.SetValue(parameterDefinition, value, setValueSettings);
-            if(!result)
+            if (!result)
             {
                 return result;
             }
@@ -306,11 +306,11 @@ namespace DiGi.Core.Parameter.Classes
         public bool SetValue(string? name, object? value, SetValueSettings? setValueSettings = null)
         {
             List<IParameterDefinition>? parameterDefinitions = GetParameterDefinitions(name);
-            if(parameterDefinitions != null)
+            if (parameterDefinitions != null)
             {
-                foreach(IParameterDefinition parameterDefinition in parameterDefinitions)
+                foreach (IParameterDefinition parameterDefinition in parameterDefinitions)
                 {
-                    if(SetValue(parameterDefinition, value, setValueSettings))
+                    if (SetValue(parameterDefinition, value, setValueSettings))
                     {
                         return true;
                     }
@@ -318,13 +318,13 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             Parameter? parameter = Create.Parameter(name, value);
-            if(parameter == null)
+            if (parameter == null)
             {
                 return false;
             }
 
             string? groupName = parameter.ParameterDefinition?.GroupName;
-            if(groupName == null)
+            if (groupName == null)
             {
                 return false;
             }
@@ -347,7 +347,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool SetValue(Parameter? parameter)
         {
-            if(parameter?.UniqueId == null)
+            if (parameter?.UniqueId == null)
             {
                 return false;
             }
@@ -411,7 +411,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool TryGetValue<T>(IParameterDefinition? parameterDefinition, out T? value, GetValueSettings? getValueSettings = null)
         {
-            if(parameterDefinition?.UniqueId == null)
+            if (parameterDefinition?.UniqueId == null)
             {
                 value = default;
                 return false;
@@ -430,7 +430,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public bool TryGetValue<T>(string? uniqueId, out T? value, GetValueSettings? getValueSettings = null)
         {
-            if(uniqueId == null)
+            if (uniqueId == null)
             {
                 value = default;
                 return false;
@@ -452,7 +452,7 @@ namespace DiGi.Core.Parameter.Classes
             List<ParameterGroup> result = [];
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if(parameterGroup == null)
+                if (parameterGroup == null)
                 {
                     continue;
                 }
@@ -466,7 +466,7 @@ namespace DiGi.Core.Parameter.Classes
         private void SetParameterGroups(IEnumerable<ParameterGroup>? parameterGroups)
         {
             dictionary.Clear();
-            if(parameterGroups == null)
+            if (parameterGroups == null)
             {
                 return;
             }

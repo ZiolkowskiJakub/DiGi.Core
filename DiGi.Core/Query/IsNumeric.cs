@@ -20,7 +20,7 @@ namespace DiGi.Core
                 return false;
             }
 
-            if(@object is DataType dataType)
+            if (@object is DataType dataType)
             {
                 return IsNumeric(dataType, out isInteger);
             }

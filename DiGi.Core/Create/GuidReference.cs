@@ -8,13 +8,13 @@ namespace DiGi.Core
     {
         public static GuidReference? GuidReference<T>(this T? @object, Func<T?, Guid> func)
         {
-            if(@object == null || func == null)
+            if (@object == null || func == null)
             {
                 return null;
             }
 
             string? fullTypeName = Query.FullTypeName(@object.GetType());
-            if(string.IsNullOrWhiteSpace(fullTypeName))
+            if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }
@@ -30,7 +30,7 @@ namespace DiGi.Core
             }
 
             string? fullTypeName = Query.FullTypeName(type);
-            if(string.IsNullOrWhiteSpace(fullTypeName))
+            if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return null;
             }

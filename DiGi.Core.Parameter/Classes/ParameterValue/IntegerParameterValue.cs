@@ -12,7 +12,7 @@ namespace DiGi.Core.Parameter.Classes
 
         [JsonInclude, JsonPropertyName("Min")]
         private readonly int min = int.MinValue;
-        
+
         public IntegerParameterValue()
             : base()
         {
@@ -63,7 +63,7 @@ namespace DiGi.Core.Parameter.Classes
 
         [JsonIgnore]
         public override ParameterType ParameterType => ParameterType.Integer;
-        
+
         public override ISerializableObject? Clone()
         {
             return new IntegerParameterValue(this);

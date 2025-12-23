@@ -507,17 +507,17 @@ namespace DiGi.Core
                     return true;
                 }
             }
-            else if(type_Temp == typeof(Enum))
+            else if (type_Temp == typeof(Enum))
             {
-                if(@object != null && @object is Enum)
+                if (@object != null && @object is Enum)
                 {
                     result = @object;
                     return true;
                 }
             }
-            else if(type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
+            else if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
             {
-                if(@object is string @string && !string.IsNullOrWhiteSpace(@string))
+                if (@object is string @string && !string.IsNullOrWhiteSpace(@string))
                 {
                     result = Type(@string);
                     return true;
@@ -806,8 +806,8 @@ namespace DiGi.Core
         public static bool TryConvert(this object? @object, out object? result, DataType dataType)
         {
             result = null;
-            if(dataType == Enums.DataType.Undefined)
-            { 
+            if (dataType == Enums.DataType.Undefined)
+            {
                 return false;
             }
 

@@ -47,7 +47,7 @@ namespace DiGi.Core
                 }
             }
 
-            if(constructorInfo == null)
+            if (constructorInfo == null)
             {
                 constructorInfos = type.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
                 if (constructorInfos != null && constructorInfos.Length != 0)
@@ -59,7 +59,7 @@ namespace DiGi.Core
                         ParameterInfo[] parameterInfos = constructorInfo_Temp.GetParameters();
                         if (parameterInfos == null || parameterInfos.Length == 0)
                         {
-                            if(constructorInfo_Empty == null)
+                            if (constructorInfo_Empty == null)
                             {
                                 constructorInfo_Empty = constructorInfo_Temp;
                             }
@@ -76,12 +76,12 @@ namespace DiGi.Core
                 }
             }
 
-            if(constructorInfo == null && constructorInfo_Empty != null)
+            if (constructorInfo == null && constructorInfo_Empty != null)
             {
                 constructorInfo = constructorInfo_Empty;
             }
 
-            if(constructorInfo == null)
+            if (constructorInfo == null)
             {
                 return null;
             }

@@ -14,7 +14,7 @@ namespace DiGi.Core.Classes
         }
 
         public PropertyReference(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -22,7 +22,7 @@ namespace DiGi.Core.Classes
         public PropertyReference(PropertyReference? propertyReference)
             : base(propertyReference)
         {
-            if(propertyReference is not null)
+            if (propertyReference is not null)
             {
                 propertyName = propertyReference.PropertyName;
             }
@@ -44,7 +44,7 @@ namespace DiGi.Core.Classes
         private readonly USerializableReference? reference;
 
         public PropertyReference(USerializableReference? reference, string? propertyName)
-            :base(propertyName)
+            : base(propertyName)
         {
             this.reference = reference;
         }

@@ -15,15 +15,15 @@ namespace DiGi.Core
             }
 
             JsonNode? jsonNode = JsonNode.Parse(json!);
-            if(jsonNode == null)
+            if (jsonNode == null)
             {
                 return null;
             }
 
-            if(jsonNode is JsonObject jsonObject)
+            if (jsonNode is JsonObject jsonObject)
             {
                 T? serializableObject = Create.SerializableObject<T>(jsonObject);
-                if(serializableObject == null)
+                if (serializableObject == null)
                 {
                     return null;
                 }
@@ -33,12 +33,12 @@ namespace DiGi.Core
 
             List<T>? result = null;
 
-            if(jsonNode is JsonArray jsonArray)
+            if (jsonNode is JsonArray jsonArray)
             {
                 result = [];
-                foreach(object? @object in jsonArray)
+                foreach (object? @object in jsonArray)
                 {
-                    if(@object is JsonObject jsonObject_Temp)
+                    if (@object is JsonObject jsonObject_Temp)
                     {
                         T? serializableObject = Create.SerializableObject<T>(jsonObject_Temp);
                         if (serializableObject == null)
@@ -56,7 +56,7 @@ namespace DiGi.Core
 
         public static List<T>? ToDiGi<T>(Classes.Path? path) where T : ISerializableObject
         {
-            if(path == null || path.Value == null || !path.HasValue || !path.Value.IsValid())
+            if (path == null || path.Value == null || !path.HasValue || !path.Value.IsValid())
             {
                 return null;
             }
@@ -69,7 +69,7 @@ namespace DiGi.Core
             }
 
             string json = System.IO.File.ReadAllText(path);
-            if(string.IsNullOrWhiteSpace(json))
+            if (string.IsNullOrWhiteSpace(json))
             {
                 return null;
             }
@@ -79,13 +79,13 @@ namespace DiGi.Core
 
         public static List<T>? ToDiGi<T>(byte[]? bytes) where T : ISerializableObject
         {
-            if(bytes == null)
+            if (bytes == null)
             {
                 return null;
             }
 
             string json = Encoding.UTF8.GetString(bytes);
-            
+
             return ToDiGi<T>(json);
         }
     }

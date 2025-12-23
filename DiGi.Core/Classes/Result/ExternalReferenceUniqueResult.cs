@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class ExternalReferenceUniqueResult<TUniqueObject, UExternalReference> : UniqueResult<TUniqueObject> where TUniqueObject: IUniqueObject where UExternalReference : IExternalReference
+    public abstract class ExternalReferenceUniqueResult<TUniqueObject, UExternalReference> : UniqueResult<TUniqueObject> where TUniqueObject : IUniqueObject where UExternalReference : IExternalReference
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly UExternalReference? reference;

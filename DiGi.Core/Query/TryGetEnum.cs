@@ -8,19 +8,19 @@ namespace DiGi.Core
         public static bool TryGetEnum(string? text, out Enum? @enum)
         {
             @enum = default;
-            if(string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return false;
             }
 
             string[] values = text!.Split(':');
-            if(values.Length < 2)
+            if (values.Length < 2)
             {
                 return false;
             }
 
             Type? type = Type(values[0]);
-            if(type == null)
+            if (type == null)
             {
                 return false;
             }
@@ -58,7 +58,7 @@ namespace DiGi.Core
             foreach (Enum @enum_Temp in array)
             {
                 text_Temp = @enum_Temp.Description();
-                if(text_Temp == null)
+                if (text_Temp == null)
                 {
                     continue;
                 }

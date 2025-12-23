@@ -11,7 +11,7 @@ namespace DiGi.Core.Classes
         }
 
         public SerializableOptions(SerializableOptions? serializableOptions)
-            :base(serializableOptions)
+            : base(serializableOptions)
         {
 
         }

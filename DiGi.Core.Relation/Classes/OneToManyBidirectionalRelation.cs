@@ -15,7 +15,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         public OneToManyBidirectionalRelation(UniqueReference? uniqueReference_From, IEnumerable<UniqueReference>? uniqueReferences_To)
-            :base(uniqueReference_From, uniqueReferences_To)
+            : base(uniqueReference_From, uniqueReferences_To)
         {
 
         }

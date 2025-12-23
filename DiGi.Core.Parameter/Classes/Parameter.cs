@@ -54,7 +54,7 @@ namespace DiGi.Core.Parameter.Classes
                 return parameterDefinition?.Clone<IParameterDefinition>();
             }
         }
-        
+
         [JsonIgnore]
         public Enums.ParameterType ParameterType
         {
@@ -84,7 +84,7 @@ namespace DiGi.Core.Parameter.Classes
 
         public T? GetValue<T>(GetValueSettings? getValueSettings = null)
         {
-            if(!TryGetValue(out T? result, getValueSettings))
+            if (!TryGetValue(out T? result, getValueSettings))
             {
                 return default;
             }
@@ -140,12 +140,12 @@ namespace DiGi.Core.Parameter.Classes
 
             if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
             {
-                if(getValueSettings.TryConvert)
+                if (getValueSettings.TryConvert)
                 {
                     return Core.Query.TryConvert(this.value, out value);
                 }
 
-                if(this.value is T t_Temp)
+                if (this.value is T t_Temp)
                 {
                     value = t_Temp;
                     return true;

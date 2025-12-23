@@ -12,7 +12,7 @@ namespace DiGi.Core.Classes
         public ExternalReference(string? source)
             : base()
         {
-            if(source is not null)
+            if (source is not null)
             {
                 this.source = source;
             }
@@ -70,11 +70,6 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public override string? ToString()
-        {
-            return Convert.ToSystem_String(reference, Source);
-        }
-
         [JsonIgnore]
         public USerializableReference? Reference
         {
@@ -82,6 +77,11 @@ namespace DiGi.Core.Classes
             {
                 return reference;
             }
+        }
+
+        public override string? ToString()
+        {
+            return Convert.ToSystem_String(reference, Source);
         }
     }
 }

@@ -32,13 +32,13 @@ namespace DiGi.Core
 
                 externalReference = value.Substring(values[0].Length);
                 externalReference = externalReference.Substring(externalReference.IndexOf(Constans.Reference.Separator) + 2);
-                if(TryParse(externalReference, out IReference? reference_Temp))
+                if (TryParse(externalReference, out IReference? reference_Temp))
                 {
-                    if(reference_Temp is ITypeRelatedSerializableReference typeRelatedSerializableReference)
+                    if (reference_Temp is ITypeRelatedSerializableReference typeRelatedSerializableReference)
                     {
                         reference = new TypeRelatedExternalReference(source, typeRelatedSerializableReference);
                     }
-                    else if(reference_Temp is IInstanceRelatedSerializableReference instanceRelatedSerializableReference)
+                    else if (reference_Temp is IInstanceRelatedSerializableReference instanceRelatedSerializableReference)
                     {
                         reference = new InstanceRelatedExternalReference(source, instanceRelatedSerializableReference);
                     }
@@ -81,12 +81,12 @@ namespace DiGi.Core
                 reference = new GuidReference(typeReference, guid);
             }
 
-            if(reference == null)
+            if (reference == null)
             {
                 return false;
             }
 
-            if(values.Length == 2)
+            if (values.Length == 2)
             {
                 return true;
             }
@@ -99,13 +99,13 @@ namespace DiGi.Core
                 if (propertyName.StartsWith("\"") && propertyName.EndsWith("\""))
                 {
                     propertyName = propertyName.Substring(1, uniqueId.Length - 2);
-                    if(reference is GuidReference guidReference)
+                    if (reference is GuidReference guidReference)
                     {
                         reference = new GuidPropertyReference(guidReference, propertyName);
                         return true;
                     }
 
-                    if(reference is UniqueIdReference uniqueIdReference)
+                    if (reference is UniqueIdReference uniqueIdReference)
                     {
                         reference = new UniqueIdPropertyReference(uniqueIdReference, propertyName);
                         return true;
@@ -120,7 +120,7 @@ namespace DiGi.Core
         {
             reference = default;
 
-            if(!TryParse(value, out IReference? reference_Temp))
+            if (!TryParse(value, out IReference? reference_Temp))
             {
                 return false;
             }

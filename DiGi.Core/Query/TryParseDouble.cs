@@ -20,12 +20,12 @@ namespace DiGi.Core
                 string value_Prefix = value.Substring(0, index);
                 string value_Sufix = "1" + value.Substring(index);
 
-                if(!double.TryParse(value_Sufix, out double factor))
+                if (!double.TryParse(value_Sufix, out double factor))
                 {
                     return false;
                 }
 
-                if(value_Prefix.Length == 0)
+                if (value_Prefix.Length == 0)
                 {
                     result = factor;
                     return true;
@@ -42,7 +42,7 @@ namespace DiGi.Core
             string @string = value.Trim().Split(' ')[0];
             if (!double.TryParse(@string, out double value_1))
             {
-                if(@string == Constans.Serialization.LiteralName.PositiveInfinity)
+                if (@string == Constans.Serialization.LiteralName.PositiveInfinity)
                 {
                     result = double.PositiveInfinity;
                     return true;
@@ -56,7 +56,7 @@ namespace DiGi.Core
             }
             else
             {
-                if(double.IsNaN(value_1))
+                if (double.IsNaN(value_1))
                 {
                     result = value_1;
                     return true;

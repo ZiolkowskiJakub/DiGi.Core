@@ -15,7 +15,7 @@ namespace DiGi.Core
 
             List<string> names_Temp = [.. names];
 
-            Category result = new (names_Temp[0]);
+            Category result = new(names_Temp[0]);
             names_Temp.RemoveAt(0);
 
             Category category = result;

@@ -10,16 +10,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         }
 
-        protected override TypeReference? GetKey_1(WrapperItem? value)
-        {
-            return value?.UniqueReference?.TypeReference;
-        }
-
-        protected override UniqueReference? GetKey_2(WrapperItem? value)
-        {
-            return value?.UniqueReference;
-        }
-
         public JsonNode? GetValue(UniqueReference? uniqueReference)
         {
             if (uniqueReference is null)
@@ -38,6 +28,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             return GetValue<WrapperItem>(uniqueReference.TypeReference, uniqueReference)?.JsonNode as TJsonNode;
+        }
+
+        protected override TypeReference? GetKey_1(WrapperItem? value)
+        {
+            return value?.UniqueReference?.TypeReference;
+        }
+
+        protected override UniqueReference? GetKey_2(WrapperItem? value)
+        {
+            return value?.UniqueReference;
         }
     }
 }

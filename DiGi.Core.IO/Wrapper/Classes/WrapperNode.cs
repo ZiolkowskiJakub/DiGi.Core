@@ -35,19 +35,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
             wrapperUniqueReference = jsonNode?.WrapperUniqueReference();
         }
 
-        public IWrapperUniqueReference? WrapperUniqueReference
-        {
-            get
-            {
-                return wrapperUniqueReference;
-            }
-        }
-
-        public UniqueReference? GetUniqueReference()
-        {
-            return wrapperUniqueReference?.UniqueReference();
-        }
-
         public JsonNode? JsonNode
         {
             get
@@ -56,19 +43,33 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
 
-        public HashSet<IWrapperUniqueReference>? GetWrapperUniqueReferences()
+        public IWrapperUniqueReference? WrapperUniqueReference
         {
-            if (jsonNode == null || jsonNode is JsonValue)
+            get
             {
-                return null;
+                return wrapperUniqueReference;
+            }
+        }
+
+        public override bool Equals(object? @object)
+        {
+            WrapperNode? WrapperNode = @object as WrapperNode;
+            if (WrapperNode == null)
+            {
+                return false;
             }
 
-            if (jsonNode is JsonObject jsonObject)
-            {
-                return jsonObject.WrapperUniqueReferences();
-            }
+            return GetHashCode() == WrapperNode.GetHashCode();
+        }
 
-            return null;
+        public override int GetHashCode()
+        {
+            return wrapperUniqueReference == null ? -1 : wrapperUniqueReference.ToString().GetHashCode();
+        }
+
+        public UniqueReference? GetUniqueReference()
+        {
+            return wrapperUniqueReference?.UniqueReference();
         }
 
         public HashSet<WrapperNode>? GetWrapperNodes<TJsonNode>(bool includeNested, WrapState wrapState = WrapState.Undefined) where TJsonNode : JsonNode
@@ -91,30 +92,35 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return GetWrapperNodes<TJsonNode>(false, wrapState);
         }
 
-        public override bool Equals(object? @object)
+        public HashSet<IWrapperUniqueReference>? GetWrapperUniqueReferences()
         {
-            WrapperNode? WrapperNode = @object as WrapperNode;
-            if (WrapperNode == null)
+            if (jsonNode == null || jsonNode is JsonValue)
             {
-                return false;
+                return null;
             }
 
-            return GetHashCode() == WrapperNode.GetHashCode();
-        }
-
-        public override int GetHashCode()
-        {
-            return wrapperUniqueReference == null ? -1 : wrapperUniqueReference.ToString().GetHashCode();
-        }
-
-        public bool IsWrapperUniqueReference()
-        {
             if (jsonNode is JsonObject jsonObject)
             {
-                return jsonObject.IsWrapperUniqueReference();
+                return jsonObject.WrapperUniqueReferences();
             }
 
-            return false;
+            return null;
+        }
+        public bool IsUnwrapped()
+        {
+            return IsUnwrapped(out _);
+        }
+
+        public bool IsUnwrapped(out HashSet<WrapperNode>? wrapperNodes_Wrapped)
+        {
+            wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(WrapState.Wrapped);
+            return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
+        }
+
+        public bool IsUnwrapped(bool includeNested, out HashSet<WrapperNode>? wrapperNodes_Wrapped)
+        {
+            wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(includeNested, WrapState.Wrapped);
+            return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
         }
 
         public bool IsWrapped()
@@ -134,63 +140,14 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperNodes_Unwrapped == null || wrapperNodes_Unwrapped.Count == 0;
         }
 
-        public bool IsUnwrapped()
+        public bool IsWrapperUniqueReference()
         {
-            return IsUnwrapped(out _);
-        }
-
-        public bool IsUnwrapped(out HashSet<WrapperNode>? wrapperNodes_Wrapped)
-        {
-            wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(WrapState.Wrapped);
-            return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
-        }
-
-        public bool IsUnwrapped(bool includeNested, out HashSet<WrapperNode>? wrapperNodes_Wrapped)
-        {
-            wrapperNodes_Wrapped = GetWrapperNodes<JsonObject>(includeNested, WrapState.Wrapped);
-            return wrapperNodes_Wrapped == null || wrapperNodes_Wrapped.Count == 0;
-        }
-
-        public bool Wrap()
-        {
-            return Wrap(out _);
-        }
-
-        public bool Wrap(out HashSet<WrapperNode>? wrapperNodes)
-        {
-            wrapperNodes = null;
-            if(jsonNode == null)
-            {
-                return false;
-            }
-
-            if (jsonNode is JsonValue)
-            {
-                return false;
-            }
-
-            Dictionary<IWrapperUniqueReference, JsonObject> dictionary = [];
             if (jsonNode is JsonObject jsonObject)
             {
-                jsonNode = Query.Wrap(jsonObject, ref dictionary);
-            }
-            else if(jsonNode is JsonArray jsonArray)
-            {
-                jsonNode = Query.Wrap(jsonArray, ref dictionary);
+                return jsonObject.IsWrapperUniqueReference();
             }
 
-            if(dictionary == null || dictionary.Count == 0)
-            {
-                return false;
-            }
-
-            wrapperNodes = [];
-            foreach (KeyValuePair<IWrapperUniqueReference, JsonObject> keyValuePair in dictionary)
-            {
-                wrapperNodes.Add(new WrapperNode(keyValuePair.Key, keyValuePair.Value));
-            }
-
-            return true;
+            return false;
         }
 
         public bool Unwrap(WrapperNodeCluster? wrapperNodeCluster, out HashSet<IWrapperUniqueReference>? missingWrapperUniquReferences)
@@ -208,7 +165,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             WrapperNode? wrapperNode = Modify.Unwrap(wrapperNodeCluster, this, out missingWrapperUniquReferences);
-            if(wrapperNode == null)
+            if (wrapperNode == null)
             {
                 return false;
             }
@@ -216,6 +173,48 @@ namespace DiGi.Core.IO.Wrapper.Classes
             jsonNode = wrapperNode.JsonNode;
 
             return missingWrapperUniquReferences == null || missingWrapperUniquReferences.Count == 0;
+        }
+
+        public bool Wrap()
+        {
+            return Wrap(out _);
+        }
+
+        public bool Wrap(out HashSet<WrapperNode>? wrapperNodes)
+        {
+            wrapperNodes = null;
+            if (jsonNode == null)
+            {
+                return false;
+            }
+
+            if (jsonNode is JsonValue)
+            {
+                return false;
+            }
+
+            Dictionary<IWrapperUniqueReference, JsonObject> dictionary = [];
+            if (jsonNode is JsonObject jsonObject)
+            {
+                jsonNode = Query.Wrap(jsonObject, ref dictionary);
+            }
+            else if (jsonNode is JsonArray jsonArray)
+            {
+                jsonNode = Query.Wrap(jsonArray, ref dictionary);
+            }
+
+            if (dictionary == null || dictionary.Count == 0)
+            {
+                return false;
+            }
+
+            wrapperNodes = [];
+            foreach (KeyValuePair<IWrapperUniqueReference, JsonObject> keyValuePair in dictionary)
+            {
+                wrapperNodes.Add(new WrapperNode(keyValuePair.Key, keyValuePair.Value));
+            }
+
+            return true;
         }
     }
 }

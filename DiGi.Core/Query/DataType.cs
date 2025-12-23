@@ -15,12 +15,12 @@ namespace DiGi.Core
         public static DataType DataType(this object? @object, out bool nullable)
         {
             nullable = false;
-            if(@object == null)
+            if (@object == null)
             {
                 return Enums.DataType.Undefined;
             }
 
-            if(@object is Type type)
+            if (@object is Type type)
             {
                 return DataType(type, out nullable);
             }
@@ -37,7 +37,7 @@ namespace DiGi.Core
         public static DataType DataType(this Type? type, out bool nullable)
         {
             nullable = false;
-            if(type == null)
+            if (type == null)
             {
                 return Enums.DataType.Undefined;
             }

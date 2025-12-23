@@ -8,12 +8,12 @@ namespace DiGi.Core.IO.Wrapper
     {
         internal static UniqueReference? UniqueReference(this IWrapperUniqueReference? wrapperUniqueReference)
         {
-            if(wrapperUniqueReference == null)
+            if (wrapperUniqueReference == null)
             {
                 return null;
             }
 
-            if(wrapperUniqueReference is WrapperGuidReference wrapperGuidReference)
+            if (wrapperUniqueReference is WrapperGuidReference wrapperGuidReference)
             {
                 return wrapperGuidReference.Reference;
             }

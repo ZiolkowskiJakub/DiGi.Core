@@ -17,13 +17,13 @@ namespace DiGi.Core.Classes
         }
 
         public GuidObject(Guid guid)
-            :base()
+            : base()
         {
             this.guid = guid;
         }
 
         public GuidObject(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
@@ -43,7 +43,7 @@ namespace DiGi.Core.Classes
         public virtual IGuidObject? Duplicate(Guid? guid = null)
         {
             GuidObject? result = Query.Clone(this);
-            if(result != null)
+            if (result != null)
             {
                 result.guid = guid == null ? Guid.NewGuid() : guid.Value;
             }

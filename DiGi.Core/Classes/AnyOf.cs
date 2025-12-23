@@ -71,7 +71,7 @@ namespace DiGi.Core.Classes
         {
             if (anyOf is null || anyOf.value is null)
             {
-                if(@object is null)
+                if (@object is null)
                 {
                     return true;
                 }
@@ -86,7 +86,7 @@ namespace DiGi.Core.Classes
         {
             if (this is null)
             {
-                if(@object is null)
+                if (@object is null)
                 {
                     return true;
                 }
@@ -94,7 +94,7 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            if(value is null)
+            if (value is null)
             {
                 return @object is null;
             }

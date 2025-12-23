@@ -13,19 +13,19 @@ namespace DiGi.Core.Classes
             this.name = name;
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
-
         public MemberInfo MemberInfo
         {
             get
             {
                 return memberInfo;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return name;
             }
         }
     }

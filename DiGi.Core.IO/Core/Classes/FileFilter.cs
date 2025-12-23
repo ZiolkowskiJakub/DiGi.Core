@@ -68,7 +68,7 @@ namespace DiGi.Core.IO.Classes
         {
             return ToString().GetHashCode();
         }
-        
+
         public override string ToString()
         {
             List<string> values = [];

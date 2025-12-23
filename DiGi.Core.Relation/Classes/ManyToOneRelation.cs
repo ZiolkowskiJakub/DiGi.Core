@@ -42,18 +42,18 @@ namespace DiGi.Core.Relation.Classes
 
         [JsonInclude, JsonPropertyName("UniqueReferences_From")]
         private List<IUniqueReference>? uniqueReferences_From;
-        
+
         public ManyToOneRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IUniqueReference? uniqueReference_To)
-            :base()
+            : base()
         {
             this.uniqueReference_To = uniqueReference_To?.Clone<IUniqueReference>();
-            if(uniqueReferences_From != null)
+            if (uniqueReferences_From != null)
             {
                 this.uniqueReferences_From = [];
-                foreach(IUniqueReference? uniqueReference in uniqueReferences_From)
+                foreach (IUniqueReference? uniqueReference in uniqueReferences_From)
                 {
                     IUniqueReference? uniqueReference_Temp = uniqueReference?.Clone<IUniqueReference>();
-                    if(uniqueReference_Temp == null)
+                    if (uniqueReference_Temp == null)
                     {
                         continue;
                     }
@@ -66,7 +66,7 @@ namespace DiGi.Core.Relation.Classes
         public ManyToOneRelation(ManyToOneRelation<From, To>? manyToOneRelation)
             : base()
         {
-            if(manyToOneRelation != null)
+            if (manyToOneRelation != null)
             {
                 uniqueReference_To = manyToOneRelation.uniqueReference_To?.Clone<IUniqueReference>();
                 if (manyToOneRelation.uniqueReferences_From != null)
@@ -90,7 +90,7 @@ namespace DiGi.Core.Relation.Classes
             : base()
         {
             uniqueReference_To = uniqueObject_To == null ? null : Create.UniqueReference(uniqueObject_To);
-            if(uniqueObjects_From != null)
+            if (uniqueObjects_From != null)
             {
                 uniqueReferences_From = [];
                 foreach (From? from in uniqueObjects_From)
@@ -131,7 +131,7 @@ namespace DiGi.Core.Relation.Classes
                 if (uniqueReference_To != null)
                 {
                     IUniqueReference? uniqueReference = uniqueReference_To.Clone<IUniqueReference>();
-                    if(uniqueReference != null)
+                    if (uniqueReference != null)
                     {
                         result.Add(uniqueReference);
                     }
@@ -160,13 +160,13 @@ namespace DiGi.Core.Relation.Classes
         {
             get
             {
-                if(uniqueReferences_From == null)
+                if (uniqueReferences_From == null)
                 {
-                    return null; 
+                    return null;
                 }
 
                 List<IUniqueReference> result = [];
-                foreach(IUniqueReference uniqueReference in uniqueReferences_From)
+                foreach (IUniqueReference uniqueReference in uniqueReferences_From)
                 {
                     IUniqueReference? uniqueReference_Temp = uniqueReference?.Clone<IUniqueReference>();
                     if (uniqueReference_Temp == null)
@@ -208,7 +208,7 @@ namespace DiGi.Core.Relation.Classes
         {
             bool result = false;
 
-            if(uniqueReference == null)
+            if (uniqueReference == null)
             {
                 return result;
             }
@@ -296,7 +296,7 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.To || relationSide == RelationSide.Undefined)
             {
-                if(uniqueReference_To is TUniqueReference uniqueReference_Temp)
+                if (uniqueReference_To is TUniqueReference uniqueReference_Temp)
                 {
                     if (uniqueReferences.Find(x => x is not null && uniqueReference_To.Equals(x)) != null)
                     {
