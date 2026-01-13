@@ -14,20 +14,22 @@ namespace DiGi.Core
                 return Constans.UniqueId.Null;
             }
 
-            ulong result = 0;
-            int index = 0;
-            foreach (char c in value)
-            {
-                ulong temp = (result * 31) + c;
-                if (temp < result)
-                {
-                    index++;
-                }
+            //ulong result = 0;
+            //int index = 0;
+            //foreach (char c in value)
+            //{
+            //    ulong temp = (result * 31) + c;
+            //    if (temp < result)
+            //    {
+            //        index++;
+            //    }
 
-                result = temp;
-            }
+            //    result = temp;
+            //}
 
-            return index.ToString() + result.ToString();
+            //return index.ToString() + result.ToString();
+
+            return UniqueHash(value).ToString();
         }
 
         public static string UniqueId(this double value)
@@ -242,7 +244,9 @@ namespace DiGi.Core
                 }
             }
 
-            return UniqueId(value.ToString());
+            //return UniqueId(value.ToString());
+
+            return UniqueHash(value).ToString();
         }
 
         public static string UniqueId(this Enum? @enum)
