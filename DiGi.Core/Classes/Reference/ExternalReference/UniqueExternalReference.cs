@@ -30,5 +30,13 @@ namespace DiGi.Core.Classes
                 return Reference?.TypeReference;
             }
         }
+
+        public string? UniqueId
+        {
+            get
+            {
+                return Reference?.UniqueId;
+            }
+        }
     }
 }
