@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -44,11 +45,16 @@ namespace DiGi.Core.Classes
             }
         }
 
-        public bool Add(string name, bool value)
+        public bool Add(string name, bool? value)
         {
             if (name == null)
             {
                 return false;
+            }
+
+            if (value is null)
+            {
+                return Remove(name);
             }
 
             dictionary[name] = value.ToString();
@@ -57,23 +63,33 @@ namespace DiGi.Core.Classes
 
         public bool Add(string name, string? value)
         {
-            if (name == null || value == null)
+            if (name == null)
             {
                 return false;
+            }
+
+            if (value is null)
+            {
+                return Remove(name);
             }
 
             dictionary[name] = string.Format("\"{0}\"", value);
             return true;
         }
 
-        public bool Add(string name, double value)
+        public bool Add(string name, double? value)
         {
             if (name == null)
             {
                 return false;
             }
 
-            string text = value.ToString(CultureInfo.InvariantCulture);
+            if (value is null)
+            {
+                return Remove(name);
+            }
+
+            string text = value.Value.ToString(CultureInfo.InvariantCulture);
             if (!text.Contains("."))
             {
                 text += ".0";
@@ -83,11 +99,16 @@ namespace DiGi.Core.Classes
             return true;
         }
 
-        public bool Add(string name, int value)
+        public bool Add(string name, int? value)
         {
             if (name == null)
             {
                 return false;
+            }
+
+            if(value is null)
+            {
+                return Remove(name);
             }
 
             dictionary[name] = value.ToString();
@@ -221,6 +242,16 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        public bool Remove(string name)
+        {
+            if (name == null)
+            {
+                return false;
+            }
+
+            return dictionary.Remove(name);
+        }
+        
         public bool TryGetValue<T>(string name, out T? value)
         {
             value = default;
