@@ -9,7 +9,6 @@ namespace DiGi.Core.Classes
         public SerializableObject()
             : base()
         {
-
         }
 
         public SerializableObject(SerializableObject? serializableObject)
@@ -17,7 +16,6 @@ namespace DiGi.Core.Classes
         {
             if (serializableObject != null)
             {
-
             }
         }
 

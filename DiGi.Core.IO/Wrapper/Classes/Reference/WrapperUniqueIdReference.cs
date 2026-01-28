@@ -43,7 +43,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperUniqueIdReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

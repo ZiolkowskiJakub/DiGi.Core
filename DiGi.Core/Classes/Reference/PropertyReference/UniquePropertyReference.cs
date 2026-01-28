@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public UniquePropertyReference(UUniquePropertyReference reference, string propertyName)
             : base(reference, propertyName)
         {
-
         }
 
         public UniquePropertyReference(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniquePropertyReference(UniquePropertyReference<UUniquePropertyReference> uniquePropertyReference)
             : base(uniquePropertyReference)
         {
-
         }
     }
 }

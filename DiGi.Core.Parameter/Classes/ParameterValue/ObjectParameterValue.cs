@@ -18,7 +18,6 @@ namespace DiGi.Core.Parameter.Classes
         public ObjectParameterValue()
             : base()
         {
-
         }
 
         public ObjectParameterValue(bool nullable, bool inheritance, params Type[] types)
@@ -31,7 +30,6 @@ namespace DiGi.Core.Parameter.Classes
         public ObjectParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ObjectParameterValue(ObjectParameterValue? objectParameterValue)
@@ -42,7 +40,6 @@ namespace DiGi.Core.Parameter.Classes
                 inheritance = objectParameterValue.inheritance;
                 types = objectParameterValue.types?.ToArray();
             }
-
         }
 
         [JsonIgnore]

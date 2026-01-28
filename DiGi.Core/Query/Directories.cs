@@ -39,5 +39,4 @@ namespace DiGi.Core
             return Directories(directoryInfo.FullName);
         }
     }
-
 }

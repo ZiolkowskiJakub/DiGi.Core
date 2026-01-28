@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -516,11 +515,9 @@ namespace DiGi.Core
                             break;
                     }
                 }
-
             }
 
             return null;
         }
     }
-
 }

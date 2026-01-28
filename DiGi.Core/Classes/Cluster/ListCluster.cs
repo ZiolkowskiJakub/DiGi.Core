@@ -412,7 +412,6 @@ namespace DiGi.Core.Classes
                 List<ListClusterReference<TKey_1, TKey_2>> listClusterReferences_Temp_Temp = listClusterReferences_Temp.FindAll(x => listClusterReference.Key_1.Equals(x.Key_1) && listClusterReference.Key_2.Equals(x.Key_2));
                 listClusterReferences_Temp.RemoveAll(x => listClusterReferences_Temp_Temp.Contains(x));
 
-
                 List<TValue>? values = Remove(listClusterReference.Key_1, listClusterReference.Key_2, listClusterReferences_Temp_Temp.ConvertAll(x => x.Index));
                 if (values != null)
                 {

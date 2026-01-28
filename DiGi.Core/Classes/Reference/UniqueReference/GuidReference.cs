@@ -43,7 +43,6 @@ namespace DiGi.Core.Classes
         public GuidReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -75,4 +74,3 @@ namespace DiGi.Core.Classes
         }
     }
 }
-

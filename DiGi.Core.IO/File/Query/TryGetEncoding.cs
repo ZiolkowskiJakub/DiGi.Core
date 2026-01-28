@@ -62,13 +62,9 @@ namespace DiGi.Core.IO.File
             }
             catch
             {
-
             }
 
             return false;
         }
-
     }
 }
-
-

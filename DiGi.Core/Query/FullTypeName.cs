@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -30,7 +29,6 @@ namespace DiGi.Core
             {
                 return null;
             }
-
 
             return result;
         }

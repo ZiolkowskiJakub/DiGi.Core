@@ -30,7 +30,6 @@ namespace DiGi.Core.IO.DelimitedData
                 }
             }
 
-
             if (columns == null || columns.Count == 0)
             {
                 columns = [.. columns_Table];
@@ -93,4 +92,3 @@ namespace DiGi.Core.IO.DelimitedData
         }
     }
 }
-

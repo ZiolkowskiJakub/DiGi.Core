@@ -14,12 +14,10 @@ namespace DiGi.Core.IO
 
             string path_Temp = Path.GetTempFileName();
 
-
             HashSet<int>? result = null;
 
             try
             {
-
                 using StreamReader streamReader = new(path);
                 using StreamWriter streamWriter = new(path_Temp);
                 result = [];
@@ -53,7 +51,4 @@ namespace DiGi.Core.IO
             return result;
         }
     }
-
 }
-
-

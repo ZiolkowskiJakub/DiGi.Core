@@ -34,7 +34,6 @@ namespace DiGi.Core.Relation.Classes
         public UniqueObjectRelationClusterModel(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Guid GetNewGuid(Type? type)

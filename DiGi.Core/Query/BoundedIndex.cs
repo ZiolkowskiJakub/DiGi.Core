@@ -53,5 +53,4 @@ namespace DiGi.Core
             return BoundedIndex(new Range<int>(0, max), index);
         }
     }
-
 }

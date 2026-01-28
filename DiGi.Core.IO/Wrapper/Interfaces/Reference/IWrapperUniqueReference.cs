@@ -10,6 +10,5 @@ namespace DiGi.Core.IO.Wrapper.Interfaces
 
     internal interface IWrapperUniqueReference<TUniqueReference> : IWrapperUniqueReference, IWrapperReference<TUniqueReference> where TUniqueReference : UniqueReference
     {
-
     }
 }

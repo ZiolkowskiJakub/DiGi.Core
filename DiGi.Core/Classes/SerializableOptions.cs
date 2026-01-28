@@ -7,19 +7,16 @@ namespace DiGi.Core.Classes
     {
         public SerializableOptions()
         {
-
         }
 
         public SerializableOptions(SerializableOptions? serializableOptions)
             : base(serializableOptions)
         {
-
         }
 
         public SerializableOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

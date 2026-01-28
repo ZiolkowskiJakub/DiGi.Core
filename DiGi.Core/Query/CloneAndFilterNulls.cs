@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 
-
 namespace DiGi.Core
 {
     public static partial class Query

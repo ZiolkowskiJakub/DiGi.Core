@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-
 namespace DiGi.Core
 {
     public static partial class Query

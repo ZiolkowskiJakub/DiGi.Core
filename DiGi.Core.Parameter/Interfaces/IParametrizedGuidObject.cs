@@ -4,6 +4,5 @@ namespace DiGi.Core.Parameter.Interfaces
 {
     public interface IParametrizedGuidObject : IParametrizedUniqueObject, IGuidObject
     {
-
     }
 }

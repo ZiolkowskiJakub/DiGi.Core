@@ -4,6 +4,5 @@ namespace DiGi.Core.IO.Interfaces
 {
     public interface IIOObject : IObject
     {
-
     }
 }

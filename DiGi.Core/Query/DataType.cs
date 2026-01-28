@@ -26,7 +26,6 @@ namespace DiGi.Core
             }
 
             return DataType(@object.GetType(), out nullable);
-
         }
 
         public static DataType DataType(this Type? type)

@@ -15,7 +15,6 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedGuidObject()
             : base()
         {
-
         }
 
         public ParametrizedGuidObject(Guid guid)
@@ -27,19 +26,16 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedGuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ParametrizedGuidObject(IEnumerable<Parameter>? parameters)
             : base(parameters)
         {
-
         }
 
         public ParametrizedGuidObject(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
-
         }
 
         public ParametrizedGuidObject(ParametrizedGuidObject? parametrizedGuidObject)

@@ -62,7 +62,6 @@ namespace DiGi.Core.IO.Wrapper
             }
 
             return null;
-
         }
 
         internal static IWrapperUniqueReference? WrapperUniqueReference(this UniqueReference? uniqueReference)
@@ -84,7 +83,5 @@ namespace DiGi.Core.IO.Wrapper
 
             throw new NotImplementedException();
         }
-
     }
 }
-

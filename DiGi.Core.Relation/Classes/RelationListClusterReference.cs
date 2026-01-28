@@ -33,6 +33,5 @@ namespace DiGi.Core.Relation.Classes
 
             return Core.Query.HashCode([.. values]);
         }
-
     }
 }

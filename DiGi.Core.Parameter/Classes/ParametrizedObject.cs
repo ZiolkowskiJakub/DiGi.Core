@@ -27,7 +27,6 @@ namespace DiGi.Core.Parameter.Classes
 
         public ParametrizedObject()
         {
-
         }
 
         public ParametrizedObject(ParameterGroupCollection? parameterGroupCollection)
@@ -38,7 +37,6 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ParametrizedObject(ParametrizedObject? parametrizedObject)

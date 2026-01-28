@@ -10,9 +10,9 @@ namespace DiGi.Core.Classes
     {
         private readonly Dictionary<string, SerializationConstructor> dictionary_SerializationConstructor = [];
         private readonly Dictionary<string, SerializationMethodCollection> dictionary_SerializationMethodCollection = [];
+
         public SerializationManager()
         {
-
         }
 
         public JsonSerializerOptions JsonSerializerOptions { get; set; } = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
@@ -54,7 +54,6 @@ namespace DiGi.Core.Classes
             {
                 return null;
             }
-
 
             Type? type = Query.Type(fullTypeName);
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))

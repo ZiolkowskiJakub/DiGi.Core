@@ -2,7 +2,6 @@
 {
     internal interface IValueFile : IFile
     {
-
     }
 
     internal interface IValueFile<T> : IValueFile

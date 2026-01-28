@@ -13,7 +13,6 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedUniqueIdObject()
             : base()
         {
-
         }
 
         public ParametrizedUniqueIdObject(string? uniqueId)
@@ -25,19 +24,16 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedUniqueIdObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ParametrizedUniqueIdObject(IEnumerable<Parameter>? parameters)
             : base(parameters)
         {
-
         }
 
         public ParametrizedUniqueIdObject(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
-
         }
 
         public ParametrizedUniqueIdObject(ParametrizedUniqueIdObject? parametrizedUniqueIdObject)

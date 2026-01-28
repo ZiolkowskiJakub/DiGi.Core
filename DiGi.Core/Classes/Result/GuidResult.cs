@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public GuidResult()
             : base()
         {
-
         }
 
         public GuidResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public GuidResult(GuidResult? guidResult)
             : base(guidResult)
         {
-
         }
     }
 
@@ -29,19 +26,16 @@ namespace DiGi.Core.Classes
         public GuidResult()
             : base()
         {
-
         }
 
         public GuidResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public GuidResult(GuidResult<TUniqueObject>? guidResult)
             : base(guidResult)
         {
-
         }
     }
 }

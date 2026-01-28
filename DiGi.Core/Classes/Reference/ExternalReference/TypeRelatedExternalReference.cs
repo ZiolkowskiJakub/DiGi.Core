@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public TypeRelatedExternalReference(string source, ITypeRelatedSerializableReference reference)
             : base(source, reference)
         {
-
         }
 
         public TypeRelatedExternalReference(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public TypeRelatedExternalReference(TypeRelatedExternalReference externalReference)
         : base(externalReference)
         {
-
         }
     }
 }

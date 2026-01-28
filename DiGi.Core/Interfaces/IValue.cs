@@ -2,7 +2,6 @@
 {
     public interface IValue : IObject
     {
-
     }
 
     public interface IValue<TValue> : IValue

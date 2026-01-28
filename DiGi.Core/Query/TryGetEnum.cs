@@ -69,7 +69,6 @@ namespace DiGi.Core
                     @enum = @enum_Temp;
                     return true;
                 }
-
             }
 
             text_Temp = text?.ToUpper().Replace(" ", string.Empty);
@@ -111,5 +110,4 @@ namespace DiGi.Core
             return true;
         }
     }
-
 }

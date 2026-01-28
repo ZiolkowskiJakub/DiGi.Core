@@ -6,7 +6,6 @@ namespace DiGi.Core.Classes
     {
         public Object()
         {
-
         }
     }
 }

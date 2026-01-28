@@ -12,7 +12,6 @@ namespace DiGi.Core.Classes
         public UniqueIdObject()
             : base()
         {
-
         }
 
         public UniqueIdObject(string? uniqueId)
@@ -24,7 +23,6 @@ namespace DiGi.Core.Classes
         public UniqueIdObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueIdObject(UniqueIdObject? uniqueIdObject)

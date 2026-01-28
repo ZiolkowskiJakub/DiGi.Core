@@ -10,7 +10,6 @@ namespace DiGi.Core.Classes
         public SerializableObjectWrapper()
             : base()
         {
-
         }
 
         public SerializableObjectWrapper(JsonObject? jsonObject)

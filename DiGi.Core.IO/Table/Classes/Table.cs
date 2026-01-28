@@ -11,7 +11,6 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Table()
         {
-
         }
 
         public int ColumnCount

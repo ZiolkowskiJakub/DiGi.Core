@@ -27,6 +27,5 @@ namespace DiGi.Core.Enums
         [Description("Object")] Object,
         [Description("Serializable Object")] SerializableObject,
         [Description("Other")] Other,
-
     }
 }

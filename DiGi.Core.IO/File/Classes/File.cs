@@ -29,7 +29,6 @@ namespace DiGi.Core.IO.File.Classes
         public File(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public File(File? file)

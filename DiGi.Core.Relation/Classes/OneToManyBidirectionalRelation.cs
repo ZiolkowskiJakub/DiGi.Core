@@ -11,25 +11,21 @@ namespace DiGi.Core.Relation.Classes
         public OneToManyBidirectionalRelation(IUniqueObject? uniqueObject_From, IEnumerable<IUniqueObject>? uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
-
         }
 
         public OneToManyBidirectionalRelation(UniqueReference? uniqueReference_From, IEnumerable<UniqueReference>? uniqueReferences_To)
             : base(uniqueReference_From, uniqueReferences_To)
         {
-
         }
 
         public OneToManyBidirectionalRelation(OneToManyBidirectionalRelation? oneToManyBidirectionalRelation)
             : base(oneToManyBidirectionalRelation)
         {
-
         }
 
         public OneToManyBidirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 
@@ -38,25 +34,21 @@ namespace DiGi.Core.Relation.Classes
         public OneToManyBidirectionalRelation(From? uniqueObject_From, IEnumerable<To>? uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
-
         }
 
         public OneToManyBidirectionalRelation(UniqueReference? uniqueReference_From, IEnumerable<UniqueReference>? uniqueReferences_To)
             : base(uniqueReference_From, uniqueReferences_To)
         {
-
         }
 
         public OneToManyBidirectionalRelation(OneToManyBidirectionalRelation<From, To>? oneToManyBidirectionalRelation)
             : base(oneToManyBidirectionalRelation)
         {
-
         }
 
         public OneToManyBidirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

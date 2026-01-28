@@ -19,13 +19,11 @@ namespace DiGi.Core.Parameter.Classes
         public DoubleParameterValue()
             : base()
         {
-
         }
 
         public DoubleParameterValue(bool nullable)
             : base(nullable)
         {
-
         }
 
         public DoubleParameterValue(double min, double max)
@@ -51,7 +49,6 @@ namespace DiGi.Core.Parameter.Classes
         public DoubleParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public DoubleParameterValue(DoubleParameterValue? doubleParameterValue)

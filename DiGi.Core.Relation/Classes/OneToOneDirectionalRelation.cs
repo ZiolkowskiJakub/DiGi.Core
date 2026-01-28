@@ -10,25 +10,21 @@ namespace DiGi.Core.Relation.Classes
         public OneToOneDirectionalRelation(UniqueReference? uniqueReference_From, UniqueReference? uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {
-
         }
 
         public OneToOneDirectionalRelation(OneToOneDirectionalRelation? oneToOneDirectionalRelation)
             : base(oneToOneDirectionalRelation)
         {
-
         }
 
         public OneToOneDirectionalRelation(IUniqueObject? uniqueObject_From, IUniqueObject? uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
-
         }
 
         public OneToOneDirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public override ISerializableObject Clone()
@@ -47,25 +43,21 @@ namespace DiGi.Core.Relation.Classes
         public OneToOneDirectionalRelation(UniqueReference? uniqueReference_From, UniqueReference? uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {
-
         }
 
         public OneToOneDirectionalRelation(OneToOneDirectionalRelation<XUniqueObject, YUniqueObject>? oneToOneDirectionalRelation)
             : base(oneToOneDirectionalRelation)
         {
-
         }
 
         public OneToOneDirectionalRelation(XUniqueObject? uniqueObject_From, YUniqueObject? uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
-
         }
 
         public OneToOneDirectionalRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

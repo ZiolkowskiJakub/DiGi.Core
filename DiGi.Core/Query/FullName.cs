@@ -14,5 +14,4 @@ namespace DiGi.Core
             return string.Format("{0}:{1}", FullTypeName(@enum.GetType()), @enum.ToString());
         }
     }
-
 }

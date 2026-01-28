@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace DiGi.Core
 {
     public static partial class Create

@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public UniqueIdPropertyReference(UniqueIdReference reference, string propertyName)
             : base(reference, propertyName)
         {
-
         }
 
         public UniqueIdPropertyReference(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueIdPropertyReference(UniqueIdPropertyReference uniqueIdPropertyReference)
             : base(uniqueIdPropertyReference)
         {
-
         }
 
         public override ISerializableObject Clone()

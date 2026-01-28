@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public ConvertOptions()
             : base()
         {
-
         }
 
         public ConvertOptions(ConvertOptions? convertOptions)
             : base(convertOptions)
         {
-
         }
 
         public ConvertOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

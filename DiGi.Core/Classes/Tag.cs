@@ -10,55 +10,46 @@ namespace DiGi.Core.Classes
         private Tag(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         private Tag(Tag? tag)
             : base(tag)
         {
-
         }
 
         private Tag(object? tag)
             : base(tag)
         {
-
         }
 
         public Tag(string? value)
             : base(value)
         {
-
         }
 
         public Tag(double value)
             : base(value)
         {
-
         }
 
         public Tag(DateTime value)
             : base(value)
         {
-
         }
 
         public Tag(bool value)
             : base(value)
         {
-
         }
 
         public Tag(int value)
             : base(value)
         {
-
         }
 
         public Tag(ISerializableObject? value)
             : base(value)
         {
-
         }
 
         [JsonIgnore]

@@ -13,7 +13,6 @@ namespace DiGi.Core.Classes
         public TypeReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public TypeReference(TypeReference? typeReference)

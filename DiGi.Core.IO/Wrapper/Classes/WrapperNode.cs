@@ -106,6 +106,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             return null;
         }
+
         public bool IsUnwrapped()
         {
             return IsUnwrapped(out _);

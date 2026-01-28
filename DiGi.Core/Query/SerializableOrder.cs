@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json.Serialization;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -20,7 +19,5 @@ namespace DiGi.Core
 
             return jsonPropertyOrderAttributes[0].Order;
         }
-
     }
-
 }

@@ -7,19 +7,16 @@ namespace DiGi.Core.Classes
     {
         public SerializableModel()
         {
-
         }
 
         public SerializableModel(SerializableModel serializableModel)
             : base(serializableModel)
         {
-
         }
 
         public SerializableModel(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

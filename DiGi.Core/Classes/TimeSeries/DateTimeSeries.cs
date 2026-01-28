@@ -46,7 +46,6 @@ namespace DiGi.Core.Classes
         public DateTimeSeries(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

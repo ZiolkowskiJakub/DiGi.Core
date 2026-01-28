@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -38,10 +37,7 @@ namespace DiGi.Core
                 return System.Text.Json.JsonValueKind.Number;
             }
 
-
             return System.Text.Json.JsonValueKind.Undefined;
         }
-
     }
-
 }

@@ -37,5 +37,4 @@ namespace DiGi.Core.Parameter
             return new Classes.Parameter(simpleParameterDefinition, value);
         }
     }
-
 }

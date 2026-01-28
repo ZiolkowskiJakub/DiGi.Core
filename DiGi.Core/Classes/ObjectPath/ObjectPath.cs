@@ -9,11 +9,9 @@ namespace DiGi.Core.Classes
     public abstract class ObjectPath<TObjectPath> : SerializableObject, IObjectPath<TObjectPath> where TObjectPath : ObjectPath<TObjectPath>
     {
         [JsonInclude, JsonPropertyName("Name")]
-
         private string name = string.Empty;
 
         [JsonInclude, JsonPropertyName("Path")]
-
         private TObjectPath? path = null;
 
         public ObjectPath(IEnumerable<string>? names)
@@ -33,13 +31,11 @@ namespace DiGi.Core.Classes
         public ObjectPath(string? name)
             : this([name ?? string.Empty])
         {
-
         }
 
         public ObjectPath(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ObjectPath(string? name, TObjectPath? path)
@@ -189,25 +185,21 @@ namespace DiGi.Core.Classes
         public ObjectPath(IEnumerable<string> names)
             : base(names)
         {
-
         }
 
         public ObjectPath(string name)
             : base(name)
         {
-
         }
 
         public ObjectPath(string name, ObjectPath path)
             : base(name, path)
         {
-
         }
 
         public ObjectPath(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         protected override ObjectPath Create(string name)

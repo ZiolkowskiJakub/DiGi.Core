@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -11,8 +10,6 @@ namespace DiGi.Core
             IGuidObject? result = guidObject?.Duplicate(guid);
 
             return result is TGuidObject guidObject_Temp ? guidObject_Temp : default;
-
         }
     }
-
 }

@@ -10,19 +10,16 @@ namespace DiGi.Core.Parameter.Classes
         public ParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ParameterDefinition(ParameterDefinition? parameterDefinition)
             : base(parameterDefinition)
         {
-
         }
 
         public ParameterDefinition()
             : base()
         {
-
         }
 
         [JsonIgnore]

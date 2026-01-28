@@ -15,6 +15,4 @@ namespace DiGi.Core
             return result;
         }
     }
-
 }
-

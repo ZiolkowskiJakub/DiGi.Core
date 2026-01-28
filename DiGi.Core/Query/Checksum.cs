@@ -31,5 +31,4 @@ namespace DiGi.Core
             return BitConverter.ToString(bytes);
         }
     }
-
 }

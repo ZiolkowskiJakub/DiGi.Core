@@ -12,13 +12,11 @@ namespace DiGi.Core.Classes
         public SerializableReference()
             : base()
         {
-
         }
 
         public SerializableReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SerializableReference(SerializableReference? serializableReference)

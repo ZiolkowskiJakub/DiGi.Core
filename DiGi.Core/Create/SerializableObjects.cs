@@ -2,7 +2,6 @@
 using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
-
 namespace DiGi.Core
 {
     public static partial class Create

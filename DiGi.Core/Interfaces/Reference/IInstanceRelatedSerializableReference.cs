@@ -2,6 +2,5 @@
 {
     public interface IInstanceRelatedSerializableReference : IInstanceRelatedReference, ISerializableReference
     {
-
     }
 }

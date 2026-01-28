@@ -4,7 +4,6 @@
     {
         public GetValueSettings()
         {
-
         }
 
         public GetValueSettings(bool tryConvert, bool checkAccessType)

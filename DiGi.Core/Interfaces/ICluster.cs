@@ -12,5 +12,4 @@ namespace DiGi.Core.Interfaces
     {
         List<T> Objects { get; }
     }
-
 }

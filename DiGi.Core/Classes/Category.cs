@@ -7,7 +7,6 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-
     [Description("Category")]
     public class Category : SerializableObject, IEquatable<Category>
     {
@@ -16,6 +15,7 @@ namespace DiGi.Core.Classes
 
         [JsonIgnore]
         private Dictionary<string, Category>? dictionary;
+
         public Category(string? name)
             : base()
         {
@@ -37,7 +37,6 @@ namespace DiGi.Core.Classes
         public Category(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Category(Category? category)
@@ -98,12 +97,10 @@ namespace DiGi.Core.Classes
             }
         }
 
-
         public static implicit operator Category?(string? name)
         {
             return new Category(name);
         }
-
 
         public static implicit operator string?(Category? category)
         {
@@ -248,7 +245,6 @@ namespace DiGi.Core.Classes
                     }
                 }
             }
-
 
             return result;
         }

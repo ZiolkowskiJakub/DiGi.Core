@@ -21,7 +21,6 @@ namespace DiGi.Core.Classes
         public UniqueReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueReference(TypeReference? typeReference)

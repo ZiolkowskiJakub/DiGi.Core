@@ -20,6 +20,7 @@ namespace DiGi.Core.IO.File.Classes
 
         [JsonInclude, JsonPropertyName("Path"), Description("Path")]
         private string? path;
+
         public FileMetadata(Type? type, string? path)
             : base()
         {
@@ -53,7 +54,6 @@ namespace DiGi.Core.IO.File.Classes
         public FileMetadata(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public DateTime Created

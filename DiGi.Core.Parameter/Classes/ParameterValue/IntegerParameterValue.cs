@@ -16,13 +16,11 @@ namespace DiGi.Core.Parameter.Classes
         public IntegerParameterValue()
             : base()
         {
-
         }
 
         public IntegerParameterValue(bool nullable)
             : base(nullable)
         {
-
         }
 
         public IntegerParameterValue(int min, int max)
@@ -48,7 +46,6 @@ namespace DiGi.Core.Parameter.Classes
         public IntegerParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public IntegerParameterValue(IntegerParameterValue? integerParameterValue)

@@ -6,6 +6,5 @@
 
     public interface IObjectPath<T> : IObjectPath where T : IObjectPath<T>
     {
-
     }
 }

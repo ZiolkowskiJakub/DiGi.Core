@@ -30,7 +30,6 @@ namespace DiGi.Core
             }
 
             return true;
-
         }
     }
 }

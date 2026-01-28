@@ -17,13 +17,11 @@ namespace DiGi.Core.Parameter.Classes
         public Parameter(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Parameter(Parameter? parameter)
             : this(parameter?.ParameterDefinition, parameter?.value)
         {
-
         }
 
         internal Parameter(IParameterDefinition? parameterDefinition, object? value)

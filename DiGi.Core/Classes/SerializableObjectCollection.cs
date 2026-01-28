@@ -15,7 +15,6 @@ namespace DiGi.Core.Classes
         public SerializableObjectCollection()
             : base()
         {
-
         }
 
         public SerializableObjectCollection(IEnumerable<T>? serializableObjects)
@@ -29,7 +28,6 @@ namespace DiGi.Core.Classes
         public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
@@ -191,25 +189,21 @@ namespace DiGi.Core.Classes
         public SerializableObjectCollection()
             : base()
         {
-
         }
 
         public SerializableObjectCollection(IEnumerable<ISerializableObject>? serializableObjects)
             : base(serializableObjects)
         {
-
         }
 
         public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SerializableObjectCollection(SerializableObjectCollection? serializableObjectCollection)
             : base(serializableObjectCollection)
         {
-
         }
 
         public override ISerializableObject? Clone()

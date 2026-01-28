@@ -53,7 +53,6 @@ namespace DiGi.Core
             }
 
             return Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
-
         }
     }
 }

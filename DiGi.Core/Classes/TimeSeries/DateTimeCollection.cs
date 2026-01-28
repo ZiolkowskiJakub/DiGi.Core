@@ -12,16 +12,15 @@ namespace DiGi.Core.Classes
     {
         [JsonInclude, JsonPropertyName("DateTimes")]
         private readonly List<DateTime> dateTimes = [];
+
         public DateTimeCollection()
             : base()
         {
-
         }
 
         public DateTimeCollection(IEnumerable<DateTime>? dateTimes)
             : base()
         {
-
             if (dateTimes != null)
             {
                 this.dateTimes = [.. dateTimes];
@@ -31,7 +30,6 @@ namespace DiGi.Core.Classes
         public DateTimeCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public DateTimeCollection(DateTimeCollection? dateTimeCollection)

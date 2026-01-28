@@ -16,7 +16,4 @@ namespace DiGi.Core.IO
             return indexes != null && indexes.Contains(index);
         }
     }
-
 }
-
-

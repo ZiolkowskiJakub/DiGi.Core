@@ -8,13 +8,11 @@ namespace DiGi.Core.Classes
     {
         public Size()
         {
-
         }
 
         public Size(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Size(Size? size)

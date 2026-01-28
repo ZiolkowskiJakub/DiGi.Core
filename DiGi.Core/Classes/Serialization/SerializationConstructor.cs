@@ -22,7 +22,6 @@ namespace DiGi.Core.Classes
                 return default;
             }
 
-
             ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
             parameterInfos ??= [];
 

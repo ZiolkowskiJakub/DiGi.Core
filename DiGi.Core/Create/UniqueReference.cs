@@ -24,7 +24,6 @@ namespace DiGi.Core
                 {
                     return new UniqueIdReference(uniqueIdObject);
                 }
-
             }
 
             TypeReference? typeReference = null;
@@ -54,8 +53,6 @@ namespace DiGi.Core
                             return new GuidReference(typeReference, guid);
                         }
                     }
-
-
                 }
             }
 
@@ -86,7 +83,6 @@ namespace DiGi.Core
             }
 
             return new UniqueIdReference(typeReference, uniqueId);
-
         }
     }
 }

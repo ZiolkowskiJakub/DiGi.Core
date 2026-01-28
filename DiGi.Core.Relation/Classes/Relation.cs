@@ -14,19 +14,16 @@ namespace DiGi.Core.Relation.Classes
         public Relation(Relation? relation)
             : base(relation)
         {
-
         }
 
         public Relation()
             : base()
         {
-
         }
 
         public Relation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -50,19 +47,16 @@ namespace DiGi.Core.Relation.Classes
         public Relation(Relation<From, To>? relation)
             : base(relation)
         {
-
         }
 
         public Relation()
             : base()
         {
-
         }
 
         public Relation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public override Type? GetType(RelationSide relationSide)

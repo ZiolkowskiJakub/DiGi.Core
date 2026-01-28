@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public InstanceRelatedExternalReference(string? source, TInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {
-
         }
 
         public InstanceRelatedExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public InstanceRelatedExternalReference(InstanceRelatedExternalReference<TInstanceRelatedSerializableReference>? externalReference)
         : base(externalReference)
         {
-
         }
     }
 
@@ -29,19 +26,16 @@ namespace DiGi.Core.Classes
         public InstanceRelatedExternalReference(string? source, IInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {
-
         }
 
         public InstanceRelatedExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public InstanceRelatedExternalReference(InstanceRelatedExternalReference? externalReference)
         : base(externalReference)
         {
-
         }
     }
 }

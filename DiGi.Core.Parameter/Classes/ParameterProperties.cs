@@ -11,6 +11,7 @@ namespace DiGi.Core.Parameter.Classes
         private readonly string? groupName = null;
         private readonly string? name = null;
         private readonly string? uniqueId = null;
+
         public ParameterProperties(string? uniqueId, string? name)
         {
             this.uniqueId = uniqueId;

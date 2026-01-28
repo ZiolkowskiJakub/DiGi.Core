@@ -19,8 +19,5 @@ namespace DiGi.Core.IO.File
 
             return uniqueReference;
         }
-
     }
 }
-
-

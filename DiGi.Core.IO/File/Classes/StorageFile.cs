@@ -22,19 +22,16 @@ namespace DiGi.Core.IO.File.Classes
         public StorageFile(string? path)
             : base(path)
         {
-
         }
 
         public StorageFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public StorageFile(StorageFile<TSerializableObject>? storageFile)
             : base(storageFile)
         {
-
             if (storageFile != null)
             {
                 Values = storageFile.Values;
@@ -145,7 +142,6 @@ namespace DiGi.Core.IO.File.Classes
 
                     result.Add(uniqueReference);
                 }
-
             }
 
             if (dictionary != null)
@@ -320,8 +316,6 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             IEnumerable<TSerializableObject?>? serializableObjects = GetValues(dictionary_UniqueReference.Values);
-
-
 
             Dictionary<UniqueReference, TSerializableObject> dictionary_SerializableObject = [];
             if (serializableObjects != null)
@@ -930,7 +924,6 @@ namespace DiGi.Core.IO.File.Classes
                     {
                         return result;
                     }
-
                 }
             }
 
@@ -969,20 +962,16 @@ namespace DiGi.Core.IO.File.Classes
         public StorageFile(string? path)
             : base(path)
         {
-
         }
 
         public StorageFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public StorageFile(StorageFile? storageFile)
             : base(storageFile)
         {
-
         }
     }
 }
-

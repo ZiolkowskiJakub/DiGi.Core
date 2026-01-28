@@ -50,5 +50,4 @@ namespace DiGi.Core
             return fields;
         }
     }
-
 }

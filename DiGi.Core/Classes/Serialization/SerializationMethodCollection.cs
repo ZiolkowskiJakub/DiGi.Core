@@ -9,6 +9,7 @@ namespace DiGi.Core.Classes
     {
         private readonly Dictionary<string, SerializationMethod> dictionary = [];
         private readonly string? fullTypeName;
+
         internal SerializationMethodCollection(string? fullTypeName, IEnumerable<SerializationMethod> serializationMethods)
         {
             this.fullTypeName = fullTypeName;
@@ -92,7 +93,6 @@ namespace DiGi.Core.Classes
             }
 
             return result;
-
         }
 
         public bool Update(ISerializableObject? serializableObject, JsonObject? jsonObject)

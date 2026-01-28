@@ -16,7 +16,6 @@ namespace DiGi.Core.Classes
         public PropertyReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public PropertyReference(PropertyReference? propertyReference)
@@ -52,7 +51,6 @@ namespace DiGi.Core.Classes
         public PropertyReference(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public PropertyReference(PropertyReference<USerializableReference>? propertyReference)
@@ -63,7 +61,6 @@ namespace DiGi.Core.Classes
                 reference = propertyReference.reference;
             }
         }
-
 
         [JsonIgnore]
         public USerializableReference? Reference

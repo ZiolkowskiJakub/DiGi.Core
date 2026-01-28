@@ -25,5 +25,4 @@ namespace DiGi.Core
             return Math.Round(value_Temp) * tolerance;
         }
     }
-
 }

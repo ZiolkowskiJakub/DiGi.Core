@@ -7,7 +7,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
     {
         public WrapperItemValueCluster()
         {
-
         }
 
         public JsonNode? GetValue(UniqueReference? uniqueReference)

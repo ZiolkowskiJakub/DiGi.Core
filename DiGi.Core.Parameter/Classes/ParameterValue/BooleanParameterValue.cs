@@ -13,19 +13,16 @@ namespace DiGi.Core.Parameter.Classes
         public BooleanParameterValue()
             : base()
         {
-
         }
 
         public BooleanParameterValue(bool nullable)
             : base(nullable)
         {
-
         }
 
         public BooleanParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public BooleanParameterValue(BooleanParameterValue? booleanParameterValue)

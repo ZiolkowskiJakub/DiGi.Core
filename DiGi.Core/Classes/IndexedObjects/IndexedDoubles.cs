@@ -9,37 +9,31 @@ namespace DiGi.Core.Classes
         public IndexedDoubles()
             : base()
         {
-
         }
 
         public IndexedDoubles(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public IndexedDoubles(IndexedDoubles indexedDoubles)
             : base(indexedDoubles)
         {
-
         }
 
         public IndexedDoubles(IEnumerable<double> values)
             : base(values)
         {
-
         }
 
         public IndexedDoubles(IEnumerable<double> values, int startIndex)
             : base(values, startIndex)
         {
-
         }
 
         public IndexedDoubles(int startIndex, int count, double value)
             : base(startIndex, count, value)
         {
-
         }
 
         public double GetAverage()
@@ -134,7 +128,6 @@ namespace DiGi.Core.Classes
             {
                 return double.NaN;
             }
-
 
             double result = 0;
             foreach (int key in keys)

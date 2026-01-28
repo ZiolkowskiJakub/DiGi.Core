@@ -9,19 +9,16 @@ namespace DiGi.Core.Classes
         public TypePropertyReference(TypeReference reference, string propertyName)
             : base(reference, propertyName)
         {
-
         }
 
         public TypePropertyReference(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public TypePropertyReference(TypePropertyReference typePropertyReference)
             : base(typePropertyReference)
         {
-
         }
 
         [JsonIgnore]

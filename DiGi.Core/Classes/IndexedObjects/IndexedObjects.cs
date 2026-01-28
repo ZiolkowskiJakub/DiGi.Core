@@ -13,13 +13,11 @@ namespace DiGi.Core.Classes
 
         public IndexedObjects()
         {
-
         }
 
         public IndexedObjects(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public IndexedObjects(IEnumerable<T>? values)
@@ -62,7 +60,6 @@ namespace DiGi.Core.Classes
         public IndexedObjects(IndexedObjects<T>? indexedObjects)
             : this(indexedObjects?.sortedDictionary)
         {
-
         }
 
         public IndexedObjects(int startIndex, int count, T? value)

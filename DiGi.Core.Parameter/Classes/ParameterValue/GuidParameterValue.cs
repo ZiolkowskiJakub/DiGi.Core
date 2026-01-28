@@ -13,19 +13,16 @@ namespace DiGi.Core.Parameter.Classes
         public GuidParameterValue()
             : base()
         {
-
         }
 
         public GuidParameterValue(bool nullable)
             : base(nullable)
         {
-
         }
 
         public GuidParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public GuidParameterValue(GuidParameterValue? guidParameterValue)

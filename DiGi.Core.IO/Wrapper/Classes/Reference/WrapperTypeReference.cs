@@ -31,7 +31,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperTypeReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -48,5 +47,4 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return new WrapperTypeReference(this);
         }
     }
-
 }

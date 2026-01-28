@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -33,7 +32,6 @@ namespace DiGi.Core.Classes
 
         public ConfigurationFile()
         {
-
         }
 
         [JsonIgnore]
@@ -106,7 +104,7 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            if(value is null)
+            if (value is null)
             {
                 return Remove(name);
             }
@@ -251,7 +249,7 @@ namespace DiGi.Core.Classes
 
             return dictionary.Remove(name);
         }
-        
+
         public bool TryGetValue<T>(string name, out T? value)
         {
             value = default;

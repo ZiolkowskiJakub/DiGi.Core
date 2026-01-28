@@ -82,7 +82,6 @@ namespace DiGi.Core.Classes
         public Range(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

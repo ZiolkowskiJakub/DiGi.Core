@@ -30,8 +30,5 @@ namespace DiGi.Core.IO
 
             return result;
         }
-
     }
 }
-
-

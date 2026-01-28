@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public UniqueResult()
             : base()
         {
-
         }
 
         public UniqueResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueResult(UniqueResult? uniqueResult)
             : base(uniqueResult)
         {
-
         }
     }
 
@@ -29,19 +26,16 @@ namespace DiGi.Core.Classes
         public UniqueResult()
             : base()
         {
-
         }
 
         public UniqueResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueResult(UniqueResult<T>? uniqueResult)
             : base(uniqueResult)
         {
-
         }
     }
 }

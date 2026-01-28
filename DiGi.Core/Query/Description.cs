@@ -44,7 +44,6 @@ namespace DiGi.Core
                 return null;
             }
 
-
             if (type.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Any())
             {
                 return descriptionAttributes[0].Description;
@@ -53,5 +52,4 @@ namespace DiGi.Core
             return type.Name;
         }
     }
-
 }

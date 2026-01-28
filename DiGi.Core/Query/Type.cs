@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Nodes;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -176,11 +175,9 @@ namespace DiGi.Core
                         return type;
                     }
                 }
-
             }
 
             return null;
-
         }
 
         public static Type? Type(this DataType dataType)
@@ -252,6 +249,7 @@ namespace DiGi.Core
 
                 case Enums.DataType.Other:
                     return typeof(object);
+
                 default:
                     break;
             }
@@ -259,5 +257,4 @@ namespace DiGi.Core
             throw new NotImplementedException();
         }
     }
-
 }

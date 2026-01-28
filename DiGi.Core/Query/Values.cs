@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Classes;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -20,5 +19,4 @@ namespace DiGi.Core
             return result;
         }
     }
-
 }

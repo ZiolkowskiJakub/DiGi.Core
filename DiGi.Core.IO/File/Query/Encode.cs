@@ -24,8 +24,5 @@ namespace DiGi.Core.IO.File
 
             return Encode(uniqueReference.ToString());
         }
-
     }
 }
-
-

@@ -13,7 +13,6 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-
             IWrapperUniqueReference? wrapperUniqueReference = Create.WrapperUniqueReference(jsonObject);
             if (wrapperUniqueReference != null && dictionary != null && dictionary.TryGetValue(wrapperUniqueReference, out JsonObject? result))
             {
@@ -75,8 +74,6 @@ namespace DiGi.Core.IO.Wrapper
             }
 
             return result;
-
         }
     }
 }
-

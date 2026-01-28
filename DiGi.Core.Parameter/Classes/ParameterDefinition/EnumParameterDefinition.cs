@@ -14,7 +14,6 @@ namespace DiGi.Core.Parameter.Classes
         public EnumParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public EnumParameterDefinition(EnumParameterDefinition? enumParameterDefinition)
@@ -34,7 +33,6 @@ namespace DiGi.Core.Parameter.Classes
         public EnumParameterDefinition()
             : base()
         {
-
         }
 
         public override AccessType AccessType

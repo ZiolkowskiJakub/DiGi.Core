@@ -14,25 +14,21 @@ namespace DiGi.Core.Relation.Classes
         public OneToOneRelation(OneToOneRelation? oneToOneRelation)
             : base(oneToOneRelation)
         {
-
         }
 
         public OneToOneRelation(UniqueReference? uniqueReference_From, UniqueReference? uniqueReference_To)
             : base(uniqueReference_From, uniqueReference_To)
         {
-
         }
 
         public OneToOneRelation(IUniqueObject? uniqueObject_From, IUniqueObject? uniqueObject_To)
             : base(uniqueObject_From, uniqueObject_To)
         {
-
         }
 
         public OneToOneRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 
@@ -66,7 +62,6 @@ namespace DiGi.Core.Relation.Classes
         public OneToOneRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

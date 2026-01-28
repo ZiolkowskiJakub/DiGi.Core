@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public SerializableResult()
             : base()
         {
-
         }
 
         public SerializableResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SerializableResult(SerializableResult? serializableResult)
             : base(serializableResult)
         {
-
         }
     }
 
@@ -29,19 +26,16 @@ namespace DiGi.Core.Classes
         public SerializableResult()
             : base()
         {
-
         }
 
         public SerializableResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SerializableResult(SerializableResult<T>? serializableResult)
             : base(serializableResult)
         {
-
         }
     }
 }

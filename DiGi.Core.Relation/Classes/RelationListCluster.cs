@@ -14,7 +14,6 @@ namespace DiGi.Core.Relation.Classes
         public RelationListCluster()
             : base()
         {
-
         }
 
         public RelationListCluster(IEnumerable<XRelation>? relations)
@@ -30,7 +29,6 @@ namespace DiGi.Core.Relation.Classes
         public RelationListCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public List<TypeReference>? TypeReferences_From
@@ -243,25 +241,21 @@ namespace DiGi.Core.Relation.Classes
         public RelationListCluster()
             : base()
         {
-
         }
 
         public RelationListCluster(IEnumerable<IRelation>? relations)
             : base(relations)
         {
-
         }
 
         public RelationListCluster(RelationListCluster? relationCluster)
             : base(relationCluster)
         {
-
         }
 
         public RelationListCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

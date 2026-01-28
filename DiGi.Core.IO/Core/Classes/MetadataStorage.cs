@@ -16,7 +16,6 @@ namespace DiGi.Core.IO.Classes
         public MetadataStorage()
             : base(Constans.MetadataStorage.Guid)
         {
-
         }
 
         public MetadataStorage(MetadataStorage? metadataStorage)
@@ -31,7 +30,6 @@ namespace DiGi.Core.IO.Classes
         public MetadataStorage(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonInclude, JsonPropertyName("Metadatas")]

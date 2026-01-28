@@ -41,7 +41,6 @@ namespace DiGi.Core.Parameter.Classes
         public ParameterGroup(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

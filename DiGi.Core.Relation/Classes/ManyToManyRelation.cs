@@ -13,25 +13,21 @@ namespace DiGi.Core.Relation.Classes
         public ManyToManyRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IEnumerable<IUniqueReference>? uniqueReferences_To)
             : base(uniqueReferences_From, uniqueReferences_To)
         {
-
         }
 
         public ManyToManyRelation(ManyToManyRelation? manyToManyRelation)
             : base(manyToManyRelation)
         {
-
         }
 
         public ManyToManyRelation(IEnumerable<IUniqueObject>? uniqueObjects_From, IEnumerable<IUniqueObject>? uniqueObjects_To)
             : base(uniqueObjects_From, uniqueObjects_To)
         {
-
         }
 
         public ManyToManyRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 
@@ -139,7 +135,6 @@ namespace DiGi.Core.Relation.Classes
         public ManyToManyRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

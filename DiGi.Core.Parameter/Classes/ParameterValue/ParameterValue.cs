@@ -6,7 +6,6 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
-
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public abstract class ParameterValue : Attribute, ISerializableObject
     {
@@ -15,7 +14,6 @@ namespace DiGi.Core.Parameter.Classes
 
         public ParameterValue()
         {
-
         }
 
         public ParameterValue(bool nullable)

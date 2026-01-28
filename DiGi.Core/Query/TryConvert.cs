@@ -489,7 +489,6 @@ namespace DiGi.Core
                     result = Convert.ToDrawing(@string);
                     if (!result.Equals(System.Drawing.Color.Empty))
                         return true;
-
                 }
                 else if (@object is Classes.Color color)
                 {
@@ -734,7 +733,6 @@ namespace DiGi.Core
 
                         result = array;
                         return true;
-
                     }
                     else if (TryConvert(@object, out object? @object_Converted, elementType))
                     {
@@ -814,5 +812,4 @@ namespace DiGi.Core
             return TryConvert(@object, out result, Type(dataType));
         }
     }
-
 }

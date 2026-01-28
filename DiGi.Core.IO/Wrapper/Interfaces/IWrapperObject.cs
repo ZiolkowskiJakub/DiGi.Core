@@ -4,6 +4,5 @@ namespace DiGi.Core.IO.Wrapper.Interfaces
 {
     public interface IWrapperObject : IIOObject
     {
-
     }
 }

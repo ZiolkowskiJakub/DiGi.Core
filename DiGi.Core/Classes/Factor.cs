@@ -12,7 +12,6 @@ namespace DiGi.Core.Classes
 
         public Factor()
         {
-
         }
 
         public Factor(double value)
@@ -37,13 +36,11 @@ namespace DiGi.Core.Classes
 
         public static implicit operator Factor(double value)
         {
-
             return new Factor(value);
         }
 
         public static implicit operator Factor(float value)
         {
-
             return new Factor(System.Convert.ToDouble(value));
         }
 

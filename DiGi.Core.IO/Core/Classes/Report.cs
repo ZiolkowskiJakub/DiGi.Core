@@ -8,9 +8,9 @@ namespace DiGi.Core.IO.Classes
     {
         private readonly List<string[]> lines = [];
         private readonly string separator = "\t";
+
         public Report()
         {
-
         }
 
         public Report(char separator)
@@ -83,7 +83,6 @@ namespace DiGi.Core.IO.Classes
 
                 values.Add(string.Join(separator, values_Temp));
             }
-
 
             return string.Join("\n", values);
         }

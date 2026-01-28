@@ -5,6 +5,5 @@
         double Latitude { get; }
 
         double Longitude { get; }
-
     }
 }

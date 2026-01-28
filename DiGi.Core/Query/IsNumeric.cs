@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Enums;
 using System;
 
-
 namespace DiGi.Core
 {
     public static partial class Query
@@ -91,5 +90,4 @@ namespace DiGi.Core
             return IsNumeric(Type(dataType));
         }
     }
-
 }

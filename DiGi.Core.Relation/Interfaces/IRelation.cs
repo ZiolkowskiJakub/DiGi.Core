@@ -21,6 +21,5 @@ namespace DiGi.Core.Relation.Interfaces
 
     public interface IRelation<From, To> : IRelation where From : IUniqueObject where To : IUniqueObject
     {
-
     }
 }

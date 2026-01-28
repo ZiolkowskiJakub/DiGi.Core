@@ -14,9 +14,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
     {
         private readonly WrapperNodeCluster wrapperNodeCluster = [];
         private bool disposed;
+
         public Wrapper()
         {
-
         }
 
         public UniqueReference? Add(ISerializableObject? value)
@@ -139,7 +139,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
             foreach (string reference in references)
             {
                 WrapperNode? wrapperNode = wrapperNodes.Find(x => x?.WrapperUniqueReference?.ToString() == reference);
-
 
                 result.Add(wrapperNode?.JsonNode);
             }
@@ -328,7 +327,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
             {
                 return null;
             }
-
 
             HashSet<UniqueReference> result = [];
             foreach (IWrapperUniqueReference? wrapperUniqueReference_Temp in wrapperUniqueReferences_Temp)
@@ -522,7 +520,6 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 {
                     result.Add(wrapperNode);
                 }
-
             }
 
             return result;
@@ -713,6 +710,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
             return result;
         }
+
         // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         // ~Wrapper()
         // {

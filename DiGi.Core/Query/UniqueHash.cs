@@ -1,11 +1,5 @@
-﻿using DiGi.Core.Classes;
-using DiGi.Core.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System;
 using System.Text.Json.Nodes;
-
 
 namespace DiGi.Core
 {
@@ -88,5 +82,4 @@ namespace DiGi.Core
             return result;
         }
     }
-
 }

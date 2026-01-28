@@ -18,13 +18,11 @@ namespace DiGi.Core.Relation.Classes
         public UniqueObjectRelationCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueObjectRelationCluster()
             : base()
         {
-
         }
 
         public UniqueObjectRelationCluster(UniqueObjectRelationCluster<TUniqueObject, XRelation>? uniqueObjectRelationCluster)
@@ -32,16 +30,13 @@ namespace DiGi.Core.Relation.Classes
         {
             if (uniqueObjectRelationCluster != null)
             {
-
                 relationListCluster = uniqueObjectRelationCluster.relationListCluster == null ? [] : [.. uniqueObjectRelationCluster.relationListCluster];
             }
-
         }
 
         public UniqueObjectRelationCluster(IEnumerable<TUniqueObject>? uniqueObjects)
             : base(uniqueObjects)
         {
-
         }
 
         public ZRelation? AddRelation<ZRelation>(ZRelation? relation) where ZRelation : XRelation
@@ -168,7 +163,6 @@ namespace DiGi.Core.Relation.Classes
 
         public List<UUniqueObject>? GetRelatedValues<UUniqueObject>(TUniqueObject? value, Func<UUniqueObject?, bool>? func = null) where UUniqueObject : TUniqueObject
         {
-
             return GetRelatedValues<UUniqueObject, XRelation>(value, func);
         }
 

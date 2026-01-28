@@ -12,7 +12,6 @@ namespace DiGi.Core.Classes
         public ExternalReferenceGuidResult()
             : base()
         {
-
         }
 
         public ExternalReferenceGuidResult(UExternalReference? reference)
@@ -24,7 +23,6 @@ namespace DiGi.Core.Classes
         public ExternalReferenceGuidResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ExternalReferenceGuidResult(ExternalReferenceGuidResult<TUniqueObject, UExternalReference>? externalReferenceGuidResult)

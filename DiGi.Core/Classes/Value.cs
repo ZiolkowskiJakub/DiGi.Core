@@ -13,7 +13,6 @@ namespace DiGi.Core.Classes
         public Value(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         protected Value(TObject? value)
@@ -56,139 +55,116 @@ namespace DiGi.Core.Classes
         public Value(Value? value)
             : base(value)
         {
-
         }
 
         public Value(double value)
             : base(value)
         {
-
         }
 
         public Value(DateTime value)
             : base(value)
         {
-
         }
 
         public Value(int value)
             : base(value)
         {
-
         }
 
         public Value(bool value)
             : base(value)
         {
-
         }
 
         public Value(byte value)
             : base(value)
         {
-
         }
 
         public Value(float value)
             : base(value)
         {
-
         }
 
         public Value(long value)
             : base(value)
         {
-
         }
 
         public Value(Guid value)
             : base(value)
         {
-
         }
 
         public Value(string? value)
             : base(value)
         {
-
         }
 
         public Value(string[]? value)
             : base(value)
         {
-
         }
 
         public Value(double[]? value)
             : base(value)
         {
-
         }
 
         public Value(long[]? value)
             : base(value)
         {
-
         }
 
         public Value(Guid[]? value)
             : base(value)
         {
-
         }
 
         public Value(int[]? value)
             : base(value)
         {
-
         }
 
         public Value(byte[]? value)
             : base(value)
         {
-
         }
 
         public Value(DateTime[]? value)
             : base(value)
         {
-
         }
 
         public Value(float[]? value)
             : base(value)
         {
-
         }
 
         public Value(bool[]? value)
                 : base(value)
         {
-
         }
 
         public Value(ISerializableObject? value)
             : base(value)
         {
-
         }
 
         public Value(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Value(Type? value)
             : base(value)
         {
-
         }
 
         protected Value(object? value)
                                                                                                                                                                     : base(value)
         {
-
         }
 
         public override ISerializableObject? Clone()

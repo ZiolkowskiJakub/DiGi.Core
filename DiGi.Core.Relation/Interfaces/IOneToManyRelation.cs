@@ -12,6 +12,5 @@ namespace DiGi.Core.Relation.Interfaces
 
     public interface IOneToManyRelation<XUniqueObject, YUniqueObject> : IOneToManyRelation, IRelation<XUniqueObject, YUniqueObject> where XUniqueObject : IUniqueObject where YUniqueObject : IUniqueObject
     {
-
     }
 }

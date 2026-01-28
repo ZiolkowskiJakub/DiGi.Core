@@ -133,7 +133,6 @@
             }
 
             return double.NaN;
-
         }
     }
 }

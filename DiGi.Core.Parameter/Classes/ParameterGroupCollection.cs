@@ -18,7 +18,6 @@ namespace DiGi.Core.Parameter.Classes
         public ParameterGroupCollection()
             : base()
         {
-
         }
 
         public ParameterGroupCollection(IEnumerable<Parameter>? parameters)
@@ -35,14 +34,12 @@ namespace DiGi.Core.Parameter.Classes
         public ParameterGroupCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ParameterGroupCollection(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
             this.ParameterGroups = parameterGroupCollection?.ParameterGroups;
-
         }
 
         [JsonInclude, JsonPropertyName("ParameterGroups")]

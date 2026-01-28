@@ -44,5 +44,4 @@ namespace DiGi.Core.Parameter
             return result;
         }
     }
-
 }

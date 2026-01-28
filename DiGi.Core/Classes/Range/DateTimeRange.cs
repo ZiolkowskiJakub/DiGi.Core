@@ -13,13 +13,11 @@ namespace DiGi.Core.Classes
         public DateTimeRange(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public DateTimeRange(DateTimeRange dateTimeRange)
             : base(dateTimeRange)
         {
-
         }
 
         public override DateTime Length

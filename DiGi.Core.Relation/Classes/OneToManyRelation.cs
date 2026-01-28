@@ -13,25 +13,21 @@ namespace DiGi.Core.Relation.Classes
         public OneToManyRelation(IUniqueObject? uniqueObject_From, IEnumerable<IUniqueObject>? uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
-
         }
 
         public OneToManyRelation(IUniqueReference? uniqueReference_From, IEnumerable<IUniqueReference>? uniqueReferences_To)
             : base(uniqueReference_From, uniqueReferences_To)
         {
-
         }
 
         public OneToManyRelation(OneToManyRelation? oneToManyRelation)
             : base(oneToManyRelation)
         {
-
         }
 
         public OneToManyRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 
@@ -109,7 +105,6 @@ namespace DiGi.Core.Relation.Classes
         public OneToManyRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -157,7 +152,6 @@ namespace DiGi.Core.Relation.Classes
         {
             get
             {
-
                 if (uniqueReferences_To == null)
                 {
                     return null;

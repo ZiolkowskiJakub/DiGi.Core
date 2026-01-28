@@ -26,8 +26,5 @@ namespace DiGi.Core.IO
 
             return string.Join("|", values);
         }
-
     }
 }
-
-

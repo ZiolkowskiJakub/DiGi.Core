@@ -18,6 +18,7 @@ namespace DiGi.Core.Classes
 
         [JsonInclude, JsonPropertyName("Street")]
         private readonly string? street;
+
         public Address(Address? address)
             : base()
         {

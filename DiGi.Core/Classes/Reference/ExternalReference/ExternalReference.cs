@@ -21,7 +21,6 @@ namespace DiGi.Core.Classes
         public ExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ExternalReference(ExternalReference? externalReference)
@@ -45,7 +44,6 @@ namespace DiGi.Core.Classes
 
     public abstract class ExternalReference<USerializableReference> : ExternalReference where USerializableReference : ISerializableReference
     {
-
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly USerializableReference? reference;
 
@@ -58,7 +56,6 @@ namespace DiGi.Core.Classes
         public ExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ExternalReference(ExternalReference<USerializableReference>? externalReference)

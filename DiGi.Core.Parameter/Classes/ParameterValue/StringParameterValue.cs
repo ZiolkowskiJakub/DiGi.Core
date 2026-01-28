@@ -10,19 +10,16 @@ namespace DiGi.Core.Parameter.Classes
         public StringParameterValue()
             : base()
         {
-
         }
 
         public StringParameterValue(bool nullable)
             : base(nullable)
         {
-
         }
 
         public StringParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public StringParameterValue(StringParameterValue? stringParameterValue)

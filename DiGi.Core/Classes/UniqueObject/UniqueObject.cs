@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public UniqueObject()
             : base()
         {
-
         }
 
         public UniqueObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueObject(UniqueObject? uniqueObject)
             : base(uniqueObject)
         {
-
         }
 
         public abstract string? UniqueId { get; }

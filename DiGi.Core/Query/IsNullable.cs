@@ -12,5 +12,4 @@ namespace DiGi.Core
             return Nullable.GetUnderlyingType(type) != null;
         }
     }
-
 }

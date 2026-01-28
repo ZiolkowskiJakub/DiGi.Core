@@ -35,7 +35,6 @@ namespace DiGi.Core.IO.Classes
         public FileFilter(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public List<string>? Extensions

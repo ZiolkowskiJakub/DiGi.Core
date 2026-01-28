@@ -11,13 +11,11 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperMetadata()
             : base()
         {
-
         }
 
         public WrapperMetadata(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public WrapperMetadata(WrapperMetadata? wrapperMetadata)
@@ -36,4 +34,3 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public List<string> References { get; set; } = [];
     }
 }
-

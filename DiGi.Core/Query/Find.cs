@@ -21,7 +21,6 @@ namespace DiGi.Core
             }
 
             return default;
-
         }
     }
 }

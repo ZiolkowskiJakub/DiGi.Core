@@ -96,5 +96,4 @@ namespace DiGi.Core
             return Random(random);
         }
     }
-
 }

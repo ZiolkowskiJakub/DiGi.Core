@@ -18,7 +18,6 @@ namespace DiGi.Core.Parameter.Classes
         public SimpleParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public SimpleParameterDefinition(SimpleParameterDefinition? simpleParameterDefinition)

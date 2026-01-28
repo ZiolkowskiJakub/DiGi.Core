@@ -13,19 +13,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperUniqueReference()
             : base()
         {
-
         }
 
         public WrapperUniqueReference(WrapperUniqueReference<TUniqueReference>? wrapperUniqueReference)
             : base(wrapperUniqueReference)
         {
-
         }
 
         public WrapperUniqueReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -42,5 +39,4 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
         }
     }
-
 }

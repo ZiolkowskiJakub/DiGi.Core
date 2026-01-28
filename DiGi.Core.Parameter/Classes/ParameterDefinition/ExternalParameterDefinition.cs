@@ -32,7 +32,6 @@ namespace DiGi.Core.Parameter.Classes
         public ExternalParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ExternalParameterDefinition(ExternalParameterDefinition? externalParameterDefinition)
@@ -64,7 +63,6 @@ namespace DiGi.Core.Parameter.Classes
         public ExternalParameterDefinition()
             : base()
         {
-
         }
 
         [JsonIgnore]
@@ -146,6 +144,5 @@ namespace DiGi.Core.Parameter.Classes
 
             return result;
         }
-
     }
 }

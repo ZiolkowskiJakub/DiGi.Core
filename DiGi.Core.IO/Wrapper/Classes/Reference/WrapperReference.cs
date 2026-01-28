@@ -13,19 +13,16 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public WrapperReference()
         {
-
         }
 
         public WrapperReference(WrapperReference? wrapperReference)
             : base(wrapperReference)
         {
-
         }
 
         public WrapperReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public static bool operator !=(WrapperReference? wrapperReference_1, WrapperReference? wrapperReference_2)
@@ -114,13 +111,11 @@ namespace DiGi.Core.IO.Wrapper.Classes
         public WrapperReference(WrapperReference<TSerializableReference>? wrapperReference)
             : base(wrapperReference)
         {
-
         }
 
         public WrapperReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -131,5 +126,4 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return Reference?.ToString();
         }
     }
-
 }

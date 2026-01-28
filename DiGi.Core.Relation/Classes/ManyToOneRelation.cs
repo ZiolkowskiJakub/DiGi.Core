@@ -13,25 +13,21 @@ namespace DiGi.Core.Relation.Classes
         public ManyToOneRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IUniqueReference? uniqueReference_To)
             : base(uniqueReferences_From, uniqueReference_To)
         {
-
         }
 
         public ManyToOneRelation(ManyToOneRelation? manyToOneRelation)
             : base(manyToOneRelation)
         {
-
         }
 
         public ManyToOneRelation(IEnumerable<IUniqueObject>? uniqueObjects_From, IUniqueObject? uniqueObject_To)
             : base(uniqueObjects_From, uniqueObject_To)
         {
-
         }
 
         public ManyToOneRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 
@@ -104,13 +100,11 @@ namespace DiGi.Core.Relation.Classes
                     uniqueReferences_From.Add(uniqueReference_Temp);
                 }
             }
-
         }
 
         public ManyToOneRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

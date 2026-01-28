@@ -16,7 +16,6 @@ namespace DiGi.Core.Relation
 
             HashSet<IUniqueReference> result = [];
 
-
             if (relation is IManyToManyRelation manyToManyRelation)
             {
                 if ((relationSide == RelationSide.From || relationSide == RelationSide.Undefined) && manyToManyRelation.UniqueReferences_From != null)

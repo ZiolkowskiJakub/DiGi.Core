@@ -51,7 +51,6 @@ namespace DiGi.Core.Classes
         public UniqueIdReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

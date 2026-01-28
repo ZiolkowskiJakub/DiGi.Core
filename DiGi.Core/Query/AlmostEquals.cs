@@ -22,5 +22,4 @@ namespace DiGi.Core
             return Math.Abs(value_1 - value_2) <= tolerance;
         }
     }
-
 }

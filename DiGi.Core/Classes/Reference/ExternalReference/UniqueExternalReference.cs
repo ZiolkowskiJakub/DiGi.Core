@@ -8,19 +8,16 @@ namespace DiGi.Core.Classes
         public UniqueExternalReference(string? source, TUniqueReference? reference)
             : base(source, reference)
         {
-
         }
 
         public UniqueExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public UniqueExternalReference(UniqueExternalReference<TUniqueReference>? externalReference)
         : base(externalReference)
         {
-
         }
 
         public TypeReference? TypeReference

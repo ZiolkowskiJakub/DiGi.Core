@@ -67,5 +67,4 @@ namespace DiGi.Core
             return (TEnum)(object)next;
         }
     }
-
 }

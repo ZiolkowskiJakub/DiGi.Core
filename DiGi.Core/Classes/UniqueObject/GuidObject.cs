@@ -25,7 +25,6 @@ namespace DiGi.Core.Classes
         public GuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public GuidObject(GuidObject? guidObject)

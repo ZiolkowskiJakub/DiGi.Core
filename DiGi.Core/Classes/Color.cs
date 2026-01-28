@@ -19,6 +19,7 @@ namespace DiGi.Core.Classes
 
         [JsonInclude, JsonPropertyName("Red"), Description("Color Red")]
         private readonly byte red;
+
         public Color(byte alpha, byte red, byte green, byte blue)
         {
             this.alpha = alpha;
@@ -38,7 +39,6 @@ namespace DiGi.Core.Classes
         public Color(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Color(System.Drawing.Color color)
@@ -94,7 +94,6 @@ namespace DiGi.Core.Classes
             }
         }
 
-
         public static implicit operator System.Drawing.Color(Color? color)
         {
             if (color is null)
@@ -105,12 +104,10 @@ namespace DiGi.Core.Classes
             return System.Drawing.Color.FromArgb(color.alpha, color.red, color.Green, color.Blue);
         }
 
-
         public static implicit operator Color(System.Drawing.Color color)
         {
             return new Color(color.A, color.R, color.G, color.B);
         }
-
 
         public static implicit operator Color(int value)
         {

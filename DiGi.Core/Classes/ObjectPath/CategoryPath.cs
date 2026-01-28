@@ -8,25 +8,21 @@ namespace DiGi.Core.Classes
         public CategoryPath(IEnumerable<string> names)
             : base(names)
         {
-
         }
 
         public CategoryPath(string name)
             : base(name)
         {
-
         }
 
         public CategoryPath(string name, CategoryPath path)
             : base(name, path)
         {
-
         }
 
         public CategoryPath(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         protected override CategoryPath Create(string name)

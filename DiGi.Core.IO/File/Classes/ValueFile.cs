@@ -19,13 +19,11 @@ namespace DiGi.Core.IO.File.Classes
         public ValueFile(string? path)
             : base(path)
         {
-
         }
 
         public ValueFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ValueFile(ValueFile<TSerializableObject>? valueFile)
@@ -155,13 +153,11 @@ namespace DiGi.Core.IO.File.Classes
         public ValueFile(string? path)
             : base(path)
         {
-
         }
 
         public ValueFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ValueFile(ValueFile? valueFile)

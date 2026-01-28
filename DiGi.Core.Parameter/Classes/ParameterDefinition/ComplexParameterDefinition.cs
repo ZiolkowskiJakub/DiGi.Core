@@ -8,19 +8,16 @@ namespace DiGi.Core.Parameter.Classes
         public ComplexParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ComplexParameterDefinition(ComplexParameterDefinition? complexParameterDefinition)
             : base(complexParameterDefinition)
         {
-
         }
 
         public ComplexParameterDefinition()
             : base()
         {
-
         }
 
         public abstract string? Description { get; }
@@ -61,6 +58,5 @@ namespace DiGi.Core.Parameter.Classes
 
             return result;
         }
-
     }
 }
