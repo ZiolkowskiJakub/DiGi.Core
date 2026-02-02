@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -17,10 +18,8 @@ namespace DiGi.Core
             List<MemberInfo> result = [];
 
             List<MemberInfo>? memberInfos = SerializableMemberInfos(type.BaseType);
-            if (memberInfos != null)
-            {
-                result.AddRange(memberInfos);
-            }
+
+            List<MemberInfo> memberInfos_Ignored = [];
 
             PropertyInfo[] propertyInfos = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < propertyInfos.Length; i++)
@@ -29,6 +28,10 @@ namespace DiGi.Core
                 if (objects == null || objects.Length == 0)
                 {
                     result.Add(propertyInfos[i]);
+                }
+                else 
+                {
+                    memberInfos_Ignored.Add(propertyInfos[i]);
                 }
             }
 
@@ -40,6 +43,39 @@ namespace DiGi.Core
                 {
                     result.Add(fieldInfos[i]);
                 }
+                else
+                {
+                    memberInfos_Ignored.Add(fieldInfos[i]);
+                }
+            }
+
+            if(memberInfos != null && memberInfos.Count != 0)
+            {
+                if(memberInfos_Ignored.Count != 0)
+                {
+                    for (int i = 0; i < memberInfos_Ignored.Count; i++)
+                    {
+                        MemberInfo memberInfo_Ignored = memberInfos_Ignored[i];
+
+                        Type type_Ignored = memberInfo_Ignored.GetType();
+
+                        int index = memberInfos.FindIndex(x => x.GetType() == type_Ignored && x.Name == memberInfo_Ignored.Name);
+                        if(index != -1)
+                        {
+                            memberInfos.RemoveAt(index);
+                            if(memberInfos.Count == 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(memberInfos.Count != 0)
+                {
+                    result.InsertRange(0, memberInfos);
+                }
+
             }
 
             return result;

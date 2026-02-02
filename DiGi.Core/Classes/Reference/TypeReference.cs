@@ -71,8 +71,7 @@ namespace DiGi.Core.Classes
         {
             return obj is TypeReference reference &&
                    base.Equals(obj) &&
-                   fullTypeName == reference.fullTypeName &&
-                   FullTypeName == reference.FullTypeName;
+                   fullTypeName == reference.fullTypeName;
         }
 
         public override int GetHashCode()
