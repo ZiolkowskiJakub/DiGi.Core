@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -29,7 +28,7 @@ namespace DiGi.Core
                 {
                     result.Add(propertyInfos[i]);
                 }
-                else 
+                else
                 {
                     memberInfos_Ignored.Add(propertyInfos[i]);
                 }
@@ -49,9 +48,9 @@ namespace DiGi.Core
                 }
             }
 
-            if(memberInfos != null && memberInfos.Count != 0)
+            if (memberInfos != null && memberInfos.Count != 0)
             {
-                if(memberInfos_Ignored.Count != 0)
+                if (memberInfos_Ignored.Count != 0)
                 {
                     for (int i = 0; i < memberInfos_Ignored.Count; i++)
                     {
@@ -60,10 +59,10 @@ namespace DiGi.Core
                         Type type_Ignored = memberInfo_Ignored.GetType();
 
                         int index = memberInfos.FindIndex(x => x.GetType() == type_Ignored && x.Name == memberInfo_Ignored.Name);
-                        if(index != -1)
+                        if (index != -1)
                         {
                             memberInfos.RemoveAt(index);
-                            if(memberInfos.Count == 0)
+                            if (memberInfos.Count == 0)
                             {
                                 break;
                             }
@@ -71,11 +70,10 @@ namespace DiGi.Core
                     }
                 }
 
-                if(memberInfos.Count != 0)
+                if (memberInfos.Count != 0)
                 {
                     result.InsertRange(0, memberInfos);
                 }
-
             }
 
             return result;

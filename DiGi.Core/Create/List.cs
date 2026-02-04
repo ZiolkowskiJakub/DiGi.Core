@@ -8,7 +8,7 @@ namespace DiGi.Core
     {
         public static IList? List(Type? type)
         {
-            if (type == null)
+            if (type is null)
             {
                 return null;
             }
