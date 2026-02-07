@@ -282,7 +282,7 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             string? groupName = parameterDefinition.GroupName;
-            groupName ??= Constans.Names.DefaultGroupName;
+            groupName ??= Constants.Names.DefaultGroupName;
 
             if (!dictionary.TryGetValue(groupName, out ParameterGroup parameterGroup) || parameterGroup == null)
             {
@@ -350,7 +350,7 @@ namespace DiGi.Core.Parameter.Classes
             }
 
             string? groupName = parameter.ParameterDefinition?.GroupName;
-            groupName ??= Constans.Names.DefaultGroupName;
+            groupName ??= Constants.Names.DefaultGroupName;
 
             if (!dictionary.TryGetValue(groupName, out ParameterGroup parameterGroup) || parameterGroup == null)
             {

@@ -56,7 +56,7 @@ namespace DiGi.Core.IO.Table.Classes
                         return null;
                     }
 
-                    return Core.Query.Default(column.Type);
+                    return DiGi.Core.Query.Default(column.Type);
                 }
 
                 return result;
@@ -80,7 +80,7 @@ namespace DiGi.Core.IO.Table.Classes
 
                 if (row == null)
                 {
-                    return Core.Query.Default(column.Type);
+                    return DiGi.Core.Query.Default(column.Type);
                 }
 
                 return this[columnIndex, row.Index];
@@ -219,7 +219,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Row? AddRow(IDictionary<string, object?> values, Enums.TextComparisonType textComparisonType, bool caseSensitive)
         {
-            return AddRow(values, (x, y) => Core.Query.Compare(x, y, textComparisonType, caseSensitive));
+            return AddRow(values, (x, y) => DiGi.Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
         public Row? AddRow(IDictionary<int, object?>? values)
@@ -283,7 +283,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public int GetColumnIndex(string name, Enums.TextComparisonType textComparisonType, bool caseSensitive)
         {
-            return GetColumnIndex(name, (x, y) => Core.Query.Compare(x, y, textComparisonType, caseSensitive));
+            return GetColumnIndex(name, (x, y) => DiGi.Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
         public int GetNextColumnIndex()

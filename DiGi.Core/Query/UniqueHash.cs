@@ -5,18 +5,18 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static ulong UniqueHash(this JsonNode? jsonNode, ulong hash = Constans.FNV.OffsetBasis)
+        public static ulong UniqueHash(this JsonNode? jsonNode, ulong hash = Constants.FNV.OffsetBasis)
         {
             if (jsonNode is null)
             {
-                return UniqueHash(Constans.UniqueId.Null, hash);
+                return UniqueHash(Constants.UniqueId.Null, hash);
             }
 
             if (jsonNode is JsonValue jsonValue)
             {
                 if (jsonValue.TryGetValue(out string? @string))
                 {
-                    return UniqueHash(@string ?? Constans.UniqueId.Null, hash);
+                    return UniqueHash(@string ?? Constants.UniqueId.Null, hash);
                 }
 
                 if (jsonValue.TryGetValue(out int @int))
@@ -66,7 +66,7 @@ namespace DiGi.Core
             throw new NotImplementedException();
         }
 
-        public static ulong UniqueHash(this string? @string, ulong hash = Constans.FNV.OffsetBasis)
+        public static ulong UniqueHash(this string? @string, ulong hash = Constants.FNV.OffsetBasis)
         {
             if (@string == null)
             {
@@ -76,7 +76,7 @@ namespace DiGi.Core
             ulong result = hash;
             foreach (char @char in @string)
             {
-                result = (result ^ @char) * Constans.FNV.Prime;
+                result = (result ^ @char) * Constants.FNV.Prime;
             }
 
             return result;

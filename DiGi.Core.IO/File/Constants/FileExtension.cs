@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.IO.File.Constans
+﻿namespace DiGi.Core.IO.File.Constants
 {
     public static class FileExtension
     {

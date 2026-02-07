@@ -73,7 +73,7 @@ namespace DiGi.Core.Parameter.Classes
 
                 result ??= @enum?.GetType()?.Namespace;
 
-                return result ?? Constans.Names.DefaultGroupName;
+                return result ?? Constants.Names.DefaultGroupName;
             }
         }
 
@@ -145,7 +145,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             JsonObject result = new()
             {
-                { Core.Constans.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()) },
+                { Core.Constants.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()) },
                 { "Enum", Core.Query.FullName(@enum) }
             };
 

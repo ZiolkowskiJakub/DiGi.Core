@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.Parameter.Constans
+﻿namespace DiGi.Core.Parameter.Constants
 {
     public static class Names
     {

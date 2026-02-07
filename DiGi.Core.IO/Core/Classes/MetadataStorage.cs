@@ -14,12 +14,12 @@ namespace DiGi.Core.IO.Classes
         private readonly Dictionary<TypeReference, IMetadata> dictionary = [];
 
         public MetadataStorage()
-            : base(Constans.MetadataStorage.Guid)
+            : base(Constants.MetadataStorage.Guid)
         {
         }
 
         public MetadataStorage(MetadataStorage? metadataStorage)
-            : base(Constans.MetadataStorage.Guid, metadataStorage)
+            : base(Constants.MetadataStorage.Guid, metadataStorage)
         {
             if (metadataStorage != null)
             {

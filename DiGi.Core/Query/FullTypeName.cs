@@ -14,7 +14,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            if (!jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.Type, out JsonNode? jsonNode) || jsonNode == null)
+            if (!jsonObject.TryGetPropertyValue(Constants.Serialization.PropertyName.Type, out JsonNode? jsonNode) || jsonNode == null)
             {
                 return null;
             }

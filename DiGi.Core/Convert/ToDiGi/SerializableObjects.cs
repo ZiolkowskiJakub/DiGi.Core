@@ -54,16 +54,14 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<T>? ToDiGi<T>(Classes.Path? path) where T : ISerializableObject
+        public static List<T>? ToDiGi<T>(Classes.Path path) where T : ISerializableObject
         {
-            if (path == null || path.Value == null || !path.HasValue || !path.Value.IsValid())
+            if (path == null)
             {
                 return null;
             }
 
-            Classes.Path path_Temp = path.Value;
-
-            if (!path_Temp.FileExists)
+            if (!path.FileExists)
             {
                 return null;
             }

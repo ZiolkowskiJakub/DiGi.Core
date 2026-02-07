@@ -15,7 +15,7 @@ namespace DiGi.Core
                 return default;
             }
 
-            MethodInfo methodInfo = typeof(ISerializableObject).GetMethod(Constans.Serialization.MethodName.Clone, []);
+            MethodInfo methodInfo = typeof(ISerializableObject).GetMethod(Constants.Serialization.MethodName.Clone, []);
             if (methodInfo == null)
             {
                 return default;

@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.Constans
+﻿namespace DiGi.Core.Constants
 {
     /// <summary>
     /// 64-bit FNV-1a initial hash values

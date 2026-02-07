@@ -101,7 +101,7 @@ namespace DiGi.Core.IO.Table.Classes
                         return false;
                     }
 
-                    if (!Core.Query.TryConvert(@in, out @out, type))
+                    if (!DiGi.Core.Query.TryConvert(@in, out @out, type))
                     {
                         return false;
                     }

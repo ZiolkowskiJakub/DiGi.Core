@@ -70,7 +70,7 @@ namespace DiGi.Core.Classes
 
         public override string? ToString()
         {
-            return Convert.ToSystem_String(TypeReference, UniqueId, Constans.Reference.Format.Guid);
+            return Convert.ToSystem_String(TypeReference, UniqueId, Constants.Reference.Format.Guid);
         }
     }
 }

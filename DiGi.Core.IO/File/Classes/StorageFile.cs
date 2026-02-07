@@ -103,7 +103,7 @@ namespace DiGi.Core.IO.File.Classes
 
         public virtual UniqueReference? GetUniqueReference(TSerializableObject? serializableObject)
         {
-            return Core.Create.UniqueReference(serializableObject);
+            return DiGi.Core.Create.UniqueReference(serializableObject);
         }
 
         public HashSet<UniqueReference>? GetUniqueReferences()
@@ -129,7 +129,7 @@ namespace DiGi.Core.IO.File.Classes
 
                 foreach (ZipArchiveEntry zipArchiveEntry in zipArchiveEntries)
                 {
-                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(Constans.EntryName.Values))
+                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values))
                     {
                         continue;
                     }
@@ -458,7 +458,7 @@ namespace DiGi.Core.IO.File.Classes
                 {
                     UniqueReference uniqueReference = uniqueReferences_Temp.ElementAt(0);
 
-                    string entryName = System.IO.Path.Combine(Constans.EntryName.Values, Query.Encode(uniqueReference));
+                    string entryName = System.IO.Path.Combine(IO.Constants.EntryName.Values, Query.Encode(uniqueReference));
 
                     ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
                     if (zipArchiveEntry == null)
@@ -494,7 +494,7 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             using ZipArchive zipArchive = ZipFile.Open(Path, ZipArchiveMode.Update);
-            string entryName = System.IO.Path.Combine(Constans.EntryName.Values, Query.Encode(uniqueReference));
+            string entryName = System.IO.Path.Combine(IO.Constants.EntryName.Values, Query.Encode(uniqueReference));
 
             ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
             if (zipArchiveEntry == null)
@@ -697,7 +697,7 @@ namespace DiGi.Core.IO.File.Classes
                             continue;
                         }
 
-                        string entryName = System.IO.Path.Combine(Constans.EntryName.Values, Query.Encode(uniqueReference));
+                        string entryName = System.IO.Path.Combine(IO.Constants.EntryName.Values, Query.Encode(uniqueReference));
 
                         ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
                         if (zipArchiveEntry != null)
@@ -717,7 +717,7 @@ namespace DiGi.Core.IO.File.Classes
                         {
                             ZipArchiveEntry ZipArchiveEntry = zipArchiveEntries_Temp[i];
 
-                            if (ZipArchiveEntry == null || !ZipArchiveEntry.FullName.StartsWith(Constans.EntryName.Values))
+                            if (ZipArchiveEntry == null || !ZipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values))
                             {
                                 zipArchiveEntries_Temp.RemoveAt(i);
                             }
@@ -796,7 +796,7 @@ namespace DiGi.Core.IO.File.Classes
             {
                 foreach (KeyValuePair<UniqueReference, string?> keyValuePair in dictionary)
                 {
-                    string entryName = System.IO.Path.Combine(Constans.EntryName.Values, Query.Encode(keyValuePair.Key));
+                    string entryName = System.IO.Path.Combine(IO.Constants.EntryName.Values, Query.Encode(keyValuePair.Key));
 
                     ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
                     zipArchiveEntry?.Delete();
@@ -869,7 +869,7 @@ namespace DiGi.Core.IO.File.Classes
                 {
                     ZipArchiveEntry zipArchiveEntry = zipArchiveEntries[i];
 
-                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(Constans.EntryName.Values))
+                    if (zipArchiveEntry == null || !zipArchiveEntry.FullName.StartsWith(IO.Constants.EntryName.Values))
                     {
                         continue;
                     }

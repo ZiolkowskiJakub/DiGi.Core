@@ -105,7 +105,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return defaultValue;
             }
 
-            if (!Core.Query.TryConvert(value, out T? result))
+            if (!DiGi.Core.Query.TryConvert(value, out T? result))
             {
                 return defaultValue;
             }
@@ -163,7 +163,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public bool TryGetValue<T>(int index, out T? value)
         {
-            if (!Core.Query.TryConvert(this[index], out value))
+            if (!DiGi.Core.Query.TryConvert(this[index], out value))
             {
                 return false;
             }

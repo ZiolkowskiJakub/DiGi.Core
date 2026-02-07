@@ -30,7 +30,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
-        public override string GroupName => Constans.Names.DefaultGroupName;
+        public override string GroupName => Constants.Names.DefaultGroupName;
 
         [JsonIgnore]
         public override string? Name

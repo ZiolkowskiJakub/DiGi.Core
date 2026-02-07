@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
 {
     public abstract class GuidObject : UniqueObject, IGuidObject
     {
-        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Guid)]
+        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Guid)]
         private Guid guid;
 
         public GuidObject()

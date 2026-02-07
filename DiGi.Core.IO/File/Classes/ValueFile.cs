@@ -82,7 +82,7 @@ namespace DiGi.Core.IO.File.Classes
 
             ZipArchiveEntry? zipArchiveEntry = null;
 
-            zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Value);
+            zipArchiveEntry = zipArchive.GetEntry(IO.Constants.EntryName.Value);
             if (zipArchiveEntry != null)
             {
                 using StreamReader streamReader = new(zipArchiveEntry.Open());
@@ -109,13 +109,13 @@ namespace DiGi.Core.IO.File.Classes
 
             using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update))
             {
-                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Value);
+                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(IO.Constants.EntryName.Value);
                 zipArchiveEntry?.Delete();
 
                 string? json = Convert.ToSystem_String(Value);
                 if (!string.IsNullOrWhiteSpace(json))
                 {
-                    zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Value);
+                    zipArchiveEntry = zipArchive.CreateEntry(IO.Constants.EntryName.Value);
 
                     using Stream stream = zipArchiveEntry.Open();
                     using StreamWriter streamWriter = new(stream);

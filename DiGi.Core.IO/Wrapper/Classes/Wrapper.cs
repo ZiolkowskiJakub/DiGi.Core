@@ -169,7 +169,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             List<TSerializableObject> result = [];
             foreach (JsonNode? jsonNode in jsonNodes)
             {
-                TSerializableObject? serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonNode as JsonObject);
+                TSerializableObject? serializableObject = DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonNode as JsonObject);
                 if (serializableObject == null)
                 {
                     continue;
@@ -220,7 +220,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                     continue;
                 }
 
-                TSerializableObject? serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+                TSerializableObject? serializableObject = DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject);
                 if (serializableObject == null)
                 {
                     continue;
@@ -296,7 +296,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         public void SetMetadata(IMetadata metadata)
         {
-            MetadataStorage? metadataStorage = Read<MetadataStorage>(Constans.MetadataStorage.WrapperGuidReference);
+            MetadataStorage? metadataStorage = Read<MetadataStorage>(Constants.MetadataStorage.WrapperGuidReference);
             metadataStorage ??= new MetadataStorage();
 
             metadataStorage.SetMetadata(metadata);
@@ -418,7 +418,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
 
         private MetadataStorage GetMetadataStorage()
         {
-            MetadataStorage? result = Read<MetadataStorage>(Constans.MetadataStorage.WrapperGuidReference);
+            MetadataStorage? result = Read<MetadataStorage>(Constants.MetadataStorage.WrapperGuidReference);
             result ??= new MetadataStorage();
 
             return result;
@@ -548,7 +548,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return default;
             }
 
-            return Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+            return DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject);
         }
 
         private HashSet<WrapperNode>? Read(IEnumerable<TypeReference>? typeReferences)

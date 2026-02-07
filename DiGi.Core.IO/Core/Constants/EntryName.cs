@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.IO.File.Constans
+﻿namespace DiGi.Core.IO.Constants
 {
     public static class EntryName
     {

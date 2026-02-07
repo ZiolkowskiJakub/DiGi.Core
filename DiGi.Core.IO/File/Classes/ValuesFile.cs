@@ -87,7 +87,7 @@ namespace DiGi.Core.IO.File.Classes
             values = [];
             using ZipArchive zipArchive = ZipFile.OpenRead(path);
 
-            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Values);
+            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(IO.Constants.EntryName.Values);
             if (zipArchiveEntry != null)
             {
                 using StreamReader streamReader = new(zipArchiveEntry.Open());
@@ -100,7 +100,7 @@ namespace DiGi.Core.IO.File.Classes
                         values = [];
                         foreach (JsonObject? jsonObject in jsonArray.Cast<JsonObject?>())
                         {
-                            values.Add(Core.Create.SerializableObject<TSerializableObject>(jsonObject));
+                            values.Add(DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject));
                         }
                     }
                 }
@@ -121,15 +121,15 @@ namespace DiGi.Core.IO.File.Classes
 
             using (ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update))
             {
-                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.Values);
+                ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(IO.Constants.EntryName.Values);
                 zipArchiveEntry?.Delete();
 
                 if (values != null)
                 {
-                    JsonNode? jsonNode = Core.Create.JsonNode(values);
+                    JsonNode? jsonNode = DiGi.Core.Create.JsonNode(values);
                     if (jsonNode != null)
                     {
-                        zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.Values);
+                        zipArchiveEntry = zipArchive.CreateEntry(IO.Constants.EntryName.Values);
 
                         using Stream stream = zipArchiveEntry.Open();
                         using StreamWriter streamWriter = new(stream);

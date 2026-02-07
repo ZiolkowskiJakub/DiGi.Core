@@ -431,7 +431,7 @@ namespace DiGi.Core
                 case System.Text.Json.JsonValueKind.Object:
                     JsonObject jsonObject = (JsonObject)jsonNode;
 
-                    if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
+                    if (jsonObject.ContainsKey(Constants.Serialization.PropertyName.Type))
                     {
                         ISerializableObject? serializableObject = Create.SerializableObject<ISerializableObject>(jsonObject);
                         if (serializableObject is SerializableObjectWrapper)

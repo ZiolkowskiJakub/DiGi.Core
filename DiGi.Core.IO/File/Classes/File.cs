@@ -36,7 +36,7 @@ namespace DiGi.Core.IO.File.Classes
         {
             if (file != null)
             {
-                this.metadataStorage = file.metadataStorage.Clone<MetadataStorage>() ?? new();
+                metadataStorage = file.metadataStorage.Clone<MetadataStorage>() ?? new();
             }
         }
 
@@ -89,7 +89,7 @@ namespace DiGi.Core.IO.File.Classes
 
             ZipArchiveEntry zipArchiveEntry;
 
-            zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
+            zipArchiveEntry = zipArchive.GetEntry(IO.Constants.EntryName.MetadataStorage);
             if (zipArchiveEntry != null)
             {
                 using StreamReader streamReader = new(zipArchiveEntry.Open());
@@ -132,10 +132,10 @@ namespace DiGi.Core.IO.File.Classes
 
             using ZipArchive zipArchive = ZipFile.Open(path, ZipArchiveMode.Update);
 
-            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(Constans.EntryName.MetadataStorage);
+            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(IO.Constants.EntryName.MetadataStorage);
             zipArchiveEntry?.Delete();
 
-            zipArchiveEntry = zipArchive.CreateEntry(Constans.EntryName.MetadataStorage);
+            zipArchiveEntry = zipArchive.CreateEntry(IO.Constants.EntryName.MetadataStorage);
 
             using Stream stream = zipArchiveEntry.Open();
             using StreamWriter streamWriter = new(stream);
