@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -82,9 +83,34 @@ namespace DiGi.Core
                 return null;
             }
 
-            string json = Encoding.UTF8.GetString(bytes);
+            JsonNode? jsonNode = JsonNode.Parse(bytes);
+            if (jsonNode is null)
+            {
+                return null;
+            }
 
-            return ToDiGi<T>(json);
+            JsonValueKind jsonValueKind = jsonNode.GetValueKind();
+            switch (jsonValueKind)
+            {
+                case JsonValueKind.Object:
+                    T? value = Create.SerializableObject<T>(jsonNode.AsObject());
+                    if (value is null)
+                    {
+                        return null;
+                    }
+
+                    return [value];
+
+                case JsonValueKind.Array:
+                    return Create.SerializableObjects<T>(jsonNode.AsArray());
+
+                case JsonValueKind.String:
+                    string? json = jsonNode?.AsValue()?.GetValue<string>();
+                    return ToDiGi<T>(json);
+
+            }
+
+            return null;
         }
     }
 }

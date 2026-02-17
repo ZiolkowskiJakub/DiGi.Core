@@ -1,5 +1,7 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace DiGi.Core
 {
@@ -7,24 +9,24 @@ namespace DiGi.Core
     {
         public static byte[]? ToSystem_Bytes(this ISerializableObject? serializableObject)
         {
-            string? json = ToSystem_String(serializableObject);
-            if (json == null)
+            JsonObject? jsonObject = serializableObject?.ToJsonObject();
+            if (jsonObject is null)
             {
                 return null;
             }
 
-            return System.Text.Encoding.UTF8.GetBytes(json);
+            return JsonSerializer.SerializeToUtf8Bytes(jsonObject);
         }
 
         public static byte[]? ToSystem_Bytes<T>(this IEnumerable<T>? serializableObjects) where T : ISerializableObject
         {
-            string? json = ToSystem_String(serializableObjects);
-            if (json == null)
+            JsonArray? jsonArray = serializableObjects?.ToJson();
+            if (jsonArray is null)
             {
                 return null;
             }
 
-            return System.Text.Encoding.UTF8.GetBytes(json);
+            return JsonSerializer.SerializeToUtf8Bytes(jsonArray);
         }
     }
 }
