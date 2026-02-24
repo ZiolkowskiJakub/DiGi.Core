@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -107,7 +106,6 @@ namespace DiGi.Core
                 case JsonValueKind.String:
                     string? json = jsonNode?.AsValue()?.GetValue<string>();
                     return ToDiGi<T>(json);
-
             }
 
             return null;
