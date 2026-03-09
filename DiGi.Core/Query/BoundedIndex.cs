@@ -4,6 +4,18 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Maps an out-of-bounds index back into the specified range using a wrap-around (circular) logic.
+        /// If the index is within the range, it returns the index unchanged. 
+        /// If the range is null, returns <see cref="int.MinValue"/>.
+        /// </summary>
+        /// <param name="range">The boundaries within which the index should be contained.</param>
+        /// <param name="index">The index to be evaluated or mapped.</param>
+        /// <returns>
+        /// The original index if it's within bounds; 
+        /// the wrapped index if it's outside; 
+        /// or <see cref="int.MinValue"/> if the range is null.
+        /// </returns>
         public static int BoundedIndex(this Range<int>? range, int index)
         {
             if (range is null)
