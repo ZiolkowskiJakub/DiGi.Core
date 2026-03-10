@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class ConvertOptions : SerializableObject, IConvertOptions
+    public abstract class ConvertOptions : SerializableOptions, IConvertOptions
     {
         public ConvertOptions()
             : base()
