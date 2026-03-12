@@ -215,6 +215,16 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
+            return Read(lines);
+        }
+
+        public bool Read(string[]? lines)
+        {
+            if (lines == null || lines.Length == 0)
+            {
+                return false;
+            }
+
             bool result = false;
 
             foreach (string line in lines)

@@ -1,0 +1,162 @@
+﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
+using DiGi.Core.IO.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using System.Timers;
+
+namespace DiGi.Core.IO.Classes
+{
+    /// <summary>
+    /// Monitors any file and reloads its binary content only if the hash has changed.
+    /// </summary>
+    public class FileWatcher : IDisposable, IIOObject
+    {
+        private readonly string path;
+        private readonly Timer timer;
+        private byte[]? bytes;
+        private byte[]? hash;
+        private DateTime lastWriteTime;
+        /// <summary>
+        /// Initializes a new instance of the FileWatcher class to monitor changes to the specified file at a given
+        /// interval.
+        /// </summary>
+        /// <param name="path">The full path to the file to be monitored. The file must exist at the time of initialization.</param>
+        /// <param name="interval">The interval, in milliseconds, at which the file is checked for changes. The default is 5000 milliseconds.</param>
+        /// <exception cref="FileNotFoundException">Thrown if the file specified by path does not exist.</exception>
+        public FileWatcher(string path, double interval = 5000)
+        {
+            if (!System.IO.File.Exists(path))
+            {
+                throw new FileNotFoundException("Target file not found.", path);
+            }
+
+            this.path = path;
+            bytes = SafeReadBytes();
+            hash = ComputeHash(bytes);
+
+            timer = new Timer(interval);
+            timer.Elapsed += OnTimerElapsed;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        public event EventHandler<byte[]>? ContentChanged;
+        
+        public byte[]? Bytes => bytes;
+
+        public string Path => path;
+
+        public void Dispose()
+        {
+            timer?.Stop();
+            timer?.Dispose();
+        }
+
+        public string[]? GetLines(System.Text.Encoding? encoding = null)
+        {
+            return GetString(encoding)?.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+        }
+
+        public string GetString(System.Text.Encoding? encoding = null)
+        {
+            if (bytes == null || bytes.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            // Fallback to UTF8 if no encoding is specified
+            System.Text.Encoding targetEncoding = encoding ?? System.Text.Encoding.UTF8;
+
+            return targetEncoding.GetString(bytes);
+        }
+        
+        private byte[]? ComputeHash(byte[]? data)
+        {
+            if (data == null)
+            {
+                return null;
+            }
+
+            using SHA256 sha256 = SHA256.Create();
+
+            return sha256.ComputeHash(data);
+        }
+
+        private bool HashesMatch(byte[]? hash_1, byte[]? hash_2)
+        {
+            if (hash_1 == null || hash_2 == null)
+            {
+                return false;
+            }
+
+            return hash_1.SequenceEqual(hash_2);
+        }
+
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                // 1. Fast metadata check
+                DateTime currentLastWriteTime = System.IO.File.GetLastWriteTime(path);
+
+                // If metadata hasn't changed, exit immediately without touching the file content
+                if (currentLastWriteTime <= lastWriteTime)
+                {
+                    return;
+                }
+
+                // 2. Heavy content check (only if timestamp changed)
+                byte[]? currentBytes = SafeReadBytes();
+                if (currentBytes == null)
+                {
+                    return;
+                }
+
+                byte[]? currentHash = ComputeHash(currentBytes);
+
+                if (!HashesMatch(hash, currentHash))
+                {
+                    lastWriteTime = currentLastWriteTime;
+                    hash = currentHash;
+                    bytes = currentBytes;
+
+                    ContentChanged?.Invoke(this, bytes);
+                }
+                else
+                {
+                    // Update timestamp anyway to avoid re-hashing if file was saved without changes
+                    lastWriteTime = currentLastWriteTime;
+                }
+            }
+            catch (Exception exception)
+            {
+                // Log error in your CAD/BIM console (e.g., RhinoApp.WriteLine or Rhino.Runtime.HostUtils.ExceptionReport)
+                System.Diagnostics.Debug.WriteLine($"Error checking file: {exception.Message}");
+            }
+        }
+        
+        private byte[]? SafeReadBytes()
+        {
+            try
+            {
+                // FileShare.ReadWrite is crucial for plugins co-existing with CAD/BIM software
+                using FileStream fileStream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+                byte[] buffer = new byte[fileStream.Length];
+                fileStream.Read(buffer, 0, (int)fileStream.Length);
+
+                return buffer;
+            }
+            catch (IOException)
+            {
+                // File locked by Revit/Rhino/Excel or another process
+                return null;
+            }
+        }
+    }
+}

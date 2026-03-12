@@ -46,10 +46,10 @@ namespace DiGi.Core.Classes
         public bool IsCanceled => Task?.IsCanceled ?? false;
 
         public bool IsCompleted => Task?.IsCompleted ?? false;
-        
+
         public bool IsRunning => Task != null && !Task.IsCompleted;
         protected Task? Task { get; private set; }
-        
+
         public void Start()
         {
             lock (lockObject)
@@ -75,13 +75,13 @@ namespace DiGi.Core.Classes
                     {
                         // Catch both TaskCanceledException and OperationCanceledException
                     }
-                    catch(Exception exception)
+                    catch (Exception exception)
                     {
                         throw exception;
                     }
                     finally
                     {
-                        // Trigger OnStopped only if the task completed itself 
+                        // Trigger OnStopped only if the task completed itself
                         // without an external Stop/StopAsync call.
                         if (!token.IsCancellationRequested)
                         {
@@ -118,7 +118,6 @@ namespace DiGi.Core.Classes
             }
             catch (OperationCanceledException)
             {
-
             }
             finally
             {
@@ -152,7 +151,6 @@ namespace DiGi.Core.Classes
             }
             catch (OperationCanceledException)
             {
-
             }
             finally
             {
@@ -162,11 +160,11 @@ namespace DiGi.Core.Classes
         }
 
         protected virtual void OnStarted() => Started?.Invoke(this, EventArgs.Empty);
-        
+
         protected virtual void OnStarting() => Starting?.Invoke(this, EventArgs.Empty);
-        
+
         protected virtual void OnStopped() => Stopped?.Invoke(this, EventArgs.Empty);
-        
+
         protected virtual void OnStopping() => Stopping?.Invoke(this, EventArgs.Empty);
 
         protected abstract Task<bool> RunAsync(CancellationToken cancellationToken);
