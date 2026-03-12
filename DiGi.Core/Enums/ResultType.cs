@@ -8,6 +8,6 @@ namespace DiGi.Core.Enums
         [Description("Undefined")] Undefined,
         [Description("Succeeded")] Succeeded,
         [Description("Failed")] Failed,
-        [Description("Cancelled")] Cancelled
+        [Description("Canceled")] Canceled
     }
 }
