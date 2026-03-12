@@ -2,11 +2,11 @@
 
 namespace DiGi.Core.IO.File.Interfaces
 {
-    internal interface IValuesFile : IFile
+    public interface IValuesFile : IFile
     {
     }
 
-    internal interface IValuesFile<T> : IValuesFile
+    public interface IValuesFile<T> : IValuesFile
     {
         IEnumerable<T?>? Values { get; set; }
     }

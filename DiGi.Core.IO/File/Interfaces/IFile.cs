@@ -2,7 +2,7 @@
 
 namespace DiGi.Core.IO.File.Interfaces
 {
-    internal interface IFile : IDisposable
+    public interface IFile : IDisposable
     {
         bool Open();
 
@@ -13,7 +13,7 @@ namespace DiGi.Core.IO.File.Interfaces
         bool SaveAs(string path);
     }
 
-    internal interface IFile<T> : IFile
+    public interface IFile<T> : IFile
     {
         T Value { get; set; }
     }

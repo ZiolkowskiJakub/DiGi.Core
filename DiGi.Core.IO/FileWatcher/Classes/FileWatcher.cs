@@ -1,15 +1,17 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
+using DiGi.Core.IO.File.Interfaces;
 using DiGi.Core.IO.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Timers;
 
-namespace DiGi.Core.IO.Classes
+namespace DiGi.Core.IO.FileWatcher.Classes
 {
     /// <summary>
     /// Monitors any file and reloads its binary content only if the hash has changed.
@@ -21,6 +23,7 @@ namespace DiGi.Core.IO.Classes
         private byte[]? bytes;
         private byte[]? hash;
         private DateTime lastWriteTime;
+
         /// <summary>
         /// Initializes a new instance of the FileWatcher class to monitor changes to the specified file at a given
         /// interval.
@@ -49,8 +52,21 @@ namespace DiGi.Core.IO.Classes
         
         public byte[]? Bytes => bytes;
 
-        public string Path => path;
+        public double Interval
+        {
+            get
+            {
+                return timer.Interval;
+            }
 
+            set
+            {
+                timer.Interval = value;
+            }
+        }
+
+        public string Path => path;
+        
         public void Dispose()
         {
             timer?.Stop();
@@ -157,6 +173,37 @@ namespace DiGi.Core.IO.Classes
                 // File locked by Revit/Rhino/Excel or another process
                 return null;
             }
+        }
+    }
+
+    public abstract class FileWatcher<TFile> : FileWatcher where TFile: IFile
+    {
+        private TFile? file;
+
+        public FileWatcher(string path, double interval = 60000)
+            : base(path, interval)
+        {
+            ContentChanged += FileWatcher_ContentChanged;
+        }
+
+        public TFile? File
+        {
+            get
+            {
+                if (file is null)
+                {
+                    file = CreateFile();
+                }
+
+                return file;
+            }
+        }
+
+        protected abstract TFile CreateFile();
+
+        private void FileWatcher_ContentChanged(object sender, byte[] e)
+        {
+            file = default;
         }
     }
 }

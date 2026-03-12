@@ -1,10 +1,10 @@
 ﻿namespace DiGi.Core.IO.File.Interfaces
 {
-    internal interface IValueFile : IFile
+    public interface IValueFile : IFile
     {
     }
 
-    internal interface IValueFile<T> : IValueFile
+    public interface IValueFile<T> : IValueFile
     {
         T? Value { get; set; }
     }
