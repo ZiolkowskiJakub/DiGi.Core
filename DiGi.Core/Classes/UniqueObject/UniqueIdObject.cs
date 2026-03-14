@@ -6,7 +6,7 @@ namespace DiGi.Core.Classes
 {
     public abstract class UniqueIdObject : UniqueObject, IUniqueIdObject
     {
-        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.UniqueId)]
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.UniqueId)]
         private readonly string? uniqueId;
 
         public UniqueIdObject()

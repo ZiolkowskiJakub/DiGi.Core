@@ -15,9 +15,9 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            if (jsonObject.ContainsKey(DiGi.Core.Constants.Serialization.PropertyName.Type))
+            if (jsonObject.ContainsKey(DiGi.Core.Constans.Serialization.PropertyName.Type))
             {
-                string? fullTypeName = jsonObject[DiGi.Core.Constants.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
+                string? fullTypeName = jsonObject[DiGi.Core.Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
                     if (Query.IsWrapperUniqueReference(jsonObject))
@@ -25,9 +25,9 @@ namespace DiGi.Core.IO.Wrapper
                         return DiGi.Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
                     }
 
-                    if (jsonObject.ContainsKey(DiGi.Core.Constants.Serialization.PropertyName.Guid))
+                    if (jsonObject.ContainsKey(DiGi.Core.Constans.Serialization.PropertyName.Guid))
                     {
-                        object? @object = jsonObject[DiGi.Core.Constants.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
+                        object? @object = jsonObject[DiGi.Core.Constans.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
                         if (DiGi.Core.Query.TryConvert(@object, out Guid guid))
                         {
                             return new WrapperGuidReference(fullTypeName, guid);

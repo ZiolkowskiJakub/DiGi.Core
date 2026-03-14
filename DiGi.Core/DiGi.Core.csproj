@@ -20,6 +20,9 @@
 		<!-- Prevent duplicate 'Compile' inclusion of the generated AssemblyAttributes.cs -->
 		<Compile Remove="$(IntermediateOutputPath)$(MSBuildProjectName).AssemblyAttributes.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Query\TryGetFirstKey.cs" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

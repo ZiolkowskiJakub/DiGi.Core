@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
 {
     public class Value<TObject> : SerializableObject, IValue<TObject>
     {
-        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Value)]
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Value)]
         protected TObject? value;
 
         public Value(JsonObject? jsonObject)
@@ -30,7 +30,7 @@ namespace DiGi.Core.Classes
 
         TObject? IValue<TObject>.Value => value;
 
-        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.ValueType)]
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.ValueType)]
         public Type? ValueType
         {
             get

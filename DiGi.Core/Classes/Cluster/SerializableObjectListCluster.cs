@@ -28,7 +28,7 @@ namespace DiGi.Core.Classes
             FromJsonObject(jsonObject);
         }
 
-        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Type)]
+        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
         private string? FullTypeName => Query.FullTypeName(GetType());
 
         public virtual ISerializableObject? Clone()

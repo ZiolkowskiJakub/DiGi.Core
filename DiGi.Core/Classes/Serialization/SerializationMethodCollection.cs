@@ -87,9 +87,9 @@ namespace DiGi.Core.Classes
                 result[serializationMethod!.Name] = Core.Create.JsonNode(value);
             }
 
-            if (result != null && !result.ContainsKey(Constants.Serialization.PropertyName.Type))
+            if (result != null && !result.ContainsKey(Constans.Serialization.PropertyName.Type))
             {
-                result[Constants.Serialization.PropertyName.Type] = Query.FullTypeName(serializableObject);
+                result[Constans.Serialization.PropertyName.Type] = Query.FullTypeName(serializableObject);
             }
 
             return result;
@@ -143,9 +143,9 @@ namespace DiGi.Core.Classes
                 }
             }
 
-            if (serializableObject is IValue && jsonObject.TryGetPropertyValue(Constants.Serialization.PropertyName.ValueType, out JsonNode? jsonNode_ValueType) && jsonNode_ValueType is not null && jsonObject.ContainsKey(Constants.Serialization.PropertyName.Value))
+            if (serializableObject is IValue && jsonObject.TryGetPropertyValue(Constans.Serialization.PropertyName.ValueType, out JsonNode? jsonNode_ValueType) && jsonNode_ValueType is not null && jsonObject.ContainsKey(Constans.Serialization.PropertyName.Value))
             {
-                if (this[Constants.Serialization.PropertyName.Value]?.MemberInfo is MemberInfo memberInfo)
+                if (this[Constans.Serialization.PropertyName.Value]?.MemberInfo is MemberInfo memberInfo)
                 {
                     object? value = null;
                     if (memberInfo is PropertyInfo propertyInfo)

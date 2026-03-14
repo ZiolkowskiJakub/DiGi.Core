@@ -9,7 +9,7 @@ namespace DiGi.Core.Parameter.Classes
 {
     public abstract class ParametrizedGuidObject : ParametrizedObject, IParametrizedGuidObject
     {
-        [JsonInclude, JsonPropertyName(Core.Constants.Serialization.PropertyName.Guid)]
+        [JsonInclude, JsonPropertyName(Core.Constans.Serialization.PropertyName.Guid)]
         private Guid guid = Guid.NewGuid();
 
         public ParametrizedGuidObject()

@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.Constants
+﻿namespace DiGi.Core.Constans
 {
     public static class UniqueId
     {

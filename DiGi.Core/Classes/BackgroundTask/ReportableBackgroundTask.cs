@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DiGi.Core.Interfaces;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class ReportableTask<T> : CancelableTask
+    public abstract class ReportableBackgroundTask<T> : CancelableBackgroundTask, IReportableBackgroundTask<T>
     {
         public event EventHandler<T>? ProgressChanged;
 

@@ -11,7 +11,7 @@ namespace DiGi.Core
         {
             if (value == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             //ulong result = 0;
@@ -41,7 +41,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return value.ToString();
@@ -56,7 +56,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return value.ToString();
@@ -71,7 +71,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return value.ToString();
@@ -86,7 +86,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return value.ToString();
@@ -101,7 +101,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return value.ToString();
@@ -116,7 +116,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return value.ToString();
@@ -131,7 +131,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return UniqueId(value.Value);
@@ -146,7 +146,7 @@ namespace DiGi.Core
         {
             if (value == null || !value.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return UniqueId(value.Value);
@@ -156,7 +156,7 @@ namespace DiGi.Core
         {
             if (value == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             switch (value.GetValueKind())
@@ -177,7 +177,7 @@ namespace DiGi.Core
                     return UniqueId(value.AsObject());
 
                 case System.Text.Json.JsonValueKind.Null:
-                    return Constants.UniqueId.Null;
+                    return Constans.UniqueId.Null;
 
                 case System.Text.Json.JsonValueKind.Array:
                     return UniqueId(value.AsArray());
@@ -189,14 +189,14 @@ namespace DiGi.Core
                     break;
             }
 
-            return Constants.UniqueId.Null;
+            return Constans.UniqueId.Null;
         }
 
         public static string UniqueId(JsonArray? value)
         {
             if (value == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             List<string> uniqueIds = [];
@@ -213,7 +213,7 @@ namespace DiGi.Core
             object? @object = value?.GetValue<object>();
             if (@object == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return UniqueId(@object as dynamic);
@@ -223,12 +223,12 @@ namespace DiGi.Core
         {
             if (value == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
-            if (value.ContainsKey(Constants.Serialization.PropertyName.Type) && value.ContainsKey(Constants.Serialization.PropertyName.Guid))
+            if (value.ContainsKey(Constans.Serialization.PropertyName.Type) && value.ContainsKey(Constans.Serialization.PropertyName.Guid))
             {
-                JsonValue? jsonValue = value[Constants.Serialization.PropertyName.Guid]?.AsValue();
+                JsonValue? jsonValue = value[Constans.Serialization.PropertyName.Guid]?.AsValue();
 
                 if (jsonValue != null)
                 {
@@ -253,7 +253,7 @@ namespace DiGi.Core
         {
             if (@enum == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return System.Convert.ToInt32(@enum).ToString();
@@ -268,7 +268,7 @@ namespace DiGi.Core
         {
             if (guid == null || !guid.HasValue)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             return UniqueId(@guid.Value);
@@ -278,17 +278,17 @@ namespace DiGi.Core
         {
             if (uniqueObject == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
-            return uniqueObject?.UniqueId ?? Constants.UniqueId.Null;
+            return uniqueObject?.UniqueId ?? Constans.UniqueId.Null;
         }
 
         public static string UniqueId(this ISerializableObject? serializableObject)
         {
             if (serializableObject == null)
             {
-                return Constants.UniqueId.Null;
+                return Constans.UniqueId.Null;
             }
 
             if (serializableObject is IUniqueObject uniqueObject)

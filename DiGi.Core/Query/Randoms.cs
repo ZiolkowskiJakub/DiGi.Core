@@ -6,7 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static List<double>? Randoms(int count, Random? random, double start, double end, double tolerance = Constants.Tolerance.MacroDistance)
+        public static List<double>? Randoms(int count, Random? random, double start, double end, double tolerance = Constans.Tolerance.MacroDistance)
         {
             if (count <= 0 || random == null)
             {
@@ -22,7 +22,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<double>? Randoms(int count, Random? random, Range<double>? range, double tolerance = Constants.Tolerance.MacroDistance)
+        public static List<double>? Randoms(int count, Random? random, Range<double>? range, double tolerance = Constans.Tolerance.MacroDistance)
         {
             if (count <= 0 || random == null)
             {
@@ -38,7 +38,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<double>? Randoms(int count, double start, double end, int seed = -1, double tolerance = Constants.Tolerance.MacroDistance)
+        public static List<double>? Randoms(int count, double start, double end, int seed = -1, double tolerance = Constans.Tolerance.MacroDistance)
         {
             if (count <= 0)
             {
@@ -56,7 +56,7 @@ namespace DiGi.Core
             return result;
         }
 
-        public static List<double>? Randoms(int count, Range<double>? range, int seed = -1, double tolerance = Constants.Tolerance.MacroDistance)
+        public static List<double>? Randoms(int count, Range<double>? range, int seed = -1, double tolerance = Constans.Tolerance.MacroDistance)
         {
             if (count <= 0 || range is null)
             {

@@ -79,7 +79,7 @@ namespace DiGi.Core
             string? result = typeReference?.ToString();
             if (!string.IsNullOrWhiteSpace(result))
             {
-                result += Constants.Reference.Separator;
+                result += Constans.Reference.Separator;
             }
 
             if (string.IsNullOrWhiteSpace(result))
@@ -119,7 +119,7 @@ namespace DiGi.Core
             string result = string.Format("\"{0}\"", source);
             if (!string.IsNullOrWhiteSpace(result))
             {
-                result += Constants.Reference.Separator;
+                result += Constans.Reference.Separator;
             }
 
             result += serializableReference.ToString();

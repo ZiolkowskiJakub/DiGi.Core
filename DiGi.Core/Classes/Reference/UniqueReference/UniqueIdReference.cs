@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
     public class UniqueIdReference : UniqueReference
     {
         [JsonInclude, JsonPropertyName("UniqueId")]
-        private readonly string uniqueId = Constants.UniqueId.Null;
+        private readonly string uniqueId = Constans.UniqueId.Null;
 
         public UniqueIdReference(TypeReference? typeReference, string? uniqueId)
             : base(typeReference)
@@ -69,7 +69,7 @@ namespace DiGi.Core.Classes
 
         public override string? ToString()
         {
-            return Convert.ToSystem_String(TypeReference, uniqueId, Constants.Reference.Format.UniqueId);
+            return Convert.ToSystem_String(TypeReference, uniqueId, Constans.Reference.Format.UniqueId);
         }
     }
 }

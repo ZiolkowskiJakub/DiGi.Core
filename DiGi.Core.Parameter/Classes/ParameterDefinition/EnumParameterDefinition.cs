@@ -145,7 +145,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             JsonObject result = new()
             {
-                { Core.Constants.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()) },
+                { Core.Constans.Serialization.PropertyName.Type, Core.Query.FullTypeName(GetType()) },
                 { "Enum", Core.Query.FullName(@enum) }
             };
 

@@ -55,7 +55,7 @@ namespace DiGi.Core.Classes
                 return Remove(name);
             }
 
-            dictionary[name] = value.ToString();
+            dictionary[name.Trim()] = value.ToString();
             return true;
         }
 
@@ -71,7 +71,7 @@ namespace DiGi.Core.Classes
                 return Remove(name);
             }
 
-            dictionary[name] = string.Format("\"{0}\"", value);
+            dictionary[name.Trim()] = string.Format("\"{0}\"", value);
             return true;
         }
 
@@ -93,7 +93,7 @@ namespace DiGi.Core.Classes
                 text += ".0";
             }
 
-            dictionary[name] = text;
+            dictionary[name.Trim()] = text;
             return true;
         }
 
@@ -109,7 +109,7 @@ namespace DiGi.Core.Classes
                 return Remove(name);
             }
 
-            dictionary[name] = value.ToString();
+            dictionary[name.Trim()] = value.ToString();
             return true;
         }
 
@@ -131,19 +131,27 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public bool Contains(string? name)
+        public bool Contains(string? name, bool caseSensitive = false)
         {
             if (name is null)
             {
                 return false;
             }
 
-            return dictionary.ContainsKey(name);
+            string name_Temp = name.Trim();
+
+            bool result = dictionary.ContainsKey(name_Temp);
+            if(!caseSensitive)
+            {
+                return dictionary.TryGetFirstKey(name_Temp, out _, x => x?.ToUpper());
+            }
+
+            return result;
         }
 
-        public T? GetValue<T>(string name)
+        public T? GetValue<T>(string name, bool caseSensitive = false)
         {
-            if (!TryGetValue(name, out T? result))
+            if (!TryGetValue(name, out T? result, caseSensitive))
             {
                 return default;
             }
@@ -151,9 +159,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
-        public T? GetValue<T>(string name, T? defaultValue)
+        public T? GetValue<T>(string name, T? defaultValue, bool caseSensitive = false)
         {
-            if (!TryGetValue(name, out T? result))
+            if (!TryGetValue(name, out T? result, caseSensitive))
             {
                 return defaultValue;
             }
@@ -161,45 +169,14 @@ namespace DiGi.Core.Classes
             return defaultValue;
         }
 
-        public object? GetValue(string name)
+        public object? GetValue(string name, bool caseSensitive = false)
         {
-            if (name == null)
+            if(!TryGetValue(name, out object? result, caseSensitive))
             {
-                return false;
+                return null;
             }
 
-            if (!dictionary.TryGetValue(name, out string text) || text == null)
-            {
-                return false;
-            }
-
-            if (text.StartsWith("\"") && text.EndsWith("\""))
-            {
-                text = text.Substring(1, text.Length - 1);
-                return text;
-            }
-
-            if (int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out int @int))
-            {
-                return @int;
-            }
-
-            if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double @double))
-            {
-                return @double;
-            }
-
-            if (text.ToUpper() == "TRUE")
-            {
-                return true;
-            }
-
-            if (text.ToUpper() == "FALSE")
-            {
-                return true;
-            }
-
-            return null;
+            return result;
         }
 
         public bool Read(string path)
@@ -257,10 +234,12 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            return dictionary.Remove(name);
+            string name_Temp = name.Trim();
+
+            return dictionary.Remove(name_Temp);
         }
 
-        public bool TryGetValue<T>(string name, out T? value)
+        public bool TryGetValue<T>(string name, out T? value, bool caseSensitive = false)
         {
             value = default;
 
@@ -269,9 +248,24 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            if (!dictionary.TryGetValue(name, out string text))
+            string name_Temp = name.Trim();
+
+            if (!dictionary.TryGetValue(name_Temp, out string text))
             {
-                return false;
+                if (caseSensitive)
+                {
+                    return false;
+                }
+
+                if (!dictionary.TryGetFirstKey(name_Temp, out string? key, x => x?.ToUpper()) || string.IsNullOrWhiteSpace(key))
+                {
+                    return false;
+                }
+
+                if (!dictionary.TryGetValue(name_Temp, out text))
+                {
+                    return false;
+                }
             }
 
             if (text.StartsWith("\"") && text.EndsWith("\""))

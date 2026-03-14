@@ -6,51 +6,36 @@ using System.Threading.Tasks;
 
 namespace DiGi.Core.Classes
 {
-    public abstract class CancelableTask : ITask
+    public abstract class CancelableBackgroundTask : BackgroundTask, ICancelableBackgroundTask
     {
-        private readonly object lockObject = new();
-
         private CancellationTokenSource? cancellationTokenSource;
 
-        public event EventHandler? Started;
-
-        public event EventHandler? Starting;
-
-        public event EventHandler? Stopped;
-
-        public event EventHandler? Stopping;
-
-        public CancelableTaskStatus CancelableTaskStatus
+        public CancelableBackgroundTaskStatus CancelableBackgroundTaskStatus
         {
             get
             {
                 if (IsRunning)
                 {
-                    return CancelableTaskStatus.Running;
+                    return CancelableBackgroundTaskStatus.Running;
                 }
 
                 if (IsCompleted)
                 {
                     if (IsCanceled)
                     {
-                        return CancelableTaskStatus.Canceled;
+                        return CancelableBackgroundTaskStatus.Canceled;
                     }
 
-                    return CancelableTaskStatus.Completed;
+                    return CancelableBackgroundTaskStatus.Completed;
                 }
 
-                return CancelableTaskStatus.Idle;
+                return CancelableBackgroundTaskStatus.Idle;
             }
         }
 
         public bool IsCanceled => Task?.IsCanceled ?? false;
-
-        public bool IsCompleted => Task?.IsCompleted ?? false;
-
-        public bool IsRunning => Task != null && !Task.IsCompleted;
-        protected Task? Task { get; private set; }
-
-        public void Start()
+        
+        public override void Start()
         {
             lock (lockObject)
             {
@@ -59,36 +44,9 @@ namespace DiGi.Core.Classes
                     return;
                 }
 
-                OnStarting();
-
                 cancellationTokenSource = new CancellationTokenSource();
-                CancellationToken token = cancellationTokenSource.Token;
 
-                Task = Task.Run(async () =>
-                {
-                    try
-                    {
-                        OnStarted();
-                        bool succeeded = await RunAsync(token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        // Catch both TaskCanceledException and OperationCanceledException
-                    }
-                    catch (Exception exception)
-                    {
-                        throw exception;
-                    }
-                    finally
-                    {
-                        // Trigger OnStopped only if the task completed itself
-                        // without an external Stop/StopAsync call.
-                        if (!token.IsCancellationRequested)
-                        {
-                            OnStopped();
-                        }
-                    }
-                }, token);
+                base.Start();
             }
         }
 
@@ -113,11 +71,11 @@ namespace DiGi.Core.Classes
 
             try
             {
-                // GetAwaiter().GetResult() is preferred over .Wait() for exception propagation
                 task_Temp.GetAwaiter().GetResult();
             }
             catch (OperationCanceledException)
             {
+
             }
             finally
             {
@@ -143,6 +101,7 @@ namespace DiGi.Core.Classes
             }
 
             OnStopping();
+
             cancellationTokenSource_Temp.Cancel();
 
             try
@@ -151,6 +110,7 @@ namespace DiGi.Core.Classes
             }
             catch (OperationCanceledException)
             {
+
             }
             finally
             {
@@ -159,16 +119,22 @@ namespace DiGi.Core.Classes
             }
         }
 
-        protected virtual void OnStarted() => Started?.Invoke(this, EventArgs.Empty);
+        protected override async Task ExecuteAsync()
+        {
+            if (cancellationTokenSource == null) return;
 
-        protected virtual void OnStarting() => Starting?.Invoke(this, EventArgs.Empty);
+            try
+            {
+                await RunAsync(cancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected when the task is canceled
+            }
+        }
 
-        protected virtual void OnStopped() => Stopped?.Invoke(this, EventArgs.Empty);
-
-        protected virtual void OnStopping() => Stopping?.Invoke(this, EventArgs.Empty);
-
-        protected abstract Task<bool> RunAsync(CancellationToken cancellationToken);
-
+        protected abstract Task<bool> RunAsync(CancellationToken token);
+        
         private void Cleanup()
         {
             lock (lockObject)

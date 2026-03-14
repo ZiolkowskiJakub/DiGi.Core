@@ -73,7 +73,7 @@ namespace DiGi.Core.Classes
 
         public override string? ToString()
         {
-            return string.Format("{0}{1}", reference?.ToString(), Constants.Reference.Separator) + string.Format(Constants.Reference.Format.Property, PropertyName);
+            return string.Format("{0}{1}", reference?.ToString(), Constans.Reference.Separator) + string.Format(Constans.Reference.Format.Property, PropertyName);
         }
     }
 }

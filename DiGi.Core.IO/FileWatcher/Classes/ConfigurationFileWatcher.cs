@@ -1,7 +1,4 @@
 ﻿using DiGi.Core.Classes;
-using DiGi.Core.IO;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace DiGi.Core.IO.FileWatcher.Classes
@@ -18,17 +15,13 @@ namespace DiGi.Core.IO.FileWatcher.Classes
             ContentChanged += ConfigurationFileWatcher_ContentChanged;
         }
 
-        public ConfigurationFile? ConfigurationFile
+        public ConfigurationFile ConfigurationFile
         {
             get
             {
                 if (configurationFile is null)
                 {
-                    configurationFile = Create.ConfigurationFile(this, encoding);
-                    if (configurationFile is null)
-                    {
-                        configurationFile = new ConfigurationFile();
-                    }
+                    configurationFile = Create.ConfigurationFile(this, encoding) ?? new ConfigurationFile();
                 }
 
                 return configurationFile;
