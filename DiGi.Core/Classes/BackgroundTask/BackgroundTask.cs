@@ -49,9 +49,8 @@ namespace DiGi.Core.Classes
                         await ExecuteAsync();
                         OnStopping();
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        // In engineering plugins (Revit/Rhino), logging is crucial here
                         throw;
                     }
                     finally
