@@ -125,7 +125,7 @@ namespace DiGi.Core.Classes
 
             try
             {
-                await RunAsync(cancellationTokenSource.Token);
+                await ExecuteAsync(cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
             {
@@ -133,7 +133,7 @@ namespace DiGi.Core.Classes
             }
         }
 
-        protected abstract Task<bool> RunAsync(CancellationToken token);
+        protected abstract Task<bool> ExecuteAsync(CancellationToken token);
         
         private void Cleanup()
         {
