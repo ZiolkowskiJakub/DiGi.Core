@@ -1,4 +1,4 @@
-﻿namespace DiGi.Core.Constans
+﻿namespace DiGi.Core.Constants
 {
     public static class Serialization
     {

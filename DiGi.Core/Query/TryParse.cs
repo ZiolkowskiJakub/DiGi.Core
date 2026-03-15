@@ -19,7 +19,7 @@ namespace DiGi.Core
                 return false;
             }
 
-            string[] values = value.Split([Constans.Reference.Separator], System.StringSplitOptions.RemoveEmptyEntries);
+            string[] values = value.Split([Constants.Reference.Separator], System.StringSplitOptions.RemoveEmptyEntries);
             if (values.Length == 0)
             {
                 return false;
@@ -31,7 +31,7 @@ namespace DiGi.Core
                 string source = externalReference.Substring(1, externalReference.Length - 2);
 
                 externalReference = value.Substring(values[0].Length);
-                externalReference = externalReference.Substring(externalReference.IndexOf(Constans.Reference.Separator) + 2);
+                externalReference = externalReference.Substring(externalReference.IndexOf(Constants.Reference.Separator) + 2);
                 if (TryParse(externalReference, out IReference? reference_Temp))
                 {
                     if (reference_Temp is ITypeRelatedSerializableReference typeRelatedSerializableReference)

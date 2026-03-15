@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
 {
     public abstract class GuidObject : UniqueObject, IGuidObject
     {
-        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Guid)]
+        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Guid)]
         private Guid guid;
 
         public GuidObject()
@@ -42,10 +42,8 @@ namespace DiGi.Core.Classes
         public virtual IGuidObject? Duplicate(Guid? guid = null)
         {
             GuidObject? result = Query.Clone(this);
-            if (result != null)
-            {
-                result.guid = guid == null ? Guid.NewGuid() : guid.Value;
-            }
+
+            result?.guid = guid == null ? Guid.NewGuid() : guid.Value;
 
             return result;
         }

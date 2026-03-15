@@ -42,13 +42,13 @@ namespace DiGi.Core
             string @string = value.Trim().Split(' ')[0];
             if (!double.TryParse(@string, out double value_1))
             {
-                if (@string == Constans.Serialization.LiteralName.PositiveInfinity)
+                if (@string == Constants.Serialization.LiteralName.PositiveInfinity)
                 {
                     result = double.PositiveInfinity;
                     return true;
                 }
 
-                if (@string == Constans.Serialization.LiteralName.NegativeInfinity)
+                if (@string == Constants.Serialization.LiteralName.NegativeInfinity)
                 {
                     result = double.NegativeInfinity;
                     return true;

@@ -5,7 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static double Random(Random? random, double start, double end, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(Random? random, double start, double end, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (random == null)
             {
@@ -15,7 +15,7 @@ namespace DiGi.Core
             return Random(random, new Range<double>(start, end), tolerance);
         }
 
-        public static double Random(Random? random, Range<double>? range, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(Random? random, Range<double>? range, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (range is null || random is null)
             {
@@ -25,12 +25,12 @@ namespace DiGi.Core
             return Round(range.Min + ((range.Max - range.Min) * random.NextDouble()), tolerance);
         }
 
-        public static double Random(double start, double end, int seed = -1, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(double start, double end, int seed = -1, double tolerance = Constants.Tolerance.MacroDistance)
         {
             return Random(new Range<double>(start, end), seed, tolerance);
         }
 
-        public static double Random(Range<double>? range, int seed = -1, double tolerance = Constans.Tolerance.MacroDistance)
+        public static double Random(Range<double>? range, int seed = -1, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (range is null)
             {

@@ -29,18 +29,18 @@ namespace DiGi.Core
             TypeReference? typeReference = null;
             if (@object is JsonObject jsonObject)
             {
-                if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Type))
+                if (jsonObject.ContainsKey(Constants.Serialization.PropertyName.Type))
                 {
-                    JsonValue? jsonValue = jsonObject[Constans.Serialization.PropertyName.Type]?.AsValue();
+                    JsonValue? jsonValue = jsonObject[Constants.Serialization.PropertyName.Type]?.AsValue();
                     if (jsonValue != null && jsonValue.TryGetValue(out string? fullTypeName))
                     {
                         typeReference = new TypeReference(fullTypeName);
                     }
                 }
 
-                if (jsonObject.ContainsKey(Constans.Serialization.PropertyName.Guid))
+                if (jsonObject.ContainsKey(Constants.Serialization.PropertyName.Guid))
                 {
-                    JsonValue? jsonValue = jsonObject[Constans.Serialization.PropertyName.Guid]?.AsValue();
+                    JsonValue? jsonValue = jsonObject[Constants.Serialization.PropertyName.Guid]?.AsValue();
                     if (jsonValue != null)
                     {
                         if (jsonValue.TryGetValue(out Guid guid))

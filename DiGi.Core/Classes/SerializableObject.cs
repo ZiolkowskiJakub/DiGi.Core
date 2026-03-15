@@ -24,7 +24,7 @@ namespace DiGi.Core.Classes
             FromJsonObject(jsonObject);
         }
 
-        [JsonInclude, JsonPropertyName(Constans.Serialization.PropertyName.Type)]
+        [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Type)]
         private string? FullTypeName => Query.FullTypeName(GetType());
 
         public static explicit operator JsonObject?(SerializableObject? serializableObject)

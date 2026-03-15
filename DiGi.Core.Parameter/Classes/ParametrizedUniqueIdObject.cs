@@ -7,7 +7,7 @@ namespace DiGi.Core.Parameter.Classes
 {
     public abstract class ParametrizedUniqueIdObject : ParametrizedObject, IParametrizedUniqueIdObject
     {
-        [JsonInclude, JsonPropertyName(Core.Constans.Serialization.PropertyName.UniqueId)]
+        [JsonInclude, JsonPropertyName(Core.Constants.Serialization.PropertyName.UniqueId)]
         private readonly string? uniqueId;
 
         public ParametrizedUniqueIdObject()

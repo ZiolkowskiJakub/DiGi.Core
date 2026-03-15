@@ -13,12 +13,12 @@ namespace DiGi.Core.IO.Wrapper
                 return false;
             }
 
-            if (!jsonObject.ContainsKey(DiGi.Core.Constans.Serialization.PropertyName.Type))
+            if (!jsonObject.ContainsKey(DiGi.Core.Constants.Serialization.PropertyName.Type))
             {
                 return false;
             }
 
-            string? fullTypeName = jsonObject[DiGi.Core.Constans.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
+            string? fullTypeName = jsonObject[DiGi.Core.Constants.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
             if (string.IsNullOrWhiteSpace(fullTypeName))
             {
                 return false;

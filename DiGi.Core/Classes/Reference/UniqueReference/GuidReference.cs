@@ -8,7 +8,7 @@ namespace DiGi.Core.Classes
     public class GuidReference : UniqueReference
     {
         [JsonInclude, JsonPropertyName("Guid")]
-        private Guid guid = Guid.Empty;
+        private readonly Guid guid = Guid.Empty;
 
         public GuidReference(string? fullTypeName, Guid guid)
             : base(fullTypeName)
@@ -70,7 +70,7 @@ namespace DiGi.Core.Classes
 
         public override string? ToString()
         {
-            return Convert.ToSystem_String(TypeReference, UniqueId, Constans.Reference.Format.Guid);
+            return Convert.ToSystem_String(TypeReference, UniqueId, Constants.Reference.Format.Guid);
         }
     }
 }
