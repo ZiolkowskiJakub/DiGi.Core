@@ -13,10 +13,12 @@ namespace DiGi.Core.Interfaces
 
         event EventHandler? Stopping;
 
+        BackgroundTaskStatus BackgroundTaskStatus { get; }
+        
+        Exception? Exception { get; }
+        
         bool IsRunning { get; }
 
         void Start();
-
-        BackgroundTaskStatus BackgroundTaskStatus { get; }
     }
 }

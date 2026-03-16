@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
+using System.ComponentModel.Design;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,6 +25,11 @@ namespace DiGi.Core.Classes
                     if (IsCanceled)
                     {
                         return CancelableBackgroundTaskStatus.Canceled;
+                    }
+
+                    if (Exception is not null || !IsSucceeded)
+                    {
+                        return CancelableBackgroundTaskStatus.Failed;
                     }
 
                     return CancelableBackgroundTaskStatus.Completed;
@@ -119,18 +125,27 @@ namespace DiGi.Core.Classes
             }
         }
 
-        protected override async Task ExecuteAsync()
+        protected override async Task<bool> ExecuteAsync()
         {
-            if (cancellationTokenSource == null) return;
+            if (cancellationTokenSource == null)
+            {
+                return false;
+            }
 
             try
             {
-                await ExecuteAsync(cancellationTokenSource.Token);
+                return await ExecuteAsync(cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
             {
                 // Expected when the task is canceled
             }
+            catch(Exception exception_Temp)
+            {
+                exception = exception_Temp;
+            }
+
+            return false;
         }
 
         protected abstract Task<bool> ExecuteAsync(CancellationToken token);

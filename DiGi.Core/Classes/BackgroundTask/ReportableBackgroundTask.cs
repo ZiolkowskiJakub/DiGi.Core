@@ -9,13 +9,13 @@ namespace DiGi.Core.Classes
     {
         public event EventHandler<T>? ProgressChanged;
 
-        protected override async Task<bool> ExecuteAsync(CancellationToken token)
+        protected override async Task<bool> ExecuteAsync(CancellationToken cancellationToken)
         {
             // We wrap the progress reporting into an IProgress object
-            return await ExecuteAsync(new Progress<T>(OnProgressChanged), token);
+            return await ExecuteAsync(new Progress<T>(OnProgressChanged), cancellationToken);
         }
 
-        protected abstract Task<bool> ExecuteAsync(IProgress<T> progress, CancellationToken token);
+        protected abstract Task<bool> ExecuteAsync(IProgress<T> progress, CancellationToken cancellationToken);
 
         protected virtual void OnProgressChanged(T value)
         {

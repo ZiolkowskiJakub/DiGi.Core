@@ -9,6 +9,7 @@ namespace DiGi.Core.Enums
         [Description("Running")] Running,
         [Description("Canceled")] Canceled,
         [Description("Completed")] Completed,
-        [Description("Idle")] Idle
+        [Description("Idle")] Idle,
+        [Description("Failed")] Failed
     }
 }

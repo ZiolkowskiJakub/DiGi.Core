@@ -8,6 +8,7 @@ namespace DiGi.Core.Enums
         [Description("Undefined")] Undefined,
         [Description("Running")] Running,
         [Description("Completed")] Completed,
-        [Description("Idle")] Idle
+        [Description("Idle")] Idle,
+        [Description("Failed")] Failed
     }
 }

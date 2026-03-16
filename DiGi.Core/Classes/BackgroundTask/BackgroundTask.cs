@@ -9,6 +9,12 @@ namespace DiGi.Core.Classes
     {
         protected readonly object lockObject = new ();
 
+        protected Exception? exception = null;
+        
+        private bool isRunning = false;
+
+        private bool isSucceeded = true;
+
         public event EventHandler? Started;
 
         public event EventHandler? Starting;
@@ -21,47 +27,75 @@ namespace DiGi.Core.Classes
         {
             get
             {
-                if (IsRunning) return BackgroundTaskStatus.Running;
-                if (IsCompleted) return BackgroundTaskStatus.Completed;
+                if (IsRunning)
+                {
+                    return BackgroundTaskStatus.Running;
+                }
+
+                if(IsCompleted)
+                {
+                    if(exception is not null || !isSucceeded)
+                    {
+                        return BackgroundTaskStatus.Failed;
+                    }
+
+                    return BackgroundTaskStatus.Completed;
+                }
+
                 return BackgroundTaskStatus.Idle;
             }
         }
 
+        public Exception? Exception => exception;
         public bool IsCompleted => Task?.IsCompleted ?? false;
-        
-        public bool IsRunning => Task != null && !Task.IsCompleted;
 
+        public bool IsRunning => isRunning;
+
+        public bool IsSucceeded => isSucceeded;
+        
         protected Task? Task { get; set; }
 
         public virtual void Start()
         {
             lock (lockObject)
             {
-                if (IsRunning) return;
+                if (isRunning)
+                {
+                    return;
+                }
 
                 OnStarting();
+
+                exception = null;
+                isRunning = true;
+                isSucceeded = true;
 
                 Task = Task.Run(async () =>
                 {
                     try
                     {
                         OnStarted();
-                        await ExecuteAsync();
-                        OnStopping();
+                        isSucceeded = await ExecuteAsync();
                     }
-                    catch
+                    catch(Exception exception_Temp)
                     {
-                        throw;
+                        exception = exception_Temp;
                     }
                     finally
                     {
+                        OnStopping();
+
+                        lock (lockObject)
+                        {
+                            isRunning = false;
+                        }
                         OnStopped();
                     }
                 });
             }
         }
 
-        protected abstract Task ExecuteAsync();
+        protected abstract Task<bool> ExecuteAsync();
 
         protected virtual void OnStarted() => Started?.Invoke(this, EventArgs.Empty);
 
