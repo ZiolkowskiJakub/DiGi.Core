@@ -5,8 +5,10 @@ namespace DiGi.Core.Classes
 {
     public abstract class Splitter<T, X> where X : struct, IComparable, IConvertible
     {
-        private List<T>? items;
+        // Keep track of the iteration state
+        private int index = 0;
 
+        private List<T>? items;
         public Splitter(IEnumerable<T> items)
         {
             this.items = items is null ? null : [.. items];
@@ -14,19 +16,60 @@ namespace DiGi.Core.Classes
 
         public List<T>? Items
         {
-            get
-            {
-                return items;
-            }
-
+            get => items;
             set
             {
                 items = value;
+                Reset(); // Reset progress if data changes
             }
         }
 
         public abstract X GetValue(T? item);
 
+        /// <summary>
+        /// Returns the next chunk of items that don't exceed the maxValue.
+        /// Returns null when no more items are available.
+        /// </summary>
+        public List<T>? Next(X maxValue)
+        {
+            // Return null instead of an empty list to signal the end of the collection
+            if (items == null || index >= items.Count)
+            {
+                return null;
+            }
+
+            List<T> currentValues = [];
+            double currentSize = 0;
+            double maxValue_Temp = System.Convert.ToDouble(maxValue);
+
+            while (index < items.Count)
+            {
+                T item = items[index];
+                double itemSize = System.Convert.ToDouble(GetValue(item));
+
+                if (currentSize + itemSize > maxValue_Temp && currentValues.Count > 0)
+                {
+                    // We don't increment _currentIndex here, 
+                    // so this item will be the start of the next chunk.
+                    break;
+                }
+
+                currentValues.Add(item);
+                currentSize += itemSize;
+                index++;
+            }
+
+            return currentValues;
+        }
+
+        /// <summary>
+        /// Resets the internal iterator index to the beginning.
+        /// </summary>
+        public void Reset()
+        {
+            index = 0;
+        }
+        
         public List<List<T>>? Split(X maxValue)
         {
             if (items is null)
@@ -34,39 +77,27 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
+            // Optional: Backup current index if you want Split to be non-destructive
+            int previousIndex = index;
+
+            Reset();
+
             List<List<T>> result = [];
 
-            if (items.Count == 0)
+            while (true)
             {
-                return result;
-            }
+                List<T>? chunk = Next(maxValue);
 
-            List<T> currentValues = [];
-            double currentSize = 0;
-
-            double maxValue_Temp = System.Convert.ToDouble(maxValue);
-
-            foreach (T @object in items)
-            {
-                double itemSize = System.Convert.ToDouble(GetValue(@object));
-
-                // If a single item is larger than the limit, it will form its own chunk
-                if (currentSize + itemSize > maxValue_Temp && currentValues.Count > 0)
+                if (chunk is null || chunk.Count == 0)
                 {
-                    result.Add(currentValues);
-                    currentValues = [];
-                    currentSize = 0;
+                    break;
                 }
 
-                currentValues.Add(@object);
-                currentSize += itemSize;
+                result.Add(chunk);
             }
 
-            if (currentValues.Count > 0)
-            {
-                result.Add(currentValues);
-            }
-
+            // Restore index or leave at the end
+            index = previousIndex;
             return result;
         }
     }
