@@ -9,18 +9,18 @@ namespace DiGi.Core
         {
             keys = null;
 
-            if(dictionary is null || func is null)
+            if (dictionary is null || func is null)
             {
                 return false;
             }
 
-            string? text_Temp = func.Invoke(text); 
+            string? text_Temp = func.Invoke(text);
 
             keys = new List<string>();
-            foreach(KeyValuePair<string, T> keyValuePair in dictionary)
+            foreach (KeyValuePair<string, T> keyValuePair in dictionary)
             {
                 string? key = func.Invoke(keyValuePair.Key);
-                if(text_Temp == key)
+                if (text_Temp == key)
                 {
                     keys.Add(keyValuePair.Key);
                 }

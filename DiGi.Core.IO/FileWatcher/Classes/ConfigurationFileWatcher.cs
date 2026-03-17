@@ -7,7 +7,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
     {
         private ConfigurationFile? configurationFile = null;
         private Encoding? encoding = null;
-        
+
         public ConfigurationFileWatcher(string path, double interval = 5000, Encoding? encoding = null)
             : base(path, interval)
         {

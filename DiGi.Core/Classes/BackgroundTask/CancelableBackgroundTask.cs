@@ -1,7 +1,6 @@
 ﻿using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
-using System.ComponentModel.Design;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +39,7 @@ namespace DiGi.Core.Classes
         }
 
         public bool IsCanceled => Task?.IsCanceled ?? false;
-        
+
         public override void Start()
         {
             lock (lockObject)
@@ -81,7 +80,6 @@ namespace DiGi.Core.Classes
             }
             catch (OperationCanceledException)
             {
-
             }
             finally
             {
@@ -116,7 +114,6 @@ namespace DiGi.Core.Classes
             }
             catch (OperationCanceledException)
             {
-
             }
             finally
             {
@@ -140,7 +137,7 @@ namespace DiGi.Core.Classes
             {
                 // Expected when the task is canceled
             }
-            catch(Exception exception_Temp)
+            catch (Exception exception_Temp)
             {
                 exception = exception_Temp;
             }
@@ -149,7 +146,7 @@ namespace DiGi.Core.Classes
         }
 
         protected abstract Task<bool> ExecuteAsync(CancellationToken token);
-        
+
         private void Cleanup()
         {
             lock (lockObject)

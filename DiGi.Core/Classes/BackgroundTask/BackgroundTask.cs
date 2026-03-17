@@ -7,10 +7,10 @@ namespace DiGi.Core.Classes
 {
     public abstract class BackgroundTask : IBackgroundTask
     {
-        protected readonly object lockObject = new ();
+        protected readonly object lockObject = new();
 
         protected Exception? exception = null;
-        
+
         private bool isRunning = false;
 
         private bool isSucceeded = true;
@@ -18,11 +18,11 @@ namespace DiGi.Core.Classes
         public event EventHandler? Started;
 
         public event EventHandler? Starting;
-        
+
         public event EventHandler? Stopped;
 
         public event EventHandler? Stopping;
-        
+
         public BackgroundTaskStatus BackgroundTaskStatus
         {
             get
@@ -32,9 +32,9 @@ namespace DiGi.Core.Classes
                     return BackgroundTaskStatus.Running;
                 }
 
-                if(IsCompleted)
+                if (IsCompleted)
                 {
-                    if(exception is not null || !isSucceeded)
+                    if (exception is not null || !isSucceeded)
                     {
                         return BackgroundTaskStatus.Failed;
                     }
@@ -52,7 +52,7 @@ namespace DiGi.Core.Classes
         public bool IsRunning => isRunning;
 
         public bool IsSucceeded => isSucceeded;
-        
+
         protected Task? Task { get; set; }
 
         public virtual void Start()
@@ -77,7 +77,7 @@ namespace DiGi.Core.Classes
                         OnStarted();
                         isSucceeded = await ExecuteAsync();
                     }
-                    catch(Exception exception_Temp)
+                    catch (Exception exception_Temp)
                     {
                         exception = exception_Temp;
                     }
@@ -100,7 +100,7 @@ namespace DiGi.Core.Classes
         protected virtual void OnStarted() => Started?.Invoke(this, EventArgs.Empty);
 
         protected virtual void OnStarting() => Starting?.Invoke(this, EventArgs.Empty);
-        
+
         protected virtual void OnStopped() => Stopped?.Invoke(this, EventArgs.Empty);
 
         protected virtual void OnStopping() => Stopping?.Invoke(this, EventArgs.Empty);

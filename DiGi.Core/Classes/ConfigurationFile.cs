@@ -141,7 +141,7 @@ namespace DiGi.Core.Classes
             string name_Temp = name.Trim();
 
             bool result = dictionary.ContainsKey(name_Temp);
-            if(!caseSensitive)
+            if (!caseSensitive)
             {
                 return dictionary.TryGetFirstKey(name_Temp, out _, x => x?.ToUpper());
             }
@@ -171,7 +171,7 @@ namespace DiGi.Core.Classes
 
         public object? GetValue(string name, bool caseSensitive = false)
         {
-            if(!TryGetValue(name, out object? result, caseSensitive))
+            if (!TryGetValue(name, out object? result, caseSensitive))
             {
                 return null;
             }

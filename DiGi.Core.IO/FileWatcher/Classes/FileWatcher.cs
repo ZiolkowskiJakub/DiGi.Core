@@ -43,7 +43,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         }
 
         public event EventHandler<byte[]>? ContentChanged;
-        
+
         public byte[]? Bytes => bytes;
 
         public double Interval
@@ -60,7 +60,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         }
 
         public string Path => path;
-        
+
         public void Dispose()
         {
             timer?.Stop();
@@ -84,7 +84,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
 
             return targetEncoding.GetString(bytes);
         }
-        
+
         private byte[]? ComputeHash(byte[]? data)
         {
             if (data == null)
@@ -149,7 +149,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
                 System.Diagnostics.Debug.WriteLine($"Error checking file: {exception.Message}");
             }
         }
-        
+
         private byte[]? SafeReadBytes()
         {
             try
@@ -170,7 +170,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         }
     }
 
-    public abstract class FileWatcher<TFile> : FileWatcher where TFile: IFile
+    public abstract class FileWatcher<TFile> : FileWatcher where TFile : IFile
     {
         private TFile? file;
 
