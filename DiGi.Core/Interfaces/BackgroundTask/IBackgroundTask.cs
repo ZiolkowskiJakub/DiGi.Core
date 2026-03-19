@@ -15,6 +15,8 @@ namespace DiGi.Core.Interfaces
 
         BackgroundTaskStatus BackgroundTaskStatus { get; }
 
+        TimeSpan ExecutionTimeSpan { get; }
+
         Exception? Exception { get; }
 
         bool IsRunning { get; }

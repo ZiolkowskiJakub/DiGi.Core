@@ -514,6 +514,26 @@ namespace DiGi.Core
                     return true;
                 }
             }
+            else if (type_Temp == typeof(TimeSpan))
+            {
+                if (@object == null)
+                {
+                    return false;
+                }
+
+                if (@object is string @string)
+                {
+                    if(TimeSpan.TryParse(@string, out TimeSpan timeSpan))
+                    {
+                        result = timeSpan;
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return false;
+            }
             else if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
             {
                 if (@object is string @string && !string.IsNullOrWhiteSpace(@string))

@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DiGi.Core.Classes
@@ -11,6 +12,9 @@ namespace DiGi.Core.Classes
 
         protected Exception? exception = null;
 
+        // Stopwatch instance to measure execution time
+        private readonly Stopwatch stopwatch = new ();
+        
         private bool isRunning = false;
 
         private bool isSucceeded = true;
@@ -47,6 +51,11 @@ namespace DiGi.Core.Classes
         }
 
         public Exception? Exception => exception;
+
+        /// <summary>
+        /// Gets the total execution time of the last run.
+        /// </summary>
+        public TimeSpan ExecutionTimeSpan => stopwatch.Elapsed;
         public bool IsCompleted => Task?.IsCompleted ?? false;
 
         public bool IsRunning => isRunning;
@@ -70,6 +79,9 @@ namespace DiGi.Core.Classes
                 isRunning = true;
                 isSucceeded = true;
 
+                // Reset and start the stopwatch before launching the task
+                stopwatch.Restart();
+
                 Task = Task.Run(async () =>
                 {
                     try
@@ -83,6 +95,9 @@ namespace DiGi.Core.Classes
                     }
                     finally
                     {
+                        // Stop the measurement as soon as the execution finishes
+                        stopwatch.Stop();
+
                         OnStopping();
 
                         lock (lockObject)

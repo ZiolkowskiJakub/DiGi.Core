@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Xml.Linq;
 
 namespace DiGi.Core
 {
@@ -269,7 +270,43 @@ namespace DiGi.Core
                 return (System.Drawing.Color)color;
             }
 
-            if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
+            if (type_Temp == typeof(TimeSpan))
+            {
+                if (jsonNode is null)
+                {
+                    return false;
+                }
+
+                switch(jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        long ticks = jsonNode.GetValue<long>();
+
+                        return TimeSpan.FromTicks(ticks);
+
+                    case System.Text.Json.JsonValueKind.String:
+                        object? @object = jsonNode.GetValue<object>();
+                        if(@object is TimeSpan timeSpan)
+                        {
+                            return timeSpan;
+                        }
+
+                        if(@object is System.Text.Json.JsonElement)
+                        {
+                             @object = jsonNode.GetValue<string>();
+                            if (TryConvert(@object, out timeSpan))
+                            {
+                                return timeSpan;
+                            }
+                        }
+
+                        return null;
+                }
+
+                return null;
+            }
+
+                if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
             {
                 if (Value(jsonNode, typeof(string)) is not string fullName)
                 {
