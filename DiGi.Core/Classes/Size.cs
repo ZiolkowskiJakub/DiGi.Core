@@ -46,5 +46,21 @@ namespace DiGi.Core.Classes
         {
             return new Size(size.Width, size.Height);
         }
+
+        public double GetArea()
+        {
+            return Width * Height;
+        }
+
+        public Size GetScaled(double value)
+        {
+            return new Size(Width * value, Height * value);
+        }
+
+        public void Scale(double value)
+        {
+            Width *= value;
+            Height *= value;
+        }
     }
 }
