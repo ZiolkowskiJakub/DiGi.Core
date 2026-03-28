@@ -9,6 +9,7 @@ namespace DiGi.Core.Classes
         private int index = 0;
 
         private List<T>? items;
+
         public Splitter(IEnumerable<T> items)
         {
             this.items = items is null ? null : [.. items];
@@ -49,7 +50,7 @@ namespace DiGi.Core.Classes
 
                 if (currentSize + itemSize > maxValue_Temp && currentValues.Count > 0)
                 {
-                    // We don't increment _currentIndex here, 
+                    // We don't increment _currentIndex here,
                     // so this item will be the start of the next chunk.
                     break;
                 }
@@ -69,7 +70,7 @@ namespace DiGi.Core.Classes
         {
             index = 0;
         }
-        
+
         public List<List<T>>? Split(X maxValue)
         {
             if (items is null)

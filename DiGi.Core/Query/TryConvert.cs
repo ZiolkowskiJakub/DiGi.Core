@@ -523,7 +523,7 @@ namespace DiGi.Core
 
                 if (@object is string @string)
                 {
-                    if(TimeSpan.TryParse(@string, out TimeSpan timeSpan))
+                    if (TimeSpan.TryParse(@string, out TimeSpan timeSpan))
                     {
                         result = timeSpan;
                         return true;

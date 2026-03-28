@@ -13,8 +13,8 @@ namespace DiGi.Core.Classes
         protected Exception? exception = null;
 
         // Stopwatch instance to measure execution time
-        private readonly Stopwatch stopwatch = new ();
-        
+        private readonly Stopwatch stopwatch = new();
+
         private bool isRunning = false;
 
         private bool isSucceeded = true;
@@ -56,6 +56,7 @@ namespace DiGi.Core.Classes
         /// Gets the total execution time of the last run.
         /// </summary>
         public TimeSpan ExecutionTimeSpan => stopwatch.Elapsed;
+
         public bool IsCompleted => Task?.IsCompleted ?? false;
 
         public bool IsRunning => isRunning;

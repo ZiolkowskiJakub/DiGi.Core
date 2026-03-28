@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
-using System.Xml.Linq;
 
 namespace DiGi.Core
 {
@@ -277,7 +276,7 @@ namespace DiGi.Core
                     return false;
                 }
 
-                switch(jsonNode.GetValueKind())
+                switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Number:
                         long ticks = jsonNode.GetValue<long>();
@@ -286,14 +285,14 @@ namespace DiGi.Core
 
                     case System.Text.Json.JsonValueKind.String:
                         object? @object = jsonNode.GetValue<object>();
-                        if(@object is TimeSpan timeSpan)
+                        if (@object is TimeSpan timeSpan)
                         {
                             return timeSpan;
                         }
 
-                        if(@object is System.Text.Json.JsonElement)
+                        if (@object is System.Text.Json.JsonElement)
                         {
-                             @object = jsonNode.GetValue<string>();
+                            @object = jsonNode.GetValue<string>();
                             if (TryConvert(@object, out timeSpan))
                             {
                                 return timeSpan;
@@ -306,7 +305,7 @@ namespace DiGi.Core
                 return null;
             }
 
-                if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
+            if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
             {
                 if (Value(jsonNode, typeof(string)) is not string fullName)
                 {
