@@ -1,0 +1,45 @@
+﻿using DiGi.Core.Interfaces;
+using System;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+
+namespace DiGi.Core.Classes
+{
+    public class ProgressWrapper<T> : IObject
+    {
+        private readonly object lockObject = new();
+        private readonly IProgress<T>? progress;
+        private T current;
+        
+        public ProgressWrapper(T initialValue, IProgress<T>? progress = null)
+        {
+            current = initialValue;
+            this.progress = progress;
+        }
+
+        public T Current
+        {
+            get 
+            { 
+                lock (lockObject)
+                {
+                    return current; 
+                }
+            }
+            private set 
+            { 
+                lock (lockObject)
+                {
+                    current = value; 
+                }
+            }
+        }
+
+        public void Report(T value)
+        {
+            Current = value;
+
+            progress?.Report(value);
+        }
+    }
+}
