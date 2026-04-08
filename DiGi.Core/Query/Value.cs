@@ -170,6 +170,42 @@ namespace DiGi.Core
                 return null;
             }
 
+            if (type_Temp == typeof(long))
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<long>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out long @long))
+                        {
+                            return @long;
+                        }
+                        break;
+                }
+
+                return null;
+            }
+
+            if (type_Temp == typeof(ulong))
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        return jsonNode.GetValue<ulong>();
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out ulong @ulong))
+                        {
+                            return @ulong;
+                        }
+                        break;
+                }
+
+                return null;
+            }
+
             if (type_Temp == typeof(short))
             {
                 switch (jsonNode.GetValueKind())
