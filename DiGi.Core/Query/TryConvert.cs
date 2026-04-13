@@ -680,7 +680,22 @@ namespace DiGi.Core
                 Array array = System.Enum.GetValues(type_Temp);
                 if (array != null && array.Length != 0)
                 {
-                    if (@object is string @string_Temp)
+                    object @object_Temp = @object;
+                    if(@object is JsonNode jsonNode)
+                    {
+                        switch(jsonNode.GetValueKind())
+                        {
+                            case System.Text.Json.JsonValueKind.Number:
+                                @object_Temp = jsonNode.GetValue<int>();
+                                break;
+
+                            case System.Text.Json.JsonValueKind.String:
+                                @object_Temp = jsonNode.GetValue<string>();
+                                break;
+                        }
+                    }
+
+                    if (@object_Temp is string @string_Temp)
                     {
                         string @string = @string_Temp.Replace(" ", string.Empty).ToUpper();
                         if (string.IsNullOrEmpty(@string))
@@ -712,9 +727,9 @@ namespace DiGi.Core
                         }
                     }
 
-                    if (IsNumeric(@object))
+                    if (IsNumeric(@object_Temp))
                     {
-                        if (TryConvert(@object, out int index) && System.Enum.IsDefined(type_Temp, index))
+                        if (TryConvert(@object_Temp, out int index) && System.Enum.IsDefined(type_Temp, index))
                         {
                             foreach (Enum @enum in array)
                             {
