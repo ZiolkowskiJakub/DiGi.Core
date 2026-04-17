@@ -9,6 +9,11 @@ namespace DiGi.Core.Classes
         {
         }
 
+        public GuidModel(System.Guid guid)
+            : base(guid)
+        {
+        }
+
         public GuidModel(GuidModel? guidModel)
             : base(guidModel)
         {

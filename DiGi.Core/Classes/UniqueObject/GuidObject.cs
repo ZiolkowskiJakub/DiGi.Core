@@ -10,6 +10,9 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Guid)]
         private Guid guid;
 
+        [JsonIgnore]
+        private string? uniqueId = null;
+
         public GuidObject()
             : base()
         {
@@ -25,12 +28,22 @@ namespace DiGi.Core.Classes
         public GuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
+            if(jsonObject is not null)
+            {
+                if(!jsonObject.ContainsKey(Constants.Serialization.PropertyName.Guid))
+                {
+                    guid = Guid.NewGuid();
+                }
+            }
         }
 
         public GuidObject(GuidObject? guidObject)
             : base(guidObject)
         {
-            guid = guidObject != null ? guidObject.guid : Guid.NewGuid();
+            if(guidObject is not null)
+            {
+                guid = guidObject.guid;
+            }
         }
 
         public GuidObject(Guid guid, GuidObject? guidObject)
@@ -62,7 +75,12 @@ namespace DiGi.Core.Classes
         {
             get
             {
-                return guid.ToString("N");
+                if (uniqueId == null)
+                {
+                    uniqueId = guid.ToString("N");
+                }
+
+                return uniqueId;
             }
         }
     }
