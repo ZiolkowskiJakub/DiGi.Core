@@ -96,15 +96,16 @@ namespace DiGi.Core.Classes
                     }
                     finally
                     {
+                        OnStopping();
+
                         // Stop the measurement as soon as the execution finishes
                         stopwatch.Stop();
-
-                        OnStopping();
 
                         lock (lockObject)
                         {
                             isRunning = false;
                         }
+
                         OnStopped();
                     }
                 });
