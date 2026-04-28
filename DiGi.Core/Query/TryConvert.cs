@@ -14,10 +14,26 @@ namespace DiGi.Core
         {
             result = default;
 
+            if(type is null)
+            {
+                return false;
+            }
+
             if (type == typeof(object))
             {
                 result = @object;
                 return true;
+            }
+
+            if(@object is null)
+            {
+                if(type.IsNullable())
+                {
+                    result = null;
+                    return true;
+                }
+
+                return false;
             }
 
             Type? type_Object = @object?.GetType();
@@ -28,6 +44,12 @@ namespace DiGi.Core
             }
 
             Type type_Temp = Nullable.GetUnderlyingType(type) ?? type;
+            if(type_Temp.IsAssignableFrom(@object!.GetType()))
+            {
+                result = @object;
+                return true;
+            }
+
             if (type_Temp == typeof(string))
             {
                 if (@object != null)
@@ -449,6 +471,50 @@ namespace DiGi.Core
                 {
                     result = @object is double @double ? DateTime.FromOADate(@double) : new DateTime(System.Convert.ToInt64(@object));
                     return true;
+                }
+                else if(@object is JsonNode jsonNode)
+                {
+                    switch (jsonNode.GetValueKind())
+                    {
+                        case System.Text.Json.JsonValueKind.String:
+                            // Using ToString() is safer as it provides the string representation 
+                            // without the strict type-checking constraints of GetValue<string>()
+                            string text = jsonNode.ToString();
+                            if (text.StartsWith("\"") && text.EndsWith("\""))
+                            {
+                                text = text.Substring(1, text.Length - 2);
+                            }
+
+                            // We don't need Substring here; System.Text.Json.Nodes handles 
+                            // JSON quotes automatically during the ToString/GetValue call
+                            if (DateTime.TryParse(text, out DateTime dateTime))
+                            {
+                                result = dateTime;
+                                return true;
+                            }
+                            break;
+
+                        case System.Text.Json.JsonValueKind.Number:
+                            // Optional: Handle Unix timestamps if your database or API sends them as numbers
+                            if (jsonNode.AsValue().TryGetValue(out long unixTimestamp))
+                            {
+                                result = DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).DateTime;
+                                return true;
+                            }
+                            break;
+                    }
+
+                    try
+                    {
+                        // Final fallback attempt for standard ISO 8601 formats
+                        result = jsonNode.GetValue<DateTime>();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        // Return default value if all conversion attempts fail
+                        return false;
+                    }
                 }
             }
             else if (type_Temp == typeof(System.Drawing.Color))

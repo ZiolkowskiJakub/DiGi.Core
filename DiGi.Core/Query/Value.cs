@@ -131,7 +131,17 @@ namespace DiGi.Core
 
             if (type_Temp == typeof(DateTime))
             {
-                return jsonNode.GetValue<DateTime>();
+                if (jsonNode == null)
+                {
+                    return default(DateTime);
+                }
+
+                if (TryConvert(jsonNode, out DateTime dateTime))
+                {
+                    return dateTime;
+                }
+
+                return default(DateTime);
             }
 
             if (type_Temp == typeof(int))
@@ -522,7 +532,7 @@ namespace DiGi.Core
                     break;
             }
 
-            if (TryConvert(value, out object? result, type))
+            if (value is not null && TryConvert(value, out object? result, type))
             {
                 return result;
             }
