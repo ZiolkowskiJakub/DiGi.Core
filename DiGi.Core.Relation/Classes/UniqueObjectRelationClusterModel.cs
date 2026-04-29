@@ -91,6 +91,38 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjectRelationCluster.GetRelatedValue(uniqueObject, func);
         }
 
+        public Dictionary<IUniqueReference, YUniqueObject>? GetRelatedObjectDictionary<YUniqueObject>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
+        {
+            return GetRelatedObjectDictionary<YUniqueObject, XRelation>(uniqueObjects, func);
+        }
+
+        public virtual Dictionary<IUniqueReference, YUniqueObject>? GetRelatedObjectDictionary<YUniqueObject, URelation>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject where URelation : XRelation
+        {
+            if (uniqueObjects is null)
+            {
+                return null;
+            }
+
+            return uniqueObjectRelationCluster.GetRelatedValueDictionary<YUniqueObject, URelation>(uniqueObjects, func);
+        }
+
+        public List<YUniqueObject>? GetRelatedObjects<YUniqueObject>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
+        {
+            Dictionary<IUniqueReference, YUniqueObject>? dictionary = GetRelatedObjectDictionary<YUniqueObject>(uniqueObjects, func);
+            if(dictionary is null)
+            {
+                return null;
+            }
+
+            List<YUniqueObject> result = [];
+            foreach (YUniqueObject uniqueObject in dictionary.Values)
+            {
+                result.Add(uniqueObject);
+            }
+
+            return result;
+        }
+
         public List<YUniqueObject>? GetRelatedObjects<YUniqueObject>(TUniqueObject? uniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             if (uniqueObject == null)
@@ -252,7 +284,7 @@ namespace DiGi.Core.Relation.Classes
 
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
-
+        
         public virtual bool TryGetRelatedObject<YUniqueObject>(TUniqueObject? uniqueObject, out YUniqueObject? relatedUniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             relatedUniqueObject = default;

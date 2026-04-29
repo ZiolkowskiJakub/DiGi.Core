@@ -68,13 +68,13 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            List<ZRelation>? relations = GetRelations<ZRelation>(value);
+            IUniqueReference? uniqueReference = Create.UniqueReference(value);
+
+            List<ZRelation>? relations = GetRelations<ZRelation>(uniqueReference);
             if (relations == null)
             {
                 return default;
             }
-
-            IUniqueReference? uniqueReference = Create.UniqueReference(value);
 
             foreach (XRelation relation in relations)
             {
@@ -116,6 +116,116 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        public Dictionary<IUniqueReference, UUniqueObject>? GetRelatedValueDictionary<UUniqueObject, ZRelation>(IEnumerable<TUniqueObject>? values, Func<UUniqueObject?, bool>? func = null) where UUniqueObject : TUniqueObject where ZRelation : XRelation
+        {
+            if(values is null)
+            {
+                return null;
+            }
+
+            HashSet<IUniqueReference> uniqueReferences = [];
+            foreach (TUniqueObject value in values)
+            {
+                if(Create.UniqueReference(value) is IUniqueReference uniqueReference)
+                {
+                    uniqueReferences.Add(uniqueReference);
+                }
+            }
+
+            if(uniqueReferences.Count == 0)
+            {
+                return [];
+            }
+
+            List<ZRelation>? relations = GetRelations<ZRelation>(uniqueReferences);
+            if (relations == null || relations.Count == 0)
+            {
+                return [];
+            }
+
+
+            Dictionary<IUniqueReference, UUniqueObject> result = [];
+
+            Func<XRelation, IUniqueReference, RelationSide, UUniqueObject?> find = new((relation, uniqueReference, relationSide) =>
+            {
+                if (relation.Contains(relationSide, uniqueReference))
+                {
+                    return default;
+                }
+
+                List<UUniqueObject>? relatedValues = GetValues<UUniqueObject>(Query.UniqueReferences(relation, relationSide));
+                if (relatedValues == null || relatedValues.Count == 0)
+                {
+                    return default;
+                }
+
+                foreach (UUniqueObject relatedValue in relatedValues)
+                {
+                    if (func != null && !func.Invoke(relatedValue))
+                    {
+                        continue;
+                    }
+
+                    return relatedValue;
+                }
+
+                return default;
+            });
+
+            foreach (XRelation relation in relations)
+            {
+                bool isValid_From = Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From);
+                bool isValid_To = Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To);
+
+                if(!isValid_From && !isValid_To)
+                {
+                    continue;
+                }
+
+                UUniqueObject? uniqueObject = default;
+                IUniqueReference? uniqueReference = default;
+
+                if (uniqueReference is null && isValid_From)
+                {
+                    foreach(IUniqueReference uniqueReference_Temp in uniqueReferences)
+                    {
+                        if(find.Invoke(relation, uniqueReference_Temp, RelationSide.From) is UUniqueObject uniqueObject_Temp)
+                        {
+                            uniqueObject = uniqueObject_Temp;
+                            uniqueReference = uniqueReference_Temp;
+                            break;
+                        }
+                    }
+                }
+
+                if (uniqueReference is null && isValid_To)
+                {
+                    foreach (IUniqueReference uniqueReference_Temp in uniqueReferences)
+                    {
+                        if (find.Invoke(relation, uniqueReference_Temp, RelationSide.To) is UUniqueObject uniqueObject_Temp)
+                        {
+                            uniqueObject = uniqueObject_Temp;
+                            uniqueReference = uniqueReference_Temp;
+                            break;
+                        }
+                    }
+                }
+
+                if (uniqueReference is not null && uniqueObject is not null)
+                {
+                    result[uniqueReference] = uniqueObject;
+                    uniqueReferences.Remove(uniqueReference);
+
+                    if (uniqueReferences.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+        
         public List<UUniqueObject>? GetRelatedValues<UUniqueObject, ZRelation>(TUniqueObject? value, Func<UUniqueObject?, bool>? func = null) where UUniqueObject : TUniqueObject where ZRelation : XRelation
         {
             if (value == null)
@@ -203,6 +313,25 @@ namespace DiGi.Core.Relation.Classes
             return GetRelations(Create.UniqueReference(uniqueObject), func);
         }
 
+        public List<ZRelation>? GetRelations<ZRelation>(IEnumerable<TUniqueObject>? uniqueObjects, Func<ZRelation?, bool>? func = null) where ZRelation : XRelation
+        {
+            if (uniqueObjects == null)
+            {
+                return null;
+            }
+
+            HashSet<IUniqueReference> uniqueReferences = [];
+            foreach (TUniqueObject uniqueObject in uniqueObjects)
+            {
+                if(Create.UniqueReference(uniqueObject) is IUniqueReference uniqueReference)
+                {
+                    uniqueReferences.Add(uniqueReference);
+                }
+            }
+
+            return GetRelations(uniqueReferences, func);
+        }
+
         public List<ZRelation>? GetRelations<ZRelation>(IUniqueReference? uniqueReference) where ZRelation : XRelation
         {
             if (uniqueReference == null)
@@ -211,6 +340,16 @@ namespace DiGi.Core.Relation.Classes
             }
 
             return relationListCluster.GetValues<ZRelation>(uniqueReference);
+        }
+
+        public List<ZRelation>? GetRelations<ZRelation>(IEnumerable<IUniqueReference>? uniqueReferences, Func<ZRelation?, bool>? func = null) where ZRelation : XRelation
+        {
+            if (uniqueReferences == null)
+            {
+                return null;
+            }
+
+            return relationListCluster.GetValues(uniqueReferences, func);
         }
 
         public List<ZRelation>? GetRelations<ZRelation>(IUniqueReference? uniqueReference, Func<ZRelation?, bool>? func = null) where ZRelation : XRelation

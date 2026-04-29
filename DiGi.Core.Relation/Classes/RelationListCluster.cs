@@ -50,6 +50,17 @@ namespace DiGi.Core.Relation.Classes
             return GetValues<URelation>(relationListClusterRefereces);
         }
 
+        public List<URelation>? GetValues<URelation>(IEnumerable<IUniqueReference>? uniqueReferences, Func<URelation?, bool>? func = null) where URelation : XRelation
+        {
+            List<RelationListClusterReference>? relationListClusterRefereces = GetRelationListClusterReferences(uniqueReferences, func);
+            if (relationListClusterRefereces == null)
+            {
+                return null;
+            }
+
+            return GetValues<URelation>(relationListClusterRefereces);
+        }
+
         public List<XRelation>? Remove<XUniqueReference>(IEnumerable<XUniqueReference>? uniqueReferences) where XUniqueReference : IUniqueReference
         {
             if (uniqueReferences == null)
