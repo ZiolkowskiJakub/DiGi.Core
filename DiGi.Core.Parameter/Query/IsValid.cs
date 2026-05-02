@@ -40,7 +40,7 @@ namespace DiGi.Core.Parameter
                     break;
 
                 case Enums.ParameterType.Guid:
-                    return value is System.Guid;
+                    return value is Guid;
 
                 default:
                     break;

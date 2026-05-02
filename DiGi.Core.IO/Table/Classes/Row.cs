@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.IO.Table.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Core.IO.Table.Classes
 {
-    public class Row : ITableObject
+    public class Row : IRow
     {
         private readonly int index = -1;
         private readonly SortedDictionary<int, object?> values = [];

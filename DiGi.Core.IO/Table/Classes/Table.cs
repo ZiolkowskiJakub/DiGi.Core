@@ -1,16 +1,28 @@
-﻿using System;
+﻿using DiGi.Core.IO.Table.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Core.IO.Table.Classes
 {
-    public class Table : ITableObject
+    public class Table<TColumn> : ITableObject where TColumn : IColumn
     {
-        private readonly SortedDictionary<int, Column> columns = [];
+        private readonly SortedDictionary<int, TColumn> columns = [];
         private readonly SortedDictionary<int, Row> rows = [];
 
         public Table()
         {
+        }
+
+        public Table(IEnumerable<TColumn> columns)
+        {
+            if(columns is not null)
+            {
+                foreach (TColumn column in columns)
+                {
+                    AddColumn(column);
+                }
+            }
         }
 
         public int ColumnCount
@@ -21,11 +33,11 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public IEnumerable<Column> Columns
+        public IEnumerable<TColumn> Columns
         {
             get
             {
-                return columns.Values.ToList().ConvertAll(x => new Column(x));
+                return DiGi.Core.Query.CloneAndFilterNulls(columns.Values) ?? [];
             }
         }
 
@@ -51,7 +63,7 @@ namespace DiGi.Core.IO.Table.Classes
             {
                 if (!TryGetValue(columnIndex, rowIndex, out object? result))
                 {
-                    if (!columns.TryGetValue(columnIndex, out Column column) || column == null)
+                    if (!columns.TryGetValue(columnIndex, out TColumn column) || column == null)
                     {
                         return null;
                     }
@@ -63,7 +75,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public object? this[Column? column, Row? row]
+        public object? this[TColumn? column, Row? row]
         {
             get
             {
@@ -87,40 +99,30 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public Column? AddColumn()
-        {
-            return AddColumn(null as Type);
-        }
-
-        public Column? AddColumn(Type? type)
-        {
-            int index = GetNextColumnIndex();
-
-            Column? column = new(index, type);
-
-            columns[index] = column;
-
-            return new Column(column);
-        }
-
-        public Column? AddColumn(Column? column)
+        public TColumn? AddColumn(TColumn? column)
         {
             if (column == null)
             {
-                return null;
+                return default;
             }
 
             int index = GetNextColumnIndex();
-            column = new Column(index, column);
+            if(index == -1)
+            {
+                return default;
+            }
 
-            columns[index] = column;
+            TColumn? column_Temp = DiGi.Core.Query.Clone(column);
+            if(column_Temp is null)
+            {
+                return default;
+            }
 
-            return new Column(column);
-        }
+            column_Temp.Index = index;
 
-        public Column? AddColumn(string? name, Type? type = null)
-        {
-            return AddColumn(new Column(name, type));
+            columns[index] = column_Temp;
+
+            return DiGi.Core.Query.Clone(column_Temp);
         }
 
         public Row AddRow()
@@ -166,7 +168,7 @@ namespace DiGi.Core.IO.Table.Classes
             return new Row(row_New);
         }
 
-        public Row? AddRow(IDictionary<string, object?>? values, bool addMissingColumns = true)
+        public Row? AddRow(IDictionary<string, object?>? values)
         {
             if (values == null)
             {
@@ -177,15 +179,6 @@ namespace DiGi.Core.IO.Table.Classes
             foreach (KeyValuePair<string, object?> keyValuePair in values)
             {
                 int columnIndex = GetColumnIndex(keyValuePair.Key);
-                if (columnIndex == -1 && addMissingColumns)
-                {
-                    Column? column = AddColumn(keyValuePair.Key);
-                    if (column != null)
-                    {
-                        columnIndex = column.Index;
-                    }
-                }
-
                 if (columnIndex == -1)
                 {
                     continue;
@@ -250,14 +243,14 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(dictionary);
         }
 
-        public Column? GetColumn(int index)
+        public TColumn? GetColumn(int index)
         {
-            if (!columns.TryGetValue(index, out Column column))
+            if (!columns.TryGetValue(index, out TColumn column))
             {
-                return null;
+                return default;
             }
 
-            return column == null ? null : new Column(column);
+            return column == null ? default : DiGi.Core.Query.Clone(column);
         }
 
         public int GetColumnIndex(string? name, Func<string?, string?, bool>? func = null)
@@ -265,7 +258,7 @@ namespace DiGi.Core.IO.Table.Classes
             Func<string?, string?, bool>? func_Temp = func;
             func_Temp ??= (x, y) => x == y;
 
-            foreach (Column column in columns.Values)
+            foreach (TColumn column in columns.Values)
             {
                 if (column == null)
                 {
@@ -311,7 +304,7 @@ namespace DiGi.Core.IO.Table.Classes
             return this[columnIndex, rowIndex];
         }
 
-        public object? GetValue(Column? column, Row? row)
+        public object? GetValue(TColumn? column, Row? row)
         {
             return this[column, row];
         }
@@ -326,7 +319,7 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
 
-        public T? GetValue<T>(Column? column, Row? row)
+        public T? GetValue<T>(TColumn? column, Row? row)
         {
             if (!TryGetValue(column, row, out T? result))
             {
@@ -447,9 +440,9 @@ namespace DiGi.Core.IO.Table.Classes
             return true;
         }
 
-        public bool TryGetColumn(string? name, out Column? column, Enums.TextComparisonType textComparisonType = Enums.TextComparisonType.Equals, bool caseSensitive = true)
+        public bool TryGetColumn(string? name, out TColumn? column, Enums.TextComparisonType textComparisonType = Enums.TextComparisonType.Equals, bool caseSensitive = true)
         {
-            column = null;
+            column = default;
 
             if (name == null)
             {
@@ -470,7 +463,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             @out = null;
 
-            if (!columns.TryGetValue(columnIndex, out Column column) || column == null)
+            if (!columns.TryGetValue(columnIndex, out TColumn column) || column == null)
             {
                 return false;
             }
@@ -495,7 +488,7 @@ namespace DiGi.Core.IO.Table.Classes
             return true;
         }
 
-        public bool TryGetValue<T>(Column? column, Row? row, out T? value)
+        public bool TryGetValue<T>(TColumn? column, Row? row, out T? value)
         {
             value = default;
 
@@ -507,41 +500,41 @@ namespace DiGi.Core.IO.Table.Classes
             return TryGetValue(column.Index, row.Index, out value);
         }
 
-        public Column? UpdateColumn(int index, string? name, Type? type = null)
+        public TColumn? UpdateColumn(int index, TColumn column, bool tryConvert = true)
         {
-            if (!columns.TryGetValue(index, out Column column))
+            TColumn? column_Temp = DiGi.Core.Query.Clone(column);
+            if (column_Temp is null)
             {
-                return null;
+                return default;
             }
 
-            Type type_Temp = type ?? typeof(object);
+            column_Temp.Index = index;
 
-            bool typeUpdate = column.Type != type_Temp;
-
-            column = new Column(index, name, type_Temp);
-
-            columns[index] = column;
-
-            if (typeUpdate)
+            if (columns.TryGetValue(index, out TColumn? column_Existing) && column_Existing is not null)
             {
-                foreach (Row row in rows.Values)
+                if ((column_Existing.Type ?? typeof(object)) != (column_Temp.Type ?? typeof(object)))
                 {
-                    if (!row.TryGetValue(index, out object? value))
+                    foreach (Row row in rows.Values)
                     {
-                        continue;
-                    }
+                        if (!row.TryGetValue(index, out object? value))
+                        {
+                            continue;
+                        }
 
-                    if (!TryGetValidValue(index, value, out value))
-                    {
-                        row.RemoveValue(index);
-                        continue;
-                    }
+                        if (!column_Temp.TryGetValidValue(value, out value, tryConvert))
+                        {
+                            row.RemoveValue(index);
+                            continue;
+                        }
 
-                    row.SetValue(index, value);
+                        row.SetValue(index, value);
+                    }
                 }
             }
 
-            return new Column(column);
+            columns[index] = column_Temp;
+
+            return DiGi.Core.Query.Clone(column_Temp);
         }
 
         public Row? UpdateRow(int index, IDictionary<string, object?>? values, Func<string?, string?, bool>? func = null)
@@ -590,6 +583,42 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             return UpdateRow(index, dictionary);
+        }
+    }
+
+    public class  Table : Table<Column>
+    {
+        public Table()
+        {
+
+        }
+
+        public Table(IEnumerable<Column> columns)
+            : base(columns)
+        {
+
+        }
+
+        public Column? AddColumn()
+        {
+            return AddColumn(null as Type);
+        }
+
+        public Column? AddColumn(Type? type)
+        {
+            int index = GetNextColumnIndex();
+
+            return AddColumn(new Column(index, type));
+        }
+
+        public Column? AddColumn(string? name, Type? type = null)
+        {
+            return AddColumn(new Column(name, type));
+        }
+
+        public Column? UpdateColumn(int index, string? name, Type? type = null, bool tryConvert = true)
+        {
+            return UpdateColumn(index, new Column(name, type), tryConvert);
         }
     }
 }

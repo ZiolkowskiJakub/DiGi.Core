@@ -1,13 +1,21 @@
-﻿using System;
+﻿using DiGi.Core.Classes;
+using DiGi.Core.IO.Table.Interfaces;
+using System;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Table.Classes
 {
-    public class Column : ITableObject
+    public class Column : SerializableObject, IColumn
     {
-        private readonly int index = -1;
+        [JsonInclude, JsonPropertyName(nameof(Name))]
         private readonly string? name;
+
+        [JsonInclude, JsonPropertyName(nameof(Type))]
         private readonly Type? type;
 
+        [JsonInclude, JsonPropertyName(nameof(Index))]
+        private int index = -1;
         public Column(int index)
         {
             this.index = index;
@@ -46,6 +54,12 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        public Column(JsonObject jsonObject)
+            : base(jsonObject)
+        {
+
+        }
+
         public Column(int index, Column? column)
         {
             this.index = index;
@@ -57,14 +71,21 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonIgnore]
         public int Index
         {
             get
             {
                 return index;
             }
+
+            set
+            {
+                index = value;
+            }
         }
 
+        [JsonIgnore]
         public string? Name
         {
             get
@@ -73,6 +94,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonIgnore]
         public Type? Type
         {
             get
