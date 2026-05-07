@@ -10,898 +10,11 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
-        public static bool TryConcert_String(this object? @object, out string? result)
-        {
-            if (@object is ISerializableObject serializable)
-            {
-                result = serializable.ToJsonObject()?.ToString();
-                return true;
-            }
-            result = @object?.ToString();
-            return true;
-        }
-
-        public static bool TryConvert_Boolean(object @object, out bool? result)
-        {
-            result = null;
-
-            if (@object is string @string)
-            {
-                if (bool.TryParse(@string, out bool b)) 
-                { 
-                    result = b; 
-                    return true; 
-                }
-
-                // Avoid ToUpper() to reduce allocations. Use OrdinalIgnoreCase.
-                if (string.Equals(@string, "1") ||
-                    string.Equals(@string, "YES", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(@string, "TRUE", StringComparison.OrdinalIgnoreCase))
-                {
-                    result = true;
-                    return true;
-                }
-
-                return false;
-            }
-
-            if (IsNumeric(@object))
-            {
-                result = System.Convert.ToInt64(@object) == 1;
-                return true;
-            }
-            return false;
-        }
-
-        public static bool TryConvert_Int32(object @object, out int? result)
-        {
-            result = null;
-            
-            if (@object is string s && int.TryParse(s, out int i)) 
-            { 
-                result = i; 
-                return true; 
-            }
-            
-            if (@object is Enum @enum) 
-            { 
-                result = System.Convert.ToInt32(@enum); 
-                return true; 
-            }
-            
-            if (IsNumeric(@object)) 
-            { 
-                result = System.Convert.ToInt32(@object); 
-                return true; 
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Int64(object @object, out long? result)
-        {
-            result = null;
-
-            if (@object is string s && long.TryParse(s, out long i))
-            {
-                result = i;
-                return true;
-            }
-
-            if (@object is Enum @enum)
-            {
-                result = System.Convert.ToInt64(@enum);
-                return true;
-            }
-
-            if (IsNumeric(@object))
-            {
-                result = System.Convert.ToInt64(@object);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Double(object @object, out double? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (TryParseDouble(@string, out double @double))
-                {
-                    result = @double;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object) && @object is not System.Type)
-            {
-                result = System.Convert.ToDouble(@object);
-                return true;
-            }
-            else if (@object is bool @bool)
-            {
-                double @double = 0;
-                if (@bool)
-                {
-                    @double = 1;
-                }
-
-                result = @double;
-                return true;
-            }
-            else if (@object is int)
-            {
-                int @int = 0;
-                if ((bool)@object)
-                    @int = 1;
-
-                result = System.Convert.ToDouble(@int);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Decimal(object @object, out decimal? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (TryParseDouble(@string, out double @double))
-                {
-                    result = System.Convert.ToDecimal(@double);
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object) && @object is not System.Type)
-            {
-                result = System.Convert.ToDecimal(@object);
-                return true;
-            }
-            else if (@object is bool @bool)
-            {
-                decimal @decimal = 0;
-                if (@bool)
-                    @decimal = 1;
-
-                result = @decimal;
-                return true;
-            }
-            else if (@object is int)
-            {
-                int @int = 0;
-                if ((bool)@object)
-                    @int = 1;
-
-                result = System.Convert.ToDecimal(@int);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Float(object @object, out float? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (TryParseDouble(@string, out double @double))
-                {
-                    result = System.Convert.ToSingle(@double);
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object) && @object is not System.Type)
-            {
-                result = System.Convert.ToSingle(@object);
-                return true;
-            }
-            else if (@object is bool @bool)
-            {
-                float @float = 0;
-                if (@bool)
-                    @float = 1;
-
-                result = @float;
-                return true;
-            }
-            else if (@object is int)
-            {
-                int @int = 0;
-                if ((bool)@object)
-                    @int = 1;
-
-                result = System.Convert.ToSingle(@int);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Uint(object @object, out uint? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (uint.TryParse(@string, out uint @uint))
-                {
-                    result = @uint;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = System.Convert.ToUInt32(@object);
-                return true;
-            }
-            else if (@object is Classes.Color color)
-            {
-                result = System.Convert.ToUInt32(color.Value);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Short(object @object, out short? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (short.TryParse(@string, out short @short))
-                {
-                    result = @short;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = System.Convert.ToInt16(@object);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Ushort(object @object, out ushort? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (ushort.TryParse(@string, out ushort @ushort))
-                {
-                    result = @ushort;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = System.Convert.ToUInt16(@object);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Byte(object @object, out byte? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (byte.TryParse(@string, out byte @byte))
-                {
-                    result = @byte;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = System.Convert.ToByte(@object);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Long(object @object, out long? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (long.TryParse(@string, out long @long))
-                {
-                    result = @long;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = System.Convert.ToInt32(@object);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Ulong(object @object, out ulong? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (ulong.TryParse(@string, out ulong @ulong))
-                {
-                    result = @ulong;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = System.Convert.ToUInt64(@object);
-                return true;
-            }
-            else if (@object is Enum)
-            {
-                result = (ulong)@object;
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Guid(object @object, out Guid? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (Guid.TryParse(@string, out Guid guid))
-                {
-                    result = guid;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_DateTime(object @object, out DateTime? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (DateTime.TryParse(@string, out DateTime dateTime))
-                {
-                    result = dateTime;
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object))
-            {
-                result = @object is double @double ? DateTime.FromOADate(@double) : new DateTime(System.Convert.ToInt64(@object));
-                return true;
-            }
-            else if (@object is JsonNode jsonNode)
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.String:
-                        // Using ToString() is safer as it provides the string representation 
-                        // without the strict type-checking constraints of GetValue<string>()
-                        string text = jsonNode.ToString();
-                        if (text.StartsWith("\"") && text.EndsWith("\""))
-                        {
-                            text = text.Substring(1, text.Length - 2);
-                        }
-
-                        // We don't need Substring here; System.Text.Json.Nodes handles 
-                        // JSON quotes automatically during the ToString/GetValue call
-                        if (DateTime.TryParse(text, out DateTime dateTime))
-                        {
-                            result = dateTime;
-                            return true;
-                        }
-                        break;
-
-                    case System.Text.Json.JsonValueKind.Number:
-                        // Optional: Handle Unix timestamps if your database or API sends them as numbers
-                        if (jsonNode.AsValue().TryGetValue(out long unixTimestamp))
-                        {
-                            result = DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).DateTime;
-                            return true;
-                        }
-                        break;
-                }
-
-                try
-                {
-                    // Final fallback attempt for standard ISO 8601 formats
-                    result = jsonNode.GetValue<DateTime>();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    // Return default value if all conversion attempts fail
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Color(object @object, out System.Drawing.Color? result)
-        {
-            result = null;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is Type)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (@string.StartsWith("##"))
-                {
-                    result = Convert.ToDrawing(@string);
-                    if (!result.Equals(System.Drawing.Color.Empty))
-                    {
-                        return true;
-                    }
-                }
-
-                if (int.TryParse(@string, out int @int))
-                {
-                    result = Convert.ToDrawing(@int);
-                    return true;
-                }
-
-                if (uint.TryParse(@string, out uint @uint))
-                {
-                    result = Convert.ToDrawing(@uint);
-                    return true;
-                }
-
-                result = Convert.ToDrawing(@string);
-                if (!result.Equals(System.Drawing.Color.Empty))
-                    return true;
-            }
-            else if (@object is Classes.Color color)
-            {
-                result = (System.Drawing.Color)color;
-                return true;
-            }
-            else if (@object is int @int)
-            {
-                result = Convert.ToDrawing(@int);
-                return true;
-            }
-            else if (@object is uint unit)
-            {
-                result = Convert.ToDrawing(unit);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Enum(object @object, out Enum? result, Type type)
-        {
-            result = default;
-
-            if (@object is Enum @enum_Temp)
-            {
-                result = @enum_Temp;
-                return true;
-            }
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            Array array = System.Enum.GetValues(type);
-            if(array is null || array.Length == 0)
-            {
-                return false;
-            }
-
-            object @object_Temp = @object;
-            if (@object is JsonNode jsonNode)
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        @object_Temp = jsonNode.GetValue<int>();
-                        break;
-
-                    case System.Text.Json.JsonValueKind.String:
-                        @object_Temp = jsonNode.GetValue<string>();
-                        break;
-                }
-            }
-
-            if (@object_Temp is string string_Temp)
-            {
-                if (string.IsNullOrWhiteSpace(string_Temp))
-                {
-                    return false;
-                }
-                string string_Normalized = string_Temp.Replace(" ", string.Empty);
-
-                foreach (Enum @enum in array)
-                {
-                    if (string.Equals(@enum.ToString(), string_Normalized, StringComparison.OrdinalIgnoreCase))
-                    {
-                        result = @enum;
-                        return true;
-                    }
-
-                    string? description = Description(@enum);
-                    if (description != null)
-                    {
-                        string description_Normalized = description.Replace(" ", string.Empty);
-                        if (string.Equals(description_Normalized, string_Normalized, StringComparison.OrdinalIgnoreCase))
-                        {
-                            result = @enum;
-                            return true;
-                        }
-                    }
-                }
-
-                if (int.TryParse(string_Normalized, out int index) && System.Enum.IsDefined(type, index))
-                {
-                    result = (Enum)array.GetValue(index);
-                    return true;
-                }
-            }
-            else if (IsNumeric(@object_Temp))
-            {
-                if (TryConvert(@object_Temp, out int index) && System.Enum.IsDefined(type, index))
-                {
-                    foreach (Enum @enum in array)
-                    {
-                        if ((int)(object)@enum == index)
-                        {
-                            result = @enum;
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Type(object @object, out Type? result)
-        {
-            result = default;
-
-            if (@object is string @string && !string.IsNullOrWhiteSpace(@string))
-            {
-                result = Type(@string);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_TimeSpan(object @object, out TimeSpan? result)
-        {
-            result = default;
-
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                if (TimeSpan.TryParse(@string, out TimeSpan timeSpan))
-                {
-                    result = timeSpan;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_JsonNode(object @object, out JsonNode? result)
-        {
-            result = default;
-
-            if (@object is string @string)
-            {
-                result = JsonNode.Parse(@string);
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_Enumerable(object @object, out IEnumerable? result, Type type)
-        {
-            result = default;
-
-            if (type.IsArray)
-            {
-                Type elementType = type.GetElementType();
-
-                if (@object is IEnumerable enumerable)
-                {
-                    List<object?> objects = [];
-                    foreach (object? object_Temp in enumerable)
-                    {
-                        if (TryConvert(object_Temp, out object? @object_Converted, elementType))
-                        {
-                            objects.Add(@object_Converted);
-                        }
-                    }
-
-                    Array array = Array.CreateInstance(elementType, objects.Count);
-                    for (int i = 0; i < objects.Count; i++)
-                    {
-                        array.SetValue(objects[i], i);
-                    }
-
-                    result = array;
-                    return true;
-                }
-                else if (TryConvert(@object, out object? @object_Converted, elementType))
-                {
-                    Array array = Array.CreateInstance(elementType, 1);
-                    array.SetValue(object_Converted, 0);
-                    result = array;
-                    return true;
-                }
-            }
-
-            if (type.IsGenericType)
-            {
-                MethodInfo? methodInfo = type.GetMethod("Add");
-                if (methodInfo is not null)
-                {
-                    Type elementType = type.GetGenericArguments()[0];
-                    object enumerable = Activator.CreateInstance(type);
-
-                    if (@object is IEnumerable enumerable_Temp)
-                    {
-                        foreach (object? object_Temp in enumerable_Temp)
-                        {
-                            if (TryConvert(object_Temp, out object? @object_Converted, elementType))
-                            {
-                                methodInfo.Invoke(enumerable, [@object_Converted]);
-                            }
-                        }
-                        result = (IEnumerable)enumerable;
-                        return true;
-                    }
-                    else
-                    {
-                        if (TryConvert(@object, out object? @object_Converted, elementType))
-                        {
-                            methodInfo.Invoke(enumerable, [@object_Converted]);
-                            result = (IEnumerable)enumerable;
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public static bool TryConvert_SerializableObject(object @object, out ISerializableObject? result, Type type)
-        {
-            result = null;
-
-            Type? type_Object = @object?.GetType();
-            if (type_Object == type || type == null)
-            {
-                return false;
-            }
-
-            if (@object is string @string)
-            {
-                List<ISerializableObject>? serializableObjects = Convert.ToDiGi<ISerializableObject>(@string);
-                if (serializableObjects != null && serializableObjects.Count != 0)
-                {
-                    ISerializableObject serializableObject = serializableObjects.Find(x => x != null && type.IsAssignableFrom(x.GetType()));
-                    if (serializableObject != null)
-                    {
-                        result = serializableObject;
-                        return true;
-                    }
-                }
-                else if (typeof(Classes.Color).IsAssignableFrom(type))
-                {
-                    if (int.TryParse(@string, out int int_color))
-                    {
-                        result = new Classes.Color(Convert.ToDrawing(int_color));
-                        return true;
-                    }
-                    else
-                    {
-                        string value = @string;
-                        if (!string.IsNullOrWhiteSpace(value) && value.Contains(","))
-                        {
-                            string[] values = value.Split(',');
-                            if (values.Length == 3)
-                            {
-                                if (int.TryParse(values[0], out int r) && int.TryParse(values[1], out int g) && int.TryParse(values[2], out int b))
-                                {
-                                    result = new Classes.Color(System.Drawing.Color.FromArgb(r, g, b));
-                                    return true;
-                                }
-                            }
-                            else if (values.Length == 4)
-                            {
-                                if (int.TryParse(values[0], out int a) && int.TryParse(values[1], out int r) && int.TryParse(values[2], out int g) && int.TryParse(values[3], out int b))
-                                {
-                                    result = new Classes.Color(System.Drawing.Color.FromArgb(a, r, g, b));
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (type_Object == typeof(Classes.Color))
-            {
-                System.Drawing.Color color = System.Drawing.Color.Empty;
-                if (TryConvert(@object, out color))
-                {
-                    if (color == System.Drawing.Color.Empty)
-                    {
-                        result = default;
-                        return true;
-                    }
-
-                    result = new Classes.Color(color);
-                    return true;
-                }
-            }
-
-            if (type_Object == typeof(System.Drawing.Color))
-            {
-                result = new Classes.Color((System.Drawing.Color)@object!);
-                return true;
-            }
-
-            return false;
-        }
-
         public static bool TryConvert(this object? @object, out object? result, Type? type)
         {
             result = default;
 
-            if(type is null)
+            if (type is null)
             {
                 return false;
             }
@@ -912,9 +25,9 @@ namespace DiGi.Core
                 return true;
             }
 
-            if(@object is null)
+            if (@object is null)
             {
-                if(type.IsNullable())
+                if (type.IsNullable())
                 {
                     result = null;
                     return true;
@@ -931,7 +44,7 @@ namespace DiGi.Core
             }
 
             Type type_Temp = Nullable.GetUnderlyingType(type) ?? type;
-            if(type_Temp.IsAssignableFrom(@object!.GetType()))
+            if (type_Temp.IsAssignableFrom(@object!.GetType()))
             {
                 result = @object;
                 return true;
@@ -951,18 +64,18 @@ namespace DiGi.Core
             switch (typeCode)
             {
                 case TypeCode.String:
-                    succeeded = TryConcert_String(@object, out string? @string);
+                    succeeded = TryConvert_String(@object, out string? @string);
                     result = @string;
                     return succeeded;
 
                 case TypeCode.Int32:
 
-                    succeeded = TryConvert_Int32(@object, out int? @int);
+                    succeeded = TryConvert_Int(@object, out int? @int);
                     result = @int;
                     return succeeded;
 
                 case TypeCode.Int64:
-                    succeeded = TryConvert_Int64(@object, out long? @long);
+                    succeeded = TryConvert_Long(@object, out long? @long);
                     result = @long;
                     return succeeded;
 
@@ -1094,6 +207,985 @@ namespace DiGi.Core
             }
 
             return TryConvert(@object, out result, Type(dataType));
+        }
+
+        public static bool TryConvert_Boolean(object @object, out bool? result)
+        {
+            result = null;
+
+            if (@object is string @string)
+            {
+                if (bool.TryParse(@string, out bool @bool))
+                {
+                    result = @bool;
+                    return true;
+                }
+
+                // Avoid ToUpper() to reduce allocations. Use OrdinalIgnoreCase.
+                if (string.Equals(@string, "1") ||
+                    string.Equals(@string, "YES", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(@string, "TRUE", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = true;
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (IsNumeric(@object))
+            {
+                result = System.Convert.ToInt64(@object) == 1;
+                return true;
+            }
+
+            if (@object is JsonNode jsonNode)
+            {
+                result = jsonNode?.GetValue<bool>();
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Byte(object @object, out byte? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (byte.TryParse(@string, out byte @byte))
+                {
+                    result = @byte;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToByte(@object);
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<byte>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Byte(jsonNode.GetValue<string>(), out byte? @byte))
+                        {
+                            result = @byte;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Color(object @object, out System.Drawing.Color? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (@string.StartsWith("##"))
+                {
+                    result = Convert.ToDrawing(@string);
+                    if (!result.Equals(System.Drawing.Color.Empty))
+                    {
+                        return true;
+                    }
+                }
+
+                if (int.TryParse(@string, out int @int))
+                {
+                    result = Convert.ToDrawing(@int);
+                    return true;
+                }
+
+                if (uint.TryParse(@string, out uint @uint))
+                {
+                    result = Convert.ToDrawing(@uint);
+                    return true;
+                }
+
+                result = Convert.ToDrawing(@string);
+                if (!result.Equals(System.Drawing.Color.Empty))
+                    return true;
+            }
+            else if (@object is Classes.Color color)
+            {
+                result = (System.Drawing.Color)color;
+                return true;
+            }
+            else if (@object is int @int)
+            {
+                result = Convert.ToDrawing(@int);
+                return true;
+            }
+            else if (@object is uint unit)
+            {
+                result = Convert.ToDrawing(unit);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_DateTime(object @object, out DateTime? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (DateTime.TryParse(@string, out DateTime dateTime))
+                {
+                    result = dateTime;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = @object is double @double ? DateTime.FromOADate(@double) : new DateTime(System.Convert.ToInt64(@object));
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.String:
+                        // Using ToString() is safer as it provides the string representation 
+                        // without the strict type-checking constraints of GetValue<string>()
+                        string text = jsonNode.ToString();
+                        if (text.StartsWith("\"") && text.EndsWith("\""))
+                        {
+                            text = text.Substring(1, text.Length - 2);
+                        }
+
+                        // We don't need Substring here; System.Text.Json.Nodes handles 
+                        // JSON quotes automatically during the ToString/GetValue call
+                        if (DateTime.TryParse(text, out DateTime dateTime))
+                        {
+                            result = dateTime;
+                            return true;
+                        }
+                        break;
+
+                    case System.Text.Json.JsonValueKind.Number:
+                        // Optional: Handle Unix timestamps if your database or API sends them as numbers
+                        if (jsonNode.AsValue().TryGetValue(out long unixTimestamp))
+                        {
+                            result = DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).DateTime;
+                            return true;
+                        }
+                        break;
+                }
+
+                try
+                {
+                    // Final fallback attempt for standard ISO 8601 formats
+                    result = jsonNode.GetValue<DateTime>();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    // Return default value if all conversion attempts fail
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Decimal(object @object, out decimal? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (TryParseDouble(@string, out double @double))
+                {
+                    result = System.Convert.ToDecimal(@double);
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object) && @object is not System.Type)
+            {
+                result = System.Convert.ToDecimal(@object);
+                return true;
+            }
+            else if (@object is bool @bool)
+            {
+                decimal @decimal = 0;
+                if (@bool)
+                    @decimal = 1;
+
+                result = @decimal;
+                return true;
+            }
+            else if (@object is int)
+            {
+                int @int = 0;
+                if ((bool)@object)
+                    @int = 1;
+
+                result = System.Convert.ToDecimal(@int);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Double(object @object, out double? result)
+        {
+            result = null;
+
+            if (@object is null || @object is System.Type)
+            {
+                return false;
+            }
+
+            TypeCode typeCode = System.Type.GetTypeCode(@object.GetType());
+
+            switch (typeCode)
+            {
+                case TypeCode.String:
+                    if (TryParseDouble((string)@object, out double @double))
+                    {
+                        result = @double;
+                        return true;
+                    }
+                    break;
+
+                case TypeCode.Boolean:
+                    result = (bool)@object ? 1 : 0;
+                    return true;
+            }
+
+            if (IsNumeric(@object) && @object is not System.Type)
+            {
+                result = System.Convert.ToDouble(@object);
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<double>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Double(jsonNode.GetValue<string>(), out double? @double))
+                        {
+                            result = @double;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Enum(object @object, out Enum? result, Type type)
+        {
+            result = default;
+
+            if (@object is Enum @enum_Temp)
+            {
+                result = @enum_Temp;
+                return true;
+            }
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            Array array = System.Enum.GetValues(type);
+            if (array is null || array.Length == 0)
+            {
+                return false;
+            }
+
+            object @object_Temp = @object;
+            if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        @object_Temp = jsonNode.GetValue<int>();
+                        break;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        @object_Temp = jsonNode.GetValue<string>();
+                        break;
+                }
+            }
+
+            if (@object_Temp is string string_Temp)
+            {
+                if (string.IsNullOrWhiteSpace(string_Temp))
+                {
+                    return false;
+                }
+                string string_Normalized = string_Temp.Replace(" ", string.Empty);
+
+                foreach (Enum @enum in array)
+                {
+                    if (string.Equals(@enum.ToString(), string_Normalized, StringComparison.OrdinalIgnoreCase))
+                    {
+                        result = @enum;
+                        return true;
+                    }
+
+                    string? description = Description(@enum);
+                    if (description != null)
+                    {
+                        string description_Normalized = description.Replace(" ", string.Empty);
+                        if (string.Equals(description_Normalized, string_Normalized, StringComparison.OrdinalIgnoreCase))
+                        {
+                            result = @enum;
+                            return true;
+                        }
+                    }
+                }
+
+                if (int.TryParse(string_Normalized, out int index) && System.Enum.IsDefined(type, index))
+                {
+                    result = (Enum)array.GetValue(index);
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object_Temp))
+            {
+                if (TryConvert(@object_Temp, out int index) && System.Enum.IsDefined(type, index))
+                {
+                    foreach (Enum @enum in array)
+                    {
+                        if ((int)(object)@enum == index)
+                        {
+                            result = @enum;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Enumerable(object @object, out IEnumerable? result, Type type)
+        {
+            result = default;
+
+            if (type.IsArray)
+            {
+                Type elementType = type.GetElementType();
+
+                if (@object is IEnumerable enumerable)
+                {
+                    List<object?> objects = [];
+                    foreach (object? object_Temp in enumerable)
+                    {
+                        if (TryConvert(object_Temp, out object? @object_Converted, elementType))
+                        {
+                            objects.Add(@object_Converted);
+                        }
+                    }
+
+                    Array array = Array.CreateInstance(elementType, objects.Count);
+                    for (int i = 0; i < objects.Count; i++)
+                    {
+                        array.SetValue(objects[i], i);
+                    }
+
+                    result = array;
+                    return true;
+                }
+                else if (TryConvert(@object, out object? @object_Converted, elementType))
+                {
+                    Array array = Array.CreateInstance(elementType, 1);
+                    array.SetValue(object_Converted, 0);
+                    result = array;
+                    return true;
+                }
+            }
+
+            if (type.IsGenericType)
+            {
+                MethodInfo? methodInfo = Settings.ConversionManager.GetMethodInfo(type); //type.GetMethod("Add");
+                if (methodInfo is not null)
+                {
+                    Type elementType = type.GetGenericArguments()[0];
+                    object enumerable = Activator.CreateInstance(type);
+
+                    if (@object is IEnumerable enumerable_Temp)
+                    {
+                        foreach (object? object_Temp in enumerable_Temp)
+                        {
+                            if (TryConvert(object_Temp, out object? @object_Converted, elementType))
+                            {
+                                methodInfo.Invoke(enumerable, [@object_Converted]);
+                            }
+                        }
+                        result = (IEnumerable)enumerable;
+                        return true;
+                    }
+                    else
+                    {
+                        if (TryConvert(@object, out object? @object_Converted, elementType))
+                        {
+                            methodInfo.Invoke(enumerable, [@object_Converted]);
+                            result = (IEnumerable)enumerable;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Float(object @object, out float? result)
+        {
+            result = null;
+
+            if (@object is null || @object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (TryParseDouble(@string, out double @double))
+                {
+                    result = System.Convert.ToSingle(@double);
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object) && @object is not System.Type)
+            {
+                result = System.Convert.ToSingle(@object);
+                return true;
+            }
+            else if (@object is bool @bool)
+            {
+                float @float = 0;
+                if (@bool)
+                    @float = 1;
+
+                result = @float;
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<float>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out float @float))
+                        {
+                            result = @float;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Guid(object @object, out Guid? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (Guid.TryParse(@string, out Guid guid))
+                {
+                    result = guid;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Int(object @object, out int? result)
+        {
+            result = null;
+
+            if (@object is string s && int.TryParse(s, out int i))
+            {
+                result = i;
+                return true;
+            }
+
+            if (@object is Enum @enum)
+            {
+                result = System.Convert.ToInt32(@enum);
+                return true;
+            }
+
+            if (IsNumeric(@object))
+            {
+                result = System.Convert.ToInt32(@object);
+                return true;
+            }
+
+            if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<int>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Int(jsonNode.GetValue<string>(), out int? @int))
+                        {
+                            result = @int;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_JsonNode(object @object, out JsonNode? result)
+        {
+            result = default;
+
+            if (@object is string @string)
+            {
+                result = JsonNode.Parse(@string);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Long(object @object, out long? result)
+        {
+            result = null;
+
+            if (@object is string @string && long.TryParse(@string, out long @long))
+            {
+                result = @long;
+                return true;
+            }
+            else if (@object is Enum @enum)
+            {
+                result = System.Convert.ToInt64(@enum);
+                return true;
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToInt64(@object);
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<long>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Long(jsonNode.GetValue<string>(), out long? @long_Temp))
+                        {
+                            result = @long_Temp;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_SerializableObject(object @object, out ISerializableObject? result, Type type)
+        {
+            result = null;
+
+            Type? type_Object = @object?.GetType();
+            if (type_Object == type || type == null)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                List<ISerializableObject>? serializableObjects = Convert.ToDiGi<ISerializableObject>(@string);
+                if (serializableObjects != null && serializableObjects.Count != 0)
+                {
+                    ISerializableObject serializableObject = serializableObjects.Find(x => x != null && type.IsAssignableFrom(x.GetType()));
+                    if (serializableObject != null)
+                    {
+                        result = serializableObject;
+                        return true;
+                    }
+                }
+                else if (typeof(Classes.Color).IsAssignableFrom(type))
+                {
+                    if (int.TryParse(@string, out int int_color))
+                    {
+                        result = new Classes.Color(Convert.ToDrawing(int_color));
+                        return true;
+                    }
+                    else
+                    {
+                        string value = @string;
+                        if (!string.IsNullOrWhiteSpace(value) && value.Contains(","))
+                        {
+                            string[] values = value.Split(',');
+                            if (values.Length == 3)
+                            {
+                                if (int.TryParse(values[0], out int r) && int.TryParse(values[1], out int g) && int.TryParse(values[2], out int b))
+                                {
+                                    result = new Classes.Color(System.Drawing.Color.FromArgb(r, g, b));
+                                    return true;
+                                }
+                            }
+                            else if (values.Length == 4)
+                            {
+                                if (int.TryParse(values[0], out int a) && int.TryParse(values[1], out int r) && int.TryParse(values[2], out int g) && int.TryParse(values[3], out int b))
+                                {
+                                    result = new Classes.Color(System.Drawing.Color.FromArgb(a, r, g, b));
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (type_Object == typeof(Classes.Color))
+            {
+                System.Drawing.Color color = System.Drawing.Color.Empty;
+                if (TryConvert(@object, out color))
+                {
+                    if (color == System.Drawing.Color.Empty)
+                    {
+                        result = default;
+                        return true;
+                    }
+
+                    result = new Classes.Color(color);
+                    return true;
+                }
+            }
+
+            if (type_Object == typeof(System.Drawing.Color))
+            {
+                result = new Classes.Color((System.Drawing.Color)@object!);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Short(object @object, out short? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (short.TryParse(@string, out short @short))
+                {
+                    result = @short;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToInt16(@object);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_String(this object? @object, out string? result)
+        {
+            if(@object is null)
+            {
+                result = null;
+                return true;
+            }
+            else if (@object is ISerializableObject serializable)
+            {
+                result = serializable.ToJsonObject()?.ToString();
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                result = jsonNode.GetValue<string>();
+                return true;
+            }
+
+            result = @object?.ToString();
+            return true;
+        }
+        
+        public static bool TryConvert_TimeSpan(object @object, out TimeSpan? result)
+        {
+            result = default;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (TimeSpan.TryParse(@string, out TimeSpan timeSpan))
+                {
+                    result = timeSpan;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Type(object @object, out Type? result)
+        {
+            result = default;
+
+            if (@object is string @string && !string.IsNullOrWhiteSpace(@string))
+            {
+                result = Type(@string);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Uint(object @object, out uint? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (uint.TryParse(@string, out uint @uint))
+                {
+                    result = @uint;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToUInt32(@object);
+                return true;
+            }
+            else if (@object is Classes.Color color)
+            {
+                result = System.Convert.ToUInt32(color.Value);
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<uint>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Uint(jsonNode.GetValue<string>(), out uint? @uint))
+                        {
+                            result = @uint;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+        
+        public static bool TryConvert_Ulong(object @object, out ulong? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (ulong.TryParse(@string, out ulong @ulong))
+                {
+                    result = @ulong;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToUInt64(@object);
+                return true;
+            }
+            else if (@object is Enum)
+            {
+                result = (ulong)@object;
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<ulong>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert(jsonNode.GetValue<string>(), out ulong @ulong))
+                        {
+                            result = @ulong;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryConvert_Ushort(object @object, out ushort? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (ushort.TryParse(@string, out ushort @ushort))
+                {
+                    result = @ushort;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToUInt16(@object);
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<ushort>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Ushort(jsonNode.GetValue<string>(), out ushort? @ushort))
+                        {
+                            result = @ushort;
+                            return true;
+                        }
+                        break;
+                }
+            }
+
+            return false;
         }
     }
 }

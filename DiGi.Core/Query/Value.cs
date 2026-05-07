@@ -114,194 +114,100 @@ namespace DiGi.Core
                 return null;
             }
 
+            TypeCode typeCode = System.Type.GetTypeCode(type_Temp);
+
+            switch(typeCode)
+            {
+                case TypeCode.String:
+                    if(TryConvert_String(jsonNode, out string? @string))
+                    {
+                        return @string;
+                    }
+                    return default(string);
+
+                case TypeCode.Boolean:
+                    if (TryConvert_Boolean(jsonNode, out bool? @bool) && @bool is not null)
+                    {
+                        return @bool.Value;
+                    }
+                    return default(bool);
+
+                case TypeCode.DateTime:
+                    if (TryConvert_DateTime(jsonNode, out DateTime? dateTime) && dateTime is not null)
+                    {
+                        return dateTime.Value;
+                    }
+                    return default(DateTime);
+
+                case TypeCode.Int32:
+                    if (TryConvert_Int(jsonNode, out int? @int) && @int is not null)
+                    {
+                        return @int.Value;
+                    }
+                    return default(int);
+
+                case TypeCode.UInt32:
+                    if (TryConvert_Uint(jsonNode, out uint? @uint) && @uint is not null)
+                    {
+                        return @uint.Value;
+                    }
+                    return default(uint);
+
+                case TypeCode.Int64:
+                    if (TryConvert_Long(jsonNode, out long? @long) && @long is not null)
+                    {
+                        return @long.Value;
+                    }
+                    return default(long);
+
+                case TypeCode.UInt64:
+                    if (TryConvert_Ulong(jsonNode, out ulong? @ulong) && @ulong is not null)
+                    {
+                        return @ulong.Value;
+                    }
+                    return default(ulong);
+
+                case TypeCode.Int16:
+                    if (TryConvert_Short(jsonNode, out short? @short) && @short is not null)
+                    {
+                        return @short.Value;
+                    }
+                    return default(short);
+
+                case TypeCode.UInt16:
+                    if (TryConvert_Ushort(jsonNode, out ushort? @ushort) && @ushort is not null)
+                    {
+                        return @ushort.Value;
+                    }
+                    return default(ushort);
+
+                case TypeCode.Double:
+                    if (TryConvert_Double(jsonNode, out double? @double) && @double is not null)
+                    {
+                        return @double.Value;
+                    }
+                    return default(double);
+
+                case TypeCode.Single:
+                    if (TryConvert_Float(jsonNode, out float? @float) && @float is not null)
+                    {
+                        return @float.Value;
+                    }
+                    return default(float);
+
+
+                case TypeCode.Byte:
+                    if (TryConvert_Byte(jsonNode, out byte? @byte) && @byte is not null)
+                    {
+                        return @byte.Value;
+                    }
+                    return default(byte);
+            }
+
+
             if (type_Temp == typeof(Guid))
             {
                 return jsonNode.GetValue<Guid>();
-            }
-
-            if (type_Temp == typeof(string))
-            {
-                return jsonNode.GetValue<string>();
-            }
-
-            if (type_Temp == typeof(bool))
-            {
-                return jsonNode.GetValue<bool>();
-            }
-
-            if (type_Temp == typeof(DateTime))
-            {
-                if (jsonNode == null)
-                {
-                    return default(DateTime);
-                }
-
-                if (TryConvert(jsonNode, out DateTime dateTime))
-                {
-                    return dateTime;
-                }
-
-                return default(DateTime);
-            }
-
-            if (type_Temp == typeof(int))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<int>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out int @int))
-                        {
-                            return @int;
-                        }
-                        break;
-                }
-
-                return null;
-            }
-
-            if (type_Temp == typeof(uint))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<uint>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out uint @uint))
-                        {
-                            return @uint;
-                        }
-                        break;
-                }
-
-                return null;
-            }
-
-            if (type_Temp == typeof(long))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<long>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out long @long))
-                        {
-                            return @long;
-                        }
-                        break;
-                }
-
-                return null;
-            }
-
-            if (type_Temp == typeof(ulong))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<ulong>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out ulong @ulong))
-                        {
-                            return @ulong;
-                        }
-                        break;
-                }
-
-                return null;
-            }
-
-            if (type_Temp == typeof(short))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<short>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out short @short))
-                        {
-                            return @short;
-                        }
-                        break;
-                }
-
-                return null;
-            }
-
-            if (type_Temp == typeof(ushort))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<ushort>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out ushort @ushort))
-                        {
-                            return @ushort;
-                        }
-                        break;
-                }
-
-                return null;
-            }
-
-            if (type_Temp == typeof(double))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<double>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out double @double))
-                        {
-                            return @double;
-                        }
-                        break;
-                }
-                return null;
-            }
-
-            if (type_Temp == typeof(float))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<float>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out float @float))
-                        {
-                            return @float;
-                        }
-                        break;
-                }
-                return null;
-            }
-
-            if (type_Temp == typeof(byte))
-            {
-                switch (jsonNode.GetValueKind())
-                {
-                    case System.Text.Json.JsonValueKind.Number:
-                        return jsonNode.GetValue<byte>();
-
-                    case System.Text.Json.JsonValueKind.String:
-                        if (TryConvert(jsonNode.GetValue<string>(), out byte @byte))
-                        {
-                            return @byte;
-                        }
-                        break;
-                }
-
-                return null;
             }
 
             if (type_Temp == typeof(System.Drawing.Color))
