@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Table.Interfaces;
 using System;
 using System.Text.Json.Nodes;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Table.Classes
 {
-    public class Column : SerializableObject, IColumn
+    public class Column : SerializableObject, IColumn, INamedObject
     {
         [JsonInclude, JsonPropertyName(nameof(Name))]
         private readonly string? name;
@@ -16,6 +17,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         [JsonInclude, JsonPropertyName(nameof(Index))]
         private int index = -1;
+        
         public Column(int index)
         {
             this.index = index;
