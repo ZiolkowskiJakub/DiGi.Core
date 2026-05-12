@@ -118,7 +118,7 @@ namespace DiGi.Core.Relation.Classes
 
         public Dictionary<IUniqueReference, UUniqueObject>? GetRelatedValueDictionary<UUniqueObject, ZRelation>(IEnumerable<TUniqueObject>? values, Func<UUniqueObject?, bool>? func = null) where UUniqueObject : TUniqueObject where ZRelation : XRelation
         {
-            if(values is null)
+            if (values is null)
             {
                 return null;
             }
@@ -126,13 +126,13 @@ namespace DiGi.Core.Relation.Classes
             HashSet<IUniqueReference> uniqueReferences = [];
             foreach (TUniqueObject value in values)
             {
-                if(Create.UniqueReference(value) is IUniqueReference uniqueReference)
+                if (Create.UniqueReference(value) is IUniqueReference uniqueReference)
                 {
                     uniqueReferences.Add(uniqueReference);
                 }
             }
 
-            if(uniqueReferences.Count == 0)
+            if (uniqueReferences.Count == 0)
             {
                 return [];
             }
@@ -142,7 +142,6 @@ namespace DiGi.Core.Relation.Classes
             {
                 return [];
             }
-
 
             Dictionary<IUniqueReference, UUniqueObject> result = [];
 
@@ -177,7 +176,7 @@ namespace DiGi.Core.Relation.Classes
                 bool isValid_From = Query.IsValid(relation, typeof(UUniqueObject), RelationSide.From);
                 bool isValid_To = Query.IsValid(relation, typeof(UUniqueObject), RelationSide.To);
 
-                if(!isValid_From && !isValid_To)
+                if (!isValid_From && !isValid_To)
                 {
                     continue;
                 }
@@ -187,9 +186,9 @@ namespace DiGi.Core.Relation.Classes
 
                 if (uniqueReference is null && isValid_From)
                 {
-                    foreach(IUniqueReference uniqueReference_Temp in uniqueReferences)
+                    foreach (IUniqueReference uniqueReference_Temp in uniqueReferences)
                     {
-                        if(find.Invoke(relation, uniqueReference_Temp, RelationSide.From) is UUniqueObject uniqueObject_Temp)
+                        if (find.Invoke(relation, uniqueReference_Temp, RelationSide.From) is UUniqueObject uniqueObject_Temp)
                         {
                             uniqueObject = uniqueObject_Temp;
                             uniqueReference = uniqueReference_Temp;
@@ -225,7 +224,7 @@ namespace DiGi.Core.Relation.Classes
 
             return result;
         }
-        
+
         public List<UUniqueObject>? GetRelatedValues<UUniqueObject, ZRelation>(TUniqueObject? value, Func<UUniqueObject?, bool>? func = null) where UUniqueObject : TUniqueObject where ZRelation : XRelation
         {
             if (value == null)
@@ -323,7 +322,7 @@ namespace DiGi.Core.Relation.Classes
             HashSet<IUniqueReference> uniqueReferences = [];
             foreach (TUniqueObject uniqueObject in uniqueObjects)
             {
-                if(Create.UniqueReference(uniqueObject) is IUniqueReference uniqueReference)
+                if (Create.UniqueReference(uniqueObject) is IUniqueReference uniqueReference)
                 {
                     uniqueReferences.Add(uniqueReference);
                 }

@@ -1,7 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
@@ -10,7 +8,7 @@ namespace DiGi.Core.Classes
         private readonly object lockObject = new();
         private readonly IProgress<T>? progress;
         private T current;
-        
+
         public ProgressWrapper(T initialValue, IProgress<T>? progress = null)
         {
             current = initialValue;
@@ -19,18 +17,18 @@ namespace DiGi.Core.Classes
 
         public T Current
         {
-            get 
-            { 
+            get
+            {
                 lock (lockObject)
                 {
-                    return current; 
+                    return current;
                 }
             }
-            private set 
-            { 
+            private set
+            {
                 lock (lockObject)
                 {
-                    current = value; 
+                    current = value;
                 }
             }
         }

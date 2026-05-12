@@ -388,7 +388,7 @@ namespace DiGi.Core
                 switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.String:
-                        // Using ToString() is safer as it provides the string representation 
+                        // Using ToString() is safer as it provides the string representation
                         // without the strict type-checking constraints of GetValue<string>()
                         string text = jsonNode.ToString();
                         if (text.StartsWith("\"") && text.EndsWith("\""))
@@ -396,7 +396,7 @@ namespace DiGi.Core
                             text = text.Substring(1, text.Length - 2);
                         }
 
-                        // We don't need Substring here; System.Text.Json.Nodes handles 
+                        // We don't need Substring here; System.Text.Json.Nodes handles
                         // JSON quotes automatically during the ToString/GetValue call
                         if (DateTime.TryParse(text, out DateTime dateTime))
                         {
@@ -980,7 +980,7 @@ namespace DiGi.Core
 
         public static bool TryConvert_String(this object? @object, out string? result)
         {
-            if(@object is null)
+            if (@object is null)
             {
                 result = null;
                 return true;
@@ -999,7 +999,7 @@ namespace DiGi.Core
             result = @object?.ToString();
             return true;
         }
-        
+
         public static bool TryConvert_TimeSpan(object @object, out TimeSpan? result)
         {
             result = default;
@@ -1086,7 +1086,7 @@ namespace DiGi.Core
 
             return false;
         }
-        
+
         public static bool TryConvert_Ulong(object @object, out ulong? result)
         {
             result = null;

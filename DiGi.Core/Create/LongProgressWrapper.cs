@@ -7,7 +7,7 @@ namespace DiGi.Core
     {
         public static LongProgressWrapper? LongProgressWrapper(this IProgress<long>? progress, long initialValue = 0)
         {
-            if(progress is null)
+            if (progress is null)
             {
                 return null;
             }

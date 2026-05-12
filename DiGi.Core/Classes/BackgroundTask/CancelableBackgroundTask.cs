@@ -43,7 +43,7 @@ namespace DiGi.Core.Classes
         }
 
         public bool IsCanceled => Task?.IsCanceled ?? false;
-        
+
         public override void Start()
         {
             lock (lockObject)
@@ -154,7 +154,7 @@ namespace DiGi.Core.Classes
         protected virtual void OnCanceled() => Canceled?.Invoke(this, EventArgs.Empty);
 
         protected virtual void OnCancelling() => Cancelling?.Invoke(this, EventArgs.Empty);
-        
+
         private void Cleanup()
         {
             lock (lockObject)

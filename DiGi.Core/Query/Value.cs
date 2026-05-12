@@ -116,10 +116,10 @@ namespace DiGi.Core
 
             TypeCode typeCode = System.Type.GetTypeCode(type_Temp);
 
-            switch(typeCode)
+            switch (typeCode)
             {
                 case TypeCode.String:
-                    if(TryConvert_String(jsonNode, out string? @string))
+                    if (TryConvert_String(jsonNode, out string? @string))
                     {
                         return @string;
                     }
@@ -195,7 +195,6 @@ namespace DiGi.Core
                     }
                     return default(float);
 
-
                 case TypeCode.Byte:
                     if (TryConvert_Byte(jsonNode, out byte? @byte) && @byte is not null)
                     {
@@ -203,7 +202,6 @@ namespace DiGi.Core
                     }
                     return default(byte);
             }
-
 
             if (type_Temp == typeof(Guid))
             {

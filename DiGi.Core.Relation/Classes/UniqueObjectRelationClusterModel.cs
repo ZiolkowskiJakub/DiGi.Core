@@ -109,7 +109,7 @@ namespace DiGi.Core.Relation.Classes
         public List<YUniqueObject>? GetRelatedObjects<YUniqueObject>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             Dictionary<IUniqueReference, YUniqueObject>? dictionary = GetRelatedObjectDictionary(uniqueObjects, func);
-            if(dictionary is null)
+            if (dictionary is null)
             {
                 return null;
             }
@@ -284,7 +284,7 @@ namespace DiGi.Core.Relation.Classes
 
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
-        
+
         public virtual bool TryGetRelatedObject<YUniqueObject>(TUniqueObject? uniqueObject, out YUniqueObject? relatedUniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             relatedUniqueObject = default;

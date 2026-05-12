@@ -28,9 +28,9 @@ namespace DiGi.Core.Classes
         public GuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
-            if(jsonObject is not null)
+            if (jsonObject is not null)
             {
-                if(!jsonObject.ContainsKey(Constants.Serialization.PropertyName.Guid))
+                if (!jsonObject.ContainsKey(Constants.Serialization.PropertyName.Guid))
                 {
                     guid = Guid.NewGuid();
                 }
@@ -40,7 +40,7 @@ namespace DiGi.Core.Classes
         public GuidObject(GuidObject? guidObject)
             : base(guidObject)
         {
-            if(guidObject is not null)
+            if (guidObject is not null)
             {
                 guid = guidObject.guid;
             }

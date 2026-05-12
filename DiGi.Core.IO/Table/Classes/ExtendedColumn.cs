@@ -10,7 +10,6 @@ namespace DiGi.Core.IO.Table.Classes
         public ExtendedColumn(int index)
             : base(index)
         {
-
         }
 
         public ExtendedColumn(int index, string? name, Type? type)
@@ -21,31 +20,26 @@ namespace DiGi.Core.IO.Table.Classes
         public ExtendedColumn(int index, Type? type)
             : base(index, type)
         {
-
         }
 
         public ExtendedColumn(string? name, Type? type)
             : base(name, type)
         {
-
         }
 
         public ExtendedColumn(ExtendedColumn? extendedColumn)
             : base(extendedColumn)
         {
-
         }
 
         public ExtendedColumn(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public ExtendedColumn(int index, ExtendedColumn? extendedColumn)
             : base(index, extendedColumn)
         {
-
         }
 
         [JsonInclude, JsonPropertyName(nameof(Category))]

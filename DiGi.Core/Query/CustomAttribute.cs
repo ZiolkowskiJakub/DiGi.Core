@@ -62,7 +62,7 @@ namespace DiGi.Core
                 return default;
             }
 
-            // .GetCustomAttribute<T>() is significantly faster than .GetCustomAttributes() 
+            // .GetCustomAttribute<T>() is significantly faster than .GetCustomAttributes()
             // because it doesn't allocate an array if only one attribute is found.
             // It uses an internal optimized path in the CLR.
             return memberInfo.GetCustomAttribute<TAttribute>(false);

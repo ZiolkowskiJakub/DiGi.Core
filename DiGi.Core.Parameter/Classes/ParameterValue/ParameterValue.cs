@@ -58,7 +58,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             return Convert.ToJson(this);
         }
-        
+
         public virtual bool TryConvert(object? value_In, out object? value_Out)
         {
             value_Out = default;

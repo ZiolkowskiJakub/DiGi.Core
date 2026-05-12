@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         [JsonInclude, JsonPropertyName(nameof(Index))]
         private int index = -1;
-        
+
         public Column(int index)
         {
             this.index = index;
@@ -59,7 +59,6 @@ namespace DiGi.Core.IO.Table.Classes
         public Column(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Column(int index, Column? column)

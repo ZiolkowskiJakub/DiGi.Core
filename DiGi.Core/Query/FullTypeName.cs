@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Nodes;
 
@@ -41,7 +40,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            StringBuilder stringBuilder = new ();
+            StringBuilder stringBuilder = new();
 
             void BuildName(Type type_Temp)
             {
@@ -63,7 +62,7 @@ namespace DiGi.Core
                             {
                                 stringBuilder.Append(',');
                             }
-                            
+
                             stringBuilder.Append('[');
                             BuildName(types_Generic[i]);
                             stringBuilder.Append(']');

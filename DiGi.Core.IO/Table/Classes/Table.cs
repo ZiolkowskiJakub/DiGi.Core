@@ -16,7 +16,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public Table(IEnumerable<TColumn> columns)
         {
-            if(columns is not null)
+            if (columns is not null)
             {
                 foreach (TColumn column in columns)
                 {
@@ -107,13 +107,13 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             int index = GetNextColumnIndex();
-            if(index == -1)
+            if (index == -1)
             {
                 return default;
             }
 
             TColumn? column_Temp = DiGi.Core.Query.Clone(column);
-            if(column_Temp is null)
+            if (column_Temp is null)
             {
                 return default;
             }
@@ -586,17 +586,15 @@ namespace DiGi.Core.IO.Table.Classes
         }
     }
 
-    public class  Table : Table<Column>
+    public class Table : Table<Column>
     {
         public Table()
         {
-
         }
 
         public Table(IEnumerable<Column> columns)
             : base(columns)
         {
-
         }
 
         public Column? AddColumn()
