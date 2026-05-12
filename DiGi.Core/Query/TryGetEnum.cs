@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace DiGi.Core
 {
@@ -28,68 +27,77 @@ namespace DiGi.Core
             return TryGetEnum(values[1], type, out @enum);
         }
 
+        /// <summary>
+        /// Attempts to parse a string into an enum value by checking names, descriptions, and fuzzy matching.
+        /// </summary>
         public static bool TryGetEnum(this string? text, Type? type, out Enum? @enum)
         {
             @enum = null;
 
-            if (string.IsNullOrWhiteSpace(text) || type == null || !type.IsEnum)
+            // Guard clauses
+            if (string.IsNullOrEmpty(text) || type == null || !type.IsEnum)
             {
                 return false;
             }
 
-            Array array = System.Enum.GetValues(type);
-            if (array == null || array.Length == 0)
-            {
-                return false;
-            }
+            // In .NET Standard 2.0, GetValues returns a standard Array.
+            // This is an allocation, but inevitable without a cache.
+            Array enumValues = System.Enum.GetValues(type);
+            Enum? undefinedValue = null;
 
-            foreach (Enum @enum_Temp in array)
+            // Normalize input once to save allocations during the loop
+            string cleanedInput = text!.Replace(" ", string.Empty);
+
+            for (int i = 0; i < enumValues.Length; i++)
             {
-                if (nameof(@enum_Temp).Equals(text))
+                Enum currentValue = (Enum)enumValues.GetValue(i);
+                string name = System.Enum.GetName(type, currentValue);
+
+                if (name == null) continue;
+
+                // 1. Precise Match (Case Sensitive)
+                if (name.Equals(text, StringComparison.Ordinal))
                 {
-                    @enum = enum_Temp;
+                    @enum = currentValue;
+                    return true;
+                }
+
+                // 2. Identify "Undefined" fallback during the main loop
+                if (undefinedValue == null && name.Equals("Undefined", StringComparison.OrdinalIgnoreCase))
+                {
+                    undefinedValue = currentValue;
+                }
+
+                // 3. Description Match
+                // Note: Description() is assumed to be your extension method
+                string? description = currentValue.Description();
+                if (description != null)
+                {
+                    if (description.Equals(text, StringComparison.Ordinal))
+                    {
+                        @enum = currentValue;
+                        return true;
+                    }
+
+                    // 4. Fuzzy Match (Description without spaces)
+                    // OrdinalIgnoreCase is faster than ToUpper/ToLower in .NET Standard 2.0
+                    if (description.Replace(" ", string.Empty).Equals(cleanedInput, StringComparison.OrdinalIgnoreCase))
+                    {
+                        @enum = currentValue;
+                        return true;
+                    }
+                }
+
+                // 5. Fuzzy Match (Name without spaces)
+                if (name.Replace(" ", string.Empty).Equals(cleanedInput, StringComparison.OrdinalIgnoreCase))
+                {
+                    @enum = currentValue;
                     return true;
                 }
             }
 
-            List<string> texts = [];
-            string? text_Temp;
-
-            foreach (Enum @enum_Temp in array)
-            {
-                text_Temp = @enum_Temp.Description();
-                if (text_Temp == null)
-                {
-                    continue;
-                }
-
-                texts.Add(text_Temp);
-                if (text_Temp.Equals(text))
-                {
-                    @enum = @enum_Temp;
-                    return true;
-                }
-            }
-
-            text_Temp = text?.ToUpper().Replace(" ", string.Empty);
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (texts[i].ToUpper().Replace(" ", string.Empty).Equals(text_Temp))
-                {
-                    @enum = (Enum)array.GetValue(i);
-                    return true;
-                }
-            }
-
-            foreach (Enum @enum_Temp in array)
-            {
-                if (nameof(@enum_Temp).ToUpper().Equals("UNDEFINED"))
-                {
-                    @enum = enum_Temp;
-                    return false;
-                }
-            }
-
+            // No match found - fallback to Undefined if it was discovered
+            @enum = undefinedValue;
             return false;
         }
 

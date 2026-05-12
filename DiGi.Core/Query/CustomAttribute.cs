@@ -5,62 +5,80 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Optimized retrieval of a custom attribute from an Enum value.
+        /// </summary>
         public static TAttribute? CustomAttribute<TAttribute>(Enum? @enum) where TAttribute : Attribute
         {
-            if (@enum == null)
+            if (@enum is null)
             {
                 return default;
             }
 
-            MemberInfo[] memberInfos = @enum.GetType().GetMember(@enum.ToString());
-            if (memberInfos == null || memberInfos.Length == 0)
+            Type type = @enum.GetType();
+            // Enum.GetName is more efficient than .ToString() as it avoids some string formatting overhead
+            string? name = System.Enum.GetName(type, @enum);
+
+            if (name is null)
             {
                 return default;
             }
 
-            return CustomAttribute<TAttribute>(memberInfos[0]);
+            // GetField is more specific than GetMember, which reduces search time in the metadata table
+            FieldInfo? fieldInfo = type.GetField(name, BindingFlags.Public | BindingFlags.Static);
+
+            return fieldInfo?.GetCustomAttribute<TAttribute>(false);
         }
 
+        /// <summary>
+        /// Optimized retrieval of a custom attribute from a Type and member name.
+        /// </summary>
         public static TAttribute? CustomAttribute<TAttribute>(Type? type, string? text) where TAttribute : Attribute
         {
-            if (type == null || string.IsNullOrEmpty(text))
+            if (type is null || string.IsNullOrEmpty(text))
             {
                 return default;
             }
 
-            MemberInfo[] memberInfos = type.GetMember(text);
-            if (memberInfos == null || memberInfos.Length == 0)
+            // Narrowing the search to Public Static/Instance members avoids unnecessary metadata scanning
+            MemberInfo[] memberInfos = type.GetMember(text, BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+
+            if (memberInfos.Length == 0)
             {
                 return default;
             }
 
-            return CustomAttribute<TAttribute>(memberInfos[0]);
+            // Directly using the extension method from System.Reflection
+            return memberInfos[0].GetCustomAttribute<TAttribute>(false);
         }
 
+        /// <summary>
+        /// Efficiently retrieves a custom attribute from MemberInfo using generic reflection extensions.
+        /// </summary>
         public static TAttribute? CustomAttribute<TAttribute>(this MemberInfo? memberInfo) where TAttribute : Attribute
         {
-            if (memberInfo == null)
+            if (memberInfo is null)
             {
                 return default;
             }
 
-            Attribute[] attributes = Attribute.GetCustomAttributes(memberInfo);
-            if (attributes == null || attributes.Length == 0)
+            // .GetCustomAttribute<T>() is significantly faster than .GetCustomAttributes() 
+            // because it doesn't allocate an array if only one attribute is found.
+            // It uses an internal optimized path in the CLR.
+            return memberInfo.GetCustomAttribute<TAttribute>(false);
+        }
+
+        /// <summary>
+        /// Retrieves an attribute from the Type level (e.g., for CategoryAttribute on Enum declaration).
+        /// </summary>
+        public static TAttribute? CustomTypeAttribute<TAttribute>(Type? type) where TAttribute : Attribute
+        {
+            if (type is null)
             {
                 return default;
             }
 
-            foreach (Attribute attribute in attributes)
-            {
-                if (attribute is not TAttribute)
-                {
-                    continue;
-                }
-
-                return (TAttribute)attribute;
-            }
-
-            return default;
+            return CustomAttribute<TAttribute>(type);
         }
     }
 }

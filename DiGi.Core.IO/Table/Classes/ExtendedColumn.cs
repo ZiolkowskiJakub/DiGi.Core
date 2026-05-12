@@ -7,12 +7,6 @@ namespace DiGi.Core.IO.Table.Classes
 {
     public class ExtendedColumn : Column, IDescribableObject
     {
-        [JsonInclude, JsonPropertyName(nameof(Description))]
-        public string Description { get; set; }
-
-        [JsonInclude, JsonPropertyName(nameof(Category))]
-        public string Category { get; set; }
-
         public ExtendedColumn(int index)
             : base(index)
         {
@@ -20,7 +14,7 @@ namespace DiGi.Core.IO.Table.Classes
         }
 
         public ExtendedColumn(int index, string? name, Type? type)
-            :base(index, name, type)
+            : base(index, name, type)
         {
         }
 
@@ -53,5 +47,11 @@ namespace DiGi.Core.IO.Table.Classes
         {
 
         }
+
+        [JsonInclude, JsonPropertyName(nameof(Category))]
+        public string? Category { get; set; }
+
+        [JsonInclude, JsonPropertyName(nameof(Description))]
+        public string? Description { get; set; }
     }
 }
