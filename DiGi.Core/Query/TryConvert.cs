@@ -974,6 +974,23 @@ namespace DiGi.Core
                 result = System.Convert.ToInt16(@object);
                 return true;
             }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<short>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Short(jsonNode.GetValue<string>(), out short? @short_Temp))
+                        {
+                            result = @short_Temp;
+                            return true;
+                        }
+                        break;
+                }
+            }
 
             return false;
         }
