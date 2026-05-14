@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DiGi.Core.IO.Table.Classes
 {
-    public class Row : IRow
+    public abstract class Row<TRow> : IRow<TRow> where TRow : Row<TRow>
     {
         private readonly int index = -1;
         private readonly SortedDictionary<int, object?> values = [];
@@ -87,7 +87,14 @@ namespace DiGi.Core.IO.Table.Classes
 
                 return result;
             }
+
+            set
+            {
+                values[index] = value;
+            }
         }
+
+        public abstract TRow? Clone();
 
         public T? GetValue<T>(int index, T? defaultValue = default, bool tryConvert = true)
         {
@@ -133,35 +140,6 @@ namespace DiGi.Core.IO.Table.Classes
             return values.Remove(index);
         }
 
-        public List<int>? RemoveValues(IEnumerable<int>? indexes)
-        {
-            if (indexes == null)
-            {
-                return null;
-            }
-
-            List<int> result = [];
-            if (values.Count == 0)
-            {
-                return result;
-            }
-
-            foreach (int index in indexes)
-            {
-                if (values.Remove(index))
-                {
-                    result.Add(index);
-                }
-            }
-
-            return result;
-        }
-
-        public void SetValue(int index, object? value)
-        {
-            values[index] = value;
-        }
-
         public bool TryGetValue<T>(int index, out T? value)
         {
             if (!DiGi.Core.Query.TryConvert(this[index], out value))
@@ -170,6 +148,26 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             return true;
+        }
+    }
+
+    public sealed class Row : Row<Row>
+    {
+        public Row(int index, IDictionary<int, object?>? values)
+            : base (index, values)
+        {
+
+        }
+
+        public Row(Row row)
+            : base(row)
+        {
+
+        }
+
+        public override Row? Clone()
+        {
+            return new Row(this);
         }
     }
 }
