@@ -1,11 +1,12 @@
 ﻿using DiGi.Core.IO.Table.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.Core.IO.Table.Classes
 {
-    public class Table<TColumn> : ITableObject where TColumn : IColumn
+    public class Table<TColumn> : ITable<TColumn> where TColumn : IColumn
     {
         private readonly SortedDictionary<int, TColumn> columns = [];
         private readonly SortedDictionary<int, Row> rows = [];
@@ -583,6 +584,16 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             return UpdateRow(index, dictionary);
+        }
+
+        public IEnumerator<Row> GetEnumerator()
+        {
+            return Rows?.GetEnumerator() ?? Enumerable.Empty<Row>().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
