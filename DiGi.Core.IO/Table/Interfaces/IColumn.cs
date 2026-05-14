@@ -1,5 +1,4 @@
 ﻿using DiGi.Core.Interfaces;
-using DiGi.Core.IO.Table.Classes;
 using System;
 
 namespace DiGi.Core.IO.Table.Interfaces

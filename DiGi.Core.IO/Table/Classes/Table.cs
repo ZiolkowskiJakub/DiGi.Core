@@ -1,9 +1,7 @@
-﻿using DiGi.Core.IO.FileWatcher;
-using DiGi.Core.IO.Table.Interfaces;
+﻿using DiGi.Core.IO.Table.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 
 namespace DiGi.Core.IO.Table.Classes
@@ -385,25 +383,87 @@ namespace DiGi.Core.IO.Table.Classes
                 return null;
             }
 
-            List<int> result = [];
-            foreach (int index in indexes)
+            // 1. Identify unique indices to remove and sort them for consistency
+            List<int> targets = System.Linq.Enumerable.Distinct(indexes).OrderBy(x => x).ToList();
+            if (targets.Count == 0)
+            {
+                return new List<int>();
+            }
+
+            // 2. Remove targeted columns from the dictionary
+            List<int> removedSuccessfully = new List<int>();
+            foreach (int index in targets)
             {
                 if (columns.Remove(index))
                 {
-                    result.Add(index);
+                    removedSuccessfully.Add(index);
                 }
             }
 
+            if (removedSuccessfully.Count == 0)
+            {
+                return removedSuccessfully;
+            }
+
+            // 3. Create a mapping from Old Index -> New Index for surviving columns
+            // This is necessary to shift data inside the Rows
+            Dictionary<int, int> indexMap = new Dictionary<int, int>();
+            List<TColumn> remainingColumns = columns.Values.ToList();
+
+            columns.Clear();
+
+            for (int i = 0; i < remainingColumns.Count; i++)
+            {
+                TColumn column = remainingColumns[i];
+                int oldIndex = column.Index;
+                int newIndex = i;
+
+                // Update the internal Index property of the column object
+                column.Index = newIndex;
+
+                // Re-insert into the sorted dictionary with the new shifted key
+                columns[newIndex] = column;
+
+                // Store the mapping to update rows later
+                indexMap[oldIndex] = newIndex;
+            }
+
+            // 4. Update all rows: shift values to match new column indices
             foreach (TRow row in rows.Values)
             {
-                foreach (int columnIndex in result)
+                if (row == null) continue;
+
+                // Capture current row data in a temporary dictionary to avoid overwrite conflicts during shifting
+                Dictionary<int, object?> tempRowData = new Dictionary<int, object?>();
+                foreach (int colIndex in row.Indexes)
                 {
-                    row.RemoveValue(columnIndex);
+                    tempRowData[colIndex] = row[colIndex];
+                }
+
+                // Remove values that belonged to the deleted columns
+                foreach (int targetIdx in targets)
+                {
+                    row.RemoveValue(targetIdx);
+                }
+
+                // Shift remaining values based on the indexMap
+                foreach (KeyValuePair<int, int> mapping in indexMap)
+                {
+                    int oldIdx = mapping.Key;
+                    int newIdx = mapping.Value;
+
+                    if (oldIdx != newIdx && tempRowData.ContainsKey(oldIdx))
+                    {
+                        object? value = tempRowData[oldIdx];
+                        row[newIdx] = value; // Move to new position
+                        row.RemoveValue(oldIdx); // Remove from old position
+                    }
                 }
             }
 
-            return result;
+            return removedSuccessfully;
         }
+
 
         public bool RemoveRow(int index)
         {
