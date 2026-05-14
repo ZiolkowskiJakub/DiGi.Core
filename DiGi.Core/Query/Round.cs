@@ -8,6 +8,7 @@ namespace DiGi.Core
         /// Rounds the value to the nearest multiple of the tolerance using decimal precision.
         /// This prevents floating-point artifacts common in double arithmetic.
         /// </summary>
+        /// public static double Round(this double value, double tolerance)
         public static double Round(this double value, double tolerance)
         {
             // 1. Quick check for invalid inputs or zero tolerance to avoid DivisionByZero
@@ -16,28 +17,20 @@ namespace DiGi.Core
                 return value;
             }
 
-            try
+            if (value <= (double)decimal.MaxValue && value >= (double)decimal.MinValue &&
+                tolerance <= (double)decimal.MaxValue && tolerance >= (double)decimal.MinValue)
             {
                 // 2. Perform calculations using decimal to maintain high precision.
                 // We cast to decimal once per variable to minimize conversion overhead.
                 decimal mValue = (decimal)value;
                 decimal mTolerance = (decimal)tolerance;
 
-                // 3. Using MidpointRounding.AwayFromZero as it is standard in engineering (0.5 -> 1)
-                decimal quotient = mValue / mTolerance;
-                decimal roundedQuotient = Math.Round(quotient, MidpointRounding.AwayFromZero);
-
-                decimal result = roundedQuotient * mTolerance;
-
-                return (double)result;
+                return (double)(Math.Round(mValue / mTolerance, MidpointRounding.AwayFromZero) * mTolerance);
             }
-            catch (OverflowException)
-            {
-                // 4. Fallback for values outside decimal range (e.g., very large coordinates)
-                // In such cases, we revert to double-based math.
-                double quotient = value / tolerance;
-                return Math.Round(quotient, MidpointRounding.AwayFromZero) * tolerance;
-            }
+
+            // Fallback dla ogromnych wartości - tutaj używamy double, 
+            // bo decimal i tak by nie pomieścił tych liczb.
+            return Math.Round(value / tolerance, MidpointRounding.AwayFromZero) * tolerance;
         }
     }
 }

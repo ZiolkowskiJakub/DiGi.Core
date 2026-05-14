@@ -51,35 +51,49 @@ namespace DiGi.Core
                 nullable = true;
             }
 
-            if (type_Temp == typeof(string))
+            TypeCode typeCode = System.Type.GetTypeCode(type_Temp);
+            switch (typeCode)
             {
-                nullable = true;
-                return Enums.DataType.String;
-            }
+                case TypeCode.String:
+                    nullable = true;
+                    return Enums.DataType.String;
 
-            if (type_Temp == typeof(double))
-            {
-                return Enums.DataType.Double;
-            }
+                case TypeCode.Boolean:
+                    return Enums.DataType.Bool;
 
-            if (type_Temp == typeof(int))
-            {
-                return Enums.DataType.Int;
-            }
+                case TypeCode.Double:
+                    return Enums.DataType.Double;
 
-            if (type_Temp == typeof(bool))
-            {
-                return Enums.DataType.Bool;
-            }
+                case TypeCode.Int32:
+                    return Enums.DataType.Int;
 
-            if (type_Temp == typeof(Guid))
-            {
-                return Enums.DataType.Guid;
-            }
+                case TypeCode.Single:
+                    return Enums.DataType.Float;
 
-            if (type_Temp == typeof(DateTime))
-            {
-                return Enums.DataType.DateTime;
+                case TypeCode.Decimal:
+                    return Enums.DataType.Decimal;
+
+                case TypeCode.SByte:
+                    return Enums.DataType.SByte;
+
+                case TypeCode.Byte:
+                    return Enums.DataType.Byte;
+
+                case TypeCode.Int16:
+                    return Enums.DataType.Short;
+
+                case TypeCode.UInt32:
+                    return Enums.DataType.UInt;
+
+                case TypeCode.UInt16:
+                    return Enums.DataType.UShort;
+
+                case TypeCode.UInt64:
+                    return Enums.DataType.ULong;
+
+                case TypeCode.Int64:
+                    return Enums.DataType.Long;
+
             }
 
             if (type_Temp.IsEnum)
@@ -92,6 +106,16 @@ namespace DiGi.Core
                 return Enums.DataType.ValueType;
             }
 
+            if (type_Temp == typeof(Guid))
+            {
+                return Enums.DataType.Guid;
+            }
+
+            if (type_Temp == typeof(DateTime))
+            {
+                return Enums.DataType.DateTime;
+            }
+
             if (typeof(ISerializableObject).IsAssignableFrom(type_Temp))
             {
                 nullable = true;
@@ -102,51 +126,6 @@ namespace DiGi.Core
             {
                 nullable = true;
                 return Enums.DataType.Object;
-            }
-
-            if (type_Temp == typeof(float))
-            {
-                return Enums.DataType.Float;
-            }
-
-            if (type_Temp == typeof(decimal))
-            {
-                return Enums.DataType.Decimal;
-            }
-
-            if (type_Temp == typeof(sbyte))
-            {
-                return Enums.DataType.SByte;
-            }
-
-            if (type_Temp == typeof(byte))
-            {
-                return Enums.DataType.Byte;
-            }
-
-            if (type_Temp == typeof(short))
-            {
-                return Enums.DataType.Short;
-            }
-
-            if (type_Temp == typeof(ushort))
-            {
-                return Enums.DataType.UShort;
-            }
-
-            if (type_Temp == typeof(uint))
-            {
-                return Enums.DataType.UInt;
-            }
-
-            if (type_Temp == typeof(long))
-            {
-                return Enums.DataType.ULong;
-            }
-
-            if (type_Temp == typeof(ulong))
-            {
-                return Enums.DataType.ULong;
             }
 
             if (typeof(JsonNode).IsAssignableFrom(type_Temp))
