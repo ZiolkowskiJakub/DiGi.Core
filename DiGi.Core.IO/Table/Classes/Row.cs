@@ -165,6 +165,12 @@ namespace DiGi.Core.IO.Table.Classes
 
         }
 
+        public Row(int index)
+            : base(index)
+        {
+
+        }
+
         public override Row? Clone()
         {
             return new Row(this);
