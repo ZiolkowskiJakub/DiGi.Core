@@ -244,6 +244,11 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(dictionary);
         }
 
+        public void ClearRows()
+        {
+            rows.Clear();
+        }
+
         public TColumn? GetColumn(int index)
         {
             if (!columns.TryGetValue(index, out TColumn column))
@@ -293,7 +298,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             foreach (int index in rows.Keys)
             {
-                result[index] = rows[columnIndex][columnIndex];
+                result[index] = rows[index][columnIndex];
             }
 
             return result;
