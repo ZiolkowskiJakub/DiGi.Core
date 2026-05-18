@@ -142,7 +142,14 @@ namespace DiGi.Core.IO.Table.Classes
 
         public bool TryGetValue<T>(int index, out T? value)
         {
-            if (!DiGi.Core.Query.TryConvert(this[index], out value))
+            value = default;
+
+            if (!values.TryGetValue(index, out object? value_Temp))
+            {
+                return false;
+            }
+
+            if (!DiGi.Core.Query.TryConvert(value_Temp, out value))
             {
                 return false;
             }

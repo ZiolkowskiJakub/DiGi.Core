@@ -484,7 +484,7 @@ namespace DiGi.Core
         {
             result = null;
 
-            if (@object is null || @object is System.Type)
+            if (@object is null || @object is Type)
             {
                 return false;
             }
