@@ -280,6 +280,35 @@ namespace DiGi.Core.IO.Table.Classes
             return GetColumnIndex(name, (x, y) => DiGi.Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
+        public object?[]? GetColumnValues(int columnIndex)
+        {
+            if (rows.Count == 0)
+            {
+                return [];
+            }
+
+            int count = rows.Keys.Last() + 1;
+
+            object?[] result = new object[count];
+
+            foreach (int index in rows.Keys)
+            {
+                result[index] = rows[columnIndex][columnIndex];
+            }
+
+            return result;
+        }
+
+        public object?[]? GetColumnValues(TColumn? column)
+        {
+            if (column is null)
+            {
+                return null;
+            }
+
+            return GetColumnValues(column.Index);
+        }
+
         public IEnumerator<TRow> GetEnumerator()
         {
             return Rows.GetEnumerator();
@@ -384,14 +413,14 @@ namespace DiGi.Core.IO.Table.Classes
             }
 
             // 1. Identify unique indices to remove and sort them for consistency
-            List<int> targets = System.Linq.Enumerable.Distinct(indexes).OrderBy(x => x).ToList();
+            List<int> targets = [.. Enumerable.Distinct(indexes).OrderBy(x => x)];
             if (targets.Count == 0)
             {
-                return new List<int>();
+                return [];
             }
 
             // 2. Remove targeted columns from the dictionary
-            List<int> removedSuccessfully = new List<int>();
+            List<int> removedSuccessfully = [];
             foreach (int index in targets)
             {
                 if (columns.Remove(index))
@@ -407,8 +436,8 @@ namespace DiGi.Core.IO.Table.Classes
 
             // 3. Create a mapping from Old Index -> New Index for surviving columns
             // This is necessary to shift data inside the Rows
-            Dictionary<int, int> indexMap = new Dictionary<int, int>();
-            List<TColumn> remainingColumns = columns.Values.ToList();
+            Dictionary<int, int> indexMap = [];
+            List<TColumn> remainingColumns = [.. columns.Values];
 
             columns.Clear();
 
@@ -434,7 +463,7 @@ namespace DiGi.Core.IO.Table.Classes
                 if (row == null) continue;
 
                 // Capture current row data in a temporary dictionary to avoid overwrite conflicts during shifting
-                Dictionary<int, object?> tempRowData = new Dictionary<int, object?>();
+                Dictionary<int, object?> tempRowData = [];
                 foreach (int colIndex in row.Indexes)
                 {
                     tempRowData[colIndex] = row[colIndex];
@@ -463,7 +492,6 @@ namespace DiGi.Core.IO.Table.Classes
 
             return removedSuccessfully;
         }
-
 
         public bool RemoveRow(int index)
         {
