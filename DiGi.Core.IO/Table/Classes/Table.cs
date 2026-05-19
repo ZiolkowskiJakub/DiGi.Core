@@ -58,11 +58,11 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public object? this[int columnIndex, int rowIndex]
+        public object? this[int rowIndex, int columnIndex]
         {
             get
             {
-                if (!TryGetValue(columnIndex, rowIndex, out object? result))
+                    if (!TryGetValue(rowIndex, columnIndex, out object? result))
                 {
                     if (!columns.TryGetValue(columnIndex, out TColumn column) || column == null)
                     {
@@ -76,7 +76,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
-        public object? this[TColumn? column, TRow? row]
+        public object? this[TRow? row, TColumn? column]
         {
             get
             {
@@ -96,7 +96,7 @@ namespace DiGi.Core.IO.Table.Classes
                     return DiGi.Core.Query.Default(column.Type);
                 }
 
-                return this[columnIndex, row.Index];
+                    return this[row.Index, columnIndex];
             }
         }
 
@@ -249,6 +249,12 @@ namespace DiGi.Core.IO.Table.Classes
             rows.Clear();
         }
 
+        public void Clear()
+        {
+            rows.Clear();
+            columns.Clear();
+        }
+
         public TColumn? GetColumn(int index)
         {
             if (!columns.TryGetValue(index, out TColumn column))
@@ -354,19 +360,19 @@ namespace DiGi.Core.IO.Table.Classes
             return row.Clone();
         }
 
-        public object? GetValue(int columnIndex, int rowIndex)
+        public object? GetValue(int rowIndex, int columnIndex)
         {
-            return this[columnIndex, rowIndex];
+            return this[rowIndex, columnIndex];
         }
 
-        public object? GetValue(TColumn? column, TRow? row)
+        public object? GetValue(TRow? row, TColumn? column)
         {
-            return this[column, row];
+            return this[row, column];
         }
 
-        public T? GetValue<T>(int columnIndex, int rowIndex)
+        public T? GetValue<T>(int rowIndex, int columnIndex)
         {
-            if (!TryGetValue(columnIndex, rowIndex, out T? result))
+            if (!TryGetValue(rowIndex, columnIndex, out T ? result))
             {
                 return default;
             }
@@ -374,9 +380,9 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
 
-        public T? GetValue<T>(TColumn? column, Row? row)
+        public T? GetValue<T>(TRow? row, TColumn? column)
         {
-            if (!TryGetValue(column, row, out T? result))
+            if (!TryGetValue(row, column, out T ? result))
             {
                 return default;
             }
@@ -554,7 +560,7 @@ namespace DiGi.Core.IO.Table.Classes
             return result;
         }
 
-        public bool SetValue(int columnIndex, int rowIndex, object? value, bool tryConvert = true)
+        public bool SetValue(int rowIndex, int columnIndex, object? value, bool tryConvert = true)
         {
             if (!rows.TryGetValue(rowIndex, out TRow row) || row == null)
             {
@@ -601,7 +607,7 @@ namespace DiGi.Core.IO.Table.Classes
             return column.TryGetValidValue(@in, out @out, tryConvert);
         }
 
-        public bool TryGetValue<T>(int columnIndex, int rowIndex, out T? value)
+        public bool TryGetValue<T>(int rowIndex, int columnIndex, out T? value)
         {
             value = default;
 
@@ -618,7 +624,7 @@ namespace DiGi.Core.IO.Table.Classes
             return true;
         }
 
-        public bool TryGetValue<T>(TColumn? column, Row? row, out T? value)
+        public bool TryGetValue<T>(TRow? row, TColumn? column, out T? value)
         {
             value = default;
 
@@ -627,7 +633,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return false;
             }
 
-            return TryGetValue(column.Index, row.Index, out value);
+            return TryGetValue(row.Index, column.Index, out value);
         }
 
         public TColumn? UpdateColumn(int index, TColumn column, bool tryConvert = true)
