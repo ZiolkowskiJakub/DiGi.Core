@@ -1,5 +1,0 @@
-model: openai/gemma-4
-openai-api-base: http://localhost:1234/v1
-openai-api-key: no-key-required
-edit-format: whole
-stream: true

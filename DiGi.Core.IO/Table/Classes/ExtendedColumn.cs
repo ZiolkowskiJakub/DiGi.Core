@@ -27,6 +27,13 @@ namespace DiGi.Core.IO.Table.Classes
         {
         }
 
+        public ExtendedColumn(string? name, Type? type, string? category, string? description)
+            : base(name, type)
+        {
+            Category = category;
+            Description = description;
+        }
+
         public ExtendedColumn(ExtendedColumn? extendedColumn)
             : base(extendedColumn)
         {
