@@ -62,7 +62,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                    if (!TryGetValue(rowIndex, columnIndex, out object? result))
+                if (!TryGetValue(rowIndex, columnIndex, out object? result))
                 {
                     if (!columns.TryGetValue(columnIndex, out TColumn column) || column == null)
                     {

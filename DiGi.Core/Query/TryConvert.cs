@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -209,6 +210,71 @@ namespace DiGi.Core
             return TryConvert(@object, out result, Type(dataType));
         }
 
+        public static bool TryConvert(this JsonElement jsonElement, out object? result, Type type)
+        {
+            result = null;
+            object? rawValue = null;
+
+            // Use a switch on ValueKind to extract the underlying value from JsonElement
+            switch (jsonElement.ValueKind)
+            {
+                case System.Text.Json.JsonValueKind.Null:
+                    // For nullable types, null is a valid result
+                    if (type.IsNullable() || !type.IsValueType)
+                    {
+                        result = null;
+                        return true;
+                    }
+                    return false;
+
+                case System.Text.Json.JsonValueKind.Object:
+                    // For objects, we pass the raw JSON string to be handled by 
+                    // TryConvert_SerializableObject or TryConvert_JsonNode
+                    rawValue = jsonElement.GetRawText();
+                    break;
+
+                case System.Text.Json.JsonValueKind.Array:
+                    // Enumerable conversion expects an IEnumerable. 
+                    // We pass the JsonElement itself, assuming TryConvert_Enumerable 
+                    // can handle it or we convert it to a string/list.
+                    rawValue = jsonElement;
+                    break;
+
+                case System.Text.Json.JsonValueKind.String:
+                    // Extract the string without quotes for further parsing
+                    rawValue = jsonElement.GetString();
+                    break;
+
+                case System.Text.Json.JsonValueKind.Number:
+                    // We need to be careful with numbers. 
+                    // We can try to extract the most precise decimal and let TryConvert handle downcasting.
+                    if (jsonElement.TryGetDecimal(out decimal decimalValue))
+                    {
+                        rawValue = decimalValue;
+                    }
+                    else if (jsonElement.TryGetDouble(out double doubleValue))
+                    {
+                        rawValue = doubleValue;
+                    }
+                    break;
+
+                case System.Text.Json.JsonValueKind.True:
+                    rawValue = true;
+                    break;
+
+                case System.Text.Json.JsonValueKind.False:
+                    rawValue = false;
+                    break;
+
+                case System.Text.Json.JsonValueKind.Undefined:
+                default:
+                    return false;
+            }
+
+            // Now delegate the actual type conversion to the main TryConvert logic
+            return TryConvert(rawValue, out result, type);
+        }
+
         public static bool TryConvert_Boolean(object @object, out bool? result)
         {
             result = null;
@@ -243,6 +309,37 @@ namespace DiGi.Core
             {
                 result = jsonNode?.GetValue<bool>();
                 return true;
+            }
+
+            if (@object is JsonElement jsonElement)
+            {
+                switch (jsonElement.ValueKind)
+                {
+                    case System.Text.Json.JsonValueKind.True:
+                        result = true;
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.False:
+                        result = false;
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if(jsonElement.GetString() is not string value)
+                        {
+                            result = false;
+                            return false;
+                        }
+                        return TryConvert_Boolean(value, out result);
+
+                    case System.Text.Json.JsonValueKind.Number:
+                        // Handling cases where 1/0 is used for boolean in JSON
+                        if (jsonElement.TryGetInt64(out long @long))
+                        {
+                            result = (@long == 1);
+                            return true;
+                        }
+                        break;
+                }
             }
 
             return false;
@@ -290,6 +387,23 @@ namespace DiGi.Core
                             return true;
                         }
                         break;
+                }
+            }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetByte(out byte byteVal))
+                {
+                    result = byteVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Byte(value, out result);
                 }
             }
 
@@ -427,6 +541,20 @@ namespace DiGi.Core
                     return false;
                 }
             }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && jsonElement.TryGetDateTime(out DateTime dt))
+                {
+                    result = dt;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt64(out long ticks))
+                {
+                    // Handling ticks or Unix timestamps via the numeric path
+                    result = new DateTime(ticks);
+                    return true;
+                }
+            }
 
             return false;
         }
@@ -467,14 +595,27 @@ namespace DiGi.Core
                 result = @decimal;
                 return true;
             }
-            else if (@object is int)
+            else if (@object is int @int)
             {
-                int @int = 0;
-                if ((bool)@object)
-                    @int = 1;
-
                 result = System.Convert.ToDecimal(@int);
                 return true;
+            }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetDecimal(out decimal decVal))
+                {
+                    result = decVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Decimal(value, out result);
+                }
             }
 
             return false;
@@ -526,6 +667,19 @@ namespace DiGi.Core
                             return true;
                         }
                         break;
+                }
+            }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetDouble(out double doubleVal))
+                {
+                    result = doubleVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Double(jsonElement.GetString(), out double? stringDouble))
+                {
+                    result = stringDouble;
+                    return true;
                 }
             }
 
@@ -598,7 +752,7 @@ namespace DiGi.Core
 
                 if (int.TryParse(string_Normalized, out int index) && System.Enum.IsDefined(type, index))
                 {
-                    result = (Enum)array.GetValue(index);
+                    result = (Enum)System.Enum.ToObject(type, index);
                     return true;
                 }
             }
@@ -616,6 +770,29 @@ namespace DiGi.Core
                     }
                 }
             }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    @object_Temp = value;
+                }
+                else if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt32(out int intVal))
+                {
+                    @object_Temp = intVal;
+                }
+
+                if(object_Temp is null)
+                {
+                    return false;
+                }
+
+                return TryConvert_Enum(object_Temp, out result, type);
+            }
 
             return false;
         }
@@ -623,6 +800,12 @@ namespace DiGi.Core
         public static bool TryConvert_Enumerable(object @object, out IEnumerable? result, Type type)
         {
             result = default;
+
+            if (@object is JsonElement jsonElement && jsonElement.ValueKind == System.Text.Json.JsonValueKind.Array)
+            {
+                // We can treat JsonElement array as an IEnumerable of its elements
+                @object = jsonElement.EnumerateArray();
+            }
 
             if (type.IsArray)
             {
@@ -740,6 +923,23 @@ namespace DiGi.Core
                         break;
                 }
             }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetSingle(out float floatVal))
+                {
+                    result = floatVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Float(value, out result);
+                }
+            }
 
             return false;
         }
@@ -763,6 +963,15 @@ namespace DiGi.Core
                 if (Guid.TryParse(@string, out Guid guid))
                 {
                     result = guid;
+                    return true;
+                }
+            }
+
+            if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && jsonElement.TryGetGuid(out Guid guidVal))
+                {
+                    result = guidVal;
                     return true;
                 }
             }
@@ -807,6 +1016,21 @@ namespace DiGi.Core
                             return true;
                         }
                         break;
+                }
+            }
+
+            // Added: Support for JsonElement
+            if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt32(out int intVal))
+                {
+                    result = intVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Int(jsonElement.GetString(), out int? stringInt))
+                {
+                    result = stringInt;
+                    return true;
                 }
             }
 
@@ -863,20 +1087,42 @@ namespace DiGi.Core
                 }
             }
 
+            // Added: Support for JsonElement
+            if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt64(out long longVal))
+                {
+                    result = longVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Long(jsonElement.GetString(), out long? stringLong))
+                {
+                    result = stringLong;
+                    return true;
+                }
+            }
+
             return false;
         }
-
+        
         public static bool TryConvert_SerializableObject(object @object, out ISerializableObject? result, Type type)
         {
             result = null;
 
-            Type? type_Object = @object?.GetType();
+            object? @object_Temp = @object;
+
+            if (@object is JsonElement jsonElement)
+            {
+                @object_Temp = jsonElement.GetRawText();
+            }
+
+            Type? type_Object = @object_Temp?.GetType();
             if (type_Object == type || type == null)
             {
                 return false;
             }
 
-            if (@object is string @string)
+            if (@object_Temp is string @string)
             {
                 List<ISerializableObject>? serializableObjects = Convert.ToDiGi<ISerializableObject>(@string);
                 if (serializableObjects != null && serializableObjects.Count != 0)
@@ -925,7 +1171,7 @@ namespace DiGi.Core
             if (type_Object == typeof(Classes.Color))
             {
                 System.Drawing.Color color = System.Drawing.Color.Empty;
-                if (TryConvert(@object, out color))
+                if (TryConvert(@object_Temp, out color))
                 {
                     if (color == System.Drawing.Color.Empty)
                     {
@@ -940,7 +1186,7 @@ namespace DiGi.Core
 
             if (type_Object == typeof(System.Drawing.Color))
             {
-                result = new Classes.Color((System.Drawing.Color)@object!);
+                result = new Classes.Color((System.Drawing.Color)@object_Temp!);
                 return true;
             }
 
@@ -991,6 +1237,23 @@ namespace DiGi.Core
                         break;
                 }
             }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt16(out short shortVal))
+                {
+                    result = shortVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Short(value, out result);
+                }
+            }
 
             return false;
         }
@@ -1002,14 +1265,22 @@ namespace DiGi.Core
                 result = null;
                 return true;
             }
-            else if (@object is ISerializableObject serializable)
+            
+            if (@object is ISerializableObject serializable)
             {
                 result = serializable.ToJsonObject()?.ToString();
                 return true;
             }
-            else if (@object is JsonNode jsonNode)
+            
+            if (@object is JsonNode jsonNode)
             {
                 result = jsonNode.GetValue<string>();
+                return true;
+            }
+
+            if (@object is JsonElement jsonElement)
+            {
+                result = jsonElement.ValueKind == System.Text.Json.JsonValueKind.String ? jsonElement.GetString() : jsonElement.GetRawText();
                 return true;
             }
 
@@ -1100,6 +1371,23 @@ namespace DiGi.Core
                         break;
                 }
             }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetUInt32(out uint uintVal))
+                {
+                    result = uintVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Uint(value, out result);
+                }
+            }
 
             return false;
         }
@@ -1153,6 +1441,23 @@ namespace DiGi.Core
                         break;
                 }
             }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetUInt64(out ulong ulongVal))
+                {
+                    result = ulongVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if(jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Ulong(value, out result);
+                }
+            }
 
             return false;
         }
@@ -1199,6 +1504,23 @@ namespace DiGi.Core
                             return true;
                         }
                         break;
+                }
+            }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetUInt16(out ushort @ushort))
+                {
+                    result = @ushort;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if (jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Ushort(value, out result);
                 }
             }
 
