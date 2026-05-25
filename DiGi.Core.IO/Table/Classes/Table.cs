@@ -244,17 +244,17 @@ namespace DiGi.Core.IO.Table.Classes
             return AddRow(dictionary);
         }
 
-        public void ClearRows()
-        {
-            rows.Clear();
-        }
-
         public void Clear()
         {
             rows.Clear();
             columns.Clear();
         }
 
+        public void ClearRows()
+        {
+            rows.Clear();
+        }
+        
         public TColumn? GetColumn(int index)
         {
             if (!columns.TryGetValue(index, out TColumn column))
