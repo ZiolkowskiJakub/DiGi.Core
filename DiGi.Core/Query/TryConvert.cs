@@ -37,6 +37,11 @@ namespace DiGi.Core
                 return false;
             }
 
+            if (@object is Type)
+            {
+                return false;
+            }
+
             Type? type_Object = @object?.GetType();
             if (type_Object == type || type == null)
             {
@@ -512,6 +517,7 @@ namespace DiGi.Core
 
                         // We don't need Substring here; System.Text.Json.Nodes handles
                         // JSON quotes automatically during the ToString/GetValue call
+                        // string text = jsonNode.GetValue<string>();
                         if (DateTime.TryParse(text, out DateTime dateTime))
                         {
                             result = dateTime;
@@ -575,9 +581,9 @@ namespace DiGi.Core
 
             if (@object is string @string)
             {
-                if (TryParseDouble(@string, out double @double))
+                if (decimal.TryParse(@string, out decimal @decimal))
                 {
-                    result = System.Convert.ToDecimal(@double);
+                    result = @decimal;
                     return true;
                 }
             }
@@ -1117,9 +1123,15 @@ namespace DiGi.Core
             }
 
             Type? type_Object = @object_Temp?.GetType();
-            if (type_Object == type || type == null)
+            if (type == null)
+                {
+                    return false;
+                }
+
+            if (type_Object == type)
             {
-                return false;
+                result = (ISerializableObject)@object_Temp!;
+                return true;
             }
 
             if (@object_Temp is string @string)
@@ -1315,8 +1327,8 @@ namespace DiGi.Core
 
             if (@object is string @string && !string.IsNullOrWhiteSpace(@string))
             {
-                result = Type(@string);
-                return true;
+                    result = System.Type.GetType(@string);
+                    return true;
             }
 
             return false;

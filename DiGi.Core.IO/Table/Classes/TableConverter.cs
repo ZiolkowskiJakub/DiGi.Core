@@ -1,5 +1,5 @@
 ﻿using DiGi.Core.IO.Table.Interfaces;
-using DiGi.Core.Interfaces; // Dla ISerializableObject
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +14,9 @@ namespace DiGi.Core.IO.Table.Classes
         where UColumn : IColumn
         where URow : IRow<URow>
     {
-        public override UTable? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override UTable? Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject)
             {
                 throw new JsonException();
             }
@@ -25,21 +25,21 @@ namespace DiGi.Core.IO.Table.Classes
             string columnsName = nameof(ITable<,>.Columns);
             string rowsName = nameof(ITable<,>.Rows);
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject)
+                if (utf8JsonReader.TokenType == JsonTokenType.EndObject)
                 {
                     return table;
                 }
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName)
                 {
-                    string? propertyName = reader.GetString();
-                    reader.Read();
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     if (propertyName == columnsName)
                     {
-                        List<JsonObject>? jsonObjects = JsonSerializer.Deserialize<List<JsonObject>>(ref reader, options);
+                        List<JsonObject>? jsonObjects = JsonSerializer.Deserialize<List<JsonObject>>(ref utf8JsonReader, jsonSerializerOptions);
                         if (jsonObjects != null)
                         {
                             foreach (JsonObject jsonObject in jsonObjects)
@@ -54,50 +54,36 @@ namespace DiGi.Core.IO.Table.Classes
                     }
                     else if (propertyName == rowsName)
                     {
-                        var columnTypes = table.Columns.Select(c => c.Type).ToList();
-                        if (reader.TokenType == JsonTokenType.StartArray)
+                        List<Type?> types = [.. table.Columns.Select(c => c.Type)];
+                        if (utf8JsonReader.TokenType == JsonTokenType.StartArray)
                         {
-                            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+                            while (utf8JsonReader.Read() && utf8JsonReader.TokenType != JsonTokenType.EndArray)
                             {
-                                var rawElements = JsonSerializer.Deserialize<List<JsonElement>>(ref reader, options);
-                                if (rawElements != null)
+                                List<JsonElement>? jsonElements = JsonSerializer.Deserialize<List<JsonElement>>(ref utf8JsonReader, jsonSerializerOptions);
+                                if (jsonElements is null)
                                 {
-                                    var typedValues = new List<object?>();
-                                    for (int i = 0; i < rawElements.Count; i++)
-                                    {
-                                        typedValues.Add(ConvertToType(rawElements[i], columnTypes[i], options));
-                                    }
-                                    table.AddRow(typedValues);
+                                    continue;
                                 }
+
+                                List<object?> values = [];
+                                for (int i = 0; i < jsonElements.Count; i++)
+                                {
+                                    if (DiGi.Core.Query.TryConvert(jsonElements[i], out object? value, types[i] ?? typeof(object)))
+                                    {
+                                        values.Add(value);
+                                    }
+                                    else
+                                    {
+                                        values.Add(null);
+                                    }
+                                }
+                                table.AddRow(values);
                             }
                         }
                     }
                 }
             }
             return table;
-        }
-
-        private object? ConvertToType(JsonElement element, Type targetType, JsonSerializerOptions options)
-        {
-            if (element.ValueKind == JsonValueKind.Null) return null;
-
-            // Sprawdzamy, czy targetType implementuje ISerializableObject
-            if (typeof(ISerializableObject).IsAssignableFrom(targetType))
-            {
-                var instance = (ISerializableObject)Activator.CreateInstance(targetType)!;
-                var jsonNode = JsonSerializer.Deserialize<JsonObject>(element.GetRawText(), options);
-                instance.FromJsonObject(jsonNode);
-                return instance;
-            }
-
-            // Standardowa konwersja dla typów prostych
-            if (targetType == typeof(int)) return element.GetInt32();
-            if (targetType == typeof(string)) return element.GetString();
-            if (targetType == typeof(bool)) return element.GetBoolean();
-            if (targetType == typeof(double)) return element.GetDouble();
-            if (targetType == typeof(decimal)) return element.GetDecimal();
-
-            return JsonSerializer.Deserialize(element.GetRawText(), targetType, options);
         }
 
         public override void Write(Utf8JsonWriter utf8JsonWriter, UTable table, JsonSerializerOptions jsonSerializerOptions)
