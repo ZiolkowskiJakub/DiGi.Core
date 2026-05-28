@@ -1,5 +1,5 @@
-﻿using DiGi.Core.IO.Table.Interfaces;
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Core.IO.Table.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace DiGi.Core.IO.Table.Classes
                             foreach (JsonObject jsonObject in jsonObjects)
                             {
                                 UColumn? column = DiGi.Core.Create.SerializableObject<UColumn>(jsonObject);
-                                if(column is not null)
+                                if (column is not null)
                                 {
                                     table.AddColumn(column);
                                 }
@@ -95,7 +95,7 @@ namespace DiGi.Core.IO.Table.Classes
             utf8JsonWriter.WriteStartArray();
             foreach (UColumn column in table.Columns)
             {
-                if(column is null)
+                if (column is null)
                 {
                     continue;
                 }

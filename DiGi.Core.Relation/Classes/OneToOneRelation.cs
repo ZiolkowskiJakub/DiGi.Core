@@ -74,8 +74,8 @@ namespace DiGi.Core.Relation.Classes
         {
         }
 
-        [JsonIgnore]
         /// <summary>Gets the unique reference from the source object.</summary>
+        [JsonIgnore]
         public IUniqueReference? UniqueReference_From
         {
             get
@@ -84,8 +84,8 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        [JsonIgnore]
         /// <summary>Gets the unique reference to the target object.</summary>
+        [JsonIgnore]
         public IUniqueReference? UniqueReference_To
         {
             get
@@ -94,8 +94,8 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
-        [JsonIgnore]
         /// <summary>Gets a list containing all unique references in this relation.</summary>
+        [JsonIgnore]
         public override List<IUniqueReference>? UniqueReferences
         {
             get

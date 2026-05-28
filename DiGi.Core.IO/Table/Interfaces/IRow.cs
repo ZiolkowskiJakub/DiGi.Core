@@ -20,6 +20,5 @@ namespace DiGi.Core.IO.Table.Interfaces
 
     public interface IRow<out TRow> : IRow, ICloneableObject<TRow> where TRow : IRow<TRow>
     {
-
     }
 }

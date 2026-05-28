@@ -161,21 +161,18 @@ namespace DiGi.Core.IO.Table.Classes
     public sealed class Row : Row<Row>
     {
         public Row(int index, IDictionary<int, object?>? values)
-            : base (index, values)
+            : base(index, values)
         {
-
         }
 
         public Row(Row row)
             : base(row)
         {
-
         }
 
         public Row(int index)
             : base(index)
         {
-
         }
 
         public override Row? Clone()

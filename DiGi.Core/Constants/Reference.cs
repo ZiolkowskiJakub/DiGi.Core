@@ -19,10 +19,12 @@
             /// Format for unique identifiers.
             /// </summary>
             public const string UniqueId = "\"{0}\"";
+
             /// <summary>
             /// Format for GUIDs.
             /// </summary>
             public const string Guid = "{0}";
+
             /// <summary>
             /// Format for properties.
             /// </summary>

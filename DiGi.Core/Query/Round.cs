@@ -28,7 +28,7 @@ namespace DiGi.Core
                 return (double)(Math.Round(mValue / mTolerance, MidpointRounding.AwayFromZero) * mTolerance);
             }
 
-            // Fallback dla ogromnych wartości - tutaj używamy double, 
+            // Fallback dla ogromnych wartości - tutaj używamy double,
             // bo decimal i tak by nie pomieścił tych liczb.
             return Math.Round(value / tolerance, MidpointRounding.AwayFromZero) * tolerance;
         }

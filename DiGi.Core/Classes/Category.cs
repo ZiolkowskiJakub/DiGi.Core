@@ -76,10 +76,11 @@ namespace DiGi.Core.Classes
             }
         }
 
-        [JsonIgnore]
+
         /// <summary>
         /// Gets the name of the category.
         /// </summary>
+        [JsonIgnore]
         public string? Name
         {
             get
@@ -88,10 +89,11 @@ namespace DiGi.Core.Classes
             }
         }
 
-        [JsonInclude, JsonPropertyName("SubCategories"), Description("Category SubCategories")]
+
         /// <summary>
         /// Gets or sets the list of subcategories.
         /// </summary>
+        [JsonInclude, JsonPropertyName("SubCategories"), Description("Category SubCategories")]
         public List<Category>? SubCategories
         {
             get

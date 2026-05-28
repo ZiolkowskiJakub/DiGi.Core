@@ -45,7 +45,6 @@ namespace DiGi.Core.Relation.Classes
         [JsonInclude, JsonPropertyName("UniqueReferences_From")]
         private List<IUniqueReference>? uniqueReferences_From;
 
-
         /// <summary>Creates a new instance of the ManyToOneRelation class from unique references.</summary>
         public ManyToOneRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IUniqueReference? uniqueReference_To)
             : base()

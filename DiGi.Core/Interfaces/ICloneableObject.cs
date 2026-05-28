@@ -1,9 +1,7 @@
-﻿
-namespace DiGi.Core.Interfaces
+﻿namespace DiGi.Core.Interfaces
 {
     public interface ICloneableObject : IObject
     {
-
     }
 
     public interface ICloneableObject<out TCloneableObject> : ICloneableObject where TCloneableObject : ICloneableObject<TCloneableObject>

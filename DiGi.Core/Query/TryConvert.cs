@@ -233,14 +233,14 @@ namespace DiGi.Core
                     return false;
 
                 case System.Text.Json.JsonValueKind.Object:
-                    // For objects, we pass the raw JSON string to be handled by 
+                    // For objects, we pass the raw JSON string to be handled by
                     // TryConvert_SerializableObject or TryConvert_JsonNode
                     rawValue = jsonElement.GetRawText();
                     break;
 
                 case System.Text.Json.JsonValueKind.Array:
-                    // Enumerable conversion expects an IEnumerable. 
-                    // We pass the JsonElement itself, assuming TryConvert_Enumerable 
+                    // Enumerable conversion expects an IEnumerable.
+                    // We pass the JsonElement itself, assuming TryConvert_Enumerable
                     // can handle it or we convert it to a string/list.
                     rawValue = jsonElement;
                     break;
@@ -251,7 +251,7 @@ namespace DiGi.Core
                     break;
 
                 case System.Text.Json.JsonValueKind.Number:
-                    // We need to be careful with numbers. 
+                    // We need to be careful with numbers.
                     // We can try to extract the most precise decimal and let TryConvert handle downcasting.
                     if (jsonElement.TryGetDecimal(out decimal decimalValue))
                     {
@@ -329,7 +329,7 @@ namespace DiGi.Core
                         return true;
 
                     case System.Text.Json.JsonValueKind.String:
-                        if(jsonElement.GetString() is not string value)
+                        if (jsonElement.GetString() is not string value)
                         {
                             result = false;
                             return false;
@@ -403,7 +403,7 @@ namespace DiGi.Core
                 }
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }
@@ -615,7 +615,7 @@ namespace DiGi.Core
                 }
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }
@@ -780,7 +780,7 @@ namespace DiGi.Core
             {
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }
@@ -792,7 +792,7 @@ namespace DiGi.Core
                     @object_Temp = intVal;
                 }
 
-                if(object_Temp is null)
+                if (object_Temp is null)
                 {
                     return false;
                 }
@@ -938,7 +938,7 @@ namespace DiGi.Core
                 }
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }
@@ -1110,7 +1110,7 @@ namespace DiGi.Core
 
             return false;
         }
-        
+
         public static bool TryConvert_SerializableObject(object @object, out ISerializableObject? result, Type type)
         {
             result = null;
@@ -1124,9 +1124,9 @@ namespace DiGi.Core
 
             Type? type_Object = @object_Temp?.GetType();
             if (type == null)
-                {
-                    return false;
-                }
+            {
+                return false;
+            }
 
             if (type_Object == type)
             {
@@ -1258,7 +1258,7 @@ namespace DiGi.Core
                 }
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }
@@ -1277,13 +1277,13 @@ namespace DiGi.Core
                 result = null;
                 return true;
             }
-            
+
             if (@object is ISerializableObject serializable)
             {
                 result = serializable.ToJsonObject()?.ToString();
                 return true;
             }
-            
+
             if (@object is JsonNode jsonNode)
             {
                 result = jsonNode.GetValue<string>();
@@ -1327,8 +1327,8 @@ namespace DiGi.Core
 
             if (@object is string @string && !string.IsNullOrWhiteSpace(@string))
             {
-                    result = System.Type.GetType(@string);
-                    return true;
+                result = System.Type.GetType(@string);
+                return true;
             }
 
             return false;
@@ -1392,7 +1392,7 @@ namespace DiGi.Core
                 }
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }
@@ -1462,7 +1462,7 @@ namespace DiGi.Core
                 }
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if(jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is not string value)
                     {
                         return false;
                     }

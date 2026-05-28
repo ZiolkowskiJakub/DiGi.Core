@@ -93,7 +93,6 @@ namespace DiGi.Core
 
                 case TypeCode.Int64:
                     return Enums.DataType.Long;
-
             }
 
             if (type_Temp.IsEnum)

@@ -8,8 +8,10 @@ namespace DiGi.Core.Relation.Enums
     {
         /// <summary>The side is undefined.</summary>
         [Description("Undefined")] Undefined,
+
         /// <summary>The "from" side of the relation.</summary>
         [Description("From")] From,
+
         /// <summary>The "to" side of the relation.</summary>
         [Description("To")] To,
     }

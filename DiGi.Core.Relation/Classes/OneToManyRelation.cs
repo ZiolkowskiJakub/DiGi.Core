@@ -39,8 +39,6 @@ namespace DiGi.Core.Relation.Classes
     /// <summary>Represents an abstract one-to-many relationship between two types of unique objects.</summary>
     public abstract class OneToManyRelation<From, To> : Relation<From, To>, IOneToManyRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
-
-
         /// <summary>Creates a new instance of the OneToManyRelation class from unique objects.</summary>
         public OneToManyRelation(From? uniqueObject_From, IEnumerable<To>? uniqueObjects_To)
             : base()
@@ -118,7 +116,6 @@ namespace DiGi.Core.Relation.Classes
 
         [JsonInclude, JsonPropertyName("UniqueReferences_To")]
         private List<IUniqueReference>? uniqueReferences_To;
-
 
         /// <summary>Gets the unique reference from the source object.</summary>
         [JsonIgnore]

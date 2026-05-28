@@ -14,6 +14,7 @@
             /// Positive infinity literal.
             /// </summary>
             public const string PositiveInfinity = "Infinity";
+
             /// <summary>
             /// Negative infinity literal.
             /// </summary>
@@ -29,18 +30,22 @@
             /// Type property name.
             /// </summary>
             public const string Type = "_type";
+
             /// <summary>
             /// Guid property name.
             /// </summary>
             public const string Guid = "Guid";
+
             /// <summary>
             /// UniqueId property name.
             /// </summary>
             public const string UniqueId = "UniqueId";
+
             /// <summary>
             /// ValueType property name.
             /// </summary>
             public const string ValueType = "ValueType";
+
             /// <summary>
             /// Value property name.
             /// </summary>

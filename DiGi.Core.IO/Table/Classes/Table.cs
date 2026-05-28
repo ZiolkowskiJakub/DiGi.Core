@@ -96,7 +96,7 @@ namespace DiGi.Core.IO.Table.Classes
                     return DiGi.Core.Query.Default(column.Type);
                 }
 
-                    return this[row.Index, columnIndex];
+                return this[row.Index, columnIndex];
             }
         }
 
@@ -254,7 +254,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             rows.Clear();
         }
-        
+
         public TColumn? GetColumn(int index)
         {
             if (!columns.TryGetValue(index, out TColumn column))
@@ -372,7 +372,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public T? GetValue<T>(int rowIndex, int columnIndex)
         {
-            if (!TryGetValue(rowIndex, columnIndex, out T ? result))
+            if (!TryGetValue(rowIndex, columnIndex, out T? result))
             {
                 return default;
             }
@@ -382,7 +382,7 @@ namespace DiGi.Core.IO.Table.Classes
 
         public T? GetValue<T>(TRow? row, TColumn? column)
         {
-            if (!TryGetValue(row, column, out T ? result))
+            if (!TryGetValue(row, column, out T? result))
             {
                 return default;
             }
@@ -541,12 +541,11 @@ namespace DiGi.Core.IO.Table.Classes
 
             rows.Clear();
 
-            
             for (int i = 0; i < count; i++)
             {
                 Dictionary<int, object?> dictionary = [];
                 TRow row = rows_All[i];
-                if(row is not null)
+                if (row is not null)
                 {
                     foreach (int index in row.Indexes)
                     {
@@ -728,7 +727,6 @@ namespace DiGi.Core.IO.Table.Classes
     {
         public Table()
         {
-
         }
 
         public Table(IEnumerable<TColumn> columns)
