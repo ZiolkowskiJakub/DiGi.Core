@@ -682,7 +682,13 @@ namespace DiGi.Core
                     result = doubleVal;
                     return true;
                 }
-                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Double(jsonElement.GetString(), out double? stringDouble))
+
+                if(jsonElement.GetString() is not string value)
+                {
+                    return false;
+                }
+
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Double(value, out double? stringDouble))
                 {
                     result = stringDouble;
                     return true;
@@ -1033,7 +1039,13 @@ namespace DiGi.Core
                     result = intVal;
                     return true;
                 }
-                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Int(jsonElement.GetString(), out int? stringInt))
+
+                if(jsonElement.GetString() is not string value)
+                {
+                    return false;
+                }
+
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Int(value, out int? stringInt))
                 {
                     result = stringInt;
                     return true;
@@ -1101,7 +1113,13 @@ namespace DiGi.Core
                     result = longVal;
                     return true;
                 }
-                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Long(jsonElement.GetString(), out long? stringLong))
+
+                if(jsonElement.GetString() is not string value)
+                {
+                    return false;
+                }
+
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Long(value, out long? stringLong))
                 {
                     result = stringLong;
                     return true;

@@ -56,8 +56,7 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Reads a row of data from a CSV file
         /// </summary>
-        /// <param name="delimitedDataRow"></param>
-        /// <returns></returns>
+        /// <returns>DelimitedDataRow</returns>
         public DelimitedDataRow? ReadRow()
         {
             List<string>? values = Query.Values(ReadLine(), separator, () => ReadLine());

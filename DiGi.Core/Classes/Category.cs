@@ -7,10 +7,10 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    [Description("Category")]
     /// <summary>
     /// Represents a named category that can contain hierarchical subcategories.
     /// </summary>
+    [Description("Category")]
     public class Category : SerializableObject, IEquatable<Category>
     {
         [JsonInclude, JsonPropertyName("Name"), Description("Category Name")]
