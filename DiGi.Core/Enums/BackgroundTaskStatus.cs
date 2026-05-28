@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Enums
 {
+    /// <summary>
+    /// Defines the status of a background task.
+    /// </summary>
     [Description("Background Task Status")]
     public enum BackgroundTaskStatus
     {

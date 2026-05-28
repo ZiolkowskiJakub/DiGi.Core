@@ -8,37 +8,40 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
+    /// <summary>Represents an abstract one-to-many relationship between unique objects.</summary>
     public abstract class OneToManyRelation : OneToManyRelation<IUniqueObject, IUniqueObject>
     {
+        /// <summary>Creates a new instance of the OneToManyRelation class from unique objects.</summary>
         public OneToManyRelation(IUniqueObject? uniqueObject_From, IEnumerable<IUniqueObject>? uniqueObjects_To)
             : base(uniqueObject_From, uniqueObjects_To)
         {
         }
 
+        /// <summary>Creates a new instance of the OneToManyRelation class from unique references.</summary>
         public OneToManyRelation(IUniqueReference? uniqueReference_From, IEnumerable<IUniqueReference>? uniqueReferences_To)
             : base(uniqueReference_From, uniqueReferences_To)
         {
         }
 
+        /// <summary>Creates a new instance of the OneToManyRelation class by copying another instance.</summary>
         public OneToManyRelation(OneToManyRelation? oneToManyRelation)
             : base(oneToManyRelation)
         {
         }
 
+        /// <summary>Creates a new instance of the OneToManyRelation class from a JSON object.</summary>
         public OneToManyRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
     }
 
+    /// <summary>Represents an abstract one-to-many relationship between two types of unique objects.</summary>
     public abstract class OneToManyRelation<From, To> : Relation<From, To>, IOneToManyRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
-        [JsonInclude, JsonPropertyName("UniqueReference_From")]
-        private IUniqueReference? uniqueReference_From;
 
-        [JsonInclude, JsonPropertyName("UniqueReferences_To")]
-        private List<IUniqueReference>? uniqueReferences_To;
 
+        /// <summary>Creates a new instance of the OneToManyRelation class from unique objects.</summary>
         public OneToManyRelation(From? uniqueObject_From, IEnumerable<To>? uniqueObjects_To)
             : base()
         {
@@ -59,6 +62,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Creates a new instance of the OneToManyRelation class from unique references.</summary>
         public OneToManyRelation(IUniqueReference? uniqueReference_From, IEnumerable<IUniqueReference>? uniqueReferences_To)
             : base()
         {
@@ -79,6 +83,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Creates a new instance of the OneToManyRelation class by copying another instance.</summary>
         public OneToManyRelation(OneToManyRelation<From, To>? oneToManyRelation)
             : base()
         {
@@ -102,11 +107,20 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Creates a new instance of the OneToManyRelation class from a JSON object.</summary>
         public OneToManyRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        [JsonInclude, JsonPropertyName("UniqueReference_From")]
+        private IUniqueReference? uniqueReference_From;
+
+        [JsonInclude, JsonPropertyName("UniqueReferences_To")]
+        private List<IUniqueReference>? uniqueReferences_To;
+
+
+        /// <summary>Gets the unique reference from the source object.</summary>
         [JsonIgnore]
         public IUniqueReference? UniqueReference_From
         {
@@ -116,6 +130,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Gets a list containing all unique references in this relation.</summary>
         [JsonIgnore]
         public override List<IUniqueReference>? UniqueReferences
         {
@@ -147,6 +162,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Gets a list of unique references on the "to" side of the relation.</summary>
         [JsonIgnore]
         public List<IUniqueReference>? UniqueReferences_To
         {
@@ -170,6 +186,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Adds a unique reference to the specified side of the relation.</summary>
         public override bool Add(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null || relationSide == RelationSide.Undefined)
@@ -194,6 +211,7 @@ namespace DiGi.Core.Relation.Classes
             return false;
         }
 
+        /// <summary>Determines whether the relation contains the specified unique reference on the given side.</summary>
         public override bool Contains(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null)
@@ -221,6 +239,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Determines whether the relation has a reference on the specified side.</summary>
         public override bool Has(RelationSide relationSide)
         {
             bool result = false;
@@ -243,6 +262,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Removes a unique reference from the specified side of the relation.</summary>
         public override bool Remove(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null)
@@ -271,6 +291,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Removes multiple unique references from the specified side of the relation.</summary>
         public override List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)

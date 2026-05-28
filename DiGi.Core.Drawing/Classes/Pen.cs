@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Drawing.Classes
 {
+    /// <summary>
+    /// Represents a pen with a color and thickness.
+    /// </summary>
     public class Pen : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Color")]
@@ -12,6 +15,11 @@ namespace DiGi.Core.Drawing.Classes
         [JsonInclude, JsonPropertyName("Thickness")]
         private readonly double thickness;
 
+        /// <summary>
+        /// Initializes a new instance of the Pen class with specified color and thickness.
+        /// </summary>
+        /// <param name="color">The color of the pen.</param>
+        /// <param name="thickness">The thickness of the pen.</param>
         public Pen(Color? color, double thickness)
             : base()
         {
@@ -19,6 +27,10 @@ namespace DiGi.Core.Drawing.Classes
             this.thickness = thickness;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Pen class by copying another pen.
+        /// </summary>
+        /// <param name="pen">The source pen to copy from.</param>
         public Pen(Pen? pen)
             : base(pen)
         {
@@ -29,11 +41,18 @@ namespace DiGi.Core.Drawing.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Pen class from a JsonObject.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing pen data.</param>
         public Pen(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the color of the pen.
+        /// </summary>
         public Color? Color
         {
             get
@@ -42,6 +61,9 @@ namespace DiGi.Core.Drawing.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the thickness of the pen.
+        /// </summary>
         public double Thickness
         {
             get

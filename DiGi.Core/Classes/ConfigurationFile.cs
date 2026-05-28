@@ -5,11 +5,18 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Manages the reading, writing, and retrieval of key-value pair configuration settings from a file.
+    /// </summary>
     public class ConfigurationFile : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Dictionary")]
         private readonly Dictionary<string, string> dictionary = [];
 
+        /// <summary>
+        /// Initializes a new instance of the ConfigurationFile class by copying settings from another instance.
+        /// </summary>
+        /// <param name="configurationFile">The source configuration file to copy from.</param>
         public ConfigurationFile(ConfigurationFile? configurationFile)
             : base()
         {
@@ -25,15 +32,25 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the ConfigurationFile class from a JsonObject.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing configuration data.</param>
         public ConfigurationFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new empty instance of the ConfigurationFile class.
+        /// </summary>
         public ConfigurationFile()
         {
         }
 
+        /// <summary>
+        /// Gets the list of all configuration key names.
+        /// </summary>
         [JsonIgnore]
         public List<string> Names
         {
@@ -43,6 +60,12 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Adds or removes a boolean configuration setting.
+        /// </summary>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="value">The value to set, or null to remove the setting.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         public bool Add(string name, bool? value)
         {
             if (name == null)
@@ -59,6 +82,12 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Adds or removes a string configuration setting.
+        /// </summary>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="value">The value to set, or null to remove the setting.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         public bool Add(string name, string? value)
         {
             if (name == null)
@@ -75,6 +104,12 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Adds or removes a double configuration setting.
+        /// </summary>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="value">The value to set, or null to remove the setting.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         public bool Add(string name, double? value)
         {
             if (name == null)
@@ -97,6 +132,12 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Adds or removes an integer configuration setting.
+        /// </summary>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="value">The value to set, or null to remove the setting.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         public bool Add(string name, int? value)
         {
             if (name == null)
@@ -113,6 +154,11 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Appends settings from another configuration file instance to this one.
+        /// </summary>
+        /// <param name="configurationFile">The source configuration file.</param>
+        /// <returns>True if any settings were appended; otherwise, false.</returns>
         public bool Append(ConfigurationFile? configurationFile)
         {
             if (configurationFile?.dictionary is not Dictionary<string, string> dictionary)
@@ -131,6 +177,12 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Checks if a configuration setting exists by its name.
+        /// </summary>
+        /// <param name="name">The key to look for.</param>
+        /// <param name="caseSensitive">Whether the search should be case-sensitive.</param>
+        /// <returns>True if the key exists; otherwise, false.</returns>
         public bool Contains(string? name, bool caseSensitive = false)
         {
             if (name is null)
@@ -149,6 +201,13 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a configuration value and attempts to cast it to type T.
+        /// </summary>
+        /// <typeparam name="T">The target type.</typeparam>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="caseSensitive">Whether the search should be case-sensitive.</param>
+        /// <returns>The value cast to T, or default if not found or conversion fails.</returns>
         public T? GetValue<T>(string name, bool caseSensitive = false)
         {
             if (!TryGetValue(name, out T? result, caseSensitive))
@@ -159,6 +218,14 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a configuration value and attempts to cast it to type T, or returns a default value.
+        /// </summary>
+        /// <typeparam name="T">The target type.</typeparam>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="defaultValue">The value to return if not found or conversion fails.</param>
+        /// <param name="caseSensitive">Whether the search should be case-sensitive.</param>
+        /// <returns>The retrieved value cast to T, or the defaultValue.</returns>
         public T? GetValue<T>(string name, T? defaultValue, bool caseSensitive = false)
         {
             if (!TryGetValue(name, out T? result, caseSensitive))
@@ -169,6 +236,12 @@ namespace DiGi.Core.Classes
             return defaultValue;
         }
 
+        /// <summary>
+        /// Retrieves a configuration value as an object.
+        /// </summary>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="caseSensitive">Whether the search should be case-sensitive.</param>
+        /// <returns>The retrieved value, or null if not found.</returns>
         public object? GetValue(string name, bool caseSensitive = false)
         {
             if (!TryGetValue(name, out object? result, caseSensitive))
@@ -179,6 +252,11 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Reads configuration settings from a file at the specified path.
+        /// </summary>
+        /// <param name="path">The absolute or relative path to the configuration file.</param>
+        /// <returns>True if the file was read successfully; otherwise, false.</returns>
         public bool Read(string path)
         {
             if (path == null || !System.IO.File.Exists(path))
@@ -195,6 +273,11 @@ namespace DiGi.Core.Classes
             return Read(lines);
         }
 
+        /// <summary>
+        /// Reads configuration settings from an array of strings (lines).
+        /// </summary>
+        /// <param name="lines">The lines to parse as key-value pairs.</param>
+        /// <returns>True if at least one setting was read successfully; otherwise, false.</returns>
         public bool Read(string[]? lines)
         {
             if (lines == null || lines.Length == 0)
@@ -227,6 +310,11 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes a configuration setting by its name.
+        /// </summary>
+        /// <param name="name">The key of the setting to remove.</param>
+        /// <returns>True if the setting was removed; otherwise, false.</returns>
         public bool Remove(string name)
         {
             if (name == null)
@@ -239,6 +327,14 @@ namespace DiGi.Core.Classes
             return dictionary.Remove(name_Temp);
         }
 
+        /// <summary>
+        /// Attempts to retrieve a configuration value and convert it to type T.
+        /// </summary>
+        /// <typeparam name="T">The target type.</typeparam>
+        /// <param name="name">The key of the setting.</param>
+        /// <param name="value">The converted value, if successful.</param>
+        /// <param name="caseSensitive">Whether the search should be case-sensitive.</param>
+        /// <returns>True if the value was found and successfully converted; otherwise, false.</returns>
         public bool TryGetValue<T>(string name, out T? value, bool caseSensitive = false)
         {
             value = default;
@@ -276,6 +372,11 @@ namespace DiGi.Core.Classes
             return Query.TryConvert(text, out value);
         }
 
+        /// <summary>
+        /// Writes the current configuration settings to a file at the specified path.
+        /// </summary>
+        /// <param name="path">The path where the configuration file should be written.</param>
+        /// <returns>True if the file was written successfully; otherwise, false.</returns>
         public bool Write(string path)
         {
             if (string.IsNullOrWhiteSpace(path))

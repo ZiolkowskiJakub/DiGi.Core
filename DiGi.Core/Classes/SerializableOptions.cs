@@ -3,6 +3,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Abstract base class for serializable configuration or option objects.
+    /// </summary>
     public abstract class SerializableOptions : SerializableObject, ISerializableOptions
     {
         public SerializableOptions()

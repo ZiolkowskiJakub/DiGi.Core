@@ -8,21 +8,33 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a serializable object to its JSON string representation using default options.
+        /// </summary>
         public static string? ToSystem_String(this ISerializableObject? serializableObject)
         {
             return ToSystem_String(serializableObject, Settings.SerializationManager.JsonSerializerOptions);
         }
 
+        /// <summary>
+        /// Converts a collection of serializable objects to a JSON string representation using default options.
+        /// </summary>
         public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects)
         {
             return ToSystem_String(serializableObjects, null);
         }
 
+        /// <summary>
+        /// Converts a collection of objects implementing ISerializableObject to a JSON string representation using default options.
+        /// </summary>
         public static string? ToSystem_String<T>(this IEnumerable<T>? serializableObjects) where T : ISerializableObject
         {
             return ToSystem_String(serializableObjects, null);
         }
 
+        /// <summary>
+        /// Converts a serializable object to its JSON string representation using specified options.
+        /// </summary>
         public static string? ToSystem_String(this ISerializableObject? serializableObject, JsonSerializerOptions? jsonSerializerOptions)
         {
             if (serializableObject == null)
@@ -40,6 +52,9 @@ namespace DiGi.Core
             //return jsonObject.ToJsonString(jsonSerializerOptions);
         }
 
+        /// <summary>
+        /// Converts a collection of serializable objects to a JSON string representation using specified options.
+        /// </summary>
         public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions)
         {
             if (serializableObjects == null)
@@ -57,6 +72,9 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
+        /// <summary>
+        /// Converts a collection of objects implementing ISerializableObject to a JSON string representation using specified options.
+        /// </summary>
         public static string? ToSystem_String<USerializableObject>(this IEnumerable<USerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions) where USerializableObject : ISerializableObject
         {
             if (serializableObjects == null)
@@ -74,6 +92,9 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
+        /// <summary>
+        /// Formats a type reference and unique identifier into a system string.
+        /// </summary>
         public static string? ToSystem_String(this TypeReference? typeReference, string? uniqueId, string? format)
         {
             string? result = typeReference?.ToString();
@@ -104,6 +125,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Converts a serializable reference to its system string representation with an optional source.
+        /// </summary>
         public static string? ToSystem_String(this ISerializableReference? serializableReference, string? source)
         {
             if (serializableReference == null)

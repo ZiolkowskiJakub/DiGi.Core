@@ -3,8 +3,10 @@ using DiGi.Core.Relation.Interfaces;
 
 namespace DiGi.Core.Relation
 {
+    /// <summary>Provides methods for querying relations.</summary>
     public static partial class Query
     {
+        /// <summary>Determines whether the relation is valid for the specified type and side.</summary>
         public static bool IsValid(this IRelation? relation, System.Type? type, RelationSide relationSide)
         {
             if (relation == null)

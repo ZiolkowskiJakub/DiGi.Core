@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 namespace DiGi.Core.Relation
 {
+    /// <summary>Provides methods for querying relations.</summary>
     public static partial class Query
     {
+        /// <summary>Gets the set of unique references from the relation on the specified side.</summary>
         public static HashSet<IUniqueReference>? UniqueReferences(this IRelation? relation, RelationSide relationSide)
         {
             if (relation == null)

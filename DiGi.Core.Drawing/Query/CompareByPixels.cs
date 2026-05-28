@@ -4,6 +4,12 @@ namespace DiGi.Core.Drawing
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Compares two images by checking if all corresponding pixels are identical.
+        /// </summary>
+        /// <param name="image_1">The first image to compare.</param>
+        /// <param name="image_2">The second image to compare.</param>
+        /// <returns>True if both images are identical in size and pixel data; otherwise, false.</returns>
         public static bool CompareByPixels(this Image? image_1, Image? image_2)
         {
             if (image_1 == null && image_2 == null)

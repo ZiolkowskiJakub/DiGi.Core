@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Base class for serializable objects with a unique identifier.</summary>
     public abstract class UniqueObject : SerializableObject, IUniqueObject
     {
         public UniqueObject()

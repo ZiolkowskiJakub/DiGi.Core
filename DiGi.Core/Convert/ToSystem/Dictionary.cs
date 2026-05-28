@@ -5,6 +5,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a collection of values into a dictionary where each key is associated with a list of values produced by the key function.
+        /// </summary>
         public static Dictionary<T, List<X>>? ToSystem_Dictionary<T, X>(this IEnumerable<X> values, Func<X, T?> keyFunc)
         {
             if (values is null || keyFunc is null)

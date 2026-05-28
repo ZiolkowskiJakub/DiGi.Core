@@ -3,6 +3,7 @@ using System;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Provides thread-safe progress reporting for values of type T.</summary>
     public class ProgressWrapper<T> : IObject
     {
         private readonly object lockObject = new();

@@ -3,6 +3,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// A wrapper that encapsulates a JsonObject, allowing it to be treated as a SerializableObject without full deserialization.
+    /// </summary>
     public class SerializableObjectWrapper : SerializableObject
     {
         private readonly JsonObject? jsonObject;
@@ -43,6 +46,9 @@ namespace DiGi.Core.Classes
             return jsonObject?.DeepClone() as JsonObject;
         }
 
+        /// <summary>
+        /// Attempts to retrieve the full type name from the wrapped JsonObject.
+        /// </summary>
         public bool TryGetFullTypeName(out string? fullTypeName)
         {
             fullTypeName = Query.FullTypeName(jsonObject);

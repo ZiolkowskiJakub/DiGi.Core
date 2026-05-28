@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// A serializable collection of objects implementing ISerializableObject.
+    /// </summary>
     public class SerializableObjectCollection<T> : SerializableObject, ICollection<T> where T : ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Values")]
@@ -184,6 +187,9 @@ namespace DiGi.Core.Classes
         }
     }
 
+    /// <summary>
+    /// Non-generic version of SerializableObjectCollection for handling a collection of ISerializableObjects.
+    /// </summary>
     public class SerializableObjectCollection : SerializableObjectCollection<ISerializableObject>
     {
         public SerializableObjectCollection()

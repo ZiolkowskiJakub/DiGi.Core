@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Splits serializable objects by their serialized byte array size.</summary>
     public class MemorySizeSplitter<TSerializableObject> : Splitter<TSerializableObject, long> where TSerializableObject : ISerializableObject
     {
         public MemorySizeSplitter(IEnumerable<TSerializableObject> serializableObjects)

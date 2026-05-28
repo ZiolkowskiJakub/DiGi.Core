@@ -2,6 +2,7 @@
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Wraps progress reporting for long values.</summary>
     public class LongProgressWrapper : ProgressWrapper<long>
     {
         public LongProgressWrapper(IProgress<long>? progress = null)

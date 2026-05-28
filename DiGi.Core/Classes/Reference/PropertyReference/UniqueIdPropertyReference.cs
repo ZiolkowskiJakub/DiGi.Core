@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Represents a reference to a property by its unique ID.</summary>
     public class UniqueIdPropertyReference : UniquePropertyReference<UniqueIdReference>
     {
         public UniqueIdPropertyReference(UniqueIdReference reference, string propertyName)

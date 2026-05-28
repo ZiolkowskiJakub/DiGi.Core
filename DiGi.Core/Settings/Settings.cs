@@ -2,10 +2,19 @@
 
 namespace DiGi.Core
 {
+    /// <summary>
+    /// Provides global settings and managers for the DiGi.Core library.
+    /// </summary>
     public static partial class Settings
     {
+        /// <summary>
+        /// Gets the manager responsible for serialization tasks.
+        /// </summary>
         public static SerializationManager SerializationManager { get; } = new SerializationManager();
 
+        /// <summary>
+        /// Gets the manager responsible for conversion tasks.
+        /// </summary>
         public static ConversionManager ConversionManager { get; } = new ConversionManager();
     }
 }

@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Represents a reference to an object identified by a unique string ID.</summary>
     public class UniqueIdReference : UniqueReference
     {
         [JsonInclude, JsonPropertyName("UniqueId")]

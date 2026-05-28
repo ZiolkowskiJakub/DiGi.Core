@@ -7,28 +7,34 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Relation.Classes
 {
+    /// <summary>Represents a collection of relations.</summary>
     public class RelationCollection<TRelation> : SerializableObjectCollection<TRelation> where TRelation : IRelation
     {
+        /// <summary>Initializes a new instance of the RelationCollection class.</summary>
         public RelationCollection()
             : base()
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationCollection class with the specified relations.</summary>
         public RelationCollection(IEnumerable<TRelation>? relations)
             : base(relations)
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationCollection class by copying another RelationCollection.</summary>
         public RelationCollection(RelationCollection<TRelation>? relationCollection)
             : base(relationCollection)
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationCollection class from a JSON object.</summary>
         public RelationCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>Finds the first relation that contains the specified unique reference and optionally matches the predicate.</summary>
         public XRelation? Find<XRelation>(IUniqueReference? uniqueReference, Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
             if (uniqueReference == null)
@@ -60,6 +66,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Finds the first relation that optionally matches the predicate.</summary>
         public XRelation? Find<XRelation>(Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
             foreach (TRelation relation in this)
@@ -86,6 +93,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Finds all relations that contain the specified unique reference and optionally match the predicate.</summary>
         public List<XRelation>? FindAll<XRelation>(IUniqueReference? uniqueReference, Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
             if (uniqueReference == null)
@@ -113,6 +121,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Finds all relations that optionally match the predicate.</summary>
         public List<XRelation>? FindAll<XRelation>(Func<XRelation?, bool>? func = null) where XRelation : TRelation
         {
             List<XRelation> result = [];
@@ -135,6 +144,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Removes all relations that contain the specified unique reference.</summary>
         public bool Remove(IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null)

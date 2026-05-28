@@ -6,14 +6,29 @@ using System.Threading.Tasks;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Provides a base class for background tasks that can be canceled during execution.
+    /// </summary>
     public abstract class CancelableBackgroundTask : BackgroundTask, ICancelableBackgroundTask
     {
+        /// <summary>
+        /// Source for controlling cancellation of the background task.
+        /// </summary>
         private CancellationTokenSource? cancellationTokenSource;
 
+        /// <summary>
+        /// Occurs when the task has been canceled.
+        /// </summary>
         public event EventHandler? Canceled;
 
+        /// <summary>
+        /// Occurs when the task is being canceled.
+        /// </summary>
         public event EventHandler? Cancelling;
 
+        /// <summary>
+        /// Gets the current status of the cancelable background task.
+        /// </summary>
         public CancelableBackgroundTaskStatus CancelableBackgroundTaskStatus
         {
             get
@@ -42,8 +57,14 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the task has been canceled.
+        /// </summary>
         public bool IsCanceled => Task?.IsCanceled ?? false;
 
+        /// <summary>
+        /// Starts the background task execution synchronously.
+        /// </summary>
         public override void Start()
         {
             lock (lockObject)
@@ -59,6 +80,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Stops the background task synchronously by canceling and waiting for completion.
+        /// </summary>
         public void Stop()
         {
             CancellationTokenSource? cancellationTokenSource_Temp;
@@ -92,6 +116,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Stops the background task asynchronously by canceling and waiting for completion.
+        /// </summary>
         public async Task StopAsync()
         {
             CancellationTokenSource? cancellationTokenSource_Temp;
@@ -126,6 +153,10 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Executes the background task with cancellation support.
+        /// </summary>
+        /// <returns>True if the task succeeded; otherwise, false.</returns>
         protected override async Task<bool> ExecuteAsync()
         {
             if (cancellationTokenSource == null)
@@ -149,12 +180,26 @@ namespace DiGi.Core.Classes
             return false;
         }
 
+        /// <summary>
+        /// When overridden in a derived class, defines the work to be executed with a cancellation token.
+        /// </summary>
+        /// <param name="token">The cancellation token to observe.</param>
+        /// <returns>True if the task succeeded; otherwise, false.</returns>
         protected abstract Task<bool> ExecuteAsync(CancellationToken token);
 
+        /// <summary>
+        /// Raises the Canceled event.
+        /// </summary>
         protected virtual void OnCanceled() => Canceled?.Invoke(this, EventArgs.Empty);
 
+        /// <summary>
+        /// Raises the Cancelling event.
+        /// </summary>
         protected virtual void OnCancelling() => Cancelling?.Invoke(this, EventArgs.Empty);
 
+        /// <summary>
+        /// Cleans up the cancellation token source and resets task state.
+        /// </summary>
         private void Cleanup()
         {
             lock (lockObject)

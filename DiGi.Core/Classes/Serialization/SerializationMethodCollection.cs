@@ -5,6 +5,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// A collection of SerializationMethod objects for a specific type; handles the actual conversion between objects and JSON.
+    /// </summary>
     public class SerializationMethodCollection
     {
         private readonly Dictionary<string, SerializationMethod> dictionary = [];
@@ -40,6 +43,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Creates a JsonObject representing the state of the provided serializable object.
+        /// </summary>
         public JsonObject? Create(ISerializableObject? serializableObject)
         {
             if (serializableObject == null)
@@ -95,6 +101,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Updates the provided serializable object using values from a JsonObject.
+        /// </summary>
         public bool Update(ISerializableObject? serializableObject, JsonObject? jsonObject)
         {
             return Update(serializableObject, jsonObject, out _);

@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Represents a closed interval between a minimum and maximum value of type T.</summary>
     public class Range<T> : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Max")]

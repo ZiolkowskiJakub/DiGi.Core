@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Enums
 {
+    /// <summary>
+    /// Enumerator defining the way in which two strings are compared.
+    /// </summary>
     [Description("Enumerator defining the way in which two strings are compared.")]
     public enum TextComparisonType
     {

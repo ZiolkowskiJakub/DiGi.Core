@@ -6,6 +6,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a collection of serializable objects to a JsonArray.
+        /// </summary>
         public static JsonArray? ToJson<T>(this IEnumerable<T>? serializableObjects) where T : ISerializableObject
         {
             if (serializableObjects == null)

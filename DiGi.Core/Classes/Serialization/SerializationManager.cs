@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Manages caching and retrieval of serialization constructors and method collections to optimize the serialization process.
+    /// </summary>
     public class SerializationManager
     {
         private readonly Dictionary<string, SerializationConstructor> dictionary_SerializationConstructor = [];
@@ -17,6 +20,9 @@ namespace DiGi.Core.Classes
 
         public JsonSerializerOptions JsonSerializerOptions { get; set; } = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
 
+        /// <summary>
+        /// Retrieves the serialization constructor for a given type, optionally updating the cache.
+        /// </summary>
         public SerializationConstructor? GetSerializationConstructor(Type? type, bool update = true)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
@@ -75,6 +81,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the serialization method collection for a given type, optionally updating the cache.
+        /// </summary>
         public SerializationMethodCollection? GetSerializationMethodCollection(Type? type, bool update = true)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))

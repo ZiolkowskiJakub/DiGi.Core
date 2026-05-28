@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Enums
 {
+    /// <summary>
+    /// Defines the ISO country codes and their corresponding values.
+    /// </summary>
     [Description("Country Code")]
     public enum CountryCode
     {

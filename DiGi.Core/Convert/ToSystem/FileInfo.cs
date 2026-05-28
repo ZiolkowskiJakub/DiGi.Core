@@ -6,6 +6,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Serializes a serializable object to a file and returns the FileInfo.
+        /// </summary>
         public static FileInfo? ToSystem_FileInfo(this ISerializableObject? serializableObject, Classes.Path? path)
         {
             if (path == null || !path.HasValue || path.Value == null)
@@ -35,6 +38,9 @@ namespace DiGi.Core
             return new FileInfo(path.Value);
         }
 
+        /// <summary>
+        /// Serializes a collection of serializable objects to a file and returns the FileInfo.
+        /// </summary>
         public static FileInfo? ToSystem_FileInfo<T>(this IEnumerable<T>? serializableObjects, Classes.Path? path) where T : ISerializableObject
         {
             if (path == null || !path.HasValue || path.Value == null)

@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Caches and retrieves reflection data (MethodInfo) for type conversion methods.
+    /// </summary>
     public class ConversionManager
     {
         private readonly Dictionary<string, MethodInfo> dictionary = [];

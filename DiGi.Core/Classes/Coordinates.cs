@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a geographic location using Latitude and Longitude.
+    /// </summary>
     public class Coordinates : SerializableObject, ICoordinates
     {
         [JsonInclude, JsonPropertyName("Latitude")]
@@ -12,6 +15,10 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Longitude")]
         private readonly double longitude;
 
+        /// <summary>
+        /// Initializes a new instance of the Coordinates class by copying another Coordinates object.
+        /// </summary>
+        /// <param name="coordinates">The source coordinates to copy from.</param>
         public Coordinates(Coordinates? coordinates)
             : base()
         {
@@ -22,6 +29,11 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Coordinates class with specified latitude and longitude.
+        /// </summary>
+        /// <param name="latitude">The geographic latitude.</param>
+        /// <param name="longitude">The geographic longitude.</param>
         public Coordinates(double latitude, double longitude)
             : base()
         {
@@ -29,11 +41,18 @@ namespace DiGi.Core.Classes
             this.latitude = latitude;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Coordinates class from a JsonObject.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing coordinate data.</param>
         public Coordinates(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the geographic latitude of the location.
+        /// </summary>
         [JsonIgnore]
         public double Latitude
         {
@@ -43,6 +62,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the geographic longitude of the location.
+        /// </summary>
         [JsonIgnore]
         public double Longitude
         {

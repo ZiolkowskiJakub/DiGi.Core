@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Enums
 {
+    /// <summary>
+    /// Enumerator defining the way in which two numbers are compared.
+    /// </summary>
     [Description("Enumerator defining the way in which two numbers are compared.")]
     public enum NumberComparisonType
     {

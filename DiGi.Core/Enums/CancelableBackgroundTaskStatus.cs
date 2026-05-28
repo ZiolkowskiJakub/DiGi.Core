@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Enums
 {
+    /// <summary>
+    /// Defines the status of a background task that can be canceled.
+    /// </summary>
     [Description("Cancelable Background Task Status")]
     public enum CancelableBackgroundTaskStatus
     {

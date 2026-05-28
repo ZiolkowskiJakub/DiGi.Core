@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a specific member (property or field) targeted for serialization, containing its reflection metadata and name.
+    /// </summary>
     public class SerializationMethod
     {
         private readonly MemberInfo memberInfo;

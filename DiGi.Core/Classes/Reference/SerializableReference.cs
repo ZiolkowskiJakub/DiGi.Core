@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Base class for serializable references with equality comparison based on hash codes.</summary>
     public abstract class SerializableReference : SerializableObject, ISerializableReference
     {
         [JsonIgnore]

@@ -2,6 +2,7 @@
 
 namespace DiGi.Core.Relation.Interfaces
 {
+    /// <summary>Defines the contract for a directional relation between unique objects.</summary>
     public interface IDirectionalRelation : IRelation
     {
     }

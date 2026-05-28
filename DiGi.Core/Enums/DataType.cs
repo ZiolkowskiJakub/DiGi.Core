@@ -2,6 +2,9 @@
 
 namespace DiGi.Core.Enums
 {
+    /// <summary>
+    /// Defines the supported data types within the DiGi.Core system.
+    /// </summary>
     [Description("DataType")]
     public enum DataType
     {

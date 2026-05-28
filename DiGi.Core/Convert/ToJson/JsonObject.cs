@@ -6,6 +6,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a serializable object to a JsonObject.
+        /// </summary>
         public static JsonObject? ToJson(this ISerializableObject? serializableObject)
         {
             if (serializableObject == null)

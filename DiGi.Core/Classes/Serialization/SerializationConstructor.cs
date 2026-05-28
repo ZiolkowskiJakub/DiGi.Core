@@ -4,6 +4,9 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Encapsulates logic to instantiate an ISerializableObject from a JsonObject, supporting both parameterless and JSON-aware constructors.
+    /// </summary>
     public class SerializationConstructor
     {
         private readonly ConstructorInfo? constructorInfo;
@@ -15,6 +18,9 @@ namespace DiGi.Core.Classes
             this.constructorInfo = constructorInfo;
         }
 
+        /// <summary>
+        /// Creates an instance of the serializable object from a JsonObject.
+        /// </summary>
         public T? Create<T>(JsonObject? jsonObject) where T : ISerializableObject
         {
             if (jsonObject == null || constructorInfo == null)

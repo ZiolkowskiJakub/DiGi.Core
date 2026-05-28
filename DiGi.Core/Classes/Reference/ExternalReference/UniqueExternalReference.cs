@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Base class for external references that identify objects by a unique ID.</summary>
     public abstract class UniqueExternalReference<TUniqueReference> : InstanceRelatedExternalReference<TUniqueReference>, IUniqueReference where TUniqueReference : UniqueReference
     {
         public UniqueExternalReference(string? source, TUniqueReference? reference)

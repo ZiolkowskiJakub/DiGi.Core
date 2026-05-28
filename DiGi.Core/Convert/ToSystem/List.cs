@@ -5,6 +5,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a range of values into a system list with a specified step.
+        /// </summary>
         public static List<T>? ToSystem<T>(this Range<T>? range, T step)
         {
             if (range is null || step is null)

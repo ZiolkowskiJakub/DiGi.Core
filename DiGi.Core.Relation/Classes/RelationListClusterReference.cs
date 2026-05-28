@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace DiGi.Core.Relation.Classes
 {
+    /// <summary>Represents a reference to a relation list cluster identified by two type references and an index.</summary>
     public class RelationListClusterReference(TypeReference? key_1, TypeReference? key_2, int index) : ListClusterReference<TypeReference, TypeReference>(key_1, key_2, index)
     {
+        /// <summary>Determines whether this instance equals the specified reference.</summary>
         public override bool Equals(IReference? reference)
         {
             if (reference == null)
@@ -16,6 +18,7 @@ namespace DiGi.Core.Relation.Classes
             return reference.GetHashCode() == GetHashCode();
         }
 
+        /// <summary>Returns the hash code for this instance.</summary>
         public override int GetHashCode()
         {
             List<int> values = [];

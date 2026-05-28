@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Represents a reference to a property by its type.</summary>
     public class TypePropertyReference : PropertyReference<TypeReference>, ITypeRelatedSerializableReference
     {
         public TypePropertyReference(TypeReference reference, string propertyName)

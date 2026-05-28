@@ -9,15 +9,18 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Relation.Classes
 {
+    /// <summary>Provides a base class for unique objects that manage relations through a UniqueObjectRelationCluster.</summary>
     public abstract class UniqueObjectRelationClusterModel<TUniqueObject, XRelation> : GuidModel where TUniqueObject : IUniqueObject where XRelation : IRelation
     {
         [JsonInclude, JsonPropertyName("UniqueObjectRelationCluster")]
         protected UniqueObjectRelationCluster<TUniqueObject, XRelation> uniqueObjectRelationCluster = [];
 
+        /// <summary>Initializes a new instance of the UniqueObjectRelationClusterModel class.</summary>
         public UniqueObjectRelationClusterModel()
         {
         }
 
+        /// <summary>Initializes a new instance of the UniqueObjectRelationClusterModel class by cloning another instance.</summary>
         public UniqueObjectRelationClusterModel(UniqueObjectRelationClusterModel<TUniqueObject, XRelation>? uniqueObjectRelationClusterModel)
             : base(uniqueObjectRelationClusterModel)
         {
@@ -31,21 +34,25 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Initializes a new instance of the UniqueObjectRelationClusterModel class from a JsonObject.</summary>
         public UniqueObjectRelationClusterModel(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>Creates a new Guid for a unique object of the specified type.</summary>
         public Guid GetNewGuid(Type? type)
         {
             return Create.Guid(uniqueObjectRelationCluster, type);
         }
 
+        /// <summary>Creates a new Guid for a unique object of the specified generic type.</summary>
         public Guid GetNewGuid<YUniqueObject>() where YUniqueObject : TUniqueObject
         {
             return Create.Guid(uniqueObjectRelationCluster, typeof(YUniqueObject));
         }
 
+        /// <summary>Gets the first unique object of the specified type that optionally matches the predicate.</summary>
         public YUniqueObject? GetObject<YUniqueObject>(Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             if (TryGetObject(out YUniqueObject? result, func))
@@ -56,6 +63,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Gets the unique object of the specified type identified by the given GUID reference.</summary>
         public YUniqueObject? GetObject<YUniqueObject>(GuidReference? guidReference) where YUniqueObject : TUniqueObject
         {
             if (guidReference is null)
@@ -66,6 +74,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjectRelationCluster.GetValue<YUniqueObject>(guidReference);
         }
 
+        /// <summary>Gets all unique objects of the specified type that optionally match the predicate.</summary>
         public List<YUniqueObject>? GetObjects<YUniqueObject>(Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             if (TryGetObjects(out List<YUniqueObject>? result, func))
@@ -76,6 +85,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Gets all unique objects of the specified type related through the specified relation on the given side that optionally match the predicate.</summary>
         public List<YUniqueObject>? GetObjects<YUniqueObject>(XRelation? relation, RelationSide relationSide, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             if (TryGetObjects(relation, relationSide, out List<YUniqueObject>? result, func))
@@ -86,16 +96,19 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Gets the related object of the specified type for the given unique object that optionally matches the predicate.</summary>
         public YUniqueObject? GetRelatedObject<YUniqueObject>(TUniqueObject? uniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             return uniqueObjectRelationCluster.GetRelatedValue(uniqueObject, func);
         }
 
+        /// <summary>Gets a dictionary mapping unique references to related objects of the specified type for the given unique objects.</summary>
         public Dictionary<IUniqueReference, YUniqueObject>? GetRelatedObjectDictionary<YUniqueObject>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             return GetRelatedObjectDictionary<YUniqueObject, XRelation>(uniqueObjects, func);
         }
 
+        /// <summary>Gets a dictionary mapping unique references to related objects of the specified type using the specified relation type.</summary>
         public virtual Dictionary<IUniqueReference, YUniqueObject>? GetRelatedObjectDictionary<YUniqueObject, URelation>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject where URelation : XRelation
         {
             if (uniqueObjects is null)
@@ -106,6 +119,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjectRelationCluster.GetRelatedValueDictionary<YUniqueObject, URelation>(uniqueObjects, func);
         }
 
+        /// <summary>Gets all related objects of the specified type for the given unique objects that optionally match the predicate.</summary>
         public List<YUniqueObject>? GetRelatedObjects<YUniqueObject>(IEnumerable<TUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             Dictionary<IUniqueReference, YUniqueObject>? dictionary = GetRelatedObjectDictionary(uniqueObjects, func);
@@ -123,6 +137,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Gets all related objects of the specified type for the given unique object that optionally match the predicate.</summary>
         public List<YUniqueObject>? GetRelatedObjects<YUniqueObject>(TUniqueObject? uniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             if (uniqueObject == null)
@@ -138,6 +153,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Gets the first relation of the specified type that optionally matches the predicate.</summary>
         public YUniqueObject? GetRelation<YUniqueObject>(Func<YUniqueObject?, bool>? func = null) where YUniqueObject : XRelation
         {
             if (TryGetRelation(out YUniqueObject? result, func))
@@ -148,6 +164,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Gets the relation of the specified type for the given unique object that optionally matches the predicate.</summary>
         public URelation? GetRelation<URelation>(TUniqueObject? uniqueObject, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             if (uniqueObject == null)
@@ -164,6 +181,7 @@ namespace DiGi.Core.Relation.Classes
             return relation.Clone<URelation>();
         }
 
+        /// <summary>Gets all relations of the specified type that optionally match the predicate.</summary>
         public List<URelation>? GetRelations<URelation>(Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             if (TryGetRelations(out List<URelation>? result, func))
@@ -174,6 +192,7 @@ namespace DiGi.Core.Relation.Classes
             return default;
         }
 
+        /// <summary>Determines whether a unique object of the specified type exists and optionally matches the predicate.</summary>
         public virtual bool TryGetObject<YUniqueObject>(out YUniqueObject? uniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             uniqueObject = default;
@@ -192,6 +211,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObject != null;
         }
 
+        /// <summary>Determines whether a unique object of the specified type exists for the given GUID reference.</summary>
         public bool TryGetObject<YUniqueObject>(GuidReference? guidReference, out YUniqueObject? uniqueObject) where YUniqueObject : TUniqueObject
         {
             uniqueObject = default;
@@ -210,6 +230,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObject != null;
         }
 
+        /// <summary>Determines whether any unique objects of the specified type exist and optionally match the predicate.</summary>
         public virtual bool TryGetObjects<YUniqueObject>(out List<YUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             uniqueObjects = null;
@@ -244,6 +265,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
 
+        /// <summary>Determines whether any unique objects of the specified type exist that are related through the specified relation on the given side and optionally match the predicate.</summary>
         public virtual bool TryGetObjects<YUniqueObject>(XRelation? relation, RelationSide relationSide, out List<YUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             uniqueObjects = null;
@@ -285,6 +307,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
 
+        /// <summary>Determines whether a related object of the specified type exists for the given unique object and optionally matches the predicate.</summary>
         public virtual bool TryGetRelatedObject<YUniqueObject>(TUniqueObject? uniqueObject, out YUniqueObject? relatedUniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             relatedUniqueObject = default;
@@ -303,6 +326,7 @@ namespace DiGi.Core.Relation.Classes
             return relatedUniqueObject != null;
         }
 
+        /// <summary>Determines whether a related object of the specified type exists for the given unique object using the specified relation type and optionally matches the predicate.</summary>
         public virtual bool TryGetRelatedObject<YUniqueObject, URelation>(TUniqueObject? uniqueObject, out YUniqueObject? relatedUniqueObject, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject where URelation : XRelation
         {
             relatedUniqueObject = default;
@@ -321,11 +345,13 @@ namespace DiGi.Core.Relation.Classes
             return relatedUniqueObject != null;
         }
 
+        /// <summary>Determines whether any related objects of the specified type exist for the given unique object and optionally match the predicate.</summary>
         public virtual bool TryGetRelatedObjects<YUniqueObject>(TUniqueObject? uniqueObject, out List<YUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject
         {
             return TryGetRelatedObjects<YUniqueObject, XRelation>(uniqueObject, out uniqueObjects, func);
         }
 
+        /// <summary>Determines whether any related objects of the specified type exist for the given unique object using the specified relation type and optionally match the predicate.</summary>
         public virtual bool TryGetRelatedObjects<YUniqueObject, URelation>(TUniqueObject? uniqueObject, out List<YUniqueObject>? uniqueObjects, Func<YUniqueObject?, bool>? func = null) where YUniqueObject : TUniqueObject where URelation : XRelation
         {
             uniqueObjects = null;
@@ -360,6 +386,7 @@ namespace DiGi.Core.Relation.Classes
             return uniqueObjects != null && uniqueObjects.Count != 0;
         }
 
+        /// <summary>Determines whether a relation of the specified type exists for the given unique object and optionally matches the predicate.</summary>
         public bool TryGetRelation<URelation>(TUniqueObject uniqueObject, out URelation? relation, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             relation = default;
@@ -377,6 +404,7 @@ namespace DiGi.Core.Relation.Classes
             return relation != null;
         }
 
+        /// <summary>Determines whether a relation of the specified type exists and optionally matches the predicate.</summary>
         public virtual bool TryGetRelation<URelation>(out URelation? relation, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             relation = default;
@@ -395,6 +423,7 @@ namespace DiGi.Core.Relation.Classes
             return relation != null;
         }
 
+        /// <summary>Determines whether any relations of the specified type exist and optionally match the predicate.</summary>
         public virtual bool TryGetRelations<URelation>(out List<URelation>? relations, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             relations = null;

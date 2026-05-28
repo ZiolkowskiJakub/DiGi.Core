@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Base class for clusters of serializable objects keyed by two keys.</summary>
     public abstract class SerializableObjectListCluster<TKey_1, TKey_2, TValue> : List<TKey_1, TKey_2, TValue>, ISerializableObject where TValue : ISerializableObject
     {
         public SerializableObjectListCluster()

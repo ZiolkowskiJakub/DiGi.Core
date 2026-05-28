@@ -5,6 +5,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a uint color value (ARGB) to a System.Drawing.Color.
+        /// </summary>
         public static Color ToDrawing(uint @uint)
         {
             byte a = (byte)(@uint >> 24);
@@ -14,6 +17,9 @@ namespace DiGi.Core
             return Color.FromArgb(a, r, g, b);
         }
 
+        /// <summary>
+        /// Converts an int color value (RGB) to a System.Drawing.Color with optional alpha.
+        /// </summary>
         public static Color ToDrawing(int @int, byte alpha = 255)
         {
             byte b = (byte)(@int >> 16);
@@ -22,6 +28,9 @@ namespace DiGi.Core
             return Color.FromArgb(alpha, r, g, b);
         }
 
+        /// <summary>
+        /// Converts a hex color string to a System.Drawing.Color.
+        /// </summary>
         public static Color ToDrawing(string? value)
         {
             if (value is null)
@@ -45,6 +54,9 @@ namespace DiGi.Core
             return Color.FromArgb(a, r, g, b);
         }
 
+        /// <summary>
+        /// Converts a DiGi.Core.Classes.Color to a System.Drawing.Color.
+        /// </summary>
         public static Color ToDrawing(this Classes.Color? color)
         {
             if (color is null)

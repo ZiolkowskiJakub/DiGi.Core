@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Base class for serializable objects identified by a unique string ID.</summary>
     public abstract class UniqueIdObject : UniqueObject, IUniqueIdObject
     {
         [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.UniqueId)]

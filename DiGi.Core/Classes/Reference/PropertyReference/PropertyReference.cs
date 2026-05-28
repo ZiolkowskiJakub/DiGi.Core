@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>Represents a reference to a property within a serializable object.</summary>
     public abstract class PropertyReference : SerializableReference
     {
         [JsonInclude, JsonPropertyName("PropertyName")]
@@ -37,6 +38,7 @@ namespace DiGi.Core.Classes
         }
     }
 
+    /// <summary>Represents a typed reference to a property within a serializable object.</summary>
     public abstract class PropertyReference<USerializableReference> : PropertyReference where USerializableReference : SerializableReference
     {
         [JsonInclude, JsonPropertyName("Reference")]

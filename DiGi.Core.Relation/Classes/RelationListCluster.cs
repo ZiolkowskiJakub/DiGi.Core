@@ -9,28 +9,34 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Relation.Classes
 {
+    /// <summary>Represents a cluster that organizes relations by their source type references.</summary>
     public class RelationListCluster<XRelation> : SerializableObjectListCluster<TypeReference, TypeReference, XRelation> where XRelation : IRelation
     {
+        /// <summary>Initializes a new instance of the RelationListCluster class.</summary>
         public RelationListCluster()
             : base()
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationListCluster class with the specified relations.</summary>
         public RelationListCluster(IEnumerable<XRelation>? relations)
             : base(relations)
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationListCluster class by copying another RelationListCluster.</summary>
         public RelationListCluster(RelationListCluster<XRelation>? relationListCluster)
             : base(relationListCluster)
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationListCluster class from a JSON object.</summary>
         public RelationListCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>Gets the list of source type references.</summary>
         public List<TypeReference>? TypeReferences_From
         {
             get
@@ -39,6 +45,7 @@ namespace DiGi.Core.Relation.Classes
             }
         }
 
+        /// <summary>Gets all relations of the specified type that contain the given unique reference and optionally match the predicate.</summary>
         public List<URelation>? GetValues<URelation>(IUniqueReference? uniqueReference, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             List<RelationListClusterReference>? relationListClusterRefereces = GetRelationListClusterReferences(uniqueReference, func);
@@ -50,6 +57,7 @@ namespace DiGi.Core.Relation.Classes
             return GetValues<URelation>(relationListClusterRefereces);
         }
 
+        /// <summary>Gets all relations of the specified type that contain any of the given unique references and optionally match the predicate.</summary>
         public List<URelation>? GetValues<URelation>(IEnumerable<IUniqueReference>? uniqueReferences, Func<URelation?, bool>? func = null) where URelation : XRelation
         {
             List<RelationListClusterReference>? relationListClusterRefereces = GetRelationListClusterReferences(uniqueReferences, func);
@@ -61,6 +69,7 @@ namespace DiGi.Core.Relation.Classes
             return GetValues<URelation>(relationListClusterRefereces);
         }
 
+        /// <summary>Removes the specified unique references from the relations and returns the affected relations.</summary>
         public List<XRelation>? Remove<XUniqueReference>(IEnumerable<XUniqueReference>? uniqueReferences) where XUniqueReference : IUniqueReference
         {
             if (uniqueReferences == null)
@@ -110,6 +119,7 @@ namespace DiGi.Core.Relation.Classes
             return result;
         }
 
+        /// <summary>Removes the specified unique reference from the relations.</summary>
         public bool Remove(IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null)
@@ -121,11 +131,13 @@ namespace DiGi.Core.Relation.Classes
             return relations != null && relations.Count > 0;
         }
 
+        /// <summary>Gets the source type reference from a relation.</summary>
         protected override TypeReference? GetKey_1(XRelation? value)
         {
             return Create.TypeReference(value?.GetType(RelationSide.From));
         }
 
+        /// <summary>Gets the target type reference from a relation.</summary>
         protected override TypeReference? GetKey_2(XRelation? value)
         {
             return Create.TypeReference(value?.GetType(RelationSide.To));
@@ -247,23 +259,28 @@ namespace DiGi.Core.Relation.Classes
         }
     }
 
+    /// <summary>Represents a cluster that organizes all relations by their source type references.</summary>
     public class RelationListCluster : RelationListCluster<IRelation>
     {
+        /// <summary>Initializes a new instance of the RelationListCluster class.</summary>
         public RelationListCluster()
             : base()
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationListCluster class with the specified relations.</summary>
         public RelationListCluster(IEnumerable<IRelation>? relations)
             : base(relations)
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationListCluster class by copying another RelationListCluster.</summary>
         public RelationListCluster(RelationListCluster? relationCluster)
             : base(relationCluster)
         {
         }
 
+        /// <summary>Initializes a new instance of the RelationListCluster class from a JSON object.</summary>
         public RelationListCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
