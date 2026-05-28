@@ -5,13 +5,20 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core
 {
+    /// <summary>
+    /// Provides utility methods for querying and determining data types of objects and types.
+    /// </summary>
     public static partial class Query
     {
+        /// <summary>Gets the DiGi.Core.Enums.DataType of the specified object.</summary>
         public static DataType DataType(this object? @object)
         {
             return DataType(@object, out _);
         }
 
+        /// <summary>Gets the DiGi.Core.Enums.DataType of the specified object and determines if it is nullable.</summary>
+        /// <param name="object">The object for which to get the data type.</param>
+        /// <param name="nullable">When this method returns, contains a boolean value indicating whether the type is nullable.</param>
         public static DataType DataType(this object? @object, out bool nullable)
         {
             nullable = false;
@@ -28,11 +35,15 @@ namespace DiGi.Core
             return DataType(@object.GetType(), out nullable);
         }
 
+        /// <summary>Gets the DiGi.Core.Enums.DataType of the specified type.</summary>
         public static DataType DataType(this Type? type)
         {
             return DataType(type, out _);
         }
 
+        /// <summary>Gets the DiGi.Core.Enums.DataType of the specified type and determines if it is nullable.</summary>
+        /// <param name="type">The type for which to get the data type.</param>
+        /// <param name="nullable">When this method returns, contains a boolean value indicating whether the type is nullable.</param>
         public static DataType DataType(this Type? type, out bool nullable)
         {
             nullable = false;

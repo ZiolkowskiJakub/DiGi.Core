@@ -8,6 +8,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a unique GUID for the specified type that does not exist in the given cluster.</summary>
         public static Guid Guid<TUniqueObject>(this UniqueObjectValueCluster<TUniqueObject>? uniqueObjectValueCluster, Type? type) where TUniqueObject : IUniqueObject
         {
             if (uniqueObjectValueCluster == null || type == null)

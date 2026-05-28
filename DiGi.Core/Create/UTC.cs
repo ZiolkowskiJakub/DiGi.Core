@@ -4,11 +4,13 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a UTC offset from the given float value.</summary>
         public static UTC UTC(float timeOffset)
         {
             return UTC(System.Convert.ToDouble(timeOffset));
         }
 
+        /// <summary>Creates a UTC offset from the given double value.</summary>
         public static UTC UTC(double timeOffset)
         {
             if (double.IsNaN(timeOffset))
@@ -28,6 +30,7 @@ namespace DiGi.Core
             return Enums.UTC.Undefined;
         }
 
+        /// <summary>Creates a UTC offset from the given string value.</summary>
         public static UTC UTC(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

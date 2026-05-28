@@ -6,6 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a memory stream from the given string.</summary>
         public static MemoryStream? MemoryStream(this string? text)
         {
             if (text == null)
@@ -17,6 +18,7 @@ namespace DiGi.Core
             return new MemoryStream(bytes);
         }
 
+        /// <summary>Creates a memory stream from the given collection of strings.</summary>
         public static MemoryStream? MemoryStream(this IEnumerable<string>? text)
         {
             if (text == null)

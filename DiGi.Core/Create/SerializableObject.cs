@@ -6,6 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a serializable object from the given JSON object.</summary>
         public static T? SerializableObject<T>(this JsonObject? jsonObject) where T : ISerializableObject
         {
             if (jsonObject == null)

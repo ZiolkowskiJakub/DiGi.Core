@@ -7,6 +7,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a JSON node from the given object.</summary>
         public static JsonNode? JsonNode(this object? @object)
         {
             if (@object == null)

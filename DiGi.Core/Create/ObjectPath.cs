@@ -5,6 +5,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates an object path from the given text.</summary>
         public static ObjectPath? ObjectPath(string? text)
         {
             List<string>? names = Query.QuotedStrings(text, Classes.ObjectPath.Separator);

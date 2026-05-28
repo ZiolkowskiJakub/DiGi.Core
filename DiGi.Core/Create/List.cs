@@ -6,6 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a list instance of the specified type.</summary>
         public static IList? List(Type? type)
         {
             if (type is null)

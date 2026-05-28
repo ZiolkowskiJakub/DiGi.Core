@@ -4,6 +4,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates the directory and its parent directories if they do not exist.</summary>
         public static bool Directory(string? directory)
         {
             if (string.IsNullOrWhiteSpace(directory))

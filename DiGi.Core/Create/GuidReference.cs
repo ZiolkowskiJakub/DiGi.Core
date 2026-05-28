@@ -6,6 +6,7 @@ namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Creates a GUID reference for the specified object using the given function to retrieve its GUID.</summary>
         public static GuidReference? GuidReference<T>(this T? @object, Func<T?, Guid> func)
         {
             if (@object == null || func == null)
@@ -22,6 +23,7 @@ namespace DiGi.Core
             return new GuidReference(fullTypeName, func.Invoke(@object));
         }
 
+        /// <summary>Creates a unique GUID reference for the specified type that does not exist in the given cluster.</summary>
         public static GuidReference? GuidReference<TUniqueObject>(this UniqueObjectValueCluster<TUniqueObject>? uniqueObjectValueCluster, Type? type) where TUniqueObject : IUniqueObject
         {
             if (uniqueObjectValueCluster == null || type == null)
