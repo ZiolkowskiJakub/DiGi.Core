@@ -89,7 +89,6 @@ namespace DiGi.Core.Classes
             }
         }
 
-
         /// <summary>
         /// Gets or sets the list of subcategories.
         /// </summary>

@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    /// <summary>Represents a parameter definition defined externally with explicit metadata.</summary>
     public class ExternalParameterDefinition : ComplexParameterDefinition, INamedObject
     {
         [JsonInclude, JsonPropertyName("Guid")]
@@ -29,11 +30,15 @@ namespace DiGi.Core.Parameter.Classes
         [JsonInclude, JsonPropertyName("GroupName")]
         private readonly string? groupName;
 
+        /// <summary>Creates a new instance of the ExternalParameterDefinition class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object containing the external parameter definition data.</param>
         public ExternalParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>Creates a new instance of the ExternalParameterDefinition class by copying another ExternalParameterDefinition.</summary>
+        /// <param name="externalParameterDefinition">The ExternalParameterDefinition to copy.</param>
         public ExternalParameterDefinition(ExternalParameterDefinition? externalParameterDefinition)
             : base(externalParameterDefinition)
         {
@@ -49,6 +54,14 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Creates a new instance of the ExternalParameterDefinition class with the specified parameters.</summary>
+        /// <param name="guid">The unique identifier.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="accessType">The access type.</param>
+        /// <param name="parameterValue">The parameter value.</param>
+        /// <param name="associatedTypes">The associated types.</param>
+        /// <param name="groupName">The group name.</param>
         public ExternalParameterDefinition(Guid guid, string? name, string? description, AccessType accessType, ParameterValue? parameterValue, AssociatedTypes associatedTypes, string? groupName)
         {
             this.guid = guid;
@@ -60,11 +73,13 @@ namespace DiGi.Core.Parameter.Classes
             this.groupName = groupName;
         }
 
+        /// <summary>Creates a new instance of the ExternalParameterDefinition class.</summary>
         public ExternalParameterDefinition()
             : base()
         {
         }
 
+        /// <summary>Gets the unique identifier of the external parameter definition.</summary>
         [JsonIgnore]
         public override string UniqueId
         {
@@ -74,6 +89,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the name of the external parameter definition.</summary>
         [JsonIgnore]
         public override string? Name
         {
@@ -83,6 +99,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the description of the external parameter definition.</summary>
         [JsonIgnore]
         public override string? Description
         {
@@ -92,6 +109,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the parameter value of the external parameter definition.</summary>
         [JsonIgnore]
         public override ParameterValue? ParameterValue
         {
@@ -101,6 +119,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the associated types of the external parameter definition.</summary>
         [JsonIgnore]
         public override AssociatedTypes? AssociatedTypes
         {
@@ -110,6 +129,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the access type of the external parameter definition.</summary>
         [JsonIgnore]
         public override AccessType AccessType
         {
@@ -119,6 +139,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the group name of the external parameter definition.</summary>
         [JsonIgnore]
         public override string? GroupName
         {
@@ -128,6 +149,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Determines whether the specified value is valid for this external parameter definition.</summary>
+        /// <param name="value">The value to validate.</param>
+        /// <returns>True if the value is valid, false otherwise.</returns>
         public override bool IsValid(object? value)
         {
             bool result = base.IsValid(value);

@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    /// <summary>Represents a parameter with a definition and a value.</summary>
     public class Parameter : SerializableObject
     {
         [JsonInclude, JsonPropertyName("ParameterDefinition")]
@@ -14,27 +15,37 @@ namespace DiGi.Core.Parameter.Classes
         [JsonInclude, JsonPropertyName("Value")]
         private object? value;
 
+        /// <summary>Creates a new instance of the Parameter class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object containing the parameter data.</param>
         public Parameter(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>Creates a new instance of the Parameter class by copying another Parameter.</summary>
+        /// <param name="parameter">The Parameter to copy.</param>
         public Parameter(Parameter? parameter)
             : this(parameter?.ParameterDefinition, parameter?.value)
         {
         }
 
+        /// <summary>Creates a new instance of the Parameter class with the specified parameter definition and value.</summary>
+        /// <param name="parameterDefinition">The parameter definition.</param>
+        /// <param name="value">The parameter value.</param>
         internal Parameter(IParameterDefinition? parameterDefinition, object? value)
         {
             this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
             this.value = value is ISerializableObject serializableObject ? serializableObject.Clone() : value;
         }
 
+        /// <summary>Creates a new instance of the Parameter class with the specified parameter definition.</summary>
+        /// <param name="parameterDefinition">The parameter definition.</param>
         internal Parameter(IParameterDefinition? parameterDefinition)
         {
             this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
         }
 
+        /// <summary>Gets the name of the parameter.</summary>
         [JsonIgnore]
         public string? Name
         {
@@ -44,6 +55,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the parameter definition.</summary>
         [JsonIgnore]
         public IParameterDefinition? ParameterDefinition
         {
@@ -53,6 +65,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the type of the parameter.</summary>
         [JsonIgnore]
         public Enums.ParameterType ParameterType
         {
@@ -62,6 +75,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the unique identifier of the parameter.</summary>
         [JsonIgnore]
         public string? UniqueId
         {
@@ -71,6 +85,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the value of the parameter.</summary>
         [JsonIgnore]
         public object? Value
         {
@@ -80,6 +95,10 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Gets the value of the parameter, converted to the specified type.</summary>
+        /// <typeparam name="T">The type to convert the value to.</typeparam>
+        /// <param name="getValueSettings">Optional settings for retrieving the value.</param>
+        /// <returns>The converted value, or default if conversion fails.</returns>
         public T? GetValue<T>(GetValueSettings? getValueSettings = null)
         {
             if (!TryGetValue(out T? result, getValueSettings))
@@ -90,6 +109,10 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>Sets the value of the parameter.</summary>
+        /// <param name="value">The value to set.</param>
+        /// <param name="setValueSettings">Optional settings for setting the value.</param>
+        /// <returns>True if the value was successfully set, false otherwise.</returns>
         public bool SetValue(object? value, SetValueSettings? setValueSettings = null)
         {
             if (parameterDefinition == null || parameterDefinition is SimpleParameterDefinition)
@@ -130,6 +153,11 @@ namespace DiGi.Core.Parameter.Classes
             return true;
         }
 
+        /// <summary>Tries to get the value of the parameter, converted to the specified type.</summary>
+        /// <typeparam name="T">The type to convert the value to.</typeparam>
+        /// <param name="value">The converted value, or default if conversion fails.</param>
+        /// <param name="getValueSettings">Optional settings for retrieving the value.</param>
+        /// <returns>True if the value was successfully retrieved, false otherwise.</returns>
         public bool TryGetValue<T>(out T? value, GetValueSettings? getValueSettings = null)
         {
             value = default;
