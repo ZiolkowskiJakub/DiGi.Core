@@ -400,6 +400,23 @@ namespace DiGi.Core.IO.Table.Classes
             return row.GetValues();
         }
 
+        public object?[]?[]? GetValues()
+        {
+            List<object?[]?> rows = [];
+
+            int rowCount = RowCount;
+            for (int i = 0; i < rowCount; i++)
+            {
+                object?[]? row = GetValues(i);
+                if (row != null)
+                {
+                    rows.Add(row);
+                }
+            }
+
+            return [.. rows];
+        }
+
         public bool RemoveColumn(int index)
         {
             if (index < 0)
