@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Table.Classes
 {
@@ -26,6 +27,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonIgnore]
         public int ColumnCount
         {
             get
@@ -34,6 +36,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonInclude, JsonPropertyName(nameof(Columns))]
         public IEnumerable<TColumn> Columns
         {
             get
@@ -42,6 +45,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonIgnore]
         public int RowCount
         {
             get
@@ -50,6 +54,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonInclude, JsonPropertyName(nameof(Rows))]
         public IEnumerable<TRow> Rows
         {
             get
@@ -58,6 +63,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonIgnore]
         public object? this[int rowIndex, int columnIndex]
         {
             get
@@ -76,6 +82,7 @@ namespace DiGi.Core.IO.Table.Classes
             }
         }
 
+        [JsonIgnore]
         public object? this[TRow? row, TColumn? column]
         {
             get
