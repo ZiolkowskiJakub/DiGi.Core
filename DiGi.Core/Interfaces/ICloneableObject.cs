@@ -4,7 +4,7 @@
     public interface ICloneableObject : IObject
     {
     }
- 
+
     /// <summary>Defines a generic contract for objects that can be cloned into a specific type.</summary>
     /// <typeparam name="TCloneableObject">The type of the clone.</typeparam>
     public interface ICloneableObject<out TCloneableObject> : ICloneableObject where TCloneableObject : ICloneableObject<TCloneableObject>

@@ -4,7 +4,7 @@
     public interface IObjectPath : IObject
     {
     }
- 
+
     /// <summary>Defines a generic contract for an object path of type T.</summary>
     /// <typeparam name="T">The type of the object path.</typeparam>
     public interface IObjectPath<T> : IObjectPath where T : IObjectPath<T>

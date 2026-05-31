@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
- 
+
 namespace DiGi.Core.Interfaces
 {
     /// <summary>Defines a contract for a solver that takes one input and produces multiple outputs.</summary>
@@ -9,7 +9,7 @@ namespace DiGi.Core.Interfaces
     {
         /// <summary>Gets or sets the input value for the solver.</summary>
         TInput? Input { set; }
- 
+
         /// <summary>Gets the resulting list of output values from the solver.</summary>
         List<TOutput>? Outputs { get; }
     }

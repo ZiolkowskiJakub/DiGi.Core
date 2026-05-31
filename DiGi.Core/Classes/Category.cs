@@ -76,7 +76,6 @@ namespace DiGi.Core.Classes
             }
         }
 
-
         /// <summary>
         /// Gets the name of the category.
         /// </summary>

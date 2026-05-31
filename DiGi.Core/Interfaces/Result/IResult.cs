@@ -4,7 +4,7 @@
     public interface IResult : IObject
     {
     }
- 
+
     /// <summary>Defines a generic contract for a result containing a value of type T.</summary>
     /// <typeparam name="T">The type of the result value.</typeparam>
     public interface IResult<T> : IResult

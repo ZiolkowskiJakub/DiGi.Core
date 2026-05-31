@@ -7,7 +7,7 @@
     {
         /// <summary>Gets or sets the input value for the solver.</summary>
         TInput? Input { set; }
- 
+
         /// <summary>Gets the resulting output value from the solver.</summary>
         TOutput? Output { get; }
     }

@@ -5,7 +5,7 @@
     {
         /// <summary>Gets the latitude coordinate.</summary>
         double Latitude { get; }
- 
+
         /// <summary>Gets the longitude coordinate.</summary>
         double Longitude { get; }
     }

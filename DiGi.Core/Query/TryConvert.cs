@@ -683,7 +683,7 @@ namespace DiGi.Core
                     return true;
                 }
 
-                if(jsonElement.GetString() is not string value)
+                if (jsonElement.GetString() is not string value)
                 {
                     return false;
                 }
@@ -1040,7 +1040,7 @@ namespace DiGi.Core
                     return true;
                 }
 
-                if(jsonElement.GetString() is not string value)
+                if (jsonElement.GetString() is not string value)
                 {
                     return false;
                 }
@@ -1114,7 +1114,7 @@ namespace DiGi.Core
                     return true;
                 }
 
-                if(jsonElement.GetString() is not string value)
+                if (jsonElement.GetString() is not string value)
                 {
                     return false;
                 }

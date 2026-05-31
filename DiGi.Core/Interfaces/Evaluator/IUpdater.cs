@@ -7,7 +7,7 @@
         /// <returns>True if the update was successful, false otherwise.</returns>
         bool Update();
     }
- 
+
     /// <summary>Defines a generic contract for an updater that handles values of type TValue.</summary>
     /// <typeparam name="TValue">The type of value to be updated.</typeparam>
     public interface IUpdater<TValue> : IUpdater

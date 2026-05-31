@@ -4,7 +4,7 @@
     public interface IValidator : IEvaluator
     {
     }
- 
+
     /// <summary>Defines a generic contract for an evaluator that validates data of type T.</summary>
     /// <typeparam name="T">The type of the data to validate.</typeparam>
     public interface IValidator<T> : IValidator

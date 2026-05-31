@@ -8,10 +8,10 @@ namespace DiGi.Core.IO.Table.Interfaces
     {
         /// <summary>Gets or sets the index of the column.</summary>
         int Index { get; set; }
- 
+
         /// <summary>Gets the data type of the column.</summary>
         public Type? Type { get; }
- 
+
         /// <summary>Tries to get a valid value for this column from the input object.</summary>
         /// <param name="in">The input value to validate or convert.</param>
         /// <param name="out">The validated and potentially converted output value.</param>
