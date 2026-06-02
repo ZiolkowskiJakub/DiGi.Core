@@ -1,5 +1,8 @@
-﻿namespace DiGi.Core.Constants
+namespace DiGi.Core.Constants
 {
+    /// <summary>
+    /// Provides tolerance constants for comparisons and geometric operations.
+    /// </summary>
     public static class Tolerance
     {
         /// <summary>

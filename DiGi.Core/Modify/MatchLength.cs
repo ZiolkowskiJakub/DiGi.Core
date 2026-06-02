@@ -1,9 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace DiGi.Core
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Matches the length of two lists by duplicating elements cyclically from the shorter list to match the longer list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the first list.</typeparam>
+        /// <typeparam name="X">The type of elements in the second list.</typeparam>
+        /// <param name="list_1">The first list.</param>
+        /// <param name="list_2">The second list.</param>
+        /// <returns>True if lengths were successfully matched; otherwise, false.</returns>
         public static bool MatchLength<T, X>(List<T>? list_1, List<X>? list_2)
         {
             if (list_1 == null || list_2 == null)

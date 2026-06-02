@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -7,6 +7,11 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves the properties and fields of a type that are marked for serialization.
+        /// </summary>
+        /// <param name="type">The type to reflect on.</param>
+        /// <returns>A list of serializable MemberInfo objects.</returns>
         public static List<MemberInfo>? SerializableMemberInfos(this Type? type)
         {
             if (type == null)

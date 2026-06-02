@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +7,11 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves all public static extension methods from the current app domain assemblies.
+        /// </summary>
+        /// <param name="type">Optional. The type that the extension method extends.</param>
+        /// <returns>A list of MethodInfo objects representing the extension methods.</returns>
         public static List<MethodInfo> ExtensionMethodInfos(Type? type = null)
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();

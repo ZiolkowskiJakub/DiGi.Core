@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -13,6 +13,10 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Value)]
         protected TObject? value;
 
+        /// <summary>
+        /// Initializes a new instance of the Value class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object.</param>
         public Value(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -39,6 +43,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the wrapped value.
+        /// </summary>
         TObject? IValue<TObject>.Value => value;
 
         /// <summary>
@@ -254,6 +261,10 @@ namespace DiGi.Core.Classes
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Value class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object.</param>
         public Value(JsonObject? jsonObject)
             : base(jsonObject)
         {

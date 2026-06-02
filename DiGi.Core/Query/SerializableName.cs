@@ -1,10 +1,15 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Gets the serializable name (e.g. from JsonPropertyNameAttribute) for a MemberInfo.
+        /// </summary>
+        /// <param name="memberInfo">The MemberInfo.</param>
+        /// <returns>The serializable name.</returns>
         public static string? SerializableName(this MemberInfo? memberInfo)
         {
             if (memberInfo == null)

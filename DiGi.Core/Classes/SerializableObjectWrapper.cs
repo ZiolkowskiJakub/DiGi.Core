@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -30,17 +30,30 @@ namespace DiGi.Core.Classes
             return new SerializableObjectWrapper(jsonObject);
         }
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
         public override ISerializableObject? Clone()
         {
             return new SerializableObjectWrapper(jsonObject);
         }
 
+        /// <summary>
+        /// Populates the object's properties from the specified JsonObject.
+        /// </summary>
+        /// <param name="jsonObject">The JsonObject to populate from.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         public override bool FromJsonObject(JsonObject? jsonObject)
         {
             jsonObject = jsonObject?.DeepClone() as JsonObject;
             return jsonObject != null;
         }
 
+        /// <summary>
+        /// Converts the current instance into a JsonObject.
+        /// </summary>
+        /// <returns>A JsonObject representation of the instance.</returns>
         public override JsonObject? ToJsonObject()
         {
             return jsonObject?.DeepClone() as JsonObject;

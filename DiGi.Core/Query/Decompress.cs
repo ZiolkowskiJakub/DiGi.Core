@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,6 +39,12 @@ namespace DiGi.Core
             return Encoding.UTF8.GetString(buffer);
         }
 
+        /// <summary>
+        /// Decompresses a Base64 encoded string back into a collection of ISerializableObjects.
+        /// </summary>
+        /// <typeparam name="T">The type of the serializable objects.</typeparam>
+        /// <param name="string">The string to decompress.</param>
+        /// <returns>A list of deserialized objects, or null if decompression fails.</returns>
         public static List<T>? Decompress<T>(this string? @string) where T : ISerializableObject
         {
             if (string.IsNullOrWhiteSpace(@string))

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Enums;
+using DiGi.Core.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -148,6 +148,14 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Compares a collection of strings against a single string using the specified comparison type.
+        /// </summary>
+        /// <param name="values">The collection of strings to compare.</param>
+        /// <param name="value">The string to compare against.</param>
+        /// <param name="textComparisonType">The comparison type to use.</param>
+        /// <param name="caseSensitive">Whether the comparison should be case sensitive.</param>
+        /// <returns>A list of booleans representing the comparison results.</returns>
         public static List<bool>? Compare(this IEnumerable<string>? values, string? value, TextComparisonType textComparisonType, bool caseSensitive = true)
         {
             if (values == null)
@@ -164,6 +172,13 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Compares a collection of doubles against a single double using the specified comparison type.
+        /// </summary>
+        /// <param name="values">The collection of doubles to compare.</param>
+        /// <param name="value">The double to compare against.</param>
+        /// <param name="numberComparisonType">The numeric comparison type to use.</param>
+        /// <returns>A list of booleans representing the comparison results.</returns>
         public static List<bool>? Compare(this IEnumerable<double>? values, double value, NumberComparisonType numberComparisonType)
         {
             if (values == null)

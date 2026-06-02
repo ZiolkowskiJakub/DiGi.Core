@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Splits a string by a separator, respecting quoted sections.
+        /// </summary>
+        /// <param name="text">The text to split.</param>
+        /// <param name="separator">The separator string.</param>
+        /// <returns>A list of extracted strings.</returns>
         public static List<string>? QuotedStrings(string? text, string separator = ",")
         {
             if (text == null)

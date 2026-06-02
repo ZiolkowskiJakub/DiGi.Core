@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a list of all parent directories up to the root for a given directory path.
+        /// </summary>
+        /// <param name="directory">The starting directory path.</param>
+        /// <returns>A list of directory paths, or null if the path is invalid.</returns>
         public static List<string>? Directories(string? directory)
         {
             if (string.IsNullOrWhiteSpace(directory))
@@ -29,6 +34,11 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a list of all parent directories up to the root for a given DirectoryInfo.
+        /// </summary>
+        /// <param name="directoryInfo">The DirectoryInfo object.</param>
+        /// <returns>A list of directory paths, or null if the DirectoryInfo is null.</returns>
         public static List<string>? Directories(DirectoryInfo? directoryInfo)
         {
             if (directoryInfo == null)

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 
 namespace DiGi.Core
 {
@@ -26,6 +26,14 @@ namespace DiGi.Core
             return value;
         }
 
+        /// <summary>
+        /// Limits the values of a Range to be within the specified minimum and maximum values.
+        /// </summary>
+        /// <typeparam name="T">The type of the range elements.</typeparam>
+        /// <param name="range">The range to clamp.</param>
+        /// <param name="min">The minimal value.</param>
+        /// <param name="max">The maximal value.</param>
+        /// <returns>A new Range clamped to the specified limits, or null if the input range is null.</returns>
         public static Range<T>? Clamp<T>(this Range<T>? range, T min, T max)
         {
             if (range is null)

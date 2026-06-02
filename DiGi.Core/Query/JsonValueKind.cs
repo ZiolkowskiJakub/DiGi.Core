@@ -1,10 +1,15 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines the JsonValueKind of a given object.
+        /// </summary>
+        /// <param name="value">The object to evaluate.</param>
+        /// <returns>The corresponding JsonValueKind.</returns>
         public static JsonValueKind JsonValueKind(this object value)
         {
             if (value == null)

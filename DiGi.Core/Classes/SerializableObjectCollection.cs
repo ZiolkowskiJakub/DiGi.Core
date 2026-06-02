@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +42,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the number of elements contained in the collection.
+        /// </summary>
         [JsonIgnore]
         public int Count
         {
@@ -51,6 +54,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the collection is read-only.
+        /// </summary>
         [JsonIgnore]
         public bool IsReadOnly => false;
 
@@ -108,16 +114,28 @@ namespace DiGi.Core.Classes
             return serializableObjectCollection.values == null ? [] : [.. serializableObjectCollection.values];
         }
 
+        /// <summary>
+        /// Adds an item to the collection.
+        /// </summary>
+        /// <param name="serializableObject">The object to add to the collection.</param>
         public void Add(T serializableObject)
         {
             values.Add(serializableObject);
         }
 
+        /// <summary>
+        /// Removes all items from the collection.
+        /// </summary>
         public void Clear()
         {
             values?.Clear();
         }
 
+        /// <summary>
+        /// Determines whether the collection contains a specific value.
+        /// </summary>
+        /// <param name="item">The object to locate in the collection.</param>
+        /// <returns>True if the item is found; otherwise, false.</returns>
         public bool Contains(T? item)
         {
             if (values == null || item == null)
@@ -128,6 +146,11 @@ namespace DiGi.Core.Classes
             return values.Contains(item);
         }
 
+        /// <summary>
+        /// Copies the elements of the collection to an Array, starting at a particular Array index.
+        /// </summary>
+        /// <param name="array">The one-dimensional Array that is the destination of the elements.</param>
+        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             if (values == null)
@@ -161,16 +184,29 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             return values?.GetEnumerator() ?? Enumerable.Empty<T>().GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the collection.
+        /// </summary>
+        /// <param name="item">The object to remove from the collection.</param>
+        /// <returns>True if item was successfully removed from the collection; otherwise, false.</returns>
         public bool Remove(T? item)
         {
             if (values == null || item == null)
@@ -181,6 +217,10 @@ namespace DiGi.Core.Classes
             return values.Remove(item);
         }
 
+        /// <summary>
+        /// Removes the element at the specified index of the collection.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to remove.</param>
         public void RemoveAt(int index)
         {
             values.RemoveAt(index);
@@ -212,6 +252,10 @@ namespace DiGi.Core.Classes
         {
         }
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
         public override ISerializableObject? Clone()
         {
             return new SerializableObjectCollection(this);

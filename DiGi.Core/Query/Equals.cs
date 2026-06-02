@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +6,12 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Compares two byte arrays for equality.
+        /// </summary>
+        /// <param name="bytes_1">The first byte array.</param>
+        /// <param name="bytes_2">The second byte array.</param>
+        /// <returns>True if the arrays are equal; otherwise, false.</returns>
         public static bool Equals(this byte[]? bytes_1, byte[]? bytes_2)
         {
             if (bytes_1 == null && bytes_2 == null)
@@ -34,6 +40,12 @@ namespace DiGi.Core
             return true;
         }
 
+        /// <summary>
+        /// Compares two non-generic IEnumerable collections for equality.
+        /// </summary>
+        /// <param name="enumerable_1">The first collection.</param>
+        /// <param name="enumerable_2">The second collection.</param>
+        /// <returns>True if the collections contain the same elements in the same order; otherwise, false.</returns>
         public static bool Equals(this IEnumerable? enumerable_1, IEnumerable? enumerable_2)
         {
             if (enumerable_1 == null && enumerable_2 == null)
@@ -92,6 +104,13 @@ namespace DiGi.Core
             return true;
         }
 
+        /// <summary>
+        /// Compares two generic IEnumerable collections for equality.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the collections.</typeparam>
+        /// <param name="enumerable_1">The first collection.</param>
+        /// <param name="enumerable_2">The second collection.</param>
+        /// <returns>True if the collections contain the same elements in the same order; otherwise, false.</returns>
         public static bool Equals<T>(this IEnumerable<T>? enumerable_1, IEnumerable<T>? enumerable_2)
         {
             if (enumerable_1 == null && enumerable_2 == null)

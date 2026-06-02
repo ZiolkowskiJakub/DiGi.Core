@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,6 +39,11 @@ namespace DiGi.Core
             return System.Convert.ToBase64String(gZipBuffer);
         }
 
+        /// <summary>
+        /// Compresses an ISerializableObject into a Base64 encoded string.
+        /// </summary>
+        /// <param name="serializableObject">The object to compress.</param>
+        /// <returns>A compressed string, or null if the object is null.</returns>
         public static string? Compress(this ISerializableObject? serializableObject)
         {
             string? @string = Convert.ToSystem_String(serializableObject);
@@ -50,6 +55,12 @@ namespace DiGi.Core
             return Compress(@string);
         }
 
+        /// <summary>
+        /// Compresses a collection of ISerializableObject into a Base64 encoded string.
+        /// </summary>
+        /// <typeparam name="T">The type of the serializable objects.</typeparam>
+        /// <param name="serializableObject">The collection of objects to compress.</param>
+        /// <returns>A compressed string, or null if the collection is null.</returns>
         public static string? Compress<T>(this IEnumerable<T>? serializableObject) where T : ISerializableObject
         {
             string? json = Convert.ToSystem_String(serializableObject);

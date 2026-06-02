@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Flattens a nested JSON array into a single-dimensional JSON array.
+        /// </summary>
+        /// <param name="jsonArray">The JSON array to flatten.</param>
+        /// <returns>A new flattened JSON array, or null if the input is null.</returns>
         public static JsonArray? Flatten(this JsonArray? jsonArray)
         {
             if (jsonArray == null)

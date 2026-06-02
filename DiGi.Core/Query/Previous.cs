@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +6,13 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Gets the previous element in a sequence, wrapping around if necessary.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="values">The sequence to search.</param>
+        /// <param name="index">The current index.</param>
+        /// <returns>The previous element, or default if the sequence is null or empty.</returns>
         public static T? Previous<T>(this IEnumerable<T?>? values, int index)
         {
             if (values == null)
@@ -22,6 +29,12 @@ namespace DiGi.Core
             return values.ElementAt(index_Temp);
         }
 
+        /// <summary>
+        /// Calculates the previous index in a circular collection.
+        /// </summary>
+        /// <param name="count">The total number of elements.</param>
+        /// <param name="index">The current index.</param>
+        /// <returns>The previous index, or -1 if invalid.</returns>
         public static int Previous(this int count, int index)
         {
             if (index < 0)
@@ -45,6 +58,12 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Gets the previous value in an enum, wrapping around to the last if it's the first.
+        /// </summary>
+        /// <typeparam name="TENum">The enum type.</typeparam>
+        /// <param name="enum">The current enum value.</param>
+        /// <returns>The previous enum value.</returns>
         public static TENum? Previous<TENum>(TENum? @enum) where TENum : Enum
         {
             if (@enum == null)

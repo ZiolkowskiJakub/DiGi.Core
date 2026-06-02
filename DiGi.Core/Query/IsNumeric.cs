@@ -1,15 +1,26 @@
-﻿using DiGi.Core.Enums;
+using DiGi.Core.Enums;
 using System;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether the specified object represents a numeric type.
+        /// </summary>
+        /// <param name="object">The object to check.</param>
+        /// <returns>True if the object is numeric; otherwise, false.</returns>
         public static bool IsNumeric(this object? @object)
         {
             return IsNumeric(@object, out _);
         }
 
+        /// <summary>
+        /// Determines whether the specified object represents a numeric type and checks if it's an integer.
+        /// </summary>
+        /// <param name="object">The object to check.</param>
+        /// <param name="isInteger">Out parameter indicating whether the numeric type is an integer.</param>
+        /// <returns>True if the object is numeric; otherwise, false.</returns>
         public static bool IsNumeric(this object? @object, out bool isInteger)
         {
             isInteger = false;
@@ -32,11 +43,22 @@ namespace DiGi.Core
             return IsNumeric(@object.GetType(), out isInteger);
         }
 
+        /// <summary>
+        /// Determines whether the specified Type represents a numeric type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>True if the type is numeric; otherwise, false.</returns>
         public static bool IsNumeric(this Type? type)
         {
             return IsNumeric(type, out _);
         }
 
+        /// <summary>
+        /// Determines whether the specified Type represents a numeric type and checks if it's an integer.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <param name="isInteger">Out parameter indicating whether the numeric type is an integer.</param>
+        /// <returns>True if the type is numeric; otherwise, false.</returns>
         public static bool IsNumeric(this Type? type, out bool isInteger)
         {
             isInteger = false;
@@ -80,11 +102,22 @@ namespace DiGi.Core
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified DataType represents a numeric type and checks if it's an integer.
+        /// </summary>
+        /// <param name="dataType">The DataType to check.</param>
+        /// <param name="isInteger">Out parameter indicating whether the numeric type is an integer.</param>
+        /// <returns>True if the DataType is numeric; otherwise, false.</returns>
         public static bool IsNumeric(this DataType dataType, out bool isInteger)
         {
             return IsNumeric(Type(dataType), out isInteger);
         }
 
+        /// <summary>
+        /// Determines whether the specified DataType represents a numeric type.
+        /// </summary>
+        /// <param name="dataType">The DataType to check.</param>
+        /// <returns>True if the DataType is numeric; otherwise, false.</returns>
         public static bool IsNumeric(this DataType dataType)
         {
             return IsNumeric(Type(dataType));

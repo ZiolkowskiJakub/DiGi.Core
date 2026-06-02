@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -15,6 +15,12 @@ namespace DiGi.Core.Classes
         {
         }
 
+        /// <summary>
+        /// Retrieves the <see cref="MethodInfo"/> for the specified type.
+        /// </summary>
+        /// <param name="type">The type to get the method info for.</param>
+        /// <param name="update">If set to <c>true</c>, updates the internal cache if the method info is not found.</param>
+        /// <returns>The <see cref="MethodInfo"/> if found; otherwise, <c>null</c>.</returns>
         public MethodInfo? GetMethodInfo(Type? type, bool update = true)
         {
             if (type == null)
@@ -31,6 +37,12 @@ namespace DiGi.Core.Classes
             return GetMethodInfo(fullTypeName, update);
         }
 
+        /// <summary>
+        /// Retrieves the <see cref="MethodInfo"/> for the specified full type name.
+        /// </summary>
+        /// <param name="fullTypeName">The full name of the type to get the method info for.</param>
+        /// <param name="update">If set to <c>true</c>, updates the internal cache if the method info is not found.</param>
+        /// <returns>The <see cref="MethodInfo"/> if found; otherwise, <c>null</c>.</returns>
         public MethodInfo? GetMethodInfo(string? fullTypeName, bool update = true)
         {
             if (string.IsNullOrWhiteSpace(fullTypeName))

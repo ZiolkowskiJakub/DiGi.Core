@@ -1,9 +1,18 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a 2D array of values by reading and parsing a delimited text file.
+        /// </summary>
+        /// <typeparam name="T">The type of the array elements.</typeparam>
+        /// <param name="path">The file path to read from.</param>
+        /// <param name="separator">The string used to separate values in each line.</param>
+        /// <param name="removeEmptyLines">If true, ignores empty lines in the file.</param>
+        /// <param name="default">The default value to use if parsing fails.</param>
+        /// <returns>A 2D array containing the parsed values, or null if the file is invalid.</returns>
         public static T?[,]? Array<T>(string? path, string separator = "\t", bool removeEmptyLines = true, T? @default = default)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))

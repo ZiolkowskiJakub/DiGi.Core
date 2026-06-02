@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
 using System.Linq;
@@ -37,8 +37,8 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        [JsonIgnore]
         /// <summary>Gets the collection of associated types.</summary>
+        [JsonIgnore]
         public Type[]? Types
         {
             get
