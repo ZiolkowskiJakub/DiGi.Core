@@ -1,9 +1,15 @@
-﻿using System;
+using System;
 
 namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to parse a "TypeFullName:EnumValueName" formatted string into an Enum value.
+        /// </summary>
+        /// <param name="text">The text in "TypeFullName:EnumValueName" format.</param>
+        /// <param name="enum">When this method returns, contains the parsed Enum value, or null if parsing failed.</param>
+        /// <returns>True if the parsing was successful; otherwise, false.</returns>
         public static bool TryGetEnum(string? text, out Enum? @enum)
         {
             @enum = default;
@@ -101,6 +107,13 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to parse a string into a strongly-typed enum value of type <typeparamref name="TEnum"/>.
+        /// </summary>
+        /// <typeparam name="TEnum">The target enum type.</typeparam>
+        /// <param name="text">The text to parse.</param>
+        /// <param name="enum">When this method returns, contains the parsed TEnum value, or default if parsing failed.</param>
+        /// <returns>True if the parsing was successful; otherwise, false.</returns>
         public static bool TryGetEnum<TEnum>(this string? text, out TEnum? @enum) where TEnum : Enum
         {
             @enum = default;

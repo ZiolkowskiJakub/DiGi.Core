@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Enums;
+using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
@@ -11,6 +11,13 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to convert the specified object to the target type.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted object, or null if conversion failed.</param>
+        /// <param name="type">The target type to convert to.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert(this object? @object, out object? result, Type? type)
         {
             result = default;
@@ -183,6 +190,13 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to the target type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The target type to convert to.</typeparam>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted value, or default if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert<T>(this object? @object, out T? result)
         {
             result = default;
@@ -204,6 +218,13 @@ namespace DiGi.Core
             return true;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object using a DataType enum to determine the target type.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted object, or null if conversion failed.</param>
+        /// <param name="dataType">The DataType enum value indicating the target type.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert(this object? @object, out object? result, DataType dataType)
         {
             result = null;
@@ -215,6 +236,13 @@ namespace DiGi.Core
             return TryConvert(@object, out result, Type(dataType));
         }
 
+        /// <summary>
+        /// Attempts to convert a <see cref="JsonElement"/> to the specified target type.
+        /// </summary>
+        /// <param name="jsonElement">The JsonElement to convert.</param>
+        /// <param name="result">When this method returns, contains the converted object, or null if conversion failed.</param>
+        /// <param name="type">The target type to convert to.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert(this JsonElement jsonElement, out object? result, Type type)
         {
             result = null;
@@ -280,6 +308,12 @@ namespace DiGi.Core
             return TryConvert(rawValue, out result, type);
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable boolean.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted bool, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Boolean(object @object, out bool? result)
         {
             result = null;
@@ -350,6 +384,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable byte.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted byte, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Byte(object @object, out byte? result)
         {
             result = null;
@@ -415,6 +455,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable <see cref="System.Drawing.Color"/>.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted Color, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Color(object @object, out System.Drawing.Color? result)
         {
             result = null;
@@ -475,6 +521,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted DateTime, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_DateTime(object @object, out DateTime? result)
         {
             result = null;
@@ -565,6 +617,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable decimal.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted decimal, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Decimal(object @object, out decimal? result)
         {
             result = null;
@@ -627,6 +685,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable double.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted double, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Double(object @object, out double? result)
         {
             result = null;
@@ -698,6 +762,13 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to an Enum of the specified type.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted Enum, or null if conversion failed.</param>
+        /// <param name="type">The target enum type.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Enum(object @object, out Enum? result, Type type)
         {
             result = default;
@@ -809,6 +880,13 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to an IEnumerable of the specified type.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted IEnumerable, or null if conversion failed.</param>
+        /// <param name="type">The target enumerable type.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Enumerable(object @object, out IEnumerable? result, Type type)
         {
             result = default;
@@ -887,6 +965,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable float.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted float, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Float(object @object, out float? result)
         {
             result = null;
@@ -956,6 +1040,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable <see cref="Guid"/>.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted Guid, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Guid(object @object, out Guid? result)
         {
             result = null;
@@ -991,6 +1081,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable int.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted int, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Int(object @object, out int? result)
         {
             result = null;
@@ -1055,6 +1151,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a <see cref="JsonNode"/>.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted JsonNode, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_JsonNode(object @object, out JsonNode? result)
         {
             result = default;
@@ -1068,6 +1170,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable long.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted long, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Long(object @object, out long? result)
         {
             result = null;
@@ -1129,6 +1237,13 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to an <see cref="ISerializableObject"/> of the specified type.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted ISerializableObject, or null if conversion failed.</param>
+        /// <param name="type">The target ISerializableObject type.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_SerializableObject(object @object, out ISerializableObject? result, Type type)
         {
             result = null;
@@ -1223,6 +1338,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable short.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted short, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Short(object @object, out short? result)
         {
             result = null;
@@ -1288,6 +1409,12 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable string.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted string, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_String(this object? @object, out string? result)
         {
             if (@object is null)

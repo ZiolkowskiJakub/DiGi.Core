@@ -1,7 +1,12 @@
-﻿namespace DiGi.Core
+namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Converts a <see cref="Enums.UTC"/> enum value to its corresponding numeric hour offset from UTC.
+        /// </summary>
+        /// <param name="uTC">The UTC timezone enum value.</param>
+        /// <returns>The numeric hour offset (e.g., 2.0 for UTC+2), or NaN if undefined.</returns>
         public static double TimeOffset(this Enums.UTC uTC)
         {
             if (uTC == Enums.UTC.Undefined)
