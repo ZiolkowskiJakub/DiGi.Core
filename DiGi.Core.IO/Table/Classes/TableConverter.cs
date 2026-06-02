@@ -9,11 +9,13 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.Table.Classes
 {
+    /// <summary>Provides custom JSON serialization and deserialization for tables.</summary>
     public class TableConverter<UTable, UColumn, URow> : JsonConverter<UTable>
         where UTable : ITable<UColumn, URow>, new()
         where UColumn : IColumn
         where URow : IRow<URow>
     {
+        /// <summary>Reads and deserializes a table object from the provided UTF8 JSON reader.</summary>
         public override UTable? Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
             if (utf8JsonReader.TokenType != JsonTokenType.StartObject)
@@ -86,6 +88,7 @@ namespace DiGi.Core.IO.Table.Classes
             return table;
         }
 
+        /// <summary>Serializes a table object into the provided UTF8 JSON writer.</summary>
         public override void Write(Utf8JsonWriter utf8JsonWriter, UTable table, JsonSerializerOptions jsonSerializerOptions)
         {
             utf8JsonWriter.WriteStartObject();

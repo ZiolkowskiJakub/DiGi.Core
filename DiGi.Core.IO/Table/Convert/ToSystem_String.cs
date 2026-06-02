@@ -17,6 +17,5 @@ namespace DiGi.Core.IO.Table
             // Zero string allocations - pipes the bytes directly into the destination stream asynchronously
             return JsonSerializer.Serialize(table, jsonSerializerOptions);
         }
-
     }
 }

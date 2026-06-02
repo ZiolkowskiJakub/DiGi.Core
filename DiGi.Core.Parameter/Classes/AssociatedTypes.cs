@@ -7,22 +7,28 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
-    [AttributeUsage(AttributeTargets.Enum, AllowMultiple = false)]
+    /// <summary>Defines a set of types associated with an enum value.</summary>
     public class AssociatedTypes : Attribute, IEnumerable, ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Types")]
         private readonly Type[]? types;
 
+        /// <summary>Initializes a new instance of the AssociatedTypes class with specified values.</summary>
+        /// <param name="values">The associated types.</param>
         public AssociatedTypes(params Type[]? values)
         {
             types = values;
         }
 
+        /// <summary>Initializes a new instance of the AssociatedTypes class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object containing associated types data.</param>
         public AssociatedTypes(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
 
+        /// <summary>Initializes a new instance of the AssociatedTypes class by copying another AssociatedTypes instance.</summary>
+        /// <param name="associatedTypes">The AssociatedTypes instance to copy.</param>
         public AssociatedTypes(AssociatedTypes? associatedTypes)
         {
             if (associatedTypes != null)
@@ -32,6 +38,7 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         [JsonIgnore]
+        /// <summary>Gets the collection of associated types.</summary>
         public Type[]? Types
         {
             get
@@ -40,16 +47,23 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>Creates a shallow copy of the current AssociatedTypes instance.</summary>
+        /// <returns>A cloned ISerializableObject.</returns>
         public virtual ISerializableObject? Clone()
         {
             return new AssociatedTypes(types);
         }
 
+        /// <summary>Populates the current AssociatedTypes instance from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object to read data from.</param>
+        /// <returns>True if successful, false otherwise.</returns>
         public virtual bool FromJsonObject(JsonObject? jsonObject)
         {
             return Modify.FromJsonObject(this, jsonObject);
         }
 
+        /// <summary>Returns an enumerator that iterates through the associated types.</summary>
+        /// <returns>An IEnumerator for the Types collection.</returns>
         public IEnumerator GetEnumerator()
         {
             if (types == null)
@@ -60,6 +74,9 @@ namespace DiGi.Core.Parameter.Classes
             return types.GetEnumerator();
         }
 
+        /// <summary>Determines whether a specified type is associated with this instance.</summary>
+        /// <param name="type">The type to validate.</param>
+        /// <returns>True if the type is valid, false otherwise.</returns>
         public virtual bool IsValid(Type? type)
         {
             if (types == null || types.Length == 0 || type == null)
@@ -88,6 +105,8 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>Converts the current AssociatedTypes instance to a JSON object.</summary>
+        /// <returns>The resulting JsonObject.</returns>
         public virtual JsonObject? ToJsonObject()
         {
             return Convert.ToJson(this);

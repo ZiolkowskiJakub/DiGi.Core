@@ -8,9 +8,16 @@ namespace DiGi.Core.Enums
     [Description("Rounding Method")]
     public enum RoundingMethod
     {
+        /// <summary>Undefined</summary>
         [Description("Undefined")] Undefined,
+
+        /// <summary>Ceiling</summary>
         [Description("Ceiling")] Ceiling,
+
+        /// <summary>Nearest</summary>
         [Description("Nearest")] Nearest,
+
+        /// <summary>Truncate</summary>
         [Description("Truncate")] Truncate,
     }
 }
