@@ -13,6 +13,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
+    /// <summary>
+    /// Base class for files that support metadata and persistence via Zip archives.
+    /// </summary>
     public abstract class File : SerializableObject, IFile
     {
         private bool disposed = false;
@@ -20,17 +23,26 @@ namespace DiGi.Core.IO.File.Classes
         [JsonInclude, JsonPropertyName("MetadataStorage"), Description("MetadataStorage")]
         private MetadataStorage metadataStorage = new();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="File"/> class with the specified path.
+        /// </summary>
         public File(string? path)
             : base()
         {
             metadataStorage.SetMetadata(new FileMetadata(GetType(), path));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="File"/> class from a JSON object.
+        /// </summary>
         public File(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="File"/> class by cloning another file's metadata.
+        /// </summary>
         public File(File? file)
             : base()
         {
@@ -40,6 +52,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the path of the file.
+        /// </summary>
         public string? Path
         {
             get
@@ -57,11 +72,17 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Releases all resources used by the file.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
         }
 
+        /// <summary>
+        /// Retrieves metadata of the specified type from the file's metadata storage.
+        /// </summary>
         public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
         {
             if (metadataStorage == null)
@@ -72,6 +93,9 @@ namespace DiGi.Core.IO.File.Classes
             return metadataStorage.GetMetadata<TMetadata>();
         }
 
+        /// <summary>
+        /// Opens the file using its current path.
+        /// </summary>
         public virtual bool Open()
         {
             string? path = Path;
@@ -102,6 +126,9 @@ namespace DiGi.Core.IO.File.Classes
             return true;
         }
 
+        /// <summary>
+        /// Opens the file from the specified path.
+        /// </summary>
         public bool Open(string? path)
         {
             Path = path;
@@ -109,6 +136,9 @@ namespace DiGi.Core.IO.File.Classes
             return Open();
         }
 
+        /// <summary>
+        /// Saves the file's metadata and updates its modification date.
+        /// </summary>
         public virtual bool Save()
         {
             FileMetadata? fileMetadata = GetMetadata<FileMetadata>();
@@ -144,12 +174,18 @@ namespace DiGi.Core.IO.File.Classes
             return true;
         }
 
+        /// <summary>
+        /// Saves the file to the specified path.
+        /// </summary>
         public bool SaveAs(string? path)
         {
             Path = path;
             return Save();
         }
 
+        /// <summary>
+        /// Sets a custom metadata object for the file.
+        /// </summary>
         public void SetMetadata(IMetadata? metadata)
         {
             if (metadata == null || metadata is FileMetadata)

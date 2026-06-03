@@ -4,6 +4,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Gets the character value of a DelimitedDataSeparator enum member.
+        /// </summary>
         public static char Separator(this DelimitedDataSeparator delimitedDataSeparator)
         {
             return delimitedDataSeparator switch

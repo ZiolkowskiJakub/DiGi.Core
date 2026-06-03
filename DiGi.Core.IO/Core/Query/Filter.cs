@@ -5,6 +5,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Joins multiple file filters into a pipe-separated string.
+        /// </summary>
         public static string? Filter(params FileFilter[]? fileFilters)
         {
             if (fileFilters == null)

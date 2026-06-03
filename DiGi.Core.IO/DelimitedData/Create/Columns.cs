@@ -6,6 +6,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a list of columns from string names.
+        /// </summary>
         public static List<Column>? Columns(this IEnumerable<string>? names)
         {
             if (names == null)

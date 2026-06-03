@@ -5,6 +5,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Reads a specified number of lines from a file.
+        /// </summary>
         public static List<string>? Lines(string? path, int count)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path) || count < 0)

@@ -9,6 +9,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Reads delimited data from a reader into a table.
+        /// </summary>
         public static bool Read(this Table.Classes.Table? table, IDelimitedDataReader? delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null)
@@ -85,6 +88,9 @@ namespace DiGi.Core.IO.DelimitedData
             return true;
         }
 
+        /// <summary>
+        /// Reads delimited data from a file using a separator character into a table.
+        /// </summary>
         public static bool Read(this Table.Classes.Table? table, string? path, char separator, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -95,6 +101,9 @@ namespace DiGi.Core.IO.DelimitedData
             return Read(table, new DelimitedDataReader(separator, path), columnIndex, rowIndex);
         }
 
+        /// <summary>
+        /// Reads delimited data from a file using a DelimitedDataSeparator enum into a table.
+        /// </summary>
         public static bool Read(this Table.Classes.Table? table, string? path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))

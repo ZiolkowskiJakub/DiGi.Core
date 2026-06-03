@@ -7,6 +7,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Appends a table's data to a delimited file.
+        /// </summary>
         public static bool Append(string? path, Table.Classes.Table? table, char separator, Func<object?, string?>? func = null)
         {
             if (table == null || string.IsNullOrWhiteSpace(path))

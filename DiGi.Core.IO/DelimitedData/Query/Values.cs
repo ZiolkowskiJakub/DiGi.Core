@@ -6,6 +6,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Parses a delimited line into individual values.
+        /// </summary>
         public static List<string>? Values(this string? line, char separator, Func<string>? nextLine = null)
         {
             if (line == null)

@@ -5,6 +5,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Joins a collection of values into a delimited string.
+        /// </summary>
         public static string? Text(this IEnumerable<string?>? values, char separator)
         {
             if (values == null)

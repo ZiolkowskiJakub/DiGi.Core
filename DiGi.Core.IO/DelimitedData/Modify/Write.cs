@@ -10,6 +10,9 @@ namespace DiGi.Core.IO.DelimitedData
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Writes a table to a delimited data writer.
+        /// </summary>
         public static bool Write(this Table.Classes.Table? table, IDelimitedDataWriter? delimitedDataWriter, Func<object?, string?>? func = null)
         {
             if (table == null || delimitedDataWriter == null)
@@ -49,6 +52,9 @@ namespace DiGi.Core.IO.DelimitedData
             return true;
         }
 
+        /// <summary>
+        /// Writes a table to a delimited file using a separator character.
+        /// </summary>
         public static bool Write(this Table.Classes.Table? table, string? path, char separator, Func<object?, string?>? func = null)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -65,6 +71,9 @@ namespace DiGi.Core.IO.DelimitedData
             return result;
         }
 
+        /// <summary>
+        /// Writes a table to a delimited file using a DelimitedDataSeparator enum.
+        /// </summary>
         public static bool Write(this Table.Classes.Table? table, string? path, DelimitedDataSeparator delimitedDataSeparator, Func<object?, string?>? func = null)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))

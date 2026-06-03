@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
+    /// <summary>
+    /// Stores metadata for a file, including creation and modification dates, path, and type.
+    /// </summary>
     public class FileMetadata : GuidObject, IMetadata
     {
         [JsonInclude, JsonPropertyName("Created"), Description("Date created")]
@@ -21,6 +24,9 @@ namespace DiGi.Core.IO.File.Classes
         [JsonInclude, JsonPropertyName("Path"), Description("Path")]
         private string? path;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileMetadata"/> class with type and path.
+        /// </summary>
         public FileMetadata(Type? type, string? path)
             : base()
         {
@@ -30,6 +36,9 @@ namespace DiGi.Core.IO.File.Classes
             this.path = path;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileMetadata"/> class with type.
+        /// </summary>
         public FileMetadata(Type? type)
             : base()
         {
@@ -39,6 +48,9 @@ namespace DiGi.Core.IO.File.Classes
             path = null;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileMetadata"/> class by cloning another metadata object.
+        /// </summary>
         public FileMetadata(FileMetadata? fileMetadata)
             : base(fileMetadata)
         {
@@ -51,11 +63,17 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileMetadata"/> class from a JSON object.
+        /// </summary>
         public FileMetadata(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the date and time when the file was created.
+        /// </summary>
         public DateTime Created
         {
             get
@@ -64,6 +82,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the date and time when the file was last modified.
+        /// </summary>
         public DateTime Modified
         {
             get
@@ -77,6 +98,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the path of the file.
+        /// </summary>
         public string? Path
         {
             get
@@ -90,6 +114,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the full type name of the file.
+        /// </summary>
         public string? Type
         {
             get

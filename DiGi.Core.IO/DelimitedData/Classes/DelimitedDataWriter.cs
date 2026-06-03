@@ -5,28 +5,43 @@ using System.IO;
 
 namespace DiGi.Core.IO.DelimitedData.Classes
 {
+    /// <summary>
+    /// Writer for delimited data files.
+    /// </summary>
     public class DelimitedDataWriter : StreamWriter, IDelimitedDataWriter
     {
         private readonly char separator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelimitedDataWriter"/> class.
+        /// </summary>
         public DelimitedDataWriter(char separator, Stream? stream)
             : base(stream)
         {
             this.separator = separator;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelimitedDataWriter"/> class.
+        /// </summary>
         public DelimitedDataWriter(char separator, string? path)
             : base(path)
         {
             this.separator = separator;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelimitedDataWriter"/> class.
+        /// </summary>
         public DelimitedDataWriter(DelimitedDataSeparator delimitedDataSeparator, string? path)
             : base(path)
         {
             separator = delimitedDataSeparator.Separator();
         }
 
+        /// <summary>
+        /// Gets the character used as a separator in the delimited data file.
+        /// </summary>
         public char Separator
         {
             get

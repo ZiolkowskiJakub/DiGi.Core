@@ -25,6 +25,9 @@ namespace DiGi.Core.IO.DelimitedData
             return result;
         }
 
+        /// <summary>
+        /// Creates a Table from a delimited file using a separator character.
+        /// </summary>
         public static Table.Classes.Table? Table(string? path, char separator, int columnIndex = 0, int rowIndex = 1)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -38,6 +41,9 @@ namespace DiGi.Core.IO.DelimitedData
             return result;
         }
 
+        /// <summary>
+        /// Creates a Table from a delimited file using a DelimitedDataSeparator enum value.
+        /// </summary>
         public static Table.Classes.Table? Table(string? path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))

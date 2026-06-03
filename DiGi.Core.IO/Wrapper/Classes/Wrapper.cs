@@ -10,15 +10,24 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.IO.Wrapper.Classes
 {
+    /// <summary>
+    /// Base class for wrapping serializable objects into a structure that can be persisted and retrieved using unique references.
+    /// </summary>
     public abstract class Wrapper : IDisposable
     {
         private readonly WrapperNodeCluster wrapperNodeCluster = [];
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Wrapper"/> class.
+        /// </summary>
         public Wrapper()
         {
         }
 
+        /// <summary>
+        /// Adds a serializable object to the wrapper and returns its unique reference.
+        /// </summary>
         public UniqueReference? Add(ISerializableObject? value)
         {
             if (value == null)
@@ -35,6 +44,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperUniqueReferences[0]?.UniqueReference();
         }
 
+        /// <summary>
+        /// Adds a string value to the wrapper and returns its unique identifier reference.
+        /// </summary>
         public UniqueIdReference? Add(string? value)
         {
             if (value == null)
@@ -51,6 +63,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperUniqueReferences[0]?.UniqueReference() as UniqueIdReference;
         }
 
+        /// <summary>
+        /// Adds a double value to the wrapper and returns its unique identifier reference.
+        /// </summary>
         public UniqueIdReference? Add(double value)
         {
             List<IWrapperUniqueReference>? wrapperUniqueReferences = AddRange([value]);
@@ -62,6 +77,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return wrapperUniqueReferences[0]?.UniqueReference() as UniqueIdReference;
         }
 
+        /// <summary>
+        /// Adds a collection of serializable objects to the wrapper and returns their unique references.
+        /// </summary>
         public List<UniqueReference>? AddRange<TSerializableObject>(IEnumerable<TSerializableObject>? serializableObjects) where TSerializableObject : ISerializableObject
         {
             if (serializableObjects == null)

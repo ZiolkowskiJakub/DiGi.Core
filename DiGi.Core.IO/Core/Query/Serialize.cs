@@ -10,6 +10,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Serializes an ISerializableObject into an IArchive.
+        /// </summary>
         public static IArchive? Serialize(this ISerializableObject serializableObject)
         {
             if (serializableObject == null)

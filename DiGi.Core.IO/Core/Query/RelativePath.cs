@@ -4,6 +4,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the relative path from one directory to another.
+        /// </summary>
         public static string? RelativePath(string? relativeTo, string? path)
         {
             if (string.IsNullOrWhiteSpace(relativeTo) || string.IsNullOrWhiteSpace(path))

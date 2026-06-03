@@ -5,6 +5,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Checks if a file is locked by another process.
+        /// </summary>
         public static bool Locked(this FileInfo? fileInfo)
         {
             if (fileInfo == null)

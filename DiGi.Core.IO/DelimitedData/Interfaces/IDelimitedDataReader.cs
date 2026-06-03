@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DiGi.Core.IO.DelimitedData.Interfaces
 {
+    /// <summary>
+    /// Interface for reading delimited data files.
+    /// </summary>
     public interface IDelimitedDataReader
     {
         char Separator { get; }
