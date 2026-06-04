@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Provides a base implementation for splitting a collection of items into groups.
+    /// </summary>
     public abstract class Splitter<T, X> where X : struct, IComparable, IConvertible
     {
         // Keep track of the iteration state
@@ -10,11 +13,17 @@ namespace DiGi.Core.Classes
 
         private List<T>? items;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Splitter"/> class with the specified items.
+        /// </summary>
         public Splitter(IEnumerable<T> items)
         {
             this.items = items is null ? null : [.. items];
         }
 
+        /// <summary>
+        /// Gets or sets the list of items to be processed by the splitter.
+        /// </summary>
         public List<T>? Items
         {
             get => items;
@@ -25,6 +34,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Retrieves a value associated with the specified item.
+        /// </summary>
         public abstract X GetValue(T? item);
 
         /// <summary>
@@ -71,6 +83,9 @@ namespace DiGi.Core.Classes
             index = 0;
         }
 
+        /// <summary>
+        /// Splits the items into multiple lists based on the provided maximum value.
+        /// </summary>
         public List<List<T>>? Split(X maxValue)
         {
             if (items is null)

@@ -5,6 +5,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves the associated types for the specified type.
+        /// </summary>
         public static AssociatedTypes? AssociatedTypes(Type? type)
         {
             if (type == null)

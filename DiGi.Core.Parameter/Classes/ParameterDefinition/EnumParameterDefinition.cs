@@ -6,16 +6,25 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    /// <summary>
+    /// Defines a parameter based on an enumeration type.
+    /// </summary>
     public class EnumParameterDefinition : ComplexParameterDefinition
     {
         [JsonInclude, JsonPropertyName("Enum")]
         private Enum? @enum;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class from a JSON object.
+        /// </summary>
         public EnumParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class by copying an existing definition.
+        /// </summary>
         public EnumParameterDefinition(EnumParameterDefinition? enumParameterDefinition)
             : base(enumParameterDefinition)
         {
@@ -25,16 +34,25 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class based on a specific enumeration value.
+        /// </summary>
         public EnumParameterDefinition(Enum? @enum)
         {
             this.@enum = @enum;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class.
+        /// </summary>
         public EnumParameterDefinition()
             : base()
         {
         }
 
+        /// <summary>
+        /// Gets the access type for the enum parameter.
+        /// </summary>
         public override AccessType AccessType
         {
             get
@@ -49,6 +67,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the associated types for the enum parameter.
+        /// </summary>
         public override AssociatedTypes? AssociatedTypes
         {
             get
@@ -57,6 +78,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the description of the enum parameter.
+        /// </summary>
         public override string? Description
         {
             get
@@ -65,6 +89,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the group name to which the enum parameter belongs.
+        /// </summary>
         public override string GroupName
         {
             get
@@ -77,6 +104,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the enum parameter.
+        /// </summary>
         public override string? Name
         {
             get
@@ -85,6 +115,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current value of the enum parameter.
+        /// </summary>
         public override ParameterValue? ParameterValue
         {
             get
@@ -93,6 +126,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the unique identifier for the enum parameter.
+        /// </summary>
         public override string? UniqueId
         {
             get
@@ -121,11 +157,17 @@ namespace DiGi.Core.Parameter.Classes
             return new EnumParameterDefinition(@enum);
         }
 
+        /// <summary>
+        /// Creates a copy of the current enum parameter definition.
+        /// </summary>
         public override ISerializableObject? Clone()
         {
             return new EnumParameterDefinition(this);
         }
 
+        /// <summary>
+        /// Populates the enum parameter definition from a JSON object.
+        /// </summary>
         public override bool FromJsonObject(JsonObject? jsonObject)
         {
             if (jsonObject == null)
@@ -141,6 +183,9 @@ namespace DiGi.Core.Parameter.Classes
             return true;
         }
 
+        /// <summary>
+        /// Converts the enum parameter definition to a JSON object.
+        /// </summary>
         public override JsonObject ToJsonObject()
         {
             JsonObject result = new()

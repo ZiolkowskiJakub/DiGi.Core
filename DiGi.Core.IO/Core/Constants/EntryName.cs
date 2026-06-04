@@ -1,5 +1,8 @@
 ﻿namespace DiGi.Core.IO.Constants
 {
+    /// <summary>
+    /// Provides utility methods for managing entry names.
+    /// </summary>
     public static class EntryName
     {
         public const string Value = "Value";

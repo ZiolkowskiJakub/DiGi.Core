@@ -16,6 +16,9 @@ namespace DiGi.Core.Classes
             this.name = name;
         }
 
+        /// <summary>
+        /// Gets the member information associated with this instance.
+        /// </summary>
         public MemberInfo MemberInfo
         {
             get
@@ -24,6 +27,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the name of the serialization component.
+        /// </summary>
         public string Name
         {
             get

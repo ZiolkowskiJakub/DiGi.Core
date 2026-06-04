@@ -10,16 +10,25 @@ namespace DiGi.Core.Classes
         [JsonIgnore]
         private int? hashCode = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableReference"/> class.
+        /// </summary>
         public SerializableReference()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableReference"/> class from a JSON object.
+        /// </summary>
         public SerializableReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableReference"/> class by copying an existing reference.
+        /// </summary>
         public SerializableReference(SerializableReference? serializableReference)
             : base(serializableReference)
         {
@@ -69,6 +78,9 @@ namespace DiGi.Core.Classes
             return serializableReference_1?.GetHashCode() == serializableReference_2?.GetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current serializable reference.
+        /// </summary>
         public override bool Equals(object @object)
         {
             if (@object == null)
@@ -84,6 +96,9 @@ namespace DiGi.Core.Classes
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified reference is equal to the current serializable reference.
+        /// </summary>
         public bool Equals(IReference reference)
         {
             if (reference == null)
@@ -94,6 +109,9 @@ namespace DiGi.Core.Classes
             return reference.GetHashCode() == GetHashCode();
         }
 
+        /// <summary>
+        /// Gets the hash code for the current type reference.
+        /// </summary>
         public override int GetHashCode()
         {
             hashCode ??= ToString().GetHashCode();

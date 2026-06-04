@@ -11,6 +11,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.IO.File.Classes
 {
+    /// <summary>
+    /// Represents a file used for storing and managing serializable objects.
+    /// </summary>
     public class StorageFile<TSerializableObject> : File, IValuesFile<TSerializableObject> where TSerializableObject : ISerializableObject
     {
         [JsonIgnore]
@@ -19,16 +22,25 @@ namespace DiGi.Core.IO.File.Classes
         [JsonIgnore]
         private bool disposed = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class using the specified file path.
+        /// </summary>
         public StorageFile(string? path)
             : base(path)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class from the provided JSON object.
+        /// </summary>
         public StorageFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class from an existing typed storage file.
+        /// </summary>
         public StorageFile(StorageFile<TSerializableObject>? storageFile)
             : base(storageFile)
         {
@@ -38,6 +50,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the total number of elements contained in the storage file.
+        /// </summary>
         [JsonIgnore]
         public int Count
         {
@@ -53,6 +68,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Gets all stored values as a collection of serializable objects.
+        /// </summary>
         [JsonInclude]
         public IEnumerable<TSerializableObject?>? Values
         {
@@ -67,6 +85,9 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Adds a serializable object to the storage and returns its unique reference.
+        /// </summary>
         public UniqueReference? AddValue(TSerializableObject? serializableObject)
         {
             UniqueReference? uniqueReference = GetUniqueReference(serializableObject); //Create.UniqueReference(serializableObject);
@@ -86,6 +107,9 @@ namespace DiGi.Core.IO.File.Classes
             return uniqueReference;
         }
 
+        /// <summary>
+        /// Determines whether the storage contains an object associated with the specified unique reference.
+        /// </summary>
         public bool Contains(UniqueReference? uniqueReference)
         {
             if (uniqueReference is null)
@@ -101,11 +125,17 @@ namespace DiGi.Core.IO.File.Classes
             return GetValue(uniqueReference) != null;
         }
 
+        /// <summary>
+        /// Retrieves the unique reference for the specified serializable object.
+        /// </summary>
         public virtual UniqueReference? GetUniqueReference(TSerializableObject? serializableObject)
         {
             return DiGi.Core.Create.UniqueReference(serializableObject);
         }
 
+        /// <summary>
+        /// Gets a set of all unique references stored in the file.
+        /// </summary>
         public HashSet<UniqueReference>? GetUniqueReferences()
         {
             if (dictionary == null)
@@ -158,6 +188,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the typed value associated with the specified unique reference.
+        /// </summary>
         public TSerializableObject? GetValue(UniqueReference? uniqueReference)
         {
             if (!TryGetValue(uniqueReference, out TSerializableObject? result))
@@ -168,6 +201,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the base serializable object associated with the specified unique reference.
+        /// </summary>
         public USerializableObject? GetValue<USerializableObject>(UniqueReference? uniqueReference) where USerializableObject : TSerializableObject
         {
             if (!TryGetValue(uniqueReference, out USerializableObject? result))
@@ -178,6 +214,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the object at the specified index.
+        /// </summary>
         public USerializableObject? GetValue<USerializableObject>(int index) where USerializableObject : TSerializableObject
         {
             TSerializableObject? serializableObject = GetValue(index);
@@ -189,6 +228,9 @@ namespace DiGi.Core.IO.File.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves the typed object at the specified index.
+        /// </summary>
         public TSerializableObject? GetValue(int? index)
         {
             if (!TryGetValue(index, out TSerializableObject? result))
@@ -199,6 +241,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a collection of objects associated with the provided set of unique references.
+        /// </summary>
         public IEnumerable<USerializableObject?>? GetValues<USerializableObject>(IEnumerable<UniqueReference>? uniqueReferences) where USerializableObject : TSerializableObject
         {
             IEnumerable<TSerializableObject?>? serializableObjects = GetValues(uniqueReferences);
@@ -223,6 +268,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a typed collection of objects associated with the provided set of unique references.
+        /// </summary>
         public IEnumerable<TSerializableObject?>? GetValues(IEnumerable<UniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -289,6 +337,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a typed collection of objects at the specified indices.
+        /// </summary>
         public IEnumerable<TSerializableObject?>? GetValues(IEnumerable<int>? indexes)
         {
             if (indexes == null)
@@ -359,6 +410,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a collection of objects at the specified indices.
+        /// </summary>
         public IEnumerable<USerializableObject?>? GetValues<USerializableObject>(IEnumerable<int>? indexes) where USerializableObject : TSerializableObject
         {
             IEnumerable<TSerializableObject?>? serializableObjects = GetValues(indexes);
@@ -383,6 +437,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves all stored objects as a collection.
+        /// </summary>
         public IEnumerable<USerializableObject?>? GetValues<USerializableObject>() where USerializableObject : TSerializableObject
         {
             IEnumerable<TSerializableObject?>? values = GetValues();
@@ -403,6 +460,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Opens the storage file for reading and writing.
+        /// </summary>
         public override bool Open()
         {
             bool result = base.Open();
@@ -416,6 +476,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes all objects associated with the provided set of unique references.
+        /// </summary>
         public HashSet<UniqueReference>? Remove(IEnumerable<UniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -475,6 +538,9 @@ namespace DiGi.Core.IO.File.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes the object associated with the specified unique reference.
+        /// </summary>
         public bool Remove(UniqueReference? uniqueReference)
         {
             if (uniqueReference is null)
@@ -506,16 +572,25 @@ namespace DiGi.Core.IO.File.Classes
             return true;
         }
 
+        /// <summary>
+        /// Removes all objects that satisfy the specified condition and returns their references.
+        /// </summary>
         public HashSet<UniqueReference>? RemoveAll<USerializableObject>(Func<USerializableObject?, bool>? func) where USerializableObject : TSerializableObject
         {
             return Remove(func);
         }
 
+        /// <summary>
+        /// Removes the first object that satisfies the specified condition and returns its reference.
+        /// </summary>
         public UniqueReference? RemoveFirst<USerializableObject>(Func<USerializableObject?, bool>? func) where USerializableObject : TSerializableObject
         {
             return Remove(func, 1)?.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Saves the current state of the storage file to disk.
+        /// </summary>
         public override bool Save()
         {
             bool result = base.Save();
@@ -529,6 +604,9 @@ namespace DiGi.Core.IO.File.Classes
             return uniqueReferences != null && uniqueReferences.Count > 0;
         }
 
+        /// <summary>
+        /// Attempts to retrieve a typed value for the specified unique reference.
+        /// </summary>
         public bool TryGetValue(UniqueReference? uniqueReference, out TSerializableObject? serializableObject)
         {
             serializableObject = default;
@@ -554,6 +632,9 @@ namespace DiGi.Core.IO.File.Classes
             return serializableObject != null;
         }
 
+        /// <summary>
+        /// Attempts to retrieve a base serializable object for the specified unique reference.
+        /// </summary>
         public bool TryGetValue<USerializableObject>(UniqueReference? uniqueReference, out USerializableObject? serializableObject) where USerializableObject : TSerializableObject
         {
             serializableObject = default;
@@ -572,6 +653,9 @@ namespace DiGi.Core.IO.File.Classes
             return false;
         }
 
+        /// <summary>
+        /// Attempts to retrieve a typed value at the specified index.
+        /// </summary>
         public bool TryGetValue(int index, out TSerializableObject? serializableObject)
         {
             serializableObject = default;
@@ -592,6 +676,9 @@ namespace DiGi.Core.IO.File.Classes
             return serializableObject != null;
         }
 
+        /// <summary>
+        /// Attempts to retrieve a base serializable object at the specified index.
+        /// </summary>
         public bool TryGetValue<USerializableObject>(int? index, out USerializableObject? serializableObject) where USerializableObject : TSerializableObject
         {
             serializableObject = default;
@@ -957,18 +1044,30 @@ namespace DiGi.Core.IO.File.Classes
         }
     }
 
+    /// <summary>
+    /// Represents a file used for storing and managing serializable objects.
+    /// </summary>
     public class StorageFile : StorageFile<ISerializableObject>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class using the specified file path.
+        /// </summary>
         public StorageFile(string? path)
             : base(path)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class from the provided JSON object.
+        /// </summary>
         public StorageFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class from another storage file instance.
+        /// </summary>
         public StorageFile(StorageFile? storageFile)
             : base(storageFile)
         {

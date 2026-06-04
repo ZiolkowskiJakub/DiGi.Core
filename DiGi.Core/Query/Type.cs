@@ -10,6 +10,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Gets the Type associated with the specified TypeReference.
+        /// </summary>
         public static Type? Type(this TypeReference? typeReference)
         {
             string? fullTypeName = typeReference?.FullTypeName;
@@ -21,6 +24,9 @@ namespace DiGi.Core
             return Type(fullTypeName, false);
         }
 
+        /// <summary>
+        /// Gets the Type associated with the specified type name.
+        /// </summary>
         public static Type? Type(this string? typeName, bool ignoreCase = false)
         {
             if (string.IsNullOrEmpty(typeName))
@@ -122,6 +128,9 @@ namespace DiGi.Core
             return null;
         }
 
+        /// <summary>
+        /// Gets the Type associated with the specified type name using custom comparison and assembly filtering.
+        /// </summary>
         public static Type? Type(this string? typeName, TextComparisonType textComparisonType, bool ignoreCase = false, Func<Assembly, bool>? func = null)
         {
             if (string.IsNullOrWhiteSpace(typeName))
@@ -180,6 +189,9 @@ namespace DiGi.Core
             return null;
         }
 
+        /// <summary>
+        /// Gets the Type associated with the specified DataType.
+        /// </summary>
         public static Type? Type(this DataType dataType)
         {
             switch (dataType)

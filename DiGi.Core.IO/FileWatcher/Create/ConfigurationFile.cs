@@ -4,6 +4,9 @@ namespace DiGi.Core.IO.FileWatcher
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Converts a <see cref="Classes.FileWatcher"/> to a <see cref="ConfigurationFile"/>.
+        /// </summary>
         public static ConfigurationFile? ConfigurationFile(this Classes.FileWatcher? fileWatcher, System.Text.Encoding? encoding = null)
         {
             if (fileWatcher is null)

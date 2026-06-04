@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a series of DateTimes generated based on a range and step interval.
+    /// </summary>
     public class DateTimeSeries : SerializableObject, ITimeSeries
     {
         [JsonInclude, JsonPropertyName("Range")]
@@ -14,18 +17,27 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Step")]
         private readonly long step;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeSeries"/> class with start date, end date, and step.
+        /// </summary>
         public DateTimeSeries(DateTime dateTime_1, DateTime dateTime_2, long step)
         {
             range = new DateTimeRange(dateTime_1, dateTime_2);
             this.step = step;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeSeries"/> class starting at the specified date.
+        /// </summary>
         public DateTimeSeries(DateTime dateTime)
         {
             range = new DateTimeRange(dateTime, dateTime);
             step = -1;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeSeries"/> class with a specified range and step.
+        /// </summary>
         public DateTimeSeries(DateTimeRange? range, long step)
             : base()
         {
@@ -33,6 +45,9 @@ namespace DiGi.Core.Classes
             this.step = step;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeSeries"/> class by copying another series.
+        /// </summary>
         public DateTimeSeries(DateTimeSeries? dateTimeSeries)
             : base(dateTimeSeries)
         {
@@ -43,11 +58,17 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeSeries"/> class from a JSON object.
+        /// </summary>
         public DateTimeSeries(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the date range for the series.
+        /// </summary>
         [JsonIgnore]
         public DateTimeRange? Range
         {
@@ -57,6 +78,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the step interval for the series.
+        /// </summary>
         [JsonIgnore]
         public long Step
         {
@@ -66,6 +90,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Generates and returns an array of DateTimes within the series.
+        /// </summary>
         public DateTime[]? GetDateTimes()
         {
             if (range is null)

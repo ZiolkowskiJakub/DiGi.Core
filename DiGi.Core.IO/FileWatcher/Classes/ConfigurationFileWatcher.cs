@@ -3,11 +3,17 @@ using System.Text;
 
 namespace DiGi.Core.IO.FileWatcher.Classes
 {
+    /// <summary>
+    /// Watches a configuration file for changes and provides access to its content.
+    /// </summary>
     public class ConfigurationFileWatcher : FileWatcher
     {
         private ConfigurationFile? configurationFile = null;
         private Encoding? encoding = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationFileWatcher"/> class.
+        /// </summary>
         public ConfigurationFileWatcher(string path, double interval = 5000, Encoding? encoding = null)
             : base(path, interval)
         {
@@ -15,6 +21,9 @@ namespace DiGi.Core.IO.FileWatcher.Classes
             ContentChanged += ConfigurationFileWatcher_ContentChanged;
         }
 
+        /// <summary>
+        /// Gets the configuration file associated with this watcher.
+        /// </summary>
         public ConfigurationFile ConfigurationFile
         {
             get

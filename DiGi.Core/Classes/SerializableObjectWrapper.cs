@@ -10,11 +10,17 @@ namespace DiGi.Core.Classes
     {
         private readonly JsonObject? jsonObject;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectWrapper"/> class.
+        /// </summary>
         public SerializableObjectWrapper()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectWrapper"/> class from a JSON object.
+        /// </summary>
         public SerializableObjectWrapper(JsonObject? jsonObject)
         {
             this.jsonObject = jsonObject?.DeepClone() as JsonObject;

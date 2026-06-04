@@ -15,11 +15,17 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Values")]
         private readonly List<T> values = [];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class.
+        /// </summary>
         public SerializableObjectCollection()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class from an enumerable of serializable objects.
+        /// </summary>
         public SerializableObjectCollection(IEnumerable<T>? serializableObjects)
         {
             if (serializableObjects != null)
@@ -28,11 +34,17 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
+        /// </summary>
         public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class by copying another collection.
+        /// </summary>
         public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
             : base()
         {
@@ -232,21 +244,33 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class SerializableObjectCollection : SerializableObjectCollection<ISerializableObject>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class.
+        /// </summary>
         public SerializableObjectCollection()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from an enumerable of ISerializableObject instances.
+        /// </summary>
         public SerializableObjectCollection(IEnumerable<ISerializableObject>? serializableObjects)
             : base(serializableObjects)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
+        /// </summary>
         public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class by copying another collection.
+        /// </summary>
         public SerializableObjectCollection(SerializableObjectCollection? serializableObjectCollection)
             : base(serializableObjectCollection)
         {

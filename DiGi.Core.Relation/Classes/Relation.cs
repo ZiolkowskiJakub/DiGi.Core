@@ -74,6 +74,9 @@ namespace DiGi.Core.Relation.Classes
         {
         }
 
+        /// <summary>
+        /// Gets the type associated with the specified relation side.
+        /// </summary>
         public override Type? GetType(RelationSide relationSide)
         {
             switch (relationSide)

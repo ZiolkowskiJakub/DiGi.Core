@@ -3,6 +3,9 @@ using System;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    /// <summary>
+    /// Contains metadata and properties for a parameter definition.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ParameterProperties : Attribute
     {
@@ -12,12 +15,18 @@ namespace DiGi.Core.Parameter.Classes
         private readonly string? name = null;
         private readonly string? uniqueId = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier and name.
+        /// </summary>
         public ParameterProperties(string? uniqueId, string? name)
         {
             this.uniqueId = uniqueId;
             this.name = name;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier, name, and description.
+        /// </summary>
         public ParameterProperties(string? uniqueId, string? name, string? description)
         {
             this.uniqueId = uniqueId;
@@ -25,6 +34,9 @@ namespace DiGi.Core.Parameter.Classes
             this.description = description;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier, name, description, and access type.
+        /// </summary>
         public ParameterProperties(string? uniqueId, string? name, string? description, AccessType accessType)
         {
             this.uniqueId = uniqueId;
@@ -33,6 +45,9 @@ namespace DiGi.Core.Parameter.Classes
             this.accessType = accessType;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterProperties"/> class with full metadata including group name.
+        /// </summary>
         public ParameterProperties(string? uniqueId, string? name, string? description, AccessType accessType, string? groupName)
         {
             this.uniqueId = uniqueId;
@@ -42,11 +57,17 @@ namespace DiGi.Core.Parameter.Classes
             this.groupName = groupName;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a specified name.
+        /// </summary>
         public ParameterProperties(string? name)
         {
             this.name = name;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a name, description, and access type.
+        /// </summary>
         public ParameterProperties(string? name, string? description, AccessType accessType)
         {
             this.name = name;
@@ -54,6 +75,9 @@ namespace DiGi.Core.Parameter.Classes
             this.accessType = accessType;
         }
 
+        /// <summary>
+        /// Gets or sets the access level of the parameter.
+        /// </summary>
         public AccessType AccessType
         {
             get
@@ -62,6 +86,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the description of the parameter.
+        /// </summary>
         public string? Description
         {
             get
@@ -70,6 +97,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the group this parameter belongs to.
+        /// </summary>
         public string? GroupName
         {
             get
@@ -78,6 +108,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the display name of the parameter.
+        /// </summary>
         public string? Name
         {
             get
@@ -86,6 +119,9 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets a unique string identifier for the object.
+        /// </summary>
         public string? UniqueId
         {
             get

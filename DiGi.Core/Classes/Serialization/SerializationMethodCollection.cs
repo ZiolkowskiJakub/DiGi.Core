@@ -109,6 +109,9 @@ namespace DiGi.Core.Classes
             return Update(serializableObject, jsonObject, out _);
         }
 
+        /// <summary>
+        /// Updates the specified serializable object using data from a JSON object.
+        /// </summary>
         public bool Update(ISerializableObject? serializableObject, JsonObject? jsonObject, out HashSet<string>? propertyNames)
         {
             propertyNames = null;

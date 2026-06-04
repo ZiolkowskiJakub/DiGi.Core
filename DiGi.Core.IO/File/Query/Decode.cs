@@ -5,6 +5,9 @@ namespace DiGi.Core.IO.File
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Decodes the specified string into a <see cref="UniqueReference"/>.
+        /// </summary>
         public static UniqueReference? Decode(string? text)
         {
             if (text == null)

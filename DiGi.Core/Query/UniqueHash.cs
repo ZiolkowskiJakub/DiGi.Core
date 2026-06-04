@@ -5,6 +5,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Computes a unique hash for the specified JsonNode.
+        /// </summary>
         public static ulong UniqueHash(this JsonNode? jsonNode, ulong hash = Constants.FNV.OffsetBasis)
         {
             if (jsonNode is null)
@@ -66,6 +69,9 @@ namespace DiGi.Core
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Computes a unique hash for the specified string.
+        /// </summary>
         public static ulong UniqueHash(this string? @string, ulong hash = Constants.FNV.OffsetBasis)
         {
             if (@string == null)

@@ -5,6 +5,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves the types associated with the specified enumeration.
+        /// </summary>
         public static Type[]? Types(Enum? @enum)
         {
             if (@enum == null)

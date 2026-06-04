@@ -7,6 +7,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Gets the description of the specified enumeration value.
+        /// </summary>
         public static string? Description(this Enum? @enum)
         {
             FieldInfo? fieldInfo = @enum?.GetType()?.GetField(@enum?.ToString());
@@ -23,6 +26,9 @@ namespace DiGi.Core.Parameter
             return @enum!.ToString();
         }
 
+        /// <summary>
+        /// Gets the description of the specified type.
+        /// </summary>
         public static string? Description(this Type? type)
         {
             if (type == null)

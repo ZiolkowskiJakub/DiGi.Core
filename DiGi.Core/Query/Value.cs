@@ -9,6 +9,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Extracts the value from a <see cref="JsonNode"/> cast to the specified type.
+        /// </summary>
         public static object? Value(this JsonNode? jsonNode, Type? type)
         {
             if (jsonNode == null || type == null)

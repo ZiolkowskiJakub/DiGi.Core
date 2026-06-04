@@ -5,28 +5,46 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a value cluster that ensures uniqueness of its contained objects.
+    /// </summary>
     public class UniqueObjectValueCluster<TValue> : SerializableObjectValueCluster<TypeReference, IUniqueReference, TValue> where TValue : IUniqueObject
     {
+        /// <summary>
+        /// Initializes a new instance of the UniqueObjectValueCluster class.
+        /// </summary>
         public UniqueObjectValueCluster()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the UniqueObjectValueCluster class using the specified collection of values.
+        /// </summary>
         public UniqueObjectValueCluster(IEnumerable<TValue>? values)
             : base(values)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the UniqueObjectValueCluster class from another unique object value cluster.
+        /// </summary>
         public UniqueObjectValueCluster(UniqueObjectValueCluster<TValue>? uniqueObjectValueCluster)
             : base(uniqueObjectValueCluster)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the UniqueObjectValueCluster class from a JSON object.
+        /// </summary>
         public UniqueObjectValueCluster(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains an element with the specified unique reference.
+        /// </summary>
         public bool Contains(IUniqueReference? uniqueReference)
         {
             TypeReference? typeReference = uniqueReference?.TypeReference;
@@ -38,11 +56,17 @@ namespace DiGi.Core.Classes
             return Contains(typeReference, uniqueReference);
         }
 
+        /// <summary>
+        /// Retrieves all type references present in the unique object value cluster.
+        /// </summary>
         public List<TypeReference>? GetTypeReferences()
         {
             return GetKeys_1();
         }
 
+        /// <summary>
+        /// Retrieves the first value that satisfies the specified predicate.
+        /// </summary>
         public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default
         {
             Type type = typeof(UValue);
@@ -94,6 +118,9 @@ namespace DiGi.Core.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves the value associated with the specified unique reference.
+        /// </summary>
         public UValue? GetValue<UValue>(IUniqueReference? uniqueReference) where UValue : TValue
         {
             if (uniqueReference is null)
@@ -104,6 +131,9 @@ namespace DiGi.Core.Classes
             return GetValue<UValue>(uniqueReference.TypeReference, uniqueReference);
         }
 
+        /// <summary>
+        /// Retrieves values for a specific type reference, optionally requiring an exact match.
+        /// </summary>
         public List<UValue>? GetValues<UValue>(TypeReference? key_1, bool exactMath) where UValue : TValue
         {
             if (exactMath)
@@ -159,11 +189,17 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves all values associated with the specified type reference.
+        /// </summary>
         public override List<UValue>? GetValues<UValue>(TypeReference? key_1) where UValue : default
         {
             return GetValues<UValue>(key_1, false);
         }
 
+        /// <summary>
+        /// Retrieves all values of the specified type from the cluster.
+        /// </summary>
         public List<U>? GetValues<U>(Type? type)
         {
             if (type == null)
@@ -174,6 +210,9 @@ namespace DiGi.Core.Classes
             return GetValues<U>(new TypeReference(type));
         }
 
+        /// <summary>
+        /// Retrieves values associated with a collection of unique references.
+        /// </summary>
         public List<UValue>? GetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences) where UValue : TValue
         {
             if (!TryGetValues(uniqueReferences, out List<UValue>? result))
@@ -184,6 +223,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes the value associated with the specified unique reference.
+        /// </summary>
         public bool Remove(IUniqueReference? key_2)
         {
             if (key_2 == null)
@@ -195,6 +237,9 @@ namespace DiGi.Core.Classes
             return uniqueReferences != null && uniqueReferences.Count > 0;
         }
 
+        /// <summary>
+        /// Removes and returns references for a collection of unique references.
+        /// </summary>
         public virtual List<IUniqueReference>? Remove(IEnumerable<IUniqueReference>? keys_2)
         {
             if (keys_2 == null)
@@ -220,6 +265,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes and returns the specified collection of values from the cluster.
+        /// </summary>
         public virtual List<UValue>? Remove<UValue>(IEnumerable<UValue>? values) where UValue : TValue
         {
             if (values == null)
@@ -244,17 +292,26 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Attempts to retrieve a value associated with the specified unique reference.
+        /// </summary>
         public bool TryGetValue<UValue>(IUniqueReference? uniqueReference, out UValue? value) where UValue : TValue
         {
             return TryGetValue(uniqueReference?.TypeReference, uniqueReference, out value);
         }
 
+        /// <summary>
+        /// Attempts to retrieve values for a specific type reference, optionally requiring an exact match.
+        /// </summary>
         public bool TryGetValues<UValue>(TypeReference? key_1, bool exactMatch, out List<UValue>? values) where UValue : TValue
         {
             values = GetValues<UValue>(key_1, exactMatch);
             return values != null && values.Count != 0;
         }
 
+        /// <summary>
+        /// Attempts to retrieve values associated with a collection of unique references.
+        /// </summary>
         public bool TryGetValues<UValue>(IEnumerable<IUniqueReference>? uniqueReferences, out List<UValue>? values) where UValue : TValue
         {
             values = null;

@@ -11,6 +11,9 @@ namespace DiGi.Core.Classes
     {
         private readonly Dictionary<string, MethodInfo> dictionary = [];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConversionManager"/> class.
+        /// </summary>
         public ConversionManager()
         {
         }

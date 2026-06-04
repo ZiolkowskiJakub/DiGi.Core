@@ -9,6 +9,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Deserializes a USerializableObject from the specified archive.
+        /// </summary>
         public static USerializableObject? Deserialize<USerializableObject>(this IArchive archive) where USerializableObject : ISerializableObject
         {
             if (archive?.Bytes is not byte[] bytes)

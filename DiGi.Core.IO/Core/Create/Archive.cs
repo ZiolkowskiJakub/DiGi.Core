@@ -7,6 +7,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates an archive from the specified byte array.
+        /// </summary>
         public static Archive<TSerializableObject>? Archive<TSerializableObject>(this byte[] bytes) where TSerializableObject : ISerializableObject
         {
             if (bytes is null || bytes.Length == 0)
@@ -17,6 +20,9 @@ namespace DiGi.Core.IO
             return new Archive<TSerializableObject>(bytes);
         }
 
+        /// <summary>
+        /// Creates an archive from the specified byte array and extracts the associated serializable object.
+        /// </summary>
         public static IArchive? Archive<TSerializableObject>(this byte[] bytes, out TSerializableObject? serializableObject) where TSerializableObject : ISerializableObject
         {
             serializableObject = default;

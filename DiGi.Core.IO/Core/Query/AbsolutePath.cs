@@ -2,6 +2,9 @@
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Combines a directory path and a relative path to create an absolute path.
+        /// </summary>
         public static string? AbsolutePath(this string? directory, string? relativePath)
         {
             if (string.IsNullOrWhiteSpace(directory) || string.IsNullOrWhiteSpace(relativePath))

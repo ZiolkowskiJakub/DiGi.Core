@@ -4,6 +4,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to parse the specified string into a double-precision floating-point number.
+        /// </summary>
         public static bool TryParseDouble(this string value, out double result)
         {
             result = double.NaN;

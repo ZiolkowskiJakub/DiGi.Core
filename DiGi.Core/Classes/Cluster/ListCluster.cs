@@ -5,25 +5,40 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a base abstract list implementation.
+    /// </summary>
     public abstract class List<TKey_1, TKey_2, TValue> : Cluster<TKey_1, TKey_2, TValue>
     {
         [JsonIgnore]
         private readonly Dictionary<TKey_1, Dictionary<TKey_2, List<TValue>>> dictionary = [];
 
+        /// <summary>
+        /// Initializes a new instance of the List class.
+        /// </summary>
         public List()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the List class using the specified collection of values.
+        /// </summary>
         public List(IEnumerable<TValue>? values)
             : base(values)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the List class from an existing value cluster.
+        /// </summary>
         public List(List<TKey_1, TKey_2, TValue>? valueCluster)
             : base(valueCluster)
         {
         }
 
+        /// <summary>
+        /// Adds the specified value to the value cluster.
+        /// </summary>
         public override bool Add(TValue? value)
         {
             if (value == null || !IsValid(value))
@@ -59,11 +74,17 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Removes all elements from the value cluster.
+        /// </summary>
         public override void Clear()
         {
             dictionary.Clear();
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains an element with the specified primary key.
+        /// </summary>
         public override bool Contains(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -74,6 +95,9 @@ namespace DiGi.Core.Classes
             return dictionary.ContainsKey(key_1);
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains an element with the specified combination of keys.
+        /// </summary>
         public override bool Contains(TKey_1? key_1, TKey_2? key_2)
         {
             if (key_1 == null || key_2 == null)
@@ -89,6 +113,9 @@ namespace DiGi.Core.Classes
             return dictionary_1.ContainsKey(key_2);
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains a specific value.
+        /// </summary>
         public override bool Contains(TValue? value)
         {
             if (value == null)
@@ -99,6 +126,9 @@ namespace DiGi.Core.Classes
             return TryGetIndex(value, out _, out _, out int index) && index != -1;
         }
 
+        /// <summary>
+        /// Determines whether two specified values are equal.
+        /// </summary>
         public virtual bool Equals(TValue? value_1, TValue? value_2)
         {
             if (value_1 == null && value_2 == null)
@@ -114,6 +144,9 @@ namespace DiGi.Core.Classes
             return value_1.Equals(value_2);
         }
 
+        /// <summary>
+        /// Retrieves the indexes of elements that match the specified keys and predicate.
+        /// </summary>
         public virtual List<int>? GetIndexes<UValue>(TKey_1? key_1, TKey_2? key_2, Func<UValue?, bool>? func) where UValue : TValue
         {
             if (key_1 == null || key_2 == null)
@@ -155,11 +188,17 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Returns a list of all primary keys in the cluster.
+        /// </summary>
         public override List<TKey_1>? GetKeys_1()
         {
             return dictionary.Keys?.ToList();
         }
 
+        /// <summary>
+        /// Returns a list of secondary keys associated with the specified primary key.
+        /// </summary>
         public override List<TKey_2>? GetKeys_2(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -179,6 +218,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the first value that satisfies the specified predicate.
+        /// </summary>
         public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default
         {
             foreach (Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)
@@ -220,6 +262,9 @@ namespace DiGi.Core.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves a value using the provided cluster reference.
+        /// </summary>
         public UValue? GetValue<UValue>(ListClusterReference<TKey_1, TKey_2>? listClusterReference) where UValue : TValue
         {
             if (listClusterReference == null || listClusterReference.Key_1 == null || listClusterReference.Key_2 == null || listClusterReference.Index < 0)
@@ -253,6 +298,9 @@ namespace DiGi.Core.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves all values associated with the specified primary key.
+        /// </summary>
         public override List<UValue>? GetValues<UValue>(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -286,6 +334,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves values that match the specified keys and predicate.
+        /// </summary>
         public List<UValue>? GetValues<UValue>(TKey_1? key_1, TKey_2? key_2, Func<UValue?, bool> func) where UValue : TValue
         {
             if (key_1 == null || key_2 == null)
@@ -302,6 +353,9 @@ namespace DiGi.Core.Classes
             return GetValues<UValue>(key_1, key_2, indexes);
         }
 
+        /// <summary>
+        /// Retrieves values at the specified indexes for the given keys.
+        /// </summary>
         public List<UValue>? GetValues<UValue>(TKey_1? key_1, TKey_2? key_2, IEnumerable<int> indexes) where UValue : TValue
         {
             if (key_1 == null || key_2 == null || indexes == null)
@@ -340,6 +394,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves values associated with a collection of cluster references.
+        /// </summary>
         public List<UValue>? GetValues<UValue>(IEnumerable<ListClusterReference<TKey_1, TKey_2>>? listClusterReferences) where UValue : TValue
         {
             if (listClusterReferences == null)
@@ -362,6 +419,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Returns all values contained in the list.
+        /// </summary>
         public override List<UValue> GetValues<UValue>() where UValue : default
         {
             List<UValue> result = [];
@@ -389,6 +449,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes and returns values associated with the specified cluster references.
+        /// </summary>
         public List<TValue>? Remove(IEnumerable<ListClusterReference<TKey_1, TKey_2>>? listClusterReferences)
         {
             if (listClusterReferences == null)
@@ -422,6 +485,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes all elements associated with the specified primary key from the cluster.
+        /// </summary>
         public override bool Remove(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -432,6 +498,9 @@ namespace DiGi.Core.Classes
             return dictionary.Remove(key_1);
         }
 
+        /// <summary>
+        /// Removes the element associated with the specified combination of keys from the cluster.
+        /// </summary>
         public override bool Remove(TKey_1? key_1, TKey_2? key_2)
         {
             if (key_1 == null || key_2 == null)
@@ -453,6 +522,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes the first occurrence of a specific value from the cluster.
+        /// </summary>
         public override bool Remove(TValue? value)
         {
             if (value == null)
@@ -506,6 +578,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes and returns the value at the specified index for the given keys.
+        /// </summary>
         public TValue? Remove(TKey_1? key_1, TKey_2? key_2, int index)
         {
             if (index == -1 || key_1 == null || key_2 == null)
@@ -518,6 +593,9 @@ namespace DiGi.Core.Classes
             return values == null || values.Count == 0 ? default : values[0];
         }
 
+        /// <summary>
+        /// Removes and returns values at the specified indexes for the given keys.
+        /// </summary>
         public List<TValue>? Remove(TKey_1? key_1, TKey_2? key_2, IEnumerable<int> indexes)
         {
             if (key_1 == null || key_2 == null || indexes == null || indexes.Count() == 0)
@@ -565,6 +643,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Attempts to find the primary key, secondary key, and index of a specific value.
+        /// </summary>
         public bool TryGetIndex(TValue? value, out TKey_1? key_1, out TKey_2? key_2, out int index)
         {
             key_2 = default;

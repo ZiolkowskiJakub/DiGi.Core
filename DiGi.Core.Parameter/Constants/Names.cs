@@ -1,5 +1,8 @@
 ﻿namespace DiGi.Core.Parameter.Constants
 {
+    /// <summary>
+    /// Provides static factory methods for creating parameter definitions and parameters.
+    /// </summary>
     public static class Names
     {
         /// <summary>

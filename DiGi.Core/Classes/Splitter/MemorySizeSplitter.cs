@@ -6,11 +6,17 @@ namespace DiGi.Core.Classes
     /// <summary>Splits serializable objects by their serialized byte array size.</summary>
     public class MemorySizeSplitter<TSerializableObject> : Splitter<TSerializableObject, long> where TSerializableObject : ISerializableObject
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemorySizeSplitter{TSerializableObject}"/> class.
+        /// </summary>
         public MemorySizeSplitter(IEnumerable<TSerializableObject> serializableObjects)
             : base(serializableObjects)
         {
         }
 
+        /// <summary>
+        /// Gets the memory size value for the specified serializable object.
+        /// </summary>
         public override long GetValue(TSerializableObject? serializableObject)
         {
             if (serializableObject is null)

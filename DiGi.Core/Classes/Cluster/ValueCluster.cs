@@ -5,25 +5,40 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a base abstract value cluster for organizing data by keys.
+    /// </summary>
     public abstract class ValueCluster<TKey_1, TKey_2, TValue> : Cluster<TKey_1, TKey_2, TValue>
     {
         [JsonIgnore]
         private readonly Dictionary<TKey_1, Dictionary<TKey_2, TValue>> dictionary = [];
 
+        /// <summary>
+        /// Initializes a new instance of the ValueCluster class.
+        /// </summary>
         public ValueCluster()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the ValueCluster class using the specified collection of values.
+        /// </summary>
         public ValueCluster(IEnumerable<TValue>? values)
             : base(values)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the ValueCluster class from another value cluster.
+        /// </summary>
         public ValueCluster(ValueCluster<TKey_1, TKey_2, TValue>? valueCluster)
             : base(valueCluster)
         {
         }
 
+        /// <summary>
+        /// Adds the specified value to the value cluster.
+        /// </summary>
         public override bool Add(TValue? value)
         {
             if (value == null || !IsValid(value))
@@ -53,11 +68,17 @@ namespace DiGi.Core.Classes
             return true;
         }
 
+        /// <summary>
+        /// Removes all elements from the value cluster.
+        /// </summary>
         public override void Clear()
         {
             dictionary.Clear();
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains an element with the specified primary key.
+        /// </summary>
         public override bool Contains(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -68,6 +89,9 @@ namespace DiGi.Core.Classes
             return dictionary.ContainsKey(key_1);
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains an element with the specified combination of keys.
+        /// </summary>
         public override bool Contains(TKey_1? key_1, TKey_2? key_2)
         {
             if (key_1 == null || key_2 == null)
@@ -83,6 +107,9 @@ namespace DiGi.Core.Classes
             return dictionary_1.ContainsKey(key_2);
         }
 
+        /// <summary>
+        /// Determines whether the cluster contains a specific value.
+        /// </summary>
         public override bool Contains(TValue? value)
         {
             if (value == null)
@@ -105,11 +132,17 @@ namespace DiGi.Core.Classes
             return Contains(key_1, key_2);
         }
 
+        /// <summary>
+        /// Returns a list of all primary keys in the cluster.
+        /// </summary>
         public override List<TKey_1>? GetKeys_1()
         {
             return dictionary.Keys?.ToList();
         }
 
+        /// <summary>
+        /// Returns a list of secondary keys associated with the specified primary key.
+        /// </summary>
         public override List<TKey_2>? GetKeys_2(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -129,6 +162,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the value associated with the specified combination of keys.
+        /// </summary>
         public UValue? GetValue<UValue>(TKey_1? key_1, TKey_2? key_2) where UValue : TValue
         {
             if (key_1 == null || key_2 == null)
@@ -154,6 +190,9 @@ namespace DiGi.Core.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves the first value that satisfies the specified predicate.
+        /// </summary>
         public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default
         {
             foreach (Dictionary<TKey_2, TValue> dictionary_1 in dictionary.Values)
@@ -187,6 +226,9 @@ namespace DiGi.Core.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves all values associated with the specified primary key.
+        /// </summary>
         public override List<U>? GetValues<U>(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -213,6 +255,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Returns all values contained in the cluster.
+        /// </summary>
         public override List<U> GetValues<U>()
         {
             List<U> result = [];
@@ -230,6 +275,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes all elements associated with the specified primary key from the cluster.
+        /// </summary>
         public override bool Remove(TKey_1? key_1)
         {
             if (key_1 is null)
@@ -240,6 +288,9 @@ namespace DiGi.Core.Classes
             return dictionary.Remove(key_1);
         }
 
+        /// <summary>
+        /// Removes the element associated with the specified combination of keys from the cluster.
+        /// </summary>
         public override bool Remove(TKey_1? key_1, TKey_2? key_2)
         {
             if (key_1 is null || key_2 is null)
@@ -255,6 +306,9 @@ namespace DiGi.Core.Classes
             return dictionary_1.Remove(key_2);
         }
 
+        /// <summary>
+        /// Removes the first occurrence of a specific value from the cluster.
+        /// </summary>
         public override bool Remove(TValue? value)
         {
             if (value == null)
@@ -277,6 +331,9 @@ namespace DiGi.Core.Classes
             return Remove(key_1, key_2);
         }
 
+        /// <summary>
+        /// Attempts to retrieve the value associated with the specified combination of keys.
+        /// </summary>
         public bool TryGetValue<UValue>(TKey_1? key_1, TKey_2? key_2, out UValue? value) where UValue : TValue
         {
             value = GetValue<UValue>(key_1, key_2);

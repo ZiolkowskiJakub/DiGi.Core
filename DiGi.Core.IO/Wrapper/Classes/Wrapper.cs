@@ -114,11 +114,17 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Clears the cached content of the file.
+        /// </summary>
         public void Clear()
         {
             wrapperNodeCluster.Clear();
         }
 
+        /// <summary>
+        /// Releases all resources used by the watcher.
+        /// </summary>
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -126,6 +132,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Parses and returns the file content as a list of JSON nodes.
+        /// </summary>
         public List<JsonNode?>? GetJsonNodes()
         {
             WrapperMetadata wrapperMetadata = GetWrapperMetadata();
@@ -164,6 +173,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves metadata associated with the file.
+        /// </summary>
         public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
         {
             MetadataStorage metadataStorage = GetMetadataStorage();
@@ -171,11 +183,17 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return metadataStorage.GetMetadata<TMetadata>();
         }
 
+        /// <summary>
+        /// Retrieves all serializable objects from the file content.
+        /// </summary>
         public List<ISerializableObject>? GetSerializableObjects()
         {
             return GetSerializableObjects<ISerializableObject>();
         }
 
+        /// <summary>
+        /// Retrieves all serializable objects of a specific type from the file content.
+        /// </summary>
         public List<TSerializableObject>? GetSerializableObjects<TSerializableObject>() where TSerializableObject : ISerializableObject
         {
             List<JsonNode?>? jsonNodes = GetJsonNodes();
@@ -199,6 +217,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Reads the file and returns its content as a list of JSON nodes.
+        /// </summary>
         public List<JsonNode>? Read()
         {
             HashSet<WrapperNode>? wrapperNodes = Read(null as IEnumerable<TypeReference>);
@@ -222,6 +243,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Reads specific serializable objects from the file based on the provided references.
+        /// </summary>
         public List<TSerializableObject>? Read<TSerializableObject>(IEnumerable<UniqueReference> uniqueReferences) where TSerializableObject : ISerializableObject
         {
             List<JsonNode>? jsonNodes = Read(uniqueReferences);
@@ -250,6 +274,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Reads a single serializable object from the file using its unique reference.
+        /// </summary>
         public TSerializableObject? Read<TSerializableObject>(UniqueReference? uniqueReference) where TSerializableObject : ISerializableObject
         {
             if (uniqueReference is null)
@@ -266,6 +293,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return serializableObjects[0];
         }
 
+        /// <summary>
+        /// Reads JSON nodes associated with the provided unique references.
+        /// </summary>
         public List<JsonNode>? Read(IEnumerable<UniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -312,6 +342,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Sets the metadata for the file content.
+        /// </summary>
         public void SetMetadata(IMetadata metadata)
         {
             MetadataStorage? metadataStorage = Read<MetadataStorage>(Constants.MetadataStorage.WrapperGuidReference);
@@ -322,6 +355,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             SetMetadataStorage(metadataStorage);
         }
 
+        /// <summary>
+        /// Writes specific objects to the file based on the provided references.
+        /// </summary>
         public IEnumerable<UniqueReference>? Write(IEnumerable<UniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -361,6 +397,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
             return result;
         }
 
+        /// <summary>
+        /// Writes all current objects to the file.
+        /// </summary>
         public IEnumerable<UniqueReference>? Write()
         {
             IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences = Write(null as IEnumerable<WrapperTypeReference>);

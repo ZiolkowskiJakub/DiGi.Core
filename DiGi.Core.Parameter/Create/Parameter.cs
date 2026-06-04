@@ -5,6 +5,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a parameter based on the provided definition and value.
+        /// </summary>
         public static Classes.Parameter? Parameter(this IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null)
         {
             if (parameterDefinition == null)
@@ -21,6 +24,9 @@ namespace DiGi.Core.Parameter
             return result;
         }
 
+        /// <summary>
+        /// Creates a parameter using a specified name and value.
+        /// </summary>
         public static Classes.Parameter? Parameter(string? name, object? value)
         {
             if (name == null)

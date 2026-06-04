@@ -1445,6 +1445,9 @@ namespace DiGi.Core
             return true;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a <see cref="TimeSpan"/>.
+        /// </summary>
         public static bool TryConvert_TimeSpan(object @object, out TimeSpan? result)
         {
             result = default;
@@ -1466,6 +1469,9 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to a <see cref="Type"/>.
+        /// </summary>
         public static bool TryConvert_Type(object @object, out Type? result)
         {
             result = default;
@@ -1479,6 +1485,9 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to an unsigned integer (uint).
+        /// </summary>
         public static bool TryConvert_Uint(object @object, out uint? result)
         {
             result = null;
@@ -1549,6 +1558,9 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to an unsigned long (ulong).
+        /// </summary>
         public static bool TryConvert_Ulong(object @object, out ulong? result)
         {
             result = null;
@@ -1619,6 +1631,9 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to convert the specified object to an unsigned short (ushort).
+        /// </summary>
         public static bool TryConvert_Ushort(object @object, out ushort? result)
         {
             result = null;

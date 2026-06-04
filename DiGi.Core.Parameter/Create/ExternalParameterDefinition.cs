@@ -6,6 +6,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Creates a new external parameter definition with the specified properties.
+        /// </summary>
         public static ExternalParameterDefinition? ExternalParameterDefinition(Guid guid, string? name, string? description, ParameterType parameterType, Type? type, AccessType accessType = AccessType.ReadWrite, bool nullable = true, string? groupName = null)
         {
             if (guid == Guid.Empty || name == null || parameterType == ParameterType.Undefined || type == null)
@@ -29,6 +32,9 @@ namespace DiGi.Core.Parameter
             return new ExternalParameterDefinition(guid, name, description, accessType, parameterValue, new AssociatedTypes(type), groupName);
         }
 
+        /// <summary>
+        /// Creates a new external parameter definition with specified range constraints.
+        /// </summary>
         public static ExternalParameterDefinition? ExternalParameterDefinition(Guid guid, string? name, string? description, double min, double max, Type? type, AccessType accessType = AccessType.ReadWrite, bool nullable = true, string? groupName = null)
         {
             if (guid == Guid.Empty || name == null || type == null)

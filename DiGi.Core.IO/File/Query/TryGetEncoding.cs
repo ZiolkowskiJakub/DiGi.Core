@@ -5,6 +5,9 @@ namespace DiGi.Core.IO.File
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to determine the text encoding of the specified file.
+        /// </summary>
         public static bool TryGetEncoding(string? filePath, out System.Text.Encoding? encoding)
         {
             encoding = null;

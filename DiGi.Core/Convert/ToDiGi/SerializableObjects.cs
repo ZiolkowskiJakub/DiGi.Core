@@ -7,6 +7,9 @@ namespace DiGi.Core
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Deserializes a JSON string into a list of objects of type <typeparamref name="T"/>.
+        /// </summary>
         public static List<T>? ToDiGi<T>(string? json) where T : ISerializableObject
         {
             if (string.IsNullOrWhiteSpace(json))
@@ -54,6 +57,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Loads and deserializes a list of objects of type <typeparamref name="T"/> from the specified path.
+        /// </summary>
         public static List<T>? ToDiGi<T>(Classes.Path path) where T : ISerializableObject
         {
             if (path == null)
@@ -75,6 +81,9 @@ namespace DiGi.Core
             return ToDiGi<T>(json);
         }
 
+        /// <summary>
+        /// Deserializes a byte array into a list of objects of type <typeparamref name="T"/>.
+        /// </summary>
         public static List<T>? ToDiGi<T>(byte[]? bytes) where T : ISerializableObject
         {
             if (bytes == null)

@@ -44,8 +44,14 @@ namespace DiGi.Core.IO.FileWatcher.Classes
 
         public event EventHandler<byte[]>? ContentChanged;
 
+        /// <summary>
+        /// Gets the raw bytes of the file content.
+        /// </summary>
         public byte[]? Bytes => bytes;
 
+        /// <summary>
+        /// Gets or sets the interval in milliseconds between checks for file changes.
+        /// </summary>
         public double Interval
         {
             get
@@ -59,19 +65,31 @@ namespace DiGi.Core.IO.FileWatcher.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the path to the file being watched.
+        /// </summary>
         public string Path => path;
 
+        /// <summary>
+        /// Releases all resources used by the watcher.
+        /// </summary>
         public void Dispose()
         {
             timer?.Stop();
             timer?.Dispose();
         }
 
+        /// <summary>
+        /// Reads the content of the file as an array of strings.
+        /// </summary>
         public string[]? GetLines(System.Text.Encoding? encoding = null)
         {
             return GetString(encoding)?.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
         }
 
+        /// <summary>
+        /// Reads the content of the file as a single string.
+        /// </summary>
         public string GetString(System.Text.Encoding? encoding = null)
         {
             if (bytes == null || bytes.Length == 0)
@@ -170,16 +188,25 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         }
     }
 
+    /// <summary>
+    /// Provides a base implementation for watching a file for changes.
+    /// </summary>
     public abstract class FileWatcher<TFile> : FileWatcher where TFile : IFile
     {
         private TFile? file;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileWatcher"/> class.
+        /// </summary>
         public FileWatcher(string path, double interval = 60000)
             : base(path, interval)
         {
             ContentChanged += FileWatcher_ContentChanged;
         }
 
+        /// <summary>
+        /// Gets the file object being watched.
+        /// </summary>
         public TFile? File
         {
             get

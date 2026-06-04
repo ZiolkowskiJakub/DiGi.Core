@@ -6,22 +6,37 @@ using System.Reflection;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Class MultiUpdater.
+    /// </summary>
     public class MultiUpdater<TValue> : IUpdater<TValue>
     {
         private readonly List<IUpdater>? updaters;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiUpdater"/> class using a collection of updaters.
+        /// </summary>
         public MultiUpdater(IEnumerable<IUpdater> updaters)
         {
             this.updaters = updaters == null ? null : [.. updaters];
         }
 
+        /// <summary>
+        /// Gets the current value associated with the updater.
+        /// </summary>
         public TValue? Value { get; set; }
 
+        /// <summary>
+        /// Performs an update operation and returns whether any changes were made.
+        /// </summary>
         public bool Update()
         {
             return Update(out _);
         }
 
+        /// <summary>
+        /// Performs an update operation and returns a boolean array indicating which specific updaters were modified.
+        /// </summary>
         public bool Update(out bool[]? updated)
         {
             updated = null;

@@ -5,6 +5,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Attempts to parse the specified string into an IReference.
+        /// </summary>
         public static bool TryParse(this string? value, out IReference? reference)
         {
             reference = default;
@@ -116,6 +119,9 @@ namespace DiGi.Core
             return false;
         }
 
+        /// <summary>
+        /// Attempts to parse the specified string into a UReference.
+        /// </summary>
         public static bool TryParse<UReference>(this string? value, out UReference? reference) where UReference : IReference
         {
             reference = default;

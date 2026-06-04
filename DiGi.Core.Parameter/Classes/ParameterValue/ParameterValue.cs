@@ -6,21 +6,33 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    /// <summary>
+    /// Base class for all parameter value types.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public abstract class ParameterValue : Attribute, ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Nullable")]
         private readonly bool nullable = true;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterValue"/> class.
+        /// </summary>
         public ParameterValue()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterValue"/> class with specified nullability.
+        /// </summary>
         public ParameterValue(bool nullable)
         {
             this.nullable = nullable;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterValue"/> class by copying an existing instance.
+        /// </summary>
         public ParameterValue(ParameterValue? parameterValue)
         {
             if (parameterValue != null)
@@ -29,21 +41,36 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterValue"/> class from a JSON object.
+        /// </summary>
         public ParameterValue(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
         }
 
+        /// <summary>
+        /// Gets the parameter type associated with this value.
+        /// </summary>
         [JsonIgnore]
         public abstract ParameterType ParameterType { get; }
 
+        /// <summary>
+        /// Creates a clone of the current parameter value.
+        /// </summary>
         public abstract ISerializableObject? Clone();
 
+        /// <summary>
+        /// Populates the parameter value from the provided JSON object.
+        /// </summary>
         public bool FromJsonObject(JsonObject? jsonObject)
         {
             return Modify.FromJsonObject(this, jsonObject);
         }
 
+        /// <summary>
+        /// Validates whether the given value is compatible with this parameter.
+        /// </summary>
         public virtual bool IsValid(object? value)
         {
             if (value == null)
@@ -54,11 +81,17 @@ namespace DiGi.Core.Parameter.Classes
             return Query.IsValid(ParameterType, value);
         }
 
+        /// <summary>
+        /// Converts the current parameter value to a JSON object.
+        /// </summary>
         public JsonObject? ToJsonObject()
         {
             return Convert.ToJson(this);
         }
 
+        /// <summary>
+        /// Attempts to convert an input value to the expected output type.
+        /// </summary>
         public virtual bool TryConvert(object? value_In, out object? value_Out)
         {
             value_Out = default;

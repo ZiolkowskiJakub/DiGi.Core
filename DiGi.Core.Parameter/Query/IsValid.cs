@@ -6,6 +6,9 @@ namespace DiGi.Core.Parameter
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Validates whether the provided value is valid for the given parameter type.
+        /// </summary>
         public static bool IsValid(this ParameterType parameterType, object? value)
         {
             if (parameterType == Enums.ParameterType.Undefined)

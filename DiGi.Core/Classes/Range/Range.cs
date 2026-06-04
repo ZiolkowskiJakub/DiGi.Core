@@ -13,6 +13,9 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Min")]
         private T? min;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Range{T}"/> class with specified boundary values.
+        /// </summary>
         public Range(T? value_1, T? value_2)
         {
             if (value_1 as dynamic <= value_2 as dynamic)
@@ -27,6 +30,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Range{T}"/> class by copying an existing range.
+        /// </summary>
         public Range(Range<T>? range)
         {
             if (range is not null)
@@ -36,6 +42,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Range{T}"/> class based on a collection of values.
+        /// </summary>
         public Range(IEnumerable<T>? values)
         {
             if (values != null)
@@ -80,11 +89,17 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Range{T}"/> class from a JSON object.
+        /// </summary>
         public Range(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the length of the range.
+        /// </summary>
         [JsonIgnore]
         public virtual T Length
         {
@@ -94,6 +109,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the maximum value of the range.
+        /// </summary>
         [JsonIgnore]
         public T Max
         {
@@ -103,6 +121,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the minimum value of the range.
+        /// </summary>
         [JsonIgnore]
         public T Min
         {
@@ -132,6 +153,9 @@ namespace DiGi.Core.Classes
             return range.Equals(@object);
         }
 
+        /// <summary>
+        /// Adds a value to the range and returns true if the range was expanded.
+        /// </summary>
         public bool Add(T value)
         {
             bool result = false;
@@ -151,6 +175,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Expands the current range to include another range and returns true if the range was modified.
+        /// </summary>
         public bool Add(Range<T>? value)
         {
             bool result = false;
@@ -174,6 +201,9 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current range.
+        /// </summary>
         public override bool Equals(object? @object)
         {
             if (this is null)
@@ -189,6 +219,9 @@ namespace DiGi.Core.Classes
             return @object is Range<T> range && range.max!.Equals(max) && range.min!.Equals(min);
         }
 
+        /// <summary>
+        /// Gets the hash code for the current type reference.
+        /// </summary>
         public override int GetHashCode()
         {
             int hash = 13;
@@ -197,16 +230,25 @@ namespace DiGi.Core.Classes
             return hash;
         }
 
+        /// <summary>
+        /// Determines whether a specified value is contained within the range.
+        /// </summary>
         public bool In(T value)
         {
             return (value as dynamic) <= (max as dynamic) && (value as dynamic) >= (min as dynamic);
         }
 
+        /// <summary>
+        /// Determines whether a specified value is contained within the range, considering a given tolerance.
+        /// </summary>
         public bool In(T value, T tolerance)
         {
             return (value as dynamic) <= (max as dynamic + tolerance as dynamic) && (value as dynamic) >= (min as dynamic - tolerance as dynamic);
         }
 
+        /// <summary>
+        /// Determines whether another range is entirely contained within this range.
+        /// </summary>
         public bool In(Range<T>? range)
         {
             if (range is null)
@@ -217,6 +259,9 @@ namespace DiGi.Core.Classes
             return (range.min as dynamic) <= (min as dynamic) && (range.max as dynamic) >= (max as dynamic);
         }
 
+        /// <summary>
+        /// Determines whether another range is contained within this range, considering a given tolerance.
+        /// </summary>
         public bool In(Range<T>? range, T tolerance)
         {
             if (range is null)
@@ -227,26 +272,41 @@ namespace DiGi.Core.Classes
             return (range.min as dynamic) <= (min as dynamic - tolerance as dynamic) && (range.max as dynamic) >= (max as dynamic + tolerance as dynamic);
         }
 
+        /// <summary>
+        /// Determines whether the current range intersects with another specified range.
+        /// </summary>
         public bool Intersect(Range<T>? range)
         {
             return !Out(range);
         }
 
+        /// <summary>
+        /// Determines whether the current range intersects with another specified range, considering a given tolerance.
+        /// </summary>
         public bool Intersect(Range<T>? range, T tolerance)
         {
             return !Out(range, tolerance);
         }
 
+        /// <summary>
+        /// Determines whether a specified value is outside the boundaries of the range.
+        /// </summary>
         public bool Out(T value)
         {
             return !In(value);
         }
 
+        /// <summary>
+        /// Determines whether a specified value is outside the boundaries of the range, considering a given tolerance.
+        /// </summary>
         public bool Out(T value, T tolerance)
         {
             return !In(value, tolerance);
         }
 
+        /// <summary>
+        /// Determines whether another range is completely outside this range.
+        /// </summary>
         public bool Out(Range<T>? range)
         {
             if (range is null)
@@ -257,6 +317,9 @@ namespace DiGi.Core.Classes
             return (range.min as dynamic) >= (max as dynamic) || (range.max as dynamic) <= (min as dynamic);
         }
 
+        /// <summary>
+        /// Determines whether another range is completely outside this range, considering a given tolerance.
+        /// </summary>
         public bool Out(Range<T>? range, T tolerance)
         {
             if (range is null)
@@ -267,6 +330,9 @@ namespace DiGi.Core.Classes
             return (range.min as dynamic) >= (max as dynamic - tolerance as dynamic) || (range.max as dynamic) <= (min as dynamic + tolerance as dynamic);
         }
 
+        /// <summary>
+        /// Returns a string representation of the current range.
+        /// </summary>
         public override string ToString()
         {
             return string.Format("[{0}, {1}]", min, max);

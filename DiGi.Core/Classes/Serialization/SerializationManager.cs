@@ -14,10 +14,16 @@ namespace DiGi.Core.Classes
         private readonly Dictionary<string, SerializationConstructor> dictionary_SerializationConstructor = [];
         private readonly Dictionary<string, SerializationMethodCollection> dictionary_SerializationMethodCollection = [];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializationManager"/> class.
+        /// </summary>
         public SerializationManager()
         {
         }
 
+        /// <summary>
+        /// Gets or sets the options used for JSON serialization and deserialization.
+        /// </summary>
         public JsonSerializerOptions JsonSerializerOptions { get; set; } = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
 
         /// <summary>
@@ -39,11 +45,17 @@ namespace DiGi.Core.Classes
             return GetSerializationConstructor(fullTypeName, update);
         }
 
+        /// <summary>
+        /// Retrieves the serialization constructor, optionally updating it if necessary.
+        /// </summary>
         public SerializationConstructor? GetSerializationConstructor<TSerializableObject>(bool update = true) where TSerializableObject : ISerializableObject
         {
             return GetSerializationConstructor(typeof(TSerializableObject), update);
         }
 
+        /// <summary>
+        /// Retrieves the serialization constructor for the specified type name, optionally updating it.
+        /// </summary>
         public SerializationConstructor? GetSerializationConstructor(string? fullTypeName, bool update = true)
         {
             if (string.IsNullOrWhiteSpace(fullTypeName))
@@ -121,11 +133,17 @@ namespace DiGi.Core.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves the collection of serialization methods, optionally updating it.
+        /// </summary>
         public SerializationMethodCollection? GetSerializationMethodCollection<TSerializableObject>(bool update = true) where TSerializableObject : ISerializableObject
         {
             return GetSerializationMethodCollection(typeof(TSerializableObject), update);
         }
 
+        /// <summary>
+        /// Retrieves the collection of serialization methods for the specified object, optionally updating it.
+        /// </summary>
         public SerializationMethodCollection? GetSerializationMethodCollection(ISerializableObject? serializableObject, bool update = true)
         {
             Type? type = serializableObject?.GetType();

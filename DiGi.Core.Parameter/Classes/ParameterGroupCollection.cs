@@ -10,16 +10,25 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Parameter.Classes
 {
+    /// <summary>
+    /// Represents a collection of parameter groups.
+    /// </summary>
     public class ParameterGroupCollection : SerializableObject, IEnumerable<ParameterGroup>
     {
         [JsonIgnore]
         private readonly Dictionary<string, ParameterGroup> dictionary = [];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class.
+        /// </summary>
         public ParameterGroupCollection()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class from a collection of parameters.
+        /// </summary>
         public ParameterGroupCollection(IEnumerable<Parameter>? parameters)
         {
             if (parameters != null)
@@ -31,11 +40,17 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class from a JSON object.
+        /// </summary>
         public ParameterGroupCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class by copying another collection.
+        /// </summary>
         public ParameterGroupCollection(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
@@ -78,11 +93,17 @@ namespace DiGi.Core.Parameter.Classes
             //}
         }
 
+        /// <summary>
+        /// Creates a shallow copy of the current parameter group collection.
+        /// </summary>
         public override ISerializableObject? Clone()
         {
             return new ParameterGroupCollection(this);
         }
 
+        /// <summary>
+        /// Determines whether any group in the collection contains a parameter with the specified unique identifier.
+        /// </summary>
         public bool Contains(string? uniqueId)
         {
             if (uniqueId == null)
@@ -101,6 +122,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Determines whether any group in the collection contains a parameter matching the specified definition.
+        /// </summary>
         public bool Contains(IParameterDefinition? parameterDefinition)
         {
             if (parameterDefinition?.UniqueId == null)
@@ -119,6 +143,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the parameter groups in the collection.
+        /// </summary>
         public IEnumerator<ParameterGroup> GetEnumerator()
         {
             return GetParameterGroups()?.GetEnumerator() ?? Enumerable.Empty<ParameterGroup>().GetEnumerator();
@@ -129,6 +156,9 @@ namespace DiGi.Core.Parameter.Classes
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Retrieves a list of all parameter definitions of the specified type across all groups.
+        /// </summary>
         public List<TParameterDefinition> GetParameterDefinitions<TParameterDefinition>() where TParameterDefinition : IParameterDefinition
         {
             List<TParameterDefinition> result = [];
@@ -144,6 +174,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a list of parameter definitions that match the specified name and comparison criteria across all groups.
+        /// </summary>
         public List<IParameterDefinition>? GetParameterDefinitions(string? parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true)
         {
             if (parameterName == null)
@@ -164,6 +197,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a list of parameter definitions of type <typeparamref name="TParameterDefinition"/> that match the specified name and comparison criteria across all groups.
+        /// </summary>
         public List<TParameterDefinition>? GetParameterDefinitions<TParameterDefinition>(string? parameterName, TextComparisonType textComparisonType = TextComparisonType.Equals, bool caseSensitive = true) where TParameterDefinition : IParameterDefinition
         {
             if (parameterName == null)
@@ -184,6 +220,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>
+        /// Gets the value associated with the specified parameter definition from the collection.
+        /// </summary>
         public object? GetValue(IParameterDefinition? parameterDefinition, GetValueSettings? getValueSettings = null)
         {
             if (parameterDefinition?.UniqueId == null)
@@ -202,6 +241,9 @@ namespace DiGi.Core.Parameter.Classes
             return null;
         }
 
+        /// <summary>
+        /// Gets the value associated with the specified unique identifier from the collection.
+        /// </summary>
         public object? GetValue(string? uniqueId, GetValueSettings? getValueSettings = null)
         {
             if (uniqueId == null)
@@ -220,6 +262,9 @@ namespace DiGi.Core.Parameter.Classes
             return null;
         }
 
+        /// <summary>
+        /// Gets the value of type <typeparamref name="T"/> associated with the specified parameter definition from the collection.
+        /// </summary>
         public T? GetValue<T>(IParameterDefinition? parameterDefinition, GetValueSettings? getValueSettings = null)
         {
             if (parameterDefinition?.UniqueId == null)
@@ -238,6 +283,9 @@ namespace DiGi.Core.Parameter.Classes
             return default;
         }
 
+        /// <summary>
+        /// Removes the parameter matching the specified definition from the collection.
+        /// </summary>
         public bool Remove(IParameterDefinition? parameterDefinition)
         {
             if (parameterDefinition?.UniqueId == null)
@@ -256,6 +304,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Removes the parameter with the specified unique identifier from the collection.
+        /// </summary>
         public bool Remove(string? uniqueId)
         {
             if (uniqueId == null)
@@ -274,6 +325,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Sets the value for the parameter matching the specified definition within the collection.
+        /// </summary>
         public bool SetValue(IParameterDefinition? parameterDefinition, object? value, SetValueSettings? setValueSettings = null)
         {
             if (parameterDefinition == null)
@@ -300,6 +354,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>
+        /// Sets the value for the parameter identified by the specified name within the collection.
+        /// </summary>
         public bool SetValue(string? name, object? value, SetValueSettings? setValueSettings = null)
         {
             List<IParameterDefinition>? parameterDefinitions = GetParameterDefinitions(name);
@@ -342,6 +399,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>
+        /// Adds or updates a parameter in the collection.
+        /// </summary>
         public bool SetValue(Parameter? parameter)
         {
             if (parameter?.UniqueId == null)
@@ -368,6 +428,9 @@ namespace DiGi.Core.Parameter.Classes
             return result;
         }
 
+        /// <summary>
+        /// Attempts to get the value associated with the specified unique identifier from the collection.
+        /// </summary>
         public bool TryGetValue(string? uniqueId, out object? value, GetValueSettings? getValueSettings = null)
         {
             if (uniqueId == null)
@@ -387,6 +450,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Attempts to get the value associated with the specified parameter definition from the collection.
+        /// </summary>
         public bool TryGetValue(IParameterDefinition? parameterDefinition, out object? value, GetValueSettings? getValueSettings = null)
         {
             if (parameterDefinition?.UniqueId == null)
@@ -406,6 +472,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Attempts to get the value of type <typeparamref name="T"/> associated with the specified parameter definition from the collection.
+        /// </summary>
         public bool TryGetValue<T>(IParameterDefinition? parameterDefinition, out T? value, GetValueSettings? getValueSettings = null)
         {
             if (parameterDefinition?.UniqueId == null)
@@ -425,6 +494,9 @@ namespace DiGi.Core.Parameter.Classes
             return false;
         }
 
+        /// <summary>
+        /// Attempts to get the value of type <typeparamref name="T"/> associated with the specified unique identifier from the collection.
+        /// </summary>
         public bool TryGetValue<T>(string? uniqueId, out T? value, GetValueSettings? getValueSettings = null)
         {
             if (uniqueId == null)

@@ -10,12 +10,18 @@ namespace DiGi.Core.Classes
         private readonly IProgress<T>? progress;
         private T current;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProgressWrapper{T}"/> class with an initial value.
+        /// </summary>
         public ProgressWrapper(T initialValue, IProgress<T>? progress = null)
         {
             current = initialValue;
             this.progress = progress;
         }
 
+        /// <summary>
+        /// Gets the current progress value.
+        /// </summary>
         public T Current
         {
             get
@@ -34,6 +40,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Reports a new progress value.
+        /// </summary>
         public void Report(T value)
         {
             Current = value;

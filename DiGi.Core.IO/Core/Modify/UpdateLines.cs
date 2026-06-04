@@ -5,6 +5,9 @@ namespace DiGi.Core.IO
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Updates multiple lines in the file at the given path based on the provided dictionary of indices and content.
+        /// </summary>
         public static HashSet<int>? UpdateLines(string? path, Dictionary<int, string?>? lineDictionary)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path) || lineDictionary == null)

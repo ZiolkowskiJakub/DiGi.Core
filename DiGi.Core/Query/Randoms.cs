@@ -6,6 +6,9 @@ namespace DiGi.Core
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Generates a list of random doubles within a specified range using a provided Random instance.
+        /// </summary>
         public static List<double>? Randoms(int count, Random? random, double start, double end, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (count <= 0 || random == null)
@@ -22,6 +25,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random doubles within a specified Range using a provided Random instance.
+        /// </summary>
         public static List<double>? Randoms(int count, Random? random, Range<double>? range, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (count <= 0 || random == null)
@@ -38,6 +44,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random doubles within a specified range using an optional seed.
+        /// </summary>
         public static List<double>? Randoms(int count, double start, double end, int seed = -1, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (count <= 0)
@@ -56,6 +65,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random doubles within a specified Range using an optional seed.
+        /// </summary>
         public static List<double>? Randoms(int count, Range<double>? range, int seed = -1, double tolerance = Constants.Tolerance.MacroDistance)
         {
             if (count <= 0 || range is null)
@@ -74,6 +86,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random integers within a specified Range using an optional seed.
+        /// </summary>
         public static List<int>? Randoms(int count, Range<int>? range, int seed = -1)
         {
             if (count <= 0 || range is null)
@@ -92,6 +107,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random integers within a specified range using an optional seed.
+        /// </summary>
         public static List<int>? Randoms(int count, int start, int end, int seed = -1)
         {
             if (count <= 0)
@@ -110,6 +128,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random integers within a specified range using a provided Random instance.
+        /// </summary>
         public static List<int>? Randoms(int count, Random? random, int start, int end)
         {
             if (count <= 0 || random == null)
@@ -126,6 +147,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random integers within a specified Range using a provided Random instance.
+        /// </summary>
         public static List<int>? Randoms(int count, Random? random, Range<int>? range)
         {
             if (count <= 0 || random == null || range is null)
@@ -142,6 +166,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random booleans using a provided Random instance.
+        /// </summary>
         public static List<bool>? Randoms(int count, Random? random)
         {
             if (count <= 0 || random == null)
@@ -158,6 +185,9 @@ namespace DiGi.Core
             return result;
         }
 
+        /// <summary>
+        /// Generates a list of random booleans using an optional seed.
+        /// </summary>
         public static List<bool>? Randoms(int count, int seed = -1)
         {
             if (count <= 0)

@@ -4,27 +4,42 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
+    /// <summary>
+    /// Represents a result containing an external reference unique identifier.
+    /// </summary>
     public abstract class ExternalReferenceUniqueResult<TUniqueObject, UExternalReference> : UniqueResult<TUniqueObject> where TUniqueObject : IUniqueObject where UExternalReference : IExternalReference
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly UExternalReference? reference;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class.
+        /// </summary>
         public ExternalReferenceUniqueResult()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class with the specified external reference.
+        /// </summary>
         public ExternalReferenceUniqueResult(UExternalReference? reference)
             : base()
         {
             this.reference = reference;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class from the specified JSON object.
+        /// </summary>
         public ExternalReferenceUniqueResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class from another external reference unique result.
+        /// </summary>
         public ExternalReferenceUniqueResult(ExternalReferenceUniqueResult<TUniqueObject, UExternalReference>? externalReferenceUniqueResult)
             : base(externalReferenceUniqueResult)
         {
@@ -34,6 +49,9 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the associated external reference.
+        /// </summary>
         [JsonIgnore]
         public UExternalReference? Reference
         {
