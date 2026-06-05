@@ -9,6 +9,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Class MultiUpdater.
     /// </summary>
+    /// <typeparam name="TValue">The type of value handled by the MultiUpdater.</typeparam>
     public class MultiUpdater<TValue> : IUpdater<TValue>
     {
         private readonly List<IUpdater>? updaters;
@@ -16,6 +17,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiUpdater"/> class using a collection of updaters.
         /// </summary>
+        /// <param name="updaters">The collection of updaters to initialize the MultiUpdater with.</param>
         public MultiUpdater(IEnumerable<IUpdater> updaters)
         {
             this.updaters = updaters == null ? null : [.. updaters];
@@ -29,6 +31,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Performs an update operation and returns whether any changes were made.
         /// </summary>
+        /// <returns>True if any changes were made; otherwise, false.</returns>
         public bool Update()
         {
             return Update(out _);
@@ -37,6 +40,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Performs an update operation and returns a boolean array indicating which specific updaters were modified.
         /// </summary>
+        /// <param name="updated">When this method returns, contains a boolean array indicating which specific updaters were modified.</param>
+        /// <returns>True if the update operation was successful; otherwise, false.</returns>
         public bool Update(out bool[]? updated)
         {
             updated = null;

@@ -10,6 +10,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified string.
         /// </summary>
+        /// <param name="value">The string value to generate a unique identifier for.</param>
+        /// <returns>A unique identifier as a string.</returns>
         public static string UniqueId(this string? value)
         {
             if (value == null)
@@ -38,6 +40,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified double.
         /// </summary>
+        /// <param name="value">The double value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this double value)
         {
             return value.ToString();
@@ -46,6 +50,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable double.
         /// </summary>
+        /// <param name="value">The nullable double value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this double? value)
         {
             if (value == null || !value.HasValue)
@@ -59,6 +65,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified float.
         /// </summary>
+        /// <param name="value">The float value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this float value)
         {
             return value.ToString();
@@ -67,6 +75,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable float.
         /// </summary>
+        /// <param name="value">The nullable float value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this float? value)
         {
             if (value == null || !value.HasValue)
@@ -80,6 +90,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified decimal.
         /// </summary>
+        /// <param name="value">The decimal value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this decimal value)
         {
             return value.ToString();
@@ -88,6 +100,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable decimal.
         /// </summary>
+        /// <param name="value">The nullable decimal to generate an identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this decimal? value)
         {
             if (value == null || !value.HasValue)
@@ -101,6 +115,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified integer.
         /// </summary>
+        /// <param name="value">The integer to generate an identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this int value)
         {
             return value.ToString();
@@ -109,6 +125,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable integer.
         /// </summary>
+        /// <param name="value">The nullable integer to generate an identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this int? value)
         {
             if (value == null || !value.HasValue)
@@ -122,6 +140,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified unsigned integer.
         /// </summary>
+        /// <param name="value">The unsigned integer to generate an identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this uint value)
         {
             return value.ToString();
@@ -130,6 +150,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable unsigned integer.
         /// </summary>
+        /// <param name="value">The nullable unsigned integer to generate an identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this uint? value)
         {
             if (value == null || !value.HasValue)
@@ -143,6 +165,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified short.
         /// </summary>
+        /// <param name="value">The short value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this short value)
         {
             return value.ToString();
@@ -151,6 +175,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable short.
         /// </summary>
+        /// <param name="value">The nullable short value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this short? value)
         {
             if (value == null || !value.HasValue)
@@ -164,6 +190,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified boolean.
         /// </summary>
+        /// <param name="value">The boolean value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this bool value)
         {
             return value.ToString();
@@ -172,6 +200,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable boolean.
         /// </summary>
+        /// <param name="value">The nullable boolean value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this bool? value)
         {
             if (value == null || !value.HasValue)
@@ -185,6 +215,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified DateTime.
         /// </summary>
+        /// <param name="value">The DateTime value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this DateTime value)
         {
             return value.Ticks.ToString();
@@ -193,6 +225,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable DateTime.
         /// </summary>
+        /// <param name="value">The nullable DateTime to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this DateTime? value)
         {
             if (value == null || !value.HasValue)
@@ -206,6 +240,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified JsonNode.
         /// </summary>
+        /// <param name="value">The JsonNode to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(JsonNode? value)
         {
             if (value == null)
@@ -249,6 +285,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified JsonArray.
         /// </summary>
+        /// <param name="value">The JsonArray to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(JsonArray? value)
         {
             if (value == null)
@@ -268,6 +306,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified JsonValue.
         /// </summary>
+        /// <param name="value">The JsonValue to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(JsonValue? value)
         {
             object? @object = value?.GetValue<object>();
@@ -282,6 +322,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified JsonObject.
         /// </summary>
+        /// <param name="value">The JsonObject to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this JsonObject? value)
         {
             if (value == null)
@@ -315,6 +357,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable Enum.
         /// </summary>
+        /// <param name="enum">The nullable Enum to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this Enum? @enum)
         {
             if (@enum == null)
@@ -328,6 +372,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified Guid.
         /// </summary>
+        /// <param name="guid">The Guid to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this Guid guid)
         {
             return guid.ToString("N");
@@ -336,6 +382,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified nullable Guid.
         /// </summary>
+        /// <param name="guid">The nullable Guid to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this Guid? guid)
         {
             if (guid == null || !guid.HasValue)
@@ -349,6 +397,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified IUniqueObject.
         /// </summary>
+        /// <param name="uniqueObject">The unique object to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this IUniqueObject? uniqueObject)
         {
             if (uniqueObject == null)
@@ -362,6 +412,8 @@ namespace DiGi.Core
         /// <summary>
         /// Generates a unique identifier for the specified ISerializableObject.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this ISerializableObject? serializableObject)
         {
             if (serializableObject == null)

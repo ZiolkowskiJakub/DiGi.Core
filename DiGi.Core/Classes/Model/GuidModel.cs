@@ -18,6 +18,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidModel"/> class with a specified GUID.
         /// </summary>
+        /// <param name="guid">The GUID value to initialize the model with.</param>
         public GuidModel(System.Guid guid)
             : base(guid)
         {
@@ -26,6 +27,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidModel"/> class by copying another instance.
         /// </summary>
+        /// <param name="guidModel">The GuidModel instance to copy from.</param>
         public GuidModel(GuidModel? guidModel)
             : base(guidModel)
         {
@@ -34,6 +36,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidModel"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the model from.</param>
         public GuidModel(JsonObject? jsonObject)
             : base(jsonObject)
         {

@@ -13,6 +13,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterDefinition"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the definition from.</param>
         public ParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -21,6 +22,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterDefinition"/> class by copying an existing definition.
         /// </summary>
+        /// <param name="parameterDefinition">The parameter definition to copy from.</param>
         public ParameterDefinition(ParameterDefinition? parameterDefinition)
             : base(parameterDefinition)
         {
@@ -61,6 +63,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Determines whether the specified parameter definition is equal to the current instance.
         /// </summary>
+        /// <param name="parameterDefinition">The parameter definition to compare with the current instance.</param>
+        /// <returns>True if the specified parameter definition is equal to the current instance; otherwise, false.</returns>
         public bool Equals(IParameterDefinition? parameterDefinition)
         {
             return parameterDefinition?.UniqueId == UniqueId;
@@ -69,6 +73,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Validates whether the provided value is valid for this parameter definition.
         /// </summary>
+        /// <param name="value">The value to validate.</param>
+        /// <returns>True if the value is valid; otherwise, false.</returns>
         public virtual bool IsValid(object? value)
         {
             return Query.IsValid(ParameterType, value);

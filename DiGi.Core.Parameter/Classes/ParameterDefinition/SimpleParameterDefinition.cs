@@ -15,6 +15,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleParameterDefinition"/> class with the specified name.
         /// </summary>
+        /// <param name="name">The name of the parameter.</param>
         public SimpleParameterDefinition(string? name)
             : base()
         {
@@ -24,6 +25,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleParameterDefinition"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the definition from.</param>
         public SimpleParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -32,6 +34,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleParameterDefinition"/> class by copying an existing definition.
         /// </summary>
+        /// <param name="simpleParameterDefinition">The parameter definition to copy from.</param>
         public SimpleParameterDefinition(SimpleParameterDefinition? simpleParameterDefinition)
             : base(simpleParameterDefinition)
         {
@@ -80,6 +83,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Determines whether the specified value is a valid integer parameter value.
         /// </summary>
+        /// <param name="value">The value to validate.</param>
+        /// <returns>True if the value is a valid integer parameter value; otherwise, false.</returns>
         public override bool IsValid(object? value)
         {
             return base.IsValid(value);

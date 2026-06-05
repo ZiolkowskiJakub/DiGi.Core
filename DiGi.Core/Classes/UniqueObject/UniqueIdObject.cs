@@ -21,6 +21,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdObject"/> class with the specified unique ID.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier string.</param>
         public UniqueIdObject(string? uniqueId)
             : base()
         {
@@ -30,6 +31,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdObject"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public UniqueIdObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -38,6 +40,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdObject"/> class by copying another UniqueIdObject.
         /// </summary>
+        /// <param name="uniqueIdObject">The source UniqueIdObject to copy from.</param>
         public UniqueIdObject(UniqueIdObject? uniqueIdObject)
             : base(uniqueIdObject)
         {
@@ -50,6 +53,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdObject"/> class with a specified unique ID and GuidObject.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier string.</param>
+        /// <param name="guidObject">The associated GUID object, or null.</param>
         public UniqueIdObject(string uniqueId, GuidObject? guidObject)
             : base(guidObject)
         {

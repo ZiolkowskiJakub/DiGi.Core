@@ -9,6 +9,10 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Parses a delimited line into individual values.
         /// </summary>
+        /// <param name="line">The string to be parsed.</param>
+        /// <param name="separator">The character used as the delimiter.</param>
+        /// <param name="nextLine">An optional function to retrieve the next line if needed for multi-line parsing.</param>
+        /// <returns>A list of strings containing the parsed values, or null if the input line is null.</returns>
         public static List<string>? Values(this string? line, char separator, Func<string>? nextLine = null)
         {
             if (line == null)

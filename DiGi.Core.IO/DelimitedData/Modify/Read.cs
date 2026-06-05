@@ -12,6 +12,11 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Reads delimited data from a reader into a table.
         /// </summary>
+        /// <param name="table">The table to read the data into.</param>
+        /// <param name="delimitedDataReader">The reader used to read the delimited data.</param>
+        /// <param name="columnIndex">The index of the column to start reading from. Defaults to 0.</param>
+        /// <param name="rowIndex">The index of the row to start reading from. Defaults to 1.</param>
+        /// <returns>True if the data was read successfully; otherwise, false.</returns>
         public static bool Read(this Table.Classes.Table? table, IDelimitedDataReader? delimitedDataReader, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null)
@@ -91,6 +96,12 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Reads delimited data from a file using a separator character into a table.
         /// </summary>
+        /// <param name="table">The table to read the data into.</param>
+        /// <param name="path">The path to the file containing the delimited data.</param>
+        /// <param name="separator">The character used as a separator in the delimited data file.</param>
+        /// <param name="columnIndex">The index of the column to start reading from. Defaults to 0.</param>
+        /// <param name="rowIndex">The index of the row to start reading from. Defaults to 1.</param>
+        /// <returns>True if the data was read successfully; otherwise, false.</returns>
         public static bool Read(this Table.Classes.Table? table, string? path, char separator, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -104,6 +115,12 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Reads delimited data from a file using a DelimitedDataSeparator enum into a table.
         /// </summary>
+        /// <param name="table">The table to read the data into.</param>
+        /// <param name="path">The path to the file containing the delimited data.</param>
+        /// <param name="delimitedDataSeparator">The separator used in the delimited data file.</param>
+        /// <param name="columnIndex">The index of the column to start reading from. Defaults to 0.</param>
+        /// <param name="rowIndex">The index of the row to start reading from. Defaults to 1.</param>
+        /// <returns>True if the data was read successfully; otherwise, false.</returns>
         public static bool Read(this Table.Classes.Table? table, string? path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
         {
             if (table == null || string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))

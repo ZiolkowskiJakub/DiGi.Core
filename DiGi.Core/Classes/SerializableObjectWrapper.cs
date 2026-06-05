@@ -21,6 +21,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectWrapper"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to wrap.</param>
         public SerializableObjectWrapper(JsonObject? jsonObject)
         {
             this.jsonObject = jsonObject?.DeepClone() as JsonObject;
@@ -68,6 +69,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Attempts to retrieve the full type name from the wrapped JsonObject.
         /// </summary>
+        /// <param name="fullTypeName">When this method returns, contains the full type name if successful; otherwise, null.</param>
+        /// <returns>True if the full type name was successfully retrieved; otherwise, false.</returns>
         public bool TryGetFullTypeName(out string? fullTypeName)
         {
             fullTypeName = Query.FullTypeName(jsonObject);

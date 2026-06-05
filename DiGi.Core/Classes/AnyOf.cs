@@ -235,6 +235,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// A type-safe container for a single specified type T.
     /// </summary>
+    /// <typeparam name="T">The specified type.</typeparam>
     public class AnyOf<T>(T value) : AnyOf(value)
     {
         /// <summary>
@@ -251,6 +252,8 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// A type-safe container for one of two specified types T or K.
     /// </summary>
+    /// <typeparam name="T">The first type.</typeparam>
+    /// <typeparam name="K">The second type.</typeparam>
     public class AnyOf<T, K> : AnyOf
     {
         /// <summary>

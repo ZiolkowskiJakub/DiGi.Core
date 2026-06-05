@@ -20,6 +20,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeSeries"/> class with start date, end date, and step.
         /// </summary>
+        /// <param name="dateTime_1">The starting date and time of the series.</param>
+        /// <param name="dateTime_2">The ending date and time of the series.</param>
+        /// <param name="step">The step interval for the series.</param>
         public DateTimeSeries(DateTime dateTime_1, DateTime dateTime_2, long step)
         {
             range = new DateTimeRange(dateTime_1, dateTime_2);
@@ -29,6 +32,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeSeries"/> class starting at the specified date.
         /// </summary>
+        /// <param name="dateTime">The start date and time for the series.</param>
         public DateTimeSeries(DateTime dateTime)
         {
             range = new DateTimeRange(dateTime, dateTime);
@@ -38,6 +42,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeSeries"/> class with a specified range and step.
         /// </summary>
+        /// <param name="range">The date time range for the series.</param>
+        /// <param name="step">The step interval between dates in the series.</param>
         public DateTimeSeries(DateTimeRange? range, long step)
             : base()
         {
@@ -48,6 +54,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeSeries"/> class by copying another series.
         /// </summary>
+        /// <param name="dateTimeSeries">The source <see cref="DateTimeSeries"/> to copy from.</param>
         public DateTimeSeries(DateTimeSeries? dateTimeSeries)
             : base(dateTimeSeries)
         {
@@ -61,6 +68,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeSeries"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the series.</param>
         public DateTimeSeries(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -93,6 +101,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Generates and returns an array of DateTimes within the series.
         /// </summary>
+        /// <returns>An array of <see cref="DateTime"/> objects representing the series, or null.</returns>
         public DateTime[]? GetDateTimes()
         {
             if (range is null)

@@ -17,6 +17,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the parameter definition.</param>
         public EnumParameterDefinition(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -25,6 +26,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class by copying an existing definition.
         /// </summary>
+        /// <param name="enumParameterDefinition">The existing enum parameter definition to copy.</param>
         public EnumParameterDefinition(EnumParameterDefinition? enumParameterDefinition)
             : base(enumParameterDefinition)
         {
@@ -37,6 +39,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class based on a specific enumeration value.
         /// </summary>
+        /// <param name="enum">The enumeration value to use for initialization.</param>
         public EnumParameterDefinition(Enum? @enum)
         {
             this.@enum = @enum;
@@ -160,6 +163,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Creates a copy of the current enum parameter definition.
         /// </summary>
+        /// <returns>A clone of the current enum parameter definition as an <see cref="ISerializableObject"/>.</returns>
         public override ISerializableObject? Clone()
         {
             return new EnumParameterDefinition(this);
@@ -168,6 +172,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Populates the enum parameter definition from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to populate the definition from.</param>
+        /// <returns><c>true</c> if the population was successful; otherwise, <c>false</c>.</returns>
         public override bool FromJsonObject(JsonObject? jsonObject)
         {
             if (jsonObject == null)
@@ -186,6 +192,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Converts the enum parameter definition to a JSON object.
         /// </summary>
+        /// <returns>A <see cref="JsonObject"/> representation of the enum parameter definition.</returns>
         public override JsonObject ToJsonObject()
         {
             JsonObject result = new()

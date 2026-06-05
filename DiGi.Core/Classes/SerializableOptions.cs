@@ -18,6 +18,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableOptions"/> class by copying another options instance.
         /// </summary>
+        /// <param name="serializableOptions">The source options instance to copy from.</param>
         public SerializableOptions(SerializableOptions? serializableOptions)
             : base(serializableOptions)
         {
@@ -26,6 +27,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableOptions"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize options from.</param>
         public SerializableOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {

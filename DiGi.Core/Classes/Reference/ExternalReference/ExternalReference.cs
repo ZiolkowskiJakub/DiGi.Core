@@ -15,6 +15,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalReference"/> class with a specified source.
         /// </summary>
+        /// <param name="source">The source string for the external reference.</param>
         public ExternalReference(string? source)
             : base()
         {
@@ -27,6 +28,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the reference.</param>
         public ExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -35,6 +37,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalReference"/> class by copying an existing reference.
         /// </summary>
+        /// <param name="externalReference">The external reference to copy.</param>
         public ExternalReference(ExternalReference? externalReference)
         : base(externalReference)
         {
@@ -60,6 +63,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Base class for references to external resources.
     /// </summary>
+    /// <typeparam name="USerializableReference">The type of the serializable reference.</typeparam>
     public abstract class ExternalReference<USerializableReference> : ExternalReference where USerializableReference : ISerializableReference
     {
         [JsonInclude, JsonPropertyName("Reference")]
@@ -68,6 +72,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalReference"/> class with a specified source and serializable reference.
         /// </summary>
+        /// <param name="source">The source of the external reference.</param>
+        /// <param name="reference">The serializable reference to use.</param>
         public ExternalReference(string? source, USerializableReference? reference)
             : base(source)
         {
@@ -77,6 +83,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public ExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -85,6 +92,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalReference"/> class by copying an existing generic reference.
         /// </summary>
+        /// <param name="externalReference">The external reference to copy from.</param>
         public ExternalReference(ExternalReference<USerializableReference>? externalReference)
         : base(externalReference)
         {
@@ -109,6 +117,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns a string representation of the external reference.
         /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string? ToString()
         {
             return Convert.ToSystem_String(reference, Source);

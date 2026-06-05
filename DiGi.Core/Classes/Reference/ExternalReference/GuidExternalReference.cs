@@ -11,6 +11,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidExternalReference"/> class with a source and a GUID object.
         /// </summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="guidObject">The GUID object.</param>
         public GuidExternalReference(string? source, IGuidObject? guidObject)
             : base(source, guidObject == null ? null : new GuidReference(guidObject))
         {
@@ -19,6 +21,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidExternalReference"/> class with a source and a GUID reference.
         /// </summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="reference">The GUID reference.</param>
         public GuidExternalReference(string source, GuidReference reference)
             : base(source, reference)
         {
@@ -27,6 +31,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidExternalReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public GuidExternalReference(JsonObject jsonObject)
             : base(jsonObject)
         {
@@ -35,6 +40,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidExternalReference"/> class by copying an existing instance.
         /// </summary>
+        /// <param name="guidExternalReference">The existing instance to copy.</param>
         public GuidExternalReference(GuidExternalReference guidExternalReference)
             : base(guidExternalReference)
         {

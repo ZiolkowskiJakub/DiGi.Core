@@ -9,6 +9,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdPropertyReference"/> class using a unique ID reference and a property name.
         /// </summary>
+        /// <param name="reference">The unique ID reference.</param>
+        /// <param name="propertyName">The name of the property.</param>
         public UniqueIdPropertyReference(UniqueIdReference reference, string propertyName)
             : base(reference, propertyName)
         {
@@ -17,6 +19,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdPropertyReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public UniqueIdPropertyReference(JsonObject jsonObject)
             : base(jsonObject)
         {
@@ -25,6 +28,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdPropertyReference"/> class by copying an existing reference.
         /// </summary>
+        /// <param name="uniqueIdPropertyReference">The existing reference to copy.</param>
         public UniqueIdPropertyReference(UniqueIdPropertyReference uniqueIdPropertyReference)
             : base(uniqueIdPropertyReference)
         {
@@ -33,6 +37,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates a deep copy of the current object.
         /// </summary>
+        /// <returns>A deep copy of the current object.</returns>
         public override ISerializableObject Clone()
         {
             return new UniqueIdPropertyReference(this);

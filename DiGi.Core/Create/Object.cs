@@ -8,6 +8,9 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates an instance of the specified type using the provided arguments.</summary>
+        /// <typeparam name="T">The type of the object to create.</typeparam>
+        /// <param name="objects">The arguments to be passed to the constructor of the created object.</param>
+        /// <returns>An instance of type <typeparamref name="T"/>, or null if the operation fails.</returns>
         public static T? Object<T>(params object[] objects)
         {
             Type type = typeof(T);

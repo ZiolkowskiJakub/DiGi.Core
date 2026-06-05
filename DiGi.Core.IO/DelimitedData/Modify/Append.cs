@@ -10,6 +10,11 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Appends a table's data to a delimited file.
         /// </summary>
+        /// <param name="path">The path to the delimited file.</param>
+        /// <param name="table">The table containing the data to append.</param>
+        /// <param name="separator">The character used as a separator in the delimited file.</param>
+        /// <param name="func">An optional function to convert objects to strings.</param>
+        /// <returns>True if the operation was successful; otherwise, false.</returns>
         public static bool Append(string? path, Table.Classes.Table? table, char separator, Func<object?, string?>? func = null)
         {
             if (table == null || string.IsNullOrWhiteSpace(path))

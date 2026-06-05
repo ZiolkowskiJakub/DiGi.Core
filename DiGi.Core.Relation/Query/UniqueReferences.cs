@@ -9,6 +9,9 @@ namespace DiGi.Core.Relation
     public static partial class Query
     {
         /// <summary>Gets the set of unique references from the relation on the specified side.</summary>
+        /// <param name="relation">The relation to retrieve unique references from.</param>
+        /// <param name="relationSide">The side of the relation to check.</param>
+        /// <returns>A set of unique references, or null if none exist.</returns>
         public static HashSet<IUniqueReference>? UniqueReferences(this IRelation? relation, RelationSide relationSide)
         {
             if (relation == null)

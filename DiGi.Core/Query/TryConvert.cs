@@ -1448,6 +1448,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to convert the specified object to a <see cref="TimeSpan"/>.
         /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted TimeSpan value if successful; otherwise, the default value.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_TimeSpan(object @object, out TimeSpan? result)
         {
             result = default;
@@ -1472,6 +1475,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to convert the specified object to a <see cref="Type"/>.
         /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted Type value if successful; otherwise, the default value.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Type(object @object, out Type? result)
         {
             result = default;
@@ -1488,6 +1494,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to convert the specified object to an unsigned integer (uint).
         /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted uint value if successful; otherwise, the default value.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Uint(object @object, out uint? result)
         {
             result = null;
@@ -1561,6 +1570,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to convert the specified object to an unsigned long (ulong).
         /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted ulong value if successful; otherwise, the default value.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Ulong(object @object, out ulong? result)
         {
             result = null;
@@ -1634,6 +1646,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to convert the specified object to an unsigned short (ushort).
         /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted ushort value if successful; otherwise, the default value.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public static bool TryConvert_Ushort(object @object, out ushort? result)
         {
             result = null;

@@ -14,6 +14,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the type reference.</param>
         public TypeReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -22,6 +23,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeReference"/> class by copying an existing type reference.
         /// </summary>
+        /// <param name="typeReference">The existing type reference to copy.</param>
         public TypeReference(TypeReference? typeReference)
             : base(typeReference)
         {
@@ -31,6 +33,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeReference"/> class using the specified full type name.
         /// </summary>
+        /// <param name="fullTypeName">The full name of the type.</param>
         public TypeReference(string? fullTypeName)
             : base()
         {
@@ -40,6 +43,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeReference"/> class for the specified type.
         /// </summary>
+        /// <param name="type">The type to reference.</param>
         public TypeReference(Type? type)
             : base()
         {
@@ -49,6 +53,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeReference"/> class based on the provided object.
         /// </summary>
+        /// <param name="object">The object to use for initializing the current type reference.</param>
         public TypeReference(IObject? @object)
             : base()
         {
@@ -84,6 +89,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates a shallow copy of the current type reference.
         /// </summary>
+        /// <returns>A shallow copy of the current type reference.</returns>
         public override ISerializableObject? Clone()
         {
             return new TypeReference(fullTypeName);
@@ -92,6 +98,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the specified object is equal to the current type reference.
         /// </summary>
+        /// <param name="obj">The object to compare with the current type reference.</param>
+        /// <returns>True if the specified object is equal to the current type reference; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             return obj is TypeReference reference &&
@@ -102,6 +110,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Gets the hash code for the current type reference.
         /// </summary>
+        /// <returns>The hash code for the current type reference.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -110,6 +119,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns a string representation of the current type reference.
         /// </summary>
+        /// <returns>A string that represents the current type reference.</returns>
         public override string? ToString()
         {
             return fullTypeName ?? string.Empty;

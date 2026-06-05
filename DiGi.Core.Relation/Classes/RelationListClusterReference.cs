@@ -8,6 +8,8 @@ namespace DiGi.Core.Relation.Classes
     public class RelationListClusterReference(TypeReference? key_1, TypeReference? key_2, int index) : ListClusterReference<TypeReference, TypeReference>(key_1, key_2, index)
     {
         /// <summary>Determines whether this instance equals the specified reference.</summary>
+        /// <param name="reference">The reference to compare with this instance.</param>
+        /// <returns>True if the instances are equal; otherwise, false.</returns>
         public override bool Equals(IReference? reference)
         {
             if (reference == null)
@@ -19,6 +21,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Returns the hash code for this instance.</summary>
+        /// <returns>The hash code for this instance.</returns>
         public override int GetHashCode()
         {
             List<int> values = [];

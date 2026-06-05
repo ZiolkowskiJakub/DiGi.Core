@@ -12,24 +12,30 @@ namespace DiGi.Core.Relation.Classes
     public abstract class ManyToOneRelation : ManyToOneRelation<IUniqueObject, IUniqueObject>
     {
         /// <summary>Creates a new instance of the ManyToOneRelation class from unique references.</summary>
+        /// <param name="uniqueReferences_From">The collection of unique references representing the 'many' side of the relation.</param>
+        /// <param name="uniqueReference_To">The unique reference representing the 'one' side of the relation.</param>
         public ManyToOneRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IUniqueReference? uniqueReference_To)
             : base(uniqueReferences_From, uniqueReference_To)
         {
         }
 
         /// <summary>Creates a new instance of the ManyToOneRelation class by copying another instance.</summary>
+        /// <param name="manyToOneRelation">The existing relation instance to copy from.</param>
         public ManyToOneRelation(ManyToOneRelation? manyToOneRelation)
             : base(manyToOneRelation)
         {
         }
 
         /// <summary>Creates a new instance of the ManyToOneRelation class from unique objects.</summary>
+        /// <param name="uniqueObjects_From">The collection of unique objects representing the 'many' side of the relation.</param>
+        /// <param name="uniqueObject_To">The unique object representing the 'one' side of the relation.</param>
         public ManyToOneRelation(IEnumerable<IUniqueObject>? uniqueObjects_From, IUniqueObject? uniqueObject_To)
             : base(uniqueObjects_From, uniqueObject_To)
         {
         }
 
         /// <summary>Creates a new instance of the ManyToOneRelation class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object to create the relation from.</param>
         public ManyToOneRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -37,6 +43,8 @@ namespace DiGi.Core.Relation.Classes
     }
 
     /// <summary>Represents an abstract many-to-one relationship between two types of unique objects.</summary>
+    /// <typeparam name="From">The type of the unique objects on the 'many' side.</typeparam>
+    /// <typeparam name="To">The type of the unique object on the 'one' side.</typeparam>
     public abstract class ManyToOneRelation<From, To> : Relation<From, To>, IManyToOneRelation<From, To> where From : IUniqueObject where To : IUniqueObject
     {
         [JsonInclude, JsonPropertyName("UniqueReference_To")]
@@ -46,6 +54,8 @@ namespace DiGi.Core.Relation.Classes
         private List<IUniqueReference>? uniqueReferences_From;
 
         /// <summary>Creates a new instance of the ManyToOneRelation class from unique references.</summary>
+        /// <param name="uniqueReferences_From">The collection of unique references on the 'many' side.</param>
+        /// <param name="uniqueReference_To">The unique reference on the 'one' side.</param>
         public ManyToOneRelation(IEnumerable<IUniqueReference>? uniqueReferences_From, IUniqueReference? uniqueReference_To)
             : base()
         {
@@ -67,6 +77,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Creates a new instance of the ManyToOneRelation class by copying another instance.</summary>
+        /// <param name="manyToOneRelation">The existing relation to copy from.</param>
         public ManyToOneRelation(ManyToOneRelation<From, To>? manyToOneRelation)
             : base()
         {
@@ -91,6 +102,8 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Creates a new instance of the ManyToOneRelation class from unique objects.</summary>
+        /// <param name="uniqueObjects_From">The collection of unique objects on the 'many' side.</param>
+        /// <param name="uniqueObject_To">The unique object on the 'one' side.</param>
         public ManyToOneRelation(IEnumerable<From>? uniqueObjects_From, To? uniqueObject_To)
             : base()
         {
@@ -112,6 +125,7 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Creates a new instance of the ManyToOneRelation class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object to create the relation from.</param>
         public ManyToOneRelation(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -188,6 +202,9 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Adds a unique reference to the specified side of the relation.</summary>
+        /// <param name="relationSide">The side of the relation to add the reference to.</param>
+        /// <param name="uniqueReference">The unique reference to add.</param>
+        /// <returns>True if the reference was successfully added; otherwise, false.</returns>
         public override bool Add(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null || relationSide == RelationSide.Undefined)
@@ -213,6 +230,9 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Determines whether the relation contains the specified unique reference on the given side.</summary>
+        /// <param name="relationSide">The side of the relation to check.</param>
+        /// <param name="uniqueReference">The unique reference to locate.</param>
+        /// <returns>True if the relation contains the specified unique reference on the given side; otherwise, false.</returns>
         public override bool Contains(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             bool result = false;
@@ -241,6 +261,8 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Determines whether the relation has a reference on the specified side.</summary>
+        /// <param name="relationSide">The side of the relation to check.</param>
+        /// <returns>True if the relation has a reference on the specified side; otherwise, false.</returns>
         public override bool Has(RelationSide relationSide)
         {
             bool result = false;
@@ -264,6 +286,9 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Removes a unique reference from the specified side of the relation.</summary>
+        /// <param name="relationSide">The side of the relation to remove the reference from.</param>
+        /// <param name="uniqueReference">The unique reference to remove.</param>
+        /// <returns>True if the reference was successfully removed; otherwise, false.</returns>
         public override bool Remove(RelationSide relationSide, IUniqueReference? uniqueReference)
         {
             if (uniqueReference == null)
@@ -293,6 +318,10 @@ namespace DiGi.Core.Relation.Classes
         }
 
         /// <summary>Removes multiple unique references from the specified side of the relation.</summary>
+        /// <typeparam name="TUniqueReference">The type of the unique reference.</typeparam>
+        /// <param name="relationSide">The side of the relation to remove references from.</param>
+        /// <param name="uniqueReferences">The collection of unique references to remove.</param>
+        /// <returns>A list of removed unique references, or null if none were removed.</returns>
         public override List<TUniqueReference>? Remove<TUniqueReference>(RelationSide relationSide, IEnumerable<TUniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)

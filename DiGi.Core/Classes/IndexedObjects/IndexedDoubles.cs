@@ -20,6 +20,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedDoubles"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public IndexedDoubles(JsonObject jsonObject)
             : base(jsonObject)
         {
@@ -28,6 +29,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedDoubles"/> class by copying another instance.
         /// </summary>
+        /// <param name="indexedDoubles">The source IndexedDoubles instance to copy.</param>
         public IndexedDoubles(IndexedDoubles indexedDoubles)
             : base(indexedDoubles)
         {
@@ -36,6 +38,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedDoubles"/> class from a collection of double values.
         /// </summary>
+        /// <param name="values">The collection of double values to initialize with.</param>
         public IndexedDoubles(IEnumerable<double> values)
             : base(values)
         {
@@ -44,6 +47,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedDoubles"/> class from a collection of double values starting at a specified index.
         /// </summary>
+        /// <param name="values">The collection of double values to initialize with.</param>
+        /// <param name="startIndex">The starting index for the provided values.</param>
         public IndexedDoubles(IEnumerable<double> values, int startIndex)
             : base(values, startIndex)
         {
@@ -52,6 +57,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedDoubles"/> class with a range of indices set to the same value.
         /// </summary>
+        /// <param name="startIndex">The starting index for the range.</param>
+        /// <param name="count">The number of elements in the range.</param>
+        /// <param name="value">The value to assign to each element in the range.</param>
         public IndexedDoubles(int startIndex, int count, double value)
             : base(startIndex, count, value)
         {
@@ -60,6 +68,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Calculates and returns the average of all stored values.
         /// </summary>
+        /// <returns>The calculated average of the stored values.</returns>
         public double GetAverage()
         {
             return GetSum() / Count;
@@ -68,6 +77,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns the maximum value present in the collection.
         /// </summary>
+        /// <returns>The maximum double value found in the collection.</returns>
         public double GetMaxValue()
         {
             int index = GetMaxValueIndex();
@@ -82,6 +92,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns the index of the maximum value in the collection.
         /// </summary>
+        /// <returns>The zero-based index of the maximum value.</returns>
         public int GetMaxValueIndex()
         {
             int result = -1;
@@ -114,6 +125,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns the minimum value present in the collection.
         /// </summary>
+        /// <returns>The minimum value found in the collection.</returns>
         public double GetMinValue()
         {
             int index = GetMinValueIndex();
@@ -128,6 +140,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns the index of the minimum value in the collection.
         /// </summary>
+        /// <returns>The zero-based index of the minimum value.</returns>
         public int GetMinValueIndex()
         {
             int result = -1;
@@ -160,6 +173,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Calculates and returns the sum of all stored values.
         /// </summary>
+        /// <returns>The total sum of all stored values.</returns>
         public double GetSum()
         {
             IEnumerable<int>? keys = Keys;
@@ -186,6 +200,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Adds the values from another <see cref="IndexedDoubles"/> instance to the current collection.
         /// </summary>
+        /// <param name="indexedDoubles">The <see cref="IndexedDoubles"/> instance containing the values to be added.</param>
         public void Sum(IndexedDoubles indexedDoubles)
         {
             IEnumerable<int>? keys = indexedDoubles?.Keys;

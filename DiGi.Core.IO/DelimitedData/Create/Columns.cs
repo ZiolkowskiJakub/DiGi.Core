@@ -9,6 +9,8 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Creates a list of columns from string names.
         /// </summary>
+        /// <param name="names">The collection of column names to convert.</param>
+        /// <returns>A list of <see cref="Column"/> objects, or null if the input is null.</returns>
         public static List<Column>? Columns(this IEnumerable<string>? names)
         {
             if (names == null)

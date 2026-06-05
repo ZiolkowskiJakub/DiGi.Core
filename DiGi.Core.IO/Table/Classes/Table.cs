@@ -10,6 +10,8 @@ namespace DiGi.Core.IO.Table.Classes
     /// <summary>
     /// Represents a base table structure with generic column and row types.
     /// </summary>
+    /// <typeparam name="TColumn">The type of the columns in the table.</typeparam>
+    /// <typeparam name="TRow">The type of the rows in the table.</typeparam>
     public abstract class Table<TColumn, TRow> : ITable<TColumn, TRow> where TColumn : IColumn where TRow : IRow<TRow>
     {
         private readonly SortedDictionary<int, TColumn> columns = [];
@@ -1005,6 +1007,7 @@ namespace DiGi.Core.IO.Table.Classes
     /// <summary>
     /// Represents a table with columns of type <typeparamref name="TColumn"/> and rows of type <see cref="Row"/>.
     /// </summary>
+    /// <typeparam name="TColumn">The type of the columns in the table.</typeparam>
     public class Table<TColumn> : Table<TColumn, Row> where TColumn : IColumn
     {
         /// <summary>

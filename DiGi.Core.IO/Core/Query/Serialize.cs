@@ -13,6 +13,8 @@ namespace DiGi.Core.IO
         /// <summary>
         /// Serializes an ISerializableObject into an IArchive.
         /// </summary>
+        /// <param name="serializableObject">The object to be serialized.</param>
+        /// <returns>An <see cref="IArchive"/> containing the serialized data, or <c>null</c> if serialization fails.</returns>
         public static IArchive? Serialize(this ISerializableObject serializableObject)
         {
             if (serializableObject == null)

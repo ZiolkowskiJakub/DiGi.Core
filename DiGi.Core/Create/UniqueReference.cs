@@ -8,6 +8,8 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates a unique reference for the specified object.</summary>
+        /// <param name="object">The object for which to create a unique reference.</param>
+        /// <returns>A unique reference for the specified object.</returns>
         public static UniqueReference? UniqueReference(this object? @object)
         {
             if (@object == null)

@@ -8,6 +8,8 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates a JSON node from the given object.</summary>
+        /// <param name="object">The object to convert to a JSON node.</param>
+        /// <returns>A <see cref="JsonNode"/> representing the object, or <c>null</c> if the object is null.</returns>
         public static JsonNode? JsonNode(this object? @object)
         {
             if (@object == null)

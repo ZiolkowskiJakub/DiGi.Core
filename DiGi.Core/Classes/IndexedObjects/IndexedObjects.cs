@@ -10,6 +10,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Represents a generic collection of objects mapped to integer indices.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
     public class IndexedObjects<T> : SerializableObject, IIndexedObjects<T>
     {
         private readonly SortedDictionary<int, T?> sortedDictionary = [];
@@ -24,6 +25,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the collection.</param>
         public IndexedObjects(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -32,6 +34,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a collection of values.
         /// </summary>
+        /// <param name="values">The collection of values to initialize the collection.</param>
         public IndexedObjects(IEnumerable<T>? values)
         {
             if (values != null)
@@ -48,6 +51,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a collection of values starting at a specified index.
         /// </summary>
+        /// <param name="values">The collection of values to initialize the collection.</param>
+        /// <param name="startIndex">The starting index for the collection of values.</param>
         public IndexedObjects(IEnumerable<T>? values, int startIndex)
         {
             if (values != null)
@@ -64,6 +69,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a sorted dictionary of indices and values.
         /// </summary>
+        /// <param name="sortedDictionary">The sorted dictionary containing indices and values to initialize the collection.</param>
         public IndexedObjects(SortedDictionary<int, T?>? sortedDictionary)
         {
             if (sortedDictionary != null)
@@ -78,6 +84,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedObjects"/> class by copying another instance.
         /// </summary>
+        /// <param name="indexedObjects">The existing instance to copy from.</param>
         public IndexedObjects(IndexedObjects<T>? indexedObjects)
             : this(indexedObjects?.sortedDictionary)
         {
@@ -86,6 +93,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="IndexedObjects"/> class with a range of indices set to the same value.
         /// </summary>
+        /// <param name="startIndex">The starting index of the range.</param>
+        /// <param name="count">The number of elements in the range.</param>
+        /// <param name="value">The value to assign to each element in the range.</param>
         public IndexedObjects(int startIndex, int count, T? value)
         {
             int end = startIndex + count;
@@ -153,6 +163,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Adds or updates a value at the specified index. Returns true if the operation succeeded.
         /// </summary>
+        /// <param name="index">The index at which to add or update the value.</param>
+        /// <param name="value">The value to add or update.</param>
+        /// <returns>True if the operation succeeded; otherwise, false.</returns>
         public bool Add(int index, T? value)
         {
             sortedDictionary[index] = value;
@@ -162,6 +175,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Adds or updates values across a specified range of indices. Returns true if the operation succeeded.
         /// </summary>
+        /// <param name="range">The range of indices to update.</param>
+        /// <param name="value">The value to add or update.</param>
+        /// <returns>True if the operation succeeded; otherwise, false.</returns>
         public bool Add(Range<int> range, T? value)
         {
             for (int i = range.Min; i <= range.Max; i++)
@@ -175,6 +191,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the collection contains an element at the specified index.
         /// </summary>
+        /// <param name="index">The index to check for existence.</param>
+        /// <returns>True if the collection contains an element at the specified index; otherwise, false.</returns>
         public bool ContainsIndex(int index)
         {
             if (index == -1)
@@ -196,6 +214,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Populates the current instance from a JSON object. Returns true if successful.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to populate the instance from.</param>
+        /// <returns>True if the population was successful; otherwise, false.</returns>
         public override bool FromJsonObject(JsonObject? jsonObject)
         {
             if (jsonObject is null)
@@ -243,6 +263,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns an enumerator that iterates through the collection of values.
         /// </summary>
+        /// <returns>An enumerator that iterates through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             if (sortedDictionary?.Values is null)
@@ -261,6 +282,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Gets the highest index present in the collection, or null if empty.
         /// </summary>
+        /// <returns>The maximum index present in the collection, or null if the collection is empty.</returns>
         public int? GetMaxIndex()
         {
             IEnumerable<int>? keys = Keys;
@@ -275,6 +297,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Gets the lowest index present in the collection, or null if empty.
         /// </summary>
+        /// <returns>The minimum index present in the collection, or null if the collection is empty.</returns>
         public int? GetMinIndex()
         {
             IEnumerable<int>? keys = Keys;
@@ -289,6 +312,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the value at the specified index.
         /// </summary>
+        /// <param name="index">The zero-based index of the element to get.</param>
+        /// <returns>The value at the specified index, or null if not found.</returns>
         public T? GetValue(int index)
         {
             return this[index];
@@ -297,6 +322,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves a list of values within the specified range.
         /// </summary>
+        /// <param name="range">The range of indices from which to retrieve values.</param>
+        /// <returns>A list of values within the specified range, or null if no values are found.</returns>
         public List<T?>? GetValues(Range<int>? range)
         {
             if (range is null)
@@ -321,6 +348,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves a list of values within the specified range, with an option to bound the results.
         /// </summary>
+        /// <param name="range">The range of indices from which to retrieve values.</param>
+        /// <param name="bounded">A value indicating whether the results should be bounded.</param>
+        /// <returns>A list of values within the specified range, or null if no values are found.</returns>
         public List<T?>? GetValues(Range<int>? range, bool bounded)
         {
             if (range is null)
@@ -366,6 +396,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes the element at the specified index. Returns true if the element was found and removed.
         /// </summary>
+        /// <param name="index">The zero-based index of the element to remove.</param>
+        /// <returns>True if the element was successfully found and removed; otherwise, false.</returns>
         public bool Remove(int index)
         {
             return sortedDictionary.Remove(index);
@@ -374,6 +406,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Serializes the current instance into a JSON object.
         /// </summary>
+        /// <returns>A <see cref="JsonObject"/> representation of the current instance, or null.</returns>
         public override JsonObject? ToJsonObject()
         {
             JsonObject? result = base.ToJsonObject();
@@ -405,6 +438,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Attempts to get the value associated with the specified index. Returns true if found.
         /// </summary>
+        /// <param name="index">The zero-based index of the element to get.</param>
+        /// <param name="result">When this method returns, contains the value associated with the specified index, if found; otherwise, the default value of the element type.</param>
+        /// <returns>True if the element was found; otherwise, false.</returns>
         public bool TryGetValue(int index, out T? result)
         {
             if (!sortedDictionary.ContainsKey(index))

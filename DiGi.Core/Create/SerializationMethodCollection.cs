@@ -9,6 +9,8 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates a serialization method collection for the specified type.</summary>
+        /// <param name="type">The type for which to create the serialization method collection.</param>
+        /// <returns>A <see cref="SerializationMethodCollection"/> containing the serialization methods for the specified type, or null if none are found.</returns>
         public static SerializationMethodCollection? SerializationMethodCollection(this Type? type)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))

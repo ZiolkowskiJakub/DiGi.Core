@@ -10,12 +10,19 @@ using System.Text.Json.Serialization;
 namespace DiGi.Core.IO.Table.Classes
 {
     /// <summary>Provides custom JSON serialization and deserialization for tables.</summary>
+    /// <typeparam name="UTable">The type of the table.</typeparam>
+    /// <typeparam name="UColumn">The type of the column.</typeparam>
+    /// <typeparam name="URow">The type of the row.</typeparam>
     public class TableConverter<UTable, UColumn, URow> : JsonConverter<UTable>
         where UTable : ITable<UColumn, URow>, new()
         where UColumn : IColumn
         where URow : IRow<URow>
     {
         /// <summary>Reads and deserializes a table object from the provided UTF8 JSON reader.</summary>
+        /// <param name="utf8JsonReader">The UTF8 JSON reader to read from.</param>
+        /// <param name="typeToConvert">The type of the object to convert to.</param>
+        /// <param name="jsonSerializerOptions">The options for JSON deserialization.</param>
+        /// <returns>The deserialized table object, or null if the value is null.</returns>
         public override UTable? Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
             if (utf8JsonReader.TokenType != JsonTokenType.StartObject)
@@ -89,6 +96,9 @@ namespace DiGi.Core.IO.Table.Classes
         }
 
         /// <summary>Serializes a table object into the provided UTF8 JSON writer.</summary>
+        /// <param name="utf8JsonWriter">The UTF8 JSON writer to write to.</param>
+        /// <param name="table">The table object to serialize.</param>
+        /// <param name="jsonSerializerOptions">The options for JSON serialization.</param>
         public override void Write(Utf8JsonWriter utf8JsonWriter, UTable table, JsonSerializerOptions jsonSerializerOptions)
         {
             utf8JsonWriter.WriteStartObject();

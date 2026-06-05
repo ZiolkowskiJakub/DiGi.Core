@@ -8,6 +8,10 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a range of values into a system list with a specified step.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the range.</typeparam>
+        /// <param name="range">The range to convert.</param>
+        /// <param name="step">The step value used for conversion.</param>
+        /// <returns>A list containing the values from the range, or null if the range is null.</returns>
         public static List<T>? ToSystem<T>(this Range<T>? range, T step)
         {
             if (range is null || step is null)

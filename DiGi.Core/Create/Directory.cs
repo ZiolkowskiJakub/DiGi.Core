@@ -5,6 +5,8 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates the directory and its parent directories if they do not exist.</summary>
+        /// <param name="directory">The path to the directory to create.</param>
+        /// <returns>True if the directory was created or already exists; otherwise, false.</returns>
         public static bool Directory(string? directory)
         {
             if (string.IsNullOrWhiteSpace(directory))

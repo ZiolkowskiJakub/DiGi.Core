@@ -28,6 +28,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Adds a serializable object to the wrapper and returns its unique reference.
         /// </summary>
+        /// <param name="value">The serializable object to add.</param>
+        /// <returns>A <see cref="UniqueReference"/> for the added object, or null.</returns>
         public UniqueReference? Add(ISerializableObject? value)
         {
             if (value == null)
@@ -47,6 +49,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Adds a string value to the wrapper and returns its unique identifier reference.
         /// </summary>
+        /// <param name="value">The string value to add.</param>
+        /// <returns>A <see cref="UniqueIdReference"/> for the added value, or null.</returns>
         public UniqueIdReference? Add(string? value)
         {
             if (value == null)
@@ -66,6 +70,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Adds a double value to the wrapper and returns its unique identifier reference.
         /// </summary>
+        /// <param name="value">The double value to add.</param>
+        /// <returns>A <see cref="UniqueIdReference"/> for the added value, or null.</returns>
         public UniqueIdReference? Add(double value)
         {
             List<IWrapperUniqueReference>? wrapperUniqueReferences = AddRange([value]);
@@ -80,6 +86,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Adds a collection of serializable objects to the wrapper and returns their unique references.
         /// </summary>
+        /// <typeparam name="TSerializableObject">The type of serializable objects being added.</typeparam>
+        /// <param name="serializableObjects">The collection of serializable objects to add.</param>
+        /// <returns>A list of <see cref="UniqueReference"/> for the added objects, or null.</returns>
         public List<UniqueReference>? AddRange<TSerializableObject>(IEnumerable<TSerializableObject>? serializableObjects) where TSerializableObject : ISerializableObject
         {
             if (serializableObjects == null)
@@ -135,6 +144,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Parses and returns the file content as a list of JSON nodes.
         /// </summary>
+        /// <returns>A list of <see cref="JsonNode"/> objects, or null if the operation fails.</returns>
         public List<JsonNode?>? GetJsonNodes()
         {
             WrapperMetadata wrapperMetadata = GetWrapperMetadata();
@@ -176,6 +186,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Retrieves metadata associated with the file.
         /// </summary>
+        /// <typeparam name="TMetadata">The type of metadata to retrieve.</typeparam>
+        /// <returns>The metadata object of type <typeparamref name="TMetadata"/>, or null if not found.</returns>
         public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
         {
             MetadataStorage metadataStorage = GetMetadataStorage();
@@ -186,6 +198,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Retrieves all serializable objects from the file content.
         /// </summary>
+        /// <returns>A list of objects implementing <see cref="ISerializableObject"/>, or null.</returns>
         public List<ISerializableObject>? GetSerializableObjects()
         {
             return GetSerializableObjects<ISerializableObject>();
@@ -194,6 +207,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Retrieves all serializable objects of a specific type from the file content.
         /// </summary>
+        /// <typeparam name="TSerializableObject">The type of serializable objects to retrieve.</typeparam>
+        /// <returns>A list of serializable objects of type <typeparamref name="TSerializableObject"/>, or null.</returns>
         public List<TSerializableObject>? GetSerializableObjects<TSerializableObject>() where TSerializableObject : ISerializableObject
         {
             List<JsonNode?>? jsonNodes = GetJsonNodes();
@@ -220,6 +235,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Reads the file and returns its content as a list of JSON nodes.
         /// </summary>
+        /// <returns>A list of <see cref="JsonNode"/> objects representing the file content, or null.</returns>
         public List<JsonNode>? Read()
         {
             HashSet<WrapperNode>? wrapperNodes = Read(null as IEnumerable<TypeReference>);
@@ -246,6 +262,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Reads specific serializable objects from the file based on the provided references.
         /// </summary>
+        /// <typeparam name="TSerializableObject">The type of serializable objects to read.</typeparam>
+        /// <param name="uniqueReferences">A collection of unique references used to identify the objects to be read.</param>
+        /// <returns>A list of serializable objects of type <typeparamref name="TSerializableObject"/>, or null if no objects were found.</returns>
         public List<TSerializableObject>? Read<TSerializableObject>(IEnumerable<UniqueReference> uniqueReferences) where TSerializableObject : ISerializableObject
         {
             List<JsonNode>? jsonNodes = Read(uniqueReferences);
@@ -277,6 +296,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Reads a single serializable object from the file using its unique reference.
         /// </summary>
+        /// <typeparam name="TSerializableObject">The type of the serializable object to read.</typeparam>
+        /// <param name="uniqueReference">The unique reference of the object to read.</param>
+        /// <returns>The deserialized object of type <typeparamref name="TSerializableObject"/>, or null.</returns>
         public TSerializableObject? Read<TSerializableObject>(UniqueReference? uniqueReference) where TSerializableObject : ISerializableObject
         {
             if (uniqueReference is null)
@@ -296,6 +318,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Reads JSON nodes associated with the provided unique references.
         /// </summary>
+        /// <param name="uniqueReferences">The collection of unique references to read.</param>
+        /// <returns>A list of JSON nodes corresponding to the provided references, or null.</returns>
         public List<JsonNode>? Read(IEnumerable<UniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -345,6 +369,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Sets the metadata for the file content.
         /// </summary>
+        /// <param name="metadata">The metadata to set.</param>
         public void SetMetadata(IMetadata metadata)
         {
             MetadataStorage? metadataStorage = Read<MetadataStorage>(Constants.MetadataStorage.WrapperGuidReference);
@@ -358,6 +383,8 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Writes specific objects to the file based on the provided references.
         /// </summary>
+        /// <param name="uniqueReferences">The collection of unique references to write.</param>
+        /// <returns>A collection of unique references for the written objects, or null.</returns>
         public IEnumerable<UniqueReference>? Write(IEnumerable<UniqueReference>? uniqueReferences)
         {
             if (uniqueReferences == null)
@@ -400,6 +427,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Writes all current objects to the file.
         /// </summary>
+        /// <returns>A collection of unique references for the written objects, or null.</returns>
         public IEnumerable<UniqueReference>? Write()
         {
             IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences = Write(null as IEnumerable<WrapperTypeReference>);

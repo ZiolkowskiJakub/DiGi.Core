@@ -8,6 +8,8 @@ namespace DiGi.Core.Parameter
         /// <summary>
         /// Retrieves the associated types for the specified type.
         /// </summary>
+        /// <param name="type">The type for which to retrieve associated types.</param>
+        /// <returns>The associated types for the specified type, or null if none are found.</returns>
         public static AssociatedTypes? AssociatedTypes(Type? type)
         {
             if (type == null)

@@ -119,6 +119,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Stops the background task asynchronously by canceling and waiting for completion.
         /// </summary>
+        /// <returns>A task that represents the asynchronous stop operation.</returns>
         public async Task StopAsync()
         {
             CancellationTokenSource? cancellationTokenSource_Temp;

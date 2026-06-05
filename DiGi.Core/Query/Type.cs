@@ -13,6 +13,8 @@ namespace DiGi.Core
         /// <summary>
         /// Gets the Type associated with the specified TypeReference.
         /// </summary>
+        /// <param name="typeReference">The type reference to get the type for.</param>
+        /// <returns>The Type associated with the specified TypeReference, or null if not found.</returns>
         public static Type? Type(this TypeReference? typeReference)
         {
             string? fullTypeName = typeReference?.FullTypeName;
@@ -27,6 +29,9 @@ namespace DiGi.Core
         /// <summary>
         /// Gets the Type associated with the specified type name.
         /// </summary>
+        /// <param name="typeName">The name of the type to search for.</param>
+        /// <param name="ignoreCase">Whether to ignore case during comparison.</param>
+        /// <returns>The Type associated with the specified type name, or null if not found.</returns>
         public static Type? Type(this string? typeName, bool ignoreCase = false)
         {
             if (string.IsNullOrEmpty(typeName))
@@ -131,6 +136,11 @@ namespace DiGi.Core
         /// <summary>
         /// Gets the Type associated with the specified type name using custom comparison and assembly filtering.
         /// </summary>
+        /// <param name="typeName">The name of the type to search for.</param>
+        /// <param name="textComparisonType">The type of text comparison to use.</param>
+        /// <param name="ignoreCase">Whether to ignore case during comparison.</param>
+        /// <param name="func">A function used to filter assemblies.</param>
+        /// <returns>The Type associated with the specified type name, or null if not found.</returns>
         public static Type? Type(this string? typeName, TextComparisonType textComparisonType, bool ignoreCase = false, Func<Assembly, bool>? func = null)
         {
             if (string.IsNullOrWhiteSpace(typeName))
@@ -192,6 +202,8 @@ namespace DiGi.Core
         /// <summary>
         /// Gets the Type associated with the specified DataType.
         /// </summary>
+        /// <param name="dataType">The data type to get the type for.</param>
+        /// <returns>The Type associated with the specified DataType, or null if not found.</returns>
         public static Type? Type(this DataType dataType)
         {
             switch (dataType)

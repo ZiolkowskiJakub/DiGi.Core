@@ -18,6 +18,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier and name.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier for the parameter.</param>
+        /// <param name="name">The name of the parameter.</param>
         public ParameterProperties(string? uniqueId, string? name)
         {
             this.uniqueId = uniqueId;
@@ -27,6 +29,9 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier, name, and description.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier for the parameter.</param>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="description">The description of the parameter.</param>
         public ParameterProperties(string? uniqueId, string? name, string? description)
         {
             this.uniqueId = uniqueId;
@@ -37,6 +42,10 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a unique identifier, name, description, and access type.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier for the parameter.</param>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="description">The description of the parameter.</param>
+        /// <param name="accessType">The access type of the parameter.</param>
         public ParameterProperties(string? uniqueId, string? name, string? description, AccessType accessType)
         {
             this.uniqueId = uniqueId;
@@ -48,6 +57,11 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with full metadata including group name.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier for the parameter.</param>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="description">The description of the parameter.</param>
+        /// <param name="accessType">The access type of the parameter.</param>
+        /// <param name="groupName">The name of the group to which the parameter belongs.</param>
         public ParameterProperties(string? uniqueId, string? name, string? description, AccessType accessType, string? groupName)
         {
             this.uniqueId = uniqueId;
@@ -60,6 +74,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a specified name.
         /// </summary>
+        /// <param name="name">The name of the parameter.</param>
         public ParameterProperties(string? name)
         {
             this.name = name;
@@ -68,6 +83,9 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterProperties"/> class with a name, description, and access type.
         /// </summary>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="description">The description of the parameter.</param>
+        /// <param name="accessType">The access type of the parameter.</param>
         public ParameterProperties(string? name, string? description, AccessType accessType)
         {
             this.name = name;

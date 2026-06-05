@@ -26,6 +26,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="File"/> class with the specified path.
         /// </summary>
+        /// <param name="path">The path to the file.</param>
         public File(string? path)
             : base()
         {
@@ -35,6 +36,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="File"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing file data.</param>
         public File(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -43,6 +45,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="File"/> class by cloning another file's metadata.
         /// </summary>
+        /// <param name="file">The source file to clone metadata from.</param>
         public File(File? file)
             : base()
         {
@@ -83,6 +86,8 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Retrieves metadata of the specified type from the file's metadata storage.
         /// </summary>
+        /// <typeparam name="TMetadata">The type of metadata to retrieve.</typeparam>
+        /// <returns>The metadata of type <typeparamref name="TMetadata"/> if found; otherwise, null.</returns>
         public TMetadata? GetMetadata<TMetadata>() where TMetadata : IMetadata
         {
             if (metadataStorage == null)
@@ -96,6 +101,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Opens the file using its current path.
         /// </summary>
+        /// <returns>True if the file was opened successfully; otherwise, false.</returns>
         public virtual bool Open()
         {
             string? path = Path;
@@ -129,6 +135,8 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Opens the file from the specified path.
         /// </summary>
+        /// <param name="path">The path of the file to open.</param>
+        /// <returns>True if the file was opened successfully; otherwise, false.</returns>
         public bool Open(string? path)
         {
             Path = path;
@@ -139,6 +147,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Saves the file's metadata and updates its modification date.
         /// </summary>
+        /// <returns>True if the save operation was successful; otherwise, false.</returns>
         public virtual bool Save()
         {
             FileMetadata? fileMetadata = GetMetadata<FileMetadata>();
@@ -177,6 +186,8 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Saves the file to the specified path.
         /// </summary>
+        /// <param name="path">The path where the file should be saved.</param>
+        /// <returns>True if the file was saved successfully; otherwise, false.</returns>
         public bool SaveAs(string? path)
         {
             Path = path;
@@ -186,6 +197,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Sets a custom metadata object for the file.
         /// </summary>
+        /// <param name="metadata">The metadata object to set.</param>
         public void SetMetadata(IMetadata? metadata)
         {
             if (metadata == null || metadata is FileMetadata)

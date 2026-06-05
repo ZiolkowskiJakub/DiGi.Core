@@ -8,6 +8,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// A serializable wrapper for values of various types, providing consistent serialization and type tracking.
     /// </summary>
+    /// <typeparam name="TObject">The type of the object being wrapped.</typeparam>
     public class Value<TObject> : SerializableObject, IValue<TObject>
     {
         [JsonInclude, JsonPropertyName(Constants.Serialization.PropertyName.Value)]

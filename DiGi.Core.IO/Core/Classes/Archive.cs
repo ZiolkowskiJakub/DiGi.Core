@@ -9,6 +9,7 @@ namespace DiGi.Core.IO.Classes
     /// <summary>
     /// Represents an archive container for storing serialized data.
     /// </summary>
+    /// <typeparam name="TSerializableObject">The type of object that can be serialized within the archive.</typeparam>
     public class Archive<TSerializableObject> : SerializableObject, IArchive where TSerializableObject : ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Bytes")]
@@ -17,6 +18,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Archive"/> class using the specified byte array.
         /// </summary>
+        /// <param name="bytes">The byte array to use for initialization.</param>
         public Archive(byte[] bytes)
             : base()
         {
@@ -26,6 +28,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Archive"/> class by copying an existing generic archive.
         /// </summary>
+        /// <param name="archive">The generic archive to copy from.</param>
         public Archive(Archive<TSerializableObject> archive)
             : base(archive)
         {
@@ -38,6 +41,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Archive"/> class using the specified JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to use for initialization.</param>
         public Archive(JsonObject? jsonObject)
             : base(jsonObject)
         {

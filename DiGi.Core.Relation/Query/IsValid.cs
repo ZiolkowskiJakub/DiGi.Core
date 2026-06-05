@@ -7,6 +7,10 @@ namespace DiGi.Core.Relation
     public static partial class Query
     {
         /// <summary>Determines whether the relation is valid for the specified type and side.</summary>
+        /// <param name="relation">The relation to validate.</param>
+        /// <param name="type">The type to check against.</param>
+        /// <param name="relationSide">The side of the relation.</param>
+        /// <returns>True if the relation is valid; otherwise, false.</returns>
         public static bool IsValid(this IRelation? relation, System.Type? type, RelationSide relationSide)
         {
             if (relation == null)

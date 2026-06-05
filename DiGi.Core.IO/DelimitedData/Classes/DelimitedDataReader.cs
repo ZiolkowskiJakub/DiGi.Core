@@ -15,6 +15,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataReader"/> class.
         /// </summary>
+        /// <param name="separator">The character used as a separator.</param>
+        /// <param name="stream">The stream to read from.</param>
         public DelimitedDataReader(char separator, Stream? stream)
             : base(stream)
         {
@@ -24,6 +26,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataReader"/> class.
         /// </summary>
+        /// <param name="separator">The character to use as the separator.</param>
+        /// <param name="path">The path to the file containing the delimited data.</param>
         public DelimitedDataReader(char separator, string? path)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
@@ -33,6 +37,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataReader"/> class.
         /// </summary>
+        /// <param name="separator">The character to use as the separator.</param>
+        /// <param name="lines">The collection of lines containing the delimited data.</param>
         public DelimitedDataReader(char separator, IEnumerable<string>? lines)
             : base(lines?.MemoryStream())
         {
@@ -42,6 +48,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataReader"/> class.
         /// </summary>
+        /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
+        /// <param name="lines">The collection of lines containing the delimited data.</param>
         public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, IEnumerable<string>? lines)
             : base(lines?.MemoryStream())
         {
@@ -51,6 +59,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataReader"/> class.
         /// </summary>
+        /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
+        /// <param name="path">The path to the file containing the delimited data.</param>
         public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string? path)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
@@ -60,6 +70,9 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataReader"/> class.
         /// </summary>
+        /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
+        /// <param name="path">The path to the file containing the delimited data.</param>
+        /// <param name="encoding">The encoding to use when reading the file.</param>
         public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string? path, System.Text.Encoding encoding)
             : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), encoding)
         {

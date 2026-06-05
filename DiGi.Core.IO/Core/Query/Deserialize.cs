@@ -12,6 +12,9 @@ namespace DiGi.Core.IO
         /// <summary>
         /// Deserializes a USerializableObject from the specified archive.
         /// </summary>
+        /// <typeparam name="USerializableObject">The type of object to deserialize.</typeparam>
+        /// <param name="archive">The archive to deserialize from.</param>
+        /// <returns>The deserialized USerializableObject, or null if deserialization fails.</returns>
         public static USerializableObject? Deserialize<USerializableObject>(this IArchive archive) where USerializableObject : ISerializableObject
         {
             if (archive?.Bytes is not byte[] bytes)

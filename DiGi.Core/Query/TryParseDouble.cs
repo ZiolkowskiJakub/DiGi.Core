@@ -7,6 +7,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to parse the specified string into a double-precision floating-point number.
         /// </summary>
+        /// <param name="value">The string containing the double-precision floating-point number to parse.</param>
+        /// <param name="result">When this method returns, contains the parsed value if the conversion was successful; otherwise, zero.</param>
+        /// <returns>true if the string was successfully parsed; otherwise, false.</returns>
         public static bool TryParseDouble(this string value, out double result)
         {
             result = double.NaN;

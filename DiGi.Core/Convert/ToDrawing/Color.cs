@@ -8,6 +8,8 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a uint color value (ARGB) to a System.Drawing.Color.
         /// </summary>
+        /// <param name="uint">The unsigned integer ARGB color value.</param>
+        /// <returns>The converted System.Drawing.Color.</returns>
         public static Color ToDrawing(uint @uint)
         {
             byte a = (byte)(@uint >> 24);
@@ -20,6 +22,9 @@ namespace DiGi.Core
         /// <summary>
         /// Converts an int color value (RGB) to a System.Drawing.Color with optional alpha.
         /// </summary>
+        /// <param name="int">The integer RGB color value.</param>
+        /// <param name="alpha">The alpha channel value.</param>
+        /// <returns>The converted System.Drawing.Color.</returns>
         public static Color ToDrawing(int @int, byte alpha = 255)
         {
             byte b = (byte)(@int >> 16);
@@ -31,6 +36,8 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a hex color string to a System.Drawing.Color.
         /// </summary>
+        /// <param name="value">The hex color string.</param>
+        /// <returns>The converted System.Drawing.Color.</returns>
         public static Color ToDrawing(string? value)
         {
             if (value is null)
@@ -57,6 +64,8 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a DiGi.Core.Classes.Color to a System.Drawing.Color.
         /// </summary>
+        /// <param name="color">The color to convert.</param>
+        /// <returns>The converted System.Drawing.Color.</returns>
         public static Color ToDrawing(this Classes.Color? color)
         {
             if (color is null)

@@ -8,6 +8,8 @@ namespace DiGi.Core.IO.File
         /// <summary>
         /// Decodes the specified string into a <see cref="UniqueReference"/>.
         /// </summary>
+        /// <param name="text">The string to decode.</param>
+        /// <returns>The decoded <see cref="UniqueReference"/>, or <c>null</c> if the decoding process fails.</returns>
         public static UniqueReference? Decode(string? text)
         {
             if (text == null)

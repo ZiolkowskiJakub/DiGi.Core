@@ -8,6 +8,9 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Represents a base abstract list implementation.
     /// </summary>
+    /// <typeparam name="TKey_1">The type of the first primary key.</typeparam>
+    /// <typeparam name="TKey_2">The type of the second primary key.</typeparam>
+    /// <typeparam name="TValue">The type of values contained in the list.</typeparam>
     public abstract class List<TKey_1, TKey_2, TValue> : Cluster<TKey_1, TKey_2, TValue>
     {
         [JsonIgnore]
@@ -23,6 +26,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the List class using the specified collection of values.
         /// </summary>
+        /// <param name="values">The collection of values used to initialize the list.</param>
         public List(IEnumerable<TValue>? values)
             : base(values)
         {
@@ -31,6 +35,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the List class from an existing value cluster.
         /// </summary>
+        /// <param name="valueCluster">The existing value cluster to initialize the list from.</param>
         public List(List<TKey_1, TKey_2, TValue>? valueCluster)
             : base(valueCluster)
         {
@@ -39,6 +44,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Adds the specified value to the value cluster.
         /// </summary>
+        /// <param name="value">The value to add to the cluster.</param>
+        /// <returns>True if the element is successfully added; otherwise, false.</returns>
         public override bool Add(TValue? value)
         {
             if (value == null || !IsValid(value))
@@ -85,6 +92,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the cluster contains an element with the specified primary key.
         /// </summary>
+        /// <param name="key_1">The primary key to locate in the cluster.</param>
+        /// <returns>True if the cluster contains an element with the specified primary key; otherwise, false.</returns>
         public override bool Contains(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -98,6 +107,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the cluster contains an element with the specified combination of keys.
         /// </summary>
+        /// <param name="key_1">The first key to search for.</param>
+        /// <param name="key_2">The second key to search for.</param>
+        /// <returns>True if the cluster contains an element with the specified keys; otherwise, false.</returns>
         public override bool Contains(TKey_1? key_1, TKey_2? key_2)
         {
             if (key_1 == null || key_2 == null)
@@ -116,6 +128,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the cluster contains a specific value.
         /// </summary>
+        /// <param name="value">The value to locate in the cluster.</param>
+        /// <returns>True if the cluster contains the specified value; otherwise, false.</returns>
         public override bool Contains(TValue? value)
         {
             if (value == null)
@@ -129,6 +143,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether two specified values are equal.
         /// </summary>
+        /// <param name="value_1">The first value to compare.</param>
+        /// <param name="value_2">The second value to compare.</param>
+        /// <returns>True if the specified values are equal; otherwise, false.</returns>
         public virtual bool Equals(TValue? value_1, TValue? value_2)
         {
             if (value_1 == null && value_2 == null)
@@ -147,6 +164,11 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the indexes of elements that match the specified keys and predicate.
         /// </summary>
+        /// <typeparam name="UValue">The type of the value being evaluated by the predicate.</typeparam>
+        /// <param name="key_1">The first key to search for.</param>
+        /// <param name="key_2">The second key to search for.</param>
+        /// <param name="func">A predicate function used to filter elements based on their value.</param>
+        /// <returns>A list of indexes that match the criteria, or null if no matches are found.</returns>
         public virtual List<int>? GetIndexes<UValue>(TKey_1? key_1, TKey_2? key_2, Func<UValue?, bool>? func) where UValue : TValue
         {
             if (key_1 == null || key_2 == null)
@@ -191,6 +213,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns a list of all primary keys in the cluster.
         /// </summary>
+        /// <returns>A list containing all primary keys, or null if none exist.</returns>
         public override List<TKey_1>? GetKeys_1()
         {
             return dictionary.Keys?.ToList();
@@ -199,6 +222,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns a list of secondary keys associated with the specified primary key.
         /// </summary>
+        /// <param name="key_1">The primary key used to retrieve the secondary keys.</param>
+        /// <returns>A list of secondary keys associated with the specified primary key, or null if none are found.</returns>
         public override List<TKey_2>? GetKeys_2(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -221,6 +246,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the first value that satisfies the specified predicate.
         /// </summary>
+        /// <typeparam name="UValue">The type of value to retrieve.</typeparam>
+        /// <param name="func">A predicate function used to find a matching value.</param>
+        /// <returns>The first value that satisfies the predicate, or null if no match is found.</returns>
         public override UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : default
         {
             foreach (Dictionary<TKey_2, List<TValue>> dictionary_1 in dictionary.Values)
@@ -265,6 +293,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves a value using the provided cluster reference.
         /// </summary>
+        /// <typeparam name="UValue">The type of value to retrieve.</typeparam>
+        /// <param name="listClusterReference">The cluster reference used to locate the value.</param>
+        /// <returns>The retrieved value, or null if not found.</returns>
         public UValue? GetValue<UValue>(ListClusterReference<TKey_1, TKey_2>? listClusterReference) where UValue : TValue
         {
             if (listClusterReference == null || listClusterReference.Key_1 == null || listClusterReference.Key_2 == null || listClusterReference.Index < 0)
@@ -301,6 +332,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves all values associated with the specified primary key.
         /// </summary>
+        /// <typeparam name="UValue">The type of value to retrieve.</typeparam>
+        /// <param name="key_1">The primary key used for lookup.</param>
+        /// <returns>A list of values associated with the specified primary key, or null if none are found.</returns>
         public override List<UValue>? GetValues<UValue>(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -337,6 +371,11 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves values that match the specified keys and predicate.
         /// </summary>
+        /// <typeparam name="UValue">The type of value to retrieve.</typeparam>
+        /// <param name="key_1">The first key used for lookup.</param>
+        /// <param name="key_2">The second key used for lookup.</param>
+        /// <param name="func">A predicate function to filter the values.</param>
+        /// <returns>A list of values that match the specified keys and predicate, or null if none are found.</returns>
         public List<UValue>? GetValues<UValue>(TKey_1? key_1, TKey_2? key_2, Func<UValue?, bool> func) where UValue : TValue
         {
             if (key_1 == null || key_2 == null)
@@ -356,6 +395,11 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves values at the specified indexes for the given keys.
         /// </summary>
+        /// <param name="key_1">The primary key used to locate the cluster.</param>
+        /// <param name="key_2">The secondary key used to locate the element within the cluster.</param>
+        /// <param name="indexes">The collection of indexes from which to retrieve values.</param>
+        /// <typeparam name="UValue">The type of values being retrieved.</typeparam>
+        /// <returns>A list of values found at the specified indexes, or null if no values were found.</returns>
         public List<UValue>? GetValues<UValue>(TKey_1? key_1, TKey_2? key_2, IEnumerable<int> indexes) where UValue : TValue
         {
             if (key_1 == null || key_2 == null || indexes == null)
@@ -397,6 +441,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves values associated with a collection of cluster references.
         /// </summary>
+        /// <param name="listClusterReferences">The collection of cluster references to retrieve values for.</param>
+        /// <typeparam name="UValue">The type of values being retrieved.</typeparam>
+        /// <returns>A list of retrieved values, or null if no values were found.</returns>
         public List<UValue>? GetValues<UValue>(IEnumerable<ListClusterReference<TKey_1, TKey_2>>? listClusterReferences) where UValue : TValue
         {
             if (listClusterReferences == null)
@@ -422,6 +469,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns all values contained in the list.
         /// </summary>
+        /// <typeparam name="UValue">The type of values stored in the list.</typeparam>
+        /// <returns>A list containing all values currently held in the cluster.</returns>
         public override List<UValue> GetValues<UValue>() where UValue : default
         {
             List<UValue> result = [];
@@ -452,6 +501,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes and returns values associated with the specified cluster references.
         /// </summary>
+        /// <param name="listClusterReferences">The collection of cluster references to remove.</param>
+        /// <returns>A list of removed values, or null if no values were found for the provided references.</returns>
         public List<TValue>? Remove(IEnumerable<ListClusterReference<TKey_1, TKey_2>>? listClusterReferences)
         {
             if (listClusterReferences == null)
@@ -488,6 +539,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes all elements associated with the specified primary key from the cluster.
         /// </summary>
+        /// <param name="key_1">The primary key of the elements to remove.</param>
+        /// <returns>True if one or more elements were removed; otherwise, false.</returns>
         public override bool Remove(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -501,6 +554,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes the element associated with the specified combination of keys from the cluster.
         /// </summary>
+        /// <param name="key_1">The primary key of the element to remove.</param>
+        /// <param name="key_2">The secondary key of the element to remove.</param>
+        /// <returns>True if the element was successfully removed; otherwise, false.</returns>
         public override bool Remove(TKey_1? key_1, TKey_2? key_2)
         {
             if (key_1 == null || key_2 == null)
@@ -525,6 +581,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes the first occurrence of a specific value from the cluster.
         /// </summary>
+        /// <param name="value">The value to remove from the cluster.</param>
+        /// <returns>True if the value was successfully removed; otherwise, false.</returns>
         public override bool Remove(TValue? value)
         {
             if (value == null)
@@ -581,6 +639,10 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes and returns the value at the specified index for the given keys.
         /// </summary>
+        /// <param name="key_1">The primary key associated with the value to remove.</param>
+        /// <param name="key_2">The secondary key associated with the value to remove.</param>
+        /// <param name="index">The index of the value to remove.</param>
+        /// <returns>The removed value, or the default value of TValue if the element was not found.</returns>
         public TValue? Remove(TKey_1? key_1, TKey_2? key_2, int index)
         {
             if (index == -1 || key_1 == null || key_2 == null)
@@ -596,6 +658,10 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Removes and returns values at the specified indexes for the given keys.
         /// </summary>
+        /// <param name="key_1">The primary key associated with the values to remove.</param>
+        /// <param name="key_2">The secondary key associated with the values to remove.</param>
+        /// <param name="indexes">A collection of indexes specifying which values to remove.</param>
+        /// <returns>A list containing the removed values, or null if no values were removed.</returns>
         public List<TValue>? Remove(TKey_1? key_1, TKey_2? key_2, IEnumerable<int> indexes)
         {
             if (key_1 == null || key_2 == null || indexes == null || indexes.Count() == 0)
@@ -646,6 +712,11 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Attempts to find the primary key, secondary key, and index of a specific value.
         /// </summary>
+        /// <param name="value">The value to locate in the cluster.</param>
+        /// <param name="key_1">When this method returns, contains the primary key associated with the specified value, if found; otherwise, the default value of TKey_1.</param>
+        /// <param name="key_2">When this method returns, contains the secondary key associated with the specified value, if found; otherwise, the default value of TKey_2.</param>
+        /// <param name="index">When this method returns, contains the index of the specified value, if found; otherwise, 0.</param>
+        /// <returns>True if the primary key, secondary key, and index were found; otherwise, false.</returns>
         public bool TryGetIndex(TValue? value, out TKey_1? key_1, out TKey_2? key_2, out int index)
         {
             key_2 = default;

@@ -11,6 +11,8 @@ namespace DiGi.Core
     public static partial class Query
     {
         /// <summary>Gets the DiGi.Core.Enums.DataType of the specified object.</summary>
+        /// <param name="object">The object for which to get the data type.</param>
+        /// <returns>The DiGi.Core.Enums.DataType of the specified object.</returns>
         public static DataType DataType(this object? @object)
         {
             return DataType(@object, out _);
@@ -19,6 +21,7 @@ namespace DiGi.Core
         /// <summary>Gets the DiGi.Core.Enums.DataType of the specified object and determines if it is nullable.</summary>
         /// <param name="object">The object for which to get the data type.</param>
         /// <param name="nullable">When this method returns, contains a boolean value indicating whether the type is nullable.</param>
+        /// <returns>The DiGi.Core.Enums.DataType of the specified object.</returns>
         public static DataType DataType(this object? @object, out bool nullable)
         {
             nullable = false;
@@ -36,6 +39,8 @@ namespace DiGi.Core
         }
 
         /// <summary>Gets the DiGi.Core.Enums.DataType of the specified type.</summary>
+        /// <param name="type">The type for which to get the data type.</param>
+        /// <returns>The DiGi.Core.Enums.DataType of the specified type.</returns>
         public static DataType DataType(this Type? type)
         {
             return DataType(type, out _);
@@ -44,6 +49,7 @@ namespace DiGi.Core
         /// <summary>Gets the DiGi.Core.Enums.DataType of the specified type and determines if it is nullable.</summary>
         /// <param name="type">The type for which to get the data type.</param>
         /// <param name="nullable">When this method returns, contains a boolean value indicating whether the type is nullable.</param>
+        /// <returns>The DiGi.Core.Enums.DataType of the specified type.</returns>
         public static DataType DataType(this Type? type, out bool nullable)
         {
             nullable = false;

@@ -10,6 +10,9 @@ namespace DiGi.Core
         /// <summary>
         /// Deserializes a JSON string into a list of objects of type <typeparamref name="T"/>.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="json">The JSON string to deserialize.</param>
+        /// <returns>A list of objects of type <typeparamref name="T"/>, or null if deserialization fails.</returns>
         public static List<T>? ToDiGi<T>(string? json) where T : ISerializableObject
         {
             if (string.IsNullOrWhiteSpace(json))
@@ -60,6 +63,9 @@ namespace DiGi.Core
         /// <summary>
         /// Loads and deserializes a list of objects of type <typeparamref name="T"/> from the specified path.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="path">The path to the source data.</param>
+        /// <returns>A list of objects of type <typeparamref name="T"/>, or null if loading fails.</returns>
         public static List<T>? ToDiGi<T>(Classes.Path path) where T : ISerializableObject
         {
             if (path == null)
@@ -84,6 +90,9 @@ namespace DiGi.Core
         /// <summary>
         /// Deserializes a byte array into a list of objects of type <typeparamref name="T"/>.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="bytes">The byte array to deserialize.</param>
+        /// <returns>A list of objects of type <typeparamref name="T"/>, or null if deserialization fails.</returns>
         public static List<T>? ToDiGi<T>(byte[]? bytes) where T : ISerializableObject
         {
             if (bytes == null)

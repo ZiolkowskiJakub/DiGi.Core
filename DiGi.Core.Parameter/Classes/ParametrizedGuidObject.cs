@@ -26,6 +26,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedGuidObject"/> class with a specified GUID.
         /// </summary>
+        /// <param name="guid">The GUID to assign to the new instance.</param>
         public ParametrizedGuidObject(Guid guid)
             : base()
         {
@@ -35,6 +36,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedGuidObject"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to deserialize into a new instance.</param>
         public ParametrizedGuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -43,6 +45,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedGuidObject"/> class with a collection of parameters.
         /// </summary>
+        /// <param name="parameters">The collection of parameters to initialize the object with.</param>
         public ParametrizedGuidObject(IEnumerable<Parameter>? parameters)
             : base(parameters)
         {
@@ -51,6 +54,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedGuidObject"/> class with a specified group collection.
         /// </summary>
+        /// <param name="parameterGroupCollection">The collection of parameter groups to initialize the object with.</param>
         public ParametrizedGuidObject(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
@@ -59,6 +63,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedGuidObject"/> class by copying another object.
         /// </summary>
+        /// <param name="parametrizedGuidObject">The source object to copy.</param>
         public ParametrizedGuidObject(ParametrizedGuidObject? parametrizedGuidObject)
             : base(parametrizedGuidObject)
         {
@@ -68,6 +73,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedGuidObject"/> class with a specific GUID and data from another object.
         /// </summary>
+        /// <param name="guid">The GUID to assign to the new instance.</param>
+        /// <param name="parametrizedGuidObject">The source object from which to copy data.</param>
         public ParametrizedGuidObject(Guid guid, ParametrizedGuidObject? parametrizedGuidObject)
             : base(parametrizedGuidObject)
         {
@@ -101,6 +108,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Creates a duplicate of the current object, optionally with a new GUID.
         /// </summary>
+        /// <param name="guid">The optional GUID to assign to the duplicated object.</param>
+        /// <returns>A duplicate of the current object as an <see cref="IGuidObject"/>, or null if duplication fails.</returns>
         public IGuidObject? Duplicate(Guid? guid = null)
         {
             ParametrizedGuidObject? parametrizedGuidObject = this.Clone<ParametrizedGuidObject>();

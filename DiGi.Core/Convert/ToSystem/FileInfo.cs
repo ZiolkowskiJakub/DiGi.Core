@@ -9,6 +9,9 @@ namespace DiGi.Core
         /// <summary>
         /// Serializes a serializable object to a file and returns the FileInfo.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to serialize.</param>
+        /// <param name="path">The destination path for the serialized file.</param>
+        /// <returns>A <see cref="FileInfo"/> object representing the created file, or null if the operation failed.</returns>
         public static FileInfo? ToSystem_FileInfo(this ISerializableObject? serializableObject, Classes.Path? path)
         {
             if (path == null || !path.HasValue || path.Value == null)
@@ -41,6 +44,10 @@ namespace DiGi.Core
         /// <summary>
         /// Serializes a collection of serializable objects to a file and returns the FileInfo.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="serializableObjects">The collection of serializable objects to serialize.</param>
+        /// <param name="path">The destination path for the serialized file.</param>
+        /// <returns>A <see cref="FileInfo"/> object representing the created file, or null if the operation failed.</returns>
         public static FileInfo? ToSystem_FileInfo<T>(this IEnumerable<T>? serializableObjects, Classes.Path? path) where T : ISerializableObject
         {
             if (path == null || !path.HasValue || path.Value == null)

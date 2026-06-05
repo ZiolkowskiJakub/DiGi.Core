@@ -68,6 +68,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates a deep copy of the serializable object by serializing and deserializing it.
         /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> instance that is a deep copy of the current object, or null if cloning fails.</returns>
         public virtual ISerializableObject? Clone()
         {
             JsonObject? jsonObject = ToJsonObject();
@@ -82,6 +83,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Populates the object's properties from a JsonObject.
         /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> containing the data to populate the object.</param>
+        /// <returns>True if the object was successfully populated; otherwise, false.</returns>
         public virtual bool FromJsonObject(JsonObject? jsonObject)
         {
             return Modify.FromJsonObject(this, jsonObject);
@@ -90,6 +93,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Converts the object into a JsonObject for serialization.
         /// </summary>
+        /// <returns>A <see cref="JsonObject"/> representation of the object, or null if conversion fails.</returns>
         public virtual JsonObject? ToJsonObject()
         {
             return Convert.ToJson(this);

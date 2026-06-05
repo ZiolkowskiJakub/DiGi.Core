@@ -9,6 +9,10 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates a unique GUID for the specified type that does not exist in the given cluster.</summary>
+        /// <typeparam name="TUniqueObject">The type of the unique object value.</typeparam>
+        /// <param name="uniqueObjectValueCluster">The cluster used to ensure the generated GUID is unique.</param>
+        /// <param name="type">The type for which the unique GUID is created.</param>
+        /// <returns>A unique <see cref="Guid"/> that does not exist in the specified cluster.</returns>
         public static Guid Guid<TUniqueObject>(this UniqueObjectValueCluster<TUniqueObject>? uniqueObjectValueCluster, Type? type) where TUniqueObject : IUniqueObject
         {
             if (uniqueObjectValueCluster == null || type == null)

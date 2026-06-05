@@ -5,6 +5,8 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Provides an abstract base class for references to elements within a list cluster.
     /// </summary>
+    /// <typeparam name="TKey_1">The type of the first key.</typeparam>
+    /// <typeparam name="TKey_2">The type of the second key.</typeparam>
     public abstract class ListClusterReference<TKey_1, TKey_2>(TKey_1? key_1, TKey_2? key_2, int index) : IReference
     {
         /// <summary>
@@ -25,6 +27,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the specified reference is equal to the current reference.
         /// </summary>
+        /// <param name="reference">The reference to compare with the current reference.</param>
+        /// <returns>true if the specified reference is equal to the current reference; otherwise, false.</returns>
         public abstract bool Equals(IReference reference);
     }
 }

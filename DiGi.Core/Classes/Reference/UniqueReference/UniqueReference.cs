@@ -13,6 +13,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueReference"/> class using another <see cref="UniqueReference"/>.
         /// </summary>
+        /// <param name="uniqueReference">The unique reference to use.</param>
         public UniqueReference(UniqueReference? uniqueReference)
             : base(uniqueReference)
         {
@@ -25,6 +26,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueReference"/> class from a <see cref="JsonObject"/>.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to create a reference from.</param>
         public UniqueReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -33,6 +35,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueReference"/> class using a <see cref="TypeReference"/>.
         /// </summary>
+        /// <param name="typeReference">The type reference to use.</param>
         public UniqueReference(TypeReference? typeReference)
             : base()
         {
@@ -42,6 +45,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueReference"/> class using the specified full type name.
         /// </summary>
+        /// <param name="fullTypeName">The full type name to use.</param>
         public UniqueReference(string? fullTypeName)
             : base()
         {
@@ -51,6 +55,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueReference"/> class for the specified object.
         /// </summary>
+        /// <param name="object">The object to create a reference for.</param>
         public UniqueReference(IObject? @object)
             : base()
         {

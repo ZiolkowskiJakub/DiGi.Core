@@ -27,6 +27,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidParameterValue"/> class with specified nullability.
         /// </summary>
+        /// <param name="nullable">A value indicating whether the parameter is nullable.</param>
         public GuidParameterValue(bool nullable)
             : base(nullable)
         {
@@ -35,6 +36,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidParameterValue"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public GuidParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -43,6 +45,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidParameterValue"/> class by copying an existing value.
         /// </summary>
+        /// <param name="guidParameterValue">The existing value to copy.</param>
         public GuidParameterValue(GuidParameterValue? guidParameterValue)
             : base(guidParameterValue)
         {
@@ -51,6 +54,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Creates a shallow copy of the current integer parameter value.
         /// </summary>
+        /// <returns>A shallow copy of the current object.</returns>
         public override ISerializableObject? Clone()
         {
             return new GuidParameterValue(this);

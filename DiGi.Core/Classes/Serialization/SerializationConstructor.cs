@@ -21,6 +21,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates an instance of the serializable object from a JsonObject.
         /// </summary>
+        /// <typeparam name="T">The type of the object to create.</typeparam>
+        /// <param name="jsonObject">The JSON object used to populate the created instance.</param>
+        /// <returns>The created instance of type <typeparam ref="T"/>, or null if creation fails.</returns>
         public T? Create<T>(JsonObject? jsonObject) where T : ISerializableObject
         {
             if (jsonObject == null || constructorInfo == null)

@@ -36,6 +36,10 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to parse a string into an enum value by checking names, descriptions, and fuzzy matching.
         /// </summary>
+        /// <param name="text">The string text to be parsed.</param>
+        /// <param name="type">The type of the enum to parse into.</param>
+        /// <param name="enum">When this method returns, contains the parsed enum value if successful; otherwise, null.</param>
+        /// <returns>True if the string was successfully parsed into an enum value; otherwise, false.</returns>
         public static bool TryGetEnum(this string? text, Type? type, out Enum? @enum)
         {
             @enum = null;

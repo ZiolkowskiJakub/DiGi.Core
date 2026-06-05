@@ -25,6 +25,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterValue"/> class with specified nullability.
         /// </summary>
+        /// <param name="nullable">A value indicating whether the parameter is nullable.</param>
         public ParameterValue(bool nullable)
         {
             this.nullable = nullable;
@@ -33,6 +34,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterValue"/> class by copying an existing instance.
         /// </summary>
+        /// <param name="parameterValue">The existing <see cref="ParameterValue"/> instance to copy.</param>
         public ParameterValue(ParameterValue? parameterValue)
         {
             if (parameterValue != null)
@@ -44,6 +46,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterValue"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the parameter value.</param>
         public ParameterValue(JsonObject? jsonObject)
         {
             FromJsonObject(jsonObject);
@@ -58,11 +61,14 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Creates a clone of the current parameter value.
         /// </summary>
+        /// <returns>A new instance of <see cref="ISerializableObject"/> that is a copy of the current object, or null.</returns>
         public abstract ISerializableObject? Clone();
 
         /// <summary>
         /// Populates the parameter value from the provided JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to extract the value from.</param>
+        /// <returns>True if the population was successful; otherwise, false.</returns>
         public bool FromJsonObject(JsonObject? jsonObject)
         {
             return Modify.FromJsonObject(this, jsonObject);
@@ -71,6 +77,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Validates whether the given value is compatible with this parameter.
         /// </summary>
+        /// <param name="value">The value to validate.</param>
+        /// <returns>True if the value is valid; otherwise, false.</returns>
         public virtual bool IsValid(object? value)
         {
             if (value == null)
@@ -84,6 +92,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Converts the current parameter value to a JSON object.
         /// </summary>
+        /// <returns>A <see cref="JsonObject"/> representation of the parameter value, or null if conversion fails.</returns>
         public JsonObject? ToJsonObject()
         {
             return Convert.ToJson(this);
@@ -92,6 +101,9 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Attempts to convert an input value to the expected output type.
         /// </summary>
+        /// <param name="value_In">The value to be converted.</param>
+        /// <param name="value_Out">When this method returns, contains the converted value if successful; otherwise, null.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public virtual bool TryConvert(object? value_In, out object? value_Out)
         {
             value_Out = default;

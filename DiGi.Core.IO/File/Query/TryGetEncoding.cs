@@ -8,6 +8,9 @@ namespace DiGi.Core.IO.File
         /// <summary>
         /// Attempts to determine the text encoding of the specified file.
         /// </summary>
+        /// <param name="filePath">The path to the file.</param>
+        /// <param name="encoding">When this method returns, contains the encoding of the specified file if successful; otherwise, null.</param>
+        /// <returns>True if the encoding was successfully determined; otherwise, false.</returns>
         public static bool TryGetEncoding(string? filePath, out System.Text.Encoding? encoding)
         {
             encoding = null;

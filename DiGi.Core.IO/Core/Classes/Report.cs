@@ -22,6 +22,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Report"/> class with a specified separator character.
         /// </summary>
+        /// <param name="separator">The character used to separate values in the report.</param>
         public Report(char separator)
         {
             this.separator = separator.ToString();
@@ -30,6 +31,8 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Adds a collection of values to the report.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="values">The collection of values to add to the report.</param>
         public void Add<T>(IEnumerable<T?>? values)
         {
             T?[]? values_Temp = values?.ToArray();
@@ -44,6 +47,8 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Adds one or more values of type <typeparamref name="T"/> to the report.
         /// </summary>
+        /// <typeparam name="T">The type of values to add.</typeparam>
+        /// <param name="values">The values of type <typeparamref name="T"/> to add to the report.</param>
         public void Add<T>(params T?[]? values)
         {
             List<string> values_Temp = [];
@@ -62,6 +67,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Adds one or more objects to the report.
         /// </summary>
+        /// <param name="values">The objects to add to the report.</param>
         public void Add(params object?[]? values)
         {
             Add<object>(values);
@@ -78,6 +84,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
+        /// <returns>The hash code for this instance.</returns>
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
@@ -86,6 +93,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Returns a string representation of the current report.
         /// </summary>
+        /// <returns>A string that represents the current report.</returns>
         public override string ToString()
         {
             if (lines == null || lines.Count == 0)
@@ -117,6 +125,8 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Writes the report content to the specified file path.
         /// </summary>
+        /// <param name="path">The path where the report will be written.</param>
+        /// <returns>True if the write operation was successful; otherwise, false.</returns>
         public bool Write(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))

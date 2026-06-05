@@ -9,6 +9,9 @@ namespace DiGi.Core.Parameter
         /// <summary>
         /// Validates whether the provided value is valid for the given parameter type.
         /// </summary>
+        /// <param name="parameterType">The parameter type to validate against.</param>
+        /// <param name="value">The value to be validated.</param>
+        /// <returns>True if the value is valid for the specified parameter type; otherwise, false.</returns>
         public static bool IsValid(this ParameterType parameterType, object? value)
         {
             if (parameterType == Enums.ParameterType.Undefined)

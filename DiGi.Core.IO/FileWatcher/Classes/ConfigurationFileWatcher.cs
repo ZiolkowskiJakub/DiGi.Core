@@ -14,6 +14,9 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationFileWatcher"/> class.
         /// </summary>
+        /// <param name="path">The path to the configuration file to watch.</param>
+        /// <param name="interval">The interval in milliseconds between checks for changes.</param>
+        /// <param name="encoding">The encoding to use when reading the file.</param>
         public ConfigurationFileWatcher(string path, double interval = 5000, Encoding? encoding = null)
             : base(path, interval)
         {

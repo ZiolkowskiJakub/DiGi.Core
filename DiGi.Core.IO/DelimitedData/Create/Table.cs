@@ -28,6 +28,11 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Creates a Table from a delimited file using a separator character.
         /// </summary>
+        /// <param name="path">The path to the delimited file.</param>
+        /// <param name="separator">The character used as a separator in the delimited file.</param>
+        /// <param name="columnIndex">The index of the column to start from. Defaults to 0.</param>
+        /// <param name="rowIndex">The index of the row to start from. Defaults to 1.</param>
+        /// <returns>A Table object if successful; otherwise, null.</returns>
         public static Table.Classes.Table? Table(string? path, char separator, int columnIndex = 0, int rowIndex = 1)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -44,6 +49,11 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Creates a Table from a delimited file using a DelimitedDataSeparator enum value.
         /// </summary>
+        /// <param name="path">The path to the delimited file.</param>
+        /// <param name="delimitedDataSeparator">The separator used in the delimited file.</param>
+        /// <param name="columnIndex">The index of the column to start from. Defaults to 0.</param>
+        /// <param name="rowIndex">The index of the row to start from. Defaults to 1.</param>
+        /// <returns>A Table object if successful; otherwise, null.</returns>
         public static Table.Classes.Table? Table(string? path, DelimitedDataSeparator delimitedDataSeparator, int columnIndex = 0, int rowIndex = 1)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))

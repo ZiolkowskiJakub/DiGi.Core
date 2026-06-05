@@ -24,6 +24,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedUniqueIdObject"/> class with a specified unique identifier.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier.</param>
         public ParametrizedUniqueIdObject(string? uniqueId)
             : base()
         {
@@ -33,6 +34,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedUniqueIdObject"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public ParametrizedUniqueIdObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -41,6 +43,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedUniqueIdObject"/> class using a collection of parameters.
         /// </summary>
+        /// <param name="parameters">The collection of parameters to use for initialization.</param>
         public ParametrizedUniqueIdObject(IEnumerable<Parameter>? parameters)
             : base(parameters)
         {
@@ -49,6 +52,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedUniqueIdObject"/> class using a parameter group collection.
         /// </summary>
+        /// <param name="parameterGroupCollection">The parameter group collection to use for initialization.</param>
         public ParametrizedUniqueIdObject(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
@@ -57,6 +61,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedUniqueIdObject"/> class by copying another unique ID parametrized object.
         /// </summary>
+        /// <param name="parametrizedUniqueIdObject">The parametrized unique ID object to copy.</param>
         public ParametrizedUniqueIdObject(ParametrizedUniqueIdObject? parametrizedUniqueIdObject)
             : base(parametrizedUniqueIdObject)
         {
@@ -66,6 +71,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedUniqueIdObject"/> class with a specific ID and values from another object.
         /// </summary>
+        /// <param name="uniqueId">The unique identifier.</param>
+        /// <param name="parametrizedUniqueIdObject">The parametrized unique ID object to copy values from.</param>
         public ParametrizedUniqueIdObject(string? uniqueId, ParametrizedUniqueIdObject? parametrizedUniqueIdObject)
             : base(parametrizedUniqueIdObject)
         {

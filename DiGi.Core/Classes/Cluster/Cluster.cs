@@ -10,6 +10,9 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// An abstract base class for a two-key-indexed collection of values.
     /// </summary>
+    /// <typeparam name="TKey_1">The type of the first key.</typeparam>
+    /// <typeparam name="TKey_2">The type of the second key.</typeparam>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
     public abstract class Cluster<TKey_1, TKey_2, TValue> : IObject, IEnumerable<TValue>
     {
         /// <summary>

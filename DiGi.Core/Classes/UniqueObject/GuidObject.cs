@@ -28,6 +28,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidObject"/> class with the specified GUID.
         /// </summary>
+        /// <param name="guid">The GUID to assign to the new instance.</param>
         public GuidObject(Guid guid)
             : base()
         {
@@ -37,6 +38,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidObject"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the instance from.</param>
         public GuidObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -52,6 +54,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidObject"/> class by copying another GuidObject.
         /// </summary>
+        /// <param name="guidObject">The GuidObject to copy from.</param>
         public GuidObject(GuidObject? guidObject)
             : base(guidObject)
         {
@@ -64,6 +67,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidObject"/> class with a specified GUID and an existing object.
         /// </summary>
+        /// <param name="guid">The GUID to assign to the new instance.</param>
+        /// <param name="guidObject">The existing GuidObject used for initialization.</param>
         public GuidObject(Guid guid, GuidObject? guidObject)
             : base(guidObject)
         {
@@ -73,6 +78,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates a duplicate of the current object, optionally using a new GUID.
         /// </summary>
+        /// <param name="guid">The optional GUID to assign to the duplicated object.</param>
+        /// <returns>A duplicate of the current object as an <see cref="IGuidObject"/>.</returns>
         public virtual IGuidObject? Duplicate(Guid? guid = null)
         {
             GuidObject? result = Query.Clone(this);

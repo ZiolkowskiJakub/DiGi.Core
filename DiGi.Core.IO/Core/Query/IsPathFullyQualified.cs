@@ -7,6 +7,8 @@ namespace DiGi.Core.IO
         /// <summary>
         /// Checks if a path is fully qualified (absolute).
         /// </summary>
+        /// <param name="path">The path to check.</param>
+        /// <returns>True if the path is fully qualified; otherwise, false.</returns>
         public static bool IsPathFullyQualified(string? path)
         {
             string root = Path.GetPathRoot(path);

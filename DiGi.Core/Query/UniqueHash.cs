@@ -8,6 +8,9 @@ namespace DiGi.Core
         /// <summary>
         /// Computes a unique hash for the specified JsonNode.
         /// </summary>
+        /// <param name="jsonNode">The JsonNode to hash.</param>
+        /// <param name="hash">The initial hash value (offset basis).</param>
+        /// <returns>The computed unique hash as a ulong.</returns>
         public static ulong UniqueHash(this JsonNode? jsonNode, ulong hash = Constants.FNV.OffsetBasis)
         {
             if (jsonNode is null)
@@ -72,6 +75,9 @@ namespace DiGi.Core
         /// <summary>
         /// Computes a unique hash for the specified string.
         /// </summary>
+        /// <param name="string">The string to hash.</param>
+        /// <param name="hash">The initial hash value (offset basis).</param>
+        /// <returns>The computed unique hash as a ulong.</returns>
         public static ulong UniqueHash(this string? @string, ulong hash = Constants.FNV.OffsetBasis)
         {
             if (@string == null)

@@ -6,6 +6,8 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Provides a base implementation for splitting a collection of items into groups.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the collection to be split.</typeparam>
+    /// <typeparam name="X">The type used to determine the value of each element for splitting purposes.</typeparam>
     public abstract class Splitter<T, X> where X : struct, IComparable, IConvertible
     {
         // Keep track of the iteration state
@@ -16,6 +18,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="Splitter"/> class with the specified items.
         /// </summary>
+        /// <param name="items">The collection of items to be processed by the splitter.</param>
         public Splitter(IEnumerable<T> items)
         {
             this.items = items is null ? null : [.. items];
@@ -37,12 +40,16 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves a value associated with the specified item.
         /// </summary>
+        /// <param name="item">The item for which to retrieve the value.</param>
+        /// <returns>The value associated with the provided item.</returns>
         public abstract X GetValue(T? item);
 
         /// <summary>
         /// Returns the next chunk of items that don't exceed the maxValue.
         /// Returns null when no more items are available.
         /// </summary>
+        /// <param name="maxValue">The maximum value allowed for the next chunk.</param>
+        /// <returns>The next list of items that fit within the specified maximum value, or null if no more items remain.</returns>
         public List<T>? Next(X maxValue)
         {
             // Return null instead of an empty list to signal the end of the collection
@@ -86,6 +93,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Splits the items into multiple lists based on the provided maximum value.
         /// </summary>
+        /// <param name="maxValue">The maximum value allowed for each split list.</param>
+        /// <returns>A list of lists containing the split items, or null if the operation cannot be completed.</returns>
         public List<List<T>>? Split(X maxValue)
         {
             if (items is null)

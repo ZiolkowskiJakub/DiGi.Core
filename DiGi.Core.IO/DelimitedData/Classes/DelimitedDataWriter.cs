@@ -15,6 +15,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataWriter"/> class.
         /// </summary>
+        /// <param name="separator">The character to use as a separator.</param>
+        /// <param name="stream">The stream where data will be written.</param>
         public DelimitedDataWriter(char separator, Stream? stream)
             : base(stream)
         {
@@ -24,6 +26,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataWriter"/> class.
         /// </summary>
+        /// <param name="separator">The character to use as a separator.</param>
+        /// <param name="path">The path to the file where data will be written.</param>
         public DelimitedDataWriter(char separator, string? path)
             : base(path)
         {
@@ -33,6 +37,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedDataWriter"/> class.
         /// </summary>
+        /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
+        /// <param name="path">The path to the file where data will be written.</param>
         public DelimitedDataWriter(DelimitedDataSeparator delimitedDataSeparator, string? path)
             : base(path)
         {

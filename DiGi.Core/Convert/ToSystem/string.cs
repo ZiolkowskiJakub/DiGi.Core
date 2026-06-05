@@ -11,6 +11,8 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a serializable object to its JSON string representation using default options.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to convert.</param>
+        /// <returns>A JSON string representation of the object, or null if the input is null.</returns>
         public static string? ToSystem_String(this ISerializableObject? serializableObject)
         {
             return ToSystem_String(serializableObject, Settings.SerializationManager.JsonSerializerOptions);
@@ -19,6 +21,8 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a collection of serializable objects to a JSON string representation using default options.
         /// </summary>
+        /// <param name="serializableObjects">The collection of serializable objects to convert.</param>
+        /// <returns>A JSON string representation of the collection, or null if the input is null.</returns>
         public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects)
         {
             return ToSystem_String(serializableObjects, null);
@@ -27,6 +31,9 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a collection of objects implementing ISerializableObject to a JSON string representation using default options.
         /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="serializableObjects">The collection of serializable objects to convert.</param>
+        /// <returns>A JSON string representation of the collection, or null if the input is null.</returns>
         public static string? ToSystem_String<T>(this IEnumerable<T>? serializableObjects) where T : ISerializableObject
         {
             return ToSystem_String(serializableObjects, null);
@@ -35,6 +42,9 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a serializable object to its JSON string representation using specified options.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to convert.</param>
+        /// <param name="jsonSerializerOptions">The options to use for JSON serialization.</param>
+        /// <returns>A JSON string representation of the object, or null if applicable.</returns>
         public static string? ToSystem_String(this ISerializableObject? serializableObject, JsonSerializerOptions? jsonSerializerOptions)
         {
             if (serializableObject == null)
@@ -55,6 +65,9 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a collection of serializable objects to a JSON string representation using specified options.
         /// </summary>
+        /// <param name="serializableObjects">The collection of serializable objects to convert.</param>
+        /// <param name="jsonSerializerOptions">The options to use for JSON serialization.</param>
+        /// <returns>A JSON string representation of the collection, or null if applicable.</returns>
         public static string? ToSystem_String(this IEnumerable<ISerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions)
         {
             if (serializableObjects == null)
@@ -75,6 +88,10 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a collection of objects implementing ISerializableObject to a JSON string representation using specified options.
         /// </summary>
+        /// <typeparam name="USerializableObject">The type of the serializable objects in the collection.</typeparam>
+        /// <param name="serializableObjects">The collection of serializable objects to convert.</param>
+        /// <param name="jsonSerializerOptions">The options to use for JSON serialization.</param>
+        /// <returns>A JSON string representation of the collection, or null if applicable.</returns>
         public static string? ToSystem_String<USerializableObject>(this IEnumerable<USerializableObject>? serializableObjects, JsonSerializerOptions? jsonSerializerOptions) where USerializableObject : ISerializableObject
         {
             if (serializableObjects == null)
@@ -95,6 +112,10 @@ namespace DiGi.Core
         /// <summary>
         /// Formats a type reference and unique identifier into a system string.
         /// </summary>
+        /// <param name="typeReference">The type reference to format.</param>
+        /// <param name="uniqueId">The unique identifier for the type.</param>
+        /// <param name="format">The format string to use.</param>
+        /// <returns>The formatted system string, or null if applicable.</returns>
         public static string? ToSystem_String(this TypeReference? typeReference, string? uniqueId, string? format)
         {
             string? result = typeReference?.ToString();
@@ -128,6 +149,9 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a serializable reference to its system string representation with an optional source.
         /// </summary>
+        /// <param name="serializableReference">The serializable reference to convert.</param>
+        /// <param name="source">The optional source string.</param>
+        /// <returns>The system string representation of the serializable reference, or null if applicable.</returns>
         public static string? ToSystem_String(this ISerializableReference? serializableReference, string? source)
         {
             if (serializableReference == null)

@@ -46,6 +46,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates a JsonObject representing the state of the provided serializable object.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to be converted into a JSON object.</param>
+        /// <returns>A <see cref="JsonObject"/> representing the state of the serializable object, or null if it could not be created.</returns>
         public JsonObject? Create(ISerializableObject? serializableObject)
         {
             if (serializableObject == null)
@@ -104,6 +106,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Updates the provided serializable object using values from a JsonObject.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to be updated.</param>
+        /// <param name="jsonObject">The JSON object containing the source data for the update.</param>
+        /// <returns>True if the update was successful; otherwise, false.</returns>
         public bool Update(ISerializableObject? serializableObject, JsonObject? jsonObject)
         {
             return Update(serializableObject, jsonObject, out _);
@@ -112,6 +117,10 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Updates the specified serializable object using data from a JSON object.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to be updated.</param>
+        /// <param name="jsonObject">The JSON object containing the source data for the update.</param>
+        /// <param name="propertyNames">When this method returns, contains a set of property names that were updated.</param>
+        /// <returns>True if the update was successful; otherwise, false.</returns>
         public bool Update(ISerializableObject? serializableObject, JsonObject? jsonObject, out HashSet<string>? propertyNames)
         {
             propertyNames = null;

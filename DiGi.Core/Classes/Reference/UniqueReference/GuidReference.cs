@@ -16,6 +16,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidReference"/> class using a type name and a GUID.
         /// </summary>
+        /// <param name="fullTypeName">The full name of the type.</param>
+        /// <param name="guid">The unique identifier for the reference.</param>
         public GuidReference(string? fullTypeName, Guid guid)
             : base(fullTypeName)
         {
@@ -25,6 +27,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidReference"/> class by copying an existing reference.
         /// </summary>
+        /// <param name="guidReference">The existing reference to copy.</param>
         public GuidReference(GuidReference? guidReference)
             : base(guidReference)
         {
@@ -37,6 +40,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidReference"/> class from a GUID object.
         /// </summary>
+        /// <param name="guidObject">The GUID object to initialize from.</param>
         public GuidReference(IGuidObject? guidObject)
             : base(guidObject)
         {
@@ -49,6 +53,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidReference"/> class using a type reference and a GUID.
         /// </summary>
+        /// <param name="typeReference">The type reference to use.</param>
+        /// <param name="guid">The GUID value to assign.</param>
         public GuidReference(TypeReference? typeReference, Guid guid)
             : base(typeReference)
         {
@@ -58,6 +64,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="GuidReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public GuidReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -90,6 +97,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Creates a deep copy of the current object.
         /// </summary>
+        /// <returns>A new <see cref="ISerializableObject"/> that is a copy of the current object.</returns>
         public override ISerializableObject? Clone()
         {
             return new GuidReference(this);
@@ -98,6 +106,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns a string representation of the current object.
         /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string? ToString()
         {
             return Convert.ToSystem_String(TypeReference, UniqueId, Constants.Reference.Format.Guid);

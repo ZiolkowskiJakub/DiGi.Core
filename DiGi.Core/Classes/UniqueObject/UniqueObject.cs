@@ -17,6 +17,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObject"/> class using the specified JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to use for initialization.</param>
         public UniqueObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -25,6 +26,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObject"/> class by copying an existing instance.
         /// </summary>
+        /// <param name="uniqueObject">The existing instance to copy.</param>
         public UniqueObject(UniqueObject? uniqueObject)
             : base(uniqueObject)
         {

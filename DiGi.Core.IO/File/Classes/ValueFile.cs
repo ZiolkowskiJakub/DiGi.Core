@@ -11,6 +11,7 @@ namespace DiGi.Core.IO.File.Classes
     /// <summary>
     /// Represents a file that stores a single value.
     /// </summary>
+    /// <typeparam name="TSerializableObject">The type of the serializable object stored in the file.</typeparam>
     public class ValueFile<TSerializableObject> : File, IValueFile<TSerializableObject> where TSerializableObject : ISerializableObject
     {
         [JsonIgnore]
@@ -22,6 +23,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class using the specified file path.
         /// </summary>
+        /// <param name="path">The path to the value file.</param>
         public ValueFile(string? path)
             : base(path)
         {
@@ -30,6 +32,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class from the provided JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public ValueFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -38,6 +41,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class from an existing generic value file.
         /// </summary>
+        /// <param name="valueFile">The existing generic value file to initialize from.</param>
         public ValueFile(ValueFile<TSerializableObject>? valueFile)
             : base(valueFile)
         {
@@ -77,6 +81,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Opens the file and loads its content into memory.
         /// </summary>
+        /// <returns>True if the open operation was successful; otherwise, false.</returns>
         public override bool Open()
         {
             bool result = base.Open();
@@ -118,6 +123,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Saves the current state of the object to the file.
         /// </summary>
+        /// <returns>True if the save operation was successful; otherwise, false.</returns>
         public override bool Save()
         {
             bool result = base.Save();
@@ -177,6 +183,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class using the specified file path.
         /// </summary>
+        /// <param name="path">The path to the value file.</param>
         public ValueFile(string? path)
             : base(path)
         {
@@ -185,6 +192,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class from the provided JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the value file from.</param>
         public ValueFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -193,6 +201,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class from an existing non-generic value file.
         /// </summary>
+        /// <param name="valueFile">The existing non-generic value file to initialize from.</param>
         public ValueFile(ValueFile? valueFile)
             : base(valueFile)
         {

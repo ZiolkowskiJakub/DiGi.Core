@@ -5,6 +5,9 @@
         /// <summary>
         /// Combines a directory path and a relative path to create an absolute path.
         /// </summary>
+        /// <param name="directory">The base directory path.</param>
+        /// <param name="relativePath">The relative path to combine with the directory.</param>
+        /// <returns>The resulting absolute path string.</returns>
         public static string? AbsolutePath(this string? directory, string? relativePath)
         {
             if (string.IsNullOrWhiteSpace(directory) || string.IsNullOrWhiteSpace(relativePath))

@@ -27,6 +27,8 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileMetadata"/> class with type and path.
         /// </summary>
+        /// <param name="type">The type to be associated with this metadata.</param>
+        /// <param name="path">The file path to be associated with this metadata.</param>
         public FileMetadata(Type? type, string? path)
             : base()
         {
@@ -39,6 +41,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileMetadata"/> class with type.
         /// </summary>
+        /// <param name="type">The type to be associated with this metadata.</param>
         public FileMetadata(Type? type)
             : base()
         {
@@ -51,6 +54,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileMetadata"/> class by cloning another metadata object.
         /// </summary>
+        /// <param name="fileMetadata">The source metadata object to clone.</param>
         public FileMetadata(FileMetadata? fileMetadata)
             : base(fileMetadata)
         {
@@ -66,6 +70,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileMetadata"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the metadata.</param>
         public FileMetadata(JsonObject? jsonObject)
             : base(jsonObject)
         {

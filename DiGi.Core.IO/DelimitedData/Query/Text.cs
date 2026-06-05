@@ -8,6 +8,9 @@ namespace DiGi.Core.IO.DelimitedData
         /// <summary>
         /// Joins a collection of values into a delimited string.
         /// </summary>
+        /// <param name="values">The collection of strings to join.</param>
+        /// <param name="separator">The character used as the delimiter between strings.</param>
+        /// <returns>A string containing the joined values, or null if the input is null.</returns>
         public static string? Text(this IEnumerable<string?>? values, char separator)
         {
             if (values == null)

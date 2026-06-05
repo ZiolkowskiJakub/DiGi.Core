@@ -6,11 +6,14 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Represents an abstract base class for external references related to a specific instance.
     /// </summary>
+    /// <typeparam name="TInstanceRelatedSerializableReference">The type of the serializable reference related to the instance.</typeparam>
     public abstract class InstanceRelatedExternalReference<TInstanceRelatedSerializableReference> : ExternalReference<TInstanceRelatedSerializableReference> where TInstanceRelatedSerializableReference : IInstanceRelatedSerializableReference
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceRelatedExternalReference"/> class with the specified source and reference.
         /// </summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="reference">The related serializable reference.</param>
         public InstanceRelatedExternalReference(string? source, TInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {
@@ -19,6 +22,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceRelatedExternalReference"/> class from the specified JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public InstanceRelatedExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -27,6 +31,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceRelatedExternalReference"/> class by copying an existing generic reference.
         /// </summary>
+        /// <param name="externalReference">The existing generic reference to copy.</param>
         public InstanceRelatedExternalReference(InstanceRelatedExternalReference<TInstanceRelatedSerializableReference>? externalReference)
         : base(externalReference)
         {
@@ -41,6 +46,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceRelatedExternalReference"/> class with the specified source and interface-based reference.
         /// </summary>
+        /// <param name="source">The source string.</param>
+        /// <param name="reference">The interface-based reference.</param>
         public InstanceRelatedExternalReference(string? source, IInstanceRelatedSerializableReference? reference)
             : base(source, reference)
         {
@@ -49,6 +56,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceRelatedExternalReference"/> class from the specified JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
         public InstanceRelatedExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -57,6 +65,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceRelatedExternalReference"/> class by copying an existing reference.
         /// </summary>
+        /// <param name="externalReference">The existing reference to copy.</param>
         public InstanceRelatedExternalReference(InstanceRelatedExternalReference? externalReference)
         : base(externalReference)
         {

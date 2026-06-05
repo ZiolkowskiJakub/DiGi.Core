@@ -29,6 +29,9 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectParameterValue"/> class with specified nullability, inheritance rules, and allowed types.
         /// </summary>
+        /// <param name="nullable">Specifies whether the value can be null.</param>
+        /// <param name="inheritance">Specifies whether inheritance is considered when validating types.</param>
+        /// <param name="types">The collection of allowed types for this parameter value.</param>
         public ObjectParameterValue(bool nullable, bool inheritance, params Type[] types)
             : base(nullable)
         {
@@ -39,6 +42,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectParameterValue"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the current instance with.</param>
         public ObjectParameterValue(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -47,6 +51,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectParameterValue"/> class by copying an existing instance.
         /// </summary>
+        /// <param name="objectParameterValue">The existing instance to copy.</param>
         public ObjectParameterValue(ObjectParameterValue? objectParameterValue)
             : base(objectParameterValue)
         {
@@ -66,6 +71,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Creates a clone of the current string parameter value.
         /// </summary>
+        /// <returns>A new instance of <see cref="ISerializableObject"/> that is a copy of the current object.</returns>
         public override ISerializableObject? Clone()
         {
             return new ObjectParameterValue(this);
@@ -74,6 +80,8 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Determines whether the specified value is valid for this parameter.
         /// </summary>
+        /// <param name="value">The value to validate.</param>
+        /// <returns>True if the value is valid; otherwise, false.</returns>
         public override bool IsValid(object? value)
         {
             bool result = base.IsValid(value);
@@ -117,6 +125,9 @@ namespace DiGi.Core.Parameter.Classes
         /// <summary>
         /// Attempts to convert the specified input value to a compatible output value.
         /// </summary>
+        /// <param name="value_In">The input value to be converted.</param>
+        /// <param name="value_Out">When this method returns, contains the converted value if successful; otherwise, null.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
         public override bool TryConvert(object? value_In, out object? value_Out)
         {
             if (!base.TryConvert(value_In, out value_Out))

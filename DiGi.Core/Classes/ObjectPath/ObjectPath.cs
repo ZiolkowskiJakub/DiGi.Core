@@ -9,6 +9,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Base class for representing a hierarchical path to an object.
     /// </summary>
+    /// <typeparam name="TObjectPath">The type of the object path.</typeparam>
     public abstract class ObjectPath<TObjectPath> : SerializableObject, IObjectPath<TObjectPath> where TObjectPath : ObjectPath<TObjectPath>
     {
         [JsonInclude, JsonPropertyName("Name")]
@@ -20,6 +21,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class using a collection of segment names.
         /// </summary>
+        /// <param name="names">The collection of segment names.</param>
         public ObjectPath(IEnumerable<string>? names)
         {
             if (names != null && names.Count() != 0)
@@ -37,6 +39,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class with a single segment name.
         /// </summary>
+        /// <param name="name">The name of the single segment.</param>
         public ObjectPath(string? name)
             : this([name ?? string.Empty])
         {
@@ -45,6 +48,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to create the path from.</param>
         public ObjectPath(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -53,6 +57,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class by appending a name to an existing path.
         /// </summary>
+        /// <param name="name">The name of the segment to append.</param>
+        /// <param name="path">The existing path to which the name is appended.</param>
         public ObjectPath(string? name, TObjectPath? path)
             : this(name)
         {
@@ -62,6 +68,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class by copying an existing path.
         /// </summary>
+        /// <param name="path">The existing path to copy.</param>
         public ObjectPath(ObjectPath<TObjectPath>? path)
             : base(path)
         {
@@ -115,6 +122,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Appends a new segment to the path and returns the resulting path.
         /// </summary>
+        /// <param name="name">The name of the segment to append.</param>
+        /// <returns>The resulting path after appending the segment.</returns>
         public TObjectPath? Add(string? name)
         {
             if (name == null)
@@ -128,6 +137,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Appends multiple segments to the path and returns the resulting path.
         /// </summary>
+        /// <param name="names">The collection of segment names to append.</param>
+        /// <returns>The resulting path after appending the segments.</returns>
         public TObjectPath? Add(IEnumerable<string>? names)
         {
             if (names == null || names.Count() == 0)
@@ -173,6 +184,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the specified object is equal to the current path.
         /// </summary>
+        /// <param name="obj">The object to compare with the current path.</param>
+        /// <returns>True if the objects are equal; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
             return ToString() == obj?.ToString();
@@ -181,6 +194,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns the hash code for this path.
         /// </summary>
+        /// <returns>The hash code for this path.</returns>
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
@@ -189,6 +203,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves a list of all segment names in the path.
         /// </summary>
+        /// <param name="includeName">A value indicating whether to include the name.</param>
+        /// <returns>A list of strings containing the segment names.</returns>
         public List<string> GetNames(bool includeName = true)
         {
             List<string> result = [];
@@ -210,6 +226,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Returns a string representation of the hierarchical path.
         /// </summary>
+        /// <returns>A string representing the hierarchical path.</returns>
         public override string ToString()
         {
             string result = Name ?? string.Empty;
@@ -233,6 +250,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class using a collection of segment names.
         /// </summary>
+        /// <param name="names">The collection of segment names to include in the path.</param>
         public ObjectPath(IEnumerable<string> names)
             : base(names)
         {
@@ -241,6 +259,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class with a single segment name.
         /// </summary>
+        /// <param name="name">The name of the path segment.</param>
         public ObjectPath(string name)
             : base(name)
         {
@@ -249,6 +268,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class by appending a name to an existing path.
         /// </summary>
+        /// <param name="name">The name of the segment to append.</param>
+        /// <param name="path">The existing path to which the name is appended.</param>
         public ObjectPath(string name, ObjectPath path)
             : base(name, path)
         {
@@ -257,6 +278,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPath"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the path.</param>
         public ObjectPath(JsonObject jsonObject)
             : base(jsonObject)
         {

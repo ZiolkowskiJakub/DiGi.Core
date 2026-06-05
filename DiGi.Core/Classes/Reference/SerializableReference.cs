@@ -21,6 +21,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableReference"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the reference from.</param>
         public SerializableReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -29,6 +30,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableReference"/> class by copying an existing reference.
         /// </summary>
+        /// <param name="serializableReference">The existing reference to copy.</param>
         public SerializableReference(SerializableReference? serializableReference)
             : base(serializableReference)
         {
@@ -81,6 +83,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the specified object is equal to the current serializable reference.
         /// </summary>
+        /// <param name="object">The object to compare with the current serializable reference.</param>
+        /// <returns>True if the specified object is equal to the current serializable reference; otherwise, false.</returns>
         public override bool Equals(object @object)
         {
             if (@object == null)
@@ -99,6 +103,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether the specified reference is equal to the current serializable reference.
         /// </summary>
+        /// <param name="reference">The reference to compare with the current serializable reference.</param>
+        /// <returns>True if the specified reference is equal to the current serializable reference; otherwise, false.</returns>
         public bool Equals(IReference reference)
         {
             if (reference == null)
@@ -112,6 +118,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Gets the hash code for the current type reference.
         /// </summary>
+        /// <returns>The hash code for the current type reference.</returns>
         public override int GetHashCode()
         {
             hashCode ??= ToString().GetHashCode();

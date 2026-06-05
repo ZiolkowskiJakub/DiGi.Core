@@ -9,6 +9,8 @@ namespace DiGi.Core
         /// <summary>
         /// Converts a serializable object to a JsonObject.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to convert.</param>
+        /// <returns>A <see cref="JsonObject"/> representation of the object, or <c>null</c> if the input is null.</returns>
         public static JsonObject? ToJson(this ISerializableObject? serializableObject)
         {
             if (serializableObject == null)

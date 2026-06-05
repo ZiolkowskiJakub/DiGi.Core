@@ -5,12 +5,16 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates a UTC offset from the given float value.</summary>
+        /// <param name="timeOffset">The float representation of the UTC offset.</param>
+        /// <returns>A <see cref="UTC"/> instance representing the specified offset.</returns>
         public static UTC UTC(float timeOffset)
         {
             return UTC(System.Convert.ToDouble(timeOffset));
         }
 
         /// <summary>Creates a UTC offset from the given double value.</summary>
+        /// <param name="timeOffset">The double representation of the UTC offset.</param>
+        /// <returns>A <see cref="UTC"/> instance representing the specified offset.</returns>
         public static UTC UTC(double timeOffset)
         {
             if (double.IsNaN(timeOffset))
@@ -31,6 +35,8 @@ namespace DiGi.Core
         }
 
         /// <summary>Creates a UTC offset from the given string value.</summary>
+        /// <param name="value">The string representation of the UTC offset.</param>
+        /// <returns>A <see cref="UTC"/> instance representing the specified offset.</returns>
         public static UTC UTC(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

@@ -8,6 +8,8 @@ namespace DiGi.Core.Parameter
         /// <summary>
         /// Retrieves the types associated with the specified enumeration.
         /// </summary>
+        /// <param name="enum">The enumeration to retrieve types for.</param>
+        /// <returns>An array of <see cref="Type"/> objects associated with the specified enumeration, or <c>null</c>.</returns>
         public static Type[]? Types(Enum? @enum)
         {
             if (@enum == null)

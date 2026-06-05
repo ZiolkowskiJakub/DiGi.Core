@@ -4,6 +4,7 @@ using System;
 namespace DiGi.Core.Classes
 {
     /// <summary>Provides thread-safe progress reporting for values of type T.</summary>
+    /// <typeparam name="T">The type of the progress value.</typeparam>
     public class ProgressWrapper<T> : IObject
     {
         private readonly object lockObject = new();
@@ -13,6 +14,8 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="ProgressWrapper{T}"/> class with an initial value.
         /// </summary>
+        /// <param name="initialValue">The initial progress value.</param>
+        /// <param name="progress">An optional IProgress implementation to report updates to.</param>
         public ProgressWrapper(T initialValue, IProgress<T>? progress = null)
         {
             current = initialValue;
@@ -43,6 +46,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Reports a new progress value.
         /// </summary>
+        /// <param name="value">The progress value to report.</param>
         public void Report(T value)
         {
             Current = value;

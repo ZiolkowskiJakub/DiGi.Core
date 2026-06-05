@@ -8,7 +8,9 @@ namespace DiGi.Core
         /// Rounds the value to the nearest multiple of the tolerance using decimal precision.
         /// This prevents floating-point artifacts common in double arithmetic.
         /// </summary>
-        /// public static double Round(this double value, double tolerance)
+        /// <param name="value">The value to be rounded.</param>
+        /// <param name="tolerance">The tolerance used for rounding.</param>
+        /// <returns>The rounded value.</returns>
         public static double Round(this double value, double tolerance)
         {
             // 1. Quick check for invalid inputs or zero tolerance to avoid DivisionByZero

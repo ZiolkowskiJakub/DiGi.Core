@@ -12,6 +12,9 @@ namespace DiGi.Core
         /// <summary>
         /// Extracts the value from a <see cref="JsonNode"/> cast to the specified type.
         /// </summary>
+        /// <param name="jsonNode">The JSON node to extract the value from.</param>
+        /// <param name="type">The target type to cast the value to.</param>
+        /// <returns>The extracted value cast to the specified type, or null if the operation fails or the input is null.</returns>
         public static object? Value(this JsonNode? jsonNode, Type? type)
         {
             if (jsonNode == null || type == null)

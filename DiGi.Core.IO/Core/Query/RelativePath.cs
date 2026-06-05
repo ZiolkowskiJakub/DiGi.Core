@@ -7,6 +7,9 @@ namespace DiGi.Core.IO
         /// <summary>
         /// Calculates the relative path from one directory to another.
         /// </summary>
+        /// <param name="relativeTo">The base directory to calculate the relative path from.</param>
+        /// <param name="path">The target path to make relative.</param>
+        /// <returns>The calculated relative path, or null if it cannot be determined.</returns>
         public static string? RelativePath(string? relativeTo, string? path)
         {
             if (string.IsNullOrWhiteSpace(relativeTo) || string.IsNullOrWhiteSpace(path))

@@ -8,6 +8,9 @@ namespace DiGi.Core
         /// <summary>
         /// Optimized retrieval of a custom attribute from an Enum value.
         /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute to retrieve.</typeparam>
+        /// <param name="enum">The enum value to search for the attribute.</param>
+        /// <returns>The specified attribute if found; otherwise, null.</returns>
         public static TAttribute? CustomAttribute<TAttribute>(Enum? @enum) where TAttribute : Attribute
         {
             if (@enum is null)
@@ -33,6 +36,10 @@ namespace DiGi.Core
         /// <summary>
         /// Optimized retrieval of a custom attribute from a Type and member name.
         /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute to retrieve.</typeparam>
+        /// <param name="type">The type containing the member.</param>
+        /// <param name="text">The name of the member from which to retrieve the attribute.</param>
+        /// <returns>The specified attribute if found; otherwise, null.</returns>
         public static TAttribute? CustomAttribute<TAttribute>(Type? type, string? text) where TAttribute : Attribute
         {
             if (type is null || string.IsNullOrEmpty(text))
@@ -55,6 +62,9 @@ namespace DiGi.Core
         /// <summary>
         /// Efficiently retrieves a custom attribute from MemberInfo using generic reflection extensions.
         /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute to retrieve.</typeparam>
+        /// <param name="memberInfo">The member information to search for the attribute.</param>
+        /// <returns>The specified attribute if found; otherwise, null.</returns>
         public static TAttribute? CustomAttribute<TAttribute>(this MemberInfo? memberInfo) where TAttribute : Attribute
         {
             if (memberInfo is null)
@@ -71,6 +81,9 @@ namespace DiGi.Core
         /// <summary>
         /// Retrieves an attribute from the Type level (e.g., for CategoryAttribute on Enum declaration).
         /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute to retrieve.</typeparam>
+        /// <param name="type">The type from which to retrieve the attribute.</param>
+        /// <returns>The specified attribute if found; otherwise, null.</returns>
         public static TAttribute? CustomTypeAttribute<TAttribute>(Type? type) where TAttribute : Attribute
         {
             if (type is null)

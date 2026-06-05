@@ -21,6 +21,8 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileFilter"/> class with a specified name and extensions.
         /// </summary>
+        /// <param name="name">The name of the filter.</param>
+        /// <param name="extensions">The collection of file extensions associated with the filter.</param>
         public FileFilter(string? name, IEnumerable<string>? extensions)
             : base()
         {
@@ -31,6 +33,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileFilter"/> class by copying an existing filter.
         /// </summary>
+        /// <param name="fileFilter">The existing filter to copy.</param>
         public FileFilter(FileFilter? fileFilter)
             : base(fileFilter)
         {
@@ -44,6 +47,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileFilter"/> class using the specified JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to use for initialization.</param>
         public FileFilter(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -74,6 +78,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Creates a copy of the current object.
         /// </summary>
+        /// <returns>A new instance of the current object containing a copy of its data.</returns>
         public override ISerializableObject? Clone()
         {
             return new FileFilter(this);
@@ -82,6 +87,8 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>True if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             return ToString().Equals((obj as FileFilter)?.ToString());
@@ -90,6 +97,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Returns the hash code for the current object.
         /// </summary>
+        /// <returns>The hash code for the current object.</returns>
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
@@ -98,6 +106,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
+        /// <returns>A string representation of the current object.</returns>
         public override string ToString()
         {
             List<string> values = [];

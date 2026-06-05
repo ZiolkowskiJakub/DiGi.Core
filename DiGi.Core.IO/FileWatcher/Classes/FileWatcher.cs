@@ -82,6 +82,8 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         /// <summary>
         /// Reads the content of the file as an array of strings.
         /// </summary>
+        /// <param name="encoding">The encoding to use when reading the file.</param>
+        /// <returns>An array of strings containing the lines of the file.</returns>
         public string[]? GetLines(System.Text.Encoding? encoding = null)
         {
             return GetString(encoding)?.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
@@ -90,6 +92,8 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         /// <summary>
         /// Reads the content of the file as a single string.
         /// </summary>
+        /// <param name="encoding">The encoding to use when reading the file.</param>
+        /// <returns>The content of the file as a string.</returns>
         public string GetString(System.Text.Encoding? encoding = null)
         {
             if (bytes == null || bytes.Length == 0)
@@ -191,6 +195,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
     /// <summary>
     /// Provides a base implementation for watching a file for changes.
     /// </summary>
+    /// <typeparam name="TFile">The type of the file being watched.</typeparam>
     public abstract class FileWatcher<TFile> : FileWatcher where TFile : IFile
     {
         private TFile? file;
@@ -198,6 +203,8 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class.
         /// </summary>
+        /// <param name="path">The path to the file to watch.</param>
+        /// <param name="interval">The interval in milliseconds between checks for changes.</param>
         public FileWatcher(string path, double interval = 60000)
             : base(path, interval)
         {

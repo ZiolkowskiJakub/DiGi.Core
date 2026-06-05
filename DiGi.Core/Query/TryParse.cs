@@ -8,6 +8,9 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to parse the specified string into an IReference.
         /// </summary>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="reference">When this method returns, contains the parsed IReference if successful; otherwise, null.</param>
+        /// <returns>True if the string was successfully parsed; otherwise, false.</returns>
         public static bool TryParse(this string? value, out IReference? reference)
         {
             reference = default;
@@ -122,6 +125,10 @@ namespace DiGi.Core
         /// <summary>
         /// Attempts to parse the specified string into a UReference.
         /// </summary>
+        /// <typeparam name="UReference">The type of reference to parse.</typeparam>
+        /// <param name="value">The string to parse.</param>
+        /// <param name="reference">When this method returns, contains the parsed UReference if successful; otherwise, null.</param>
+        /// <returns>True if the string was successfully parsed; otherwise, false.</returns>
         public static bool TryParse<UReference>(this string? value, out UReference? reference) where UReference : IReference
         {
             reference = default;

@@ -10,6 +10,7 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// A serializable collection of objects implementing ISerializableObject.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the collection.</typeparam>
     public class SerializableObjectCollection<T> : SerializableObject, ICollection<T> where T : ISerializableObject
     {
         [JsonInclude, JsonPropertyName("Values")]
@@ -26,6 +27,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class from an enumerable of serializable objects.
         /// </summary>
+        /// <param name="serializableObjects">The enumerable of serializable objects to initialize the collection with.</param>
         public SerializableObjectCollection(IEnumerable<T>? serializableObjects)
         {
             if (serializableObjects != null)
@@ -37,6 +39,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
         public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -45,6 +48,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class by copying another collection.
         /// </summary>
+        /// <param name="serializableObjectCollection">The source collection to copy from.</param>
         public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
             : base()
         {
@@ -255,6 +259,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from an enumerable of ISerializableObject instances.
         /// </summary>
+        /// <param name="serializableObjects">The enumerable of serializable objects to initialize the collection with.</param>
         public SerializableObjectCollection(IEnumerable<ISerializableObject>? serializableObjects)
             : base(serializableObjects)
         {
@@ -263,6 +268,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
         public SerializableObjectCollection(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -271,6 +277,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class by copying another collection.
         /// </summary>
+        /// <param name="serializableObjectCollection">The source collection to copy from.</param>
         public SerializableObjectCollection(SerializableObjectCollection? serializableObjectCollection)
             : base(serializableObjectCollection)
         {

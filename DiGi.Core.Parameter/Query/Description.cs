@@ -10,6 +10,8 @@ namespace DiGi.Core.Parameter
         /// <summary>
         /// Gets the description of the specified enumeration value.
         /// </summary>
+        /// <param name="enum">The enumeration value for which to get the description.</param>
+        /// <returns>The description of the specified enumeration value, or null if no description is found.</returns>
         public static string? Description(this Enum? @enum)
         {
             FieldInfo? fieldInfo = @enum?.GetType()?.GetField(@enum?.ToString());
@@ -29,6 +31,8 @@ namespace DiGi.Core.Parameter
         /// <summary>
         /// Gets the description of the specified type.
         /// </summary>
+        /// <param name="type">The type for which to get the description.</param>
+        /// <returns>The description of the specified type, or null if no description is found.</returns>
         public static string? Description(this Type? type)
         {
             if (type == null)

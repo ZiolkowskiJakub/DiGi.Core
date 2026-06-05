@@ -12,6 +12,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="WrapperItem"/> class with a specified unique reference.
         /// </summary>
+        /// <param name="uniqueReference">The unique reference for the item.</param>
         public WrapperItem(UniqueReference? uniqueReference)
         {
             UniqueReference = uniqueReference;
@@ -22,6 +23,9 @@ namespace DiGi.Core.IO.Wrapper.Classes
         /// <summary>
         /// Initializes a new instance of the <see cref="WrapperItem"/> class with a unique reference, JSON node, and checksum.
         /// </summary>
+        /// <param name="uniqueReference">The unique reference for the item.</param>
+        /// <param name="jsonNode">The JSON node associated with the item.</param>
+        /// <param name="checksum">The checksum of the item.</param>
         public WrapperItem(UniqueReference? uniqueReference, JsonNode? jsonNode, string? checksum)
         {
             UniqueReference = uniqueReference;

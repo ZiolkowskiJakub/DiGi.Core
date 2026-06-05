@@ -8,6 +8,8 @@ namespace DiGi.Core
     public static partial class Create
     {
         /// <summary>Creates a serialization constructor for the specified type.</summary>
+        /// <param name="type">The type for which to create the serialization constructor.</param>
+        /// <returns>A <see cref="SerializationConstructor"/> if successful; otherwise, <c>null</c>.</returns>
         public static SerializationConstructor? SerializationConstructor(this System.Type? type)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))

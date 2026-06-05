@@ -9,6 +9,11 @@ namespace DiGi.Core.IO.Table
         /// <summary>
         /// Converts a serializable Table to its JSON string representation using default options (WARINNG! all table values have to be serializable objects otherwise converted data may be missing).
         /// </summary>
+        /// <typeparam name="UTable">The type of the table.</typeparam>
+        /// <typeparam name="UColumn">The type of the column.</typeparam>
+        /// <typeparam name="URow">The type of the row.</typeparam>
+        /// <param name="table">The table to be converted to a JSON string.</param>
+        /// <returns>A JSON string representation of the table, or null if the provided table is null.</returns>
         public static string? ToSystem_String<UTable, UColumn, URow>(this UTable? table) where UTable : ITable<UColumn, URow>, new() where UColumn : IColumn where URow : IRow<URow>
         {
             JsonSerializerOptions jsonSerializerOptions = new();

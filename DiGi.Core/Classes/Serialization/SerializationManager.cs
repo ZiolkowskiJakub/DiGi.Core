@@ -29,6 +29,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the serialization constructor for a given type, optionally updating the cache.
         /// </summary>
+        /// <param name="type">The type for which to retrieve the serialization constructor.</param>
+        /// <param name="update">A value indicating whether to update the cache if the constructor is not found.</param>
+        /// <returns>The serialization constructor for the specified type, or null if none was found.</returns>
         public SerializationConstructor? GetSerializationConstructor(Type? type, bool update = true)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
@@ -48,6 +51,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the serialization constructor, optionally updating it if necessary.
         /// </summary>
+        /// <typeparam name="TSerializableObject">The type of the serializable object.</typeparam>
+        /// <param name="update">True to update the constructor if necessary; otherwise, false.</param>
+        /// <returns>The serialization constructor, or null if not found.</returns>
         public SerializationConstructor? GetSerializationConstructor<TSerializableObject>(bool update = true) where TSerializableObject : ISerializableObject
         {
             return GetSerializationConstructor(typeof(TSerializableObject), update);
@@ -56,6 +62,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the serialization constructor for the specified type name, optionally updating it.
         /// </summary>
+        /// <param name="fullTypeName">The full name of the type whose serialization constructor is to be retrieved.</param>
+        /// <param name="update">True to update the constructor if necessary; otherwise, false.</param>
+        /// <returns>The serialization constructor, or null if not found.</returns>
         public SerializationConstructor? GetSerializationConstructor(string? fullTypeName, bool update = true)
         {
             if (string.IsNullOrWhiteSpace(fullTypeName))
@@ -96,6 +105,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the serialization method collection for a given type, optionally updating the cache.
         /// </summary>
+        /// <param name="type">The type to retrieve the serialization methods for.</param>
+        /// <param name="update">True to update the cache if necessary; otherwise, false.</param>
+        /// <returns>The collection of serialization methods, or null if not found.</returns>
         public SerializationMethodCollection? GetSerializationMethodCollection(Type? type, bool update = true)
         {
             if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
@@ -136,6 +148,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the collection of serialization methods, optionally updating it.
         /// </summary>
+        /// <typeparam name="TSerializableObject">The type of the serializable object.</typeparam>
+        /// <param name="update">True to update the collection if necessary; otherwise, false.</param>
+        /// <returns>The collection of serialization methods, or null if not found.</returns>
         public SerializationMethodCollection? GetSerializationMethodCollection<TSerializableObject>(bool update = true) where TSerializableObject : ISerializableObject
         {
             return GetSerializationMethodCollection(typeof(TSerializableObject), update);
@@ -144,6 +159,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Retrieves the collection of serialization methods for the specified object, optionally updating it.
         /// </summary>
+        /// <param name="serializableObject">The serializable object to retrieve methods for.</param>
+        /// <param name="update">True to update the collection if necessary; otherwise, false.</param>
+        /// <returns>The collection of serialization methods, or null if not found.</returns>
         public SerializationMethodCollection? GetSerializationMethodCollection(ISerializableObject? serializableObject, bool update = true)
         {
             Type? type = serializableObject?.GetType();

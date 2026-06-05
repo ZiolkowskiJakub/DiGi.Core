@@ -7,6 +7,7 @@ namespace DiGi.Core
         /// <summary>
         /// Limits given value to min and max
         /// </summary>
+        /// <typeparam name="T">The type of the values being clamped.</typeparam>
         /// <param name="value">Value to be clamped</param>
         /// <param name="min">Minimal Value</param>
         /// <param name="max">Maximal Value</param>
