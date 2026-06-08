@@ -1473,7 +1473,7 @@ namespace DiGi.Core
         }
 
         /// <summary>
-        /// Attempts to convert the specified object to a <see cref="Type"/>.
+        /// Attempts to convert the specified object to a <see cref="System.Type"/>.
         /// </summary>
         /// <param name="object">The object to convert.</param>
         /// <param name="result">When this method returns, contains the converted Type value if successful; otherwise, the default value.</param>

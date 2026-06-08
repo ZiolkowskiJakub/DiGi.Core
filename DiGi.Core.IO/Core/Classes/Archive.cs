@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Core.Interfaces;
 using System.Text.Json.Nodes;
@@ -16,7 +16,7 @@ namespace DiGi.Core.IO.Classes
         private readonly byte[]? bytes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Archive"/> class using the specified byte array.
+        /// Initializes a new instance of the <see cref="Archive{TSerializableObject}"/> class using the specified byte array.
         /// </summary>
         /// <param name="bytes">The byte array to use for initialization.</param>
         public Archive(byte[] bytes)
@@ -26,7 +26,7 @@ namespace DiGi.Core.IO.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Archive"/> class by copying an existing generic archive.
+        /// Initializes a new instance of the <see cref="Archive{TSerializableObject}"/> class by copying an existing generic archive.
         /// </summary>
         /// <param name="archive">The generic archive to copy from.</param>
         public Archive(Archive<TSerializableObject> archive)
@@ -39,7 +39,7 @@ namespace DiGi.Core.IO.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Archive"/> class using the specified JSON object.
+        /// Initializes a new instance of the <see cref="Archive{TSerializableObject}"/> class using the specified JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to use for initialization.</param>
         public Archive(JsonObject? jsonObject)

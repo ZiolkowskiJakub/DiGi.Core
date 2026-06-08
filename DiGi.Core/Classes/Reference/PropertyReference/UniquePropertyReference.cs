@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -8,7 +8,7 @@ namespace DiGi.Core.Classes
     public class UniquePropertyReference<UUniquePropertyReference> : PropertyReference<UUniquePropertyReference>, IInstanceRelatedSerializableReference where UUniquePropertyReference : UniqueReference
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniquePropertyReference"/> class using a unique property reference and a property name.
+        /// Initializes a new instance of the <see cref="UniquePropertyReference{UUniquePropertyReference}"/> class using a unique property reference and a property name.
         /// </summary>
         /// <param name="reference">The unique property reference.</param>
         /// <param name="propertyName">The name of the property.</param>
@@ -18,7 +18,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniquePropertyReference"/> class from a JSON object.
+        /// Initializes a new instance of the <see cref="UniquePropertyReference{UUniquePropertyReference}"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize the reference from.</param>
         public UniquePropertyReference(JsonObject jsonObject)
@@ -27,7 +27,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniquePropertyReference"/> class by copying an existing reference.
+        /// Initializes a new instance of the <see cref="UniquePropertyReference{UUniquePropertyReference}"/> class by copying an existing reference.
         /// </summary>
         /// <param name="uniquePropertyReference">The unique property reference to copy.</param>
         public UniquePropertyReference(UniquePropertyReference<UUniquePropertyReference> uniquePropertyReference)

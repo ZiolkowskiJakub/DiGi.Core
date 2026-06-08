@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Parameter.Classes;
+using DiGi.Core.Parameter.Classes;
 using DiGi.Core.Parameter.Enums;
 using System;
 
@@ -17,7 +17,7 @@ namespace DiGi.Core.Parameter
         /// <param name="accessType">The access level of the parameter.</param>
         /// <param name="nullable">Whether the parameter can be null.</param>
         /// <param name="groupName">The name of the group this parameter belongs to.</param>
-        /// <returns>A new instance of <see cref="ExternalParameterDefinition"/>, or null if creation fails.</returns>
+        /// <returns>A new instance of <see cref="DiGi.Core.Parameter.Classes.ExternalParameterDefinition"/>, or null if creation fails.</returns>
         public static ExternalParameterDefinition? ExternalParameterDefinition(Guid guid, string? name, string? description, ParameterType parameterType, Type? type, AccessType accessType = AccessType.ReadWrite, bool nullable = true, string? groupName = null)
         {
             if (guid == Guid.Empty || name == null || parameterType == ParameterType.Undefined || type == null)
@@ -53,7 +53,7 @@ namespace DiGi.Core.Parameter
         /// <param name="accessType">The access level of the parameter.</param>
         /// <param name="nullable">Whether the parameter can be null.</param>
         /// <param name="groupName">The name of the group this parameter belongs to.</param>
-        /// <returns>A new instance of <see cref="ExternalParameterDefinition"/>, or null if creation fails.</returns>
+        /// <returns>A new instance of <see cref="DiGi.Core.Parameter.Classes.ExternalParameterDefinition"/>, or null if creation fails.</returns>
         public static ExternalParameterDefinition? ExternalParameterDefinition(Guid guid, string? name, string? description, double min, double max, Type? type, AccessType accessType = AccessType.ReadWrite, bool nullable = true, string? groupName = null)
         {
             if (guid == Guid.Empty || name == null || type == null)

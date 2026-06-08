@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DiGi.Core.Classes
@@ -16,7 +16,7 @@ namespace DiGi.Core.Classes
         private List<T>? items;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Splitter"/> class with the specified items.
+        /// Initializes a new instance of the <see cref="Splitter{T, X}"/> class with the specified items.
         /// </summary>
         /// <param name="items">The collection of items to be processed by the splitter.</param>
         public Splitter(IEnumerable<T> items)

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -15,7 +15,7 @@ namespace DiGi.Core.Classes
         private readonly UExternalReference? reference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class.
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult{TUniqueObject, UExternalReference}"/> class.
         /// </summary>
         public ExternalReferenceUniqueResult()
             : base()
@@ -23,7 +23,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class with the specified external reference.
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult{TUniqueObject, UExternalReference}"/> class with the specified external reference.
         /// </summary>
         /// <param name="reference">The external reference to initialize with.</param>
         public ExternalReferenceUniqueResult(UExternalReference? reference)
@@ -33,7 +33,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class from the specified JSON object.
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult{TUniqueObject, UExternalReference}"/> class from the specified JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize from.</param>
         public ExternalReferenceUniqueResult(JsonObject? jsonObject)
@@ -42,7 +42,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult"/> class from another external reference unique result.
+        /// Initializes a new instance of the <see cref="ExternalReferenceUniqueResult{TUniqueObject, UExternalReference}"/> class from another external reference unique result.
         /// </summary>
         /// <param name="externalReferenceUniqueResult">The external reference unique result to initialize from.</param>
         public ExternalReferenceUniqueResult(ExternalReferenceUniqueResult<TUniqueObject, UExternalReference>? externalReferenceUniqueResult)

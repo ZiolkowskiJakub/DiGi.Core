@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace DiGi.Core.Classes
         private readonly List<IUpdater>? updaters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultiUpdater"/> class using a collection of updaters.
+        /// Initializes a new instance of the <see cref="MultiUpdater{TValue}"/> class using a collection of updaters.
         /// </summary>
         /// <param name="updaters">The collection of updaters to initialize the MultiUpdater with.</param>
         public MultiUpdater(IEnumerable<IUpdater> updaters)

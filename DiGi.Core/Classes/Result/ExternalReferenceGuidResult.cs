@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -15,7 +15,7 @@ namespace DiGi.Core.Classes
         private readonly UExternalReference? reference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult"/> class.
+        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult{TUniqueObject, UExternalReference}"/> class.
         /// </summary>
         public ExternalReferenceGuidResult()
             : base()
@@ -23,7 +23,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult"/> class with the specified external reference.
+        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult{TUniqueObject, UExternalReference}"/> class with the specified external reference.
         /// </summary>
         /// <param name="reference">The external reference to use.</param>
         public ExternalReferenceGuidResult(UExternalReference? reference)
@@ -33,7 +33,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult"/> class from the specified JSON object.
+        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult{TUniqueObject, UExternalReference}"/> class from the specified JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize from.</param>
         public ExternalReferenceGuidResult(JsonObject? jsonObject)
@@ -42,7 +42,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult"/> class from another external reference GUID result.
+        /// Initializes a new instance of the <see cref="ExternalReferenceGuidResult{TUniqueObject, UExternalReference}"/> class from another external reference GUID result.
         /// </summary>
         /// <param name="externalReferenceGuidResult">The external reference GUID result to copy from.</param>
         public ExternalReferenceGuidResult(ExternalReferenceGuidResult<TUniqueObject, UExternalReference>? externalReferenceGuidResult)

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +16,14 @@ namespace DiGi.Core.Classes
         private readonly SortedDictionary<int, T?> sortedDictionary = [];
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class.
         /// </summary>
         public IndexedObjects()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a JSON object.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize the collection.</param>
         public IndexedObjects(JsonObject? jsonObject)
@@ -32,7 +32,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a collection of values.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class from a collection of values.
         /// </summary>
         /// <param name="values">The collection of values to initialize the collection.</param>
         public IndexedObjects(IEnumerable<T>? values)
@@ -49,7 +49,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a collection of values starting at a specified index.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class from a collection of values starting at a specified index.
         /// </summary>
         /// <param name="values">The collection of values to initialize the collection.</param>
         /// <param name="startIndex">The starting index for the collection of values.</param>
@@ -67,7 +67,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class from a sorted dictionary of indices and values.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class from a sorted dictionary of indices and values.
         /// </summary>
         /// <param name="sortedDictionary">The sorted dictionary containing indices and values to initialize the collection.</param>
         public IndexedObjects(SortedDictionary<int, T?>? sortedDictionary)
@@ -82,7 +82,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class by copying another instance.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class by copying another instance.
         /// </summary>
         /// <param name="indexedObjects">The existing instance to copy from.</param>
         public IndexedObjects(IndexedObjects<T>? indexedObjects)
@@ -91,7 +91,7 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IndexedObjects"/> class with a range of indices set to the same value.
+        /// Initializes a new instance of the <see cref="IndexedObjects{T}"/> class with a range of indices set to the same value.
         /// </summary>
         /// <param name="startIndex">The starting index of the range.</param>
         /// <param name="count">The number of elements in the range.</param>
