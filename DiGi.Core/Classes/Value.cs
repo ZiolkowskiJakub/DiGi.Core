@@ -119,6 +119,87 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the Value class with an unsigned integer value.
+        /// </summary>
+        /// <param name="value">The unsigned integer value.</param>
+        public Value(uint value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a signed byte value.
+        /// </summary>
+        /// <param name="value">The signed byte value.</param>
+        public Value(sbyte value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a short integer value.
+        /// </summary>
+        /// <param name="value">The short integer value.</param>
+        public Value(short value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with an unsigned short integer value.
+        /// </summary>
+        /// <param name="value">The unsigned short integer value.</param>
+        public Value(ushort value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with an unsigned long integer value.
+        /// </summary>
+        /// <param name="value">The unsigned long integer value.</param>
+        public Value(ulong value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a decimal value.
+        /// </summary>
+        /// <param name="value">The decimal value.</param>
+        public Value(decimal value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a character value.
+        /// </summary>
+        /// <param name="value">The character value.</param>
+        public Value(char value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a DateTimeOffset value.
+        /// </summary>
+        /// <param name="value">The date, time, and offset value.</param>
+        public Value(DateTimeOffset value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a TimeSpan value.
+        /// </summary>
+        /// <param name="value">The time span value.</param>
+        public Value(TimeSpan value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the Value class with a boolean value.
         /// </summary>
         /// <param name="value">The boolean value.</param>
@@ -213,6 +294,87 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <param name="value">The integer array.</param>
         public Value(int[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with an unsigned integer array value.
+        /// </summary>
+        /// <param name="value">The unsigned integer array.</param>
+        public Value(uint[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a signed byte array value.
+        /// </summary>
+        /// <param name="value">The signed byte array.</param>
+        public Value(sbyte[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a short integer array value.
+        /// </summary>
+        /// <param name="value">The short integer array.</param>
+        public Value(short[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with an unsigned short integer array value.
+        /// </summary>
+        /// <param name="value">The unsigned short integer array.</param>
+        public Value(ushort[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with an unsigned long integer array value.
+        /// </summary>
+        /// <param name="value">The unsigned long integer array.</param>
+        public Value(ulong[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a decimal array value.
+        /// </summary>
+        /// <param name="value">The decimal array.</param>
+        public Value(decimal[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a character array value.
+        /// </summary>
+        /// <param name="value">The character array.</param>
+        public Value(char[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a DateTimeOffset array value.
+        /// </summary>
+        /// <param name="value">The DateTimeOffset array.</param>
+        public Value(DateTimeOffset[]? value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Value class with a TimeSpan array value.
+        /// </summary>
+        /// <param name="value">The TimeSpan array.</param>
+        public Value(TimeSpan[]? value)
             : base(value)
         {
         }

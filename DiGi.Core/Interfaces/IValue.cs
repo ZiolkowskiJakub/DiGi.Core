@@ -1,11 +1,15 @@
 ﻿namespace DiGi.Core.Interfaces
 {
-    /// <summary>Defines a contract for an object that represents a value.</summary>
+    /// <summary>
+    /// Defines a contract for an object that represents a value.
+    /// </summary>
     public interface IValue : IObject
     {
     }
 
-    /// <summary>Defines a generic contract for an object that represents a value of type TValue.</summary>
+    /// <summary>
+    /// Defines a generic contract for an object that represents a value of type TValue.
+    /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     public interface IValue<TValue> : IValue
     {
