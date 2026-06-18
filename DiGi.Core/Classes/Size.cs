@@ -62,11 +62,21 @@ namespace DiGi.Core.Classes
         [JsonInclude, JsonPropertyName("Width"), Description("Width")]
         public double Width { get; set; } = 0;
 
+        /// <summary>
+        /// Implicitly converts a <see cref="System.Drawing.SizeF"/> object to a <see cref="Size"/> instance.
+        /// </summary>
+        /// <param name="size">The <see cref="System.Drawing.SizeF"/> object to convert.</param>
+        /// <returns>A new <see cref="Size"/> instance created from the provided dimensions.</returns>
         public static implicit operator Size(System.Drawing.SizeF size)
         {
             return new Size(size.Width, size.Height);
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="System.Drawing.Size"/> object to a <see cref="Size"/> instance.
+        /// </summary>
+        /// <param name="size">The <see cref="System.Drawing.Size"/> object to convert.</param>
+        /// <returns>A new <see cref="Size"/> instance created from the provided dimensions.</returns>
         public static implicit operator Size(System.Drawing.Size size)
         {
             return new Size(size.Width, size.Height);

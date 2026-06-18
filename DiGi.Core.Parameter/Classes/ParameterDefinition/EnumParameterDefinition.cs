@@ -140,6 +140,11 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts an <see cref="EnumParameterDefinition"/> to its underlying <see cref="Enum"/> value.
+        /// </summary>
+        /// <param name="enumParameterDefinition">The enum parameter definition to convert.</param>
+        /// <returns>The <see cref="Enum"/> value associated with the definition, or <c>null</c> if the input is <c>null</c>.</returns>
         public static explicit operator Enum?(EnumParameterDefinition? enumParameterDefinition)
         {
             if (enumParameterDefinition == null)
@@ -150,6 +155,11 @@ namespace DiGi.Core.Parameter.Classes
             return enumParameterDefinition.@enum;
         }
 
+        /// <summary>
+        /// Explicitly converts an <see cref="Enum"/> to an <see cref="EnumParameterDefinition"/>.
+        /// </summary>
+        /// <param name="enum">The enum value to convert.</param>
+        /// <returns>An <see cref="EnumParameterDefinition"/> instance created from the provided enum, or <c>null</c> if the input is <c>null</c>.</returns>
         public static explicit operator EnumParameterDefinition?(Enum? @enum)
         {
             if (@enum == null)

@@ -76,6 +76,11 @@ namespace DiGi.Core.Classes
         [JsonIgnore]
         public bool IsReadOnly => false;
 
+        /// <summary>
+        /// Gets or sets the element at the specified index of the collection.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to get or set.</param>
+        /// <returns>The element at the specified index.</returns>
         [JsonIgnore]
         public T this[int index]
         {
@@ -90,6 +95,11 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts a <see cref="SerializableObjectCollection{T}"/> to a <see cref="List{T}"/>.
+        /// </summary>
+        /// <param name="serializableObjectCollection">The serializable object collection to convert into a list.</param>
+        /// <returns>A new instance of <see cref="List{T}"/> containing the elements from the source collection, or null if the input collection is null.</returns>
         public static explicit operator List<T>?(SerializableObjectCollection<T>? serializableObjectCollection)
         {
             if (serializableObjectCollection == null)
@@ -100,6 +110,11 @@ namespace DiGi.Core.Classes
             return serializableObjectCollection.values == null ? [] : [.. serializableObjectCollection.values];
         }
 
+        /// <summary>
+        /// Explicitly converts a <see cref="List{T}"/> to a <see cref="SerializableObjectCollection{T}"/>.
+        /// </summary>
+        /// <param name="serializableObjects">The list of objects to convert into a collection.</param>
+        /// <returns>A new instance of <see cref="SerializableObjectCollection{T}"/> containing the provided elements, or null if the input list is null.</returns>
         public static explicit operator SerializableObjectCollection<T>?(List<T>? serializableObjects)
         {
             if (serializableObjects == null)
@@ -110,6 +125,11 @@ namespace DiGi.Core.Classes
             return [.. serializableObjects];
         }
 
+        /// <summary>
+        /// Explicitly converts an array of type <typeparamref name="T"/> to a <see cref="SerializableObjectCollection{T}"/>.
+        /// </summary>
+        /// <param name="serializableObjects">The array of objects to convert into a collection.</param>
+        /// <returns>A new instance of <see cref="SerializableObjectCollection{T}"/> containing the provided elements, or null if the input array is null.</returns>
         public static explicit operator SerializableObjectCollection<T>?(T[]? serializableObjects)
         {
             if (serializableObjects == null)
@@ -120,6 +140,11 @@ namespace DiGi.Core.Classes
             return [.. serializableObjects];
         }
 
+        /// <summary>
+        /// Explicitly converts the <see cref="SerializableObjectCollection{T}"/> to an array of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="serializableObjectCollection">The collection instance to convert.</param>
+        /// <returns>An array containing the elements of the collection, or null if the provided collection is null.</returns>
         public static explicit operator T[]?(SerializableObjectCollection<T>? serializableObjectCollection)
         {
             if (serializableObjectCollection == null)

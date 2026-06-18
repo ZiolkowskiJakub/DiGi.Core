@@ -72,15 +72,37 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="TypeReference"/> to a <see cref="Type"/>.
+        /// </summary>
+        /// <param name="typeReference">The <see cref="TypeReference"/> instance to convert.</param>
+        /// <returns>The <see cref="Type"/> corresponding to the specified type reference, or null if the provided type reference is null.</returns>
         public static implicit operator Type?(TypeReference? typeReference) => Query.Type(typeReference);
 
+        /// <summary>
+        /// Implicitly converts a <see cref="Type"/> to a <see cref="TypeReference"/>.
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/> instance to convert.</param>
+        /// <returns>A <see cref="TypeReference"/> representing the specified type, or null if the provided type is null.</returns>
         public static implicit operator TypeReference?(Type? type) => type?.TypeReference();
 
+        /// <summary>
+        /// Compares two <see cref="TypeReference"/> instances for inequality based on their full type names.
+        /// </summary>
+        /// <param name="typeReference_1">The first <see cref="TypeReference"/> to compare.</param>
+        /// <param name="typeReference_2">The second <see cref="TypeReference"/> to compare.</param>
+        /// <returns>True if the two type references are not equal; otherwise, false.</returns>
         public static bool operator !=(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
             return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
         }
 
+        /// <summary>
+        /// Compares two <see cref="TypeReference"/> instances for equality based on their full type names.
+        /// </summary>
+        /// <param name="typeReference_1">The first <see cref="TypeReference"/> to compare.</param>
+        /// <param name="typeReference_2">The second <see cref="TypeReference"/> to compare.</param>
+        /// <returns>True if the two type references are equal; otherwise, false.</returns>
         public static bool operator ==(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
             return typeReference_1?.fullTypeName == typeReference_2?.fullTypeName;

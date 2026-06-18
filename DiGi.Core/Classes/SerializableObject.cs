@@ -45,8 +45,10 @@ namespace DiGi.Core.Classes
         private string? FullTypeName => Query.FullTypeName(GetType());
 
         /// <summary>
-        /// Explicitly converts a SerializableObject instance to a JsonObject.
+        /// Explicitly converts a <see cref="SerializableObject"/> instance to a <see cref="JsonObject"/>.
         /// </summary>
+        /// <param name="serializableObject">The <see cref="SerializableObject"/> instance to convert from.</param>
+        /// <returns>A <see cref="JsonObject"/> representation of the provided <see cref="SerializableObject"/>, or null if the input is null.</returns>
         public static explicit operator JsonObject?(SerializableObject? serializableObject)
         {
             if (serializableObject == null)
@@ -58,8 +60,10 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Explicitly converts a JsonObject to a SerializableObject instance.
+        /// Explicitly converts a <see cref="JsonObject"/> to a <see cref="SerializableObject"/> instance.
         /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> to convert from.</param>
+        /// <returns>A <see cref="SerializableObject"/> instance created from the provided <see cref="JsonObject"/>, or null if the conversion fails or the input is null.</returns>
         public static explicit operator SerializableObject?(JsonObject? jsonObject)
         {
             return Create.SerializableObject<SerializableObject>(jsonObject);

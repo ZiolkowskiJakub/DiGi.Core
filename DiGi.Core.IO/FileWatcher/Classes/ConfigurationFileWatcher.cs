@@ -40,6 +40,11 @@ namespace DiGi.Core.IO.FileWatcher.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="ConfigurationFileWatcher"/> instance to its associated <see cref="ConfigurationFile"/>.
+        /// </summary>
+        /// <param name="configurationFileWatcher">The <see cref="ConfigurationFileWatcher"/> instance to convert.</param>
+        /// <returns>The <see cref="ConfigurationFile"/> associated with the watcher, or null if the watcher is null.</returns>
         public static implicit operator ConfigurationFile?(ConfigurationFileWatcher? configurationFileWatcher)
         {
             return configurationFileWatcher?.ConfigurationFile;

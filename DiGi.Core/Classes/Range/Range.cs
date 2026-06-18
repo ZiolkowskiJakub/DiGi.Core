@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -139,11 +139,23 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Compares the specified <see cref="Range{T}"/> with another object for inequality.
+        /// </summary>
+        /// <param name="range">The <see cref="Range{T}"/> instance to compare.</param>
+        /// <param name="object">The object to compare with the range.</param>
+        /// <returns><see langword="true"/> if the objects are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Range<T>? range, object? @object)
         {
             return !(range == @object);
         }
 
+        /// <summary>
+        /// Compares the specified <see cref="Range{T}"/> with another object for equality.
+        /// </summary>
+        /// <param name="range">The <see cref="Range{T}"/> instance to compare.</param>
+        /// <param name="object">The object to compare with the range.</param>
+        /// <returns><see langword="true"/> if the objects are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Range<T>? range, object? @object)
         {
             if (range is null)

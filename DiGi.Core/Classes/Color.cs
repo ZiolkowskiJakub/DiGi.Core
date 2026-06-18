@@ -132,8 +132,10 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Implicitly converts a Color instance to a System.Drawing.Color object.
+        /// Implicitly converts a nullable <see cref="Color"/> instance to a <see cref="System.Drawing.Color"/> instance.
         /// </summary>
+        /// <param name="color">The nullable <see cref="Color"/> instance to convert.</param>
+        /// <returns>A <see cref="System.Drawing.Color"/> instance representing the specified color, or <see cref="System.Drawing.Color.Empty"/> if the provided color is null.</returns>
         public static implicit operator System.Drawing.Color(Color? color)
         {
             if (color is null)
@@ -145,24 +147,31 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Implicitly converts a System.Drawing.Color object to a Color instance.
+        /// Implicitly converts a <see cref="System.Drawing.Color"/> instance to a <see cref="Color"/> instance.
         /// </summary>
+        /// <param name="color">The <see cref="System.Drawing.Color"/> instance to convert.</param>
+        /// <returns>A new <see cref="Color"/> instance created from the specified <see cref="System.Drawing.Color"/>.</returns>
         public static implicit operator Color(System.Drawing.Color color)
         {
             return new Color(color.A, color.R, color.G, color.B);
         }
 
         /// <summary>
-        /// Implicitly converts an integer (ARGB) to a Color instance.
+        /// Implicitly converts an integer representation of a color (typically in ARGB format) to a <see cref="Color"/> instance.
         /// </summary>
+        /// <param name="value">The integer value representing the color.</param>
+        /// <returns>A new <see cref="Color"/> instance created from the specified integer value.</returns>
         public static implicit operator Color(int value)
         {
             return new Color(value);
         }
 
         /// <summary>
-        /// Determines whether two Color instances are not equal.
+        /// Determines whether two <see cref="Color"/> instances are not equal.
         /// </summary>
+        /// <param name="color_1">The first <see cref="Color"/> instance to compare.</param>
+        /// <param name="color_2">The second <see cref="Color"/> instance to compare.</param>
+        /// <returns><see langword="true"/> if the two <see cref="Color"/> instances are not equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator !=(Color? color_1, Color? color_2)
         {
             if (Equals(color_1, color_2))
@@ -184,8 +193,11 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Determines whether two Color instances are equal.
+        /// Determines whether two <see cref="Color"/> instances are equal.
         /// </summary>
+        /// <param name="color_1">The first <see cref="Color"/> instance to compare.</param>
+        /// <param name="color_2">The second <see cref="Color"/> instance to compare.</param>
+        /// <returns><see langword="true"/> if the two <see cref="Color"/> instances are equal; otherwise, <see langword="false"/>.</returns>
         public static bool operator ==(Color? color_1, Color? color_2)
         {
             if (Equals(color_1, color_2))

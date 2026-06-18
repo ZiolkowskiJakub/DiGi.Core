@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -40,41 +40,89 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Compares a <see cref="SerializableReference"/> instance and an <see cref="ISerializableReference"/> for inequality.
+        /// </summary>
+        /// <param name="serializableReference_1">The serializable reference to compare.</param>
+        /// <param name="object">The object implementing <see cref="ISerializableReference"/> to compare with the serializable reference.</param>
+        /// <returns>True if the serializable reference and the object are not equal; otherwise, false.</returns>
         public static bool operator !=(SerializableReference serializableReference_1, ISerializableReference @object)
         {
             return serializableReference_1?.GetHashCode() != @object?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares a <see cref="SerializableReference"/> instance and an object for inequality.
+        /// </summary>
+        /// <param name="serializableReference_1">The serializable reference to compare.</param>
+        /// <param name="object">The object to compare with the serializable reference.</param>
+        /// <returns>True if the serializable reference and the object are not equal; otherwise, false.</returns>
         public static bool operator !=(SerializableReference serializableReference_1, object @object)
         {
             return serializableReference_1?.GetHashCode() != @object?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares an object and a <see cref="SerializableReference"/> instance for inequality.
+        /// </summary>
+        /// <param name="serializableReference_1">The object to compare.</param>
+        /// <param name="serializableReference_2">The serializable reference to compare with the object.</param>
+        /// <returns>True if the object and the serializable reference are not equal; otherwise, false.</returns>
         public static bool operator !=(object serializableReference_1, SerializableReference serializableReference_2)
         {
             return serializableReference_1?.GetHashCode() != serializableReference_2?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares two <see cref="SerializableReference"/> instances for inequality.
+        /// </summary>
+        /// <param name="serializableReference_1">The first serializable reference to compare.</param>
+        /// <param name="serializableReference_2">The second serializable reference to compare.</param>
+        /// <returns>True if the two serializable references are not equal; otherwise, false.</returns>
         public static bool operator !=(SerializableReference serializableReference_1, SerializableReference serializableReference_2)
         {
             return serializableReference_1?.GetHashCode() != serializableReference_2?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares a <see cref="SerializableReference"/> instance and an <see cref="ISerializableReference"/> object for equality.
+        /// </summary>
+        /// <param name="serializableReference_1">The serializable reference to compare.</param>
+        /// <param name="object">The serializable reference object to compare with the first instance.</param>
+        /// <returns>True if the serializable reference and the object are equal; otherwise, false.</returns>
         public static bool operator ==(SerializableReference serializableReference_1, ISerializableReference @object)
         {
             return serializableReference_1?.GetHashCode() == @object?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares a <see cref="SerializableReference"/> instance and an object for equality.
+        /// </summary>
+        /// <param name="serializableReference_1">The serializable reference to compare.</param>
+        /// <param name="object">The object to compare with the serializable reference.</param>
+        /// <returns>True if the serializable reference and the object are equal; otherwise, false.</returns>
         public static bool operator ==(SerializableReference serializableReference_1, object @object)
         {
             return serializableReference_1?.GetHashCode() == @object?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares an object and a <see cref="SerializableReference"/> instance for equality.
+        /// </summary>
+        /// <param name="serializableReference_1">The object to compare with the serializable reference.</param>
+        /// <param name="serializableReference_2">The serializable reference to compare with the object.</param>
+        /// <returns>True if the object and the serializable reference are equal; otherwise, false.</returns>
         public static bool operator ==(object serializableReference_1, SerializableReference serializableReference_2)
         {
             return serializableReference_1?.GetHashCode() == serializableReference_2?.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares two <see cref="SerializableReference"/> instances for equality.
+        /// </summary>
+        /// <param name="serializableReference_1">The first serializable reference to compare.</param>
+        /// <param name="serializableReference_2">The second serializable reference to compare.</param>
+        /// <returns>True if the two serializable references are equal; otherwise, false.</returns>
         public static bool operator ==(SerializableReference serializableReference_1, SerializableReference serializableReference_2)
         {
             return serializableReference_1?.GetHashCode() == serializableReference_2?.GetHashCode();

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.File.Interfaces;
 using System.Collections.Generic;
 using System.IO;
@@ -68,6 +68,11 @@ namespace DiGi.Core.IO.File.Classes
             }
         }
 
+        /// <summary>
+        /// Explicitly converts a <see cref="ValueFile{TSerializableObject}"/> to its contained value of type <typeparamref name="TSerializableObject"/>.
+        /// </summary>
+        /// <param name="valueFile">The value file to convert.</param>
+        /// <returns>The contained value, or the default value if the file is null.</returns>
         public static explicit operator TSerializableObject?(ValueFile<TSerializableObject>? valueFile)
         {
             if (valueFile == null)

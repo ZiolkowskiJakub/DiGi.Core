@@ -27,11 +27,21 @@ namespace DiGi.Core.Classes
             this.jsonObject = jsonObject?.DeepClone() as JsonObject;
         }
 
+        /// <summary>
+        /// Explicitly converts a <see cref="SerializableObjectWrapper"/> to a <see cref="JsonObject"/>.
+        /// </summary>
+        /// <param name="serializableObjectWrapper">The <see cref="SerializableObjectWrapper"/> instance to convert.</param>
+        /// <returns>A <see cref="JsonObject"/> representation of the wrapper, or null if the wrapper is null.</returns>
         public static explicit operator JsonObject?(SerializableObjectWrapper? serializableObjectWrapper)
         {
             return serializableObjectWrapper?.ToJsonObject();
         }
 
+        /// <summary>
+        /// Explicitly converts a <see cref="JsonObject"/> to a <see cref="SerializableObjectWrapper"/>.
+        /// </summary>
+        /// <param name="jsonObject">The <see cref="JsonObject"/> to convert.</param>
+        /// <returns>A new <see cref="SerializableObjectWrapper"/> instance wrapping the provided <see cref="JsonObject"/>.</returns>
         public static explicit operator SerializableObjectWrapper?(JsonObject? jsonObject)
         {
             return new SerializableObjectWrapper(jsonObject);

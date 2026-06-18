@@ -115,6 +115,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// Gets or sets the value for the specified column index.
         /// </summary>
         /// <param name="index">The zero-based index of the column.</param>
+        /// <returns>The value at the specified index, or <c>null</c> if no value is found.</returns>
         public object? this[int index]
         {
             get

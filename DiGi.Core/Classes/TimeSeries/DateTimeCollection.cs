@@ -81,6 +81,11 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Implicitly converts a nullable <see cref="DateTimeCollection"/> to a nullable array of <see cref="DateTime"/> objects.
+        /// </summary>
+        /// <param name="dateTimeCollection">The nullable <see cref="DateTimeCollection"/> to convert.</param>
+        /// <returns>A nullable array of <see cref="DateTime"/> values containing the elements from the collection, or <see langword="null"/> if the input is null.</returns>
         public static implicit operator DateTime[]?(DateTimeCollection? dateTimeCollection)
         {
             if (dateTimeCollection == null)
@@ -91,6 +96,11 @@ namespace DiGi.Core.Classes
             return dateTimeCollection.dateTimes?.ToArray();
         }
 
+        /// <summary>
+        /// Implicitly converts a nullable list of <see cref="DateTime"/> objects to a nullable <see cref="DateTimeCollection"/>.
+        /// </summary>
+        /// <param name="dateTimes">The nullable list of <see cref="DateTime"/> values to convert.</param>
+        /// <returns>A new <see cref="DateTimeCollection"/> containing the elements from the list, or <see langword="null"/> if the input is null.</returns>
         public static implicit operator DateTimeCollection?(List<DateTime>? dateTimes)
         {
             if (dateTimes == null)
@@ -101,6 +111,11 @@ namespace DiGi.Core.Classes
             return [.. dateTimes];
         }
 
+        /// <summary>
+        /// Implicitly converts a nullable array of <see cref="DateTime"/> objects to a nullable <see cref="DateTimeCollection"/>.
+        /// </summary>
+        /// <param name="dateTimes">The nullable array of <see cref="DateTime"/> values to convert.</param>
+        /// <returns>A new <see cref="DateTimeCollection"/> containing the elements from the array, or <see langword="null"/> if the input is null.</returns>
         public static implicit operator DateTimeCollection?(DateTime[]? dateTimes)
         {
             if (dateTimes == null)
@@ -111,6 +126,11 @@ namespace DiGi.Core.Classes
             return [.. dateTimes];
         }
 
+        /// <summary>
+        /// Implicitly converts a nullable <see cref="DateTime"/> to a nullable <see cref="DateTimeCollection"/>.
+        /// </summary>
+        /// <param name="dateTime">The nullable <see cref="DateTime"/> value to convert.</param>
+        /// <returns>A new <see cref="DateTimeCollection"/> containing the specified date time, or <see langword="null"/> if the input is null.</returns>
         public static implicit operator DateTimeCollection?(DateTime? dateTime)
         {
             if (dateTime == null || !dateTime.HasValue)
@@ -121,6 +141,11 @@ namespace DiGi.Core.Classes
             return new([dateTime.Value]);
         }
 
+        /// <summary>
+        /// Implicitly converts a <see cref="DateTimeCollection"/> to a nullable list of <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="dateTimeCollection">The <see cref="DateTimeCollection"/> instance to convert.</param>
+        /// <returns>A <see cref="List{T}"/> containing the date times from the collection, or <see langword="null"/> if the source is null.</returns>
         public static implicit operator List<DateTime>?(DateTimeCollection? dateTimeCollection)
         {
             if (dateTimeCollection == null)

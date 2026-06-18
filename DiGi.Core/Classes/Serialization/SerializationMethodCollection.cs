@@ -30,6 +30,11 @@ namespace DiGi.Core.Classes
             this.fullTypeName = fullTypeName;
         }
 
+        /// <summary>
+        /// Gets the <see cref="SerializationMethod"/> associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the serialization method to retrieve.</param>
+        /// <returns>The <see cref="SerializationMethod"/> if a match is found; otherwise, null.</returns>
         public SerializationMethod? this[string? name]
         {
             get

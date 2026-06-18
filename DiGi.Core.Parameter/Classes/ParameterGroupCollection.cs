@@ -74,6 +74,11 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the parameter group associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the parameter group to retrieve.</param>
+        /// <returns>The <see cref="ParameterGroup"/> if a group with the specified name exists; otherwise, <see langword="null"/>.</returns>
         public ParameterGroup? this[string? name]
         {
             get

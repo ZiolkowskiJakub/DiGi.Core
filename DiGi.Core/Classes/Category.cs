@@ -124,16 +124,20 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Implicitly converts a string to a Category instance.
+        /// Implicitly converts a string to a <see cref="Category"/> instance.
         /// </summary>
+        /// <param name="name">The name of the category as a <see cref="string"/>.</param>
+        /// <returns>A new <see cref="Category"/> instance created from the provided name, or null if the name is null.</returns>
         public static implicit operator Category?(string? name)
         {
             return new Category(name);
         }
 
         /// <summary>
-        /// Implicitly converts a Category instance to its name as a string.
+        /// Implicitly converts a <see cref="Category"/> instance to its name as a string.
         /// </summary>
+        /// <param name="category">The <see cref="Category"/> instance to convert.</param>
+        /// <returns>The name of the category as a <see cref="string"/>, or null if the category is null.</returns>
         public static implicit operator string?(Category? category)
         {
             return category?.name;
@@ -142,6 +146,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether two Category instances are not equal.
         /// </summary>
+        /// <param name="category_1">The first Category instance to compare.</param>
+        /// <param name="category_2">The second Category instance to compare.</param>
+        /// <returns>True if the two Category instances are not considered equal; otherwise, false.</returns>
         public static bool operator !=(Category? category_1, Category? category_2)
         {
             if (Equals(category_1, category_2))
@@ -165,6 +172,9 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Determines whether two Category instances are equal.
         /// </summary>
+        /// <param name="category_1">The first Category instance to compare.</param>
+        /// <param name="category_2">The second Category instance to compare.</param>
+        /// <returns>True if the two Category instances are considered equal; otherwise, false.</returns>
         public static bool operator ==(Category? category_1, Category? category_2)
         {
             if (Equals(category_1, category_2))

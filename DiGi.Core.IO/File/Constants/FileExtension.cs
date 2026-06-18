@@ -5,6 +5,9 @@
     /// </summary>
     public static class FileExtension
     {
+        /// <summary>
+        /// Represents the file extension for compressed ZIP files.
+        /// </summary>
         public const string Zip = "dgz";
     }
 }

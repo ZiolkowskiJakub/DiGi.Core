@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace DiGi.Core.Classes
@@ -61,56 +61,78 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Implicitly converts an integer to AnyOf.
+        /// Implicitly converts an integer value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The integer value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided integer value.</returns>
         public static implicit operator AnyOf(int value) => new(value, typeof(int));
 
         /// <summary>
-        /// Implicitly converts a string to AnyOf.
+        /// Implicitly converts a string value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The string value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided string value.</returns>
         public static implicit operator AnyOf(string value) => new(value, typeof(string));
 
         /// <summary>
-        /// Implicitly converts a double to AnyOf.
+        /// Implicitly converts a double value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The double value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided double value.</returns>
         public static implicit operator AnyOf(double value) => new(value, typeof(double));
 
         /// <summary>
-        /// Implicitly converts a Guid to AnyOf.
+        /// Implicitly converts a <see cref="Guid"/> value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The <see cref="Guid"/> value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided <see cref="Guid"/> value.</returns>
         public static implicit operator AnyOf(Guid value) => new(value, typeof(Guid));
 
         /// <summary>
-        /// Implicitly converts a DateTime to AnyOf.
+        /// Implicitly converts a <see cref="DateTime"/> value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The <see cref="DateTime"/> value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided <see cref="DateTime"/> value.</returns>
         public static implicit operator AnyOf(DateTime value) => new(value, typeof(DateTime));
 
         /// <summary>
-        /// Implicitly converts a long to AnyOf.
+        /// Implicitly converts a long value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The long value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided long value.</returns>
         public static implicit operator AnyOf(long value) => new(value, typeof(long));
 
         /// <summary>
-        /// Implicitly converts a boolean to AnyOf.
+        /// Implicitly converts a boolean value to an <see cref="AnyOf"/> instance.
         /// </summary>
+        /// <param name="value">The boolean value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided boolean value.</returns>
         public static implicit operator AnyOf(bool value) => new(value, typeof(bool));
 
         /// <summary>
-        /// Implicitly converts an AnyOf instance to its string representation.
+        /// Implicitly converts an <see cref="AnyOf"/> instance to a nullable string representation.
         /// </summary>
+        /// <param name="value">The <see cref="AnyOf"/> instance to convert.</param>
+        /// <returns>The string representation of the value, or null if the instance is null.</returns>
         public static implicit operator string?(AnyOf value) => value?.ToString();
 
         /// <summary>
-        /// Determines whether the specified AnyOf instance is not equal to the given object.
+        /// Determines whether the specified <see cref="AnyOf"/> instance is not equal to the specified object.
         /// </summary>
+        /// <param name="anyOf">The <see cref="AnyOf"/> instance to compare.</param>
+        /// <param name="object">The object to compare against the <see cref="AnyOf"/> instance.</param>
+        /// <returns>True if the objects are not equal; otherwise, false.</returns>
         public static bool operator !=(AnyOf anyOf, object @object)
         {
             return !(anyOf == @object);
         }
 
         /// <summary>
-        /// Determines whether the specified AnyOf instance is equal to the given object.
+        /// Compares an <see cref="AnyOf"/> instance with a specified object for equality.
         /// </summary>
+        /// <param name="anyOf">The <see cref="AnyOf"/> instance to compare.</param>
+        /// <param name="object">The object to compare against the <see cref="AnyOf"/> instance.</param>
+        /// <returns>True if the objects are equal; otherwise, false.</returns>
         public static bool operator ==(AnyOf anyOf, object @object)
         {
             if (anyOf is null || anyOf.value is null)
@@ -244,8 +266,10 @@ namespace DiGi.Core.Classes
         public override Type[] Types => [typeof(T)];
 
         /// <summary>
-        /// Implicitly converts an AnyOf container to its contained value of type T.
+        /// Implicitly converts an <see cref="AnyOf{T}"/> container to its contained value of type <typeparamref name="T"/>.
         /// </summary>
+        /// <param name="anyOf">The <see cref="AnyOf{T}"/> instance to convert.</param>
+        /// <returns>The contained value of type <typeparamref name="T"/>, or the default value if the instance is null.</returns>
         public static implicit operator T?(AnyOf<T> anyOf) => anyOf is null ? default : anyOf.GetValue<T>();
     }
 
@@ -279,24 +303,26 @@ namespace DiGi.Core.Classes
         /// </summary>
         public override Type[] Types => [typeof(T), typeof(K)];
 
-        /// <summary>
-        /// Implicitly converts a value of type T to an AnyOf container holding either T or K.
-        /// </summary>
+        /// <summary>Implicitly converts a value of type T to an AnyOf container holding either T or K.</summary>
+        /// <param name="value">The value of type T to be wrapped in an AnyOf container.</param>
+        /// <returns>An AnyOf container holding the provided value of type T.</returns>
         public static implicit operator AnyOf<T, K>(T value) => new(value);
 
         /// <summary>
         /// Implicitly converts a value of type K to an AnyOf container holding either T or K.
         /// </summary>
+        /// <param name="value">The value of type K to convert.</param>
+        /// <returns>An AnyOf container holding the provided value of type K.</returns>
         public static implicit operator AnyOf<T, K>(K value) => new(value);
 
-        /// <summary>
-        /// Implicitly converts the AnyOf container to its contained value of type K.
-        /// </summary>
+        /// <summary>Implicitly converts the AnyOf container to its contained value of type K.</summary>
+        /// <param name="anyOf">The AnyOf instance to convert.</param>
+        /// <returns>The contained value of type K, or the default value if the container is null.</returns>
         public static implicit operator K?(AnyOf<T, K> anyOf) => anyOf is null ? default : anyOf.GetValue<K>();
 
-        /// <summary>
-        /// Implicitly converts the AnyOf container to its contained value of type T.
-        /// </summary>
+        /// <summary>Implicitly converts the AnyOf container to its contained value of type T.</summary>
+        /// <param name="anyOf">The AnyOf instance to convert.</param>
+        /// <returns>The contained value of type T, or the default value if the container is null.</returns>
         public static implicit operator T?(AnyOf<T, K> anyOf) => anyOf is null ? default : anyOf.GetValue<T>();
     }
 }

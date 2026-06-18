@@ -141,6 +141,11 @@ namespace DiGi.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the value associated with the specified index.
+        /// </summary>
+        /// <param name="index">The index of the element to get or set.</param>
+        /// <returns>The value at the specified index, or the default value if the index is not found.</returns>
         [JsonIgnore]
         public T? this[int index]
         {

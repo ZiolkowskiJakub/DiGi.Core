@@ -381,188 +381,262 @@ namespace DiGi.Core.Classes
         #region Implicit Operators
 
         /// <summary>
-        /// Implicitly converts a string value to a Tag.
+        /// Implicitly converts a <see cref="string"/> value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="string"/> value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="string"/> value.</returns>
         public static implicit operator Tag(string? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a double value to a Tag.
+        /// Implicitly converts a <see cref="double"/> value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="double"/> value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="double"/> value.</returns>
         public static implicit operator Tag(double value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a DateTime value to a Tag.
+        /// Implicitly converts a <see cref="DateTime"/> value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="DateTime"/> value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="DateTime"/> value.</returns>
         public static implicit operator Tag(DateTime value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a boolean value to a Tag.
+        /// Implicitly converts a boolean value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The boolean value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified boolean value.</returns>
         public static implicit operator Tag(bool value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an integer value to a Tag.
+        /// Implicitly converts a signed integer value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The signed integer value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified signed integer value.</returns>
         public static implicit operator Tag(int value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an unsigned integer value to a Tag.
+        /// Implicitly converts an unsigned integer value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The unsigned integer value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified unsigned integer value.</returns>
         public static implicit operator Tag(uint value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a signed byte value to a Tag.
+        /// Implicitly converts a signed byte value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The signed byte value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified signed byte value.</returns>
         public static implicit operator Tag(sbyte value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a short integer value to a Tag.
+        /// Implicitly converts a short integer value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The short integer value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified short integer value.</returns>
         public static implicit operator Tag(short value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an unsigned short integer value to a Tag.
+        /// Implicitly converts an unsigned short integer value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The unsigned short integer value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified unsigned short integer value.</returns>
         public static implicit operator Tag(ushort value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a long integer value to a Tag.
+        /// Implicitly converts a long integer value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The long integer value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified long integer value.</returns>
         public static implicit operator Tag(long value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an unsigned long integer value to a Tag.
+        /// Implicitly converts an unsigned long integer value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The unsigned long integer value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified unsigned long integer value.</returns>
         public static implicit operator Tag(ulong value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a decimal value to a Tag.
+        /// Implicitly converts a decimal value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The decimal value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified decimal value.</returns>
         public static implicit operator Tag(decimal value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a character value to a Tag.
+        /// Implicitly converts a character value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The character value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified character value.</returns>
         public static implicit operator Tag(char value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a DateTimeOffset value to a Tag.
+        /// Implicitly converts a <see cref="DateTimeOffset"/> value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="DateTimeOffset"/> value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="DateTimeOffset"/> value.</returns>
         public static implicit operator Tag(DateTimeOffset value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a TimeSpan value to a Tag.
+        /// Implicitly converts a <see cref="TimeSpan"/> value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="TimeSpan"/> value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="TimeSpan"/> value.</returns>
         public static implicit operator Tag(TimeSpan value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a byte value to a Tag.
+        /// Implicitly converts a byte value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The byte value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified byte value.</returns>
         public static implicit operator Tag(byte value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a float value to a Tag.
+        /// Implicitly converts a single-precision floating-point value to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The float value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified float value.</returns>
         public static implicit operator Tag(float value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a Guid value to a Tag.
+        /// Implicitly converts a <see cref="Guid"/> to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The GUID value to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified GUID.</returns>
         public static implicit operator Tag(Guid value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a Type value to a Tag.
+        /// Implicitly converts a <see cref="Type"/> to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The type to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified type.</returns>
         public static implicit operator Tag(Type? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a string array to a Tag.
+        /// Implicitly converts a string array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The string array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified string array.</returns>
         public static implicit operator Tag(string[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a double array to a Tag.
+        /// Implicitly converts a double precision floating-point array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The double precision floating-point array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified double precision floating-point array.</returns>
         public static implicit operator Tag(double[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a long array to a Tag.
+        /// Implicitly converts a long integer array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The long integer array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified long integer array.</returns>
         public static implicit operator Tag(long[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a Guid array to a Tag.
+        /// Implicitly converts a GUID array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The GUID array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified GUID array.</returns>
         public static implicit operator Tag(Guid[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an integer array to a Tag.
+        /// Implicitly converts an integer array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The integer array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified integer array.</returns>
         public static implicit operator Tag(int[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an unsigned integer array to a Tag.
+        /// Implicitly converts an unsigned integer array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The unsigned integer array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified unsigned integer array.</returns>
         public static implicit operator Tag(uint[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a signed byte array to a Tag.
+        /// Implicitly converts a signed byte array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The signed byte array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified signed byte array.</returns>
         public static implicit operator Tag(sbyte[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a short integer array to a Tag.
+        /// Implicitly converts a short integer array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The short integer array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified short integer array.</returns>
         public static implicit operator Tag(short[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an unsigned short integer array to a Tag.
+        /// Implicitly converts an unsigned short integer array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The unsigned short integer array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified unsigned short integer array.</returns>
         public static implicit operator Tag(ushort[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts an unsigned long integer array to a Tag.
+        /// Implicitly converts an unsigned long integer array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The unsigned long integer array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified unsigned long integer array.</returns>
         public static implicit operator Tag(ulong[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a decimal array to a Tag.
+        /// Implicitly converts a decimal array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The decimal array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified decimal array.</returns>
         public static implicit operator Tag(decimal[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a character array to a Tag.
+        /// Implicitly converts a character array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The character array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified character array.</returns>
         public static implicit operator Tag(char[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a DateTimeOffset array to a Tag.
+        /// Implicitly converts a <see cref="DateTimeOffset"/> array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="DateTimeOffset"/> array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="DateTimeOffset"/> array.</returns>
         public static implicit operator Tag(DateTimeOffset[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a TimeSpan array to a Tag.
+        /// Implicitly converts a <see cref="TimeSpan"/> array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="TimeSpan"/> array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="TimeSpan"/> array.</returns>
         public static implicit operator Tag(TimeSpan[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a byte array to a Tag.
+        /// Implicitly converts a byte array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The byte array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified byte array.</returns>
         public static implicit operator Tag(byte[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a DateTime array to a Tag.
+        /// Implicitly converts a <see cref="DateTime"/> array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The <see cref="DateTime"/> array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified <see cref="DateTime"/> array.</returns>
         public static implicit operator Tag(DateTime[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a float array to a Tag.
+        /// Implicitly converts a float array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The float array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified float array.</returns>
         public static implicit operator Tag(float[]? value) => new (value);
 
         /// <summary>
-        /// Implicitly converts a boolean array to a Tag.
+        /// Implicitly converts a boolean array to a <see cref="Tag"/>.
         /// </summary>
+        /// <param name="value">The boolean array to be converted.</param>
+        /// <returns>A new <see cref="Tag"/> instance initialized with the specified boolean array.</returns>
         public static implicit operator Tag(bool[]? value) => new (value);
 
         #endregion
