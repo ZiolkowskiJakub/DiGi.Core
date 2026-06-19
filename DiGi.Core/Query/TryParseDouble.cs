@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace DiGi.Core
 {
@@ -14,19 +14,48 @@ namespace DiGi.Core
         {
             result = double.NaN;
 
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrEmpty(value))
             {
                 return false;
             }
 
-            //Required due to issue parsing values such as "4.9999999999999996E-06"
-            int index = value.ToUpper().IndexOf("E");
-            if (index != -1)
+            // Find trimmed bounds without allocating
+            int start = 0;
+            while (start < value.Length && char.IsWhiteSpace(value[start]))
             {
-                string value_Prefix = value.Substring(0, index);
-                string value_Sufix = "1" + value.Substring(index);
+                start++;
+            }
 
-                if (!double.TryParse(value_Sufix, out double factor))
+            int end = value.Length;
+            while (end > start && char.IsWhiteSpace(value[end - 1]))
+            {
+                end--;
+            }
+
+            if (start >= end)
+            {
+                return false;
+            }
+
+            // Check if there is an exponent 'E' or 'e'
+            int expIndex = -1;
+            for (int i = start; i < end; i++)
+            {
+                char c = value[i];
+                if (c == 'E' || c == 'e')
+                {
+                    expIndex = i;
+                    break;
+                }
+            }
+
+            if (expIndex != -1)
+            {
+                // Parse prefix and suffix
+                string value_Prefix = value.Substring(start, expIndex - start);
+                string value_Suffix = "1" + value.Substring(expIndex, end - expIndex);
+
+                if (!double.TryParse(value_Suffix, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double factor))
                 {
                     return false;
                 }
@@ -45,104 +74,147 @@ namespace DiGi.Core
                 return false;
             }
 
-            string @string = value.Trim().Split(' ')[0];
-            if (!double.TryParse(@string, out double value_1))
+            // Find the first word bounds (split by space)
+            int firstSpace = -1;
+            for (int i = start; i < end; i++)
             {
-                if (@string == Constants.Serialization.LiteralName.PositiveInfinity)
+                if (value[i] == ' ')
                 {
-                    result = double.PositiveInfinity;
-                    return true;
-                }
-
-                if (@string == Constants.Serialization.LiteralName.NegativeInfinity)
-                {
-                    result = double.NegativeInfinity;
-                    return true;
-                }
-            }
-            else
-            {
-                if (double.IsNaN(value_1))
-                {
-                    result = value_1;
-                    return true;
-                }
-
-                if (double.IsInfinity(value_1))
-                {
-                    result = value_1;
-                    return true;
+                    firstSpace = i;
+                    break;
                 }
             }
 
-            @string = value.Trim().Replace(" ", string.Empty);
+            int firstWordEnd = (firstSpace != -1) ? firstSpace : end;
+            int firstWordLength = firstWordEnd - start;
 
-            // Find last separator
-            int lastDot = @string.LastIndexOf('.');
-            int lastComma = @string.LastIndexOf(',');
+            if (firstWordLength > 0)
+            {
+                char firstChar = value[start];
+                if (firstChar == 'I' || firstChar == 'i' || firstChar == 'N' || firstChar == 'n' ||
+                    (firstChar == '-' && firstWordLength > 1 && (value[start + 1] == 'I' || value[start + 1] == 'i')))
+                {
+                    string firstWord = value.Substring(start, firstWordLength);
+                    if (firstWord == Constants.Serialization.LiteralName.PositiveInfinity)
+                    {
+                        result = double.PositiveInfinity;
+                        return true;
+                    }
+                    if (firstWord == Constants.Serialization.LiteralName.NegativeInfinity)
+                    {
+                        result = double.NegativeInfinity;
+                        return true;
+                    }
+                    if (double.TryParse(firstWord, out double val1))
+                    {
+                        if (double.IsNaN(val1) || double.IsInfinity(val1))
+                        {
+                            result = val1;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            // Normal number parsing (no E/e, not NaN/Infinity)
+            int lastDot = -1;
+            int lastComma = -1;
+            bool hasSpace = false;
+            bool hasNonDigit = false;
+
+            for (int i = start; i < end; i++)
+            {
+                char c = value[i];
+                if (c == '.')
+                {
+                    lastDot = i;
+                }
+                else if (c == ',')
+                {
+                    lastComma = i;
+                }
+                else if (c == ' ')
+                {
+                    hasSpace = true;
+                }
+                else if (c == '-' || c == '+')
+                {
+                    if (i != start)
+                    {
+                        hasNonDigit = true;
+                    }
+                }
+                else if (!char.IsDigit(c))
+                {
+                    hasNonDigit = true;
+                }
+            }
+
+            // Fast path: no spaces, no commas, at most one dot, and optionally a sign at the start.
+            if (!hasSpace && lastComma == -1 && !hasNonDigit)
+            {
+                string sub = (start == 0 && end == value.Length) ? value : value.Substring(start, end - start);
+                return double.TryParse(sub, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result);
+            }
+
+            // Slow/Normalization path
             int separatorIndex = Math.Max(lastDot, lastComma);
-
             char? decimalSeparator = null;
             if (separatorIndex >= 0)
             {
-                decimalSeparator = @string[separatorIndex];
+                decimalSeparator = value[separatorIndex];
             }
 
-            string integerPart;
-            string fractionalPart = "";
+            int maxLen = end - start + 1;
+            char[] buffer = new char[maxLen];
+            int dest = 0;
 
-            if (separatorIndex >= 0)
+            for (int i = start; i < end; i++)
             {
-                integerPart = @string.Substring(0, separatorIndex);
-                fractionalPart = @string.Substring(separatorIndex + 1);
-            }
-            else
-            {
-                integerPart = @string;
-            }
-
-            // --- Check for ambiguity ---
-            // If both '.' and ',' exist before the last one -> ambiguous
-            if (lastDot >= 0 && lastComma >= 0)
-            {
-                if (decimalSeparator == '.' && lastComma < lastDot || decimalSeparator == ',' && lastDot < lastComma)
+                char c = value[i];
+                if (c == ' ')
                 {
-                    // Example: "1.234,56" or "1,234.56" is fine (thousands + decimal)
+                    continue;
                 }
-                else
+
+                if (i < separatorIndex)
                 {
-                    // Mixed or unclear usage → reject
-                    return false;
+                    if (decimalSeparator == '.')
+                    {
+                        if (c == ',') continue;
+                    }
+                    else if (decimalSeparator == ',')
+                    {
+                        if (c == '.') continue;
+                    }
+                    else
+                    {
+                        if (c == '.' || c == ',') continue;
+                    }
                 }
+                else if (i == separatorIndex)
+                {
+                    c = '.';
+                }
+
+                buffer[dest++] = c;
             }
 
-            // Remove only thousand separators
-            if (decimalSeparator == '.')
+            // Ensure only digits + '.' and leading '+' or '-' remain
+            for (int i = 0; i < dest; i++)
             {
-                integerPart = integerPart.Replace(",", "").Replace(" ", "");
-            }
-            else if (decimalSeparator == ',')
-            {
-                integerPart = integerPart.Replace(".", "").Replace(" ", "");
-            }
-            else
-            {
-                integerPart = integerPart.Replace(",", "").Replace(".", "").Replace(" ", "");
-            }
-
-            // Build normalized with '.' as decimal separator
-            string normalized = separatorIndex >= 0 ? integerPart + "." + fractionalPart : integerPart;
-
-            // Ensure only digits + '.' remain
-            foreach (char c in normalized)
-            {
+                char c = buffer[i];
+                if (i == 0 && (c == '-' || c == '+'))
+                {
+                    continue;
+                }
                 if (!(char.IsDigit(c) || c == '.'))
                 {
                     return false;
                 }
             }
 
-            // Parse
+            string normalized = new string(buffer, 0, dest);
             return double.TryParse(normalized, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result);
 
             //string value_2_String = value_1_String;
