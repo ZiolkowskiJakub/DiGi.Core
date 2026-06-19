@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace DiGi.Core.Enums
 {
@@ -25,5 +25,11 @@ namespace DiGi.Core.Enums
 
         /// <summary>Text Ends With</summary>
         [Description("Text Ends With")] EndsWith,
+
+        /// <summary>Text Not Starts With</summary>
+        [Description("Text Not Starts With")] NotStartsWith,
+
+        /// <summary>Text Not Ends With</summary>
+        [Description("Text Not Ends With")] NotEndsWith,
     }
 }

@@ -143,6 +143,16 @@ namespace DiGi.Core
                     if (value_1_Temp == null || value_2_Temp == null)
                         return false;
                     return value_1_Temp.StartsWith(value_2_Temp);
+
+                case TextComparisonType.NotStartsWith:
+                    if (value_1_Temp == null || value_2_Temp == null)
+                        return false;
+                    return !value_1_Temp.StartsWith(value_2_Temp);
+
+                case TextComparisonType.NotEndsWith:
+                    if (value_1_Temp == null || value_2_Temp == null)
+                        return false;
+                    return !value_1_Temp.EndsWith(value_2_Temp);
             }
 
             return false;

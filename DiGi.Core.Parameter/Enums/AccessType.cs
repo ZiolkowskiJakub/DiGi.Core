@@ -7,8 +7,10 @@
     {
         /// <summary>Read-only access</summary>
         Read,
+
         /// <summary>Write-only access</summary>
         Write,
+
         /// <summary>Read and write access</summary>
         ReadWrite
     }

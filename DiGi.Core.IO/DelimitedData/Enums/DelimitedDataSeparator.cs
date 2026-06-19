@@ -10,8 +10,10 @@ namespace DiGi.Core.IO.DelimitedData.Enums
     {
         /// <summary>Undefined separator</summary>
         [Description("Undefined")] Undefined,
+
         /// <summary>Comma separator</summary>
         [Description("Comma")] Comma,
+
         /// <summary>Tab separator</summary>
         [Description("Tab")] Tab
     }
