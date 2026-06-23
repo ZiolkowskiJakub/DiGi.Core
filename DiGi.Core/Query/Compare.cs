@@ -97,62 +97,74 @@ namespace DiGi.Core
         /// <returns>Bool</returns>
         public static bool Compare(this string? value_1, string? value_2, TextComparisonType textComparisonType, bool caseSensitive = true)
         {
-            string? value_1_Temp = value_1;
-            string? value_2_Temp = value_2;
-            if (!caseSensitive)
-            {
-                if (!string.IsNullOrEmpty(value_1_Temp))
-                    value_1_Temp = value_1_Temp?.ToLower();
+            StringComparison comparison = caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-                if (!string.IsNullOrEmpty(value_2_Temp))
-                    value_2_Temp = value_2_Temp?.ToLower();
+            // Handle Null scenarios first to fix Bug 3 logically and cleanly
+            if (value_1 == null && value_2 == null)
+            {
+                switch (textComparisonType)
+                {
+                    case TextComparisonType.Equals:
+                    case TextComparisonType.Contains:
+                    case TextComparisonType.StartsWith:
+                    case TextComparisonType.EndsWith:
+                        return true;
+                    case TextComparisonType.NotEquals:
+                    case TextComparisonType.NotContains:
+                    case TextComparisonType.NotStartsWith:
+                    case TextComparisonType.NotEndsWith:
+                        return false;
+                }
+                return false;
             }
 
+            if (value_1 == null || value_2 == null)
+            {
+                // One of them is null, the other is not.
+                switch (textComparisonType)
+                {
+                    case TextComparisonType.Equals:
+                        return false;
+                    case TextComparisonType.NotEquals:
+                        return true;
+                    case TextComparisonType.Contains:
+                    case TextComparisonType.StartsWith:
+                    case TextComparisonType.EndsWith:
+                        return false;
+                    case TextComparisonType.NotContains:
+                    case TextComparisonType.NotStartsWith:
+                    case TextComparisonType.NotEndsWith:
+                        return true;
+                }
+                return false;
+            }
+
+            // Both are non-null. Perform highly optimized, allocation-free comparison
             switch (textComparisonType)
             {
                 case TextComparisonType.Equals:
-                    if (value_1_Temp == null && value_2_Temp == null)
-                        return true;
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return value_1_Temp.Equals(value_2_Temp);
-
-                case TextComparisonType.Contains:
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return value_1_Temp.Contains(value_2_Temp);
-
-                case TextComparisonType.NotContains:
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return !value_1_Temp.Contains(value_2_Temp);
-
-                case TextComparisonType.EndsWith:
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return value_1_Temp.EndsWith(value_2_Temp);
+                    return string.Equals(value_1, value_2, comparison);
 
                 case TextComparisonType.NotEquals:
-                    if (value_1_Temp == null && value_2_Temp == null)
-                        return false;
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return true;
-                    return !value_1_Temp.Equals(value_2_Temp);
+                    return !string.Equals(value_1, value_2, comparison);
+
+                case TextComparisonType.Contains:
+                    return value_1.IndexOf(value_2, comparison) >= 0;
+
+                case TextComparisonType.NotContains:
+                    return value_1.IndexOf(value_2, comparison) < 0;
 
                 case TextComparisonType.StartsWith:
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return value_1_Temp.StartsWith(value_2_Temp);
+                    return value_1.StartsWith(value_2, comparison);
 
                 case TextComparisonType.NotStartsWith:
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return !value_1_Temp.StartsWith(value_2_Temp);
+                    return !value_1.StartsWith(value_2, comparison);
+
+                case TextComparisonType.EndsWith:
+                    return value_1.EndsWith(value_2, comparison);
 
                 case TextComparisonType.NotEndsWith:
-                    if (value_1_Temp == null || value_2_Temp == null)
-                        return false;
-                    return !value_1_Temp.EndsWith(value_2_Temp);
+                    return !value_1.EndsWith(value_2, comparison);
             }
 
             return false;

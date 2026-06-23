@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace DiGi.Core
 {
@@ -22,12 +22,19 @@ namespace DiGi.Core
             if (value <= (double)decimal.MaxValue && value >= (double)decimal.MinValue &&
                 tolerance <= (double)decimal.MaxValue && tolerance >= (double)decimal.MinValue)
             {
-                // 2. Perform calculations using decimal to maintain high precision.
-                // We cast to decimal once per variable to minimize conversion overhead.
-                decimal mValue = (decimal)value;
-                decimal mTolerance = (decimal)tolerance;
+                try
+                {
+                    // 2. Perform calculations using decimal to maintain high precision.
+                    // We cast to decimal once per variable to minimize conversion overhead.
+                    decimal mValue = (decimal)value;
+                    decimal mTolerance = (decimal)tolerance;
 
-                return (double)(Math.Round(mValue / mTolerance, MidpointRounding.AwayFromZero) * mTolerance);
+                    return (double)(Math.Round(mValue / mTolerance, MidpointRounding.AwayFromZero) * mTolerance);
+                }
+                catch (OverflowException)
+                {
+                    // Fall back to double path if decimal division overflows
+                }
             }
 
             // Fallback dla ogromnych wartości - tutaj używamy double,

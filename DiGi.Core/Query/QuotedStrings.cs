@@ -48,10 +48,7 @@ namespace DiGi.Core
                 }
             }
 
-            if (stringBuilder.Length > 0)
-            {
-                fields.Add(stringBuilder.ToString()); // Add the last field
-            }
+            fields.Add(stringBuilder.ToString()); // Add the last field
 
             return fields;
         }
