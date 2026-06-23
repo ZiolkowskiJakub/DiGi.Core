@@ -141,6 +141,16 @@ namespace DiGi.Core
                     succeeded = TryConvert_DateTime(@object, out DateTime? @dateTime);
                     result = @dateTime;
                     return succeeded;
+
+                case TypeCode.SByte:
+                    succeeded = TryConvert_Sbyte(@object, out sbyte? @sbyte);
+                    result = @sbyte;
+                    return succeeded;
+
+                case TypeCode.Char:
+                    succeeded = TryConvert_Char(@object, out char? @char);
+                    result = @char;
+                    return succeeded;
             }
 
             if (type_Temp == typeof(Guid))
@@ -159,6 +169,12 @@ namespace DiGi.Core
             {
                 succeeded = TryConvert_TimeSpan(@object, out TimeSpan? @timeSpan);
                 result = @timeSpan;
+                return succeeded;
+            }
+            else if (type_Temp == typeof(DateTimeOffset))
+            {
+                succeeded = TryConvert_DateTimeOffset(@object, out DateTimeOffset? @dateTimeOffset);
+                result = @dateTimeOffset;
                 return succeeded;
             }
             else if (type_Temp.IsSubclassOf(typeof(Type)) || type_Temp == typeof(Type))
@@ -664,6 +680,23 @@ namespace DiGi.Core
                 result = System.Convert.ToDecimal(@int);
                 return true;
             }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<decimal>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Decimal(jsonNode.GetValue<string>(), out decimal? dec_Temp))
+                        {
+                            result = dec_Temp;
+                            return true;
+                        }
+                        break;
+                }
+            }
             else if (@object is JsonElement jsonElement)
             {
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetDecimal(out decimal decVal))
@@ -1069,6 +1102,18 @@ namespace DiGi.Core
                 }
             }
 
+            if (@object is JsonNode jsonNode)
+            {
+                if (jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
+                {
+                    if (Guid.TryParse(jsonNode.GetValue<string>(), out Guid guid))
+                    {
+                        result = guid;
+                        return true;
+                    }
+                }
+            }
+
             if (@object is JsonElement jsonElement)
             {
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && jsonElement.TryGetGuid(out Guid guidVal))
@@ -1460,12 +1505,42 @@ namespace DiGi.Core
                 return false;
             }
 
+            if (@object is TimeSpan timeSpan_Val)
+            {
+                result = timeSpan_Val;
+                return true;
+            }
+
             if (@object is string @string)
             {
                 if (TimeSpan.TryParse(@string, out TimeSpan timeSpan))
                 {
                     result = timeSpan;
                     return true;
+                }
+            }
+
+            if (@object is JsonNode jsonNode)
+            {
+                if (jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
+                {
+                    if (TimeSpan.TryParse(jsonNode.GetValue<string>(), out TimeSpan timeSpan))
+                    {
+                        result = timeSpan;
+                        return true;
+                    }
+                }
+            }
+
+            if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if (TimeSpan.TryParse(jsonElement.GetString(), out TimeSpan timeSpan))
+                    {
+                        result = timeSpan;
+                        return true;
+                    }
                 }
             }
 
@@ -1482,10 +1557,42 @@ namespace DiGi.Core
         {
             result = default;
 
+            if (@object is Type type_Val)
+            {
+                result = type_Val;
+                return true;
+            }
+
             if (@object is string @string && !string.IsNullOrWhiteSpace(@string))
             {
                 result = System.Type.GetType(@string);
                 return true;
+            }
+
+            if (@object is JsonNode jsonNode)
+            {
+                if (jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
+                {
+                    string? string_Type = jsonNode.GetValue<string>();
+                    if (!string.IsNullOrWhiteSpace(string_Type))
+                    {
+                        result = System.Type.GetType(string_Type);
+                        return true;
+                    }
+                }
+            }
+
+            if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    string? string_Type = jsonElement.GetString();
+                    if (!string.IsNullOrWhiteSpace(string_Type))
+                    {
+                        result = System.Type.GetType(string_Type);
+                        return true;
+                    }
+                }
             }
 
             return false;
@@ -1708,6 +1815,202 @@ namespace DiGi.Core
                     }
 
                     return TryConvert_Ushort(value, out result);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable DateTimeOffset.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted DateTimeOffset, or null if conversion failed.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
+        public static bool TryConvert_DateTimeOffset(object @object, out DateTimeOffset? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is DateTimeOffset dateTimeOffset)
+            {
+                result = dateTimeOffset;
+                return true;
+            }
+
+            if (@object is DateTime dateTime)
+            {
+                result = new DateTimeOffset(dateTime);
+                return true;
+            }
+
+            if (@object is string @string)
+            {
+                if (DateTimeOffset.TryParse(@string, out DateTimeOffset dateTimeOffset_Parsed))
+                {
+                    result = dateTimeOffset_Parsed;
+                    return true;
+                }
+            }
+
+            if (@object is JsonNode jsonNode)
+            {
+                if (jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
+                {
+                    if (DateTimeOffset.TryParse(jsonNode.GetValue<string>(), out DateTimeOffset dateTimeOffset_Parsed))
+                    {
+                        result = dateTimeOffset_Parsed;
+                        return true;
+                    }
+                }
+            }
+
+            if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && jsonElement.TryGetDateTimeOffset(out DateTimeOffset dateTimeOffset_Parsed))
+                {
+                    result = dateTimeOffset_Parsed;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable sbyte.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted sbyte value if successful; otherwise, null.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
+        public static bool TryConvert_Sbyte(object @object, out sbyte? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is string @string)
+            {
+                if (sbyte.TryParse(@string, out sbyte sby))
+                {
+                    result = sby;
+                    return true;
+                }
+            }
+            else if (IsNumeric(@object))
+            {
+                result = System.Convert.ToSByte(@object);
+                return true;
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Number:
+                        result = jsonNode.GetValue<sbyte>();
+                        return true;
+
+                    case System.Text.Json.JsonValueKind.String:
+                        if (TryConvert_Sbyte(jsonNode.GetValue<string>(), out sbyte? sby_Temp))
+                        {
+                            result = sby_Temp;
+                            return true;
+                        }
+                        break;
+                }
+            }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetSByte(out sbyte sbyVal))
+                {
+                    result = sbyVal;
+                    return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if (jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
+
+                    return TryConvert_Sbyte(value, out result);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to convert the specified object to a nullable char.
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted char value if successful; otherwise, null.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
+        public static bool TryConvert_Char(object @object, out char? result)
+        {
+            result = null;
+
+            if (@object == null)
+            {
+                return false;
+            }
+
+            if (@object is Type)
+            {
+                return false;
+            }
+
+            if (@object is char ch)
+            {
+                result = ch;
+                return true;
+            }
+
+            if (@object is string @string)
+            {
+                if (char.TryParse(@string, out char ch_Val))
+                {
+                    result = ch_Val;
+                    return true;
+                }
+            }
+            else if (@object is JsonNode jsonNode)
+            {
+                if (jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
+                {
+                    if (char.TryParse(jsonNode.GetValue<string>(), out char ch_Val))
+                    {
+                        result = ch_Val;
+                        return true;
+                    }
+                }
+            }
+            else if (@object is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    if (char.TryParse(jsonElement.GetString(), out char ch_Val))
+                    {
+                        result = ch_Val;
+                        return true;
+                    }
                 }
             }
 

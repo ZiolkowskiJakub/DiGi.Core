@@ -12,7 +12,7 @@ namespace DiGi.Core.IO
         /// </summary>
         /// <typeparam name="TSerializableObject">The type of the serializable object contained within the archive.</typeparam>
         /// <param name="bytes">The byte array to create the archive from.</param>
-        /// <returns>An <see cref="DiGi.Core.IO.Classes.Archive{TSerializableObject}"/> instance if successful; otherwise, <c>null</c>.</returns>
+        /// <returns>An <see cref="Classes.Archive{TSerializableObject}"/> instance if successful; otherwise, <c>null</c>.</returns>
         public static Archive<TSerializableObject>? Archive<TSerializableObject>(this byte[] bytes) where TSerializableObject : ISerializableObject
         {
             if (bytes is null || bytes.Length == 0)
