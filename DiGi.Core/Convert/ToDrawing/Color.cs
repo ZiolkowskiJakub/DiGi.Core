@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+using System;
+using System.Drawing;
 using System.Globalization;
 
 namespace DiGi.Core
@@ -34,31 +35,64 @@ namespace DiGi.Core
         }
 
         /// <summary>
-        /// Converts a hex color string to a System.Drawing.Color.
+        /// Converts a color string (named, hex, or alpha hex) to a System.Drawing.Color.
         /// </summary>
-        /// <param name="value">The hex color string.</param>
-        /// <returns>The converted System.Drawing.Color.</returns>
+        /// <param name="value">The color string to convert.</param>
+        /// <returns>The converted System.Drawing.Color, or Color.Empty if parsing fails.</returns>
         public static Color ToDrawing(string? value)
         {
-            if (value is null)
+            if (string.IsNullOrWhiteSpace(value))
             {
                 return Color.Empty;
             }
 
-            string hex = value.Replace("#", string.Empty);
-            NumberStyles numberStyles = NumberStyles.HexNumber;
+            string clean = value!.Trim();
 
-            int r = int.Parse(hex.Substring(0, 2), numberStyles);
-            int g = int.Parse(hex.Substring(2, 2), numberStyles);
-            int b = int.Parse(hex.Substring(4, 2), numberStyles);
-            int a = 255;
-
-            if (hex.Length == 8)
+            // 1. Try Named Color
+            Color namedColor = Color.FromName(clean);
+            if (namedColor.ToArgb() != 0 || string.Equals(clean, "Transparent", StringComparison.OrdinalIgnoreCase))
             {
-                a = int.Parse(hex.Substring(6, 2), numberStyles);
+                return namedColor;
             }
 
-            return Color.FromArgb(a, r, g, b);
+            // 2. Try Hex Parsing
+            if (clean.StartsWith("#"))
+            {
+                string hex = clean.Substring(1);
+
+                // Handle shorthand CSS hex (e.g., #FFF or #F00)
+                if (hex.Length == 3)
+                {
+                    hex = new string(new char[] { hex[0], hex[0], hex[1], hex[1], hex[2], hex[2] });
+                }
+                else if (hex.Length == 4)
+                {
+                    hex = new string(new char[] { hex[0], hex[0], hex[1], hex[1], hex[2], hex[2], hex[3], hex[3] });
+                }
+
+                if (hex.Length == 6)
+                {
+                    if (int.TryParse(hex.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int r) &&
+                        int.TryParse(hex.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int g) &&
+                        int.TryParse(hex.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int b))
+                    {
+                        return Color.FromArgb(255, r, g, b);
+                    }
+                }
+                else if (hex.Length == 8)
+                {
+                    // Preserve the RGBA convention of the original implementation
+                    if (int.TryParse(hex.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int r) &&
+                        int.TryParse(hex.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int g) &&
+                        int.TryParse(hex.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int b) &&
+                        int.TryParse(hex.Substring(6, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int a))
+                    {
+                        return Color.FromArgb(a, r, g, b);
+                    }
+                }
+            }
+
+            return Color.Empty;
         }
 
         /// <summary>

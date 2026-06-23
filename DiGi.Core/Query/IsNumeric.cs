@@ -93,7 +93,7 @@ namespace DiGi.Core
                 case TypeCode.Object:
                     if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
-                        return IsNumeric(Nullable.GetUnderlyingType(type));
+                        return IsNumeric(Nullable.GetUnderlyingType(type), out isInteger);
                     }
                     return false;
 

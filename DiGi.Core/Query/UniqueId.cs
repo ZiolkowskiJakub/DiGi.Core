@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -427,6 +427,91 @@ namespace DiGi.Core
             }
 
             return UniqueId(serializableObject.ToJsonObject());
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified long.
+        /// </summary>
+        /// <param name="value">The long value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this long value)
+        {
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable long.
+        /// </summary>
+        /// <param name="value">The nullable long value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this long? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified ulong.
+        /// </summary>
+        /// <param name="value">The ulong value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this ulong value)
+        {
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable ulong.
+        /// </summary>
+        /// <param name="value">The nullable ulong value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this ulong? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified object.
+        /// </summary>
+        /// <param name="object">The object to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this object? @object)
+        {
+            if (@object == null)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            if (@object is IUniqueObject uniqueObject)
+            {
+                return UniqueId(uniqueObject);
+            }
+
+            if (@object is ISerializableObject serializableObject)
+            {
+                return UniqueId(serializableObject);
+            }
+
+            if (@object is JsonNode jsonNode)
+            {
+                return UniqueId(jsonNode);
+            }
+
+            if (@object is Enum @enum)
+            {
+                return UniqueId(@enum);
+            }
+
+            return @object.ToString() ?? Constants.UniqueId.Null;
         }
     }
 }

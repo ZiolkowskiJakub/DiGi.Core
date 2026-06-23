@@ -1208,8 +1208,15 @@ namespace DiGi.Core
 
             if (@object is string @string)
             {
-                result = JsonNode.Parse(@string);
-                return true;
+                try
+                {
+                    result = JsonNode.Parse(@string);
+                    return true;
+                }
+                catch (System.Text.Json.JsonException)
+                {
+                    return false;
+                }
             }
 
             return false;
