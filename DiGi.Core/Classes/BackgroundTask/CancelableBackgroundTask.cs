@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Enums;
+using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System;
 using System.Threading;
@@ -105,9 +105,14 @@ namespace DiGi.Core.Classes
             try
             {
                 task_Temp.GetAwaiter().GetResult();
+                if (cancellationTokenSource_Temp.IsCancellationRequested)
+                {
+                    OnCanceled();
+                }
             }
             catch (OperationCanceledException)
             {
+                OnCanceled();
             }
             finally
             {
@@ -143,6 +148,10 @@ namespace DiGi.Core.Classes
             try
             {
                 await task_Temp;
+                if (cancellationTokenSource_Temp.IsCancellationRequested)
+                {
+                    OnCanceled();
+                }
             }
             catch (OperationCanceledException)
             {

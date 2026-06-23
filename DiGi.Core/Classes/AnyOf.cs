@@ -122,7 +122,7 @@ namespace DiGi.Core.Classes
         /// <param name="anyOf">The <see cref="AnyOf"/> instance to compare.</param>
         /// <param name="object">The object to compare against the <see cref="AnyOf"/> instance.</param>
         /// <returns>True if the objects are not equal; otherwise, false.</returns>
-        public static bool operator !=(AnyOf anyOf, object @object)
+        public static bool operator !=(AnyOf? anyOf, object? @object)
         {
             return !(anyOf == @object);
         }
@@ -133,7 +133,7 @@ namespace DiGi.Core.Classes
         /// <param name="anyOf">The <see cref="AnyOf"/> instance to compare.</param>
         /// <param name="object">The object to compare against the <see cref="AnyOf"/> instance.</param>
         /// <returns>True if the objects are equal; otherwise, false.</returns>
-        public static bool operator ==(AnyOf anyOf, object @object)
+        public static bool operator ==(AnyOf? anyOf, object? @object)
         {
             if (anyOf is null || anyOf.value is null)
             {

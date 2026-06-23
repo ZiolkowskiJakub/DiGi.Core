@@ -230,17 +230,9 @@ namespace DiGi.Core.Classes
         /// <returns>True if the specified object is equal to the current range; otherwise, false.</returns>
         public override bool Equals(object? @object)
         {
-            if (this is null)
-            {
-                if (@object is null)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            return @object is Range<T> range && range.max!.Equals(max) && range.min!.Equals(min);
+            return @object is Range<T> range &&
+                   EqualityComparer<T>.Default.Equals(range.min!, min!) &&
+                   EqualityComparer<T>.Default.Equals(range.max!, max!);
         }
 
         /// <summary>
@@ -250,8 +242,8 @@ namespace DiGi.Core.Classes
         public override int GetHashCode()
         {
             int hash = 13;
-            hash = (hash * 7) + min!.GetHashCode();
-            hash = (hash * 7) + max!.GetHashCode();
+            hash = (hash * 7) + (min is null ? 0 : EqualityComparer<T>.Default.GetHashCode(min));
+            hash = (hash * 7) + (max is null ? 0 : EqualityComparer<T>.Default.GetHashCode(max));
             return hash;
         }
 
@@ -288,7 +280,7 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            return (range.min as dynamic) <= (min as dynamic) && (range.max as dynamic) >= (max as dynamic);
+            return (range.min as dynamic) >= (min as dynamic) && (range.max as dynamic) <= (max as dynamic);
         }
 
         /// <summary>
@@ -304,7 +296,7 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            return (range.min as dynamic) <= (min as dynamic - tolerance as dynamic) && (range.max as dynamic) >= (max as dynamic + tolerance as dynamic);
+            return (range.min as dynamic) >= (min as dynamic - tolerance as dynamic) && (range.max as dynamic) <= (max as dynamic + tolerance as dynamic);
         }
 
         /// <summary>
@@ -324,6 +316,17 @@ namespace DiGi.Core.Classes
         /// <param name="tolerance">The tolerance value to use during the intersection check.</param>
         /// <returns>True if the ranges intersect; otherwise, false.</returns>
         public bool Intersect(Range<T>? range, T tolerance)
+        {
+            return !Out(range, tolerance);
+        }
+
+        /// <summary>
+        /// Determines whether the specified range is in range (intersects or is within tolerance) of the current range.
+        /// </summary>
+        /// <param name="range">The range to check.</param>
+        /// <param name="tolerance">The tolerance value to consider.</param>
+        /// <returns>True if the ranges intersect or are within the specified tolerance; otherwise, false.</returns>
+        public bool InRange(Range<T>? range, T tolerance)
         {
             return !Out(range, tolerance);
         }
@@ -377,7 +380,7 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            return (range.min as dynamic) >= (max as dynamic - tolerance as dynamic) || (range.max as dynamic) <= (min as dynamic + tolerance as dynamic);
+            return (range.min as dynamic) > (max as dynamic + tolerance as dynamic) || (range.max as dynamic) < (min as dynamic - tolerance as dynamic);
         }
 
         /// <summary>
