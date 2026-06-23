@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -262,7 +262,6 @@ namespace DiGi.Core.Classes
             Category result = new(name);
             if (dictionary != null)
             {
-                dictionary = [];
                 foreach (Category category in dictionary.Values)
                 {
                     result.Add(category);
@@ -284,7 +283,40 @@ namespace DiGi.Core.Classes
                 return false;
             }
 
-            return GetHashCode() == category.GetHashCode();
+            if (ReferenceEquals(this, category))
+            {
+                return true;
+            }
+
+            if (name != category.name)
+            {
+                return false;
+            }
+
+            if (dictionary == null && category.dictionary == null)
+            {
+                return true;
+            }
+
+            if (dictionary == null || category.dictionary == null)
+            {
+                return false;
+            }
+
+            if (dictionary.Count != category.dictionary.Count)
+            {
+                return false;
+            }
+
+            foreach (KeyValuePair<string, Category> keyValuePair in dictionary)
+            {
+                if (!category.dictionary.TryGetValue(keyValuePair.Key, out Category? value) || !keyValuePair.Value.Equals(value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>

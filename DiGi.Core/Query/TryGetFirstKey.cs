@@ -30,7 +30,7 @@ namespace DiGi.Core
                 string? key_Temp = func.Invoke(keyValuePair.Key);
                 if (text_Temp == key_Temp)
                 {
-                    key = key_Temp;
+                    key = keyValuePair.Key;
                     return true;
                 }
             }

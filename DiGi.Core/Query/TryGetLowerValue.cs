@@ -42,7 +42,7 @@ namespace DiGi.Core
                 return true;
             }
 
-            if (key.CompareTo(max) >= 0)
+            if (key.CompareTo(max) > 0)
             {
                 if (upperLimit)
                 {

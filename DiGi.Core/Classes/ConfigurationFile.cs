@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -233,7 +233,7 @@ namespace DiGi.Core.Classes
                 return defaultValue;
             }
 
-            return defaultValue;
+            return result;
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace DiGi.Core.Classes
                     return false;
                 }
 
-                if (!dictionary.TryGetValue(name_Temp, out text))
+                if (!dictionary.TryGetValue(key!, out text))
                 {
                     return false;
                 }
