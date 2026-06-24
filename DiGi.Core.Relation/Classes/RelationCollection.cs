@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Interfaces;
 using System;
@@ -175,22 +175,22 @@ namespace DiGi.Core.Relation.Classes
             int count = Count;
 
             bool result = false;
-            for (int i = count; i >= 0; i--)
+            for (int i = count - 1; i >= 0; i--)
             {
                 TRelation relation = this[i];
-                if (relation == null || !relation.Contains(Enums.RelationSide.Undefined, uniqueReference))
+                if (relation == null)
                 {
                     continue;
                 }
 
-                if (relation is IOneToOneRelation)
+                if (relation.Remove(Enums.RelationSide.Undefined, uniqueReference))
                 {
-                    RemoveAt(i);
                     result = true;
-                    continue;
+                    if (!relation.Has(Enums.RelationSide.From) || !relation.Has(Enums.RelationSide.To))
+                    {
+                        RemoveAt(i);
+                    }
                 }
-
-                throw new NotImplementedException();
             }
 
             return result;
