@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
@@ -349,14 +349,17 @@ namespace DiGi.Core.Relation.Classes
 
             if (relationSide == RelationSide.From || relationSide == RelationSide.Undefined)
             {
-                foreach (TUniqueReference uniqueReference in uniqueReferences)
+                if (uniqueReferences_From != null)
                 {
-                    if (Modify.RemoveFirst(uniqueReferences_From, uniqueReference))
+                    foreach (TUniqueReference uniqueReference in uniqueReferences)
                     {
-                        result.Add(uniqueReference);
-                        if (uniqueReferences_From == null || uniqueReferences_From.Count == 0)
+                        if (Modify.RemoveFirst(uniqueReferences_From, uniqueReference))
                         {
-                            break;
+                            result.Add(uniqueReference);
+                            if (uniqueReferences_From.Count == 0)
+                            {
+                                break;
+                            }
                         }
                     }
                 }

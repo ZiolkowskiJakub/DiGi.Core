@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.Table.Interfaces;
+using DiGi.Core.IO.Table.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -179,6 +179,11 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>An array of values where the array index corresponds to the column index.</returns>
         public object?[] GetValues()
         {
+            if (values.Count == 0)
+            {
+                return [];
+            }
+
             int count = values.Keys.Last() + 1;
 
             object?[] result = new object[count];

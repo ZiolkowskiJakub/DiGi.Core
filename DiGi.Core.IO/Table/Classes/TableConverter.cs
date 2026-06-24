@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Table.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -77,7 +77,8 @@ namespace DiGi.Core.IO.Table.Classes
                                 List<object?> values = [];
                                 for (int i = 0; i < jsonElements.Count; i++)
                                 {
-                                    if (DiGi.Core.Query.TryConvert(jsonElements[i], out object? value, types[i] ?? typeof(object)))
+                                    Type type = (i < types.Count) ? (types[i] ?? typeof(object)) : typeof(object);
+                                    if (DiGi.Core.Query.TryConvert(jsonElements[i], out object? value, type))
                                     {
                                         values.Add(value);
                                     }

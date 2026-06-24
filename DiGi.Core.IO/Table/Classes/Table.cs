@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.Table.Interfaces;
+using DiGi.Core.IO.Table.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +9,13 @@ namespace DiGi.Core.IO.Table.Classes
 {
     /// <summary>
     /// Represents a base table structure with generic column and row types.
+    /// <para>Behavior and Architecture:</para>
+    /// <para>1. Anemic Model Pattern: This class is designed as an anemic data model. It serves strictly as a structured data container holding columns and rows, containing minimal internal logic.</para>
+    /// <para>2. Extension-Based Logic: All complex operations, queries, mutations, and business logic on this table are implemented as static extension methods in the static partial classes <c>Query</c>, <c>Modify</c>, and <c>Create</c>.</para>
+    /// <para>3. Sorted Indexing: Columns and rows are stored in sorted dictionaries keyed by their index. This guarantees that columns and rows are always ordered sequentially by their index.</para>
+    /// <para>4. Dynamic Shifting: Column removal operations (typically found in Modify extensions) shift all subsequent columns and their corresponding values in each row down by one index to maintain contiguous, zero-based column indexing.</para>
+    /// <para>5. Default Value Fallback: Accessing a cell via the indexer <c>this[rowIndex, columnIndex]</c> returns the default value for the column's type if the cell does not exist or has not been populated.</para>
+    /// <para>6. JSON Serialization: Designed for custom JSON serialization and deserialization using <c>TableConverter</c> which handles column schemas and row value arrays.</para>
     /// </summary>
     /// <typeparam name="TColumn">The type of the columns in the table.</typeparam>
     /// <typeparam name="TRow">The type of the rows in the table.</typeparam>
@@ -679,23 +686,21 @@ namespace DiGi.Core.IO.Table.Classes
                     tempRowData[colIndex] = row[colIndex];
                 }
 
-                // Remove values that belonged to the deleted columns
-                foreach (int targetIdx in targets)
+                // 1. Remove all old values to prevent collision during shift
+                foreach (int colIndex in tempRowData.Keys)
                 {
-                    row.RemoveValue(targetIdx);
+                    row.RemoveValue(colIndex);
                 }
 
-                // Shift remaining values based on the indexMap
+                // 2. Write the shifted values back
                 foreach (KeyValuePair<int, int> mapping in indexMap)
                 {
                     int oldIdx = mapping.Key;
                     int newIdx = mapping.Value;
 
-                    if (oldIdx != newIdx && tempRowData.ContainsKey(oldIdx))
+                    if (tempRowData.TryGetValue(oldIdx, out object? value))
                     {
-                        object? value = tempRowData[oldIdx];
-                        row[newIdx] = value; // Move to new position
-                        row.RemoveValue(oldIdx); // Remove from old position
+                        row[newIdx] = value;
                     }
                 }
             }
@@ -1040,6 +1045,13 @@ namespace DiGi.Core.IO.Table.Classes
 
     /// <summary>
     /// Represents a standard table with default <see cref="Column"/> and <see cref="Row"/> types.
+    /// <para>Behavior and Architecture:</para>
+    /// <para>1. Anemic Model Pattern: This class is designed as an anemic data model. It serves strictly as a structured data container holding columns of type <see cref="Column"/> and rows of type <see cref="Row"/>, containing minimal internal logic.</para>
+    /// <para>2. Extension-Based Logic: All complex operations, queries, mutations, and business logic on this table are implemented as static extension methods in the static partial classes <c>Query</c>, <c>Modify</c>, and <c>Create</c>.</para>
+    /// <para>3. Sorted Indexing: Columns and rows are stored in sorted dictionaries keyed by their index. This guarantees that columns and rows are always ordered sequentially by their index.</para>
+    /// <para>4. Dynamic Shifting: Column removal operations shift all subsequent columns and their corresponding values in each row down by one index to maintain contiguous, zero-based column indexing.</para>
+    /// <para>5. Default Value Fallback: Accessing a cell via the indexer <c>this[rowIndex, columnIndex]</c> returns the default value for the column's type if the cell does not exist or has not been populated.</para>
+    /// <para>6. JSON Serialization: Designed for custom JSON serialization and deserialization using <c>TableConverter</c> which handles column schemas and row value arrays.</para>
     /// </summary>
     public class Table : Table<Column>
     {
