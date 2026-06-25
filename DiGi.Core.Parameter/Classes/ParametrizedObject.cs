@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Parameter.Interfaces;
 using System;
@@ -277,7 +277,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <returns>True if the value was successfully retrieved; otherwise, false.</returns>
         public bool TryGetValue(string? uniqueId, out object? value, GetValueSettings? getValueSettings = null)
         {
-            return TryGetValue(uniqueId, out value, getValueSettings);
+            return parameterGroupCollection.TryGetValue(uniqueId, out value, getValueSettings);
         }
 
         /// <summary>

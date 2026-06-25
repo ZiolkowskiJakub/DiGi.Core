@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Interfaces;
@@ -249,8 +249,7 @@ namespace DiGi.Core.Parameter.Classes
                 return null;
             }
 
-            Parameter parameter = dictionary[uniqueId];
-            if (parameter == null)
+            if (!dictionary.TryGetValue(uniqueId, out Parameter? parameter) || parameter == null)
             {
                 return null;
             }
@@ -272,8 +271,7 @@ namespace DiGi.Core.Parameter.Classes
                 return default;
             }
 
-            Parameter? parameter = dictionary[uniqueId];
-            if (parameter == null)
+            if (!dictionary.TryGetValue(uniqueId, out Parameter? parameter) || parameter == null)
             {
                 return default;
             }
@@ -430,8 +428,7 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            Parameter parameter = dictionary[uniqueId];
-            if (parameter == null)
+            if (!dictionary.TryGetValue(uniqueId, out Parameter? parameter) || parameter == null)
             {
                 return false;
             }

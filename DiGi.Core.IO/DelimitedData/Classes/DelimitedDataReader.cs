@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.DelimitedData.Enums;
+using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +17,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="separator">The character used as a separator.</param>
         /// <param name="stream">The stream to read from.</param>
-        public DelimitedDataReader(char separator, Stream? stream)
-            : base(stream)
+        public DelimitedDataReader(char separator, Stream stream)
+            : base(stream ?? throw new System.ArgumentNullException(nameof(stream)))
         {
             this.separator = separator;
         }
@@ -28,8 +28,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="separator">The character to use as the separator.</param>
         /// <param name="path">The path to the file containing the delimited data.</param>
-        public DelimitedDataReader(char separator, string? path)
-            : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        public DelimitedDataReader(char separator, string path)
+            : base(new FileStream(path ?? throw new System.ArgumentNullException(nameof(path)), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             this.separator = separator;
         }
@@ -39,8 +39,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="separator">The character to use as the separator.</param>
         /// <param name="lines">The collection of lines containing the delimited data.</param>
-        public DelimitedDataReader(char separator, IEnumerable<string>? lines)
-            : base(lines?.MemoryStream())
+        public DelimitedDataReader(char separator, IEnumerable<string> lines)
+            : base((lines ?? throw new System.ArgumentNullException(nameof(lines))).MemoryStream())
         {
             this.separator = separator;
         }
@@ -50,8 +50,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
         /// <param name="lines">The collection of lines containing the delimited data.</param>
-        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, IEnumerable<string>? lines)
-            : base(lines?.MemoryStream())
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, IEnumerable<string> lines)
+            : base((lines ?? throw new System.ArgumentNullException(nameof(lines))).MemoryStream())
         {
             separator = delimitedDataSeparator.Separator();
         }
@@ -61,8 +61,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
         /// <param name="path">The path to the file containing the delimited data.</param>
-        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string? path)
-            : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string path)
+            : base(new FileStream(path ?? throw new System.ArgumentNullException(nameof(path)), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             separator = delimitedDataSeparator.Separator();
         }
@@ -73,8 +73,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
         /// <param name="path">The path to the file containing the delimited data.</param>
         /// <param name="encoding">The encoding to use when reading the file.</param>
-        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string? path, System.Text.Encoding encoding)
-            : base(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), encoding)
+        public DelimitedDataReader(DelimitedDataSeparator delimitedDataSeparator, string path, System.Text.Encoding encoding)
+            : base(new FileStream(path ?? throw new System.ArgumentNullException(nameof(path)), FileMode.Open, FileAccess.Read, FileShare.ReadWrite), encoding)
         {
             separator = delimitedDataSeparator.Separator();
         }

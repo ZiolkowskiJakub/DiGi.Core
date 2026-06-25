@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.DelimitedData.Classes;
+using DiGi.Core.IO.DelimitedData.Classes;
 using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using DiGi.Core.IO.Table.Classes;
@@ -109,7 +109,7 @@ namespace DiGi.Core.IO.DelimitedData
                 return false;
             }
 
-            return Read(table, new DelimitedDataReader(separator, path), columnIndex, rowIndex);
+            return Read(table, new DelimitedDataReader(separator, path!), columnIndex, rowIndex);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace DiGi.Core.IO.DelimitedData
                 return false;
             }
 
-            return Read(table, new DelimitedDataReader(delimitedDataSeparator, path), columnIndex, rowIndex);
+            return Read(table, new DelimitedDataReader(delimitedDataSeparator, path!), columnIndex, rowIndex);
         }
     }
 }

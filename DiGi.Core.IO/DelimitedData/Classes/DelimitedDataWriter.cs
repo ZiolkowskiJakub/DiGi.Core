@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.DelimitedData.Enums;
+using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using System.Collections.Generic;
 using System.IO;
@@ -17,8 +17,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="separator">The character to use as a separator.</param>
         /// <param name="stream">The stream where data will be written.</param>
-        public DelimitedDataWriter(char separator, Stream? stream)
-            : base(stream)
+        public DelimitedDataWriter(char separator, Stream stream)
+            : base(stream ?? throw new System.ArgumentNullException(nameof(stream)))
         {
             this.separator = separator;
         }
@@ -28,8 +28,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="separator">The character to use as a separator.</param>
         /// <param name="path">The path to the file where data will be written.</param>
-        public DelimitedDataWriter(char separator, string? path)
-            : base(path)
+        public DelimitedDataWriter(char separator, string path)
+            : base(path ?? throw new System.ArgumentNullException(nameof(path)))
         {
             this.separator = separator;
         }
@@ -39,8 +39,8 @@ namespace DiGi.Core.IO.DelimitedData.Classes
         /// </summary>
         /// <param name="delimitedDataSeparator">The separator to use for delimited data.</param>
         /// <param name="path">The path to the file where data will be written.</param>
-        public DelimitedDataWriter(DelimitedDataSeparator delimitedDataSeparator, string? path)
-            : base(path)
+        public DelimitedDataWriter(DelimitedDataSeparator delimitedDataSeparator, string path)
+            : base(path ?? throw new System.ArgumentNullException(nameof(path)))
         {
             separator = delimitedDataSeparator.Separator();
         }

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.DelimitedData.Classes;
+using DiGi.Core.IO.DelimitedData.Classes;
 using DiGi.Core.IO.DelimitedData.Enums;
 using DiGi.Core.IO.DelimitedData.Interfaces;
 using DiGi.Core.IO.Table.Classes;
@@ -72,7 +72,7 @@ namespace DiGi.Core.IO.DelimitedData
             }
 
             bool result = false;
-            using (DelimitedDataWriter delimitedDataWriter = new(separator, path))
+            using (DelimitedDataWriter delimitedDataWriter = new(separator, path!))
             {
                 result = Write(table, delimitedDataWriter, func);
             }
@@ -96,7 +96,7 @@ namespace DiGi.Core.IO.DelimitedData
             }
 
             bool result = false;
-            using (DelimitedDataWriter delimitedDataWriter = new(delimitedDataSeparator.Separator(), path))
+            using (DelimitedDataWriter delimitedDataWriter = new(delimitedDataSeparator.Separator(), path!))
             {
                 result = Write(table, delimitedDataWriter, func);
             }
