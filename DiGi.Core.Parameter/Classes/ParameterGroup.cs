@@ -382,7 +382,7 @@ namespace DiGi.Core.Parameter.Classes
                 return false;
             }
 
-            if (!dictionary.TryGetValue(parameterDefinition.UniqueId, out Parameter? parameter) && parameter == null)
+            if (!dictionary.TryGetValue(parameterDefinition.UniqueId, out Parameter? parameter))
             {
                 parameter = Create.Parameter(parameterDefinition, value, setValueSettings);
                 if (parameter == null)

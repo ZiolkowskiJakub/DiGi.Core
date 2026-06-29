@@ -21,11 +21,18 @@ namespace DiGi.Core
                 return default;
             }
 
-            int count = objects == null ? 0 : objects.Length;
+            objects ??= [];
+            int count = objects.Length;
 
             object? result = null;
 
-            ConstructorInfo constructorInfo = type.GetConstructor([.. objects.ToList().ConvertAll(x => x?.GetType())]);
+            Type[] argumentTypes = new Type[count];
+            for (int i = 0; i < count; i++)
+            {
+                argumentTypes[i] = objects[i]?.GetType()!;
+            }
+
+            ConstructorInfo constructorInfo = type.GetConstructor(argumentTypes);
             if (constructorInfo != null)
             {
                 result = constructorInfo.Invoke(objects);
@@ -52,18 +59,32 @@ namespace DiGi.Core
                     continue;
                 }
 
-                List<object> objects_Temp = objects == null ? [] : [.. objects];
+                bool[] used = new bool[count];
                 List<object> parameteres = [];
                 foreach (ParameterInfo parameterInfo in parameterInfos)
                 {
-                    object parameter = objects_Temp.Find(x => parameterInfo.ParameterType.IsAssignableFrom(x.GetType()));
-                    if (parameter == null)
+                    int index = -1;
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (used[i])
+                        {
+                            continue;
+                        }
+
+                        if (parameterInfo.ParameterType.IsAssignableFrom(objects[i].GetType()))
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    if (index == -1)
                     {
                         break;
                     }
 
-                    objects_Temp.Remove(parameter);
-                    parameteres.Add(parameter);
+                    used[index] = true;
+                    parameteres.Add(objects[index]);
                 }
 
                 if (parameterInfos.Length != parameteres.Count)

@@ -184,11 +184,12 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return null;
             }
 
+            Queue<WrapperNode> wrapperNodes_Queue = new(wrapperNodes);
+
             List<WrapperNode> result = [];
-            while (wrapperNodes.Count > 0)
+            while (wrapperNodes_Queue.Count > 0)
             {
-                WrapperNode wrapperNode = wrapperNodes[0];
-                wrapperNodes.RemoveAt(0);
+                WrapperNode wrapperNode = wrapperNodes_Queue.Dequeue();
 
                 WrapperNode? wrapperNode_Wrap = Wrap(wrapperNode.WrapperUniqueReference, out HashSet<WrapperNode>? wrapperNodes_Temp);
                 if (wrapperNode_Wrap != null)
@@ -200,7 +201,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 {
                     foreach (WrapperNode wrapperNode_Temp in wrapperNodes_Temp)
                     {
-                        wrapperNodes.Add(wrapperNode_Temp);
+                        wrapperNodes_Queue.Enqueue(wrapperNode_Temp);
                     }
                 }
             }

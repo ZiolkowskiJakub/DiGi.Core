@@ -32,7 +32,7 @@ namespace DiGi.Core.IO.DelimitedData
 
             if (columns.Any(x => x?.Name != null))
             {
-                delimitedDataWriter.WriteRow([.. columns.ToList().ConvertAll(x => x?.Name ?? string.Empty)]);
+                delimitedDataWriter.WriteRow([.. columns.Select(x => x?.Name ?? string.Empty)]);
             }
 
             Func<object?, string?>? func_Temp = func;

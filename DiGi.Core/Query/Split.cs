@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Core
 {
@@ -19,16 +18,18 @@ namespace DiGi.Core
                 return null;
             }
 
-            if (values.Count() <= maxCount)
+            List<X> values_All = [.. values];
+
+            if (values_All.Count <= maxCount)
             {
-                return [[.. values]];
+                return [values_All];
             }
 
             List<List<X>> result = [];
 
             List<X> values_Temp = [];
 
-            foreach (X value in values)
+            foreach (X value in values_All)
             {
                 values_Temp.Add(value);
 

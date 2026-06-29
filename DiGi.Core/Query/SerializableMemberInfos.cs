@@ -57,22 +57,14 @@ namespace DiGi.Core
             {
                 if (memberInfos_Ignored.Count != 0)
                 {
+                    HashSet<(Type, string)> ignored = [];
                     for (int i = 0; i < memberInfos_Ignored.Count; i++)
                     {
                         MemberInfo memberInfo_Ignored = memberInfos_Ignored[i];
-
-                        Type type_Ignored = memberInfo_Ignored.GetType();
-
-                        int index = memberInfos.FindIndex(x => x.GetType() == type_Ignored && x.Name == memberInfo_Ignored.Name);
-                        if (index != -1)
-                        {
-                            memberInfos.RemoveAt(index);
-                            if (memberInfos.Count == 0)
-                            {
-                                break;
-                            }
-                        }
+                        ignored.Add((memberInfo_Ignored.GetType(), memberInfo_Ignored.Name));
                     }
+
+                    memberInfos.RemoveAll(x => ignored.Contains((x.GetType(), x.Name)));
                 }
 
                 if (memberInfos.Count != 0)

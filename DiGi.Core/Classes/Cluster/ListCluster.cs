@@ -524,7 +524,8 @@ namespace DiGi.Core.Classes
                 }
 
                 List<ListClusterReference<TKey_1, TKey_2>> listClusterReferences_Temp_Temp = listClusterReferences_Temp.FindAll(x => listClusterReference.Key_1.Equals(x.Key_1) && listClusterReference.Key_2.Equals(x.Key_2));
-                listClusterReferences_Temp.RemoveAll(x => listClusterReferences_Temp_Temp.Contains(x));
+                HashSet<ListClusterReference<TKey_1, TKey_2>> listClusterReferences_Temp_Temp_Set = [.. listClusterReferences_Temp_Temp];
+                listClusterReferences_Temp.RemoveAll(x => listClusterReferences_Temp_Temp_Set.Contains(x));
 
                 List<TValue>? values = Remove(listClusterReference.Key_1, listClusterReference.Key_2, listClusterReferences_Temp_Temp.ConvertAll(x => x.Index));
                 if (values != null)
@@ -664,7 +665,7 @@ namespace DiGi.Core.Classes
         /// <returns>A list containing the removed values, or null if no values were removed.</returns>
         public List<TValue>? Remove(TKey_1? key_1, TKey_2? key_2, IEnumerable<int> indexes)
         {
-            if (key_1 == null || key_2 == null || indexes == null || indexes.Count() == 0)
+            if (key_1 == null || key_2 == null || indexes == null || !indexes.Any())
             {
                 return null;
             }
@@ -684,15 +685,15 @@ namespace DiGi.Core.Classes
             List<int> indexes_Temp = [.. indexes.Distinct()];
             indexes_Temp.Sort((x, y) => y.CompareTo(x));
 
-            for (int i = indexes_Temp.Count - 1; i >= 0; i--)
+            foreach (int index in indexes_Temp)
             {
-                if (i >= values.Count)
+                if (index < 0 || index >= values.Count)
                 {
                     continue;
                 }
 
-                result.Add(values[i]);
-                values.RemoveAt(i);
+                result.Add(values[index]);
+                values.RemoveAt(index);
             }
 
             if (values.Count == 0)

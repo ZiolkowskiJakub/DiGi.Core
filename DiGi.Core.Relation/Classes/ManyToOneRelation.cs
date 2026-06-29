@@ -330,7 +330,7 @@ namespace DiGi.Core.Relation.Classes
             }
 
             List<TUniqueReference> result = [];
-            if (uniqueReferences.Count() == 0)
+            if (!uniqueReferences.Any())
             {
                 return result;
             }

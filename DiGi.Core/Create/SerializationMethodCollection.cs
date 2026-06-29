@@ -57,10 +57,9 @@ namespace DiGi.Core
             {
                 tuples_Order.Sort((x, y) => x.Item3.CompareTo(y.Item3));
 
-                for (int i = tuples_Order.Count - 1; i >= 0; i--)
-                {
-                    tuples.Insert(0, new Tuple<MemberInfo, string>(tuples_Order[i].Item1, tuples_Order[i].Item2));
-                }
+                List<Tuple<MemberInfo, string>> tuples_Order_Converted = tuples_Order.ConvertAll(x => new Tuple<MemberInfo, string>(x.Item1, x.Item2));
+
+                tuples.InsertRange(0, tuples_Order_Converted);
             }
 
             List<SerializationMethod> serializationMethods = [];

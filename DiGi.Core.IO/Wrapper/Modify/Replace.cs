@@ -17,7 +17,23 @@ namespace DiGi.Core.IO.Wrapper
         {
             missingWrapperUniqueReferences = null;
 
-            if (jsonObject == null || wrapperNodes == null || wrapperNodes.Count() == 0)
+            if (jsonObject == null || wrapperNodes == null)
+            {
+                return null;
+            }
+
+            Dictionary<IWrapperUniqueReference, WrapperNode> wrapperNodesByUniqueReference = [];
+            foreach (WrapperNode wrapperNode_Temp in wrapperNodes)
+            {
+                if (wrapperNode_Temp?.WrapperUniqueReference is null)
+                {
+                    continue;
+                }
+
+                wrapperNodesByUniqueReference[wrapperNode_Temp.WrapperUniqueReference] = wrapperNode_Temp;
+            }
+
+            if (wrapperNodesByUniqueReference.Count == 0)
             {
                 return null;
             }
@@ -42,7 +58,7 @@ namespace DiGi.Core.IO.Wrapper
                 {
                     if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference? wrapperUniqueReference) && wrapperUniqueReference != null)
                     {
-                        WrapperNode? wrapperNode = wrapperNodes.Find(x => x?.WrapperUniqueReference is not null && wrapperUniqueReference.Equals(x.WrapperUniqueReference));
+                        wrapperNodesByUniqueReference.TryGetValue(wrapperUniqueReference, out WrapperNode? wrapperNode);
                         if (wrapperNode != null)
                         {
                             jsonObject[name] = wrapperNode.JsonNode;
@@ -89,7 +105,23 @@ namespace DiGi.Core.IO.Wrapper
         {
             missingWrapperUniqueReferences = null;
 
-            if (jsonArray == null || wrapperNodes == null || wrapperNodes.Count() == 0)
+            if (jsonArray == null || wrapperNodes == null)
+            {
+                return null;
+            }
+
+            Dictionary<IWrapperUniqueReference, WrapperNode> wrapperNodesByUniqueReference = [];
+            foreach (WrapperNode wrapperNode_Temp in wrapperNodes)
+            {
+                if (wrapperNode_Temp?.WrapperUniqueReference is null)
+                {
+                    continue;
+                }
+
+                wrapperNodesByUniqueReference[wrapperNode_Temp.WrapperUniqueReference] = wrapperNode_Temp;
+            }
+
+            if (wrapperNodesByUniqueReference.Count == 0)
             {
                 return null;
             }
@@ -109,7 +141,7 @@ namespace DiGi.Core.IO.Wrapper
                 {
                     if (Query.IsWrapperUniqueReference(jsonObject_Temp, out IWrapperUniqueReference? wrapperUniqueReference) && wrapperUniqueReference != null)
                     {
-                        WrapperNode? wrapperNode = wrapperNodes.Find(x => x != null && wrapperUniqueReference.Equals(x.WrapperUniqueReference!));
+                        wrapperNodesByUniqueReference.TryGetValue(wrapperUniqueReference, out WrapperNode? wrapperNode);
                         if (wrapperNode != null)
                         {
                             jsonArray[i] = wrapperNode.JsonNode;

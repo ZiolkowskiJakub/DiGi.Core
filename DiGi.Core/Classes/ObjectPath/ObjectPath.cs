@@ -24,9 +24,9 @@ namespace DiGi.Core.Classes
         /// <param name="names">The collection of segment names.</param>
         public ObjectPath(IEnumerable<string>? names)
         {
-            if (names != null && names.Count() != 0)
+            List<string>? names_Temp = names == null ? null : [.. names];
+            if (names_Temp != null && names_Temp.Count != 0)
             {
-                List<string> names_Temp = [.. names];
                 Name = names_Temp[0] ?? string.Empty;
                 if (names_Temp.Count > 1)
                 {
@@ -141,7 +141,7 @@ namespace DiGi.Core.Classes
         /// <returns>The resulting path after appending the segments.</returns>
         public TObjectPath? Add(IEnumerable<string>? names)
         {
-            if (names == null || names.Count() == 0)
+            if (names == null || !names.Any())
             {
                 return null;
             }

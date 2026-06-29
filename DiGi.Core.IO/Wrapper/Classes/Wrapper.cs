@@ -172,10 +172,27 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return null;
             }
 
+            Dictionary<string, WrapperNode> wrapperNodesByReference = [];
+            foreach (WrapperNode wrapperNode_Temp in wrapperNodes)
+            {
+                if (wrapperNode_Temp == null)
+                {
+                    continue;
+                }
+
+                string? key = wrapperNode_Temp.WrapperUniqueReference?.ToString();
+                if (key == null)
+                {
+                    continue;
+                }
+
+                wrapperNodesByReference[key] = wrapperNode_Temp;
+            }
+
             List<JsonNode?> result = [];
             foreach (string reference in references)
             {
-                WrapperNode? wrapperNode = wrapperNodes.Find(x => x?.WrapperUniqueReference?.ToString() == reference);
+                wrapperNodesByReference.TryGetValue(reference, out WrapperNode? wrapperNode);
 
                 result.Add(wrapperNode?.JsonNode);
             }
@@ -404,7 +421,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             }
 
             IEnumerable<IWrapperUniqueReference?>? wrapperUniqueReferences_Temp = Write(wrapperUniqueReferences);
-            if (wrapperUniqueReferences_Temp == null || wrapperUniqueReferences_Temp.Count() == 0)
+            if (wrapperUniqueReferences_Temp == null || !wrapperUniqueReferences_Temp.Any())
             {
                 return null;
             }

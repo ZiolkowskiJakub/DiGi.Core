@@ -381,7 +381,9 @@ namespace DiGi.Core.IO.File.Classes
                 return null;
             }
 
-            int count = uniqueReferences.Count;
+            List<UniqueReference> uniqueReferences_List = [.. uniqueReferences];
+
+            int count = uniqueReferences_List.Count;
 
             Dictionary<int, UniqueReference> dictionary_UniqueReference = [];
             foreach (int index in indexes)
@@ -391,7 +393,7 @@ namespace DiGi.Core.IO.File.Classes
                     continue;
                 }
 
-                dictionary_UniqueReference[index] = uniqueReferences.ElementAt(index);
+                dictionary_UniqueReference[index] = uniqueReferences_List[index];
             }
 
             IEnumerable<TSerializableObject?>? serializableObjects = GetValues(dictionary_UniqueReference.Values);
@@ -533,10 +535,8 @@ namespace DiGi.Core.IO.File.Classes
 
             if (dictionary != null)
             {
-                for (int i = uniqueReferences_Temp.Count - 1; i >= 0; i--)
+                foreach (UniqueReference uniqueReference in uniqueReferences_Temp.ToList())
                 {
-                    UniqueReference uniqueReference = uniqueReferences_Temp.ElementAt(0);
-
                     if (dictionary.ContainsKey(uniqueReference))
                     {
                         uniqueReferences_Temp.Remove(uniqueReference);
@@ -553,10 +553,8 @@ namespace DiGi.Core.IO.File.Classes
 
             using (ZipArchive zipArchive = ZipFile.Open(Path, ZipArchiveMode.Update))
             {
-                for (int i = uniqueReferences_Temp.Count - 1; i >= 0; i--)
+                foreach (UniqueReference uniqueReference in uniqueReferences_Temp.ToList())
                 {
-                    UniqueReference uniqueReference = uniqueReferences_Temp.ElementAt(0);
-
                     string entryName = System.IO.Path.Combine(IO.Constants.EntryName.Values, Query.Encode(uniqueReference));
 
                     ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
@@ -670,12 +668,12 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             IEnumerable<TSerializableObject?>? serializableObjects = GetValues([uniqueReference]);
-            if (serializableObjects == null || serializableObjects.Count() == 0)
+            if (serializableObjects == null)
             {
                 return default;
             }
 
-            serializableObject = serializableObjects.ElementAt(0);
+            serializableObject = serializableObjects.FirstOrDefault();
 
             return serializableObject != null;
         }
@@ -721,12 +719,12 @@ namespace DiGi.Core.IO.File.Classes
             }
 
             IEnumerable<TSerializableObject?>? serializableObjects = GetValues([index]);
-            if (serializableObjects == null || serializableObjects.Count() == 0)
+            if (serializableObjects == null)
             {
                 return default;
             }
 
-            serializableObject = serializableObjects.ElementAt(0);
+            serializableObject = serializableObjects.FirstOrDefault();
 
             return serializableObject != null;
         }

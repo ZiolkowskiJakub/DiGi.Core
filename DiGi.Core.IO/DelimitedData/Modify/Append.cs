@@ -42,7 +42,7 @@ namespace DiGi.Core.IO.DelimitedData
             {
                 columns = [.. columns_Table];
 
-                System.IO.File.AppendAllText(path, columns_Table.ToList().ConvertAll(x => x?.Name).Text(separator) + '\n');
+                System.IO.File.AppendAllText(path, columns_Table.Select(x => x?.Name).Text(separator) + '\n');
             }
             else
             {
@@ -69,7 +69,7 @@ namespace DiGi.Core.IO.DelimitedData
 
                 if (updated)
                 {
-                    IO.Modify.UpdateLine(path, 0, columns?.ToList().ConvertAll(x => x?.Name).Text(separator));
+                    IO.Modify.UpdateLine(path, 0, columns?.Select(x => x?.Name).Text(separator));
                 }
             }
 

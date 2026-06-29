@@ -35,7 +35,7 @@ namespace DiGi.Core
                 }
             }
 
-            return keys is not null && keys.Count > 0;
+            return keys.Count > 0;
         }
     }
 }

@@ -204,11 +204,6 @@ namespace DiGi.Core.Classes
                 throw new System.ArgumentNullException("array");
             }
 
-            if (values == null)
-            {
-                return;
-            }
-
             if (arrayIndex < 0)
             {
                 throw new System.ArgumentOutOfRangeException("arrayIndex");

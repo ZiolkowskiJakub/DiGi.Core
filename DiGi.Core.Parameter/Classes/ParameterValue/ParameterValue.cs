@@ -191,7 +191,7 @@ namespace DiGi.Core.Parameter.Classes
                         return false;
                     }
 
-                    int @guid;
+                    Guid @guid;
                     if (!Core.Query.TryConvert(value_In, out @guid))
                     {
                         return false;
@@ -206,7 +206,7 @@ namespace DiGi.Core.Parameter.Classes
                         return false;
                     }
 
-                    int @dateTime;
+                    DateTime @dateTime;
                     if (!Core.Query.TryConvert(value_In, out @dateTime))
                     {
                         return false;

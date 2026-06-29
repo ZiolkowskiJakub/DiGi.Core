@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.IO.Table.Classes;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.Core.IO.DelimitedData
 {
@@ -20,7 +19,9 @@ namespace DiGi.Core.IO.DelimitedData
 
             List<Column> result = [];
 
-            int count = names.Count();
+            List<string> names_List = [.. names];
+
+            int count = names_List.Count;
 
             if (count == 0)
             {
@@ -29,7 +30,7 @@ namespace DiGi.Core.IO.DelimitedData
 
             for (int i = 0; i < count; i++)
             {
-                result.Add(new Column(i, names.ElementAt(i), typeof(string)));
+                result.Add(new Column(i, names_List[i], typeof(string)));
             }
 
             return result;

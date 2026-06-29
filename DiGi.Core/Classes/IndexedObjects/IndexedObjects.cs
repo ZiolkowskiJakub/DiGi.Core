@@ -291,7 +291,7 @@ namespace DiGi.Core.Classes
         public int? GetMaxIndex()
         {
             IEnumerable<int>? keys = Keys;
-            if (keys == null || keys.Count() == 0)
+            if (keys == null || !keys.Any())
             {
                 return null;
             }
@@ -306,7 +306,7 @@ namespace DiGi.Core.Classes
         public int? GetMinIndex()
         {
             IEnumerable<int>? keys = Keys;
-            if (keys == null || keys.Count() == 0)
+            if (keys == null || !keys.Any())
             {
                 return null;
             }

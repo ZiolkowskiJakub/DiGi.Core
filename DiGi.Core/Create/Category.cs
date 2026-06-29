@@ -13,7 +13,7 @@ namespace DiGi.Core
         /// <returns>The root Category object, or null if the input is empty.</returns>
         public static Category? Category(this IEnumerable<string>? names)
         {
-            if (names == null || names.Count() == 0)
+            if (names == null || !names.Any())
             {
                 return null;
             }

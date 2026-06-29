@@ -41,13 +41,13 @@ namespace DiGi.Core
 
                 foreach (JsonNode? jsonNode_Temp in jsonArray_Temp)
                 {
-                    if (jsonNode == null || jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Array)
+                    if (jsonNode_Temp == null || jsonNode_Temp.GetValueKind() != System.Text.Json.JsonValueKind.Array)
                     {
                         jsonNodes.Add(jsonNode_Temp);
                         continue;
                     }
 
-                    JsonArray? jsonArray_Temp_Temp = jsonNode.AsArray();
+                    JsonArray? jsonArray_Temp_Temp = jsonNode_Temp.AsArray();
                     if (jsonArray_Temp_Temp == null)
                     {
                         jsonNodes.Add(jsonNode_Temp);

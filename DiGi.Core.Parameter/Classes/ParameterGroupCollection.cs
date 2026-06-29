@@ -260,9 +260,9 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.Contains(parameterDefinition))
+                if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition, out object? value, getValueSettings))
                 {
-                    return parameterGroup.GetValue(parameterDefinition, getValueSettings);
+                    return value;
                 }
             }
 
@@ -284,9 +284,9 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.Contains(uniqueId))
+                if (parameterGroup != null && parameterGroup.TryGetValue(uniqueId, out object? value, getValueSettings))
                 {
-                    return parameterGroup.GetValue(uniqueId, getValueSettings);
+                    return value;
                 }
             }
 
@@ -309,9 +309,9 @@ namespace DiGi.Core.Parameter.Classes
 
             foreach (ParameterGroup parameterGroup in dictionary.Values)
             {
-                if (parameterGroup != null && parameterGroup.Contains(parameterDefinition))
+                if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition, out T? value, getValueSettings))
                 {
-                    return parameterGroup.GetValue<T>(parameterDefinition, getValueSettings);
+                    return value;
                 }
             }
 

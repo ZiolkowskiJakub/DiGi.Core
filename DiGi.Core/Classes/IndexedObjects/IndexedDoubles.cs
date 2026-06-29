@@ -98,7 +98,7 @@ namespace DiGi.Core.Classes
             int result = -1;
 
             IEnumerable<int>? keys = Keys;
-            if (keys == null || keys.Count() == 0)
+            if (keys == null || !keys.Any())
             {
                 return result;
             }
@@ -146,7 +146,7 @@ namespace DiGi.Core.Classes
             int result = -1;
 
             IEnumerable<int>? keys = Keys;
-            if (keys == null || keys.Count() == 0)
+            if (keys == null || !keys.Any())
             {
                 return result;
             }
