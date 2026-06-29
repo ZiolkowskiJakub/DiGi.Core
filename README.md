@@ -122,7 +122,8 @@ namespace DiGi.Core
 All developers and AI agents must comply with these guidelines during coding tasks:
 
 1. **English Only:** All code, namespaces, variables, and comments must be written in English.
-2. **Explicit Typing Mandatory:** Always use explicit typing (e.g., `List<PointNode> pointNodes = new List<PointNode>()`). Strictly avoid the `var` keyword unless absolutely required by the compiler (e.g., anonymous types in LINQ).
+2. **Explicit Typing Mandatory:** Always use explicit typing (e.g., `List<PointNode> pointNodes = new()`). Strictly avoid the `var` keyword unless absolutely required by the compiler (e.g., anonymous types in LINQ).
+   * **Target-Typed New (`new()`):** To avoid IDE0090 analyzer messages, use target-typed new expressions (`new()`) instead of repeating the type when the target type is explicitly declared (e.g., `PointNode pointNode = new();` instead of `PointNode pointNode = new PointNode();`).
 3. **Variable Naming Conventions:**
    * Prefix variable/object names with their type name in camelCase (e.g., `PointNode pointNode_Base`, `PointNode pointNode_Temp`).
    * For primitive types (e.g., `double`, `string`, `int`, `bool`), type prefixes are optional (e.g., `double tolerance`, `string name` are allowed).
@@ -148,6 +149,40 @@ Every public constructor, property, method, and enum value must have complete XM
   /// </summary>
   ```
 * **Context Ingestion:** Read existing `.xml` documentation files adjacent to referenced DLL dependencies to maintain naming consistency.
+
+---
+
+## 🔁 Serialization Pattern (SerializableObject / ISerializableObject)
+
+Classes under `/Classes` that require JSON persistence, cloning, or polymorphic deserialization MUST inherit `DiGi.Core.Classes.SerializableObject`. The mechanism is reflection-driven — never hand-write JSON parsing.
+
+1. **Marker Interfaces:** Define a project-specific pair under `/Interfaces`, mirroring `DiGi.GIS.Interfaces.IGISObject` / `IGISSerializableObject`:
+   * `I<Project>Object : DiGi.Core.Interfaces.IObject`
+   * `I<Project>SerializableObject : I<Project>Object, DiGi.Core.Interfaces.ISerializableObject`
+   Every serializable class in the project implements `I<Project>SerializableObject`.
+2. **Fields:** Use `private readonly` fields, each tagged `[JsonInclude, JsonPropertyName(nameof(PublicProperty))]` — always reference the public property name via `nameof(...)`, never a string literal.
+3. **Three Constructors (always in this order):**
+   * **Primary** constructor (plain parameters, assigns fields) — no `base(...)` call.
+   * **Copy** constructor `ClassName(ClassName? instance) : base(instance)` copying every field: primitives/strings by value; `List<T>` of primitives via `new List<T>(source)`; lists of nested `SerializableObject` items cloned element-by-element via `Core.Query.Clone(...)` (filtering nulls); a single nested reference via `field = Core.Query.Clone(source.field);`.
+   * **JSON** constructor `ClassName(JsonObject? jsonObject) : base(jsonObject)` — empty body, pure delegation.
+4. **Properties:** `[JsonIgnore]` get-only properties returning the backing field (serialization is handled by the field attribute, not the property).
+5. **Project File:** Reference `DiGi.Core` (`<HintPath>..\..\DiGi.Core\bin\DiGi.Core.dll</HintPath>`) and the `System.Text.Json` `PackageReference` version used elsewhere in the solution.
+
+---
+
+## 🧪 Automatic Tests (xUnit)
+
+Unit tests use the **xUnit** framework and must follow the same coding standards (English only, explicit typing, target-typed `new()`, type-prefixed variable names, zero warnings).
+
+1. **Test Project:** Named `[ProjectName].xUnit` (e.g., `DiGi.Core.xUnit`).
+2. **Partial `Facts` Class:** All test methods live in `public partial class Facts`, with files placed in the `/Facts` directory.
+3. **Namespace:** Matches the test project namespace (e.g., `namespace DiGi.Core.xUnit`). `Xunit` is imported via global usings — do NOT add `using Xunit;`.
+4. **Attributes & Naming:** Mark methods with `[Fact]` and name them after the class, property, or method under test (e.g., `Color()`, `PlanarIntersectionResult_Performance()`).
+5. **XML Documentation:** Every test method has exactly one `<summary>` block (no empty `///` lines; use `<para>` for paragraph breaks).
+6. **Common Patterns:**
+   * **Serialization round-trip:** Call `Query.SerializationCheck(instance)` (fully qualify as `Core.xUnit.Query.SerializationCheck(...)` from a different namespace). Add one `[Fact]` per `SerializableObject`-derived class.
+   * **Tolerance boundaries:** Test cases exactly inside and exactly outside a tolerance (e.g., `1e-3 ± 1e-9`).
+   * **Performance benchmarks:** Warm up to trigger JIT, measure with `System.Diagnostics.Stopwatch`, run on large datasets, and assert elapsed time stays below a threshold.
 
 ---
 
