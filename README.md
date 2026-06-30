@@ -122,8 +122,9 @@ namespace DiGi.Core
 All developers and AI agents must comply with these guidelines during coding tasks:
 
 1. **English Only:** All code, namespaces, variables, and comments must be written in English.
-2. **Explicit Typing Mandatory:** Always use explicit typing (e.g., `List<PointNode> pointNodes = new()`). Strictly avoid the `var` keyword unless absolutely required by the compiler (e.g., anonymous types in LINQ).
-   * **Target-Typed New (`new()`):** To avoid IDE0090 analyzer messages, use target-typed new expressions (`new()`) instead of repeating the type when the target type is explicitly declared (e.g., `PointNode pointNode = new();` instead of `PointNode pointNode = new PointNode();`).
+2. **Explicit Typing Mandatory:** Never use implicit typing (`var`) unless it is strictly required by the compiler (declare all types explicitly).
+   * **Target-Typed New (`new(...)`):** To avoid IDE0090 analyzer messages, always use target-typed new expressions (`new(...)`) instead of explicit type instantiation when the target type is explicitly declared (e.g., write `PointNode pointNode = new();` instead of `PointNode pointNode = new PointNode();`).
+   * **Collection Expressions (`[]`):** To avoid IDE0028 analyzer messages ("Collection initialization can be simplified"), use collection expressions (`[]`) for initializing collections (e.g., write `List<int> numbers = [];` or `int[] array = [1, 2, 3];` instead of `new List<int>()` or `new int[] { 1, 2, 3 }`).
 3. **Variable Naming Conventions:**
    * Prefix variable/object names with their type name in camelCase (e.g., `PointNode pointNode_Base`, `PointNode pointNode_Temp`).
    * For primitive types (e.g., `double`, `string`, `int`, `bool`), type prefixes are optional (e.g., `double tolerance`, `string name` are allowed).
