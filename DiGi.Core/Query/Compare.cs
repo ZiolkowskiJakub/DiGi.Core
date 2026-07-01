@@ -109,6 +109,7 @@ namespace DiGi.Core
                     case TextComparisonType.StartsWith:
                     case TextComparisonType.EndsWith:
                         return true;
+
                     case TextComparisonType.NotEquals:
                     case TextComparisonType.NotContains:
                     case TextComparisonType.NotStartsWith:
@@ -125,12 +126,15 @@ namespace DiGi.Core
                 {
                     case TextComparisonType.Equals:
                         return false;
+
                     case TextComparisonType.NotEquals:
                         return true;
+
                     case TextComparisonType.Contains:
                     case TextComparisonType.StartsWith:
                     case TextComparisonType.EndsWith:
                         return false;
+
                     case TextComparisonType.NotContains:
                     case TextComparisonType.NotStartsWith:
                     case TextComparisonType.NotEndsWith:
