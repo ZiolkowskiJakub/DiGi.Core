@@ -15,7 +15,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Build and Generate Docs (Always Runs)
-        run: dotnet build DiGi.Core.csproj --configuration Release
+        run: dotnet build --configuration Release
 
       # Gracefully attempt to check out DiGi.Maintenance for scripts
       - name: Try checkout DiGi.Maintenance
