@@ -54,6 +54,7 @@ graph TD
     C[Query Extension Methods] -->|Read / Calculate / Extract| B
     D[Modify Extension Methods] -->|Update / Mutate State| B
     E[Create Extension Methods] -->|Instantiate / Transform| B
+    F[Convert Extension Methods] -->|Parse / Format / Transform Representation| B
 ```
 
 ### 1. Data Models (Classes, Interfaces, Enums)
@@ -65,6 +66,7 @@ All operations, business logic, and conversions are implemented as static **Exte
 * **Query** (`/Query`): Returns values or calculations based on the object state without mutating it (e.g., translating dynamic filter groups).
 * **Modify** (`/Modify`): Modifies the state or properties of the target object.
 * **Create** (`/Create`): Instantiates and returns a brand-new object using inputs/offsets from the target object.
+* **Convert** (`/Convert/To[TargetArea]`): Converts, formats, or transforms an object or raw components into another representation (e.g., `ToSystem_String`, `ToEPW_DateTime`).
 
 #### Pattern Example
 **1. Model Class (`/Classes/PointNode.cs`)**
@@ -148,7 +150,7 @@ This project strictly separates data models from business logic using Anemic Mod
 - **Enums:** Place in the `/Enums` directory (Namespace: `[Project].Enums`).
 
 ### 2. Business Logic (Extension Methods)
-ALL complex functionalities, including operations on classes, interfaces, and enums, MUST be implemented as **Extension Methods** inside one of three specific static partial classes. Do not create new manager/service classes. 
+ALL complex functionalities, including operations on classes, interfaces, and enums, MUST be implemented as **Extension Methods** inside one of four specific static partial classes. Do not create new manager/service classes. 
 
 * **Query (Read/Extract):**
     * **Directory:** `/Query`
@@ -162,6 +164,10 @@ ALL complex functionalities, including operations on classes, interfaces, and en
     * **Directory:** `/Create`
     * **Class:** `public static partial class Create`
     * **Purpose:** Complex functionalities that create and return a completely new object based on input data.
+* **Convert (Parse/Format/Transform):**
+    * **Directory:** `/Convert` (organized in `/Convert/To[TargetArea]` subdirectories, e.g., `/Convert/ToSystem`, `/Convert/ToEPW`, `/Convert/ToDiGi`)
+    * **Class:** `public static partial class Convert`
+    * **Purpose:** Complex functionalities that convert, format, or transform an object or raw components into another representation. Extension methods should follow the naming pattern `To[TargetArea]_[TargetType]` (e.g., `ToSystem_String`, `ToSystem_DateTime`, `ToEPW_DateTime`).
 
 ---
 
