@@ -75,6 +75,19 @@ public File(System.Text.Json.Nodes.JsonObject? jsonObject);
 The JSON object containing file data\.
 ### Properties
 
+<a name='DiGi.Core.IO.File.Classes.File.MetadataStorage'></a>
+
+## File\.MetadataStorage Property
+
+Gets the metadata storage of the file\.
+
+```csharp
+internal DiGi.Core.IO.Classes.MetadataStorage MetadataStorage { internal get; }
+```
+
+#### Property Value
+[DiGi\.Core\.IO\.Classes\.MetadataStorage](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.classes.metadatastorage 'DiGi\.Core\.IO\.Classes\.MetadataStorage')
+
 <a name='DiGi.Core.IO.File.Classes.File.Path'></a>
 
 ## File\.Path Property

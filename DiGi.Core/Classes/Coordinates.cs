@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -9,25 +9,11 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class Coordinates : SerializableObject, ICoordinates
     {
-        [JsonInclude, JsonPropertyName("Latitude")]
+        [JsonInclude, JsonPropertyName(nameof(Latitude))]
         private readonly double latitude;
 
-        [JsonInclude, JsonPropertyName("Longitude")]
+        [JsonInclude, JsonPropertyName(nameof(Longitude))]
         private readonly double longitude;
-
-        /// <summary>
-        /// Initializes a new instance of the Coordinates class by copying another Coordinates object.
-        /// </summary>
-        /// <param name="coordinates">The source coordinates to copy from.</param>
-        public Coordinates(Coordinates? coordinates)
-            : base()
-        {
-            if (coordinates != null)
-            {
-                latitude = coordinates.latitude;
-                longitude = coordinates.longitude;
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the Coordinates class with specified latitude and longitude.
@@ -39,6 +25,20 @@ namespace DiGi.Core.Classes
         {
             this.longitude = longitude;
             this.latitude = latitude;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Coordinates class by copying another Coordinates object.
+        /// </summary>
+        /// <param name="coordinates">The source coordinates to copy from.</param>
+        public Coordinates(Coordinates? coordinates)
+            : base(coordinates)
+        {
+            if (coordinates != null)
+            {
+                latitude = coordinates.latitude;
+                longitude = coordinates.longitude;
+            }
         }
 
         /// <summary>

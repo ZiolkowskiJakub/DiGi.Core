@@ -17,7 +17,7 @@ namespace DiGi.Core.Parameter.Classes
         [JsonIgnore]
         private readonly Dictionary<string, Parameter> dictionary = [];
 
-        [JsonInclude, JsonPropertyName("Name")]
+        [JsonInclude, JsonPropertyName(nameof(Name))]
         private readonly string? name;
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace DiGi.Core.Parameter.Classes
         /// </summary>
         /// <param name="parameterGroup">The parameter group to copy from.</param>
         public ParameterGroup(ParameterGroup? parameterGroup)
-            : base()
+            : base(parameterGroup)
         {
             if (parameterGroup != null)
             {
@@ -75,7 +75,7 @@ namespace DiGi.Core.Parameter.Classes
             }
         }
 
-        [JsonInclude, JsonPropertyName("Parameters")]
+        [JsonInclude, JsonPropertyName(nameof(Parameters))]
         private List<Parameter> Parameters
         {
             get

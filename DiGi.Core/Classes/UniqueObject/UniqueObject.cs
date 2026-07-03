@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -15,20 +15,20 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniqueObject"/> class using the specified JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to use for initialization.</param>
-        public UniqueObject(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObject"/> class by copying an existing instance.
         /// </summary>
         /// <param name="uniqueObject">The existing instance to copy.</param>
         public UniqueObject(UniqueObject? uniqueObject)
             : base(uniqueObject)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UniqueObject"/> class using the specified JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to use for initialization.</param>
+        public UniqueObject(JsonObject? jsonObject)
+            : base(jsonObject)
         {
         }
 

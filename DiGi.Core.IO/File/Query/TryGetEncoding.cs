@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 
 namespace DiGi.Core.IO.File
@@ -29,7 +29,7 @@ namespace DiGi.Core.IO.File
 
                 if (check.SequenceEqual(bytes))
                 {
-                    using var reader = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                    using FileStream reader = new(filePath, FileMode.Open, FileAccess.Read);
                     byte[] bom = new byte[4];
                     reader.Read(bom, 0, 4);
 

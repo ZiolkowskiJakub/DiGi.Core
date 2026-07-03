@@ -13,7 +13,7 @@ namespace DiGi.Core.Classes
     [Description("Category")]
     public class Category : SerializableObject, IEquatable<Category>
     {
-        [JsonInclude, JsonPropertyName("Name"), Description("Category Name")]
+        [JsonInclude, JsonPropertyName(nameof(Name)), Description("Category Name")]
         private readonly string? name;
 
         [JsonIgnore]

@@ -2427,6 +2427,23 @@ The green component\.
 
 The blue component\.
 
+<a name='DiGi.Core.Classes.Color.Color(DiGi.Core.Classes.Color)'></a>
+
+## Color\(Color\) Constructor
+
+Initializes a new instance of the Color class by copying another Color instance\.
+
+```csharp
+public Color(DiGi.Core.Classes.Color? color);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.Color.Color(DiGi.Core.Classes.Color).color'></a>
+
+`color` [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color')
+
+The source color to copy from\.
+
 <a name='DiGi.Core.Classes.Color.Color(int)'></a>
 
 ## Color\(int\) Constructor
@@ -2468,7 +2485,7 @@ The source color\.
 Initializes a new instance of the Color class from a JsonObject\.
 
 ```csharp
-public Color(System.Text.Json.Nodes.JsonObject jsonObject);
+public Color(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -2755,6 +2772,19 @@ public ConfigurationFile(System.Text.Json.Nodes.JsonObject? jsonObject);
 
 The JSON object containing configuration data\.
 ### Properties
+
+<a name='DiGi.Core.Classes.ConfigurationFile.Dictionary'></a>
+
+## ConfigurationFile\.Dictionary Property
+
+Gets the dictionary containing key\-value configuration settings\.
+
+```csharp
+public System.Collections.Generic.Dictionary<string,string> Dictionary { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.Dictionary&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[,](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')
 
 <a name='DiGi.Core.Classes.ConfigurationFile.Names'></a>
 
@@ -3482,6 +3512,19 @@ Implements [Count](https://learn.microsoft.com/en-us/dotnet/api/system.collectio
 
 #### Property Value
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.DateTimeCollection.DateTimes'></a>
+
+## DateTimeCollection\.DateTimes Property
+
+Gets the list of DateTimes in the collection\.
+
+```csharp
+public System.Collections.Generic.IList<System.DateTime> DateTimes { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1 'System\.Collections\.Generic\.IList\`1')[System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1 'System\.Collections\.Generic\.IList\`1')
 
 <a name='DiGi.Core.Classes.DateTimeCollection.IsReadOnly'></a>
 
@@ -8874,7 +8917,7 @@ Implements [System\.Collections\.Generic\.ICollection&lt;](https://learn.microso
 
 ## SerializableObjectCollection\(\) Constructor
 
-Initializes a new instance of the [SerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectCollection 'DiGi\.Core\.Classes\.SerializableObjectCollection') class\.
+Initializes a new instance of the [SerializableObjectCollection&lt;T&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectCollection_T_ 'DiGi\.Core\.Classes\.SerializableObjectCollection\<T\>') class\.
 
 ```csharp
 public SerializableObjectCollection();
@@ -8918,7 +8961,7 @@ The enumerable of serializable objects to initialize the collection with\.
 
 ## SerializableObjectCollection\(JsonObject\) Constructor
 
-Initializes a new instance of the [SerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectCollection 'DiGi\.Core\.Classes\.SerializableObjectCollection') class from a JSON object\.
+Initializes a new instance of the [SerializableObjectCollection&lt;T&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectCollection_T_ 'DiGi\.Core\.Classes\.SerializableObjectCollection\<T\>') class from a JSON object\.
 
 ```csharp
 public SerializableObjectCollection(System.Text.Json.Nodes.JsonObject? jsonObject);
@@ -8981,6 +9024,19 @@ The zero\-based index of the element to get or set\.
 
 #### Property Value
 [T](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectCollection_T_.T 'DiGi\.Core\.Classes\.SerializableObjectCollection\<T\>\.T')
+
+<a name='DiGi.Core.Classes.SerializableObjectCollection_T_.Values'></a>
+
+## SerializableObjectCollection\<T\>\.Values Property
+
+Gets the list of elements contained in the collection\.
+
+```csharp
+public System.Collections.Generic.IList<T> Values { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1 'System\.Collections\.Generic\.IList\`1')[T](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectCollection_T_.T 'DiGi\.Core\.Classes\.SerializableObjectCollection\<T\>\.T')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1 'System\.Collections\.Generic\.IList\`1')
 ### Methods
 
 <a name='DiGi.Core.Classes.SerializableObjectCollection_T_.Add(T)'></a>
@@ -9545,6 +9601,23 @@ Initializes a new instance of the [SerializableObjectWrapper](DiGi.Core.Classes.
 ```csharp
 public SerializableObjectWrapper();
 ```
+
+<a name='DiGi.Core.Classes.SerializableObjectWrapper.SerializableObjectWrapper(DiGi.Core.Classes.SerializableObjectWrapper)'></a>
+
+## SerializableObjectWrapper\(SerializableObjectWrapper\) Constructor
+
+Initializes a new instance of the [SerializableObjectWrapper](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectWrapper 'DiGi\.Core\.Classes\.SerializableObjectWrapper') class by copying another instance\.
+
+```csharp
+public SerializableObjectWrapper(DiGi.Core.Classes.SerializableObjectWrapper? serializableObjectWrapper);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SerializableObjectWrapper.SerializableObjectWrapper(DiGi.Core.Classes.SerializableObjectWrapper).serializableObjectWrapper'></a>
+
+`serializableObjectWrapper` [SerializableObjectWrapper](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObjectWrapper 'DiGi\.Core\.Classes\.SerializableObjectWrapper')
+
+The source wrapper to copy from\.
 
 <a name='DiGi.Core.Classes.SerializableObjectWrapper.SerializableObjectWrapper(System.Text.Json.Nodes.JsonObject)'></a>
 

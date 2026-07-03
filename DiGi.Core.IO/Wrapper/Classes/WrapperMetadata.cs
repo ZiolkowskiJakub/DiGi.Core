@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.IO.Interfaces;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -8,13 +8,11 @@ namespace DiGi.Core.IO.Wrapper.Classes
 {
     internal sealed class WrapperMetadata : SerializableObject, IMetadata
     {
+        [JsonInclude, JsonPropertyName(nameof(References))]
+        private readonly List<string> references = [];
+
         public WrapperMetadata()
             : base()
-        {
-        }
-
-        public WrapperMetadata(JsonObject? jsonObject)
-            : base(jsonObject)
         {
         }
 
@@ -23,14 +21,25 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
             if (wrapperMetadata != null)
             {
-                if (wrapperMetadata.References != null)
+                if (wrapperMetadata.references != null)
                 {
-                    References = [.. wrapperMetadata.References];
+                    references.AddRange(wrapperMetadata.references);
                 }
             }
         }
 
-        [JsonInclude, JsonPropertyName("References")]
-        public List<string> References { get; set; } = [];
+        public WrapperMetadata(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
+        }
+
+        [JsonIgnore]
+        public List<string> References
+        {
+            get
+            {
+                return references;
+            }
+        }
     }
 }

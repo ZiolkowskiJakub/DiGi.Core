@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -9,11 +9,42 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class Size : SerializableObject
     {
+        [JsonInclude, JsonPropertyName(nameof(Height)), Description("Height")]
+        private double height = 0;
+
+        [JsonInclude, JsonPropertyName(nameof(Width)), Description("Width")]
+        private double width = 0;
+
         /// <summary>
         /// Initializes a new empty instance of the Size class.
         /// </summary>
         public Size()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Size class with specified width and height.
+        /// </summary>
+        /// <param name="width">The width dimension.</param>
+        /// <param name="height">The height dimension.</param>
+        public Size(double width, double height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Size class by copying another Size object.
+        /// </summary>
+        /// <param name="size">The source size to copy from.</param>
+        public Size(Size? size)
+            : base(size)
+        {
+            if (size != null)
+            {
+                width = size.width;
+                height = size.height;
+            }
         }
 
         /// <summary>
@@ -26,41 +57,36 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the Size class by copying another Size object.
+        /// Gets or sets the height dimension of the size.
         /// </summary>
-        /// <param name="size">The source size to copy from.</param>
-        public Size(Size? size)
-            : base(size)
+        [JsonIgnore]
+        public double Height
         {
-            if (size != null)
+            get
             {
-                Width = size.Width;
-                Height = size.Height;
+                return height;
+            }
+            set
+            {
+                height = value;
             }
         }
 
         /// <summary>
-        /// Initializes a new instance of the Size class with specified width and height.
-        /// </summary>
-        /// <param name="width">The width dimension.</param>
-        /// <param name="height">The height dimension.</param>
-        public Size(double width, double height)
-        {
-            Width = width;
-            Height = height;
-        }
-
-        /// <summary>
-        /// Gets or sets the height dimension of the size.
-        /// </summary>
-        [JsonInclude, JsonPropertyName("Height"), Description("Height")]
-        public double Height { get; set; } = 0;
-
-        /// <summary>
         /// Gets or sets the width dimension of the size.
         /// </summary>
-        [JsonInclude, JsonPropertyName("Width"), Description("Width")]
-        public double Width { get; set; } = 0;
+        [JsonIgnore]
+        public double Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+            }
+        }
 
         /// <summary>
         /// Implicitly converts a <see cref="System.Drawing.SizeF"/> object to a <see cref="Size"/> instance.

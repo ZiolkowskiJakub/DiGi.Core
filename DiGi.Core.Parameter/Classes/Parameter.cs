@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Interfaces;
 using System.Text.Json.Nodes;
@@ -9,25 +9,11 @@ namespace DiGi.Core.Parameter.Classes
     /// <summary>Represents a parameter with a definition and a value.</summary>
     public class Parameter : SerializableObject
     {
-        [JsonInclude, JsonPropertyName("ParameterDefinition")]
+        [JsonInclude, JsonPropertyName(nameof(ParameterDefinition))]
         private readonly IParameterDefinition? parameterDefinition;
 
-        [JsonInclude, JsonPropertyName("Value")]
+        [JsonInclude, JsonPropertyName(nameof(Value))]
         private object? value;
-
-        /// <summary>Creates a new instance of the Parameter class from a JSON object.</summary>
-        /// <param name="jsonObject">The JSON object containing the parameter data.</param>
-        public Parameter(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>Creates a new instance of the Parameter class by copying another Parameter.</summary>
-        /// <param name="parameter">The Parameter to copy.</param>
-        public Parameter(Parameter? parameter)
-            : this(parameter?.ParameterDefinition, parameter?.value)
-        {
-        }
 
         /// <summary>Creates a new instance of the Parameter class with the specified parameter definition and value.</summary>
         /// <param name="parameterDefinition">The parameter definition.</param>
@@ -43,6 +29,25 @@ namespace DiGi.Core.Parameter.Classes
         internal Parameter(IParameterDefinition? parameterDefinition)
         {
             this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
+        }
+
+        /// <summary>Creates a new instance of the Parameter class by copying another Parameter.</summary>
+        /// <param name="parameter">The Parameter to copy.</param>
+        public Parameter(Parameter? parameter)
+            : base(parameter)
+        {
+            if (parameter != null)
+            {
+                parameterDefinition = parameter.parameterDefinition?.Clone<IParameterDefinition>();
+                value = parameter.value is ISerializableObject serializableObject ? serializableObject.Clone() : parameter.value;
+            }
+        }
+
+        /// <summary>Creates a new instance of the Parameter class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object containing the parameter data.</param>
+        public Parameter(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>Gets the name of the parameter.</summary>

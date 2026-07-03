@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -9,10 +9,10 @@ namespace DiGi.Core.Drawing.Classes
     /// </summary>
     public class Pen : SerializableObject
     {
-        [JsonInclude, JsonPropertyName("Color")]
+        [JsonInclude, JsonPropertyName(nameof(Color))]
         private readonly Color? color;
 
-        [JsonInclude, JsonPropertyName("Thickness")]
+        [JsonInclude, JsonPropertyName(nameof(Thickness))]
         private readonly double thickness;
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace DiGi.Core.Drawing.Classes
         /// <summary>
         /// Gets the color of the pen.
         /// </summary>
+        [JsonIgnore]
         public Color? Color
         {
             get
@@ -64,6 +65,7 @@ namespace DiGi.Core.Drawing.Classes
         /// <summary>
         /// Gets the thickness of the pen.
         /// </summary>
+        [JsonIgnore]
         public double Thickness
         {
             get

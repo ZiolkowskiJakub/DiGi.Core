@@ -44,7 +44,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             Modify.Append(stringBuilder, type);
             return stringBuilder.ToString();
         }

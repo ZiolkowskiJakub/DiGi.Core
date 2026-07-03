@@ -3826,6 +3826,19 @@ public ParameterValue(System.Text.Json.Nodes.JsonObject? jsonObject);
 The JSON object used to initialize the parameter value\.
 ### Properties
 
+<a name='DiGi.Core.Parameter.Classes.ParameterValue.Nullable'></a>
+
+## ParameterValue\.Nullable Property
+
+Gets a value indicating whether the parameter is nullable\.
+
+```csharp
+public bool Nullable { get; }
+```
+
+#### Property Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
 <a name='DiGi.Core.Parameter.Classes.ParameterValue.ParameterType'></a>
 
 ## ParameterValue\.ParameterType Property
@@ -4227,6 +4240,20 @@ public ParametrizedObject(System.Text.Json.Nodes.JsonObject? jsonObject);
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
 The JSON object to initialize from\.
+### Properties
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.ParameterGroupCollection'></a>
+
+## ParametrizedObject\.ParameterGroupCollection Property
+
+Gets the parameter group collection\.
+
+```csharp
+public DiGi.Core.Parameter.Classes.ParameterGroupCollection ParameterGroupCollection { get; }
+```
+
+#### Property Value
+[ParameterGroupCollection](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection')
 ### Methods
 
 <a name='DiGi.Core.Parameter.Classes.ParametrizedObject.Contains(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>

@@ -13,8 +13,15 @@ namespace DiGi.Core.Parameter.Classes
     /// </summary>
     public class ParametrizedObject : SerializableObject, IParametrizedObject
     {
-        [JsonInclude, JsonPropertyName("ParameterGroupCollection")]
+        [JsonInclude, JsonPropertyName(nameof(ParameterGroupCollection))]
         private readonly ParameterGroupCollection parameterGroupCollection = new();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParametrizedObject"/> class.
+        /// </summary>
+        public ParametrizedObject()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedObject"/> class using a collection of parameters.
@@ -33,19 +40,25 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParametrizedObject"/> class.
-        /// </summary>
-        public ParametrizedObject()
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedObject"/> class using a parameter group collection.
         /// </summary>
         /// <param name="parameterGroupCollection">The parameter group collection to use for initialization.</param>
         public ParametrizedObject(ParameterGroupCollection? parameterGroupCollection)
         {
             this.parameterGroupCollection = parameterGroupCollection == null ? new ParameterGroupCollection() : new ParameterGroupCollection(parameterGroupCollection);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParametrizedObject"/> class by copying another parametrized object.
+        /// </summary>
+        /// <param name="parametrizedObject">The parametrized object to copy from.</param>
+        public ParametrizedObject(ParametrizedObject? parametrizedObject)
+            : base(parametrizedObject)
+        {
+            if (parametrizedObject != null)
+            {
+                parameterGroupCollection = parametrizedObject.parameterGroupCollection == null ? new ParameterGroupCollection() : new ParameterGroupCollection(parametrizedObject.parameterGroupCollection);
+            }
         }
 
         /// <summary>
@@ -58,15 +71,14 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParametrizedObject"/> class by copying another parametrized object.
+        /// Gets the parameter group collection.
         /// </summary>
-        /// <param name="parametrizedObject">The parametrized object to copy from.</param>
-        public ParametrizedObject(ParametrizedObject? parametrizedObject)
-            : base()
+        [JsonIgnore]
+        public ParameterGroupCollection ParameterGroupCollection
         {
-            if (parametrizedObject != null)
+            get
             {
-                parameterGroupCollection = parametrizedObject.parameterGroupCollection == null ? new ParameterGroupCollection() : new ParameterGroupCollection(parametrizedObject.parameterGroupCollection);
+                return parameterGroupCollection;
             }
         }
 

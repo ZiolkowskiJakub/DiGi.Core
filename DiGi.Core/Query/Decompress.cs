@@ -23,15 +23,15 @@ namespace DiGi.Core
 
             byte[] gZipBuffer = System.Convert.FromBase64String(@string);
 
-            using var memoryStream = new MemoryStream();
+            using MemoryStream memoryStream = new();
 
             int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
             memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
 
-            var buffer = new byte[dataLength];
+            byte[] buffer = new byte[dataLength];
 
             memoryStream.Position = 0;
-            using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
+            using (GZipStream gZipStream = new(memoryStream, CompressionMode.Decompress))
             {
                 gZipStream.Read(buffer, 0, buffer.Length);
             }

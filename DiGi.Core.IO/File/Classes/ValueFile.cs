@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.File.Classes
         [JsonIgnore]
         private bool disposed = false;
 
-        [JsonInclude, JsonPropertyName("Value")]
+        [JsonInclude, JsonPropertyName(nameof(Value))]
         private TSerializableObject? value;
 
         /// <summary>
@@ -26,15 +26,6 @@ namespace DiGi.Core.IO.File.Classes
         /// <param name="path">The path to the value file.</param>
         public ValueFile(string? path)
             : base(path)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ValueFile"/> class from the provided JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize from.</param>
-        public ValueFile(JsonObject? jsonObject)
-            : base(jsonObject)
         {
         }
 
@@ -49,6 +40,15 @@ namespace DiGi.Core.IO.File.Classes
             {
                 value = valueFile.value == null ? default : valueFile.value.Clone<TSerializableObject>();
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValueFile"/> class from the provided JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
+        public ValueFile(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>

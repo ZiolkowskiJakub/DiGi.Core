@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -11,10 +11,10 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class DateTimeSeries : SerializableObject, ITimeSeries
     {
-        [JsonInclude, JsonPropertyName("Range")]
+        [JsonInclude, JsonPropertyName(nameof(Range))]
         private readonly DateTimeRange? range;
 
-        [JsonInclude, JsonPropertyName("Step")]
+        [JsonInclude, JsonPropertyName(nameof(Step))]
         private readonly long step;
 
         /// <summary>

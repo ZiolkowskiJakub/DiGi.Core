@@ -19,10 +19,24 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectWrapper"/> class by copying another instance.
+        /// </summary>
+        /// <param name="serializableObjectWrapper">The source wrapper to copy from.</param>
+        public SerializableObjectWrapper(SerializableObjectWrapper? serializableObjectWrapper)
+            : base(serializableObjectWrapper)
+        {
+            if (serializableObjectWrapper != null)
+            {
+                jsonObject = serializableObjectWrapper.jsonObject?.DeepClone() as JsonObject;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectWrapper"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to wrap.</param>
         public SerializableObjectWrapper(JsonObject? jsonObject)
+            : base(jsonObject)
         {
             this.jsonObject = jsonObject?.DeepClone() as JsonObject;
         }

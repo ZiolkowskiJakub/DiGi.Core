@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.File.Interfaces;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +18,7 @@ namespace DiGi.Core.IO.File.Classes
         [JsonIgnore]
         private bool disposed = false;
 
-        [JsonInclude, JsonPropertyName("Values")]
+        [JsonInclude, JsonPropertyName(nameof(Values))]
         private List<TSerializableObject?>? values;
 
         /// <summary>
@@ -27,15 +27,6 @@ namespace DiGi.Core.IO.File.Classes
         /// <param name="path">The path to the values file.</param>
         public ValuesFile(string? path)
             : base(path)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ValuesFile"/> class from the provided JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize from.</param>
-        public ValuesFile(JsonObject? jsonObject)
-            : base(jsonObject)
         {
         }
 
@@ -65,6 +56,15 @@ namespace DiGi.Core.IO.File.Classes
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValuesFile"/> class from the provided JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize from.</param>
+        public ValuesFile(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
@@ -12,16 +12,16 @@ namespace DiGi.Core.Relation.Classes
     /// <summary>Represents an abstract relationship between unique objects.</summary>
     public abstract class Relation : SerializableObject, IRelation
     {
+        /// <summary>Creates a new instance of the Relation class.</summary>
+        public Relation()
+            : base()
+        {
+        }
+
         /// <summary>Creates a new instance of the Relation class by copying another instance.</summary>
         /// <param name="relation">The relation instance to copy from.</param>
         public Relation(Relation? relation)
             : base(relation)
-        {
-        }
-
-        /// <summary>Creates a new instance of the Relation class.</summary>
-        public Relation()
-            : base()
         {
         }
 

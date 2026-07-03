@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.File.Interfaces;
 using System;
@@ -33,15 +33,6 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StorageFile"/> class from the provided JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object used to initialize the storage file.</param>
-        public StorageFile(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="StorageFile"/> class from an existing typed storage file.
         /// </summary>
         /// <param name="storageFile">The existing typed storage file to initialize from.</param>
@@ -52,6 +43,15 @@ namespace DiGi.Core.IO.File.Classes
             {
                 Values = storageFile.Values;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class from the provided JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object used to initialize the storage file.</param>
+        public StorageFile(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>

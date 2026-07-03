@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Enums;
+using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -10,33 +10,17 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class Address : SerializableObject, IAddress
     {
-        [JsonInclude, JsonPropertyName("City")]
+        [JsonInclude, JsonPropertyName(nameof(City))]
         private readonly string? city;
 
-        [JsonInclude, JsonPropertyName("CountryCode")]
+        [JsonInclude, JsonPropertyName(nameof(CountryCode))]
         private readonly CountryCode countryCode;
 
-        [JsonInclude, JsonPropertyName("PostalCode")]
+        [JsonInclude, JsonPropertyName(nameof(PostalCode))]
         private readonly string? postalCode;
 
-        [JsonInclude, JsonPropertyName("Street")]
+        [JsonInclude, JsonPropertyName(nameof(Street))]
         private readonly string? street;
-
-        /// <summary>
-        /// Initializes a new instance of the Address class using another Address object.
-        /// </summary>
-        /// <param name="address">The source address to copy from.</param>
-        public Address(Address? address)
-            : base()
-        {
-            if (address != null)
-            {
-                street = address.street;
-                city = address.city;
-                postalCode = address.postalCode;
-                countryCode = address.countryCode;
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the Address class with specified address details.
@@ -52,6 +36,22 @@ namespace DiGi.Core.Classes
             this.city = city;
             this.postalCode = postalCode;
             this.countryCode = countryCode;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Address class using another Address object.
+        /// </summary>
+        /// <param name="address">The source address to copy from.</param>
+        public Address(Address? address)
+            : base(address)
+        {
+            if (address != null)
+            {
+                street = address.street;
+                city = address.city;
+                postalCode = address.postalCode;
+                countryCode = address.countryCode;
+            }
         }
 
         /// <summary>

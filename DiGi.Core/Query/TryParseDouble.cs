@@ -214,7 +214,7 @@ namespace DiGi.Core
                 }
             }
 
-            string normalized = new string(buffer, 0, dest);
+            string normalized = new(buffer, 0, dest);
             return double.TryParse(normalized, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out result);
 
             //string value_2_String = value_1_String;

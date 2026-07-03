@@ -13,11 +13,11 @@ namespace DiGi.Core.Classes
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
     public class SerializableObjectCollection<T> : SerializableObject, ICollection<T> where T : ISerializableObject
     {
-        [JsonInclude, JsonPropertyName("Values")]
+        [JsonInclude, JsonPropertyName(nameof(Values))]
         private readonly List<T> values = [];
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class.
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class.
         /// </summary>
         public SerializableObjectCollection()
             : base()
@@ -37,7 +37,20 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class by copying another collection.
+        /// </summary>
+        /// <param name="serializableObjectCollection">The source collection to copy from.</param>
+        public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
+            : base(serializableObjectCollection)
+        {
+            if (serializableObjectCollection?.values != null)
+            {
+                values = [.. serializableObjectCollection.values];
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
         public SerializableObjectCollection(JsonObject? jsonObject)
@@ -46,15 +59,14 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableObjectCollection{T}"/> class by copying another collection.
+        /// Gets the list of elements contained in the collection.
         /// </summary>
-        /// <param name="serializableObjectCollection">The source collection to copy from.</param>
-        public SerializableObjectCollection(SerializableObjectCollection<T>? serializableObjectCollection)
-            : base()
+        [JsonIgnore]
+        public IList<T> Values
         {
-            if (serializableObjectCollection?.values != null)
+            get
             {
-                values = [.. serializableObjectCollection.values];
+                return values;
             }
         }
 

@@ -19,15 +19,6 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableReference"/> class from a JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the reference from.</param>
-        public SerializableReference(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SerializableReference"/> class by copying an existing reference.
         /// </summary>
         /// <param name="serializableReference">The existing reference to copy.</param>
@@ -38,6 +29,15 @@ namespace DiGi.Core.Classes
             {
                 hashCode = serializableReference.hashCode;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableReference"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the reference from.</param>
+        public SerializableReference(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>

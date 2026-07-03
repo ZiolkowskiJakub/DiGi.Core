@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Classes;
 using DiGi.Core.IO.File.Interfaces;
@@ -20,7 +20,7 @@ namespace DiGi.Core.IO.File.Classes
     {
         private bool disposed = false;
 
-        [JsonInclude, JsonPropertyName("MetadataStorage"), Description("MetadataStorage")]
+        [JsonInclude, JsonPropertyName(nameof(MetadataStorage)), Description("MetadataStorage")]
         private MetadataStorage metadataStorage = new();
 
         /// <summary>
@@ -34,6 +34,19 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="File"/> class by cloning another file's metadata.
+        /// </summary>
+        /// <param name="file">The source file to clone metadata from.</param>
+        public File(File? file)
+            : base(file)
+        {
+            if (file != null)
+            {
+                metadataStorage = file.metadataStorage.Clone<MetadataStorage>() ?? new();
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="File"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object containing file data.</param>
@@ -43,15 +56,14 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="File"/> class by cloning another file's metadata.
+        /// Gets the metadata storage of the file.
         /// </summary>
-        /// <param name="file">The source file to clone metadata from.</param>
-        public File(File? file)
-            : base()
+        [JsonIgnore]
+        internal MetadataStorage MetadataStorage
         {
-            if (file != null)
+            get
             {
-                metadataStorage = file.metadataStorage.Clone<MetadataStorage>() ?? new();
+                return metadataStorage;
             }
         }
 

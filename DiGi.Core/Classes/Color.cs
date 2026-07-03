@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -11,16 +11,16 @@ namespace DiGi.Core.Classes
     [Description("Color described as alpha, red, green blue")]
     public class Color : SerializableObject
     {
-        [JsonInclude, JsonPropertyName("Alpha"), Description("Color Alpha")]
+        [JsonInclude, JsonPropertyName(nameof(Alpha)), Description("Color Alpha")]
         private readonly byte alpha;
 
-        [JsonInclude, JsonPropertyName("Blue"), Description("Color Blue")]
+        [JsonInclude, JsonPropertyName(nameof(Blue)), Description("Color Blue")]
         private readonly byte blue;
 
-        [JsonInclude, JsonPropertyName("Green"), Description("Color Green")]
+        [JsonInclude, JsonPropertyName(nameof(Green)), Description("Color Green")]
         private readonly byte green;
 
-        [JsonInclude, JsonPropertyName("Red"), Description("Color Red")]
+        [JsonInclude, JsonPropertyName(nameof(Red)), Description("Color Red")]
         private readonly byte red;
 
         /// <summary>
@@ -51,15 +51,6 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the Color class from a JsonObject.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object containing color data.</param>
-        public Color(JsonObject jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the Color class from a System.Drawing.Color object.
         /// </summary>
         /// <param name="color">The source color.</param>
@@ -69,6 +60,31 @@ namespace DiGi.Core.Classes
             red = color.R;
             green = color.G;
             blue = color.B;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Color class by copying another Color instance.
+        /// </summary>
+        /// <param name="color">The source color to copy from.</param>
+        public Color(Color? color)
+            : base(color)
+        {
+            if (color != null)
+            {
+                alpha = color.alpha;
+                red = color.red;
+                green = color.green;
+                blue = color.blue;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Color class from a JsonObject.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing color data.</param>
+        public Color(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>

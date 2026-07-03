@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -50,7 +51,7 @@ namespace DiGi.Core
 
             if (jsonNode is JsonObject jsonObject)
             {
-                foreach (var kvp in jsonObject)
+                foreach (KeyValuePair<string, JsonNode?> kvp in jsonObject)
                 {
                     hash = UniqueHash(kvp.Key, hash);
                     hash = UniqueHash(kvp.Value, hash);
@@ -61,7 +62,7 @@ namespace DiGi.Core
 
             if (jsonNode is JsonArray jsonArray)
             {
-                foreach (var item in jsonArray)
+                foreach (JsonNode? item in jsonArray)
                 {
                     hash = UniqueHash(item, hash);
                 }

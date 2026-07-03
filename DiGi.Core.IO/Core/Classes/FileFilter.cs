@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Interfaces;
 using System.Collections.Generic;
@@ -12,10 +12,10 @@ namespace DiGi.Core.IO.Classes
     /// </summary>
     public sealed class FileFilter : SerializableObject, IIOObject
     {
-        [JsonInclude, JsonPropertyName("Extensions")]
+        [JsonInclude, JsonPropertyName(nameof(Extensions))]
         private readonly List<string>? extensions;
 
-        [JsonInclude, JsonPropertyName("Name")]
+        [JsonInclude, JsonPropertyName(nameof(Name))]
         private readonly string? name;
 
         /// <summary>
@@ -56,6 +56,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Gets or sets the list of file extensions associated with this filter.
         /// </summary>
+        [JsonIgnore]
         public List<string>? Extensions
         {
             get
@@ -67,6 +68,7 @@ namespace DiGi.Core.IO.Classes
         /// <summary>
         /// Gets or sets the descriptive name of the file filter.
         /// </summary>
+        [JsonIgnore]
         public string? Name
         {
             get

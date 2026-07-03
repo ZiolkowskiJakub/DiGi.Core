@@ -10,15 +10,22 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class ConfigurationFile : SerializableObject
     {
-        [JsonInclude, JsonPropertyName("Dictionary")]
+        [JsonInclude, JsonPropertyName(nameof(Dictionary))]
         private readonly Dictionary<string, string> dictionary = [];
+
+        /// <summary>
+        /// Initializes a new empty instance of the ConfigurationFile class.
+        /// </summary>
+        public ConfigurationFile()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the ConfigurationFile class by copying settings from another instance.
         /// </summary>
         /// <param name="configurationFile">The source configuration file to copy from.</param>
         public ConfigurationFile(ConfigurationFile? configurationFile)
-            : base()
+            : base(configurationFile)
         {
             if (configurationFile != null)
             {
@@ -42,10 +49,15 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new empty instance of the ConfigurationFile class.
+        /// Gets the dictionary containing key-value configuration settings.
         /// </summary>
-        public ConfigurationFile()
+        [JsonIgnore]
+        public Dictionary<string, string> Dictionary
         {
+            get
+            {
+                return dictionary;
+            }
         }
 
         /// <summary>

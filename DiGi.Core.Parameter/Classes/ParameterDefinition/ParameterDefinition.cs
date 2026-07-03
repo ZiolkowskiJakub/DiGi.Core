@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Parameter.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -11,11 +11,10 @@ namespace DiGi.Core.Parameter.Classes
     public abstract class ParameterDefinition : SerializableObject, IParameterDefinition
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParameterDefinition"/> class from a JSON object.
+        /// Initializes a new instance of the <see cref="ParameterDefinition"/> class.
         /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the definition from.</param>
-        public ParameterDefinition(JsonObject? jsonObject)
-            : base(jsonObject)
+        public ParameterDefinition()
+            : base()
         {
         }
 
@@ -29,10 +28,11 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParameterDefinition"/> class.
+        /// Initializes a new instance of the <see cref="ParameterDefinition"/> class from a JSON object.
         /// </summary>
-        public ParameterDefinition()
-            : base()
+        /// <param name="jsonObject">The JSON object to initialize the definition from.</param>
+        public ParameterDefinition(JsonObject? jsonObject)
+            : base(jsonObject)
         {
         }
 

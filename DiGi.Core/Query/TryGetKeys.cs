@@ -25,7 +25,7 @@ namespace DiGi.Core
 
             string? text_Temp = func.Invoke(text);
 
-            keys = new List<string>();
+            keys = [];
             foreach (KeyValuePair<string, T> keyValuePair in dictionary)
             {
                 string? key = func.Invoke(keyValuePair.Key);

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Table.Interfaces;
 using System;
@@ -74,6 +74,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// </summary>
         /// <param name="column">The source column to copy from.</param>
         public Column(Column? column)
+            : base(column)
         {
             if (column != null)
             {
@@ -87,7 +88,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// Initializes a new instance of the <see cref="Column"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object containing column data.</param>
-        public Column(JsonObject jsonObject)
+        public Column(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }

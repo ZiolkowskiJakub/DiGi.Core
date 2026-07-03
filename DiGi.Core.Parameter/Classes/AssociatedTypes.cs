@@ -10,7 +10,7 @@ namespace DiGi.Core.Parameter.Classes
     /// <summary>Defines a set of types associated with an enum value.</summary>
     public class AssociatedTypes : Attribute, IEnumerable, ISerializableObject
     {
-        [JsonInclude, JsonPropertyName("Types")]
+        [JsonInclude, JsonPropertyName(nameof(Types))]
         private readonly Type[]? types;
 
         /// <summary>Initializes a new instance of the AssociatedTypes class with specified values.</summary>
@@ -18,13 +18,6 @@ namespace DiGi.Core.Parameter.Classes
         public AssociatedTypes(params Type[]? values)
         {
             types = values;
-        }
-
-        /// <summary>Initializes a new instance of the AssociatedTypes class from a JSON object.</summary>
-        /// <param name="jsonObject">The JSON object containing associated types data.</param>
-        public AssociatedTypes(JsonObject? jsonObject)
-        {
-            FromJsonObject(jsonObject);
         }
 
         /// <summary>Initializes a new instance of the AssociatedTypes class by copying another AssociatedTypes instance.</summary>
@@ -35,6 +28,13 @@ namespace DiGi.Core.Parameter.Classes
             {
                 types = associatedTypes.Types?.ToArray();
             }
+        }
+
+        /// <summary>Initializes a new instance of the AssociatedTypes class from a JSON object.</summary>
+        /// <param name="jsonObject">The JSON object containing associated types data.</param>
+        public AssociatedTypes(JsonObject? jsonObject)
+        {
+            FromJsonObject(jsonObject);
         }
 
         /// <summary>Gets the collection of associated types.</summary>

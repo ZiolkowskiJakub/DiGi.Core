@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Interfaces;
@@ -42,15 +42,6 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class from a JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
-        public ParameterGroupCollection(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class by copying another collection.
         /// </summary>
         /// <param name="parameterGroupCollection">The parameter group collection to copy from.</param>
@@ -60,7 +51,16 @@ namespace DiGi.Core.Parameter.Classes
             this.ParameterGroups = parameterGroupCollection?.ParameterGroups;
         }
 
-        [JsonInclude, JsonPropertyName("ParameterGroups")]
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
+        public ParameterGroupCollection(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
+        }
+
+        [JsonInclude, JsonPropertyName(nameof(ParameterGroups))]
         private List<ParameterGroup>? ParameterGroups
         {
             get

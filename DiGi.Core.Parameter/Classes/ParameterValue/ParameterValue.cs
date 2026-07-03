@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Enums;
 using System;
 using System.Text.Json.Nodes;
@@ -12,8 +12,20 @@ namespace DiGi.Core.Parameter.Classes
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public abstract class ParameterValue : Attribute, ISerializableObject
     {
-        [JsonInclude, JsonPropertyName("Nullable")]
+        [JsonInclude, JsonPropertyName(nameof(Nullable))]
         private readonly bool nullable = true;
+
+        /// <summary>
+        /// Gets a value indicating whether the parameter is nullable.
+        /// </summary>
+        [JsonIgnore]
+        public bool Nullable
+        {
+            get
+            {
+                return nullable;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterValue"/> class.

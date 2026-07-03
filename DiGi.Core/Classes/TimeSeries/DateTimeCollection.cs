@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class DateTimeCollection : SerializableObject, ITimeSeries, ICollection<DateTime>
     {
-        [JsonInclude, JsonPropertyName("DateTimes")]
+        [JsonInclude, JsonPropertyName(nameof(DateTimes))]
         private readonly List<DateTime> dateTimes = [];
 
         /// <summary>
@@ -38,15 +38,6 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeCollection"/> class from a JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
-        public DateTimeCollection(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeCollection"/> class by copying another collection.
         /// </summary>
         /// <param name="dateTimeCollection">The DateTimeCollection to copy from.</param>
@@ -56,6 +47,27 @@ namespace DiGi.Core.Classes
             if (dateTimeCollection != null)
             {
                 dateTimes = [.. dateTimeCollection.dateTimes];
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeCollection"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
+        public DateTimeCollection(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
+        }
+
+        /// <summary>
+        /// Gets the list of DateTimes in the collection.
+        /// </summary>
+        [JsonIgnore]
+        public IList<DateTime> DateTimes
+        {
+            get
+            {
+                return dateTimes;
             }
         }
 

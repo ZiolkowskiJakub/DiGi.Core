@@ -160,7 +160,7 @@ The data type of the column\.
 Initializes a new instance of the [Column](DiGi.Core.IO.Table.Classes.md#DiGi.Core.IO.Table.Classes.Column 'DiGi\.Core\.IO\.Table\.Classes\.Column') class from a JSON object\.
 
 ```csharp
-public Column(System.Text.Json.Nodes.JsonObject jsonObject);
+public Column(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
