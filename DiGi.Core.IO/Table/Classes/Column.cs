@@ -70,6 +70,22 @@ namespace DiGi.Core.IO.Table.Classes
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Column"/> class with a specified index and values copied from another column.
+        /// </summary>
+        /// <param name="index">The zero-based index of the column.</param>
+        /// <param name="column">The source column to copy properties from.</param>
+        public Column(int index, Column? column)
+        {
+            this.index = index;
+
+            if (column != null)
+            {
+                name = column.name;
+                type = column.type ?? typeof(object);
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Column"/> class by copying another column.
         /// </summary>
         /// <param name="column">The source column to copy from.</param>
@@ -91,22 +107,6 @@ namespace DiGi.Core.IO.Table.Classes
         public Column(JsonObject? jsonObject)
             : base(jsonObject)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Column"/> class with a specified index and values copied from another column.
-        /// </summary>
-        /// <param name="index">The zero-based index of the column.</param>
-        /// <param name="column">The source column to copy properties from.</param>
-        public Column(int index, Column? column)
-        {
-            this.index = index;
-
-            if (column != null)
-            {
-                name = column.name;
-                type = column.type ?? typeof(object);
-            }
         }
 
         /// <summary>

@@ -298,20 +298,20 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
-        public SerializableObjectCollection(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class by copying another collection.
         /// </summary>
         /// <param name="serializableObjectCollection">The source collection to copy from.</param>
         public SerializableObjectCollection(SerializableObjectCollection? serializableObjectCollection)
             : base(serializableObjectCollection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableObjectCollection"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the collection from.</param>
+        public SerializableObjectCollection(JsonObject? jsonObject)
+            : base(jsonObject)
         {
         }
 

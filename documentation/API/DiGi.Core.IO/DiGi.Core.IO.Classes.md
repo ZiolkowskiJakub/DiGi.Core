@@ -10,7 +10,7 @@
 Represents an archive container for storing serialized data\.
 
 ```csharp
-public class Archive<TSerializableObject> : DiGi.Core.Classes.SerializableObject, DiGi.Core.IO.Core.Interfaces.IArchive, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject, DiGi.Core.Interfaces.IObject, DiGi.Core.IO.Interfaces.IIOObject
+public class Archive<TSerializableObject> : DiGi.Core.Classes.SerializableObject, DiGi.Core.IO.Interfaces.IArchive, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject, DiGi.Core.Interfaces.IObject, DiGi.Core.IO.Interfaces.IIOObject
     where TSerializableObject : DiGi.Core.Interfaces.ISerializableObject
 ```
 #### Type parameters
@@ -23,7 +23,7 @@ The type of object that can be serialized within the archive\.
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → Archive\<TSerializableObject\>
 
-Implements [DiGi\.Core\.IO\.Core\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.IO\.Interfaces\.IIOObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iioobject 'DiGi\.Core\.IO\.Interfaces\.IIOObject')
+Implements [DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.IO\.Interfaces\.IIOObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iioobject 'DiGi\.Core\.IO\.Interfaces\.IIOObject')
 ### Constructors
 
 <a name='DiGi.Core.IO.Classes.Archive_TSerializableObject_.Archive(byte[])'></a>
@@ -88,7 +88,7 @@ Gets or sets the raw bytes contained within the archive\.
 public byte[]? Bytes { get; }
 ```
 
-Implements [Bytes](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive.bytes 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive\.Bytes')
+Implements [Bytes](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive.bytes 'DiGi\.Core\.IO\.Interfaces\.IArchive\.Bytes')
 
 #### Property Value
 [System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')

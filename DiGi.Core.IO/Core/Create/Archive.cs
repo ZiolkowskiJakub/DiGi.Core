@@ -1,6 +1,6 @@
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Classes;
-using DiGi.Core.IO.Core.Interfaces;
+using DiGi.Core.IO.Interfaces;
 using System;
 
 namespace DiGi.Core.IO

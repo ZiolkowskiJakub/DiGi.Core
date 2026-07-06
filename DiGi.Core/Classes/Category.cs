@@ -47,15 +47,6 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the Category class from a JsonObject.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to deserialize.</param>
-        public Category(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the Category class by cloning an existing category.
         /// </summary>
         /// <param name="category">The category to clone.</param>
@@ -74,6 +65,15 @@ namespace DiGi.Core.Classes
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Category class from a JsonObject.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to deserialize.</param>
+        public Category(JsonObject? jsonObject)
+            : base(jsonObject)
+        {
         }
 
         /// <summary>

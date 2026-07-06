@@ -1116,20 +1116,20 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StorageFile"/> class from the provided JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the storage file from.</param>
-        public StorageFile(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="StorageFile"/> class from another storage file instance.
         /// </summary>
         /// <param name="storageFile">The source storage file instance.</param>
         public StorageFile(StorageFile? storageFile)
             : base(storageFile)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StorageFile"/> class from the provided JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the storage file from.</param>
+        public StorageFile(JsonObject? jsonObject)
+            : base(jsonObject)
         {
         }
     }

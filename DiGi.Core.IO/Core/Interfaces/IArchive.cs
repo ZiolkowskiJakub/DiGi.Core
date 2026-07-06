@@ -1,7 +1,7 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Interfaces;
 
-namespace DiGi.Core.IO.Core.Interfaces
+namespace DiGi.Core.IO.Interfaces
 {
     public interface IArchive : ISerializableObject, IIOObject
     {

@@ -50,7 +50,7 @@ An [Archive&lt;TSerializableObject&gt;](DiGi.Core.IO.Classes.md#DiGi.Core.IO.Cla
 Creates an archive from the specified byte array and extracts the associated serializable object\.
 
 ```csharp
-public static DiGi.Core.IO.Core.Interfaces.IArchive? Archive<TSerializableObject>(this byte[] bytes, out TSerializableObject? serializableObject)
+public static DiGi.Core.IO.Interfaces.IArchive? Archive<TSerializableObject>(this byte[] bytes, out TSerializableObject? serializableObject)
     where TSerializableObject : DiGi.Core.Interfaces.ISerializableObject;
 ```
 #### Type parameters
@@ -75,8 +75,8 @@ The byte array to create the archive from\.
 When this method returns, contains the extracted serializable object, or null if extraction failed\.
 
 #### Returns
-[DiGi\.Core\.IO\.Core\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive')  
-An [DiGi\.Core\.IO\.Core\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive') instance if successful; otherwise, `null`\.
+[DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive')  
+An [DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive') instance if successful; otherwise, `null`\.
 
 <a name='DiGi.Core.IO.Create.FileFilter(string,string[])'></a>
 
@@ -228,33 +228,33 @@ The relative path to combine with the directory\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 The resulting absolute path string\.
 
-<a name='DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Core.Interfaces.IArchive)'></a>
+<a name='DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Interfaces.IArchive)'></a>
 
 ## Query\.Deserialize\<USerializableObject\>\(this IArchive\) Method
 
 Deserializes a USerializableObject from the specified archive\.
 
 ```csharp
-public static USerializableObject? Deserialize<USerializableObject>(this DiGi.Core.IO.Core.Interfaces.IArchive archive)
+public static USerializableObject? Deserialize<USerializableObject>(this DiGi.Core.IO.Interfaces.IArchive archive)
     where USerializableObject : DiGi.Core.Interfaces.ISerializableObject;
 ```
 #### Type parameters
 
-<a name='DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Core.Interfaces.IArchive).USerializableObject'></a>
+<a name='DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Interfaces.IArchive).USerializableObject'></a>
 
 `USerializableObject`
 
 The type of object to deserialize\.
 #### Parameters
 
-<a name='DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Core.Interfaces.IArchive).archive'></a>
+<a name='DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Interfaces.IArchive).archive'></a>
 
-`archive` [DiGi\.Core\.IO\.Core\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive')
+`archive` [DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive')
 
 The archive to deserialize from\.
 
 #### Returns
-[USerializableObject](DiGi.Core.IO.md#DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Core.Interfaces.IArchive).USerializableObject 'DiGi\.Core\.IO\.Query\.Deserialize\<USerializableObject\>\(this DiGi\.Core\.IO\.Core\.Interfaces\.IArchive\)\.USerializableObject')  
+[USerializableObject](DiGi.Core.IO.md#DiGi.Core.IO.Query.Deserialize_USerializableObject_(thisDiGi.Core.IO.Interfaces.IArchive).USerializableObject 'DiGi\.Core\.IO\.Query\.Deserialize\<USerializableObject\>\(this DiGi\.Core\.IO\.Interfaces\.IArchive\)\.USerializableObject')  
 The deserialized USerializableObject, or null if deserialization fails\.
 
 <a name='DiGi.Core.IO.Query.Filter(DiGi.Core.IO.Classes.FileFilter[])'></a>
@@ -381,7 +381,7 @@ The calculated relative path, or null if it cannot be determined\.
 Serializes an ISerializableObject into an IArchive\.
 
 ```csharp
-public static DiGi.Core.IO.Core.Interfaces.IArchive? Serialize(this DiGi.Core.Interfaces.ISerializableObject serializableObject);
+public static DiGi.Core.IO.Interfaces.IArchive? Serialize(this DiGi.Core.Interfaces.ISerializableObject serializableObject);
 ```
 #### Parameters
 
@@ -392,5 +392,5 @@ public static DiGi.Core.IO.Core.Interfaces.IArchive? Serialize(this DiGi.Core.In
 The object to be serialized\.
 
 #### Returns
-[DiGi\.Core\.IO\.Core\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive')  
-An [DiGi\.Core\.IO\.Core\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.core.interfaces.iarchive 'DiGi\.Core\.IO\.Core\.Interfaces\.IArchive') containing the serialized data, or `null` if serialization fails\.
+[DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive')  
+An [DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive') containing the serialized data, or `null` if serialization fails\.

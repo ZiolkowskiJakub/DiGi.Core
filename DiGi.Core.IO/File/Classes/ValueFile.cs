@@ -195,20 +195,20 @@ namespace DiGi.Core.IO.File.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValueFile"/> class from the provided JSON object.
-        /// </summary>
-        /// <param name="jsonObject">The JSON object to initialize the value file from.</param>
-        public ValueFile(JsonObject? jsonObject)
-            : base(jsonObject)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ValueFile"/> class from an existing non-generic value file.
         /// </summary>
         /// <param name="valueFile">The existing non-generic value file to initialize from.</param>
         public ValueFile(ValueFile? valueFile)
             : base(valueFile)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValueFile"/> class from the provided JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object to initialize the value file from.</param>
+        public ValueFile(JsonObject? jsonObject)
+            : base(jsonObject)
         {
         }
     }

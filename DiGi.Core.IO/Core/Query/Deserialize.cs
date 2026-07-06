@@ -1,5 +1,5 @@
-﻿using DiGi.Core.Interfaces;
-using DiGi.Core.IO.Core.Interfaces;
+using DiGi.Core.Interfaces;
+using DiGi.Core.IO.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
