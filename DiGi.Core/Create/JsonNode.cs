@@ -62,7 +62,14 @@ namespace DiGi.Core
             }
             else
             {
-                if (object_Temp is double @double)
+                if (object_Temp is System.Enum)
+                {
+                    // Boxed enums must be unboxed to their underlying numeric value: JsonValue.Create(object)
+                    // would wrap them as JsonValue<object>, which serializes to text correctly but cannot be
+                    // read back by GetValue<int>() during in-memory deserialization (e.g. Clone()).
+                    object_Temp = System.Convert.ChangeType(object_Temp, System.Enum.GetUnderlyingType(object_Temp.GetType()), System.Globalization.CultureInfo.InvariantCulture);
+                }
+                else if (object_Temp is double @double)
                 {
                     if (double.IsNaN(@double) || double.IsInfinity(@double))
                     {
