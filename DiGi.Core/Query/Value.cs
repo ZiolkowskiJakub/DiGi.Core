@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
@@ -506,6 +506,23 @@ namespace DiGi.Core
                             }
                             break;
                     }
+                }
+            }
+
+            if(typeof(System.Numerics.Complex).IsAssignableFrom(type_Temp))
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.Object:
+                        JsonObject jsonObject = jsonNode.AsObject();
+                        if (jsonObject != null && jsonObject.ContainsKey("Real") && jsonObject.ContainsKey("Imaginary"))
+                        {
+                            if(Value(jsonObject["Real"], typeof(double)) is double real && Value(jsonObject["Imaginary"], typeof(double)) is double imaginary)
+                            {
+                                return new System.Numerics.Complex(real, imaginary);
+                            }
+                        }
+                        break;
                 }
             }
 
