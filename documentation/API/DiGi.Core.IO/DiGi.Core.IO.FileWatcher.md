@@ -1,4 +1,4 @@
-#### [DiGi\.Core\.IO](index.md 'index')
+#### [DiGi\.Core\.IO](DiGi.Core.IO.Overview.md 'DiGi\.Core\.IO\.Overview')
 
 ## DiGi\.Core\.IO\.FileWatcher Namespace
 ### Classes
