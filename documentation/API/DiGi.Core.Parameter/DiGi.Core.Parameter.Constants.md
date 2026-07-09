@@ -1,4 +1,4 @@
-#### [DiGi\.Core\.Parameter](index.md 'index')
+#### [DiGi\.Core\.Parameter](DiGi.Core.Parameter.Overview.md 'DiGi\.Core\.Parameter\.Overview')
 
 ## DiGi\.Core\.Parameter\.Constants Namespace
 ### Classes

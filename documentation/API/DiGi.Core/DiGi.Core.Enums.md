@@ -1,4 +1,4 @@
-#### [DiGi\.Core](index.md 'index')
+#### [DiGi\.Core](DiGi.Core.Overview.md 'DiGi\.Core\.Overview')
 
 ## DiGi\.Core\.Enums Namespace
 ### Enums

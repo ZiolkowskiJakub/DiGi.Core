@@ -1,4 +1,4 @@
-#### [DiGi\.Core\.Drawing](index.md 'index')
+#### [DiGi\.Core\.Drawing](DiGi.Core.Drawing.Overview.md 'DiGi\.Core\.Drawing\.Overview')
 
 ## DiGi\.Core\.Drawing\.Classes Namespace
 ### Classes

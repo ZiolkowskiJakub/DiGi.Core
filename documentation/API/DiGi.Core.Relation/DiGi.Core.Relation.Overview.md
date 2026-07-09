@@ -1,4 +1,4 @@
-#### [DiGi\.Core\.Relation](index.md 'index')
+#### [DiGi\.Core\.Relation](DiGi.Core.Relation.Overview.md 'DiGi\.Core\.Relation\.Overview')
 
 ## DiGi\.Core\.Relation Assembly
 
