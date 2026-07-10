@@ -1,7 +1,6 @@
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -21,13 +20,7 @@ namespace DiGi.Core
                 return default;
             }
 
-            MethodInfo methodInfo = typeof(ICloneableObject<ISerializableObject>).GetMethod(Constants.Serialization.MethodName.Clone, []);
-            if (methodInfo == null)
-            {
-                return default;
-            }
-
-            object @object = methodInfo.Invoke(serializableObject, []);
+            ISerializableObject? @object = serializableObject.Clone();
             if (@object == null)
             {
                 return default;
@@ -71,7 +64,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            List<T?> result = [];
+            List<T?> result = serializableObjects is ICollection<T?> serializableObjects_Collection ? new(serializableObjects_Collection.Count) : [];
             foreach (T? serializableObject in serializableObjects)
             {
                 result.Add(serializableObject == null ? default : Clone(serializableObject));
