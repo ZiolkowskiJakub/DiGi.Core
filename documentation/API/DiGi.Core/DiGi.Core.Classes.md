@@ -10297,6 +10297,20 @@ public class SerializationConstructor
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → SerializationConstructor
+### Properties
+
+<a name='DiGi.Core.Classes.SerializationConstructor.FullTypeName'></a>
+
+## SerializationConstructor\.FullTypeName Property
+
+Gets the full type name of the type instantiated by this constructor\.
+
+```csharp
+public string? FullTypeName { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 ### Methods
 
 <a name='DiGi.Core.Classes.SerializationConstructor.Create_T_(System.Text.Json.Nodes.JsonObject)'></a>
@@ -10545,6 +10559,32 @@ public class SerializationMethod
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → SerializationMethod
 ### Properties
 
+<a name='DiGi.Core.Classes.SerializationMethod.FieldInfo'></a>
+
+## SerializationMethod\.FieldInfo Property
+
+Gets the field information when the member is a field; otherwise, null\.
+
+```csharp
+public System.Reflection.FieldInfo? FieldInfo { get; }
+```
+
+#### Property Value
+[System\.Reflection\.FieldInfo](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.fieldinfo 'System\.Reflection\.FieldInfo')
+
+<a name='DiGi.Core.Classes.SerializationMethod.IsReadable'></a>
+
+## SerializationMethod\.IsReadable Property
+
+Gets a value indicating whether the member value can be read \(a field, or a property with a parameterless getter\)\.
+
+```csharp
+public bool IsReadable { get; }
+```
+
+#### Property Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
 <a name='DiGi.Core.Classes.SerializationMethod.MemberInfo'></a>
 
 ## SerializationMethod\.MemberInfo Property
@@ -10570,6 +10610,19 @@ public string Name { get; }
 
 #### Property Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Classes.SerializationMethod.PropertyInfo'></a>
+
+## SerializationMethod\.PropertyInfo Property
+
+Gets the property information when the member is a property; otherwise, null\.
+
+```csharp
+public System.Reflection.PropertyInfo? PropertyInfo { get; }
+```
+
+#### Property Value
+[System\.Reflection\.PropertyInfo](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.propertyinfo 'System\.Reflection\.PropertyInfo')
 
 <a name='DiGi.Core.Classes.SerializationMethodCollection'></a>
 

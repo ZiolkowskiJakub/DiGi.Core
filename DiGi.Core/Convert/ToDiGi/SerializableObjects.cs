@@ -41,10 +41,10 @@ namespace DiGi.Core
 
             if (jsonNode is JsonArray jsonArray)
             {
-                result = [];
-                foreach (object? @object in jsonArray)
+                result = new List<T>(jsonArray.Count);
+                foreach (JsonNode? jsonNode_Temp in jsonArray)
                 {
-                    if (@object is JsonObject jsonObject_Temp)
+                    if (jsonNode_Temp is JsonObject jsonObject_Temp)
                     {
                         T? serializableObject = Create.SerializableObject<T>(jsonObject_Temp);
                         if (serializableObject == null)
@@ -122,7 +122,7 @@ namespace DiGi.Core
                     return Create.SerializableObjects<T>(jsonNode.AsArray());
 
                 case JsonValueKind.String:
-                    string? json = jsonNode?.AsValue()?.GetValue<string>();
+                    string? json = jsonNode.AsValue()?.GetValue<string>();
                     return ToDiGi<T>(json);
             }
 

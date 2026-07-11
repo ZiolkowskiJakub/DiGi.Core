@@ -44,7 +44,15 @@ namespace DiGi.Core
                 return null;
             }
 
-            StringBuilder stringBuilder = new();
+            if (!type.IsGenericType)
+            {
+                string assemblyFullName = type.Assembly.FullName;
+                int commaIndex = assemblyFullName.IndexOf(',');
+                string assemblyName = commaIndex > 0 ? assemblyFullName.Substring(0, commaIndex) : assemblyFullName;
+                return string.Concat(type.FullName, ",", assemblyName);
+            }
+
+            StringBuilder stringBuilder = new(128);
             Modify.Append(stringBuilder, type);
             return stringBuilder.ToString();
         }

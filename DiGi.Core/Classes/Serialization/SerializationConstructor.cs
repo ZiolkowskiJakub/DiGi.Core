@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
+using System;
 using System.Reflection;
 using System.Text.Json.Nodes;
 
@@ -11,11 +12,38 @@ namespace DiGi.Core.Classes
     {
         private readonly ConstructorInfo? constructorInfo;
         private readonly string? fullTypeName;
+        private readonly bool jsonObjectParameter;
+        private readonly bool valid;
 
         internal SerializationConstructor(string? fullTypeName, ConstructorInfo? constructorInfo)
         {
             this.fullTypeName = fullTypeName;
             this.constructorInfo = constructorInfo;
+
+            if (constructorInfo != null)
+            {
+                ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
+                if (parameterInfos.Length == 0)
+                {
+                    valid = true;
+                }
+                else if (parameterInfos.Length == 1 && parameterInfos[0].ParameterType == typeof(JsonObject))
+                {
+                    valid = true;
+                    jsonObjectParameter = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the full type name of the type instantiated by this constructor.
+        /// </summary>
+        public string? FullTypeName
+        {
+            get
+            {
+                return fullTypeName;
+            }
         }
 
         /// <summary>
@@ -26,45 +54,29 @@ namespace DiGi.Core.Classes
         /// <returns>The created instance of type <typeparam ref="T"/>, or null if creation fails.</returns>
         public T? Create<T>(JsonObject? jsonObject) where T : ISerializableObject
         {
-            if (jsonObject == null || constructorInfo == null)
+            if (jsonObject == null || constructorInfo == null || !valid)
             {
                 return default;
             }
 
-            ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
-            parameterInfos ??= [];
+            if (jsonObjectParameter)
+            {
+                if (constructorInfo.Invoke([jsonObject]) is not T result)
+                {
+                    return default;
+                }
 
-            if (parameterInfos.Length > 1)
+                return result;
+            }
+
+            if (constructorInfo.Invoke(Array.Empty<object>()) is not T result_Parameterless)
             {
                 return default;
             }
 
-            T? result = default;
+            Modify.FromJsonObject(result_Parameterless, jsonObject);
 
-            if (parameterInfos.Length != 0 && parameterInfos[0].ParameterType == typeof(JsonObject))
-            {
-                object @object = constructorInfo.Invoke([jsonObject]);
-                if (@object is not T)
-                {
-                    return result;
-                }
-
-                result = (T)@object;
-            }
-            else
-            {
-                object @object = constructorInfo.Invoke([]);
-                if (@object is not T)
-                {
-                    return result;
-                }
-
-                result = (T)@object;
-
-                Modify.FromJsonObject(result, jsonObject);
-            }
-
-            return result;
+            return result_Parameterless;
         }
     }
 }

@@ -27,32 +27,25 @@ namespace DiGi.Core
                 return jsonNode;
             }
 
-            bool nullable = true;
-            Type type_Temp = Nullable.GetUnderlyingType(type);
-            if (type_Temp == null)
+            Type? type_Underlying = Nullable.GetUnderlyingType(type);
+            bool nullable = type_Underlying != null;
+            Type type_Temp = type_Underlying ?? type;
+
+            if (nullable && jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.Null)
             {
-                type_Temp = type;
-                nullable = false;
+                return null;
             }
 
-            if (nullable)
-            {
-                if (jsonNode.GetValueKind() != System.Text.Json.JsonValueKind.Object)
-                {
-                    object value_Temp = jsonNode.GetValue<object>();
-                    if (value_Temp == null)
-                    {
-                        return null;
-                    }
-                }
-            }
+            JsonValue? jsonValue_Scalar = jsonNode as JsonValue;
 
             if (type_Temp.IsEnum)
             {
-                if (jsonNode is not JsonValue jsonValue)
+                if (jsonValue_Scalar == null)
                 {
                     return null;
                 }
+
+                JsonValue jsonValue = jsonValue_Scalar;
 
                 object? value_Temp = null;
                 switch (jsonValue.GetValueKind())
@@ -78,21 +71,13 @@ namespace DiGi.Core
                     {
                         value_Temp = @int;
                     }
-
-                    if (value_Temp == null)
+                    else if (jsonValue.TryGetValue(out string? @string))
                     {
-                        if (jsonValue.TryGetValue(out string? @string))
-                        {
-                            value_Temp = @string;
-                        }
+                        value_Temp = @string;
                     }
-
-                    if (value_Temp == null)
+                    else if (!jsonValue.TryGetValue(out value_Temp))
                     {
-                        if (!jsonValue.TryGetValue(out value_Temp))
-                        {
-                            value_Temp = null;
-                        }
+                        value_Temp = null;
                     }
                 }
 
@@ -111,10 +96,10 @@ namespace DiGi.Core
                     return null;
                 }
 
-                Array array = System.Enum.GetValues(type_Temp);
-                if (array != null && array.Length != 0)
+                Array array_Enum = System.Enum.GetValues(type_Temp);
+                if (array_Enum != null && array_Enum.Length != 0)
                 {
-                    return array.GetValue(0);
+                    return array_Enum.GetValue(0);
                 }
 
                 return null;
@@ -125,6 +110,11 @@ namespace DiGi.Core
             switch (typeCode)
             {
                 case TypeCode.String:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out string? string_Fast))
+                    {
+                        return string_Fast;
+                    }
+
                     if (TryConvert_String(jsonNode, out string? @string))
                     {
                         return @string;
@@ -132,6 +122,11 @@ namespace DiGi.Core
                     return default(string);
 
                 case TypeCode.Boolean:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out bool bool_Fast))
+                    {
+                        return bool_Fast;
+                    }
+
                     if (TryConvert_Boolean(jsonNode, out bool? @bool) && @bool is not null)
                     {
                         return @bool.Value;
@@ -146,6 +141,11 @@ namespace DiGi.Core
                     return default(DateTime);
 
                 case TypeCode.Int32:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out int int_Fast))
+                    {
+                        return int_Fast;
+                    }
+
                     if (TryConvert_Int(jsonNode, out int? @int) && @int is not null)
                     {
                         return @int.Value;
@@ -153,6 +153,11 @@ namespace DiGi.Core
                     return default(int);
 
                 case TypeCode.UInt32:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out uint uint_Fast))
+                    {
+                        return uint_Fast;
+                    }
+
                     if (TryConvert_Uint(jsonNode, out uint? @uint) && @uint is not null)
                     {
                         return @uint.Value;
@@ -160,6 +165,11 @@ namespace DiGi.Core
                     return default(uint);
 
                 case TypeCode.Int64:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out long long_Fast))
+                    {
+                        return long_Fast;
+                    }
+
                     if (TryConvert_Long(jsonNode, out long? @long) && @long is not null)
                     {
                         return @long.Value;
@@ -167,6 +177,11 @@ namespace DiGi.Core
                     return default(long);
 
                 case TypeCode.UInt64:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out ulong ulong_Fast))
+                    {
+                        return ulong_Fast;
+                    }
+
                     if (TryConvert_Ulong(jsonNode, out ulong? @ulong) && @ulong is not null)
                     {
                         return @ulong.Value;
@@ -174,6 +189,11 @@ namespace DiGi.Core
                     return default(ulong);
 
                 case TypeCode.Int16:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out short short_Fast))
+                    {
+                        return short_Fast;
+                    }
+
                     if (TryConvert_Short(jsonNode, out short? @short) && @short is not null)
                     {
                         return @short.Value;
@@ -181,6 +201,11 @@ namespace DiGi.Core
                     return default(short);
 
                 case TypeCode.UInt16:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out ushort ushort_Fast))
+                    {
+                        return ushort_Fast;
+                    }
+
                     if (TryConvert_Ushort(jsonNode, out ushort? @ushort) && @ushort is not null)
                     {
                         return @ushort.Value;
@@ -188,6 +213,11 @@ namespace DiGi.Core
                     return default(ushort);
 
                 case TypeCode.Double:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out double double_Fast))
+                    {
+                        return double_Fast;
+                    }
+
                     if (TryConvert_Double(jsonNode, out double? @double) && @double is not null)
                     {
                         return @double.Value;
@@ -195,6 +225,11 @@ namespace DiGi.Core
                     return default(double);
 
                 case TypeCode.Single:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out float float_Fast))
+                    {
+                        return float_Fast;
+                    }
+
                     if (TryConvert_Float(jsonNode, out float? @float) && @float is not null)
                     {
                         return @float.Value;
@@ -202,6 +237,11 @@ namespace DiGi.Core
                     return default(float);
 
                 case TypeCode.Byte:
+                    if (jsonValue_Scalar != null && jsonValue_Scalar.TryGetValue(out byte byte_Fast))
+                    {
+                        return byte_Fast;
+                    }
+
                     if (TryConvert_Byte(jsonNode, out byte? @byte) && @byte is not null)
                     {
                         return @byte.Value;
@@ -227,11 +267,6 @@ namespace DiGi.Core
 
             if (type_Temp == typeof(TimeSpan))
             {
-                if (jsonNode is null)
-                {
-                    return false;
-                }
-
                 switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Number:
@@ -283,16 +318,18 @@ namespace DiGi.Core
 
             if (typeof(Array).IsAssignableFrom(type_Temp))
             {
-                Type type_Array = type_Temp.GetElementType();
+                Type? type_Array = type_Temp.GetElementType();
 
-                JsonArray jsonArray = jsonNode.AsArray();
+                JsonArray? jsonArray = type_Array == null ? null : jsonNode.AsArray();
                 if (jsonArray != null)
                 {
-                    Array array = Array.CreateInstance(type_Array, jsonArray.Count);
-                    for (int i = 0; i < jsonArray.Count; i++)
+                    int count = jsonArray.Count;
+
+                    Array array = Array.CreateInstance(type_Array!, count);
+                    for (int i = 0; i < count; i++)
                     {
                         object? @object = Value(jsonArray[i], type_Array);
-                        if (@object != null && !type_Array.IsAssignableFrom(@object.GetType()))
+                        if (@object != null && !type_Array!.IsAssignableFrom(@object.GetType()))
                         {
                             @object = type_Array.GetConstructor([@object.GetType()])?.Invoke([@object]);
                         }
@@ -306,7 +343,8 @@ namespace DiGi.Core
 
             if (typeof(IList).IsAssignableFrom(type_Temp))
             {
-                Type? genericType = type_Temp.GenericTypeArguments?[0];
+                Type[] genericTypes = type_Temp.GenericTypeArguments;
+                Type? genericType = genericTypes != null && genericTypes.Length > 0 ? genericTypes[0] : null;
                 if (genericType != null)
                 {
                     IList? list = Create.List(genericType);
@@ -315,7 +353,7 @@ namespace DiGi.Core
                         return null;
                     }
 
-                    JsonArray jsonArray = jsonNode.AsArray();
+                    JsonArray? jsonArray = jsonNode.AsArray();
                     if (jsonArray != null)
                     {
                         foreach (JsonNode? jsonNode_Temp in jsonArray)
@@ -336,8 +374,9 @@ namespace DiGi.Core
 
             if (typeof(IDictionary).IsAssignableFrom(type_Temp))
             {
-                Type? genericType_Key = type.GenericTypeArguments?[0];
-                Type? genericType_Value = type.GenericTypeArguments?[1];
+                Type[] genericTypes = type.GenericTypeArguments;
+                Type? genericType_Key = genericTypes != null && genericTypes.Length > 0 ? genericTypes[0] : null;
+                Type? genericType_Value = genericTypes != null && genericTypes.Length > 1 ? genericTypes[1] : null;
 
                 if (genericType_Key != null && genericType_Value != null)
                 {
@@ -350,7 +389,7 @@ namespace DiGi.Core
                     switch (jsonNode.GetValueKind())
                     {
                         case System.Text.Json.JsonValueKind.Array:
-                            JsonArray jsonArray = jsonNode.AsArray();
+                            JsonArray? jsonArray = jsonNode.AsArray();
                             if (jsonArray != null)
                             {
                                 foreach (JsonNode? jsonNode_Temp in jsonArray)
@@ -372,7 +411,7 @@ namespace DiGi.Core
                             break;
 
                         case System.Text.Json.JsonValueKind.Object:
-                            JsonObject jsonObject = jsonNode.AsObject();
+                            JsonObject? jsonObject = jsonNode.AsObject();
                             if (jsonObject != null)
                             {
                                 foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
@@ -449,7 +488,8 @@ namespace DiGi.Core
 
             if (typeof(IEnumerable).IsAssignableFrom(type_Temp))
             {
-                Type? genericType = type_Temp.GenericTypeArguments?[0];
+                Type[] genericTypes = type_Temp.GenericTypeArguments;
+                Type? genericType = genericTypes != null && genericTypes.Length > 0 ? genericTypes[0] : null;
                 if (genericType != null)
                 {
                     IList? list = Create.List(genericType);
@@ -458,7 +498,7 @@ namespace DiGi.Core
                         return null;
                     }
 
-                    JsonArray jsonArray = jsonNode.AsArray();
+                    JsonArray? jsonArray = jsonNode.AsArray();
                     if (jsonArray != null)
                     {
                         foreach (JsonNode? jsonNode_Temp in jsonArray)
@@ -492,12 +532,12 @@ namespace DiGi.Core
                 Type[] types_GenericArguments = type_Temp.GetGenericArguments();
                 if (types_GenericArguments != null && types_GenericArguments.Length >= 2)
                 {
-                    Type? type_Key = types_GenericArguments[0];
-                    Type? type_Value = types_GenericArguments[1];
+                    Type type_Key = types_GenericArguments[0];
+                    Type type_Value = types_GenericArguments[1];
                     switch (jsonNode.GetValueKind())
                     {
                         case System.Text.Json.JsonValueKind.Object:
-                            JsonObject jsonObject = jsonNode.AsObject();
+                            JsonObject? jsonObject = jsonNode.AsObject();
                             if (jsonObject != null && jsonObject.ContainsKey("Key") && jsonObject.ContainsKey("Value"))
                             {
                                 object? key = Value(jsonObject["Key"], type_Key);
@@ -509,15 +549,15 @@ namespace DiGi.Core
                 }
             }
 
-            if(typeof(System.Numerics.Complex).IsAssignableFrom(type_Temp))
+            if (typeof(System.Numerics.Complex).IsAssignableFrom(type_Temp))
             {
                 switch (jsonNode.GetValueKind())
                 {
                     case System.Text.Json.JsonValueKind.Object:
-                        JsonObject jsonObject = jsonNode.AsObject();
+                        JsonObject? jsonObject = jsonNode.AsObject();
                         if (jsonObject != null && jsonObject.ContainsKey("Real") && jsonObject.ContainsKey("Imaginary"))
                         {
-                            if(Value(jsonObject["Real"], typeof(double)) is double real && Value(jsonObject["Imaginary"], typeof(double)) is double imaginary)
+                            if (Value(jsonObject["Real"], typeof(double)) is double real && Value(jsonObject["Imaginary"], typeof(double)) is double imaginary)
                             {
                                 return new System.Numerics.Complex(real, imaginary);
                             }

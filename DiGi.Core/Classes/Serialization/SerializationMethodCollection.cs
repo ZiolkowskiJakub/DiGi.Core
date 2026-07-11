@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Nodes;
@@ -12,21 +12,45 @@ namespace DiGi.Core.Classes
     {
         private readonly Dictionary<string, SerializationMethod> dictionary = [];
         private readonly string? fullTypeName;
+        private readonly SerializationMethod? serializationMethod_FullTypeName;
+        private readonly List<SerializationMethod> serializationMethods = [];
+        private readonly System.Type? type;
 
-        internal SerializationMethodCollection(string? fullTypeName, IEnumerable<SerializationMethod> serializationMethods)
+        internal SerializationMethodCollection(System.Type? type, string? fullTypeName, IEnumerable<SerializationMethod> serializationMethods)
         {
+            this.type = type;
             this.fullTypeName = fullTypeName;
             if (serializationMethods != null)
             {
                 foreach (SerializationMethod serializationMethod in serializationMethods)
                 {
+                    if (dictionary.TryGetValue(serializationMethod.Name, out SerializationMethod? serializationMethod_Existing))
+                    {
+                        this.serializationMethods[this.serializationMethods.IndexOf(serializationMethod_Existing!)] = serializationMethod;
+                    }
+                    else
+                    {
+                        this.serializationMethods.Add(serializationMethod);
+                    }
+
                     dictionary[serializationMethod.Name] = serializationMethod;
+                }
+            }
+
+            for (int i = 0; i < this.serializationMethods.Count; i++)
+            {
+                SerializationMethod serializationMethod = this.serializationMethods[i];
+                if (serializationMethod.Name == Constants.Serialization.PropertyName.Type && serializationMethod.MemberInfo.DeclaringType == typeof(SerializableObject))
+                {
+                    serializationMethod_FullTypeName = serializationMethod;
+                    break;
                 }
             }
         }
 
-        internal SerializationMethodCollection(string? fullTypeName)
+        internal SerializationMethodCollection(System.Type? type, string? fullTypeName)
         {
+            this.type = type;
             this.fullTypeName = fullTypeName;
         }
 
@@ -39,7 +63,7 @@ namespace DiGi.Core.Classes
         {
             get
             {
-                if (string.IsNullOrEmpty(name) || !dictionary.TryGetValue(name!, out SerializationMethod result))
+                if (string.IsNullOrEmpty(name) || !dictionary.TryGetValue(name!, out SerializationMethod? result))
                 {
                     return null;
                 }
@@ -61,48 +85,37 @@ namespace DiGi.Core.Classes
             }
 
             JsonObject result = [];
-            if (dictionary == null || dictionary.Count == 0)
+            if (serializationMethods.Count == 0)
             {
                 return result;
             }
 
-            foreach (SerializationMethod serializationMethod in dictionary.Values)
+            // The cached full type name can only be substituted for the reflected FullTypeName property
+            // when the collection was created for the exact runtime type of the instance.
+            bool exactType = fullTypeName != null && serializableObject.GetType() == type;
+
+            for (int i = 0; i < serializationMethods.Count; i++)
             {
-                MemberInfo? memberInfo = serializationMethod?.MemberInfo;
-                if (memberInfo == null)
+                SerializationMethod serializationMethod = serializationMethods[i];
+                if (!serializationMethod.IsReadable)
                 {
                     continue;
                 }
 
-                object? value = null;
-
-                if (memberInfo is PropertyInfo propertyInfo)
+                if (exactType && ReferenceEquals(serializationMethod, serializationMethod_FullTypeName))
                 {
-                    MethodInfo methodInfo = propertyInfo.GetMethod;
-                    if (methodInfo == null)
-                    {
-                        continue;
-                    }
-
-                    ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                    if (parameterInfos != null && parameterInfos.Length > 0)
-                    {
-                        continue;
-                    }
-
-                    value = propertyInfo.GetValue(serializableObject);
-                }
-                else if (memberInfo is FieldInfo fieldInfo)
-                {
-                    value = fieldInfo.GetValue(serializableObject);
+                    result[serializationMethod.Name] = fullTypeName;
+                    continue;
                 }
 
-                result[serializationMethod!.Name] = Core.Create.JsonNode(value);
+                object? value = serializationMethod.PropertyInfo != null ? serializationMethod.PropertyInfo.GetValue(serializableObject) : serializationMethod.FieldInfo!.GetValue(serializableObject);
+
+                result[serializationMethod.Name] = Core.Create.JsonNode(value);
             }
 
-            if (result != null && !result.ContainsKey(Constants.Serialization.PropertyName.Type))
+            if (!result.ContainsKey(Constants.Serialization.PropertyName.Type))
             {
-                result[Constants.Serialization.PropertyName.Type] = Query.FullTypeName(serializableObject);
+                result[Constants.Serialization.PropertyName.Type] = exactType ? fullTypeName : Query.FullTypeName(serializableObject);
             }
 
             return result;
@@ -138,21 +151,15 @@ namespace DiGi.Core.Classes
             propertyNames = [];
             foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject)
             {
-                SerializationMethod? serializationMethod = this[keyValuePair.Key];
-                if (serializationMethod == null)
-                {
-                    continue;
-                }
-
-                MemberInfo memberInfo = serializationMethod.MemberInfo;
-                if (memberInfo == null)
+                if (!dictionary.TryGetValue(keyValuePair.Key, out SerializationMethod? serializationMethod) || serializationMethod == null)
                 {
                     continue;
                 }
 
                 JsonNode? jsonNode = keyValuePair.Value;
 
-                if (memberInfo is PropertyInfo propertyInfo)
+                PropertyInfo? propertyInfo = serializationMethod.PropertyInfo;
+                if (propertyInfo != null)
                 {
                     if (propertyInfo.SetMethod == null)
                     {
@@ -162,7 +169,7 @@ namespace DiGi.Core.Classes
                     propertyInfo.SetValue(serializableObject, jsonNode?.Value(propertyInfo.PropertyType));
                     propertyNames.Add(keyValuePair.Key);
                 }
-                else if (memberInfo is FieldInfo fieldInfo)
+                else if (serializationMethod.FieldInfo is FieldInfo fieldInfo)
                 {
                     fieldInfo.SetValue(serializableObject, jsonNode?.Value(fieldInfo.FieldType));
                     propertyNames.Add(keyValuePair.Key);
@@ -171,26 +178,36 @@ namespace DiGi.Core.Classes
 
             if (serializableObject is IValue && jsonObject.TryGetPropertyValue(Constants.Serialization.PropertyName.ValueType, out JsonNode? jsonNode_ValueType) && jsonNode_ValueType is not null && jsonObject.ContainsKey(Constants.Serialization.PropertyName.Value))
             {
-                if (this[Constants.Serialization.PropertyName.Value]?.MemberInfo is MemberInfo memberInfo)
+                if (this[Constants.Serialization.PropertyName.Value] is SerializationMethod serializationMethod_Value)
                 {
+                    PropertyInfo? propertyInfo = serializationMethod_Value.PropertyInfo;
+                    FieldInfo? fieldInfo = serializationMethod_Value.FieldInfo;
+
                     object? value = null;
-                    if (memberInfo is PropertyInfo propertyInfo)
+                    if (propertyInfo != null)
                     {
                         if (propertyInfo.SetMethod != null)
                         {
                             value = propertyInfo.GetValue(serializableObject);
                         }
                     }
-                    else if (memberInfo is FieldInfo fieldInfo)
+                    else if (fieldInfo != null)
                     {
                         value = fieldInfo.GetValue(serializableObject);
                     }
 
-                    if (value != null && Query.Type(jsonNode_ValueType.GetValue<string>()) is System.Type type)
+                    if (value != null && Query.Type(jsonNode_ValueType.GetValue<string>()) is System.Type type_Value)
                     {
-                        if (!type.IsAssignableFrom(value.GetType()) && Query.TryConvert(value, out object? value_Converted, type))
+                        if (!type_Value.IsAssignableFrom(value.GetType()) && Query.TryConvert(value, out object? value_Converted, type_Value))
                         {
-                            (memberInfo as dynamic).SetValue(serializableObject, value_Converted);
+                            if (propertyInfo != null)
+                            {
+                                propertyInfo.SetValue(serializableObject, value_Converted);
+                            }
+                            else
+                            {
+                                fieldInfo!.SetValue(serializableObject, value_Converted);
+                            }
                         }
                     }
                 }

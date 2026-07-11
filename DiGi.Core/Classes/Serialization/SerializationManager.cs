@@ -1,6 +1,6 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,8 +11,9 @@ namespace DiGi.Core.Classes
     /// </summary>
     public class SerializationManager
     {
-        private readonly Dictionary<string, SerializationConstructor> dictionary_SerializationConstructor = [];
-        private readonly Dictionary<string, SerializationMethodCollection> dictionary_SerializationMethodCollection = [];
+        private readonly ConcurrentDictionary<string, SerializationConstructor> dictionary_SerializationConstructor = new();
+        private readonly ConcurrentDictionary<Type, SerializationConstructor> dictionary_SerializationConstructor_Type = new();
+        private readonly ConcurrentDictionary<Type, SerializationMethodCollection> dictionary_SerializationMethodCollection = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializationManager"/> class.
@@ -34,18 +35,36 @@ namespace DiGi.Core.Classes
         /// <returns>The serialization constructor for the specified type, or null if none was found.</returns>
         public SerializationConstructor? GetSerializationConstructor(Type? type, bool update = true)
         {
-            if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
+            if (type == null)
             {
                 return null;
             }
 
-            string? fullTypeName = Query.FullTypeName(type);
-            if (string.IsNullOrWhiteSpace(fullTypeName))
+            if (dictionary_SerializationConstructor_Type.TryGetValue(type, out SerializationConstructor? result))
+            {
+                return result;
+            }
+
+            if (!update || !typeof(ISerializableObject).IsAssignableFrom(type))
             {
                 return null;
             }
 
-            return GetSerializationConstructor(fullTypeName, update);
+            result = Create.SerializationConstructor(type);
+            if (result == null)
+            {
+                return null;
+            }
+
+            dictionary_SerializationConstructor_Type[type] = result;
+
+            string? fullTypeName = result.FullTypeName;
+            if (!string.IsNullOrWhiteSpace(fullTypeName))
+            {
+                dictionary_SerializationConstructor[fullTypeName!] = result;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -88,16 +107,13 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            result = Create.SerializationConstructor(type);
+            result = GetSerializationConstructor(type, true);
             if (result == null)
             {
                 return null;
             }
 
-            lock (dictionary_SerializationConstructor)
-            {
-                dictionary_SerializationConstructor[fullTypeName!] = result;
-            }
+            dictionary_SerializationConstructor[fullTypeName!] = result;
 
             return result;
         }
@@ -110,23 +126,17 @@ namespace DiGi.Core.Classes
         /// <returns>The collection of serialization methods, or null if not found.</returns>
         public SerializationMethodCollection? GetSerializationMethodCollection(Type? type, bool update = true)
         {
-            if (type == null || !typeof(ISerializableObject).IsAssignableFrom(type))
+            if (type == null)
             {
                 return null;
             }
 
-            string? fullTypeName = Query.FullTypeName(type);
-            if (string.IsNullOrWhiteSpace(fullTypeName))
-            {
-                return null;
-            }
-
-            if (dictionary_SerializationMethodCollection.TryGetValue(fullTypeName!, out SerializationMethodCollection? result))
+            if (dictionary_SerializationMethodCollection.TryGetValue(type, out SerializationMethodCollection? result))
             {
                 return result;
             }
 
-            if (!update)
+            if (!update || !typeof(ISerializableObject).IsAssignableFrom(type))
             {
                 return null;
             }
@@ -137,10 +147,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            lock (dictionary_SerializationMethodCollection)
-            {
-                dictionary_SerializationMethodCollection[fullTypeName!] = result;
-            }
+            dictionary_SerializationMethodCollection[type] = result;
 
             return result;
         }

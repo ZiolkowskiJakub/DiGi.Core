@@ -17,15 +17,15 @@ namespace DiGi.Core
                 return default;
             }
 
-            List<T> result = [];
+            List<T> result = new(jsonArray.Count);
             foreach (JsonNode? jsonNode in jsonArray)
             {
-                if (jsonNode is not JsonObject)
+                if (jsonNode is not JsonObject jsonObject)
                 {
                     continue;
                 }
 
-                T? serializableObject = SerializableObject<T>((JsonObject)jsonNode);
+                T? serializableObject = SerializableObject<T>(jsonObject);
                 if (serializableObject != null)
                 {
                     result.Add(serializableObject);

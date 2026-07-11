@@ -27,7 +27,7 @@ namespace DiGi.Core
             List<MemberInfo>? memberInfos = Query.SerializableMemberInfos(type);
             if (memberInfos == null || memberInfos.Count == 0)
             {
-                return new SerializationMethodCollection(fullTypeName);
+                return new SerializationMethodCollection(type, fullTypeName);
             }
 
             List<Tuple<MemberInfo, string>> tuples = [];
@@ -68,7 +68,7 @@ namespace DiGi.Core
                 serializationMethods.Add(new SerializationMethod(tuples[i].Item1, tuples[i].Item2));
             }
 
-            return new SerializationMethodCollection(fullTypeName, serializationMethods);
+            return new SerializationMethodCollection(type, fullTypeName, serializationMethods);
         }
     }
 }
