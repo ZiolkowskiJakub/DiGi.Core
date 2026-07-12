@@ -16,7 +16,7 @@ namespace DiGi.Core.Parameter.Classes
     public class ParameterGroupCollection : SerializableObject, IEnumerable<ParameterGroup>
     {
         [JsonIgnore]
-        private readonly Dictionary<string, ParameterGroup> dictionary = [];
+        private Dictionary<string, ParameterGroup> dictionary = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParameterGroupCollection"/> class.
@@ -48,7 +48,16 @@ namespace DiGi.Core.Parameter.Classes
         public ParameterGroupCollection(ParameterGroupCollection? parameterGroupCollection)
             : base(parameterGroupCollection)
         {
-            this.ParameterGroups = parameterGroupCollection?.ParameterGroups;
+            if (parameterGroupCollection != null)
+            {
+                foreach (KeyValuePair<string, ParameterGroup> keyValuePair in parameterGroupCollection.dictionary)
+                {
+                    if (keyValuePair.Value != null)
+                    {
+                        dictionary[keyValuePair.Key] = new ParameterGroup(keyValuePair.Value);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -65,7 +74,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return GetParameterGroups();
+                return GetParameterGroupsNoClone();
             }
 
             set
@@ -102,12 +111,22 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
-        /// Creates a shallow copy of the current parameter group collection.
+        /// Creates a deep copy of the current parameter group collection.
         /// </summary>
-        /// <returns>A shallow copy of the current parameter group collection.</returns>
+        /// <returns>A deep copy of the current parameter group collection.</returns>
         public override ISerializableObject? Clone()
         {
-            return new ParameterGroupCollection(this);
+            ParameterGroupCollection parameterGroupCollection = (ParameterGroupCollection)MemberwiseClone();
+            parameterGroupCollection.dictionary = [];
+            foreach (KeyValuePair<string, ParameterGroup> keyValuePair in dictionary)
+            {
+                if (keyValuePair.Value != null)
+                {
+                    parameterGroupCollection.dictionary[keyValuePair.Key] = (ParameterGroup)keyValuePair.Value.Clone()!;
+                }
+            }
+
+            return parameterGroupCollection;
         }
 
         /// <summary>
@@ -162,7 +181,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <returns>An enumerator that iterates through the parameter groups in the collection.</returns>
         public IEnumerator<ParameterGroup> GetEnumerator()
         {
-            return GetParameterGroups()?.GetEnumerator() ?? Enumerable.Empty<ParameterGroup>().GetEnumerator();
+            return dictionary.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -594,6 +613,20 @@ namespace DiGi.Core.Parameter.Classes
                 }
 
                 result.Add(new ParameterGroup(parameterGroup));
+            }
+
+            return result;
+        }
+
+        private List<ParameterGroup> GetParameterGroupsNoClone()
+        {
+            List<ParameterGroup> result = [];
+            foreach (ParameterGroup parameterGroup in dictionary.Values)
+            {
+                if (parameterGroup != null)
+                {
+                    result.Add(parameterGroup);
+                }
             }
 
             return result;

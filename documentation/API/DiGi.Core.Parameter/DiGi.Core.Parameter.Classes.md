@@ -1928,6 +1928,22 @@ public object? Value { get; }
 [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')
 ### Methods
 
+<a name='DiGi.Core.Parameter.Classes.Parameter.Clone()'></a>
+
+## Parameter\.Clone\(\) Method
+
+Creates a deep copy of the Parameter\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new cloned instance of the Parameter\.
+
 <a name='DiGi.Core.Parameter.Classes.Parameter.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
 
 ## Parameter\.GetValue\<T\>\(GetValueSettings\) Method
@@ -2294,7 +2310,7 @@ public string? Name { get; }
 
 ## ParameterGroup\.Clone\(\) Method
 
-Creates a shallow copy of the current parameter group collection\.
+Creates a deep copy of the current parameter group\.
 
 ```csharp
 public override DiGi.Core.Interfaces.ISerializableObject? Clone();
@@ -2304,7 +2320,7 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 
 #### Returns
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
-A shallow copy of the current parameter group collection\.
+A deep copy of the current parameter group\.
 
 <a name='DiGi.Core.Parameter.Classes.ParameterGroup.Contains(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>
 
@@ -2959,7 +2975,7 @@ The name of the parameter group to retrieve\.
 
 ## ParameterGroupCollection\.Clone\(\) Method
 
-Creates a shallow copy of the current parameter group collection\.
+Creates a deep copy of the current parameter group collection\.
 
 ```csharp
 public override DiGi.Core.Interfaces.ISerializableObject? Clone();
@@ -2969,7 +2985,7 @@ Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.in
 
 #### Returns
 [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
-A shallow copy of the current parameter group collection\.
+A deep copy of the current parameter group collection\.
 
 <a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.Contains(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>
 
@@ -4255,6 +4271,22 @@ public DiGi.Core.Parameter.Classes.ParameterGroupCollection ParameterGroupCollec
 #### Property Value
 [ParameterGroupCollection](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection')
 ### Methods
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.Clone()'></a>
+
+## ParametrizedObject\.Clone\(\) Method
+
+Creates a deep copy of the parametrized object\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new cloned instance of the parametrized object\.
 
 <a name='DiGi.Core.Parameter.Classes.ParametrizedObject.Contains(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>
 

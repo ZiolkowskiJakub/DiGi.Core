@@ -20,7 +20,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <param name="value">The parameter value.</param>
         internal Parameter(IParameterDefinition? parameterDefinition, object? value)
         {
-            this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
+            this.parameterDefinition = parameterDefinition;
             this.value = value is ISerializableObject serializableObject ? serializableObject.Clone() : value;
         }
 
@@ -28,7 +28,7 @@ namespace DiGi.Core.Parameter.Classes
         /// <param name="parameterDefinition">The parameter definition.</param>
         internal Parameter(IParameterDefinition? parameterDefinition)
         {
-            this.parameterDefinition = parameterDefinition?.Clone<IParameterDefinition>();
+            this.parameterDefinition = parameterDefinition;
         }
 
         /// <summary>Creates a new instance of the Parameter class by copying another Parameter.</summary>
@@ -38,7 +38,7 @@ namespace DiGi.Core.Parameter.Classes
         {
             if (parameter != null)
             {
-                parameterDefinition = parameter.parameterDefinition?.Clone<IParameterDefinition>();
+                parameterDefinition = parameter.parameterDefinition;
                 value = parameter.value is ISerializableObject serializableObject ? serializableObject.Clone() : parameter.value;
             }
         }
@@ -66,8 +66,20 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return parameterDefinition?.Clone<IParameterDefinition>();
+                return parameterDefinition;
             }
+        }
+
+        /// <summary>Creates a deep copy of the Parameter.</summary>
+        /// <returns>A new cloned instance of the Parameter.</returns>
+        public override ISerializableObject? Clone()
+        {
+            Parameter parameter = (Parameter)MemberwiseClone();
+            if (value is ISerializableObject serializableObject)
+            {
+                parameter.value = serializableObject.Clone();
+            }
+            return parameter;
         }
 
         /// <summary>Gets the type of the parameter.</summary>

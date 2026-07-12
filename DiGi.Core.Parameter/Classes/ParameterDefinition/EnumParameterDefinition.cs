@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Enums;
 using System;
 using System.Text.Json.Nodes;
@@ -13,6 +13,44 @@ namespace DiGi.Core.Parameter.Classes
     {
         [JsonInclude, JsonPropertyName("Enum")]
         private Enum? @enum;
+
+        private bool bool_IsCached;
+        private string? string_Name;
+        private string? string_UniqueId;
+        private string? string_Description;
+        private string? string_GroupName;
+        private AccessType accessType_Access = AccessType.ReadWrite;
+        private AssociatedTypes? associatedTypes_Associated;
+        private ParameterValue? parameterValue_Parameter;
+
+        private void EnsureCached()
+        {
+            if (bool_IsCached)
+            {
+                return;
+            }
+
+            if (@enum != null)
+            {
+                ParameterProperties? parameterProperties_Temp = Query.ParameterProperties(@enum);
+                if (parameterProperties_Temp != null)
+                {
+                    string_Name = parameterProperties_Temp.Name;
+                    string_UniqueId = parameterProperties_Temp.UniqueId;
+                    string_Description = parameterProperties_Temp.Description;
+                    accessType_Access = parameterProperties_Temp.AccessType;
+                    string_GroupName = parameterProperties_Temp.GroupName;
+                }
+
+                string_GroupName ??= @enum.GetType()?.Namespace;
+                string_GroupName ??= Constants.Names.DefaultGroupName;
+
+                associatedTypes_Associated = Query.AssociatedTypes(@enum.GetType());
+                parameterValue_Parameter = Query.ParameterValue<ParameterValue>(@enum);
+            }
+
+            bool_IsCached = true;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class from a JSON object.
@@ -33,6 +71,14 @@ namespace DiGi.Core.Parameter.Classes
             if (enumParameterDefinition != null)
             {
                 @enum = enumParameterDefinition.@enum;
+                bool_IsCached = enumParameterDefinition.bool_IsCached;
+                string_Name = enumParameterDefinition.string_Name;
+                string_UniqueId = enumParameterDefinition.string_UniqueId;
+                string_Description = enumParameterDefinition.string_Description;
+                string_GroupName = enumParameterDefinition.string_GroupName;
+                accessType_Access = enumParameterDefinition.accessType_Access;
+                associatedTypes_Associated = enumParameterDefinition.associatedTypes_Associated;
+                parameterValue_Parameter = enumParameterDefinition.parameterValue_Parameter;
             }
         }
 
@@ -60,13 +106,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                ParameterProperties? parameterProperties = Query.ParameterProperties(@enum);
-                if (parameterProperties == null)
-                {
-                    return AccessType.ReadWrite;
-                }
-
-                return parameterProperties.AccessType;
+                EnsureCached();
+                return accessType_Access;
             }
         }
 
@@ -77,7 +118,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return Query.AssociatedTypes(@enum?.GetType());
+                EnsureCached();
+                return associatedTypes_Associated;
             }
         }
 
@@ -88,7 +130,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return Query.ParameterProperties(@enum)?.Description;
+                EnsureCached();
+                return string_Description;
             }
         }
 
@@ -99,11 +142,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                string? result = Query.ParameterProperties(@enum)?.GroupName;
-
-                result ??= @enum?.GetType()?.Namespace;
-
-                return result ?? Constants.Names.DefaultGroupName;
+                EnsureCached();
+                return string_GroupName ?? Constants.Names.DefaultGroupName;
             }
         }
 
@@ -114,7 +154,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return Query.ParameterProperties(@enum)?.Name;
+                EnsureCached();
+                return string_Name;
             }
         }
 
@@ -125,7 +166,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return Query.ParameterValue<ParameterValue>(@enum);
+                EnsureCached();
+                return parameterValue_Parameter;
             }
         }
 
@@ -136,7 +178,8 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return Query.ParameterProperties(@enum)?.UniqueId;
+                EnsureCached();
+                return string_UniqueId;
             }
         }
 
@@ -194,6 +237,7 @@ namespace DiGi.Core.Parameter.Classes
             if (jsonObject.ContainsKey("Enum"))
             {
                 Core.Query.TryGetEnum(jsonObject["Enum"]?.GetValue<string>(), out @enum);
+                bool_IsCached = false;
             }
 
             return true;

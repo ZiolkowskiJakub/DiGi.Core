@@ -1,5 +1,6 @@
 using DiGi.Core.Classes;
 using DiGi.Core.Enums;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace DiGi.Core.Parameter.Classes
     public class ParametrizedObject : SerializableObject, IParametrizedObject
     {
         [JsonInclude, JsonPropertyName(nameof(ParameterGroupCollection))]
-        private readonly ParameterGroupCollection parameterGroupCollection = new();
+        private ParameterGroupCollection parameterGroupCollection = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParametrizedObject"/> class.
@@ -68,6 +69,17 @@ namespace DiGi.Core.Parameter.Classes
         public ParametrizedObject(JsonObject? jsonObject)
             : base(jsonObject)
         {
+        }
+
+        /// <summary>
+        /// Creates a deep copy of the parametrized object.
+        /// </summary>
+        /// <returns>A new cloned instance of the parametrized object.</returns>
+        public override ISerializableObject? Clone()
+        {
+            ParametrizedObject parametrizedObject = (ParametrizedObject)MemberwiseClone();
+            parametrizedObject.parameterGroupCollection = (ParameterGroupCollection)parameterGroupCollection.Clone()!;
+            return parametrizedObject;
         }
 
         /// <summary>
