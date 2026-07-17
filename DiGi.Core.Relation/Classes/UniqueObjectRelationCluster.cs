@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
@@ -93,7 +93,7 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            IUniqueReference? uniqueReference = Create.UniqueReference(value);
+            IUniqueReference? uniqueReference = Core.Create.UniqueReference(value);
 
             List<ZRelation>? relations = GetRelations<ZRelation>(uniqueReference);
             if (relations == null)
@@ -157,7 +157,7 @@ namespace DiGi.Core.Relation.Classes
             HashSet<IUniqueReference> uniqueReferences = [];
             foreach (TUniqueObject value in values)
             {
-                if (Create.UniqueReference(value) is IUniqueReference uniqueReference)
+                if (Core.Create.UniqueReference(value) is IUniqueReference uniqueReference)
                 {
                     uniqueReferences.Add(uniqueReference);
                 }
@@ -275,7 +275,7 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            IUniqueReference? uniqueReference = Create.UniqueReference(value);
+            IUniqueReference? uniqueReference = Core.Create.UniqueReference(value);
 
             List<UUniqueObject> result = [];
             foreach (XRelation relation in relations)
@@ -366,7 +366,7 @@ namespace DiGi.Core.Relation.Classes
                 return null;
             }
 
-            return GetRelations(Create.UniqueReference(uniqueObject), func);
+            return GetRelations(Core.Create.UniqueReference(uniqueObject), func);
         }
 
         /// <summary>Gets all relations of the specified type that contain any of the given unique objects and optionally match the predicate.</summary>
@@ -384,7 +384,7 @@ namespace DiGi.Core.Relation.Classes
             HashSet<IUniqueReference> uniqueReferences = [];
             foreach (TUniqueObject uniqueObject in uniqueObjects)
             {
-                if (Create.UniqueReference(uniqueObject) is IUniqueReference uniqueReference)
+                if (Core.Create.UniqueReference(uniqueObject) is IUniqueReference uniqueReference)
                 {
                     uniqueReferences.Add(uniqueReference);
                 }
@@ -495,7 +495,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            IUniqueReference? uniqueReference = Create.UniqueReference(uniqueObject);
+            IUniqueReference? uniqueReference = Core.Create.UniqueReference(uniqueObject);
 
             bool result = Remove(uniqueReference);
             if (result)

@@ -3360,6 +3360,22 @@ public class RelationListClusterReference : DiGi.Core.Classes.ListClusterReferen
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.ListClusterReference&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2')[DiGi\.Core\.Classes\.TypeReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.typereference 'DiGi\.Core\.Classes\.TypeReference')[,](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2')[DiGi\.Core\.Classes\.TypeReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.typereference 'DiGi\.Core\.Classes\.TypeReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2') → RelationListClusterReference
+
+### Example
+Renders and parses \(via [DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.query.tryparse#digi-core-query-tryparse(system-string-digi-core-interfaces-ireference@) 'DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)')\) as the discriminator, the
+two nested type references, then the index:
+
+```csharp
+RelationListCluster::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::(Type::DiGi.GIS.Classes.Space,DiGi.GIS)::3
+```
+
+### Remarks
+TODO \[ReferenceFormat\]: This type renders its own string by hand\. It derives from
+[DiGi\.Core\.Classes\.ListClusterReference&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2'), which implements [DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference') directly rather
+than deriving from [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference'), so it does not inherit the sealed ToString that
+guarantees the grammar\. Keep [ToString\(\)](DiGi.Core.Relation.Classes.md#DiGi.Core.Relation.Classes.RelationListClusterReference.ToString() 'DiGi\.Core\.Relation\.Classes\.RelationListClusterReference\.ToString\(\)') below in step with
+[DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.convert.tosystem_string#digi-core-convert-tosystem_string(system-type-system-collections-generic-ienumerable{system-string}) 'DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)') and with its factory in
+Create/RelationListClusterReference\.cs\. The ReferenceKind facts assert this type still round\-trips\.
 ### Constructors
 
 <a name='DiGi.Core.Relation.Classes.RelationListClusterReference.RelationListClusterReference(DiGi.Core.Classes.TypeReference,DiGi.Core.Classes.TypeReference,int)'></a>
@@ -3384,6 +3400,22 @@ public RelationListClusterReference(DiGi.Core.Classes.TypeReference? key_1, DiGi
 <a name='DiGi.Core.Relation.Classes.RelationListClusterReference.RelationListClusterReference(DiGi.Core.Classes.TypeReference,DiGi.Core.Classes.TypeReference,int).index'></a>
 
 `index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+### Example
+Renders and parses \(via [DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.query.tryparse#digi-core-query-tryparse(system-string-digi-core-interfaces-ireference@) 'DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)')\) as the discriminator, the
+two nested type references, then the index:
+
+```csharp
+RelationListCluster::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::(Type::DiGi.GIS.Classes.Space,DiGi.GIS)::3
+```
+
+### Remarks
+TODO \[ReferenceFormat\]: This type renders its own string by hand\. It derives from
+[DiGi\.Core\.Classes\.ListClusterReference&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2'), which implements [DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference') directly rather
+than deriving from [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference'), so it does not inherit the sealed ToString that
+guarantees the grammar\. Keep [ToString\(\)](DiGi.Core.Relation.Classes.md#DiGi.Core.Relation.Classes.RelationListClusterReference.ToString() 'DiGi\.Core\.Relation\.Classes\.RelationListClusterReference\.ToString\(\)') below in step with
+[DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.convert.tosystem_string#digi-core-convert-tosystem_string(system-type-system-collections-generic-ienumerable{system-string}) 'DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)') and with its factory in
+Create/RelationListClusterReference\.cs\. The ReferenceKind facts assert this type still round\-trips\.
 ### Methods
 
 <a name='DiGi.Core.Relation.Classes.RelationListClusterReference.Equals(DiGi.Core.Interfaces.IReference)'></a>
@@ -3420,6 +3452,20 @@ public override int GetHashCode();
 #### Returns
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
 The hash code for this instance\.
+
+<a name='DiGi.Core.Relation.Classes.RelationListClusterReference.ToString()'></a>
+
+## RelationListClusterReference\.ToString\(\) Method
+
+Returns the reference string: this type's discriminator, both keys, then the index\.
+
+```csharp
+public override string? ToString();
+```
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The reference string\.
 
 <a name='DiGi.Core.Relation.Classes.UniqueObjectRelationCluster_TUniqueObject,XRelation_'></a>
 

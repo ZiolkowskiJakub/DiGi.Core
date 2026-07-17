@@ -5,6 +5,11 @@ using System.Text.Json.Serialization;
 namespace DiGi.Core.Classes
 {
     /// <summary>Represents a reference to an object identified by a unique string ID.</summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// nested type reference, then the unique identifier:
+    /// <code>UniqueId::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::BLD-001</code>
+    /// </example>
     public class UniqueIdReference : UniqueReference
     {
         [JsonInclude, JsonPropertyName("UniqueId")]
@@ -81,15 +86,6 @@ namespace DiGi.Core.Classes
         public override ISerializableObject? Clone()
         {
             return new UniqueIdReference(this);
-        }
-
-        /// <summary>
-        /// Returns a string representation of the current object.
-        /// </summary>
-        /// <returns>A string representation of the current object.</returns>
-        public override string? ToString()
-        {
-            return Convert.ToSystem_String(TypeReference, uniqueId, Constants.Reference.Format.UniqueId);
         }
     }
 }

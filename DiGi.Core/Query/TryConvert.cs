@@ -183,6 +183,15 @@ namespace DiGi.Core
                 result = @type_Result;
                 return succeeded;
             }
+            else if (typeof(IReference).IsAssignableFrom(type_Temp))
+            {
+                // Must precede the ISerializableObject branch: every serializable reference is also an
+                // ISerializableObject, but a reference string is the discriminated grammar, not JSON, so it has to be
+                // parsed by TryParse rather than deserialized.
+                succeeded = TryConvert_Reference(@object, out IReference? reference, type_Temp);
+                result = reference;
+                return succeeded;
+            }
             else if (typeof(ISerializableObject).IsAssignableFrom(type_Temp))
             {
                 succeeded = TryConvert_SerializableObject(@object, out ISerializableObject? serializableObject, type_Temp);
@@ -1284,6 +1293,57 @@ namespace DiGi.Core
                     result = stringLong;
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to convert the specified object to an <see cref="IReference"/> of the specified type.
+        /// <para>A reference string is parsed with <see cref="TryParse(string?, out IReference?)"/> and accepted only
+        /// when the parsed reference is assignable to <paramref name="type"/>, so a string naming one reference kind
+        /// does not convert to another. A non-string input, or a string that is a JSON serialization rather than a
+        /// reference string, falls back to the <see cref="ISerializableObject"/> path for reference types that
+        /// support it.</para>
+        /// </summary>
+        /// <param name="object">The object to convert.</param>
+        /// <param name="result">When this method returns, contains the converted reference, or null if conversion failed.</param>
+        /// <param name="type">The target reference type.</param>
+        /// <returns>True if the conversion was successful; otherwise, false.</returns>
+        public static bool TryConvert_Reference(object @object, out IReference? result, Type type)
+        {
+            result = null;
+
+            if (type == null || !typeof(IReference).IsAssignableFrom(type))
+            {
+                return false;
+            }
+
+            object? @object_Temp = @object;
+
+            if (@object is JsonElement jsonElement && jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
+            {
+                @object_Temp = jsonElement.GetString();
+            }
+
+            if (@object_Temp is string @string)
+            {
+                if (TryParse(@string, out IReference? reference) && reference != null && type.IsAssignableFrom(reference.GetType()))
+                {
+                    result = reference;
+                    return true;
+                }
+
+                // Not the reference grammar. It may still be a JSON serialization of a reference, which the
+                // ISerializableObject path below handles.
+            }
+
+            if (typeof(ISerializableObject).IsAssignableFrom(type)
+                && TryConvert_SerializableObject(@object, out ISerializableObject? serializableObject, type)
+                && serializableObject is IReference reference_Serializable)
+            {
+                result = reference_Serializable;
+                return true;
             }
 
             return false;

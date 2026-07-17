@@ -175,6 +175,11 @@ namespace DiGi.Core.IO.File.Classes
                         continue;
                     }
 
+                    // TODO [ReferenceFormat]: The entry name is Query.Encode(uniqueReference) = url-encoded
+                    // reference string (written at the Encode call sites below). The reference format changed, so a
+                    // fresh write and an old archive no longer produce matching entry names. Old archives still load
+                    // because Query.Decode -> Query.TryParse -> Query.TryParseLegacy reads the old form; once every
+                    // archive is regenerated, the legacy path (and this note) can go.
                     UniqueReference? uniqueReference = Query.Decode(zipArchiveEntry.Name);
                     if (uniqueReference is null)
                     {

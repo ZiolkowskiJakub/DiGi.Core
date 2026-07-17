@@ -72,7 +72,12 @@ public const ulong Prime = 1099511628211;
 
 ## Reference Class
 
-Constants used for reference identifiers\.
+Constants defining the reference string grammar\.
+
+A reference renders as `discriminator ( "::" segment )*`, where the discriminator is a
+            [Kind](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Kind 'DiGi\.Core\.Constants\.Reference\.Kind') token (always written) or an assembly-qualified full type name (accepted on read only).
+            A segment is either an escaped scalar token, a nested reference wrapped in [NestingStart](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.NestingStart 'DiGi\.Core\.Constants\.Reference\.NestingStart') /
+            [NestingEnd](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.NestingEnd 'DiGi\.Core\.Constants\.Reference\.NestingEnd'), or [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null').
 
 ```csharp
 public static class Reference
@@ -81,11 +86,67 @@ public static class Reference
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Reference
 ### Fields
 
+<a name='DiGi.Core.Constants.Reference.Escape'></a>
+
+## Reference\.Escape Field
+
+Escape prefix\. Applied to itself, to each character of [Separator](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Separator 'DiGi\.Core\.Constants\.Reference\.Separator'), and to
+[NestingStart](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.NestingStart 'DiGi\.Core\.Constants\.Reference\.NestingStart') / [NestingEnd](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.NestingEnd 'DiGi\.Core\.Constants\.Reference\.NestingEnd'), making the mapping prefix\-free and invertible\.
+
+```csharp
+public const string Escape = "\";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.NestingEnd'></a>
+
+## Reference\.NestingEnd Field
+
+Closes a nested reference segment\.
+
+```csharp
+public const string NestingEnd = ")";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.NestingStart'></a>
+
+## Reference\.NestingStart Field
+
+Opens a nested reference segment\.
+
+```csharp
+public const string NestingStart = "(";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Null'></a>
+
+## Reference\.Null Field
+
+Segment representing a null value, as distinct from an empty segment which represents
+[System\.String\.Empty](https://learn.microsoft.com/en-us/dotnet/api/system.string.empty 'System\.String\.Empty')\. A real payload can never render as this token, because a literal escape
+character is always itself escaped\.
+
+```csharp
+public const string Null = "\0";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
 <a name='DiGi.Core.Constants.Reference.Separator'></a>
 
 ## Reference\.Separator Field
 
-Separator used in reference strings\.
+Separator between the discriminator and each segment\. Only an unescaped occurrence at nesting depth zero
+separates; an occurrence inside a payload is escaped and never splits\.
 
 ```csharp
 public const string Separator = "::";
@@ -94,53 +155,150 @@ public const string Separator = "::";
 #### Field Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 
-<a name='DiGi.Core.Constants.Reference.Format'></a>
+<a name='DiGi.Core.Constants.Reference.Kind'></a>
 
-## Reference\.Format Class
+## Reference\.Kind Class
 
-Format strings for references\.
+Discriminator tokens for the reference types defined in DiGi\.Core\.
+
+These values are a persisted contract: they are written into stored reference strings, so they are
+            append-only. Renaming one silently invalidates every string already stored in that format. Types outside
+            DiGi.Core declare their own tokens in their repository's `Constants.ReferenceKind` class.
+
+A token must never contain a comma (which would make it parse as a full type name) or a colon.
 
 ```csharp
-public static class Reference.Format
+public static class Reference.Kind
 ```
 
-Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Format
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Kind
 ### Fields
 
-<a name='DiGi.Core.Constants.Reference.Format.Guid'></a>
+<a name='DiGi.Core.Constants.Reference.Kind.Complex'></a>
 
-## Reference\.Format\.Guid Field
+## Reference\.Kind\.Complex Field
 
-Format for GUIDs\.
+Discriminator for [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference')\.
 
 ```csharp
-public const string Guid = "{0}";
+public const string Complex = "Complex";
 ```
 
 #### Field Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 
-<a name='DiGi.Core.Constants.Reference.Format.Property'></a>
+<a name='DiGi.Core.Constants.Reference.Kind.Guid'></a>
 
-## Reference\.Format\.Property Field
+## Reference\.Kind\.Guid Field
 
-Format for properties\.
+Discriminator for [GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')\.
 
 ```csharp
-public const string Property = "["{0}"]";
+public const string Guid = "Guid";
 ```
 
 #### Field Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 
-<a name='DiGi.Core.Constants.Reference.Format.UniqueId'></a>
+<a name='DiGi.Core.Constants.Reference.Kind.GuidExternal'></a>
 
-## Reference\.Format\.UniqueId Field
+## Reference\.Kind\.GuidExternal Field
 
-Format for unique identifiers\.
+Discriminator for [GuidExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidExternalReference 'DiGi\.Core\.Classes\.GuidExternalReference')\.
 
 ```csharp
-public const string UniqueId = ""{0}"";
+public const string GuidExternal = "GuidExternal";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.GuidProperty'></a>
+
+## Reference\.Kind\.GuidProperty Field
+
+Discriminator for [GuidPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidPropertyReference 'DiGi\.Core\.Classes\.GuidPropertyReference')\.
+
+```csharp
+public const string GuidProperty = "GuidProperty";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.InstanceExternal'></a>
+
+## Reference\.Kind\.InstanceExternal Field
+
+Discriminator for [InstanceRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference')\.
+
+```csharp
+public const string InstanceExternal = "InstanceExternal";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.Type'></a>
+
+## Reference\.Kind\.Type Field
+
+Discriminator for [TypeReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeReference 'DiGi\.Core\.Classes\.TypeReference')\.
+
+```csharp
+public const string Type = "Type";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.TypeExternal'></a>
+
+## Reference\.Kind\.TypeExternal Field
+
+Discriminator for [TypeRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeRelatedExternalReference 'DiGi\.Core\.Classes\.TypeRelatedExternalReference')\.
+
+```csharp
+public const string TypeExternal = "TypeExternal";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.TypeProperty'></a>
+
+## Reference\.Kind\.TypeProperty Field
+
+Discriminator for [TypePropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypePropertyReference 'DiGi\.Core\.Classes\.TypePropertyReference')\.
+
+```csharp
+public const string TypeProperty = "TypeProperty";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.UniqueId'></a>
+
+## Reference\.Kind\.UniqueId Field
+
+Discriminator for [UniqueIdReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdReference 'DiGi\.Core\.Classes\.UniqueIdReference')\.
+
+```csharp
+public const string UniqueId = "UniqueId";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Constants.Reference.Kind.UniqueIdProperty'></a>
+
+## Reference\.Kind\.UniqueIdProperty Field
+
+Discriminator for [UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference')\.
+
+```csharp
+public const string UniqueIdProperty = "UniqueIdProperty";
 ```
 
 #### Field Value

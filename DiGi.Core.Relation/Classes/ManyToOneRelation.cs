@@ -107,13 +107,13 @@ namespace DiGi.Core.Relation.Classes
         public ManyToOneRelation(IEnumerable<From>? uniqueObjects_From, To? uniqueObject_To)
             : base()
         {
-            uniqueReference_To = uniqueObject_To == null ? null : Create.UniqueReference(uniqueObject_To);
+            uniqueReference_To = uniqueObject_To == null ? null : Core.Create.UniqueReference(uniqueObject_To);
             if (uniqueObjects_From != null)
             {
                 uniqueReferences_From = [];
                 foreach (From? from in uniqueObjects_From)
                 {
-                    IUniqueReference? uniqueReference_Temp = Create.UniqueReference(from);
+                    IUniqueReference? uniqueReference_Temp = Core.Create.UniqueReference(from);
                     if (uniqueReference_Temp == null)
                     {
                         continue;

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
@@ -151,13 +151,13 @@ namespace DiGi.Core.Relation.Classes
         /// <summary>Gets the source type reference from a relation.</summary>
         protected override TypeReference? GetKey_1(XRelation? value)
         {
-            return Create.TypeReference(value?.GetType(RelationSide.From));
+            return Core.Create.TypeReference(value?.GetType(RelationSide.From));
         }
 
         /// <summary>Gets the target type reference from a relation.</summary>
         protected override TypeReference? GetKey_2(XRelation? value)
         {
-            return Create.TypeReference(value?.GetType(RelationSide.To));
+            return Core.Create.TypeReference(value?.GetType(RelationSide.To));
         }
 
         private List<RelationListClusterReference>? GetRelationListClusterReferences<URelation, XUniqueReference>(IEnumerable<XUniqueReference>? uniqueReferences, Func<URelation?, bool>? func = null) where URelation : XRelation where XUniqueReference : IUniqueReference

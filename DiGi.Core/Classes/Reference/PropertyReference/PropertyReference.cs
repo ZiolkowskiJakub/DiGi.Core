@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
@@ -106,12 +107,15 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Returns a string that represents the current object.
+        /// Gets the segments of this reference's string form: the nested reference, then the property name.
         /// </summary>
-        /// <returns>A string representation of the current object.</returns>
-        public override string? ToString()
+        [JsonIgnore]
+        protected override IEnumerable<string?> Segments
         {
-            return string.Format("{0}{1}", reference?.ToString(), Constants.Reference.Separator) + string.Format(Constants.Reference.Format.Property, PropertyName);
+            get
+            {
+                return [Query.Segment(reference), Query.Segment(PropertyName)];
+            }
         }
     }
 }

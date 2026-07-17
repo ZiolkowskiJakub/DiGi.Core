@@ -376,6 +376,9 @@ Defines a contract for a complex reference to an object\.
 public interface IComplexReference : DiGi.Core.Interfaces.IReference, DiGi.Core.Interfaces.IObject, System.IEquatable<DiGi.Core.Interfaces.IReference>
 ```
 
+Derived  
+↳ [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference')
+
 Implements [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')
 
 <a name='DiGi.Core.Interfaces.ICoordinates'></a>
@@ -832,6 +835,7 @@ Derived
 ↳ [BackgroundTask](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTask 'DiGi\.Core\.Classes\.BackgroundTask')  
 ↳ [CancelableBackgroundTask](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask 'DiGi\.Core\.Classes\.CancelableBackgroundTask')  
 ↳ [Cluster&lt;TKey\_1,TKey\_2,TValue&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_ 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>')  
+↳ [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference')  
 ↳ [ConvertOptions](DiGi.Core.Classes.md#DiGi.Core.Classes.ConvertOptions 'DiGi\.Core\.Classes\.ConvertOptions')  
 ↳ [Coordinates](DiGi.Core.Classes.md#DiGi.Core.Classes.Coordinates 'DiGi\.Core\.Classes\.Coordinates')  
 ↳ [DateTimeCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.DateTimeCollection 'DiGi\.Core\.Classes\.DateTimeCollection')  
@@ -1081,6 +1085,7 @@ public interface IReference : DiGi.Core.Interfaces.IObject, System.IEquatable<Di
 ```
 
 Derived  
+↳ [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference')  
 ↳ [ExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference 'DiGi\.Core\.Classes\.ExternalReference')  
 ↳ [ListClusterReference&lt;TKey\_1,TKey\_2&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ListClusterReference_TKey_1,TKey_2_ 'DiGi\.Core\.Classes\.ListClusterReference\<TKey\_1,TKey\_2\>')  
 ↳ [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference')  

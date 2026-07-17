@@ -1,11 +1,16 @@
 ﻿using DiGi.Core.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
     /// <summary>Represents a reference to a .NET type by its full name.</summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as:
+    /// <code>Type::DiGi.GIS.Classes.Building2D,DiGi.GIS</code>
+    /// </example>
     public class TypeReference : SerializableReference, ITypeRelatedSerializableReference
     {
         [JsonInclude, JsonPropertyName("FullTypeName")]
@@ -69,6 +74,18 @@ namespace DiGi.Core.Classes
             get
             {
                 return fullTypeName;
+            }
+        }
+
+        /// <summary>
+        /// Gets the segments of this reference's string form: the full type name.
+        /// </summary>
+        [JsonIgnore]
+        protected override IEnumerable<string?> Segments
+        {
+            get
+            {
+                return [Query.Segment(fullTypeName)];
             }
         }
 
@@ -146,15 +163,6 @@ namespace DiGi.Core.Classes
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
-
-        /// <summary>
-        /// Returns a string representation of the current type reference.
-        /// </summary>
-        /// <returns>A string that represents the current type reference.</returns>
-        public override string? ToString()
-        {
-            return fullTypeName ?? string.Empty;
         }
     }
 }

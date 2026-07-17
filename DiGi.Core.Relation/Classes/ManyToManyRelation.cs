@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
@@ -132,7 +132,7 @@ namespace DiGi.Core.Relation.Classes
                 uniqueReferences_To = [];
                 foreach (To to in uniqueObjects_To)
                 {
-                    IUniqueReference? uniqueReference = Create.UniqueReference(to);
+                    IUniqueReference? uniqueReference = Core.Create.UniqueReference(to);
                     if (uniqueReference != null)
                     {
                         uniqueReferences_To.Add(uniqueReference);
@@ -145,7 +145,7 @@ namespace DiGi.Core.Relation.Classes
                 uniqueReferences_From = [];
                 foreach (From from in uniqueObjects_From)
                 {
-                    IUniqueReference? uniqueReference = Create.UniqueReference(from);
+                    IUniqueReference? uniqueReference = Core.Create.UniqueReference(from);
                     if (uniqueReference != null)
                     {
                         uniqueReferences_From.Add(uniqueReference);

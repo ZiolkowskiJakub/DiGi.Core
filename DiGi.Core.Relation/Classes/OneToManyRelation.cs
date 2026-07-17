@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
 using System.Collections.Generic;
@@ -53,13 +53,13 @@ namespace DiGi.Core.Relation.Classes
         public OneToManyRelation(From? uniqueObject_From, IEnumerable<To>? uniqueObjects_To)
             : base()
         {
-            uniqueReference_From = uniqueObject_From == null ? null : Create.UniqueReference(uniqueObject_From);
+            uniqueReference_From = uniqueObject_From == null ? null : Core.Create.UniqueReference(uniqueObject_From);
             if (uniqueObjects_To != null)
             {
                 uniqueReferences_To = [];
                 foreach (To uniqueObject_To in uniqueObjects_To)
                 {
-                    IUniqueReference? uniqueReference = Create.UniqueReference(uniqueObject_To);
+                    IUniqueReference? uniqueReference = Core.Create.UniqueReference(uniqueObject_To);
                     if (uniqueReference == null)
                     {
                         continue;

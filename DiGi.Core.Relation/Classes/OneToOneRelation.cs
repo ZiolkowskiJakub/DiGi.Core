@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
@@ -77,8 +77,8 @@ namespace DiGi.Core.Relation.Classes
         /// <param name="uniqueObject_To">The target unique object.</param>
         public OneToOneRelation(From? uniqueObject_From, To? uniqueObject_To)
         {
-            uniqueReference_From = uniqueObject_From == null ? null : Create.UniqueReference(uniqueObject_From);
-            uniqueReference_To = uniqueObject_To == null ? null : Create.UniqueReference(uniqueObject_To);
+            uniqueReference_From = uniqueObject_From == null ? null : Core.Create.UniqueReference(uniqueObject_From);
+            uniqueReference_To = uniqueObject_To == null ? null : Core.Create.UniqueReference(uniqueObject_To);
         }
 
         /// <summary>Creates a new instance of the OneToOneRelation class from a JSON object.</summary>

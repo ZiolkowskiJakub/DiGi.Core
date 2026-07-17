@@ -6,6 +6,11 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Represents an external reference related to a type rather than a specific instance.
     /// </summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// source, then the nested type-related reference:
+    /// <code>TypeExternal::Revit::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)</code>
+    /// </example>
     public sealed class TypeRelatedExternalReference : ExternalReference<ITypeRelatedSerializableReference>
     {
         /// <summary>

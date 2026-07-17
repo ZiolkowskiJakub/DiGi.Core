@@ -20,7 +20,18 @@ namespace DiGi.Core
                 return null;
             }
 
-            JsonNode? jsonNode = JsonNode.Parse(json!);
+            JsonNode? jsonNode;
+            try
+            {
+                jsonNode = JsonNode.Parse(json!);
+            }
+            catch (JsonException)
+            {
+                // Not JSON. Callers on the Try* path (e.g. Query.TryConvert of a reference string) rely on a null
+                // return rather than an exception when the input is some other string format.
+                return null;
+            }
+
             if (jsonNode == null)
             {
                 return null;

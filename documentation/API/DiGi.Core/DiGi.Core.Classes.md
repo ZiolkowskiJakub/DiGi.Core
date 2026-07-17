@@ -2715,6 +2715,175 @@ The second [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Cla
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the two [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color') instances are not equal; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
 
+<a name='DiGi.Core.Classes.ComplexReference'></a>
+
+## ComplexReference Class
+
+Represents a reference reached by walking an ordered chain of references, so that an object nested inside a
+containment hierarchy can be addressed from its root \- for example a wall inside a building inside an area
+inside a country\.
+
+Each step is an ordinary reference and is nested inside the rendered string, which is what allows a
+            chain of any depth to be parsed back in a single pass without knowing any step's shape in advance.
+
+This is an [IComplexReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IComplexReference 'DiGi\.Core\.Interfaces\.IComplexReference') and deliberately not an
+            [IUniqueReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IUniqueReference 'DiGi\.Core\.Interfaces\.IUniqueReference'): a path has no unique identifier of its own, and keeping it out of the
+            unique-reference APIs keeps long paths out of storage keys.
+
+The chain is structural only. DiGi.Core has no containment model, so nothing here validates that the
+            steps actually contain one another; that belongs to whichever repository knows the hierarchy.
+
+```csharp
+public class ComplexReference : DiGi.Core.Classes.SerializableReference, DiGi.Core.Interfaces.IComplexReference, DiGi.Core.Interfaces.IReference, DiGi.Core.Interfaces.IObject, System.IEquatable<DiGi.Core.Interfaces.IReference>
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → ComplexReference
+
+Implements [IComplexReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IComplexReference 'DiGi\.Core\.Interfaces\.IComplexReference'), [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')
+
+### Example
+A country, area, building and wall chain renders and parses \(via
+[TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator followed by one nested step
+per level \(shown wrapped for readability; the actual string has no whitespace\):
+
+```csharp
+Complex::(TypeExternal::POLAND::(Type::DiGi.GIS.Classes.Country,DiGi.GIS))
+        ::(UniqueId::(Type::DiGi.GIS.Classes.Area,DiGi.GIS)::Mazowieckie)
+        ::(UniqueId::(Type::DiGi.GIS.Classes.Building,DiGi.GIS)::BLD-001)
+        ::(Guid::(Type::DiGi.Analytical.Building.Classes.Wall,DiGi.Analytical.Building)::0f8fad5bd9cb469fa16570867728950e)
+```
+### Constructors
+
+<a name='DiGi.Core.Classes.ComplexReference.ComplexReference(DiGi.Core.Classes.ComplexReference)'></a>
+
+## ComplexReference\(ComplexReference\) Constructor
+
+Initializes a new instance of the [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference') class by copying an existing reference\.
+
+```csharp
+public ComplexReference(DiGi.Core.Classes.ComplexReference? complexReference);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ComplexReference.ComplexReference(DiGi.Core.Classes.ComplexReference).complexReference'></a>
+
+`complexReference` [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference')
+
+The existing reference to copy\.
+
+<a name='DiGi.Core.Classes.ComplexReference.ComplexReference(System.Collections.Generic.IEnumerable_DiGi.Core.Interfaces.ISerializableReference_)'></a>
+
+## ComplexReference\(IEnumerable\<ISerializableReference\>\) Constructor
+
+Initializes a new instance of the [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference') class from an ordered chain of references\.
+
+```csharp
+public ComplexReference(System.Collections.Generic.IEnumerable<DiGi.Core.Interfaces.ISerializableReference?>? references);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ComplexReference.ComplexReference(System.Collections.Generic.IEnumerable_DiGi.Core.Interfaces.ISerializableReference_).references'></a>
+
+`references` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The steps of the chain, from the root inwards\. Null steps are skipped\.
+
+<a name='DiGi.Core.Classes.ComplexReference.ComplexReference(System.Text.Json.Nodes.JsonObject)'></a>
+
+## ComplexReference\(JsonObject\) Constructor
+
+Initializes a new instance of the [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference') class from a JSON object\.
+
+```csharp
+public ComplexReference(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ComplexReference.ComplexReference(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object to initialize from\.
+### Properties
+
+<a name='DiGi.Core.Classes.ComplexReference.Count'></a>
+
+## ComplexReference\.Count Property
+
+Gets the number of steps in the chain\.
+
+```csharp
+public int Count { get; }
+```
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.ComplexReference.References'></a>
+
+## ComplexReference\.References Property
+
+Gets the steps of the chain, from the root inwards\.
+
+```csharp
+public System.Collections.Generic.List<DiGi.Core.Interfaces.ISerializableReference> References { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Core.Classes.ComplexReference.Segments'></a>
+
+## ComplexReference\.Segments Property
+
+Gets the segments of this reference's string form: one nested segment per step, in order\.
+
+The only reference with a variable number of segments; every other type declares a fixed count.
+
+```csharp
+protected override System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+<a name='DiGi.Core.Classes.ComplexReference.this[int]'></a>
+
+## ComplexReference\.this\[int\] Property
+
+Gets the step at the specified position in the chain\.
+
+```csharp
+public DiGi.Core.Interfaces.ISerializableReference? this[int index] { get; }
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ComplexReference.this[int].index'></a>
+
+`index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The zero\-based position, counted from the root\.
+
+#### Property Value
+[ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference')
+### Methods
+
+<a name='DiGi.Core.Classes.ComplexReference.Clone()'></a>
+
+## ComplexReference\.Clone\(\) Method
+
+Creates a deep copy of the current object\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_.Clone() 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>\.Clone\(\)')
+
+#### Returns
+[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A deep copy of the current object\.
+
 <a name='DiGi.Core.Classes.ConfigurationFile'></a>
 
 ## ConfigurationFile Class
@@ -4257,21 +4426,19 @@ public USerializableReference? Reference { get; }
 
 #### Property Value
 [USerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_.USerializableReference 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>\.USerializableReference')
-### Methods
 
-<a name='DiGi.Core.Classes.ExternalReference_USerializableReference_.ToString()'></a>
+<a name='DiGi.Core.Classes.ExternalReference_USerializableReference_.Segments'></a>
 
-## ExternalReference\<USerializableReference\>\.ToString\(\) Method
+## ExternalReference\<USerializableReference\>\.Segments Property
 
-Returns a string representation of the external reference\.
+Gets the segments of this reference's string form: the source, then the nested reference\.
 
 ```csharp
-public override string? ToString();
+protected override System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
 ```
 
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string that represents the current object\.
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 <a name='DiGi.Core.Classes.ExternalReferenceGuidResult_TUniqueObject,UExternalReference_'></a>
 
@@ -4490,6 +4657,14 @@ public sealed class GuidExternalReference : DiGi.Core.Classes.UniqueExternalRefe
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [ExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference 'DiGi\.Core\.Classes\.ExternalReference') → [DiGi\.Core\.Classes\.ExternalReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_ 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>')[GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_ 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>') → [DiGi\.Core\.Classes\.InstanceRelatedExternalReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference_TInstanceRelatedSerializableReference_ 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference\<TInstanceRelatedSerializableReference\>')[GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference_TInstanceRelatedSerializableReference_ 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference\<TInstanceRelatedSerializableReference\>') → [DiGi\.Core\.Classes\.UniqueExternalReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueExternalReference_TUniqueReference_ 'DiGi\.Core\.Classes\.UniqueExternalReference\<TUniqueReference\>')[GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueExternalReference_TUniqueReference_ 'DiGi\.Core\.Classes\.UniqueExternalReference\<TUniqueReference\>') → GuidExternalReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+source, then the nested GUID reference:
+
+```csharp
+GuidExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e)
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.GuidExternalReference.GuidExternalReference(DiGi.Core.Classes.GuidExternalReference)'></a>
@@ -4817,6 +4992,14 @@ public class GuidPropertyReference : DiGi.Core.Classes.UniquePropertyReference<D
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [PropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference 'DiGi\.Core\.Classes\.PropertyReference') → [DiGi\.Core\.Classes\.PropertyReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_ 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>')[GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_ 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>') → [DiGi\.Core\.Classes\.UniquePropertyReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>')[GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>') → GuidPropertyReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+nested GUID reference, then the property name:
+
+```csharp
+GuidProperty::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e)::Name
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.GuidPropertyReference.GuidPropertyReference(DiGi.Core.Classes.GuidPropertyReference)'></a>
@@ -4904,6 +5087,14 @@ public class GuidReference : DiGi.Core.Classes.UniqueReference
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [UniqueReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueReference 'DiGi\.Core\.Classes\.UniqueReference') → GuidReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+nested type reference, then the GUID in N format:
+
+```csharp
+Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.GuidReference.GuidReference(DiGi.Core.Classes.GuidReference)'></a>
@@ -5025,20 +5216,6 @@ Implements [Clone\(\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableOb
 #### Returns
 [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
 A new [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject') that is a copy of the current object\.
-
-<a name='DiGi.Core.Classes.GuidReference.ToString()'></a>
-
-## GuidReference\.ToString\(\) Method
-
-Returns a string representation of the current object\.
-
-```csharp
-public override string? ToString();
-```
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string that represents the current object\.
 
 <a name='DiGi.Core.Classes.GuidResult'></a>
 
@@ -6029,6 +6206,14 @@ public sealed class InstanceRelatedExternalReference : DiGi.Core.Classes.Instanc
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [ExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference 'DiGi\.Core\.Classes\.ExternalReference') → [DiGi\.Core\.Classes\.ExternalReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_ 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>')[IInstanceRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IInstanceRelatedSerializableReference 'DiGi\.Core\.Interfaces\.IInstanceRelatedSerializableReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_ 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>') → [DiGi\.Core\.Classes\.InstanceRelatedExternalReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference_TInstanceRelatedSerializableReference_ 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference\<TInstanceRelatedSerializableReference\>')[IInstanceRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IInstanceRelatedSerializableReference 'DiGi\.Core\.Interfaces\.IInstanceRelatedSerializableReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference_TInstanceRelatedSerializableReference_ 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference\<TInstanceRelatedSerializableReference\>') → InstanceRelatedExternalReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+source, then the nested instance\-related reference:
+
+```csharp
+InstanceExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e)
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.InstanceRelatedExternalReference.InstanceRelatedExternalReference(DiGi.Core.Classes.InstanceRelatedExternalReference)'></a>
@@ -7851,21 +8036,19 @@ public USerializableReference? Reference { get; }
 
 #### Property Value
 [USerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_.USerializableReference 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>\.USerializableReference')
-### Methods
 
-<a name='DiGi.Core.Classes.PropertyReference_USerializableReference_.ToString()'></a>
+<a name='DiGi.Core.Classes.PropertyReference_USerializableReference_.Segments'></a>
 
-## PropertyReference\<USerializableReference\>\.ToString\(\) Method
+## PropertyReference\<USerializableReference\>\.Segments Property
 
-Returns a string that represents the current object\.
+Gets the segments of this reference's string form: the nested reference, then the property name\.
 
 ```csharp
-public override string? ToString();
+protected override System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
 ```
 
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string representation of the current object\.
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 <a name='DiGi.Core.Classes.Range_T_'></a>
 
@@ -8417,6 +8600,295 @@ The object to compare with the range\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') if the objects are not equal; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
+<a name='DiGi.Core.Classes.ReferenceConstructor'></a>
+
+## ReferenceConstructor Class
+
+Encapsulates the logic to rebuild an [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') from the segments of its string form, using a
+method marked with [ReferenceFactoryAttribute](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceFactoryAttribute 'DiGi\.Core\.Classes\.ReferenceFactoryAttribute')\.
+
+```csharp
+public class ReferenceConstructor
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → ReferenceConstructor
+### Properties
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.Discriminator'></a>
+
+## ReferenceConstructor\.Discriminator Property
+
+Gets the discriminator this reference type is written with: its [Kind](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor.Kind 'DiGi\.Core\.Classes\.ReferenceConstructor\.Kind') when declared,
+otherwise its [FullTypeName](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor.FullTypeName 'DiGi\.Core\.Classes\.ReferenceConstructor\.FullTypeName')\.
+
+```csharp
+public string? Discriminator { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.FullTypeName'></a>
+
+## ReferenceConstructor\.FullTypeName Property
+
+Gets the assembly\-qualified full type name of the reference type this constructor creates\.
+
+```csharp
+public string? FullTypeName { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.Kind'></a>
+
+## ReferenceConstructor\.Kind Property
+
+Gets the short discriminator token this reference type is written with, or null when it falls back to
+[FullTypeName](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor.FullTypeName 'DiGi\.Core\.Classes\.ReferenceConstructor\.FullTypeName')\.
+
+```csharp
+public string? Kind { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.ReferenceType'></a>
+
+## ReferenceConstructor\.ReferenceType Property
+
+Gets the reference type this constructor creates\.
+
+```csharp
+public System.Type? ReferenceType { get; }
+```
+
+#### Property Value
+[System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.Valid'></a>
+
+## ReferenceConstructor\.Valid Property
+
+Gets a value indicating whether the factory method matches the required signature\.
+
+```csharp
+public bool Valid { get; }
+```
+
+#### Property Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+### Methods
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.Create(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## ReferenceConstructor\.Create\(IReadOnlyList\<string\>\) Method
+
+Rebuilds the reference from its segments\.
+
+```csharp
+public DiGi.Core.Interfaces.IReference? Create(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ReferenceConstructor.Create(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments, in the order declared by the type's Segments property\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or null when the segments do not describe a valid instance\.
+
+<a name='DiGi.Core.Classes.ReferenceFactoryAttribute'></a>
+
+## ReferenceFactoryAttribute Class
+
+Marks a public static method as the factory that rebuilds a reference type from the segments of its string
+form, and declares the discriminator that type is written with\.
+
+The method must have the signature
+            `public static IReference? Name(IReadOnlyList<string?>? segments)` and must consume exactly the
+            segments that the type's `Segments` property declares, in the same order. Those two together are the
+            round-trip contract.
+
+Factories are discovered reflectively, which is what lets DiGi.Core parse reference types defined in
+            repositories it cannot reference. Place the factory in the repository that owns the reference type.
+
+```csharp
+public sealed class ReferenceFactoryAttribute : System.Attribute
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [System\.Attribute](https://learn.microsoft.com/en-us/dotnet/api/system.attribute 'System\.Attribute') → ReferenceFactoryAttribute
+
+### Remarks
+Initializes a new instance of the [ReferenceFactoryAttribute](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceFactoryAttribute 'DiGi\.Core\.Classes\.ReferenceFactoryAttribute') class\.
+### Constructors
+
+<a name='DiGi.Core.Classes.ReferenceFactoryAttribute.ReferenceFactoryAttribute(System.Type)'></a>
+
+## ReferenceFactoryAttribute\(Type\) Constructor
+
+Marks a public static method as the factory that rebuilds a reference type from the segments of its string
+form, and declares the discriminator that type is written with\.
+
+The method must have the signature
+            `public static IReference? Name(IReadOnlyList<string?>? segments)` and must consume exactly the
+            segments that the type's `Segments` property declares, in the same order. Those two together are the
+            round-trip contract.
+
+Factories are discovered reflectively, which is what lets DiGi.Core parse reference types defined in
+            repositories it cannot reference. Place the factory in the repository that owns the reference type.
+
+```csharp
+public ReferenceFactoryAttribute(System.Type referenceType);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ReferenceFactoryAttribute.ReferenceFactoryAttribute(System.Type).referenceType'></a>
+
+`referenceType` [System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+The concrete reference type this factory creates\.
+
+### Remarks
+Initializes a new instance of the [ReferenceFactoryAttribute](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceFactoryAttribute 'DiGi\.Core\.Classes\.ReferenceFactoryAttribute') class\.
+### Properties
+
+<a name='DiGi.Core.Classes.ReferenceFactoryAttribute.Kind'></a>
+
+## ReferenceFactoryAttribute\.Kind Property
+
+Gets or sets the short discriminator token this reference type is written with\.
+
+Kind tokens share one flat namespace across every repository and are a persisted contract: they are
+            append-only, must be unique, and must contain neither a comma nor a colon. When left null the type falls
+            back to being written with its assembly-qualified full type name.
+
+```csharp
+public string? Kind { get; set; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Classes.ReferenceFactoryAttribute.ReferenceType'></a>
+
+## ReferenceFactoryAttribute\.ReferenceType Property
+
+Gets the concrete reference type this factory creates\.
+
+```csharp
+public System.Type ReferenceType { get; }
+```
+
+#### Property Value
+[System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+<a name='DiGi.Core.Classes.ReferenceManager'></a>
+
+## ReferenceManager Class
+
+Caches the [ReferenceConstructor](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor 'DiGi\.Core\.Classes\.ReferenceConstructor') discovered for each reference type, so a reference string can be
+resolved back to the type that produced it\.
+
+Factories are found reflectively rather than through a hard-coded table, because DiGi.Core must be able
+            to construct reference types defined in repositories that depend on it and that it therefore cannot
+            reference.
+
+```csharp
+public class ReferenceManager
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → ReferenceManager
+### Constructors
+
+<a name='DiGi.Core.Classes.ReferenceManager.ReferenceManager()'></a>
+
+## ReferenceManager\(\) Constructor
+
+Initializes a new instance of the [ReferenceManager](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceManager 'DiGi\.Core\.Classes\.ReferenceManager') class\.
+
+```csharp
+public ReferenceManager();
+```
+### Methods
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructor(string,bool)'></a>
+
+## ReferenceManager\.GetReferenceConstructor\(string, bool\) Method
+
+Retrieves the reference constructor for a discriminator\.
+
+An assembly-qualified full type name is self-locating, so only its own assembly is scanned. A short
+            kind token carries no assembly, so a miss falls back to scanning every loaded assembly that references
+            DiGi.Core - which means a kind resolves only if its declaring assembly is already loaded.
+
+```csharp
+public DiGi.Core.Classes.ReferenceConstructor? GetReferenceConstructor(string? discriminator, bool update=true);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructor(string,bool).discriminator'></a>
+
+`discriminator` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+A kind token or an assembly\-qualified full type name\.
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructor(string,bool).update'></a>
+
+`update` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+Whether to scan for the factory when it is not already cached\.
+
+#### Returns
+[ReferenceConstructor](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor 'DiGi\.Core\.Classes\.ReferenceConstructor')  
+The reference constructor, or null when the discriminator names no known reference type\.
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructor(System.Type,bool)'></a>
+
+## ReferenceManager\.GetReferenceConstructor\(Type, bool\) Method
+
+Retrieves the reference constructor for a reference type, scanning its assembly on first use\.
+
+```csharp
+public DiGi.Core.Classes.ReferenceConstructor? GetReferenceConstructor(System.Type? type, bool update=true);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructor(System.Type,bool).type'></a>
+
+`type` [System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+The reference type\.
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructor(System.Type,bool).update'></a>
+
+`update` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+Whether to scan for the factory when it is not already cached\.
+
+#### Returns
+[ReferenceConstructor](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor 'DiGi\.Core\.Classes\.ReferenceConstructor')  
+The reference constructor, or null when the type has no factory\.
+
+<a name='DiGi.Core.Classes.ReferenceManager.GetReferenceConstructors()'></a>
+
+## ReferenceManager\.GetReferenceConstructors\(\) Method
+
+Retrieves every reference constructor discoverable in the currently loaded assemblies\.
+
+```csharp
+public System.Collections.Generic.List<DiGi.Core.Classes.ReferenceConstructor> GetReferenceConstructors();
+```
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[ReferenceConstructor](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor 'DiGi\.Core\.Classes\.ReferenceConstructor')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The reference constructors\.
 
 <a name='DiGi.Core.Classes.ReportableBackgroundTask_T_'></a>
 
@@ -9799,7 +10271,12 @@ The JSON object to initialize options from\.
 
 ## SerializableReference Class
 
-Base class for serializable references with equality comparison based on hash codes\.
+Base class for serializable references, owning the rendering of the reference string and equality based on it\.
+
+Derived types do not override [ToString\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.ToString() 'DiGi\.Core\.Classes\.SerializableReference\.ToString\(\)'); they declare [Segments](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.Segments 'DiGi\.Core\.Classes\.SerializableReference\.Segments') and this class
+            adds the discriminator, the separators and the caching. That keeps every reference on one grammar - a type
+            cannot forget its discriminator or its escaping - and lets one rendered string serve
+            [ToString\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.ToString() 'DiGi\.Core\.Classes\.SerializableReference\.ToString\(\)'), [Equals\(IReference\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.Equals(DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Classes\.SerializableReference\.Equals\(DiGi\.Core\.Interfaces\.IReference\)') and [GetHashCode\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.GetHashCode() 'DiGi\.Core\.Classes\.SerializableReference\.GetHashCode\(\)') alike.
 
 ```csharp
 public abstract class SerializableReference : DiGi.Core.Classes.SerializableObject, DiGi.Core.Interfaces.ISerializableReference, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject, DiGi.Core.Interfaces.IObject, DiGi.Core.Interfaces.IReference, System.IEquatable<DiGi.Core.Interfaces.IReference>
@@ -9808,6 +10285,7 @@ public abstract class SerializableReference : DiGi.Core.Classes.SerializableObje
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → SerializableReference
 
 Derived  
+↳ [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference')  
 ↳ [ExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference 'DiGi\.Core\.Classes\.ExternalReference')  
 ↳ [PropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference 'DiGi\.Core\.Classes\.PropertyReference')  
 ↳ [TypeReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeReference 'DiGi\.Core\.Classes\.TypeReference')  
@@ -9859,6 +10337,28 @@ public SerializableReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 `jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
 
 The JSON object to initialize the reference from\.
+### Properties
+
+<a name='DiGi.Core.Classes.SerializableReference.Segments'></a>
+
+## SerializableReference\.Segments Property
+
+Gets the segments of this reference's string form, in order and already escaped\.
+
+Render a scalar with [Segment\(this string\)](DiGi.Core.md#DiGi.Core.Query.Segment(thisstring) 'DiGi\.Core\.Query\.Segment\(this string\)') and a nested reference with
+            [Segment\(this IReference\)](DiGi.Core.md#DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Segment\(this DiGi\.Core\.Interfaces\.IReference\)'). Do NOT include the discriminator, the separators or any
+            surrounding decoration - [ToString\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.ToString() 'DiGi\.Core\.Classes\.SerializableReference\.ToString\(\)') adds those and caches the result.
+
+The order and count declared here IS the parse contract. The method marked with
+            [ReferenceFactoryAttribute](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceFactoryAttribute 'DiGi\.Core\.Classes\.ReferenceFactoryAttribute') for this type must consume exactly these segments, in this order;
+            changing one without the other silently breaks the round trip.
+
+```csharp
+protected abstract System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 ### Methods
 
 <a name='DiGi.Core.Classes.SerializableReference.Equals(DiGi.Core.Interfaces.IReference)'></a>
@@ -9909,7 +10409,7 @@ True if the specified object is equal to the current serializable reference; oth
 
 ## SerializableReference\.GetHashCode\(\) Method
 
-Gets the hash code for the current type reference\.
+Gets the hash code for the current reference, derived from its cached string form\.
 
 ```csharp
 public override int GetHashCode();
@@ -9917,7 +10417,29 @@ public override int GetHashCode();
 
 #### Returns
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
-The hash code for the current type reference\.
+The hash code for the current reference\.
+
+<a name='DiGi.Core.Classes.SerializableReference.ToString()'></a>
+
+## SerializableReference\.ToString\(\) Method
+
+Returns the reference string: this type's discriminator followed by its [Segments](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.Segments 'DiGi\.Core\.Classes\.SerializableReference\.Segments')\.
+
+Sealed on purpose. The base owns rendering so that no reference type can drift off the grammar by
+            omitting its discriminator or its escaping, and so the result can be cached once and reused by
+            [Equals\(IReference\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.Equals(DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Classes\.SerializableReference\.Equals\(DiGi\.Core\.Interfaces\.IReference\)') and [GetHashCode\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.GetHashCode() 'DiGi\.Core\.Classes\.SerializableReference\.GetHashCode\(\)'). Derived types contribute
+            [Segments](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference.Segments 'DiGi\.Core\.Classes\.SerializableReference\.Segments') instead.
+
+Never returns null for a type with a registered factory, because the discriminator is always
+            emitted.
+
+```csharp
+public sealed override string? ToString();
+```
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The reference string\.
 ### Operators
 
 <a name='DiGi.Core.Classes.SerializableReference.op_Equality(DiGi.Core.Classes.SerializableReference,DiGi.Core.Classes.SerializableReference)'></a>
@@ -12651,6 +13173,14 @@ public class TypePropertyReference : DiGi.Core.Classes.PropertyReference<DiGi.Co
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [PropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference 'DiGi\.Core\.Classes\.PropertyReference') → [DiGi\.Core\.Classes\.PropertyReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_ 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>')[TypeReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeReference 'DiGi\.Core\.Classes\.TypeReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_ 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>') → TypePropertyReference
 
 Implements [ITypeRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITypeRelatedSerializableReference 'DiGi\.Core\.Interfaces\.ITypeRelatedSerializableReference'), [ITypeRelatedReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITypeRelatedReference 'DiGi\.Core\.Interfaces\.ITypeRelatedReference'), [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1'), [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>')[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>'), [ICloneableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+nested type reference, then the property name:
+
+```csharp
+TypeProperty::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::Name
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.TypePropertyReference.TypePropertyReference(DiGi.Core.Classes.TypePropertyReference)'></a>
@@ -12756,6 +13286,13 @@ public class TypeReference : DiGi.Core.Classes.SerializableReference, DiGi.Core.
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → TypeReference
 
 Implements [ITypeRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITypeRelatedSerializableReference 'DiGi\.Core\.Interfaces\.ITypeRelatedSerializableReference'), [ITypeRelatedReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITypeRelatedReference 'DiGi\.Core\.Interfaces\.ITypeRelatedReference'), [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1'), [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>')[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>'), [ICloneableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as:
+
+```csharp
+Type::DiGi.GIS.Classes.Building2D,DiGi.GIS
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.TypeReference.TypeReference(DiGi.Core.Classes.TypeReference)'></a>
@@ -12858,6 +13395,19 @@ Implements [FullTypeName](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITypeRela
 
 #### Property Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.Core.Classes.TypeReference.Segments'></a>
+
+## TypeReference\.Segments Property
+
+Gets the segments of this reference's string form: the full type name\.
+
+```csharp
+protected override System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 ### Methods
 
 <a name='DiGi.Core.Classes.TypeReference.Clone()'></a>
@@ -12910,20 +13460,6 @@ public override int GetHashCode();
 #### Returns
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
 The hash code for the current type reference\.
-
-<a name='DiGi.Core.Classes.TypeReference.ToString()'></a>
-
-## TypeReference\.ToString\(\) Method
-
-Returns a string representation of the current type reference\.
-
-```csharp
-public override string? ToString();
-```
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string that represents the current type reference\.
 ### Operators
 
 <a name='DiGi.Core.Classes.TypeReference.op_Equality(DiGi.Core.Classes.TypeReference,DiGi.Core.Classes.TypeReference)'></a>
@@ -13033,6 +13569,14 @@ public sealed class TypeRelatedExternalReference : DiGi.Core.Classes.ExternalRef
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [ExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference 'DiGi\.Core\.Classes\.ExternalReference') → [DiGi\.Core\.Classes\.ExternalReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_ 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>')[ITypeRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITypeRelatedSerializableReference 'DiGi\.Core\.Interfaces\.ITypeRelatedSerializableReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.ExternalReference_USerializableReference_ 'DiGi\.Core\.Classes\.ExternalReference\<USerializableReference\>') → TypeRelatedExternalReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+source, then the nested type\-related reference:
+
+```csharp
+TypeExternal::Revit::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.TypeRelatedExternalReference.TypeRelatedExternalReference(DiGi.Core.Classes.TypeRelatedExternalReference)'></a>
@@ -13332,6 +13876,14 @@ public class UniqueIdPropertyReference : DiGi.Core.Classes.UniquePropertyReferen
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [PropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference 'DiGi\.Core\.Classes\.PropertyReference') → [DiGi\.Core\.Classes\.PropertyReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_ 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>')[UniqueIdReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdReference 'DiGi\.Core\.Classes\.UniqueIdReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference_USerializableReference_ 'DiGi\.Core\.Classes\.PropertyReference\<USerializableReference\>') → [DiGi\.Core\.Classes\.UniquePropertyReference&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>')[UniqueIdReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdReference 'DiGi\.Core\.Classes\.UniqueIdReference')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>') → UniqueIdPropertyReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+nested unique identifier reference, then the property name:
+
+```csharp
+UniqueIdProperty::(UniqueId::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::BLD-001)::Name
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.UniqueIdPropertyReference.UniqueIdPropertyReference(DiGi.Core.Classes.UniqueIdPropertyReference)'></a>
@@ -13419,6 +13971,14 @@ public class UniqueIdReference : DiGi.Core.Classes.UniqueReference
 ```
 
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') → [UniqueReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueReference 'DiGi\.Core\.Classes\.UniqueReference') → UniqueIdReference
+
+### Example
+Renders and parses \(via [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)')\) as the discriminator, the
+nested type reference, then the unique identifier:
+
+```csharp
+UniqueId::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::BLD-001
+```
 ### Constructors
 
 <a name='DiGi.Core.Classes.UniqueIdReference.UniqueIdReference(DiGi.Core.Classes.TypeReference,string)'></a>
@@ -13527,20 +14087,6 @@ Implements [Clone\(\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableOb
 #### Returns
 [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
 A deep copy of the current object\.
-
-<a name='DiGi.Core.Classes.UniqueIdReference.ToString()'></a>
-
-## UniqueIdReference\.ToString\(\) Method
-
-Returns a string representation of the current object\.
-
-```csharp
-public override string? ToString();
-```
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string representation of the current object\.
 
 <a name='DiGi.Core.Classes.UniqueObject'></a>
 
@@ -14108,7 +14654,7 @@ True if one or more values were successfully retrieved; otherwise, false\.
 Represents a reference to a property by its unique reference\.
 
 ```csharp
-public class UniquePropertyReference<UUniquePropertyReference> : DiGi.Core.Classes.PropertyReference<UUniquePropertyReference>, DiGi.Core.Interfaces.IInstanceRelatedSerializableReference, DiGi.Core.Interfaces.IInstanceRelatedReference, DiGi.Core.Interfaces.IReference, DiGi.Core.Interfaces.IObject, System.IEquatable<DiGi.Core.Interfaces.IReference>, DiGi.Core.Interfaces.ISerializableReference, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
+public abstract class UniquePropertyReference<UUniquePropertyReference> : DiGi.Core.Classes.PropertyReference<UUniquePropertyReference>, DiGi.Core.Interfaces.IInstanceRelatedSerializableReference, DiGi.Core.Interfaces.IInstanceRelatedReference, DiGi.Core.Interfaces.IReference, DiGi.Core.Interfaces.IObject, System.IEquatable<DiGi.Core.Interfaces.IReference>, DiGi.Core.Interfaces.ISerializableReference, DiGi.Core.Interfaces.ISerializableObject, DiGi.Core.Interfaces.ICloneableObject<DiGi.Core.Interfaces.ISerializableObject>, DiGi.Core.Interfaces.ICloneableObject
     where UUniquePropertyReference : DiGi.Core.Classes.UniqueReference
 ```
 #### Type parameters
@@ -14126,6 +14672,13 @@ Derived
 ↳ [UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference')
 
 Implements [IInstanceRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IInstanceRelatedSerializableReference 'DiGi\.Core\.Interfaces\.IInstanceRelatedSerializableReference'), [IInstanceRelatedReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IInstanceRelatedReference 'DiGi\.Core\.Interfaces\.IInstanceRelatedReference'), [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1'), [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>')[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>'), [ICloneableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+
+### Remarks
+TODO \[ReferenceFormat\]: This type was made abstract as part of the discriminated format\. A closed instance
+would render identically to the matching concrete subclass \- [GuidPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidPropertyReference 'DiGi\.Core\.Classes\.GuidPropertyReference') or
+[UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference') \- because the discriminator is the only thing separating them, and a
+generic type has no stable short discriminator\. External code that instantiated it directly no longer compiles
+and must use a subclass\.
 ### Constructors
 
 <a name='DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_.UniquePropertyReference(DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_)'></a>
@@ -14272,6 +14825,22 @@ public UniqueReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 
 The JSON object to create a reference from\.
 ### Properties
+
+<a name='DiGi.Core.Classes.UniqueReference.Segments'></a>
+
+## UniqueReference\.Segments Property
+
+Gets the segments of this reference's string form: the nested type reference, then the unique identifier\.
+
+Shared by every unique reference, so [GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference') and [UniqueIdReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdReference 'DiGi\.Core\.Classes\.UniqueIdReference')
+            differ only by their discriminator - which is what tells them apart on the way back.
+
+```csharp
+protected override System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
 
 <a name='DiGi.Core.Classes.UniqueReference.TypeReference'></a>
 

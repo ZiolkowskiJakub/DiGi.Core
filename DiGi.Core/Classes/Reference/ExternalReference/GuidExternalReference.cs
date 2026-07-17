@@ -6,6 +6,11 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Represents an external reference identified by a GUID.
     /// </summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// source, then the nested GUID reference:
+    /// <code>GuidExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e)</code>
+    /// </example>
     public sealed class GuidExternalReference : UniqueExternalReference<GuidReference>
     {
         /// <summary>

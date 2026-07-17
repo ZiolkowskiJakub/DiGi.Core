@@ -448,39 +448,6 @@ The destination path for the serialized file\.
 [System\.IO\.FileInfo](https://learn.microsoft.com/en-us/dotnet/api/system.io.fileinfo 'System\.IO\.FileInfo')  
 A [System\.IO\.FileInfo](https://learn.microsoft.com/en-us/dotnet/api/system.io.fileinfo 'System\.IO\.FileInfo') object representing the created file, or null if the operation failed\.
 
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Classes.TypeReference,string,string)'></a>
-
-## Convert\.ToSystem\_String\(this TypeReference, string, string\) Method
-
-Formats a type reference and unique identifier into a system string\.
-
-```csharp
-public static string? ToSystem_String(this DiGi.Core.Classes.TypeReference? typeReference, string? uniqueId, string? format);
-```
-#### Parameters
-
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Classes.TypeReference,string,string).typeReference'></a>
-
-`typeReference` [TypeReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeReference 'DiGi\.Core\.Classes\.TypeReference')
-
-The type reference to format\.
-
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Classes.TypeReference,string,string).uniqueId'></a>
-
-`uniqueId` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The unique identifier for the type\.
-
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Classes.TypeReference,string,string).format'></a>
-
-`format` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The format string to use\.
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-The formatted system string, or null if applicable\.
-
 <a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Interfaces.ISerializableObject)'></a>
 
 ## Convert\.ToSystem\_String\(this ISerializableObject\) Method
@@ -529,33 +496,6 @@ The options to use for JSON serialization\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A JSON string representation of the object, or null if applicable\.
 
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Interfaces.ISerializableReference,string)'></a>
-
-## Convert\.ToSystem\_String\(this ISerializableReference, string\) Method
-
-Converts a serializable reference to its system string representation with an optional source\.
-
-```csharp
-public static string? ToSystem_String(this DiGi.Core.Interfaces.ISerializableReference? serializableReference, string? source);
-```
-#### Parameters
-
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Interfaces.ISerializableReference,string).serializableReference'></a>
-
-`serializableReference` [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference')
-
-The serializable reference to convert\.
-
-<a name='DiGi.Core.Convert.ToSystem_String(thisDiGi.Core.Interfaces.ISerializableReference,string).source'></a>
-
-`source` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The optional source string\.
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-The system string representation of the serializable reference, or null if applicable\.
-
 <a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Collections.Generic.IEnumerable_DiGi.Core.Interfaces.ISerializableObject_)'></a>
 
 ## Convert\.ToSystem\_String\(this IEnumerable\<ISerializableObject\>\) Method
@@ -603,6 +543,37 @@ The options to use for JSON serialization\.
 #### Returns
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A JSON string representation of the collection, or null if applicable\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Type,System.Collections.Generic.IEnumerable_string_)'></a>
+
+## Convert\.ToSystem\_String\(this Type, IEnumerable\<string\>\) Method
+
+Renders a reference type and its ordered, already\-escaped segments into a reference string\.
+
+Prefixes the type's discriminator - its [Kind](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Kind 'DiGi\.Core\.Constants\.Reference\.Kind') token when it
+            declares one, otherwise its assembly-qualified full type name - so the result identifies exactly one
+            reference type and can be parsed back by [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)').
+
+```csharp
+public static string? ToSystem_String(this System.Type? type, System.Collections.Generic.IEnumerable<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Type,System.Collections.Generic.IEnumerable_string_).type'></a>
+
+`type` [System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+The concrete reference type being rendered\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Type,System.Collections.Generic.IEnumerable_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The segments, already escaped via [Segment\(this string\)](DiGi.Core.md#DiGi.Core.Query.Segment(thisstring) 'DiGi\.Core\.Query\.Segment\(this string\)') or [Segment\(this IReference\)](DiGi.Core.md#DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Segment\(this DiGi\.Core\.Interfaces\.IReference\)')\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The reference string, or null when [type](DiGi.Core.md#DiGi.Core.Convert.ToSystem_String(thisSystem.Type,System.Collections.Generic.IEnumerable_string_).type 'DiGi\.Core\.Convert\.ToSystem\_String\(this System\.Type, System\.Collections\.Generic\.IEnumerable\<string\>\)\.type') has no registered factory\.
 
 <a name='DiGi.Core.Convert.ToSystem_String_T_(thisSystem.Collections.Generic.IEnumerable_T_)'></a>
 
@@ -767,6 +738,31 @@ The string containing the category path\.
 [CategoryPath](DiGi.Core.Classes.md#DiGi.Core.Classes.CategoryPath 'DiGi\.Core\.Classes\.CategoryPath')  
 A CategoryPath object, or null if the string is invalid or empty\.
 
+<a name='DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.ComplexReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [ComplexReference](DiGi.Core.Classes.md#DiGi.Core.Classes.ComplexReference 'DiGi\.Core\.Classes\.ComplexReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? ComplexReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: one nested reference per step of the chain, in order\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if any segment is not a nested serializable reference\.
+
+### Remarks
+The only factory accepting a variable number of segments, because a chain has no fixed depth\. No segments
+yields an empty chain, which is what an empty chain renders back to\.
+
 <a name='DiGi.Core.Create.ConfigurationFile(string)'></a>
 
 ## Create\.ConfigurationFile\(string\) Method
@@ -890,6 +886,73 @@ The type for which the unique GUID is created\.
 [System\.Guid](https://learn.microsoft.com/en-us/dotnet/api/system.guid 'System\.Guid')  
 A unique [Guid\(this string\)](DiGi.Core.md#DiGi.Core.Create.Guid(thisstring) 'DiGi\.Core\.Create\.Guid\(this string\)') that does not exist in the specified cluster\.
 
+<a name='DiGi.Core.Create.GuidExternalReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.GuidExternalReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [GuidExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidExternalReference 'DiGi\.Core\.Classes\.GuidExternalReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? GuidExternalReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.GuidExternalReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the source, then the nested GUID reference\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
+### Remarks
+Renders identically to [InstanceRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference') apart from the
+discriminator, which is the only thing that keeps the two apart on the way back\.
+
+<a name='DiGi.Core.Create.GuidPropertyReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.GuidPropertyReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [GuidPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidPropertyReference 'DiGi\.Core\.Classes\.GuidPropertyReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? GuidPropertyReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.GuidPropertyReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the nested GUID reference, then the property name\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
+<a name='DiGi.Core.Create.GuidReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.GuidReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? GuidReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.GuidReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the nested type reference, then the GUID\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
 <a name='DiGi.Core.Create.GuidReference_T_(thisT,System.Func_T,System.Guid_)'></a>
 
 ## Create\.GuidReference\<T\>\(this T, Func\<T,Guid\>\) Method
@@ -958,6 +1021,27 @@ The type for which to create a GUID reference\.
 #### Returns
 [GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference')  
 A [GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference') if successful; otherwise, `null`\.
+
+<a name='DiGi.Core.Create.InstanceRelatedExternalReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.InstanceRelatedExternalReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds an [InstanceRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.InstanceRelatedExternalReference 'DiGi\.Core\.Classes\.InstanceRelatedExternalReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? InstanceRelatedExternalReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.InstanceRelatedExternalReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the source, then the nested instance\-related reference\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
 
 <a name='DiGi.Core.Create.JsonNode(thisobject)'></a>
 
@@ -1161,6 +1245,27 @@ The seed value for the random number generator\. Defaults to \-1\.
 [System\.Random](https://learn.microsoft.com/en-us/dotnet/api/system.random 'System\.Random')  
 A new [Random\(int\)](DiGi.Core.md#DiGi.Core.Create.Random(int) 'DiGi\.Core\.Create\.Random\(int\)') instance\.
 
+<a name='DiGi.Core.Create.ReferenceConstructor(thisSystem.Reflection.MethodInfo)'></a>
+
+## Create\.ReferenceConstructor\(this MethodInfo\) Method
+
+Creates a reference constructor from a method marked with [ReferenceFactoryAttribute](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceFactoryAttribute 'DiGi\.Core\.Classes\.ReferenceFactoryAttribute')\.
+
+```csharp
+public static DiGi.Core.Classes.ReferenceConstructor? ReferenceConstructor(this System.Reflection.MethodInfo? methodInfo);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.ReferenceConstructor(thisSystem.Reflection.MethodInfo).methodInfo'></a>
+
+`methodInfo` [System\.Reflection\.MethodInfo](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.methodinfo 'System\.Reflection\.MethodInfo')
+
+The candidate factory method\.
+
+#### Returns
+[ReferenceConstructor](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceConstructor 'DiGi\.Core\.Classes\.ReferenceConstructor')  
+A [ReferenceConstructor\(this MethodInfo\)](DiGi.Core.md#DiGi.Core.Create.ReferenceConstructor(thisSystem.Reflection.MethodInfo) 'DiGi\.Core\.Create\.ReferenceConstructor\(this System\.Reflection\.MethodInfo\)') if the method is a valid factory; otherwise, `null`\.
+
 <a name='DiGi.Core.Create.SerializableObject_T_(thisSystem.Text.Json.Nodes.JsonObject)'></a>
 
 ## Create\.SerializableObject\<T\>\(this JsonObject\) Method
@@ -1261,6 +1366,48 @@ The type for which to create the serialization method collection\.
 [SerializationMethodCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializationMethodCollection 'DiGi\.Core\.Classes\.SerializationMethodCollection')  
 A [SerializationMethodCollection\(this Type\)](DiGi.Core.md#DiGi.Core.Create.SerializationMethodCollection(thisSystem.Type) 'DiGi\.Core\.Create\.SerializationMethodCollection\(this System\.Type\)') containing the serialization methods for the specified type, or null if none are found\.
 
+<a name='DiGi.Core.Create.TypePropertyReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.TypePropertyReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [TypePropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypePropertyReference 'DiGi\.Core\.Classes\.TypePropertyReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? TypePropertyReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.TypePropertyReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the nested type reference, then the property name\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
+<a name='DiGi.Core.Create.TypeReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.TypeReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [TypeReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeReference 'DiGi\.Core\.Classes\.TypeReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? TypeReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.TypeReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the full type name\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
 <a name='DiGi.Core.Create.TypeReference(thisSystem.Type)'></a>
 
 ## Create\.TypeReference\(this Type\) Method
@@ -1281,6 +1428,69 @@ The type for which to create a type reference\.
 #### Returns
 [TypeReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeReference 'DiGi\.Core\.Classes\.TypeReference')  
 A type reference for the specified type, or `null` if the provided type is null\.
+
+<a name='DiGi.Core.Create.TypeRelatedExternalReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.TypeRelatedExternalReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [TypeRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeRelatedExternalReference 'DiGi\.Core\.Classes\.TypeRelatedExternalReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? TypeRelatedExternalReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.TypeRelatedExternalReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the source, then the nested type\-related reference\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
+<a name='DiGi.Core.Create.UniqueIdPropertyReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.UniqueIdPropertyReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? UniqueIdPropertyReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.UniqueIdPropertyReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the nested unique identifier reference, then the property name\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
+<a name='DiGi.Core.Create.UniqueIdReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.UniqueIdReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [UniqueIdReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdReference 'DiGi\.Core\.Classes\.UniqueIdReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? UniqueIdReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.UniqueIdReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the nested type reference, then the unique identifier\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
 
 <a name='DiGi.Core.Create.UniqueReference(thisobject)'></a>
 
@@ -2840,6 +3050,34 @@ The second collection\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the collections contain the same elements in the same order; otherwise, false\.
 
+<a name='DiGi.Core.Query.Escaped(thisstring)'></a>
+
+## Query\.Escaped\(this string\) Method
+
+Escapes a scalar value for use as a segment of a reference string\.
+
+Only the grammar metacharacters are escaped: the escape character itself, each character of
+            [Separator](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Separator 'DiGi\.Core\.Constants\.Reference\.Separator'), and the nesting delimiters. Every other character - including
+            quotes, brackets and unicode - is a literal and passes through untouched.
+
+The mapping is prefix-free and invertible by [Unescaped\(this string\)](DiGi.Core.md#DiGi.Core.Query.Unescaped(thisstring) 'DiGi\.Core\.Query\.Unescaped\(this string\)'). Because a literal
+            escape character is always doubled, no real value can render as [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null').
+
+```csharp
+public static string Escaped(this string? value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Escaped(thisstring).value'></a>
+
+`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The scalar value to escape\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The escaped value, or [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null') when [value](DiGi.Core.md#DiGi.Core.Query.Escaped(thisstring).value 'DiGi\.Core\.Query\.Escaped\(this string\)\.value') is null\.
+
 <a name='DiGi.Core.Query.ExtensionMethodInfos(System.Type)'></a>
 
 ## Query\.ExtensionMethodInfos\(Type\) Method
@@ -3259,6 +3497,36 @@ Out parameter indicating whether the numeric type is an integer\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the type is numeric; otherwise, false\.
+
+<a name='DiGi.Core.Query.IsSeparator(thisstring,int)'></a>
+
+## Query\.IsSeparator\(this string, int\) Method
+
+Determines whether an unescaped [Separator](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Separator 'DiGi\.Core\.Constants\.Reference\.Separator') starts at the specified index\.
+
+The caller is responsible for having consumed any escape sequences before this index, so the
+            character at [index](DiGi.Core.md#DiGi.Core.Query.IsSeparator(thisstring,int).index 'DiGi\.Core\.Query\.IsSeparator\(this string, int\)\.index') is known to be unescaped.
+
+```csharp
+public static bool IsSeparator(this string? value, int index);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.IsSeparator(thisstring,int).value'></a>
+
+`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The string to inspect\.
+
+<a name='DiGi.Core.Query.IsSeparator(thisstring,int).index'></a>
+
+`index` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The index to test\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the separator starts at the specified index; otherwise, false\.
 
 <a name='DiGi.Core.Query.JsonValueKind(thisobject)'></a>
 
@@ -4290,6 +4558,58 @@ The exclusive upper bound of the range\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of random integers, or null if generation fails\.
 
+<a name='DiGi.Core.Query.Reference(thisstring)'></a>
+
+## Query\.Reference\(this string\) Method
+
+Reverses [Segment\(this IReference\)](DiGi.Core.md#DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Segment\(this DiGi\.Core\.Interfaces\.IReference\)'), turning a nested segment back into a reference by stripping
+one nesting layer and parsing the content\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? Reference(this string? segment);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Reference(thisstring).segment'></a>
+
+`segment` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The nested segment, including its enclosing nesting delimiters\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference; null when [segment](DiGi.Core.md#DiGi.Core.Query.Reference(thisstring).segment 'DiGi\.Core\.Query\.Reference\(this string\)\.segment') is null, is [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null'),
+is not a nested segment, or does not parse\.
+
+<a name='DiGi.Core.Query.Reference_TReference_(thisstring)'></a>
+
+## Query\.Reference\<TReference\>\(this string\) Method
+
+Reverses [Segment\(this IReference\)](DiGi.Core.md#DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Segment\(this DiGi\.Core\.Interfaces\.IReference\)') and narrows the result to the requested reference type\.
+
+```csharp
+public static TReference? Reference<TReference>(this string? segment)
+    where TReference : DiGi.Core.Interfaces.IReference;
+```
+#### Type parameters
+
+<a name='DiGi.Core.Query.Reference_TReference_(thisstring).TReference'></a>
+
+`TReference`
+
+The expected reference type\.
+#### Parameters
+
+<a name='DiGi.Core.Query.Reference_TReference_(thisstring).segment'></a>
+
+`segment` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The nested segment, including its enclosing nesting delimiters\.
+
+#### Returns
+[TReference](DiGi.Core.md#DiGi.Core.Query.Reference_TReference_(thisstring).TReference 'DiGi\.Core\.Query\.Reference\<TReference\>\(this string\)\.TReference')  
+The reference when it parses and is of the requested type; otherwise, the default value\.
+
 <a name='DiGi.Core.Query.Round(thisdouble,double)'></a>
 
 ## Query\.Round\(this double, double\) Method
@@ -4344,6 +4664,77 @@ The starting seed value\.
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list of integers representing the seeds\.
+
+<a name='DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference)'></a>
+
+## Query\.Segment\(this IReference\) Method
+
+Renders a nested reference as a segment of a reference string, wrapped in the nesting delimiters so that
+the segment stays self\-contained and the enclosing string can be split without knowing the nested type\.
+
+```csharp
+public static string Segment(this DiGi.Core.Interfaces.IReference? reference);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference).reference'></a>
+
+`reference` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+The reference to nest\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The nested segment, [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null') when [reference](DiGi.Core.md#DiGi.Core.Query.Segment(thisDiGi.Core.Interfaces.IReference).reference 'DiGi\.Core\.Query\.Segment\(this DiGi\.Core\.Interfaces\.IReference\)\.reference') is null, or
+when the reference renders to null\.
+
+<a name='DiGi.Core.Query.Segment(thisstring)'></a>
+
+## Query\.Segment\(this string\) Method
+
+Renders a scalar value as a segment of a reference string\.
+
+```csharp
+public static string Segment(this string? value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Segment(thisstring).value'></a>
+
+`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The scalar value\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The escaped segment, or [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null') when [value](DiGi.Core.md#DiGi.Core.Query.Segment(thisstring).value 'DiGi\.Core\.Query\.Segment\(this string\)\.value') is null\.
+
+<a name='DiGi.Core.Query.Segments(thisstring)'></a>
+
+## Query\.Segments\(this string\) Method
+
+Splits the body of a reference string \- everything after the discriminator \- into its segments\.
+
+Splits only on an unescaped [Separator](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Separator 'DiGi\.Core\.Constants\.Reference\.Separator') at nesting depth zero, so a
+            separator inside an escaped payload or inside a nested reference never splits. Empty segments are
+            preserved: an empty segment means [System\.String\.Empty](https://learn.microsoft.com/en-us/dotnet/api/system.string.empty 'System\.String\.Empty') and is distinct from
+            [Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null').
+
+```csharp
+public static System.Collections.Generic.List<string>? Segments(this string? body);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Segments(thisstring).body'></a>
+
+`body` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The body of a reference string\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The segments in order; null when [body](DiGi.Core.md#DiGi.Core.Query.Segments(thisstring).body 'DiGi\.Core\.Query\.Segments\(this string\)\.body') is null or malformed \- unbalanced nesting
+delimiters, or a trailing lone escape character\.
 
 <a name='DiGi.Core.Query.SerializableMemberInfos(thisSystem.Type)'></a>
 
@@ -5013,6 +5404,45 @@ When this method returns, contains the converted long, or null if conversion fai
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the conversion was successful; otherwise, false\.
 
+<a name='DiGi.Core.Query.TryConvert_Reference(object,DiGi.Core.Interfaces.IReference,System.Type)'></a>
+
+## Query\.TryConvert\_Reference\(object, IReference, Type\) Method
+
+Attempts to convert the specified object to an [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') of the specified type\.
+
+A reference string is parsed with [TryParse\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParse\(this string, DiGi\.Core\.Interfaces\.IReference\)') and accepted only
+            when the parsed reference is assignable to [type](DiGi.Core.md#DiGi.Core.Query.TryConvert_Reference(object,DiGi.Core.Interfaces.IReference,System.Type).type 'DiGi\.Core\.Query\.TryConvert\_Reference\(object, DiGi\.Core\.Interfaces\.IReference, System\.Type\)\.type'), so a string naming one reference kind
+            does not convert to another. A non-string input, or a string that is a JSON serialization rather than a
+            reference string, falls back to the [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject') path for reference types that
+            support it.
+
+```csharp
+public static bool TryConvert_Reference(object @object, out DiGi.Core.Interfaces.IReference? result, System.Type type);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.TryConvert_Reference(object,DiGi.Core.Interfaces.IReference,System.Type).object'></a>
+
+`object` [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')
+
+The object to convert\.
+
+<a name='DiGi.Core.Query.TryConvert_Reference(object,DiGi.Core.Interfaces.IReference,System.Type).result'></a>
+
+`result` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+When this method returns, contains the converted reference, or null if conversion failed\.
+
+<a name='DiGi.Core.Query.TryConvert_Reference(object,DiGi.Core.Interfaces.IReference,System.Type).type'></a>
+
+`type` [System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+The target reference type\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the conversion was successful; otherwise, false\.
+
 <a name='DiGi.Core.Query.TryConvert_Sbyte(object,System.Nullable_sbyte_)'></a>
 
 ## Query\.TryConvert\_Sbyte\(object, Nullable\<sbyte\>\) Method
@@ -5261,6 +5691,46 @@ When this method returns, contains the converted ushort value if successful; oth
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the conversion was successful; otherwise, false\.
+
+<a name='DiGi.Core.Query.TryGetDiscriminator(thisstring,string,string)'></a>
+
+## Query\.TryGetDiscriminator\(this string, string, string\) Method
+
+Splits a reference string into its discriminator and its body at the first unescaped
+[Separator](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Separator 'DiGi\.Core\.Constants\.Reference\.Separator') at nesting depth zero\.
+
+The discriminator is either a [Kind](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Kind 'DiGi\.Core\.Constants\.Reference\.Kind') token or an assembly-qualified
+            full type name; the two are told apart by the comma a full type name always contains and a kind token
+            never does. This method does not validate the discriminator - a caller must resolve it to know whether it
+            names a reference type at all.
+
+```csharp
+public static bool TryGetDiscriminator(this string? value, out string? discriminator, out string? body);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.TryGetDiscriminator(thisstring,string,string).value'></a>
+
+`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The reference string\.
+
+<a name='DiGi.Core.Query.TryGetDiscriminator(thisstring,string,string).discriminator'></a>
+
+`discriminator` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+When this method returns, contains the discriminator; otherwise, null\.
+
+<a name='DiGi.Core.Query.TryGetDiscriminator(thisstring,string,string).body'></a>
+
+`body` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+When this method returns, contains everything after the first separator, or null when the string has no
+separator and is therefore a bare discriminator\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if a discriminator was extracted; otherwise, false\.
 
 <a name='DiGi.Core.Query.TryGetEnum(string,System.Enum)'></a>
 
@@ -5539,7 +6009,13 @@ True if the unique ID was successfully retrieved; otherwise, false\.
 
 ## Query\.TryParse\(this string, IReference\) Method
 
-Attempts to parse the specified string into an IReference\.
+Attempts to parse the specified string into an [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')\.
+
+The string's discriminator names exactly one reference type, so the result is the same type that
+            produced the string. Types defined outside DiGi.Core resolve too, provided their assembly is loaded.
+
+Strings written before the discriminator was introduced are still accepted, via
+            [TryParseLegacy\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParseLegacy\(this string, DiGi\.Core\.Interfaces\.IReference\)').
 
 ```csharp
 public static bool TryParse(this string? value, out DiGi.Core.Interfaces.IReference? reference);
@@ -5556,7 +6032,7 @@ The string to parse\.
 
 `reference` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
 
-When this method returns, contains the parsed IReference if successful; otherwise, null\.
+When this method returns, contains the parsed reference; otherwise, null\.
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
@@ -5566,7 +6042,7 @@ True if the string was successfully parsed; otherwise, false\.
 
 ## Query\.TryParse\<UReference\>\(this string, UReference\) Method
 
-Attempts to parse the specified string into a UReference\.
+Attempts to parse the specified string into a reference of the requested type\.
 
 ```csharp
 public static bool TryParse<UReference>(this string? value, out UReference? reference)
@@ -5591,11 +6067,11 @@ The string to parse\.
 
 `reference` [UReference](DiGi.Core.md#DiGi.Core.Query.TryParse_UReference_(thisstring,UReference).UReference 'DiGi\.Core\.Query\.TryParse\<UReference\>\(this string, UReference\)\.UReference')
 
-When this method returns, contains the parsed UReference if successful; otherwise, null\.
+When this method returns, contains the parsed reference; otherwise, null\.
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-True if the string was successfully parsed; otherwise, false\.
+True if the string was successfully parsed into the requested type; otherwise, false\.
 
 <a name='DiGi.Core.Query.TryParseDouble(thisstring,double)'></a>
 
@@ -5623,6 +6099,36 @@ When this method returns, contains the parsed value if the conversion was succes
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 true if the string was successfully parsed; otherwise, false\.
+
+<a name='DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference)'></a>
+
+## Query\.TryParseLegacy\(this string, IReference\) Method
+
+Attempts to parse a reference string written in the format used before discriminators were introduced\.
+
+Read-only compatibility for pre-existing storage archives. See the file header for the format, its
+            limits, and the conditions for deleting this method.
+
+```csharp
+public static bool TryParseLegacy(this string? value, out DiGi.Core.Interfaces.IReference? reference);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference).value'></a>
+
+`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The legacy string to parse\.
+
+<a name='DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference).reference'></a>
+
+`reference` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+When this method returns, contains the parsed reference; otherwise, null\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the string was successfully parsed; otherwise, false\.
 
 <a name='DiGi.Core.Query.Type(thisDiGi.Core.Classes.TypeReference)'></a>
 
@@ -5731,6 +6237,29 @@ A function used to filter assemblies\.
 #### Returns
 [System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')  
 The Type associated with the specified type name, or null if not found\.
+
+<a name='DiGi.Core.Query.Unescaped(thisstring)'></a>
+
+## Query\.Unescaped\(this string\) Method
+
+Reverses [Escaped\(this string\)](DiGi.Core.md#DiGi.Core.Query.Escaped(thisstring) 'DiGi\.Core\.Query\.Escaped\(this string\)'), turning a reference segment back into its scalar value\.
+
+```csharp
+public static string? Unescaped(this string? value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Unescaped(thisstring).value'></a>
+
+`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The escaped segment\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The original scalar value; null when [value](DiGi.Core.md#DiGi.Core.Query.Unescaped(thisstring).value 'DiGi\.Core\.Query\.Unescaped\(this string\)\.value') is null or is the
+[Null](DiGi.Core.Constants.md#DiGi.Core.Constants.Reference.Null 'DiGi\.Core\.Constants\.Reference\.Null') token\. A trailing lone escape character is malformed and also
+yields null\.
 
 <a name='DiGi.Core.Query.UniqueHash(thisstring,ulong)'></a>
 
@@ -6510,6 +7039,19 @@ public static DiGi.Core.Classes.ConversionManager ConversionManager { get; }
 
 #### Property Value
 [ConversionManager](DiGi.Core.Classes.md#DiGi.Core.Classes.ConversionManager 'DiGi\.Core\.Classes\.ConversionManager')
+
+<a name='DiGi.Core.Settings.ReferenceManager'></a>
+
+## Settings\.ReferenceManager Property
+
+Gets the manager responsible for resolving reference discriminators to the factories that rebuild them\.
+
+```csharp
+public static DiGi.Core.Classes.ReferenceManager ReferenceManager { get; }
+```
+
+#### Property Value
+[ReferenceManager](DiGi.Core.Classes.md#DiGi.Core.Classes.ReferenceManager 'DiGi\.Core\.Classes\.ReferenceManager')
 
 <a name='DiGi.Core.Settings.SerializationManager'></a>
 

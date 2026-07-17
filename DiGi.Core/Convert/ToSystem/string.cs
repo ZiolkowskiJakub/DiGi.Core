@@ -1,6 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -109,70 +110,41 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
+        // TODO [ReferenceFormat]: Two overloads were removed here - ToSystem_String(TypeReference?, string?, string?)
+        // and ToSystem_String(ISerializableReference?, string?). They built the pre-discriminator format, which
+        // encoded a reference's type by shape, escaped nothing, and could return null. ToSystem_String(Type?,
+        // IEnumerable<string?>) below replaces both. Legacy strings are READ by Query.TryParseLegacy; restore these
+        // only if the old format must be WRITTEN again.
+
         /// <summary>
-        /// Formats a type reference and unique identifier into a system string.
+        /// Renders a reference type and its ordered, already-escaped segments into a reference string.
+        /// <para>Prefixes the type's discriminator - its <see cref="Constants.Reference.Kind"/> token when it
+        /// declares one, otherwise its assembly-qualified full type name - so the result identifies exactly one
+        /// reference type and can be parsed back by <see cref="Query.TryParse(string?, out Interfaces.IReference?)"/>.</para>
         /// </summary>
-        /// <param name="typeReference">The type reference to format.</param>
-        /// <param name="uniqueId">The unique identifier for the type.</param>
-        /// <param name="format">The format string to use.</param>
-        /// <returns>The formatted system string, or null if applicable.</returns>
-        public static string? ToSystem_String(this TypeReference? typeReference, string? uniqueId, string? format)
+        /// <param name="type">The concrete reference type being rendered.</param>
+        /// <param name="segments">The segments, already escaped via <see cref="Query.Segment(string?)"/> or <see cref="Query.Segment(Interfaces.IReference?)"/>.</param>
+        /// <returns>The reference string, or null when <paramref name="type"/> has no registered factory.</returns>
+        public static string? ToSystem_String(this System.Type? type, IEnumerable<string?>? segments)
         {
-            string? result = typeReference?.ToString();
-            if (!string.IsNullOrWhiteSpace(result))
+            string? discriminator = Settings.ReferenceManager.GetReferenceConstructor(type)?.Discriminator;
+            if (string.IsNullOrWhiteSpace(discriminator))
             {
-                result += Constants.Reference.Separator;
+                return null;
             }
 
-            if (string.IsNullOrWhiteSpace(result))
+            StringBuilder stringBuilder = new(discriminator);
+
+            if (segments != null)
             {
-                if (string.IsNullOrWhiteSpace(uniqueId))
+                foreach (string? segment in segments)
                 {
-                    return null;
+                    stringBuilder.Append(Constants.Reference.Separator);
+                    stringBuilder.Append(segment ?? Constants.Reference.Null);
                 }
-
-                result = string.Empty;
             }
 
-            if (string.IsNullOrWhiteSpace(format))
-            {
-                result += uniqueId;
-            }
-            else
-            {
-                result += string.Format(format, uniqueId);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Converts a serializable reference to its system string representation with an optional source.
-        /// </summary>
-        /// <param name="serializableReference">The serializable reference to convert.</param>
-        /// <param name="source">The optional source string.</param>
-        /// <returns>The system string representation of the serializable reference, or null if applicable.</returns>
-        public static string? ToSystem_String(this ISerializableReference? serializableReference, string? source)
-        {
-            if (serializableReference == null)
-            {
-                return source;
-            }
-
-            if (source == null)
-            {
-                return serializableReference.ToString();
-            }
-
-            string result = string.Format("\"{0}\"", source);
-            if (!string.IsNullOrWhiteSpace(result))
-            {
-                result += Constants.Reference.Separator;
-            }
-
-            result += serializableReference.ToString();
-
-            return result;
+            return stringBuilder.ToString();
         }
     }
 }

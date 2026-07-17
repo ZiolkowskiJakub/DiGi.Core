@@ -16,5 +16,10 @@ namespace DiGi.Core
         /// Gets the manager responsible for conversion tasks.
         /// </summary>
         public static ConversionManager ConversionManager { get; } = new ConversionManager();
+
+        /// <summary>
+        /// Gets the manager responsible for resolving reference discriminators to the factories that rebuild them.
+        /// </summary>
+        public static ReferenceManager ReferenceManager { get; } = new ReferenceManager();
     }
 }

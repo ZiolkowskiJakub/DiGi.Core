@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -115,12 +116,15 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Returns a string representation of the external reference.
+        /// Gets the segments of this reference's string form: the source, then the nested reference.
         /// </summary>
-        /// <returns>A string that represents the current object.</returns>
-        public override string? ToString()
+        [JsonIgnore]
+        protected override IEnumerable<string?> Segments
         {
-            return Convert.ToSystem_String(reference, Source);
+            get
+            {
+                return [Query.Segment(Source), Query.Segment(reference as IReference)];
+            }
         }
     }
 }

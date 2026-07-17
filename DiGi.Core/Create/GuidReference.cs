@@ -1,11 +1,32 @@
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace DiGi.Core
 {
     public static partial class Create
     {
+        /// <summary>Rebuilds a <see cref="Classes.GuidReference"/> from the segments of its string form.</summary>
+        /// <param name="segments">The segments: the nested type reference, then the GUID.</param>
+        /// <returns>The reference, or <c>null</c> if the segments do not describe one.</returns>
+        [ReferenceFactory(typeof(GuidReference), Kind = Constants.Reference.Kind.Guid)]
+        public static IReference? GuidReference(IReadOnlyList<string?>? segments)
+        {
+            if (segments == null || segments.Count != 2)
+            {
+                return null;
+            }
+
+            // Fully qualified: the unqualified name binds to Create.Guid, not to the type.
+            if (!System.Guid.TryParse(Query.Unescaped(segments[1]), out System.Guid guid))
+            {
+                return null;
+            }
+
+            return new GuidReference(Query.Reference<TypeReference>(segments[0]), guid);
+        }
+
         /// <summary>Creates a GUID reference for the specified object using the given function to retrieve its GUID.</summary>
         /// <typeparam name="T">The type of the object.</typeparam>
         /// <param name="object">The object for which to create a GUID reference.</param>

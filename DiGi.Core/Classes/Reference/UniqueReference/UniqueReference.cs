@@ -1,4 +1,5 @@
 ﻿using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -69,5 +70,19 @@ namespace DiGi.Core.Classes
         /// </summary>
         [JsonIgnore]
         public abstract string? UniqueId { get; }
+
+        /// <summary>
+        /// Gets the segments of this reference's string form: the nested type reference, then the unique identifier.
+        /// <para>Shared by every unique reference, so <see cref="GuidReference"/> and <see cref="UniqueIdReference"/>
+        /// differ only by their discriminator - which is what tells them apart on the way back.</para>
+        /// </summary>
+        [JsonIgnore]
+        protected override IEnumerable<string?> Segments
+        {
+            get
+            {
+                return [Query.Segment(typeReference), Query.Segment(UniqueId)];
+            }
+        }
     }
 }

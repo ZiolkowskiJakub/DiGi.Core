@@ -8,6 +8,11 @@ namespace DiGi.Core.Classes
     /// <summary>
     /// Represents a reference to an object identified by a GUID.
     /// </summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// nested type reference, then the GUID in N format:
+    /// <code>Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e</code>
+    /// </example>
     public class GuidReference : UniqueReference
     {
         [JsonInclude, JsonPropertyName("Guid")]
@@ -90,15 +95,6 @@ namespace DiGi.Core.Classes
         public override ISerializableObject? Clone()
         {
             return new GuidReference(this);
-        }
-
-        /// <summary>
-        /// Returns a string representation of the current object.
-        /// </summary>
-        /// <returns>A string that represents the current object.</returns>
-        public override string? ToString()
-        {
-            return Convert.ToSystem_String(TypeReference, UniqueId, Constants.Reference.Format.Guid);
         }
     }
 }

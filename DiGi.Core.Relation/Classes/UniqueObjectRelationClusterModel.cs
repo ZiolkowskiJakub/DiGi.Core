@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Relation.Enums;
 using DiGi.Core.Relation.Interfaces;
@@ -49,7 +49,7 @@ namespace DiGi.Core.Relation.Classes
         /// <returns>A new unique identifier (Guid).</returns>
         public Guid GetNewGuid(Type? type)
         {
-            return Create.Guid(uniqueObjectRelationCluster, type);
+            return Core.Create.Guid(uniqueObjectRelationCluster, type);
         }
 
         /// <summary>Creates a new Guid for a unique object of the specified generic type.</summary>
@@ -57,7 +57,7 @@ namespace DiGi.Core.Relation.Classes
         /// <returns>A new unique identifier (Guid).</returns>
         public Guid GetNewGuid<YUniqueObject>() where YUniqueObject : TUniqueObject
         {
-            return Create.Guid(uniqueObjectRelationCluster, typeof(YUniqueObject));
+            return Core.Create.Guid(uniqueObjectRelationCluster, typeof(YUniqueObject));
         }
 
         /// <summary>Gets the first unique object of the specified type that optionally matches the predicate.</summary>
@@ -222,7 +222,7 @@ namespace DiGi.Core.Relation.Classes
                 return default;
             }
 
-            URelation? relation = uniqueObjectRelationCluster.GetRelation(Create.UniqueReference(uniqueObject), func);
+            URelation? relation = uniqueObjectRelationCluster.GetRelation(Core.Create.UniqueReference(uniqueObject), func);
             if (relation == null)
             {
                 return default;
@@ -493,7 +493,7 @@ namespace DiGi.Core.Relation.Classes
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetRelation(Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
+            if (!uniqueObjectRelationCluster.TryGetRelation(Core.Create.UniqueReference(uniqueObject), out relation, func) || relation == null)
             {
                 return false;
             }

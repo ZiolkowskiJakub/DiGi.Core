@@ -1,14 +1,24 @@
 using DiGi.Core.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.Core.Classes
 {
-    /// <summary>Base class for serializable references with equality comparison based on hash codes.</summary>
+    /// <summary>
+    /// Base class for serializable references, owning the rendering of the reference string and equality based on it.
+    /// <para>Derived types do not override <see cref="ToString"/>; they declare <see cref="Segments"/> and this class
+    /// adds the discriminator, the separators and the caching. That keeps every reference on one grammar - a type
+    /// cannot forget its discriminator or its escaping - and lets one rendered string serve
+    /// <see cref="ToString"/>, <see cref="Equals(IReference?)"/> and <see cref="GetHashCode"/> alike.</para>
+    /// </summary>
     public abstract class SerializableReference : SerializableObject, ISerializableReference
     {
         [JsonIgnore]
         private int? hashCode = null;
+
+        [JsonIgnore]
+        private string? @string = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializableReference"/> class.
@@ -25,10 +35,10 @@ namespace DiGi.Core.Classes
         public SerializableReference(SerializableReference? serializableReference)
             : base(serializableReference)
         {
-            if (serializableReference is not null)
-            {
-                hashCode = serializableReference.hashCode;
-            }
+            // TODO [ReferenceFormat]: The cached hash code used to be copied from the source here. It is deliberately
+            // no longer copied, and the rendered-string cache is not copied either: this constructor runs BEFORE the
+            // derived constructor assigns the fields the caches are derived from, so copying was only ever correct
+            // because every copy constructor happens to reproduce identical state. Both caches rebuild lazily.
         }
 
         /// <summary>
@@ -166,9 +176,39 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Gets the hash code for the current type reference.
+        /// Gets the segments of this reference's string form, in order and already escaped.
+        /// <para>Render a scalar with <see cref="Query.Segment(string?)"/> and a nested reference with
+        /// <see cref="Query.Segment(IReference?)"/>. Do NOT include the discriminator, the separators or any
+        /// surrounding decoration - <see cref="ToString"/> adds those and caches the result.</para>
+        /// <para>The order and count declared here IS the parse contract. The method marked with
+        /// <see cref="ReferenceFactoryAttribute"/> for this type must consume exactly these segments, in this order;
+        /// changing one without the other silently breaks the round trip.</para>
         /// </summary>
-        /// <returns>The hash code for the current type reference.</returns>
+        [JsonIgnore]
+        protected abstract IEnumerable<string?> Segments { get; }
+
+        /// <summary>
+        /// Returns the reference string: this type's discriminator followed by its <see cref="Segments"/>.
+        /// <para>Sealed on purpose. The base owns rendering so that no reference type can drift off the grammar by
+        /// omitting its discriminator or its escaping, and so the result can be cached once and reused by
+        /// <see cref="Equals(IReference?)"/> and <see cref="GetHashCode"/>. Derived types contribute
+        /// <see cref="Segments"/> instead.</para>
+        /// <para>Never returns null for a type with a registered factory, because the discriminator is always
+        /// emitted.</para>
+        /// </summary>
+        /// <returns>The reference string.</returns>
+        public sealed override string? ToString()
+        {
+            // TODO [ReferenceFormat]: Sealing ToString() is a breaking change for any subclass outside this solution
+            // that overrode it. Such a type must override Segments instead. Unsealing would also cost the cache
+            // below, which Equals depends on.
+            return @string ??= Convert.ToSystem_String(GetType(), Segments);
+        }
+
+        /// <summary>
+        /// Gets the hash code for the current reference, derived from its cached string form.
+        /// </summary>
+        /// <returns>The hash code for the current reference.</returns>
         public override int GetHashCode()
         {
             hashCode ??= (ToString() ?? string.Empty).GetHashCode();

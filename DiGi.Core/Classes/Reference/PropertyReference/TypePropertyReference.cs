@@ -5,6 +5,11 @@ using System.Text.Json.Serialization;
 namespace DiGi.Core.Classes
 {
     /// <summary>Represents a reference to a property by its type.</summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// nested type reference, then the property name:
+    /// <code>TypeProperty::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::Name</code>
+    /// </example>
     public class TypePropertyReference : PropertyReference<TypeReference>, ITypeRelatedSerializableReference
     {
         /// <summary>
