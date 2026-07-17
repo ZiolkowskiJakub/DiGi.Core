@@ -349,6 +349,16 @@ namespace DiGi.Core
                 }
             }
 
+            if (value.ContainsKey(Constants.Serialization.PropertyName.Type) && value.ContainsKey(Constants.Serialization.PropertyName.UniqueId))
+            {
+                JsonValue? jsonValue = value[Constants.Serialization.PropertyName.UniqueId]?.AsValue();
+
+                if (jsonValue != null && jsonValue.TryGetValue(out string? uniqueId) && uniqueId != null)
+                {
+                    return uniqueId;
+                }
+            }
+
             //return UniqueId(value.ToString());
 
             return UniqueHash(value).ToString();

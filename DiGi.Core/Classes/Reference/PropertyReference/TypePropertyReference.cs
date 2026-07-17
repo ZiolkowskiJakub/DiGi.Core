@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -12,7 +12,7 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <param name="reference">The type reference.</param>
         /// <param name="propertyName">The name of the property.</param>
-        public TypePropertyReference(TypeReference reference, string propertyName)
+        public TypePropertyReference(TypeReference? reference, string? propertyName)
             : base(reference, propertyName)
         {
         }
@@ -21,7 +21,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="TypePropertyReference"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize from.</param>
-        public TypePropertyReference(JsonObject jsonObject)
+        public TypePropertyReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
@@ -30,7 +30,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="TypePropertyReference"/> class by copying an existing reference.
         /// </summary>
         /// <param name="typePropertyReference">The existing reference to copy.</param>
-        public TypePropertyReference(TypePropertyReference typePropertyReference)
+        public TypePropertyReference(TypePropertyReference? typePropertyReference)
             : base(typePropertyReference)
         {
         }

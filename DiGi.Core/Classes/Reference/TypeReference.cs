@@ -94,7 +94,7 @@ namespace DiGi.Core.Classes
         /// <returns>True if the two type references are not equal; otherwise, false.</returns>
         public static bool operator !=(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
-            return typeReference_1?.fullTypeName != typeReference_2?.fullTypeName;
+            return !(typeReference_1 == typeReference_2);
         }
 
         /// <summary>
@@ -105,7 +105,17 @@ namespace DiGi.Core.Classes
         /// <returns>True if the two type references are equal; otherwise, false.</returns>
         public static bool operator ==(TypeReference? typeReference_1, TypeReference? typeReference_2)
         {
-            return typeReference_1?.fullTypeName == typeReference_2?.fullTypeName;
+            if (typeReference_1 is null)
+            {
+                return typeReference_2 is null;
+            }
+
+            if (typeReference_2 is null)
+            {
+                return false;
+            }
+
+            return typeReference_1.fullTypeName == typeReference_2.fullTypeName;
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace DiGi.Core
                 return null;
             }
 
-            return new GuidReference(fullTypeName, func.Invoke(@object));
+            return new GuidReference(new TypeReference(fullTypeName), func.Invoke(@object));
         }
 
         /// <summary>Creates a unique GUID reference for the specified type that does not exist in the given cluster.</summary>
@@ -45,11 +45,13 @@ namespace DiGi.Core
                 return null;
             }
 
+            TypeReference typeReference = new(fullTypeName);
+
             GuidReference? result;
             do
             {
                 Guid guid = System.Guid.NewGuid();
-                result = new GuidReference(fullTypeName, guid);
+                result = new GuidReference(typeReference, guid);
             }
             while (result is not null && uniqueObjectValueCluster.Contains(result));
 

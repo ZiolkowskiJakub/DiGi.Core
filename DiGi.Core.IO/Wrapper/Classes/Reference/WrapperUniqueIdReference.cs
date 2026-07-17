@@ -50,7 +50,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
             get
             {
-                return new UniqueIdReference(fullTypeName, uniqueId);
+                return new UniqueIdReference(new TypeReference(fullTypeName), uniqueId);
             }
         }
 

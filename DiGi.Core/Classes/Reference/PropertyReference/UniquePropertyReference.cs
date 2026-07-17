@@ -12,7 +12,7 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <param name="reference">The unique property reference.</param>
         /// <param name="propertyName">The name of the property.</param>
-        public UniquePropertyReference(UUniquePropertyReference reference, string propertyName)
+        public UniquePropertyReference(UUniquePropertyReference? reference, string? propertyName)
             : base(reference, propertyName)
         {
         }
@@ -21,7 +21,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="UniquePropertyReference{UUniquePropertyReference}"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize the reference from.</param>
-        public UniquePropertyReference(JsonObject jsonObject)
+        public UniquePropertyReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
@@ -30,7 +30,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="UniquePropertyReference{UUniquePropertyReference}"/> class by copying an existing reference.
         /// </summary>
         /// <param name="uniquePropertyReference">The unique property reference to copy.</param>
-        public UniquePropertyReference(UniquePropertyReference<UUniquePropertyReference> uniquePropertyReference)
+        public UniquePropertyReference(UniquePropertyReference<UUniquePropertyReference>? uniquePropertyReference)
             : base(uniquePropertyReference)
         {
         }

@@ -75,7 +75,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="PropertyReference"/> class from the specified JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize from.</param>
-        public PropertyReference(JsonObject jsonObject)
+        public PropertyReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }

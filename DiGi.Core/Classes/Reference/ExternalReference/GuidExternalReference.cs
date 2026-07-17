@@ -23,7 +23,7 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <param name="source">The source string.</param>
         /// <param name="reference">The GUID reference.</param>
-        public GuidExternalReference(string source, GuidReference reference)
+        public GuidExternalReference(string? source, GuidReference? reference)
             : base(source, reference)
         {
         }
@@ -32,7 +32,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="GuidExternalReference"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize from.</param>
-        public GuidExternalReference(JsonObject jsonObject)
+        public GuidExternalReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
@@ -41,7 +41,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="GuidExternalReference"/> class by copying an existing instance.
         /// </summary>
         /// <param name="guidExternalReference">The existing instance to copy.</param>
-        public GuidExternalReference(GuidExternalReference guidExternalReference)
+        public GuidExternalReference(GuidExternalReference? guidExternalReference)
             : base(guidExternalReference)
         {
         }

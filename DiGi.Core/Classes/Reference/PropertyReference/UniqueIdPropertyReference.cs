@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -11,7 +11,7 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <param name="reference">The unique ID reference.</param>
         /// <param name="propertyName">The name of the property.</param>
-        public UniqueIdPropertyReference(UniqueIdReference reference, string propertyName)
+        public UniqueIdPropertyReference(UniqueIdReference? reference, string? propertyName)
             : base(reference, propertyName)
         {
         }
@@ -20,7 +20,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="UniqueIdPropertyReference"/> class from a JSON object.
         /// </summary>
         /// <param name="jsonObject">The JSON object to initialize from.</param>
-        public UniqueIdPropertyReference(JsonObject jsonObject)
+        public UniqueIdPropertyReference(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
@@ -29,7 +29,7 @@ namespace DiGi.Core.Classes
         /// Initializes a new instance of the <see cref="UniqueIdPropertyReference"/> class by copying an existing reference.
         /// </summary>
         /// <param name="uniqueIdPropertyReference">The existing reference to copy.</param>
-        public UniqueIdPropertyReference(UniqueIdPropertyReference uniqueIdPropertyReference)
+        public UniqueIdPropertyReference(UniqueIdPropertyReference? uniqueIdPropertyReference)
             : base(uniqueIdPropertyReference)
         {
         }

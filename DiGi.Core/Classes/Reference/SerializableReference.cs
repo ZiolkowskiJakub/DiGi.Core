@@ -46,9 +46,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The serializable reference to compare.</param>
         /// <param name="object">The object implementing <see cref="ISerializableReference"/> to compare with the serializable reference.</param>
         /// <returns>True if the serializable reference and the object are not equal; otherwise, false.</returns>
-        public static bool operator !=(SerializableReference serializableReference_1, ISerializableReference @object)
+        public static bool operator !=(SerializableReference? serializableReference_1, ISerializableReference? @object)
         {
-            return serializableReference_1?.GetHashCode() != @object?.GetHashCode();
+            return !(serializableReference_1 == @object);
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The serializable reference to compare.</param>
         /// <param name="object">The object to compare with the serializable reference.</param>
         /// <returns>True if the serializable reference and the object are not equal; otherwise, false.</returns>
-        public static bool operator !=(SerializableReference serializableReference_1, object @object)
+        public static bool operator !=(SerializableReference? serializableReference_1, object? @object)
         {
-            return serializableReference_1?.GetHashCode() != @object?.GetHashCode();
+            return !(serializableReference_1 == @object);
         }
 
         /// <summary>
@@ -68,9 +68,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The object to compare.</param>
         /// <param name="serializableReference_2">The serializable reference to compare with the object.</param>
         /// <returns>True if the object and the serializable reference are not equal; otherwise, false.</returns>
-        public static bool operator !=(object serializableReference_1, SerializableReference serializableReference_2)
+        public static bool operator !=(object? serializableReference_1, SerializableReference? serializableReference_2)
         {
-            return serializableReference_1?.GetHashCode() != serializableReference_2?.GetHashCode();
+            return !(serializableReference_1 == serializableReference_2);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The first serializable reference to compare.</param>
         /// <param name="serializableReference_2">The second serializable reference to compare.</param>
         /// <returns>True if the two serializable references are not equal; otherwise, false.</returns>
-        public static bool operator !=(SerializableReference serializableReference_1, SerializableReference serializableReference_2)
+        public static bool operator !=(SerializableReference? serializableReference_1, SerializableReference? serializableReference_2)
         {
-            return serializableReference_1?.GetHashCode() != serializableReference_2?.GetHashCode();
+            return !(serializableReference_1 == serializableReference_2);
         }
 
         /// <summary>
@@ -90,9 +90,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The serializable reference to compare.</param>
         /// <param name="object">The serializable reference object to compare with the first instance.</param>
         /// <returns>True if the serializable reference and the object are equal; otherwise, false.</returns>
-        public static bool operator ==(SerializableReference serializableReference_1, ISerializableReference @object)
+        public static bool operator ==(SerializableReference? serializableReference_1, ISerializableReference? @object)
         {
-            return serializableReference_1?.GetHashCode() == @object?.GetHashCode();
+            return serializableReference_1 is null ? @object is null : serializableReference_1.Equals(@object);
         }
 
         /// <summary>
@@ -101,9 +101,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The serializable reference to compare.</param>
         /// <param name="object">The object to compare with the serializable reference.</param>
         /// <returns>True if the serializable reference and the object are equal; otherwise, false.</returns>
-        public static bool operator ==(SerializableReference serializableReference_1, object @object)
+        public static bool operator ==(SerializableReference? serializableReference_1, object? @object)
         {
-            return serializableReference_1?.GetHashCode() == @object?.GetHashCode();
+            return serializableReference_1 is null ? @object is null : serializableReference_1.Equals(@object);
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The object to compare with the serializable reference.</param>
         /// <param name="serializableReference_2">The serializable reference to compare with the object.</param>
         /// <returns>True if the object and the serializable reference are equal; otherwise, false.</returns>
-        public static bool operator ==(object serializableReference_1, SerializableReference serializableReference_2)
+        public static bool operator ==(object? serializableReference_1, SerializableReference? serializableReference_2)
         {
-            return serializableReference_1?.GetHashCode() == serializableReference_2?.GetHashCode();
+            return serializableReference_2 is null ? serializableReference_1 is null : serializableReference_2.Equals(serializableReference_1);
         }
 
         /// <summary>
@@ -123,9 +123,9 @@ namespace DiGi.Core.Classes
         /// <param name="serializableReference_1">The first serializable reference to compare.</param>
         /// <param name="serializableReference_2">The second serializable reference to compare.</param>
         /// <returns>True if the two serializable references are equal; otherwise, false.</returns>
-        public static bool operator ==(SerializableReference serializableReference_1, SerializableReference serializableReference_2)
+        public static bool operator ==(SerializableReference? serializableReference_1, SerializableReference? serializableReference_2)
         {
-            return serializableReference_1?.GetHashCode() == serializableReference_2?.GetHashCode();
+            return serializableReference_1 is null ? serializableReference_2 is null : serializableReference_1.Equals(serializableReference_2);
         }
 
         /// <summary>
@@ -133,34 +133,36 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <param name="object">The object to compare with the current serializable reference.</param>
         /// <returns>True if the specified object is equal to the current serializable reference; otherwise, false.</returns>
-        public override bool Equals(object @object)
+        public override bool Equals(object? @object)
         {
-            if (@object == null)
-            {
-                return false;
-            }
-
-            if (@object is IReference reference)
-            {
-                return Equals(reference);
-            }
-
-            return false;
+            return @object is IReference reference && Equals(reference);
         }
 
         /// <summary>
-        /// Determines whether the specified reference is equal to the current serializable reference.
+        /// Determines whether the specified reference is equal to the current serializable reference. References of
+        /// different runtime types are never equal, which keeps the comparison symmetric for derived types that
+        /// narrow equality further.
         /// </summary>
         /// <param name="reference">The reference to compare with the current serializable reference.</param>
         /// <returns>True if the specified reference is equal to the current serializable reference; otherwise, false.</returns>
-        public bool Equals(IReference reference)
+        public bool Equals(IReference? reference)
         {
-            if (reference == null)
+            if (reference is null)
             {
                 return false;
             }
 
-            return reference.GetHashCode() == GetHashCode();
+            if (ReferenceEquals(this, reference))
+            {
+                return true;
+            }
+
+            if (reference.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return reference.GetHashCode() == GetHashCode() && reference.ToString() == ToString();
         }
 
         /// <summary>
@@ -169,7 +171,7 @@ namespace DiGi.Core.Classes
         /// <returns>The hash code for the current type reference.</returns>
         public override int GetHashCode()
         {
-            hashCode ??= ToString().GetHashCode();
+            hashCode ??= (ToString() ?? string.Empty).GetHashCode();
 
             return hashCode.Value;
         }

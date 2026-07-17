@@ -35,7 +35,7 @@ namespace DiGi.Core
                 if (jsonObject.ContainsKey(Constants.Serialization.PropertyName.Type))
                 {
                     JsonValue? jsonValue = jsonObject[Constants.Serialization.PropertyName.Type]?.AsValue();
-                    if (jsonValue != null && jsonValue.TryGetValue(out string? fullTypeName))
+                    if (jsonValue != null && jsonValue.TryGetValue(out string? fullTypeName) && !string.IsNullOrWhiteSpace(fullTypeName))
                     {
                         typeReference = new TypeReference(fullTypeName);
                     }
@@ -57,17 +57,20 @@ namespace DiGi.Core
                         }
                     }
                 }
+
+                if (jsonObject.ContainsKey(Constants.Serialization.PropertyName.UniqueId))
+                {
+                    JsonValue? jsonValue = jsonObject[Constants.Serialization.PropertyName.UniqueId]?.AsValue();
+                    if (jsonValue != null && jsonValue.TryGetValue(out string? uniqueId_JsonObject) && uniqueId_JsonObject != null)
+                    {
+                        return new UniqueIdReference(typeReference, uniqueId_JsonObject);
+                    }
+                }
             }
 
             if (typeReference == null)
             {
-                Type? type = @object?.GetType();
-                if (type == null)
-                {
-                    return null;
-                }
-
-                typeReference = TypeReference(type);
+                typeReference = TypeReference(@object.GetType());
             }
 
             if (typeReference == null)

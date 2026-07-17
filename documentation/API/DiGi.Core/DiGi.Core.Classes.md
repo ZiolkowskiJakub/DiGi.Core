@@ -4499,7 +4499,7 @@ Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system
 Initializes a new instance of the [GuidExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidExternalReference 'DiGi\.Core\.Classes\.GuidExternalReference') class by copying an existing instance\.
 
 ```csharp
-public GuidExternalReference(DiGi.Core.Classes.GuidExternalReference guidExternalReference);
+public GuidExternalReference(DiGi.Core.Classes.GuidExternalReference? guidExternalReference);
 ```
 #### Parameters
 
@@ -4516,7 +4516,7 @@ The existing instance to copy\.
 Initializes a new instance of the [GuidExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidExternalReference 'DiGi\.Core\.Classes\.GuidExternalReference') class with a source and a GUID reference\.
 
 ```csharp
-public GuidExternalReference(string source, DiGi.Core.Classes.GuidReference reference);
+public GuidExternalReference(string? source, DiGi.Core.Classes.GuidReference? reference);
 ```
 #### Parameters
 
@@ -4562,7 +4562,7 @@ The GUID object\.
 Initializes a new instance of the [GuidExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidExternalReference 'DiGi\.Core\.Classes\.GuidExternalReference') class from a JSON object\.
 
 ```csharp
-public GuidExternalReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public GuidExternalReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -4826,7 +4826,7 @@ Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system
 Initializes a new instance of the [GuidPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidPropertyReference 'DiGi\.Core\.Classes\.GuidPropertyReference') class by copying an existing reference\.
 
 ```csharp
-public GuidPropertyReference(DiGi.Core.Classes.GuidPropertyReference guidPropertyReference);
+public GuidPropertyReference(DiGi.Core.Classes.GuidPropertyReference? guidPropertyReference);
 ```
 #### Parameters
 
@@ -4843,7 +4843,7 @@ The existing reference to copy\.
 Initializes a new instance of the [GuidPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidPropertyReference 'DiGi\.Core\.Classes\.GuidPropertyReference') class with the specified reference and property name\.
 
 ```csharp
-public GuidPropertyReference(DiGi.Core.Classes.GuidReference reference, string propertyName);
+public GuidPropertyReference(DiGi.Core.Classes.GuidReference? reference, string? propertyName);
 ```
 #### Parameters
 
@@ -4866,7 +4866,7 @@ The name of the property\.
 Initializes a new instance of the [GuidPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidPropertyReference 'DiGi\.Core\.Classes\.GuidPropertyReference') class from the specified JSON object\.
 
 ```csharp
-public GuidPropertyReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public GuidPropertyReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -4962,29 +4962,6 @@ public GuidReference(DiGi.Core.Interfaces.IGuidObject? guidObject);
 `guidObject` [IGuidObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IGuidObject 'DiGi\.Core\.Interfaces\.IGuidObject')
 
 The GUID object to initialize from\.
-
-<a name='DiGi.Core.Classes.GuidReference.GuidReference(string,System.Guid)'></a>
-
-## GuidReference\(string, Guid\) Constructor
-
-Initializes a new instance of the [GuidReference](DiGi.Core.Classes.md#DiGi.Core.Classes.GuidReference 'DiGi\.Core\.Classes\.GuidReference') class using a type name and a GUID\.
-
-```csharp
-public GuidReference(string? fullTypeName, System.Guid guid);
-```
-#### Parameters
-
-<a name='DiGi.Core.Classes.GuidReference.GuidReference(string,System.Guid).fullTypeName'></a>
-
-`fullTypeName` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The full name of the type\.
-
-<a name='DiGi.Core.Classes.GuidReference.GuidReference(string,System.Guid).guid'></a>
-
-`guid` [System\.Guid](https://learn.microsoft.com/en-us/dotnet/api/system.guid 'System\.Guid')
-
-The unique identifier for the reference\.
 
 <a name='DiGi.Core.Classes.GuidReference.GuidReference(System.Text.Json.Nodes.JsonObject)'></a>
 
@@ -7828,7 +7805,7 @@ The generic property reference to copy\.
 Initializes a new instance of the [PropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.PropertyReference 'DiGi\.Core\.Classes\.PropertyReference') class from the specified JSON object\.
 
 ```csharp
-public PropertyReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public PropertyReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -9888,10 +9865,12 @@ The JSON object to initialize the reference from\.
 
 ## SerializableReference\.Equals\(IReference\) Method
 
-Determines whether the specified reference is equal to the current serializable reference\.
+Determines whether the specified reference is equal to the current serializable reference\. References of
+different runtime types are never equal, which keeps the comparison symmetric for derived types that
+narrow equality further\.
 
 ```csharp
-public bool Equals(DiGi.Core.Interfaces.IReference reference);
+public bool Equals(DiGi.Core.Interfaces.IReference? reference);
 ```
 #### Parameters
 
@@ -9912,7 +9891,7 @@ True if the specified reference is equal to the current serializable reference; 
 Determines whether the specified object is equal to the current serializable reference\.
 
 ```csharp
-public override bool Equals(object @object);
+public override bool Equals(object? @object);
 ```
 #### Parameters
 
@@ -9948,7 +9927,7 @@ The hash code for the current type reference\.
 Compares two [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instances for equality\.
 
 ```csharp
-public static bool operator ==(DiGi.Core.Classes.SerializableReference serializableReference_1, DiGi.Core.Classes.SerializableReference serializableReference_2);
+public static bool operator ==(DiGi.Core.Classes.SerializableReference? serializableReference_1, DiGi.Core.Classes.SerializableReference? serializableReference_2);
 ```
 #### Parameters
 
@@ -9975,7 +9954,7 @@ True if the two serializable references are equal; otherwise, false\.
 Compares a [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instance and an [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference') object for equality\.
 
 ```csharp
-public static bool operator ==(DiGi.Core.Classes.SerializableReference serializableReference_1, DiGi.Core.Interfaces.ISerializableReference @object);
+public static bool operator ==(DiGi.Core.Classes.SerializableReference? serializableReference_1, DiGi.Core.Interfaces.ISerializableReference? @object);
 ```
 #### Parameters
 
@@ -10002,7 +9981,7 @@ True if the serializable reference and the object are equal; otherwise, false\.
 Compares a [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instance and an object for equality\.
 
 ```csharp
-public static bool operator ==(DiGi.Core.Classes.SerializableReference serializableReference_1, object @object);
+public static bool operator ==(DiGi.Core.Classes.SerializableReference? serializableReference_1, object? @object);
 ```
 #### Parameters
 
@@ -10029,7 +10008,7 @@ True if the serializable reference and the object are equal; otherwise, false\.
 Compares an object and a [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instance for equality\.
 
 ```csharp
-public static bool operator ==(object serializableReference_1, DiGi.Core.Classes.SerializableReference serializableReference_2);
+public static bool operator ==(object? serializableReference_1, DiGi.Core.Classes.SerializableReference? serializableReference_2);
 ```
 #### Parameters
 
@@ -10056,7 +10035,7 @@ True if the object and the serializable reference are equal; otherwise, false\.
 Compares two [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instances for inequality\.
 
 ```csharp
-public static bool operator !=(DiGi.Core.Classes.SerializableReference serializableReference_1, DiGi.Core.Classes.SerializableReference serializableReference_2);
+public static bool operator !=(DiGi.Core.Classes.SerializableReference? serializableReference_1, DiGi.Core.Classes.SerializableReference? serializableReference_2);
 ```
 #### Parameters
 
@@ -10083,7 +10062,7 @@ True if the two serializable references are not equal; otherwise, false\.
 Compares a [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instance and an [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference') for inequality\.
 
 ```csharp
-public static bool operator !=(DiGi.Core.Classes.SerializableReference serializableReference_1, DiGi.Core.Interfaces.ISerializableReference @object);
+public static bool operator !=(DiGi.Core.Classes.SerializableReference? serializableReference_1, DiGi.Core.Interfaces.ISerializableReference? @object);
 ```
 #### Parameters
 
@@ -10110,7 +10089,7 @@ True if the serializable reference and the object are not equal; otherwise, fals
 Compares a [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instance and an object for inequality\.
 
 ```csharp
-public static bool operator !=(DiGi.Core.Classes.SerializableReference serializableReference_1, object @object);
+public static bool operator !=(DiGi.Core.Classes.SerializableReference? serializableReference_1, object? @object);
 ```
 #### Parameters
 
@@ -10137,7 +10116,7 @@ True if the serializable reference and the object are not equal; otherwise, fals
 Compares an object and a [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') instance for inequality\.
 
 ```csharp
-public static bool operator !=(object serializableReference_1, DiGi.Core.Classes.SerializableReference serializableReference_2);
+public static bool operator !=(object? serializableReference_1, DiGi.Core.Classes.SerializableReference? serializableReference_2);
 ```
 #### Parameters
 
@@ -12681,7 +12660,7 @@ Implements [ITypeRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core
 Initializes a new instance of the [TypePropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypePropertyReference 'DiGi\.Core\.Classes\.TypePropertyReference') class by copying an existing reference\.
 
 ```csharp
-public TypePropertyReference(DiGi.Core.Classes.TypePropertyReference typePropertyReference);
+public TypePropertyReference(DiGi.Core.Classes.TypePropertyReference? typePropertyReference);
 ```
 #### Parameters
 
@@ -12698,7 +12677,7 @@ The existing reference to copy\.
 Initializes a new instance of the [TypePropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypePropertyReference 'DiGi\.Core\.Classes\.TypePropertyReference') class using a type reference and a property name\.
 
 ```csharp
-public TypePropertyReference(DiGi.Core.Classes.TypeReference reference, string propertyName);
+public TypePropertyReference(DiGi.Core.Classes.TypeReference? reference, string? propertyName);
 ```
 #### Parameters
 
@@ -12721,7 +12700,7 @@ The name of the property\.
 Initializes a new instance of the [TypePropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypePropertyReference 'DiGi\.Core\.Classes\.TypePropertyReference') class from a JSON object\.
 
 ```csharp
-public TypePropertyReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public TypePropertyReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -13063,7 +13042,7 @@ Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system
 Initializes a new instance of the [TypeRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeRelatedExternalReference 'DiGi\.Core\.Classes\.TypeRelatedExternalReference') class by copying an existing reference\.
 
 ```csharp
-public TypeRelatedExternalReference(DiGi.Core.Classes.TypeRelatedExternalReference externalReference);
+public TypeRelatedExternalReference(DiGi.Core.Classes.TypeRelatedExternalReference? externalReference);
 ```
 #### Parameters
 
@@ -13080,7 +13059,7 @@ The external reference to copy\.
 Initializes a new instance of the [TypeRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeRelatedExternalReference 'DiGi\.Core\.Classes\.TypeRelatedExternalReference') class with the specified source and reference\.
 
 ```csharp
-public TypeRelatedExternalReference(string source, DiGi.Core.Interfaces.ITypeRelatedSerializableReference reference);
+public TypeRelatedExternalReference(string? source, DiGi.Core.Interfaces.ITypeRelatedSerializableReference? reference);
 ```
 #### Parameters
 
@@ -13103,7 +13082,7 @@ The serializable reference to use\.
 Initializes a new instance of the [TypeRelatedExternalReference](DiGi.Core.Classes.md#DiGi.Core.Classes.TypeRelatedExternalReference 'DiGi\.Core\.Classes\.TypeRelatedExternalReference') class from the specified JSON object\.
 
 ```csharp
-public TypeRelatedExternalReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public TypeRelatedExternalReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -13362,7 +13341,7 @@ Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system
 Initializes a new instance of the [UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference') class by copying an existing reference\.
 
 ```csharp
-public UniqueIdPropertyReference(DiGi.Core.Classes.UniqueIdPropertyReference uniqueIdPropertyReference);
+public UniqueIdPropertyReference(DiGi.Core.Classes.UniqueIdPropertyReference? uniqueIdPropertyReference);
 ```
 #### Parameters
 
@@ -13379,7 +13358,7 @@ The existing reference to copy\.
 Initializes a new instance of the [UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference') class using a unique ID reference and a property name\.
 
 ```csharp
-public UniqueIdPropertyReference(DiGi.Core.Classes.UniqueIdReference reference, string propertyName);
+public UniqueIdPropertyReference(DiGi.Core.Classes.UniqueIdReference? reference, string? propertyName);
 ```
 #### Parameters
 
@@ -13402,7 +13381,7 @@ The name of the property\.
 Initializes a new instance of the [UniqueIdPropertyReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdPropertyReference 'DiGi\.Core\.Classes\.UniqueIdPropertyReference') class from a JSON object\.
 
 ```csharp
-public UniqueIdPropertyReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public UniqueIdPropertyReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -13498,29 +13477,6 @@ public UniqueIdReference(DiGi.Core.Interfaces.IUniqueIdObject? uniqueIdObject);
 `uniqueIdObject` [IUniqueIdObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IUniqueIdObject 'DiGi\.Core\.Interfaces\.IUniqueIdObject')
 
 The unique ID object to initialize from\.
-
-<a name='DiGi.Core.Classes.UniqueIdReference.UniqueIdReference(string,string)'></a>
-
-## UniqueIdReference\(string, string\) Constructor
-
-Initializes a new instance of the [UniqueIdReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueIdReference 'DiGi\.Core\.Classes\.UniqueIdReference') class using a type name and a unique identifier\.
-
-```csharp
-public UniqueIdReference(string? fullTypeName, string? uniqueId);
-```
-#### Parameters
-
-<a name='DiGi.Core.Classes.UniqueIdReference.UniqueIdReference(string,string).fullTypeName'></a>
-
-`fullTypeName` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The full name of the type\.
-
-<a name='DiGi.Core.Classes.UniqueIdReference.UniqueIdReference(string,string).uniqueId'></a>
-
-`uniqueId` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The unique identifier\.
 
 <a name='DiGi.Core.Classes.UniqueIdReference.UniqueIdReference(System.Text.Json.Nodes.JsonObject)'></a>
 
@@ -14179,7 +14135,7 @@ Implements [IInstanceRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.
 Initializes a new instance of the [UniquePropertyReference&lt;UUniquePropertyReference&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>') class by copying an existing reference\.
 
 ```csharp
-public UniquePropertyReference(DiGi.Core.Classes.UniquePropertyReference<UUniquePropertyReference> uniquePropertyReference);
+public UniquePropertyReference(DiGi.Core.Classes.UniquePropertyReference<UUniquePropertyReference>? uniquePropertyReference);
 ```
 #### Parameters
 
@@ -14196,7 +14152,7 @@ The unique property reference to copy\.
 Initializes a new instance of the [UniquePropertyReference&lt;UUniquePropertyReference&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>') class from a JSON object\.
 
 ```csharp
-public UniquePropertyReference(System.Text.Json.Nodes.JsonObject jsonObject);
+public UniquePropertyReference(System.Text.Json.Nodes.JsonObject? jsonObject);
 ```
 #### Parameters
 
@@ -14213,7 +14169,7 @@ The JSON object to initialize the reference from\.
 Initializes a new instance of the [UniquePropertyReference&lt;UUniquePropertyReference&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.UniquePropertyReference_UUniquePropertyReference_ 'DiGi\.Core\.Classes\.UniquePropertyReference\<UUniquePropertyReference\>') class using a unique property reference and a property name\.
 
 ```csharp
-public UniquePropertyReference(UUniquePropertyReference reference, string propertyName);
+public UniquePropertyReference(UUniquePropertyReference? reference, string? propertyName);
 ```
 #### Parameters
 
@@ -14298,23 +14254,6 @@ public UniqueReference(DiGi.Core.Interfaces.IObject? @object);
 `object` [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject')
 
 The object to create a reference for\.
-
-<a name='DiGi.Core.Classes.UniqueReference.UniqueReference(string)'></a>
-
-## UniqueReference\(string\) Constructor
-
-Initializes a new instance of the [UniqueReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueReference 'DiGi\.Core\.Classes\.UniqueReference') class using the specified full type name\.
-
-```csharp
-public UniqueReference(string? fullTypeName);
-```
-#### Parameters
-
-<a name='DiGi.Core.Classes.UniqueReference.UniqueReference(string).fullTypeName'></a>
-
-`fullTypeName` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The full type name to use\.
 
 <a name='DiGi.Core.Classes.UniqueReference.UniqueReference(System.Text.Json.Nodes.JsonObject)'></a>
 

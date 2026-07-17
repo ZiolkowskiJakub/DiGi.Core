@@ -57,7 +57,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         {
             get
             {
-                return new GuidReference(fullTypeName, guid);
+                return new GuidReference(new TypeReference(fullTypeName), guid);
             }
         }
 

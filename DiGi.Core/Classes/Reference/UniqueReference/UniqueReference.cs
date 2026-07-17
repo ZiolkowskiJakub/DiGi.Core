@@ -43,16 +43,6 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniqueReference"/> class using the specified full type name.
-        /// </summary>
-        /// <param name="fullTypeName">The full type name to use.</param>
-        public UniqueReference(string? fullTypeName)
-            : base()
-        {
-            typeReference = new TypeReference(fullTypeName);
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UniqueReference"/> class for the specified object.
         /// </summary>
         /// <param name="object">The object to create a reference for.</param>

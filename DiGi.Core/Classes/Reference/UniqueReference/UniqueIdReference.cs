@@ -25,20 +25,6 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniqueIdReference"/> class using a type name and a unique identifier.
-        /// </summary>
-        /// <param name="fullTypeName">The full name of the type.</param>
-        /// <param name="uniqueId">The unique identifier.</param>
-        public UniqueIdReference(string? fullTypeName, string? uniqueId)
-            : base(fullTypeName)
-        {
-            if (uniqueId != null)
-            {
-                this.uniqueId = uniqueId;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UniqueIdReference"/> class from a unique ID object.
         /// </summary>
         /// <param name="uniqueIdObject">The unique ID object to initialize from.</param>

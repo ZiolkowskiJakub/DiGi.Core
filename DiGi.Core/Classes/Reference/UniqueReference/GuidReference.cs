@@ -14,17 +14,6 @@ namespace DiGi.Core.Classes
         private readonly Guid guid = Guid.Empty;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GuidReference"/> class using a type name and a GUID.
-        /// </summary>
-        /// <param name="fullTypeName">The full name of the type.</param>
-        /// <param name="guid">The unique identifier for the reference.</param>
-        public GuidReference(string? fullTypeName, Guid guid)
-            : base(fullTypeName)
-        {
-            this.guid = guid;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GuidReference"/> class by copying an existing reference.
         /// </summary>
         /// <param name="guidReference">The existing reference to copy.</param>
