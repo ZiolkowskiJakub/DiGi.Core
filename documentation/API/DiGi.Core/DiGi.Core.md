@@ -1245,6 +1245,76 @@ The seed value for the random number generator\. Defaults to \-1\.
 [System\.Random](https://learn.microsoft.com/en-us/dotnet/api/system.random 'System\.Random')  
 A new [Random\(int\)](DiGi.Core.md#DiGi.Core.Create.Random(int) 'DiGi\.Core\.Create\.Random\(int\)') instance\.
 
+<a name='DiGi.Core.Create.Reference(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference)'></a>
+
+## Create\.Reference\(this IReference, IReference\) Method
+
+Combines two references into a single [ComplexReference\(IReadOnlyList&lt;string&gt;\)](DiGi.Core.md#DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_) 'DiGi\.Core\.Create\.ComplexReference\(System\.Collections\.Generic\.IReadOnlyList\<string\>\)') whose steps are those of
+[reference\_Base](DiGi.Core.md#DiGi.Core.Create.Reference(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference).reference_Base 'DiGi\.Core\.Create\.Reference\(this DiGi\.Core\.Interfaces\.IReference, DiGi\.Core\.Interfaces\.IReference\)\.reference\_Base') followed by those of [reference](DiGi.Core.md#DiGi.Core.Create.Reference(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference).reference 'DiGi\.Core\.Create\.Reference\(this DiGi\.Core\.Interfaces\.IReference, DiGi\.Core\.Interfaces\.IReference\)\.reference')\.
+
+The result is flattened, not nested: when either operand is itself a [ComplexReference\(IReadOnlyList&lt;string&gt;\)](DiGi.Core.md#DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_) 'DiGi\.Core\.Create\.ComplexReference\(System\.Collections\.Generic\.IReadOnlyList\<string\>\)'),
+            its steps are spread into the chain rather than added as one step, so combining two paths concatenates them
+            (A then B then C then D), never produces a path of paths.
+
+A null operand is treated as an empty chain and the other operand is returned unchanged - so
+            combining with null is a no-op that does not wrap the surviving operand in a new
+            [ComplexReference\(IReadOnlyList&lt;string&gt;\)](DiGi.Core.md#DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_) 'DiGi\.Core\.Create\.ComplexReference\(System\.Collections\.Generic\.IReadOnlyList\<string\>\)').
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? Reference(this DiGi.Core.Interfaces.IReference? reference_Base, DiGi.Core.Interfaces.IReference? reference);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.Reference(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference).reference_Base'></a>
+
+`reference_Base` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+The reference whose steps come first\. May be null\.
+
+<a name='DiGi.Core.Create.Reference(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference).reference'></a>
+
+`reference` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+The reference whose steps come second\. May be null\.
+
+#### Returns
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')  
+A [ComplexReference\(IReadOnlyList&lt;string&gt;\)](DiGi.Core.md#DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_) 'DiGi\.Core\.Create\.ComplexReference\(System\.Collections\.Generic\.IReadOnlyList\<string\>\)') combining both operands; the sole non\-null operand when the other is null;
+null when both operands are null, or when a non\-null operand is an [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') that is not an
+[ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference') \(such as a list cluster reference\) and therefore cannot be a step\.
+
+<a name='DiGi.Core.Create.Reference_TReference_(thisstring)'></a>
+
+## Create\.Reference\<TReference\>\(this string\) Method
+
+Parses a string into a reference of type [TReference](DiGi.Core.md#DiGi.Core.Create.Reference_TReference_(thisstring).TReference 'DiGi\.Core\.Create\.Reference\<TReference\>\(this string\)\.TReference')\.
+
+Returns [default](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/default 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/default') when the input is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null'), empty, whitespace, or cannot be parsed
+            by [TryParse&lt;UReference&gt;\(this string, UReference\)](DiGi.Core.md#DiGi.Core.Query.TryParse_UReference_(thisstring,UReference) 'DiGi\.Core\.Query\.TryParse\<UReference\>\(this string, UReference\)').
+
+```csharp
+public static TReference? Reference<TReference>(this string text)
+    where TReference : DiGi.Core.Interfaces.IReference;
+```
+#### Type parameters
+
+<a name='DiGi.Core.Create.Reference_TReference_(thisstring).TReference'></a>
+
+`TReference`
+
+The type of reference to parse\. Must implement [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')\.
+#### Parameters
+
+<a name='DiGi.Core.Create.Reference_TReference_(thisstring).text'></a>
+
+`text` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The string representation to parse\.
+
+#### Returns
+[TReference](DiGi.Core.md#DiGi.Core.Create.Reference_TReference_(thisstring).TReference 'DiGi\.Core\.Create\.Reference\<TReference\>\(this string\)\.TReference')  
+The parsed reference of type [TReference](DiGi.Core.md#DiGi.Core.Create.Reference_TReference_(thisstring).TReference 'DiGi\.Core\.Create\.Reference\<TReference\>\(this string\)\.TReference'); otherwise, the default value of [TReference](DiGi.Core.md#DiGi.Core.Create.Reference_TReference_(thisstring).TReference 'DiGi\.Core\.Create\.Reference\<TReference\>\(this string\)\.TReference')\.
+
 <a name='DiGi.Core.Create.ReferenceConstructor(thisSystem.Reflection.MethodInfo)'></a>
 
 ## Create\.ReferenceConstructor\(this MethodInfo\) Method
