@@ -45,8 +45,12 @@ namespace DiGi.Core.Parameter.Classes
                 string_GroupName ??= @enum.GetType()?.Namespace;
                 string_GroupName ??= Constants.Names.DefaultGroupName;
 
+                string_Name ??= @enum.ToString();
+                string_UniqueId ??= Core.Query.FullName(@enum);
+
                 associatedTypes_Associated = Query.AssociatedTypes(@enum.GetType());
                 parameterValue_Parameter = Query.ParameterValue<ParameterValue>(@enum);
+                parameterValue_Parameter ??= new ObjectParameterValue(true, true, @enum.GetType());
             }
 
             bool_IsCached = true;

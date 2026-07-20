@@ -138,6 +138,34 @@ The type of the parameter definition\.
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TParameterDefinition](DiGi.Core.Parameter.Interfaces.md#DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetParameterDefinitions_TParameterDefinition_().TParameterDefinition 'DiGi\.Core\.Parameter\.Interfaces\.IParametrizedObject\.GetParameterDefinitions\<TParameterDefinition\>\(\)\.TParameterDefinition')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
 A list containing the matching parameter definitions, or null\.
 
+<a name='DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
+
+## IParametrizedObject\.GetValue\<T\>\(GetValueSettings\) Method
+
+Gets the first parameter value converted to type [T](DiGi.Core.Parameter.Interfaces.md#DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Interfaces\.IParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')\.
+
+```csharp
+T? GetValue<T>(DiGi.Core.Parameter.Classes.GetValueSettings? getValueSettings=null);
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T'></a>
+
+`T`
+
+The type of the parameter value to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).getValueSettings'></a>
+
+`getValueSettings` [GetValueSettings](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.GetValueSettings 'DiGi\.Core\.Parameter\.Classes\.GetValueSettings')
+
+Optional settings for retrieving the value\.
+
+#### Returns
+[T](DiGi.Core.Parameter.Interfaces.md#DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Interfaces\.IParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
+The value of type [T](DiGi.Core.Parameter.Interfaces.md#DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Interfaces\.IParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T'), or default if not found\.
+
 <a name='DiGi.Core.Parameter.Interfaces.IParametrizedObject.Remove(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>
 
 ## IParametrizedObject\.Remove\(IParameterDefinition\) Method

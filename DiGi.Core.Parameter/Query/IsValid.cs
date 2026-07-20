@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Enums;
 using System;
 
@@ -31,7 +31,7 @@ namespace DiGi.Core.Parameter
                     return value is DateTime;
 
                 case Enums.ParameterType.Object:
-                    return value is ISerializableObject || value is null;
+                    return value is ISerializableObject || value is Enum || value is null;
 
                 case Enums.ParameterType.Double:
                     return value is double;

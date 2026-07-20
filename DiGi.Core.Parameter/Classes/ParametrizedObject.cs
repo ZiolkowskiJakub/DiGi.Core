@@ -222,6 +222,34 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
+        /// Gets the value of type <typeparamref name="T"/> associated with the specified unique identifier.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to retrieve.</typeparam>
+        /// <param name="uniqueId">The unique identifier of the value to retrieve.</param>
+        /// <param name="getValueSettings">Optional settings for retrieving the value.</param>
+        /// <returns>The value associated with the specified unique identifier, or null if not found.</returns>
+        public T? GetValue<T>(string? uniqueId, GetValueSettings? getValueSettings = null)
+        {
+            if (uniqueId == null)
+            {
+                return default;
+            }
+
+            return parameterGroupCollection == null ? default : parameterGroupCollection.GetValue<T>(uniqueId, getValueSettings);
+        }
+
+        /// <summary>
+        /// Gets the first parameter value converted to type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to retrieve.</typeparam>
+        /// <param name="getValueSettings">Optional settings for retrieving the value.</param>
+        /// <returns>The value of type <typeparamref name="T"/>, or default if not found.</returns>
+        public T? GetValue<T>(GetValueSettings? getValueSettings = null)
+        {
+            return parameterGroupCollection == null ? default : parameterGroupCollection.GetValue<T>(getValueSettings);
+        }
+
+        /// <summary>
         /// Removes the parameter associated with the specified definition.
         /// </summary>
         /// <param name="parameterDefinition">The definition of the parameter to remove.</param>

@@ -1,5 +1,6 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Classes;
+using System;
 using System.Collections.Generic;
 
 namespace DiGi.Core.Parameter.Interfaces
@@ -31,5 +32,11 @@ namespace DiGi.Core.Parameter.Interfaces
         /// <param name="getValueSettings">Optional settings for retrieving the value.</param>
         /// <returns>True if the value was successfully retrieved, false otherwise.</returns>
         bool TryGetValue<T>(IParameterDefinition? parameterDefinition, out T? value, GetValueSettings? getValueSettings = null);
+
+        /// <summary>Gets the first parameter value converted to type <typeparamref name="T"/>.</summary>
+        /// <typeparam name="T">The type of the parameter value to retrieve.</typeparam>
+        /// <param name="getValueSettings">Optional settings for retrieving the value.</param>
+        /// <returns>The value of type <typeparamref name="T"/>, or default if not found.</returns>
+        T? GetValue<T>(GetValueSettings? getValueSettings = null);
     }
 }

@@ -3195,6 +3195,34 @@ Optional settings to customize how the value is retrieved\.
 [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')  
 The value associated with the specified unique identifier, or null if not found\.
 
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
+
+## ParameterGroupCollection\.GetValue\<T\>\(GetValueSettings\) Method
+
+Gets the first parameter value converted to type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T') from the collection\.
+
+```csharp
+public T? GetValue<T>(DiGi.Core.Parameter.Classes.GetValueSettings? getValueSettings=null);
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T'></a>
+
+`T`
+
+The type of the value to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).getValueSettings'></a>
+
+`getValueSettings` [GetValueSettings](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.GetValueSettings 'DiGi\.Core\.Parameter\.Classes\.GetValueSettings')
+
+Optional settings to control how the value is retrieved\.
+
+#### Returns
+[T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
+The value of type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T'), or default if not found\.
+
 <a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Interfaces.IParameterDefinition,DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
 
 ## ParameterGroupCollection\.GetValue\<T\>\(IParameterDefinition, GetValueSettings\) Method
@@ -3228,6 +3256,74 @@ Optional settings to control how the value is retrieved\.
 #### Returns
 [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Interfaces.IParameterDefinition,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Interfaces\.IParameterDefinition, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
 The value associated with the specified parameter definition, cast to type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(DiGi.Core.Parameter.Interfaces.IParameterDefinition,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Interfaces\.IParameterDefinition, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T'), or null if not found\.
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
+
+## ParameterGroupCollection\.GetValue\<T\>\(string, GetValueSettings\) Method
+
+Gets the value of type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(string, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T') associated with the specified unique identifier from the collection\.
+
+```csharp
+public T? GetValue<T>(string? uniqueId, DiGi.Core.Parameter.Classes.GetValueSettings? getValueSettings=null);
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).T'></a>
+
+`T`
+
+The type of the value to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).uniqueId'></a>
+
+`uniqueId` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The unique identifier of the value to retrieve\.
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).getValueSettings'></a>
+
+`getValueSettings` [GetValueSettings](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.GetValueSettings 'DiGi\.Core\.Parameter\.Classes\.GetValueSettings')
+
+Optional settings to customize how the value is retrieved\.
+
+#### Returns
+[T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(string, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
+The value associated with the specified unique identifier, or default if not found\.
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
+
+## ParameterGroupCollection\.GetValue\<T\>\(Enum, GetValueSettings\) Method
+
+Gets the value of type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(System\.Enum, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T') associated with the specified enumeration member from the collection\.
+
+```csharp
+public T? GetValue<T>(System.Enum? @enum, DiGi.Core.Parameter.Classes.GetValueSettings? getValueSettings=null);
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings).T'></a>
+
+`T`
+
+The type of the value to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings).enum'></a>
+
+`enum` [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')
+
+The enumeration member associated with the value\.
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings).getValueSettings'></a>
+
+`getValueSettings` [GetValueSettings](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.GetValueSettings 'DiGi\.Core\.Parameter\.Classes\.GetValueSettings')
+
+Optional settings to customize how the value is retrieved\.
+
+#### Returns
+[T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParameterGroupCollection\.GetValue\<T\>\(System\.Enum, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
+The value associated with the specified enumeration member, or default if not found\.
 
 <a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.Remove(DiGi.Core.Parameter.Interfaces.IParameterDefinition)'></a>
 
@@ -4509,6 +4605,36 @@ Optional settings for retrieving the value\.
 [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')  
 The value associated with the specified enumeration member, or null if not found\.
 
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
+
+## ParametrizedObject\.GetValue\<T\>\(GetValueSettings\) Method
+
+Gets the first parameter value converted to type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')\.
+
+```csharp
+public T? GetValue<T>(DiGi.Core.Parameter.Classes.GetValueSettings? getValueSettings=null);
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T'></a>
+
+`T`
+
+The type of the value to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).getValueSettings'></a>
+
+`getValueSettings` [GetValueSettings](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.GetValueSettings 'DiGi\.Core\.Parameter\.Classes\.GetValueSettings')
+
+Optional settings for retrieving the value\.
+
+Implements [GetValue&lt;T&gt;\(GetValueSettings\)](DiGi.Core.Parameter.Interfaces.md#DiGi.Core.Parameter.Interfaces.IParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings) 'DiGi\.Core\.Parameter\.Interfaces\.IParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)')
+
+#### Returns
+[T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
+The value of type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T'), or default if not found\.
+
 <a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Interfaces.IParameterDefinition,DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
 
 ## ParametrizedObject\.GetValue\<T\>\(IParameterDefinition, GetValueSettings\) Method
@@ -4542,6 +4668,40 @@ Optional settings for retrieving the value\.
 #### Returns
 [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(DiGi.Core.Parameter.Interfaces.IParameterDefinition,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject\.GetValue\<T\>\(DiGi\.Core\.Parameter\.Interfaces\.IParameterDefinition, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
 The value associated with the specified parameter definition, or null if not found\.
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
+
+## ParametrizedObject\.GetValue\<T\>\(string, GetValueSettings\) Method
+
+Gets the value of type [T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject\.GetValue\<T\>\(string, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T') associated with the specified unique identifier\.
+
+```csharp
+public T? GetValue<T>(string? uniqueId, DiGi.Core.Parameter.Classes.GetValueSettings? getValueSettings=null);
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).T'></a>
+
+`T`
+
+The type of the value to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).uniqueId'></a>
+
+`uniqueId` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The unique identifier of the value to retrieve\.
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).getValueSettings'></a>
+
+`getValueSettings` [GetValueSettings](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.GetValueSettings 'DiGi\.Core\.Parameter\.Classes\.GetValueSettings')
+
+Optional settings for retrieving the value\.
+
+#### Returns
+[T](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(string,DiGi.Core.Parameter.Classes.GetValueSettings).T 'DiGi\.Core\.Parameter\.Classes\.ParametrizedObject\.GetValue\<T\>\(string, DiGi\.Core\.Parameter\.Classes\.GetValueSettings\)\.T')  
+The value associated with the specified unique identifier, or null if not found\.
 
 <a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetValue_T_(System.Enum,DiGi.Core.Parameter.Classes.GetValueSettings)'></a>
 

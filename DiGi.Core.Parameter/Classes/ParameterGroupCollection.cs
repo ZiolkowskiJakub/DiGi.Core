@@ -2,6 +2,7 @@ using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +75,16 @@ namespace DiGi.Core.Parameter.Classes
         {
             get
             {
-                return GetParameterGroupsNoClone();
+                List<ParameterGroup> result = [];
+                foreach (ParameterGroup parameterGroup in dictionary.Values)
+                {
+                    if (parameterGroup != null)
+                    {
+                        result.Add(parameterGroup);
+                    }
+                }
+
+                return result;
             }
 
             set
@@ -331,6 +341,77 @@ namespace DiGi.Core.Parameter.Classes
                 if (parameterGroup != null && parameterGroup.TryGetValue(parameterDefinition, out T? value, getValueSettings))
                 {
                     return value;
+                }
+            }
+
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the value of type <typeparamref name="T"/> associated with the specified unique identifier from the collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to retrieve.</typeparam>
+        /// <param name="uniqueId">The unique identifier of the value to retrieve.</param>
+        /// <param name="getValueSettings">Optional settings to customize how the value is retrieved.</param>
+        /// <returns>The value associated with the specified unique identifier, or default if not found.</returns>
+        public T? GetValue<T>(string? uniqueId, GetValueSettings? getValueSettings = null)
+        {
+            if (uniqueId == null)
+            {
+                return default;
+            }
+
+            foreach (ParameterGroup parameterGroup in dictionary.Values)
+            {
+                if (parameterGroup != null && parameterGroup.TryGetValue(uniqueId, out T? value, getValueSettings))
+                {
+                    return value;
+                }
+            }
+
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the value of type <typeparamref name="T"/> associated with the specified enumeration member from the collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to retrieve.</typeparam>
+        /// <param name="enum">The enumeration member associated with the value.</param>
+        /// <param name="getValueSettings">Optional settings to customize how the value is retrieved.</param>
+        /// <returns>The value associated with the specified enumeration member, or default if not found.</returns>
+        public T? GetValue<T>(Enum? @enum, GetValueSettings? getValueSettings = null)
+        {
+            if (@enum == null)
+            {
+                return default;
+            }
+
+            return GetValue<T>((EnumParameterDefinition)@enum!, getValueSettings);
+        }
+
+        /// <summary>
+        /// Gets the first parameter value converted to type <typeparamref name="T"/> from the collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to retrieve.</typeparam>
+        /// <param name="getValueSettings">Optional settings to control how the value is retrieved.</param>
+        /// <returns>The value of type <typeparamref name="T"/>, or default if not found.</returns>
+        public T? GetValue<T>(GetValueSettings? getValueSettings = null)
+        {
+            getValueSettings ??= typeof(T).IsEnum ? new GetValueSettings(true, false) : getValueSettings;
+
+            foreach (ParameterGroup parameterGroup in dictionary.Values)
+            {
+                if (parameterGroup == null)
+                {
+                    continue;
+                }
+
+                foreach (Parameter parameter in parameterGroup)
+                {
+                    if (parameter != null && parameter.TryGetValue(out T? value, getValueSettings))
+                    {
+                        return value;
+                    }
                 }
             }
 
@@ -600,36 +681,6 @@ namespace DiGi.Core.Parameter.Classes
             }
             value = default;
             return false;
-        }
-
-        private List<ParameterGroup>? GetParameterGroups()
-        {
-            List<ParameterGroup> result = [];
-            foreach (ParameterGroup parameterGroup in dictionary.Values)
-            {
-                if (parameterGroup == null)
-                {
-                    continue;
-                }
-
-                result.Add(new ParameterGroup(parameterGroup));
-            }
-
-            return result;
-        }
-
-        private List<ParameterGroup> GetParameterGroupsNoClone()
-        {
-            List<ParameterGroup> result = [];
-            foreach (ParameterGroup parameterGroup in dictionary.Values)
-            {
-                if (parameterGroup != null)
-                {
-                    result.Add(parameterGroup);
-                }
-            }
-
-            return result;
         }
 
         private void SetParameterGroups(IEnumerable<ParameterGroup>? parameterGroups)

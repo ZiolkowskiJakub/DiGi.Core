@@ -189,7 +189,7 @@ namespace DiGi.Core.Parameter.Classes
                     return true;
 
                 case ParameterType.Object:
-                    if (value_In is not ISerializableObject)
+                    if (value_In is not ISerializableObject && value_In is not Enum)
                     {
                         return false;
                     }
