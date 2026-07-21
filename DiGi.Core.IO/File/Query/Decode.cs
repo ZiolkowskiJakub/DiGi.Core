@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using System.Web;
 
 namespace DiGi.Core.IO.File
@@ -17,7 +17,7 @@ namespace DiGi.Core.IO.File
                 return null;
             }
 
-            if (!DiGi.Core.Query.TryParse(HttpUtility.UrlDecode(text), out UniqueReference? uniqueReference))
+            if (!Core.Query.TryParse(HttpUtility.UrlDecode(text), out UniqueReference? uniqueReference))
             {
                 return null;
             }

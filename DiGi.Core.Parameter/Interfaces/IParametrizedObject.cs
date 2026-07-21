@@ -1,6 +1,5 @@
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Classes;
-using System;
 using System.Collections.Generic;
 
 namespace DiGi.Core.Parameter.Interfaces

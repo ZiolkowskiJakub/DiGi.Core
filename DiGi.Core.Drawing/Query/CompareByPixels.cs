@@ -121,7 +121,7 @@ namespace DiGi.Core.Drawing
                     // overload resolution over the Core.Query.Equals(byte[], byte[]) extension method -
                     // bytes_1.Equals(bytes_2) would silently call object.Equals (reference equality)
                     // instead, always returning false for two distinct array instances.
-                    return DiGi.Core.Query.Equals(bytes_1, bytes_2);
+                    return Core.Query.Equals(bytes_1, bytes_2);
                 }
                 finally
                 {

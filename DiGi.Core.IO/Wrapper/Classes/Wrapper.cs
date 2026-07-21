@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Classes;
 using DiGi.Core.IO.Interfaces;
@@ -237,7 +237,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
             List<TSerializableObject> result = [];
             foreach (JsonNode? jsonNode in jsonNodes)
             {
-                TSerializableObject? serializableObject = DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonNode as JsonObject);
+                TSerializableObject? serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonNode as JsonObject);
                 if (serializableObject == null)
                 {
                     continue;
@@ -298,7 +298,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                     continue;
                 }
 
-                TSerializableObject? serializableObject = DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+                TSerializableObject? serializableObject = Core.Create.SerializableObject<TSerializableObject>(jsonObject);
                 if (serializableObject == null)
                 {
                     continue;
@@ -650,7 +650,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
                 return default;
             }
 
-            return DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject);
+            return Core.Create.SerializableObject<TSerializableObject>(jsonObject);
         }
 
         private HashSet<WrapperNode>? Read(IEnumerable<TypeReference>? typeReferences)

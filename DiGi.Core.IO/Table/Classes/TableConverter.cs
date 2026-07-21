@@ -53,7 +53,7 @@ namespace DiGi.Core.IO.Table.Classes
                         {
                             foreach (JsonObject jsonObject in jsonObjects)
                             {
-                                UColumn? column = DiGi.Core.Create.SerializableObject<UColumn>(jsonObject);
+                                UColumn? column = Core.Create.SerializableObject<UColumn>(jsonObject);
                                 if (column is not null)
                                 {
                                     table.AddColumn(column);
@@ -78,7 +78,7 @@ namespace DiGi.Core.IO.Table.Classes
                                 for (int i = 0; i < jsonElements.Count; i++)
                                 {
                                     Type type = (i < types.Count) ? (types[i] ?? typeof(object)) : typeof(object);
-                                    if (DiGi.Core.Query.TryConvert(jsonElements[i], out object? value, type))
+                                    if (Core.Query.TryConvert(jsonElements[i], out object? value, type))
                                     {
                                         values.Add(value);
                                     }

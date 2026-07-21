@@ -66,7 +66,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return DiGi.Core.Query.CloneAndFilterNulls(columns.Values) ?? [];
+                return Core.Query.CloneAndFilterNulls(columns.Values) ?? [];
             }
         }
 
@@ -112,7 +112,7 @@ namespace DiGi.Core.IO.Table.Classes
                         return null;
                     }
 
-                    return DiGi.Core.Query.Default(column.Type);
+                    return Core.Query.Default(column.Type);
                 }
 
                 return result;
@@ -143,7 +143,7 @@ namespace DiGi.Core.IO.Table.Classes
 
                 if (row == null)
                 {
-                    return DiGi.Core.Query.Default(column.Type);
+                    return Core.Query.Default(column.Type);
                 }
 
                 return this[row.Index, columnIndex];
@@ -168,7 +168,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return default;
             }
 
-            TColumn? column_Temp = DiGi.Core.Query.Clone(column);
+            TColumn? column_Temp = Core.Query.Clone(column);
             if (column_Temp is null)
             {
                 return default;
@@ -178,7 +178,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             columns[index] = column_Temp;
 
-            return DiGi.Core.Query.Clone(column_Temp);
+            return Core.Query.Clone(column_Temp);
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>The added row, or null if addition failed.</returns>
         public TRow? AddRow(IDictionary<string, object?> values, Enums.TextComparisonType textComparisonType, bool caseSensitive)
         {
-            return AddRow(values, (x, y) => DiGi.Core.Query.Compare(x, y, textComparisonType, caseSensitive));
+            return AddRow(values, (x, y) => Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return default;
             }
 
-            return column == null ? default : DiGi.Core.Query.Clone(column);
+            return column == null ? default : Core.Query.Clone(column);
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>The zero-based index of the column, or -1 if not found.</returns>
         public int GetColumnIndex(string name, Enums.TextComparisonType textComparisonType, bool caseSensitive)
         {
-            return GetColumnIndex(name, (x, y) => DiGi.Core.Query.Compare(x, y, textComparisonType, caseSensitive));
+            return GetColumnIndex(name, (x, y) => Core.Query.Compare(x, y, textComparisonType, caseSensitive));
         }
 
         /// <summary>
@@ -898,7 +898,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>A clone of the updated column, or null if update failed.</returns>
         public TColumn? UpdateColumn(int index, TColumn column, bool tryConvert = true)
         {
-            TColumn? column_Temp = DiGi.Core.Query.Clone(column);
+            TColumn? column_Temp = Core.Query.Clone(column);
             if (column_Temp is null)
             {
                 return default;
@@ -930,7 +930,7 @@ namespace DiGi.Core.IO.Table.Classes
 
             columns[index] = column_Temp;
 
-            return DiGi.Core.Query.Clone(column_Temp);
+            return Core.Query.Clone(column_Temp);
         }
 
         /// <summary>

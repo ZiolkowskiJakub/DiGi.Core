@@ -197,7 +197,7 @@ namespace DiGi.Core.Classes
         /// emitted.</para>
         /// </summary>
         /// <returns>The reference string.</returns>
-        public sealed override string? ToString()
+        public override sealed string? ToString()
         {
             // TODO [ReferenceFormat]: Sealing ToString() is a breaking change for any subclass outside this solution
             // that overrode it. Such a type must override Segments instead. Unsealing would also cost the cache

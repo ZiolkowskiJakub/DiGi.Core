@@ -165,7 +165,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return defaultValue;
             }
 
-            if (!DiGi.Core.Query.TryConvert(value, out T? result))
+            if (!Core.Query.TryConvert(value, out T? result))
             {
                 return defaultValue;
             }
@@ -222,7 +222,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return false;
             }
 
-            if (!DiGi.Core.Query.TryConvert(value_Temp, out value))
+            if (!Core.Query.TryConvert(value_Temp, out value))
             {
                 return false;
             }

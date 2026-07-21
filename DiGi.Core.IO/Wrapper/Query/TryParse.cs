@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.Core.IO.Wrapper.Classes;
 using DiGi.Core.IO.Wrapper.Interfaces;
@@ -16,7 +16,7 @@ namespace DiGi.Core.IO.Wrapper
                 return false;
             }
 
-            if (!DiGi.Core.Query.TryParse(value, out IReference? reference))
+            if (!Core.Query.TryParse(value, out IReference? reference))
             {
                 return false;
             }

@@ -63,7 +63,6 @@ namespace DiGi.Core
             return new ComplexReference(serializableReferences);
         }
 
-
         /// <summary>
         /// Parses a string into a reference of type <typeparamref name="TReference"/>.
         /// <para>Returns <see langword="default"/> when the input is <see langword="null"/>, empty, whitespace, or cannot be parsed
@@ -74,12 +73,12 @@ namespace DiGi.Core
         /// <returns>The parsed reference of type <typeparamref name="TReference"/>; otherwise, the default value of <typeparamref name="TReference"/>.</returns>
         public static TReference? Reference<TReference>(this string text) where TReference : IReference
         {
-            if(string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return default;
             }
 
-            if(!Query.TryParse(text, out TReference? result))
+            if (!Query.TryParse(text, out TReference? result))
             {
                 return default;
             }

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.IO.Wrapper.Classes;
 using DiGi.Core.IO.Wrapper.Interfaces;
 using System;
@@ -15,20 +15,20 @@ namespace DiGi.Core.IO.Wrapper
                 return null;
             }
 
-            if (jsonObject.ContainsKey(DiGi.Core.Constants.Serialization.PropertyName.Type))
+            if (jsonObject.ContainsKey(Core.Constants.Serialization.PropertyName.Type))
             {
-                string? fullTypeName = jsonObject[DiGi.Core.Constants.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
+                string? fullTypeName = jsonObject[Core.Constants.Serialization.PropertyName.Type]?.AsValue()?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(fullTypeName))
                 {
                     if (Query.IsWrapperUniqueReference(jsonObject))
                     {
-                        return DiGi.Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
+                        return Core.Create.SerializableObject<IWrapperUniqueReference>(jsonObject);
                     }
 
-                    if (jsonObject.ContainsKey(DiGi.Core.Constants.Serialization.PropertyName.Guid))
+                    if (jsonObject.ContainsKey(Core.Constants.Serialization.PropertyName.Guid))
                     {
-                        object? @object = jsonObject[DiGi.Core.Constants.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
-                        if (DiGi.Core.Query.TryConvert(@object, out Guid guid))
+                        object? @object = jsonObject[Core.Constants.Serialization.PropertyName.Guid]?.AsValue()?.GetValue<object>();
+                        if (Core.Query.TryConvert(@object, out Guid guid))
                         {
                             return new WrapperGuidReference(fullTypeName, guid);
                         }
@@ -36,7 +36,7 @@ namespace DiGi.Core.IO.Wrapper
                 }
             }
 
-            return WrapperUniqueReference(DiGi.Core.Create.UniqueReference(jsonObject));
+            return WrapperUniqueReference(Core.Create.UniqueReference(jsonObject));
         }
 
         internal static IWrapperUniqueReference? WrapperUniqueReference(this JsonNode? jsonNode)

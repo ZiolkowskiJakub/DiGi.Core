@@ -227,7 +227,7 @@ namespace DiGi.Core.Parameter.Classes
                     return true;
                 }
 
-                if(Core.Query.TryConvert(value_Temp, out T? t_Temp_2))
+                if (Core.Query.TryConvert(value_Temp, out T? t_Temp_2))
                 {
                     value = t_Temp_2;
                     return true;

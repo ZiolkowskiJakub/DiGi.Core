@@ -123,7 +123,7 @@ namespace DiGi.Core.IO.File.Classes
                         values = [];
                         foreach (JsonObject? jsonObject in jsonArray.Cast<JsonObject?>())
                         {
-                            values.Add(DiGi.Core.Create.SerializableObject<TSerializableObject>(jsonObject));
+                            values.Add(Core.Create.SerializableObject<TSerializableObject>(jsonObject));
                         }
                     }
                 }
@@ -153,7 +153,7 @@ namespace DiGi.Core.IO.File.Classes
 
                 if (values != null)
                 {
-                    JsonNode? jsonNode = DiGi.Core.Create.JsonNode(values);
+                    JsonNode? jsonNode = Core.Create.JsonNode(values);
                     if (jsonNode != null)
                     {
                         zipArchiveEntry = zipArchive.CreateEntry(IO.Constants.EntryName.Values);

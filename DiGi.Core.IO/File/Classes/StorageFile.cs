@@ -140,7 +140,7 @@ namespace DiGi.Core.IO.File.Classes
         /// <returns>The unique reference associated with the specified serializable object, or null.</returns>
         public virtual UniqueReference? GetUniqueReference(TSerializableObject? serializableObject)
         {
-            return DiGi.Core.Create.UniqueReference(serializableObject);
+            return Core.Create.UniqueReference(serializableObject);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System.Collections.Generic;
 using System.Globalization;
@@ -50,7 +50,7 @@ namespace DiGi.Core.Relation.Classes
         /// <returns>The reference string.</returns>
         public override string? ToString()
         {
-            return Core.Convert.ToSystem_String(
+            return Convert.ToSystem_String(
                 GetType(),
                 [Core.Query.Segment(Key_1), Core.Query.Segment(Key_2), Core.Query.Segment(Index.ToString(CultureInfo.InvariantCulture))]);
         }

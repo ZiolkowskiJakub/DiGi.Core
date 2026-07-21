@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.IO.Interfaces;
 using System;
 using System.ComponentModel;
@@ -32,7 +32,7 @@ namespace DiGi.Core.IO.File.Classes
         public FileMetadata(Type? type, string? path)
             : base()
         {
-            this.type = DiGi.Core.Query.FullTypeName(type);
+            this.type = Core.Query.FullTypeName(type);
             created = DateTime.Now;
             modified = DateTime.Now;
             this.path = path;
@@ -45,7 +45,7 @@ namespace DiGi.Core.IO.File.Classes
         public FileMetadata(Type? type)
             : base()
         {
-            this.type = DiGi.Core.Query.FullTypeName(type);
+            this.type = Core.Query.FullTypeName(type);
             created = DateTime.Now;
             modified = DateTime.Now;
             path = null;
