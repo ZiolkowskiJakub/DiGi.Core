@@ -399,6 +399,35 @@ The identifier text used to look up the properties\.
 [ParameterProperties](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterProperties 'DiGi\.Core\.Parameter\.Classes\.ParameterProperties')  
 The [ParameterProperties](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.ParameterProperties 'DiGi\.Core\.Parameter\.Classes\.ParameterProperties') associated with the specified type and text, or `null` if not found\.
 
+<a name='DiGi.Core.Parameter.Query.ParameterProperties_TParameterProperties_(System.Enum)'></a>
+
+## Query\.ParameterProperties\<TParameterProperties\>\(Enum\) Method
+
+Retrieves the specific parameter properties type associated with the specified enumeration value\.
+
+```csharp
+public static TParameterProperties? ParameterProperties<TParameterProperties>(System.Enum? @enum)
+    where TParameterProperties : DiGi.Core.Parameter.Classes.ParameterProperties;
+```
+#### Type parameters
+
+<a name='DiGi.Core.Parameter.Query.ParameterProperties_TParameterProperties_(System.Enum).TParameterProperties'></a>
+
+`TParameterProperties`
+
+The type of parameter properties to retrieve\.
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Query.ParameterProperties_TParameterProperties_(System.Enum).enum'></a>
+
+`enum` [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')
+
+The enumeration value to retrieve properties for\.
+
+#### Returns
+[TParameterProperties](DiGi.Core.Parameter.md#DiGi.Core.Parameter.Query.ParameterProperties_TParameterProperties_(System.Enum).TParameterProperties 'DiGi\.Core\.Parameter\.Query\.ParameterProperties\<TParameterProperties\>\(System\.Enum\)\.TParameterProperties')  
+The [TParameterProperties](DiGi.Core.Parameter.md#DiGi.Core.Parameter.Query.ParameterProperties_TParameterProperties_(System.Enum).TParameterProperties 'DiGi\.Core\.Parameter\.Query\.ParameterProperties\<TParameterProperties\>\(System\.Enum\)\.TParameterProperties') associated with the specified enumeration, or `null` if not found\.
+
 <a name='DiGi.Core.Parameter.Query.ParameterType(System.Enum)'></a>
 
 ## Query\.ParameterType\(Enum\) Method

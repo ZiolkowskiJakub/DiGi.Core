@@ -14,48 +14,15 @@ namespace DiGi.Core.Parameter.Classes
         [JsonInclude, JsonPropertyName("Enum")]
         private Enum? @enum;
 
-        private bool bool_IsCached;
-        private string? string_Name;
-        private string? string_UniqueId;
-        private string? string_Description;
-        private string? string_GroupName;
         private AccessType accessType_Access = AccessType.ReadWrite;
         private AssociatedTypes? associatedTypes_Associated;
+        private bool bool_IsCached;
         private ParameterValue? parameterValue_Parameter;
-
-        private void EnsureCached()
-        {
-            if (bool_IsCached)
-            {
-                return;
-            }
-
-            if (@enum != null)
-            {
-                ParameterProperties? parameterProperties_Temp = Query.ParameterProperties(@enum);
-                if (parameterProperties_Temp != null)
-                {
-                    string_Name = parameterProperties_Temp.Name;
-                    string_UniqueId = parameterProperties_Temp.UniqueId;
-                    string_Description = parameterProperties_Temp.Description;
-                    accessType_Access = parameterProperties_Temp.AccessType;
-                    string_GroupName = parameterProperties_Temp.GroupName;
-                }
-
-                string_GroupName ??= @enum.GetType()?.Namespace;
-                string_GroupName ??= Constants.Names.DefaultGroupName;
-
-                string_Name ??= @enum.ToString();
-                string_UniqueId ??= Core.Query.FullName(@enum);
-
-                associatedTypes_Associated = Query.AssociatedTypes(@enum.GetType());
-                parameterValue_Parameter = Query.ParameterValue<ParameterValue>(@enum);
-                parameterValue_Parameter ??= new ObjectParameterValue(true, true, @enum.GetType());
-            }
-
-            bool_IsCached = true;
-        }
-
+        private string? string_Description;
+        private string? string_GroupName;
+        private string? string_Name;
+        private string? string_UniqueId;
+       
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class from a JSON object.
         /// </summary>
@@ -136,6 +103,17 @@ namespace DiGi.Core.Parameter.Classes
             {
                 EnsureCached();
                 return string_Description;
+            }
+        }
+
+        /// <summary>
+        /// Gets the underlying enumeration value.
+        /// </summary>
+        public Enum? Enum
+        {
+            get
+            {
+                return @enum;
             }
         }
 
@@ -260,6 +238,39 @@ namespace DiGi.Core.Parameter.Classes
             };
 
             return result;
+        }
+
+        private void EnsureCached()
+        {
+            if (bool_IsCached)
+            {
+                return;
+            }
+
+            if (@enum != null)
+            {
+                ParameterProperties? parameterProperties_Temp = Query.ParameterProperties(@enum);
+                if (parameterProperties_Temp != null)
+                {
+                    string_Name = parameterProperties_Temp.Name;
+                    string_UniqueId = parameterProperties_Temp.UniqueId;
+                    string_Description = parameterProperties_Temp.Description;
+                    accessType_Access = parameterProperties_Temp.AccessType;
+                    string_GroupName = parameterProperties_Temp.GroupName;
+                }
+
+                string_GroupName ??= @enum.GetType()?.Namespace;
+                string_GroupName ??= Constants.Names.DefaultGroupName;
+
+                string_Name ??= @enum.ToString();
+                string_UniqueId ??= Core.Query.FullName(@enum);
+
+                associatedTypes_Associated = Query.AssociatedTypes(@enum.GetType());
+                parameterValue_Parameter = Query.ParameterValue<ParameterValue>(@enum);
+                parameterValue_Parameter ??= new ObjectParameterValue(true, true, @enum.GetType());
+            }
+
+            bool_IsCached = true;
         }
     }
 }

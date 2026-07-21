@@ -16,6 +16,17 @@ namespace DiGi.Core.Parameter
         }
 
         /// <summary>
+        /// Retrieves the specific parameter properties type associated with the specified enumeration value.
+        /// </summary>
+        /// <typeparam name="TParameterProperties">The type of parameter properties to retrieve.</typeparam>
+        /// <param name="enum">The enumeration value to retrieve properties for.</param>
+        /// <returns>The <typeparamref name="TParameterProperties"/> associated with the specified enumeration, or <c>null</c> if not found.</returns>
+        public static TParameterProperties? ParameterProperties<TParameterProperties>(Enum? @enum) where TParameterProperties : ParameterProperties
+        {
+            return Core.Query.CustomAttribute<TParameterProperties>(@enum);
+        }
+
+        /// <summary>
         /// Retrieves the properties associated with the specified type and identifier.
         /// </summary>
         /// <param name="type">The type to retrieve properties for.</param>

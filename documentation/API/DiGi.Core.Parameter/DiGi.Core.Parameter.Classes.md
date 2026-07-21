@@ -818,6 +818,19 @@ public override string? Description { get; }
 #### Property Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 
+<a name='DiGi.Core.Parameter.Classes.EnumParameterDefinition.Enum'></a>
+
+## EnumParameterDefinition\.Enum Property
+
+Gets the underlying enumeration value\.
+
+```csharp
+public System.Enum? Enum { get; }
+```
+
+#### Property Value
+[System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')
+
 <a name='DiGi.Core.Parameter.Classes.EnumParameterDefinition.GroupName'></a>
 
 ## EnumParameterDefinition\.GroupName Property
@@ -937,7 +950,7 @@ A [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotn
 
 ## EnumParameterDefinition\.explicit operator EnumParameterDefinition\(Enum\) Operator
 
-Explicitly converts an [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum') to an [EnumParameterDefinition](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition')\.
+Explicitly converts an [Enum](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition.Enum 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition\.Enum') to an [EnumParameterDefinition](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition')\.
 
 ```csharp
 public static DiGi.Core.Parameter.Classes.EnumParameterDefinition? explicit operator DiGi.Core.Parameter.Classes.EnumParameterDefinition?(System.Enum? @enum);
@@ -958,7 +971,7 @@ An [EnumParameterDefinition](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.
 
 ## EnumParameterDefinition\.explicit operator Enum\(EnumParameterDefinition\) Operator
 
-Explicitly converts an [EnumParameterDefinition](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition') to its underlying [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum') value\.
+Explicitly converts an [EnumParameterDefinition](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition') to its underlying [Enum](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition.Enum 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition\.Enum') value\.
 
 ```csharp
 public static System.Enum? explicit operator System.Enum?(DiGi.Core.Parameter.Classes.EnumParameterDefinition? enumParameterDefinition);
@@ -973,7 +986,7 @@ The enum parameter definition to convert\.
 
 #### Returns
 [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')  
-The [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum') value associated with the definition, or `null` if the input is `null`\.
+The [Enum](DiGi.Core.Parameter.Classes.md#DiGi.Core.Parameter.Classes.EnumParameterDefinition.Enum 'DiGi\.Core\.Parameter\.Classes\.EnumParameterDefinition\.Enum') value associated with the definition, or `null` if the input is `null`\.
 
 <a name='DiGi.Core.Parameter.Classes.ExternalParameterDefinition'></a>
 
