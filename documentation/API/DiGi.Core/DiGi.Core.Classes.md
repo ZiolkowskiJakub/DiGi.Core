@@ -15012,6 +15012,188 @@ public UniqueResult(System.Text.Json.Nodes.JsonObject? jsonObject);
 
 The JSON object to initialize from\.
 
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_'></a>
+
+## Utf8JsonBatch\<TSerializableObject\> Class
+
+A batch of serializable objects together with the UTF\-8 JSON array that represents them\.
+
+```csharp
+public class Utf8JsonBatch<TSerializableObject>
+    where TSerializableObject : DiGi.Core.Interfaces.ISerializableObject
+```
+#### Type parameters
+
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.TSerializableObject'></a>
+
+`TSerializableObject`
+
+The type of the serializable object\.
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Utf8JsonBatch\<TSerializableObject\>
+### Constructors
+
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.Utf8JsonBatch(System.Collections.Generic.List_TSerializableObject_,byte[])'></a>
+
+## Utf8JsonBatch\(List\<TSerializableObject\>, byte\[\]\) Constructor
+
+Initializes a new instance of the [Utf8JsonBatch&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_ 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>') class\.
+
+```csharp
+public Utf8JsonBatch(System.Collections.Generic.List<TSerializableObject> serializableObjects, byte[] utf8Json);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.Utf8JsonBatch(System.Collections.Generic.List_TSerializableObject_,byte[]).serializableObjects'></a>
+
+`serializableObjects` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+The objects making up the batch, in payload order\.
+
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.Utf8JsonBatch(System.Collections.Generic.List_TSerializableObject_,byte[]).utf8Json'></a>
+
+`utf8Json` [System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')
+
+The complete UTF\-8 JSON array representing [serializableObjects](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.Utf8JsonBatch(System.Collections.Generic.List_TSerializableObject_,byte[]).serializableObjects 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>\.Utf8JsonBatch\(System\.Collections\.Generic\.List\<TSerializableObject\>, byte\[\]\)\.serializableObjects')\.
+### Properties
+
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.SerializableObjects'></a>
+
+## Utf8JsonBatch\<TSerializableObject\>\.SerializableObjects Property
+
+Gets the objects making up the batch, in the same order as they appear in [Utf8Json](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.Utf8Json 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>\.Utf8Json')\.
+
+```csharp
+public System.Collections.Generic.List<TSerializableObject> SerializableObjects { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+<a name='DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.Utf8Json'></a>
+
+## Utf8JsonBatch\<TSerializableObject\>\.Utf8Json Property
+
+Gets the complete UTF\-8 JSON array representing [SerializableObjects](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_.SerializableObjects 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>\.SerializableObjects'), ready to be sent as a request body\.
+
+```csharp
+public byte[] Utf8Json { get; }
+```
+
+#### Property Value
+[System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_'></a>
+
+## Utf8JsonSplitter\<TSerializableObject\> Class
+
+Splits serializable objects into batches by serialized byte array size, emitting each batch's UTF\-8 JSON array alongside its objects\.
+
+Unlike [MemorySizeSplitter&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.MemorySizeSplitter_TSerializableObject_ 'DiGi\.Core\.Classes\.MemorySizeSplitter\<TSerializableObject\>'), which serializes every object once merely to measure it and then leaves the caller to serialize the whole batch a second time, this splitter serializes each object exactly once and keeps the bytes. An object that does not fit the current batch is carried into the next one already serialized, so it is never converted twice either.
+
+```csharp
+public class Utf8JsonSplitter<TSerializableObject>
+    where TSerializableObject : DiGi.Core.Interfaces.ISerializableObject
+```
+#### Type parameters
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TSerializableObject'></a>
+
+`TSerializableObject`
+
+The type of the serializable object\.
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Utf8JsonSplitter\<TSerializableObject\>
+### Constructors
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Utf8JsonSplitter(System.Collections.Generic.IEnumerable_TSerializableObject_)'></a>
+
+## Utf8JsonSplitter\(IEnumerable\<TSerializableObject\>\) Constructor
+
+Initializes a new instance of the [Utf8JsonSplitter&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_ 'DiGi\.Core\.Classes\.Utf8JsonSplitter\<TSerializableObject\>') class with the specified objects\.
+
+```csharp
+public Utf8JsonSplitter(System.Collections.Generic.IEnumerable<TSerializableObject>? serializableObjects);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Utf8JsonSplitter(System.Collections.Generic.IEnumerable_TSerializableObject_).serializableObjects'></a>
+
+`serializableObjects` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.Utf8JsonSplitter\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The collection of objects to be split\.
+### Methods
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Consume()'></a>
+
+## Utf8JsonSplitter\<TSerializableObject\>\.Consume\(\) Method
+
+Discards the pending object so the next peek advances to the following one\.
+
+```csharp
+private void Consume();
+```
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Next(long)'></a>
+
+## Utf8JsonSplitter\<TSerializableObject\>\.Next\(long\) Method
+
+Returns the next batch of objects whose serialized size does not exceed [maxSize](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Next(long).maxSize 'DiGi\.Core\.Classes\.Utf8JsonSplitter\<TSerializableObject\>\.Next\(long\)\.maxSize'), together with the UTF\-8 JSON array representing them\.
+
+A batch always contains at least one object, so a single object larger than [maxSize](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Next(long).maxSize 'DiGi\.Core\.Classes\.Utf8JsonSplitter\<TSerializableObject\>\.Next\(long\)\.maxSize') is emitted on its own rather than dropped. Returns null when no objects remain.
+
+```csharp
+public DiGi.Core.Classes.Utf8JsonBatch<TSerializableObject>? Next(long maxSize);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Next(long).maxSize'></a>
+
+`maxSize` [System\.Int64](https://learn.microsoft.com/en-us/dotnet/api/system.int64 'System\.Int64')
+
+The maximum serialized size, in bytes, allowed for the next batch\.
+
+#### Returns
+[DiGi\.Core\.Classes\.Utf8JsonBatch&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_ 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.Utf8JsonSplitter\<TSerializableObject\>\.TSerializableObject')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonBatch_TSerializableObject_ 'DiGi\.Core\.Classes\.Utf8JsonBatch\<TSerializableObject\>')  
+The next batch, or null if no more objects are available\.
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.Reset()'></a>
+
+## Utf8JsonSplitter\<TSerializableObject\>\.Reset\(\) Method
+
+Resets the internal iterator to the beginning\.
+
+```csharp
+public void Reset();
+```
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TryPeek(TSerializableObject,byte[])'></a>
+
+## Utf8JsonSplitter\<TSerializableObject\>\.TryPeek\(TSerializableObject, byte\[\]\) Method
+
+Gets the next object and its serialized bytes without consuming it, serializing it at most once\.
+
+```csharp
+private bool TryPeek(out TSerializableObject? serializableObject, out byte[]? utf8Json);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TryPeek(TSerializableObject,byte[]).serializableObject'></a>
+
+`serializableObject` [TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.Utf8JsonSplitter\<TSerializableObject\>\.TSerializableObject')
+
+When this method returns, contains the next object\.
+
+<a name='DiGi.Core.Classes.Utf8JsonSplitter_TSerializableObject_.TryPeek(TSerializableObject,byte[]).utf8Json'></a>
+
+`utf8Json` [System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')
+
+When this method returns, contains the UTF\-8 JSON of the next object\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if an object is available; otherwise, false\.
+
 <a name='DiGi.Core.Classes.Value'></a>
 
 ## Value Class
