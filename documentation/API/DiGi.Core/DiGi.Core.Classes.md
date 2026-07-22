@@ -10292,6 +10292,14 @@ Derived
 ↳ [UniqueReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueReference 'DiGi\.Core\.Classes\.UniqueReference')
 
 Implements [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>')[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>'), [ICloneableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject 'DiGi\.Core\.Interfaces\.ICloneableObject'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')
+
+### Remarks
+The equality operators declared here apply only when AT LEAST ONE operand is statically typed as
+[SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') or a type derived from it\. When both operands are typed as an interface \-
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [IUniqueReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IUniqueReference 'DiGi\.Core\.Interfaces\.IUniqueReference') \- C\# finds no
+user defined operator candidate and falls back to reference equality, which is false for two equal references
+held in separate instances\. Nothing declared here can change that; compare such operands with
+[Equals\(this IReference, IReference\)](DiGi.Core.md#DiGi.Core.Query.Equals(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Equals\(this DiGi\.Core\.Interfaces\.IReference, DiGi\.Core\.Interfaces\.IReference\)') instead\.
 ### Constructors
 
 <a name='DiGi.Core.Classes.SerializableReference.SerializableReference()'></a>

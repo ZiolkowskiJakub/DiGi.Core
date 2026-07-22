@@ -1105,6 +1105,22 @@ Derived
 
 Implements [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')
 
+### Remarks
+Compare two [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') values with [Equals\(this IReference, IReference\)](DiGi.Core.md#DiGi.Core.Query.Equals(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Equals\(this DiGi\.Core\.Interfaces\.IReference, DiGi\.Core\.Interfaces\.IReference\)'), NEVER with
+`==` or `!=`\. The equality operators are declared on [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') and
+C\# gathers operator candidates from the static types of the operands \- an interface contributes none \- so
+`reference_1 == reference_2` compiles to plain reference equality and is false for two equal references
+held in separate instances\. The operators do apply, correctly, as soon as one operand is statically typed as a
+[SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference') derived type\.
+
+Beware of properties that return `Query.Clone(...)`: they hand back a new instance on every read, so
+            even comparing such a property with itself using `==` yields false. Read it into a local first.
+
+[System\.Collections\.Generic\.Dictionary&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2'), `HashSet` and `List.Contains`
+            are safe - they route through [System\.IEquatable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1') and `GetHashCode`.
+
+Not every implementation derives from [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference'), so do not cast to it.
+
 <a name='DiGi.Core.Interfaces.IReportableBackgroundTask'></a>
 
 ## IReportableBackgroundTask Interface
@@ -1607,6 +1623,11 @@ Derived
 ↳ [UniqueReference](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueReference 'DiGi\.Core\.Classes\.UniqueReference')
 
 Implements [IInstanceRelatedSerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IInstanceRelatedSerializableReference 'DiGi\.Core\.Interfaces\.IInstanceRelatedSerializableReference'), [IInstanceRelatedReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IInstanceRelatedReference 'DiGi\.Core\.Interfaces\.IInstanceRelatedReference'), [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference'), [IObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IObject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1'), [ISerializableReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableReference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>')[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_ 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>'), [ICloneableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject 'DiGi\.Core\.Interfaces\.ICloneableObject')
+
+### Remarks
+Compare two [IUniqueReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IUniqueReference 'DiGi\.Core\.Interfaces\.IUniqueReference') values with [Equals\(this IReference, IReference\)](DiGi.Core.md#DiGi.Core.Query.Equals(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.Equals\(this DiGi\.Core\.Interfaces\.IReference, DiGi\.Core\.Interfaces\.IReference\)'),
+NEVER with `==` or `!=` \- between two interface typed operands those operators are plain reference
+equality\. See [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') for the full explanation\.
 ### Properties
 
 <a name='DiGi.Core.Interfaces.IUniqueReference.TypeReference'></a>

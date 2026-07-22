@@ -1,3 +1,4 @@
+using DiGi.Core.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -168,6 +169,33 @@ namespace DiGi.Core
                     return false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Compares two references by value, treating two nulls as equal.
+        /// </summary>
+        /// <param name="reference_1">The first reference. This value can be null.</param>
+        /// <param name="reference_2">The second reference. This value can be null.</param>
+        /// <returns>True if both references are null, or if they describe the same reference; otherwise, false.</returns>
+        /// <remarks>
+        /// This is the only correct way to compare two values whose static type is an interface such as
+        /// <see cref="IReference"/> or <see cref="Interfaces.IUniqueReference"/>. The equality operators are declared on
+        /// <see cref="Classes.SerializableReference"/>, and C# gathers operator candidates from the static types of the
+        /// operands - interfaces contribute none - so <c>reference_1 == reference_2</c> silently falls back to
+        /// reference equality and is false for two equal references held in separate instances. That cannot be fixed by
+        /// declaring more operators, so use this method instead.
+        /// <para>The comparison is dispatched through <see cref="System.IEquatable{T}"/>, which every
+        /// <see cref="IReference"/> implements, so it is also correct for the implementations that do not derive from
+        /// <see cref="Classes.SerializableReference"/>.</para>
+        /// </remarks>
+        public static bool Equals(this IReference? reference_1, IReference? reference_2)
+        {
+            if (reference_1 is null || reference_2 is null)
+            {
+                return reference_1 is null && reference_2 is null;
+            }
+
+            return reference_1.Equals(reference_2);
         }
     }
 }

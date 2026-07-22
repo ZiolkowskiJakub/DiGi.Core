@@ -12,6 +12,14 @@ namespace DiGi.Core.Classes
     /// cannot forget its discriminator or its escaping - and lets one rendered string serve
     /// <see cref="ToString"/>, <see cref="Equals(IReference?)"/> and <see cref="GetHashCode"/> alike.</para>
     /// </summary>
+    /// <remarks>
+    /// The equality operators declared here apply only when AT LEAST ONE operand is statically typed as
+    /// <see cref="SerializableReference"/> or a type derived from it. When both operands are typed as an interface -
+    /// <see cref="IReference"/>, <see cref="ISerializableReference"/>, <see cref="IUniqueReference"/> - C# finds no
+    /// user defined operator candidate and falls back to reference equality, which is false for two equal references
+    /// held in separate instances. Nothing declared here can change that; compare such operands with
+    /// <see cref="Query.Equals(IReference?, IReference?)"/> instead.
+    /// </remarks>
     public abstract class SerializableReference : SerializableObject, ISerializableReference
     {
         [JsonIgnore]

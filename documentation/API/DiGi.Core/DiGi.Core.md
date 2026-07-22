@@ -3059,6 +3059,45 @@ The second byte array\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the arrays are equal; otherwise, false\.
 
+<a name='DiGi.Core.Query.Equals(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference)'></a>
+
+## Query\.Equals\(this IReference, IReference\) Method
+
+Compares two references by value, treating two nulls as equal\.
+
+```csharp
+public static bool Equals(this DiGi.Core.Interfaces.IReference? reference_1, DiGi.Core.Interfaces.IReference? reference_2);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Equals(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference).reference_1'></a>
+
+`reference_1` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+The first reference\. This value can be null\.
+
+<a name='DiGi.Core.Query.Equals(thisDiGi.Core.Interfaces.IReference,DiGi.Core.Interfaces.IReference).reference_2'></a>
+
+`reference_2` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
+
+The second reference\. This value can be null\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if both references are null, or if they describe the same reference; otherwise, false\.
+
+### Remarks
+This is the only correct way to compare two values whose static type is an interface such as
+[IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') or [IUniqueReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IUniqueReference 'DiGi\.Core\.Interfaces\.IUniqueReference')\. The equality operators are declared on
+[SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference'), and C\# gathers operator candidates from the static types of the
+operands \- interfaces contribute none \- so `reference_1 == reference_2` silently falls back to
+reference equality and is false for two equal references held in separate instances\. That cannot be fixed by
+declaring more operators, so use this method instead\.
+
+The comparison is dispatched through [System\.IEquatable&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1'), which every
+            [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference') implements, so it is also correct for the implementations that do not derive from
+            [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference').
+
 <a name='DiGi.Core.Query.Equals(thisSystem.Collections.IEnumerable,System.Collections.IEnumerable)'></a>
 
 ## Query\.Equals\(this IEnumerable, IEnumerable\) Method
