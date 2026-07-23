@@ -4747,6 +4747,39 @@ The tolerance used for rounding\.
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The rounded value\.
 
+<a name='DiGi.Core.Query.Round(thisdouble,double,DiGi.Core.Enums.RoundingMethod)'></a>
+
+## Query\.Round\(this double, double, RoundingMethod\) Method
+
+Rounds the value to a multiple of the tolerance using the specified rounding method\.
+
+```csharp
+public static double Round(this double value, double tolerance, DiGi.Core.Enums.RoundingMethod roundingMethod);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Round(thisdouble,double,DiGi.Core.Enums.RoundingMethod).value'></a>
+
+`value` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The value to be rounded\.
+
+<a name='DiGi.Core.Query.Round(thisdouble,double,DiGi.Core.Enums.RoundingMethod).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding\.
+
+<a name='DiGi.Core.Query.Round(thisdouble,double,DiGi.Core.Enums.RoundingMethod).roundingMethod'></a>
+
+`roundingMethod` [RoundingMethod](DiGi.Core.Enums.md#DiGi.Core.Enums.RoundingMethod 'DiGi\.Core\.Enums\.RoundingMethod')
+
+The rounding method to apply\.
+
+#### Returns
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
+The rounded value, or the original value if roundingMethod is Undefined or inputs are invalid\.
+
 <a name='DiGi.Core.Query.Seeds(thisint,int)'></a>
 
 ## Query\.Seeds\(this int, int\) Method

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace DiGi.Core.Enums
 {
@@ -13,6 +13,9 @@ namespace DiGi.Core.Enums
 
         /// <summary>Ceiling</summary>
         [Description("Ceiling")] Ceiling,
+
+        /// <summary>Floor</summary>
+        [Description("Floor")] Floor,
 
         /// <summary>Nearest</summary>
         [Description("Nearest")] Nearest,

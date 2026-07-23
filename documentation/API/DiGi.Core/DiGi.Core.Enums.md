@@ -1850,15 +1850,21 @@ Undefined
 
 Ceiling
 
+<a name='DiGi.Core.Enums.RoundingMethod.Floor'></a>
+
+`Floor` 2
+
+Floor
+
 <a name='DiGi.Core.Enums.RoundingMethod.Nearest'></a>
 
-`Nearest` 2
+`Nearest` 3
 
 Nearest
 
 <a name='DiGi.Core.Enums.RoundingMethod.Truncate'></a>
 
-`Truncate` 3
+`Truncate` 4
 
 Truncate
 

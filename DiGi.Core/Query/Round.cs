@@ -1,3 +1,4 @@
+using DiGi.Core.Enums;
 using System;
 
 namespace DiGi.Core
@@ -40,6 +41,69 @@ namespace DiGi.Core
             // Fallback dla ogromnych wartości - tutaj używamy double,
             // bo decimal i tak by nie pomieścił tych liczb.
             return Math.Round(value / tolerance, MidpointRounding.AwayFromZero) * tolerance;
+        }
+
+        /// <summary>
+        /// Rounds the value to a multiple of the tolerance using the specified rounding method.
+        /// </summary>
+        /// <param name="value">The value to be rounded.</param>
+        /// <param name="tolerance">The tolerance used for rounding.</param>
+        /// <param name="roundingMethod">The rounding method to apply.</param>
+        /// <returns>The rounded value, or the original value if roundingMethod is Undefined or inputs are invalid.</returns>
+        public static double Round(this double value, double tolerance, RoundingMethod roundingMethod)
+        {
+            if (roundingMethod == RoundingMethod.Undefined)
+            {
+                return value;
+            }
+
+            if (roundingMethod == RoundingMethod.Nearest)
+            {
+                return value.Round(tolerance);
+            }
+
+            if (double.IsNaN(value) || double.IsInfinity(value) || tolerance == 0.0)
+            {
+                return value;
+            }
+
+            if (value <= (double)decimal.MaxValue && value >= (double)decimal.MinValue &&
+                tolerance <= (double)decimal.MaxValue && tolerance >= (double)decimal.MinValue)
+            {
+                try
+                {
+                    decimal decimalValue = (decimal)value;
+                    decimal decimalTolerance = (decimal)tolerance;
+
+                    switch (roundingMethod)
+                    {
+                        case RoundingMethod.Ceiling:
+                            return (double)(Math.Ceiling(decimalValue / decimalTolerance) * decimalTolerance);
+                        case RoundingMethod.Floor:
+                            return (double)(Math.Floor(decimalValue / decimalTolerance) * decimalTolerance);
+                        case RoundingMethod.Truncate:
+                            return (double)(Math.Truncate(decimalValue / decimalTolerance) * decimalTolerance);
+                        default:
+                            return value;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    // Fall back to double path if decimal division overflows
+                }
+            }
+
+            switch (roundingMethod)
+            {
+                case RoundingMethod.Ceiling:
+                    return Math.Ceiling(value / tolerance) * tolerance;
+                case RoundingMethod.Floor:
+                    return Math.Floor(value / tolerance) * tolerance;
+                case RoundingMethod.Truncate:
+                    return Math.Truncate(value / tolerance) * tolerance;
+                default:
+                    return value;
+            }
         }
     }
 }
