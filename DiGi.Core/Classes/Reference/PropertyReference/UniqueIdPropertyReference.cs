@@ -5,7 +5,7 @@ namespace DiGi.Core.Classes
 {
     /// <summary>Represents a reference to a property by its unique ID.</summary>
     /// <example>
-    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// Renders and parses (via <see cref="Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
     /// nested unique identifier reference, then the property name:
     /// <code>UniqueIdProperty::(UniqueId::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::BLD-001)::Name</code>
     /// </example>

@@ -16,7 +16,7 @@ namespace DiGi.Core.Relation.Classes
     /// <see cref="ListClusterReference{TKey_1, TKey_2}"/>, which implements <see cref="IReference"/> directly rather
     /// than deriving from <see cref="SerializableReference"/>, so it does not inherit the sealed ToString that
     /// guarantees the grammar. Keep <see cref="ToString"/> below in step with
-    /// <see cref="Core.Convert.ToSystem_String(System.Type?, IEnumerable{string?})"/> and with its factory in
+    /// <see cref="Convert.ToSystem_String(System.Type?, IEnumerable{string?})"/> and with its factory in
     /// Create/RelationListClusterReference.cs. The ReferenceKind facts assert this type still round-trips.
     /// </remarks>
     public class RelationListClusterReference(TypeReference? key_1, TypeReference? key_2, int index) : ListClusterReference<TypeReference, TypeReference>(key_1, key_2, index)

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -7,7 +7,7 @@ namespace DiGi.Core.Classes
     /// Represents an external reference related to a type rather than a specific instance.
     /// </summary>
     /// <example>
-    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// Renders and parses (via <see cref="Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
     /// source, then the nested type-related reference:
     /// <code>TypeExternal::Revit::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)</code>
     /// </example>

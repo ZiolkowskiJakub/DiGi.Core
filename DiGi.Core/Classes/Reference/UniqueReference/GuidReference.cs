@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -9,7 +9,7 @@ namespace DiGi.Core.Classes
     /// Represents a reference to an object identified by a GUID.
     /// </summary>
     /// <example>
-    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// Renders and parses (via <see cref="Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
     /// nested type reference, then the GUID in N format:
     /// <code>Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e</code>
     /// </example>

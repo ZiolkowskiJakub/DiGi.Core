@@ -19,7 +19,7 @@ namespace DiGi.Core.Classes
     /// </summary>
     /// <example>
     /// A country, area, building and wall chain renders and parses (via
-    /// <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator followed by one nested step
+    /// <see cref="Query.TryParse(string?, out IReference?)"/>) as the discriminator followed by one nested step
     /// per level (shown wrapped for readability; the actual string has no whitespace):
     /// <code>
     /// Complex::(TypeExternal::POLAND::(Type::DiGi.GIS.Classes.Country,DiGi.GIS))

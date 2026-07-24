@@ -19,7 +19,7 @@ namespace DiGi.Core
             }
 
             // Fully qualified: the unqualified name binds to Create.Guid, not to the type.
-            if (!System.Guid.TryParse(Query.Unescaped(segments[1]), out System.Guid guid))
+            if (!System.Guid.TryParse(Query.Unescaped(segments[1]), out Guid guid))
             {
                 return null;
             }

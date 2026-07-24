@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core.Classes
@@ -42,7 +42,7 @@ namespace DiGi.Core.Classes
     /// Represents a sealed implementation of an external reference related to a specific instance.
     /// </summary>
     /// <example>
-    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// Renders and parses (via <see cref="Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
     /// source, then the nested instance-related reference:
     /// <code>InstanceExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e)</code>
     /// </example>

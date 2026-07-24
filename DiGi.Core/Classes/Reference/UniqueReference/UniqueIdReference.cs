@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -6,7 +6,7 @@ namespace DiGi.Core.Classes
 {
     /// <summary>Represents a reference to an object identified by a unique string ID.</summary>
     /// <example>
-    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// Renders and parses (via <see cref="Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
     /// nested type reference, then the unique identifier:
     /// <code>UniqueId::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::BLD-001</code>
     /// </example>

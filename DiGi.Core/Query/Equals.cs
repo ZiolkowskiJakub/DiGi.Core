@@ -179,7 +179,7 @@ namespace DiGi.Core
         /// <returns>True if both references are null, or if they describe the same reference; otherwise, false.</returns>
         /// <remarks>
         /// This is the only correct way to compare two values whose static type is an interface such as
-        /// <see cref="IReference"/> or <see cref="Interfaces.IUniqueReference"/>. The equality operators are declared on
+        /// <see cref="IReference"/> or <see cref="IUniqueReference"/>. The equality operators are declared on
         /// <see cref="Classes.SerializableReference"/>, and C# gathers operator candidates from the static types of the
         /// operands - interfaces contribute none - so <c>reference_1 == reference_2</c> silently falls back to
         /// reference equality and is false for two equal references held in separate instances. That cannot be fixed by

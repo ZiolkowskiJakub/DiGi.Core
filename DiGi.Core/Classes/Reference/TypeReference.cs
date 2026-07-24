@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -8,7 +8,7 @@ namespace DiGi.Core.Classes
 {
     /// <summary>Represents a reference to a .NET type by its full name.</summary>
     /// <example>
-    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as:
+    /// Renders and parses (via <see cref="Query.TryParse(string?, out IReference?)"/>) as:
     /// <code>Type::DiGi.GIS.Classes.Building2D,DiGi.GIS</code>
     /// </example>
     public class TypeReference : SerializableReference, ITypeRelatedSerializableReference

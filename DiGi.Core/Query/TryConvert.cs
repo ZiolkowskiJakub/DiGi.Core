@@ -1222,7 +1222,7 @@ namespace DiGi.Core
                     result = JsonNode.Parse(@string);
                     return true;
                 }
-                catch (System.Text.Json.JsonException)
+                catch (JsonException)
                 {
                     return false;
                 }
