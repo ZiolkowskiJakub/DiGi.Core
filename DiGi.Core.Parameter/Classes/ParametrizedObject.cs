@@ -115,6 +115,16 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
+        /// Determines whether the object contains a parameter associated with the specified enumeration member.
+        /// </summary>
+        /// <param name="enum">The enumeration member to search for.</param>
+        /// <returns>True if the object contains a parameter associated with the specified enumeration member; otherwise, false.</returns>
+        public bool Contains(Enum? @enum)
+        {
+            return parameterGroupCollection.Contains(@enum);
+        }
+
+        /// <summary>
         /// Retrieves a list of parameter definitions that match the specified name and comparison criteria.
         /// </summary>
         /// <param name="parameterName">The name of the parameters to search for.</param>

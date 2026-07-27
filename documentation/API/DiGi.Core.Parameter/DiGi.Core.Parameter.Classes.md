@@ -2377,6 +2377,27 @@ The unique identifier of the parameter to search for\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the collection contains a parameter with the specified unique identifier; otherwise, false\.
 
+<a name='DiGi.Core.Parameter.Classes.ParameterGroup.Contains(System.Enum)'></a>
+
+## ParameterGroup\.Contains\(Enum\) Method
+
+Determines whether the group contains a parameter corresponding to the specified enumeration member\.
+
+```csharp
+public bool Contains(System.Enum? @enum);
+```
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroup.Contains(System.Enum).enum'></a>
+
+`enum` [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')
+
+The enumeration member to search for\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the group contains a parameter corresponding to the specified enumeration member; otherwise, false\.
+
 <a name='DiGi.Core.Parameter.Classes.ParameterGroup.GetEnumerator()'></a>
 
 ## ParameterGroup\.GetEnumerator\(\) Method
@@ -3041,6 +3062,27 @@ The unique identifier of the parameter to search for\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if any group in the collection contains a parameter with the specified unique identifier; otherwise, false\.
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.Contains(System.Enum)'></a>
+
+## ParameterGroupCollection\.Contains\(Enum\) Method
+
+Determines whether any group in the collection contains a parameter corresponding to the specified enumeration member\.
+
+```csharp
+public bool Contains(System.Enum? @enum);
+```
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.Contains(System.Enum).enum'></a>
+
+`enum` [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')
+
+The enumeration member to search for\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if any group in the collection contains a parameter corresponding to the specified enumeration member; otherwise, false\.
 
 <a name='DiGi.Core.Parameter.Classes.ParameterGroupCollection.GetEnumerator()'></a>
 
@@ -4438,6 +4480,27 @@ The unique identifier of the parameter to search for\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the object contains a parameter with the specified unique identifier; otherwise, false\.
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.Contains(System.Enum)'></a>
+
+## ParametrizedObject\.Contains\(Enum\) Method
+
+Determines whether the object contains a parameter associated with the specified enumeration member\.
+
+```csharp
+public bool Contains(System.Enum? @enum);
+```
+#### Parameters
+
+<a name='DiGi.Core.Parameter.Classes.ParametrizedObject.Contains(System.Enum).enum'></a>
+
+`enum` [System\.Enum](https://learn.microsoft.com/en-us/dotnet/api/system.enum 'System\.Enum')
+
+The enumeration member to search for\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the object contains a parameter associated with the specified enumeration member; otherwise, false\.
 
 <a name='DiGi.Core.Parameter.Classes.ParametrizedObject.GetParameterDefinitions(string,DiGi.Core.Enums.TextComparisonType,bool)'></a>
 

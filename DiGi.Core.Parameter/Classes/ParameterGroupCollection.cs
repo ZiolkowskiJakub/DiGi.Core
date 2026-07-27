@@ -185,6 +185,21 @@ namespace DiGi.Core.Parameter.Classes
         }
 
         /// <summary>
+        /// Determines whether any group in the collection contains a parameter corresponding to the specified enumeration member.
+        /// </summary>
+        /// <param name="enum">The enumeration member to search for.</param>
+        /// <returns>True if any group in the collection contains a parameter corresponding to the specified enumeration member; otherwise, false.</returns>
+        public bool Contains(Enum? @enum)
+        {
+            if (@enum is null)
+            {
+                return false;
+            }
+
+            return Contains(new EnumParameterDefinition(@enum));
+        }
+
+        /// <summary>
         /// Returns an enumerator that iterates through the parameter groups in the collection.
         /// </summary>
         /// <returns>An enumerator that iterates through the parameter groups in the collection.</returns>

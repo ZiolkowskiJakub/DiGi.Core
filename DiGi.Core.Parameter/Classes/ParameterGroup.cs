@@ -2,6 +2,7 @@ using DiGi.Core.Classes;
 using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using DiGi.Core.Parameter.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -122,6 +123,26 @@ namespace DiGi.Core.Parameter.Classes
         public bool Contains(string? uniqueId)
         {
             if (uniqueId == null)
+            {
+                return false;
+            }
+
+            return dictionary.ContainsKey(uniqueId);
+        }
+
+        /// <summary>
+        /// Determines whether the group contains a parameter corresponding to the specified enumeration member.
+        /// </summary>
+        /// <param name="enum">The enumeration member to search for.</param>
+        /// <returns>True if the group contains a parameter corresponding to the specified enumeration member; otherwise, false.</returns>
+        public bool Contains(Enum? @enum)
+        {
+            if (@enum is null)
+            {
+                return false;
+            }
+
+            if (new EnumParameterDefinition(@enum).UniqueId is not string uniqueId)
             {
                 return false;
             }
