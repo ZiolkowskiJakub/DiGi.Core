@@ -9082,6 +9082,7 @@ Derived
 ↳ [SerializableReference](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableReference 'DiGi\.Core\.Classes\.SerializableReference')  
 ↳ [SerializableResult](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableResult 'DiGi\.Core\.Classes\.SerializableResult')  
 ↳ [Size](DiGi.Core.Classes.md#DiGi.Core.Classes.Size 'DiGi\.Core\.Classes\.Size')  
+↳ [SphericalDistributionSerializableObjectCollection&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>')  
 ↳ [UniqueObject](DiGi.Core.Classes.md#DiGi.Core.Classes.UniqueObject 'DiGi\.Core\.Classes\.UniqueObject')  
 ↳ [Value&lt;TObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Value_TObject_ 'DiGi\.Core\.Classes\.Value\<TObject\>')
 
@@ -11509,6 +11510,738 @@ The item to get the size value for\.
 #### Returns
 [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
 The size value of the specified item\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection'></a>
+
+## SphericalDistributionSerializableObjectCollection Class
+
+Non\-generic version of SphericalDistributionSerializableObjectCollection for handling a collection of ISerializableObjects\.
+
+```csharp
+public class SphericalDistributionSerializableObjectCollection : DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection<DiGi.Core.Interfaces.ISerializableObject>
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → [DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>')[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>') → SphericalDistributionSerializableObjectCollection
+### Constructors
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection()'></a>
+
+## SphericalDistributionSerializableObjectCollection\(\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection') class\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection();
+```
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(Range\<double\>, double, Range\<double\>, double\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection') class with specified ranges and intervals\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range<double>? azimuthRange, double azimuthInterval, DiGi.Core.Classes.Range<double>? elevationRange, double elevationInterval);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).azimuthRange'></a>
+
+`azimuthRange` [DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+The azimuth range\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).azimuthInterval'></a>
+
+`azimuthInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).elevationRange'></a>
+
+`elevationRange` [DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+The elevation range\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).elevationInterval'></a>
+
+`elevationInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(SphericalDistributionSerializableObjectCollection\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection') class by copying another collection\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection? sphericalDistributionCollection);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection).sphericalDistributionCollection'></a>
+
+`sphericalDistributionCollection` [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection')
+
+The collection to copy from\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(double, double, double, double, double, double\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection') class with specified range boundaries and intervals\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(double minAzimuth, double maxAzimuth, double azimuthInterval, double minElevation, double maxElevation, double elevationInterval);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).minAzimuth'></a>
+
+`minAzimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The minimum azimuth value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).maxAzimuth'></a>
+
+`maxAzimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The maximum azimuth value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).azimuthInterval'></a>
+
+`azimuthInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).minElevation'></a>
+
+`minElevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The minimum elevation value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).maxElevation'></a>
+
+`maxElevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The maximum elevation value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).elevationInterval'></a>
+
+`elevationInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(System.Text.Json.Nodes.JsonObject)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(JsonObject\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection') class from a JSON object\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.SphericalDistributionSerializableObjectCollection(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object to initialize from\.
+### Methods
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection.Clone()'></a>
+
+## SphericalDistributionSerializableObjectCollection\.Clone\(\) Method
+
+Creates a new object that is a copy of the current instance\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ICloneableObject_TCloneableObject_.Clone() 'DiGi\.Core\.Interfaces\.ICloneableObject\<TCloneableObject\>\.Clone\(\)')
+
+#### Returns
+[ISerializableObject](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A new object that is a copy of this instance\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\> Class
+
+Represents a spherical distribution collection of serializable objects partitioned into azimuth and elevation bins\.
+
+```csharp
+public class SphericalDistributionSerializableObjectCollection<TSerializableObject> : DiGi.Core.Classes.SerializableObject
+    where TSerializableObject : DiGi.Core.Interfaces.ISerializableObject
+```
+#### Type parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject'></a>
+
+`TSerializableObject`
+
+The type of elements stored in the collection\.
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [Object](DiGi.Core.Classes.md#DiGi.Core.Classes.Object 'DiGi\.Core\.Classes\.Object') → [SerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SerializableObject 'DiGi\.Core\.Classes\.SerializableObject') → SphericalDistributionSerializableObjectCollection\<TSerializableObject\>
+
+Derived  
+↳ [SphericalDistributionSerializableObjectCollection](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection')
+### Constructors
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection()'></a>
+
+## SphericalDistributionSerializableObjectCollection\(\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>') class\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection();
+```
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(Range\<double\>, double, Range\<double\>, double\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>') class with specified ranges and intervals\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range<double>? azimuthRange, double azimuthInterval, DiGi.Core.Classes.Range<double>? elevationRange, double elevationInterval);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).azimuthRange'></a>
+
+`azimuthRange` [DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+The azimuth range\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).azimuthInterval'></a>
+
+`azimuthInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).elevationRange'></a>
+
+`elevationRange` [DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+The elevation range\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.Range_double_,double,DiGi.Core.Classes.Range_double_,double).elevationInterval'></a>
+
+`elevationInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>') class by copying another instance\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection<TSerializableObject>? sphericalDistributionCollection);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_).sphericalDistributionCollection'></a>
+
+`sphericalDistributionCollection` [DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>')
+
+The collection to copy from\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(double, double, double, double, double, double\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>') class with specified range boundaries and intervals\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(double minAzimuth, double maxAzimuth, double azimuthInterval, double minElevation, double maxElevation, double elevationInterval);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).minAzimuth'></a>
+
+`minAzimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The minimum azimuth value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).maxAzimuth'></a>
+
+`maxAzimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The maximum azimuth value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).azimuthInterval'></a>
+
+`azimuthInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).minElevation'></a>
+
+`minElevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The minimum elevation value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).maxElevation'></a>
+
+`maxElevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The maximum elevation value\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(double,double,double,double,double,double).elevationInterval'></a>
+
+`elevationInterval` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation bin interval size\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(System.Text.Json.Nodes.JsonObject)'></a>
+
+## SphericalDistributionSerializableObjectCollection\(JsonObject\) Constructor
+
+Initializes a new instance of the [SphericalDistributionSerializableObjectCollection&lt;TSerializableObject&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_ 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>') class from a JSON object\.
+
+```csharp
+public SphericalDistributionSerializableObjectCollection(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.SphericalDistributionSerializableObjectCollection(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object to initialize from\.
+### Properties
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AzimuthCount'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.AzimuthCount Property
+
+Gets the azimuth count of bins\.
+
+```csharp
+public int AzimuthCount { get; }
+```
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AzimuthInterval'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.AzimuthInterval Property
+
+Gets the azimuth interval\.
+
+```csharp
+public double AzimuthInterval { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AzimuthRange'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.AzimuthRange Property
+
+Gets the azimuth range\.
+
+```csharp
+public DiGi.Core.Classes.Range<double>? AzimuthRange { get; }
+```
+
+#### Property Value
+[DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.Count'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.Count Property
+
+Gets the total number of items stored across all bins\.
+
+```csharp
+public int Count { get; }
+```
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.ElevationCount'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.ElevationCount Property
+
+Gets the elevation count of bins\.
+
+```csharp
+public int ElevationCount { get; }
+```
+
+#### Property Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.ElevationInterval'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.ElevationInterval Property
+
+Gets the elevation interval\.
+
+```csharp
+public double ElevationInterval { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.ElevationRange'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.ElevationRange Property
+
+Gets the elevation range\.
+
+```csharp
+public DiGi.Core.Classes.Range<double>? ElevationRange { get; }
+```
+
+#### Property Value
+[DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.Values'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.Values Property
+
+Gets all stored elements across all bins as a flat read\-only list\.
+
+```csharp
+public System.Collections.Generic.IReadOnlyList<TSerializableObject> Values { get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+### Methods
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValue(double,double,TSerializableObject)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.AddValue\(double, double, TSerializableObject\) Method
+
+Adds an item to the bin corresponding to the given coordinates\.
+
+```csharp
+public void AddValue(double azimuth, double elevation, TSerializableObject? value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValue(double,double,TSerializableObject).azimuth'></a>
+
+`azimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValue(double,double,TSerializableObject).elevation'></a>
+
+`elevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValue(double,double,TSerializableObject).value'></a>
+
+`value` [TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')
+
+The item to add\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValues(double,double,System.Collections.Generic.IEnumerable_TSerializableObject_)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.AddValues\(double, double, IEnumerable\<TSerializableObject\>\) Method
+
+Adds multiple items to the bin corresponding to the given coordinates\.
+
+```csharp
+public void AddValues(double azimuth, double elevation, System.Collections.Generic.IEnumerable<TSerializableObject>? values);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValues(double,double,System.Collections.Generic.IEnumerable_TSerializableObject_).azimuth'></a>
+
+`azimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValues(double,double,System.Collections.Generic.IEnumerable_TSerializableObject_).elevation'></a>
+
+`elevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.AddValues(double,double,System.Collections.Generic.IEnumerable_TSerializableObject_).values'></a>
+
+`values` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The collection of items to add\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.Clear()'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.Clear\(\) Method
+
+Clears all items stored in all bins\.
+
+```csharp
+public void Clear();
+```
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.FromJsonObject(System.Text.Json.Nodes.JsonObject)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.FromJsonObject\(JsonObject\) Method
+
+Populates the instance properties and grid bins from a JSON object\.
+
+```csharp
+public override bool FromJsonObject(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.FromJsonObject(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object containing serialized data\.
+
+Implements [FromJsonObject\(JsonObject\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject.FromJsonObject(System.Text.Json.Nodes.JsonObject) 'DiGi\.Core\.Interfaces\.ISerializableObject\.FromJsonObject\(System\.Text\.Json\.Nodes\.JsonObject\)')
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if population succeeded; otherwise, false\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetAzimuthIndex(double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetAzimuthIndex\(double\) Method
+
+Maps an azimuth value to the corresponding 0\-based array index using the defined domain starting from minimum azimuth\.
+
+```csharp
+private int GetAzimuthIndex(double azimuth);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetAzimuthIndex(double).azimuth'></a>
+
+`azimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+#### Returns
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetAzimuthRange(int)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetAzimuthRange\(int\) Method
+
+Gets the azimuth range corresponding to the specified azimuth index, starting from minimum azimuth\.
+
+```csharp
+public DiGi.Core.Classes.Range<double>? GetAzimuthRange(int azimuthIndex);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetAzimuthRange(int).azimuthIndex'></a>
+
+`azimuthIndex` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The zero\-based azimuth index\.
+
+#### Returns
+[DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')  
+The azimuth range for the specified index, or null if the index is out of bounds\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetAzimuthRanges(bool)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetAzimuthRanges\(bool\) Method
+
+Gets a list of azimuth ranges for all partitions, optionally filtering to populated partitions only\.
+
+```csharp
+public System.Collections.Generic.List<DiGi.Core.Classes.Range<double>>? GetAzimuthRanges(bool populatedOnly=false);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetAzimuthRanges(bool).populatedOnly'></a>
+
+`populatedOnly` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+If true, returns azimuth ranges only for partitions containing at least one item\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of azimuth ranges, or null if grid is uninitialized\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetElevationIndex(double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetElevationIndex\(double\) Method
+
+Maps an elevation value to the corresponding 0\-based array index using the defined domain starting from minimum elevation\.
+
+```csharp
+private int GetElevationIndex(double elevation);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetElevationIndex(double).elevation'></a>
+
+`elevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+#### Returns
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetElevationRange(int)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetElevationRange\(int\) Method
+
+Gets the elevation range corresponding to the specified elevation index, starting from minimum elevation\.
+
+```csharp
+public DiGi.Core.Classes.Range<double>? GetElevationRange(int elevationIndex);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetElevationRange(int).elevationIndex'></a>
+
+`elevationIndex` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The zero\-based elevation index\.
+
+#### Returns
+[DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')  
+The elevation range for the specified index, or null if the index is out of bounds\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetElevationRanges(bool)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetElevationRanges\(bool\) Method
+
+Gets a list of elevation ranges for all partitions, optionally filtering to populated partitions only\.
+
+```csharp
+public System.Collections.Generic.List<DiGi.Core.Classes.Range<double>>? GetElevationRanges(bool populatedOnly=false);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetElevationRanges(bool).populatedOnly'></a>
+
+`populatedOnly` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+If true, returns elevation ranges only for partitions containing at least one item\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+A list of elevation ranges, or null if grid is uninitialized\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(DiGi.Core.Classes.Range_double_,DiGi.Core.Classes.Range_double_)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetValues\(Range\<double\>, Range\<double\>\) Method
+
+Retrieves items stored within specified range bounds\.
+
+```csharp
+public System.Collections.Generic.IReadOnlyList<TSerializableObject>? GetValues(DiGi.Core.Classes.Range<double>? azimuthRange, DiGi.Core.Classes.Range<double>? elevationRange);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(DiGi.Core.Classes.Range_double_,DiGi.Core.Classes.Range_double_).azimuthRange'></a>
+
+`azimuthRange` [DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+The range of azimuth coordinates\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(DiGi.Core.Classes.Range_double_,DiGi.Core.Classes.Range_double_).elevationRange'></a>
+
+`elevationRange` [DiGi\.Core\.Classes\.Range&lt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')[&gt;](DiGi.Core.Classes.md#DiGi.Core.Classes.Range_T_ 'DiGi\.Core\.Classes\.Range\<T\>')
+
+The range of elevation coordinates\.
+
+#### Returns
+[System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')  
+A read\-only list of items matching the criteria, or null if ranges are null\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetValues\(double, double\) Method
+
+Retrieves items stored in the exact bin corresponding to the given coordinates\.
+
+```csharp
+public System.Collections.Generic.IReadOnlyList<TSerializableObject>? GetValues(double azimuth, double elevation);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double).azimuth'></a>
+
+`azimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The azimuth coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double).elevation'></a>
+
+`elevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The elevation coordinate\.
+
+#### Returns
+[System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')  
+A read\-only list of items stored at the given coordinates\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double,double,double)'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.GetValues\(double, double, double, double\) Method
+
+Retrieves all items within the specified bounds, handling internal wrap\-around for azimuth\.
+
+```csharp
+public System.Collections.Generic.IReadOnlyList<TSerializableObject>? GetValues(double startAzimuth, double endAzimuth, double startElevation, double endElevation);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double,double,double).startAzimuth'></a>
+
+`startAzimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The starting azimuth coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double,double,double).endAzimuth'></a>
+
+`endAzimuth` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The ending azimuth coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double,double,double).startElevation'></a>
+
+`startElevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The starting elevation coordinate\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.GetValues(double,double,double,double).endElevation'></a>
+
+`endElevation` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The ending elevation coordinate\.
+
+#### Returns
+[System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[TSerializableObject](DiGi.Core.Classes.md#DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.TSerializableObject 'DiGi\.Core\.Classes\.SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.TSerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')  
+A read\-only list of items within the bounds\.
+
+<a name='DiGi.Core.Classes.SphericalDistributionSerializableObjectCollection_TSerializableObject_.ToJsonObject()'></a>
+
+## SphericalDistributionSerializableObjectCollection\<TSerializableObject\>\.ToJsonObject\(\) Method
+
+Converts the current instance into a JsonObject representation\.
+
+```csharp
+public override System.Text.Json.Nodes.JsonObject? ToJsonObject();
+```
+
+Implements [ToJsonObject\(\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ISerializableObject.ToJsonObject() 'DiGi\.Core\.Interfaces\.ISerializableObject\.ToJsonObject\(\)')
+
+#### Returns
+[System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')  
+A JsonObject representation, or null\.
 
 <a name='DiGi.Core.Classes.Splitter_T,X_'></a>
 
