@@ -22,7 +22,7 @@ namespace DiGi.Core.Parameter.Classes
         private string? string_GroupName;
         private string? string_Name;
         private string? string_UniqueId;
-       
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumParameterDefinition"/> class from a JSON object.
         /// </summary>

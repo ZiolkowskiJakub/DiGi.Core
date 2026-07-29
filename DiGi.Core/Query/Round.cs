@@ -79,10 +79,13 @@ namespace DiGi.Core
                     {
                         case RoundingMethod.Ceiling:
                             return (double)(Math.Ceiling(decimalValue / decimalTolerance) * decimalTolerance);
+
                         case RoundingMethod.Floor:
                             return (double)(Math.Floor(decimalValue / decimalTolerance) * decimalTolerance);
+
                         case RoundingMethod.Truncate:
                             return (double)(Math.Truncate(decimalValue / decimalTolerance) * decimalTolerance);
+
                         default:
                             return value;
                     }
@@ -97,10 +100,13 @@ namespace DiGi.Core
             {
                 case RoundingMethod.Ceiling:
                     return Math.Ceiling(value / tolerance) * tolerance;
+
                 case RoundingMethod.Floor:
                     return Math.Floor(value / tolerance) * tolerance;
+
                 case RoundingMethod.Truncate:
                     return Math.Truncate(value / tolerance) * tolerance;
+
                 default:
                     return value;
             }
