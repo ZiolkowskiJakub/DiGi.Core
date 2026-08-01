@@ -1,5 +1,6 @@
 using DiGi.Core.Enums;
 using System;
+using System.Numerics;
 
 namespace DiGi.Core
 {
@@ -110,6 +111,60 @@ namespace DiGi.Core
                 default:
                     return value;
             }
+        }
+
+        /// <summary>
+        /// Rounds the real and imaginary parts of a complex number using separate tolerances and a specified rounding method.
+        /// </summary>
+        /// <param name="complex">The complex number to be rounded.</param>
+        /// <param name="tolerance_Real">The tolerance used for rounding the real part.</param>
+        /// <param name="tolerance_Imaginary">The tolerance used for rounding the imaginary part.</param>
+        /// <param name="roundingMethod">The rounding method to apply.</param>
+        /// <returns>A new <see cref="Complex"/> number with rounded real and imaginary components.</returns>
+        public static Complex Round(this Complex complex, double tolerance_Real, double tolerance_Imaginary, RoundingMethod roundingMethod)
+        {
+            double roundedReal = complex.Real.Round(tolerance_Real, roundingMethod);
+            double roundedImaginary = complex.Imaginary.Round(tolerance_Imaginary, roundingMethod);
+
+            return new Complex(roundedReal, roundedImaginary);
+        }
+
+        /// <summary>
+        /// Rounds the real and imaginary parts of a complex number using separate tolerances.
+        /// </summary>
+        /// <param name="complex">The complex number to be rounded.</param>
+        /// <param name="tolerance_Real">The tolerance used for rounding the real part.</param>
+        /// <param name="tolerance_Imaginary">The tolerance used for rounding the imaginary part.</param>
+        /// <returns>A new <see cref="Complex"/> number with rounded real and imaginary components.</returns>
+        public static Complex Round(this Complex complex, double tolerance_Real, double tolerance_Imaginary)
+        {
+            double roundedReal = complex.Real.Round(tolerance_Real);
+            double roundedImaginary = complex.Imaginary.Round(tolerance_Imaginary);
+
+            return new Complex(roundedReal, roundedImaginary);
+        }
+
+        /// <summary>
+        /// Rounds both the real and imaginary parts of a complex number using a single tolerance.
+        /// </summary>
+        /// <param name="complex">The complex number to be rounded.</param>
+        /// <param name="tolerance">The tolerance used for rounding both components.</param>
+        /// <returns>A new <see cref="Complex"/> number with rounded components.</returns>
+        public static Complex Round(this Complex complex, double tolerance)
+        {
+            return complex.Round(tolerance, tolerance);
+        }
+
+        /// <summary>
+        /// Rounds both the real and imaginary parts of a complex number using a single tolerance and specified rounding method.
+        /// </summary>
+        /// <param name="complex">The complex number to be rounded.</param>
+        /// <param name="tolerance">The tolerance used for rounding both components.</param>
+        /// <param name="roundingMethod">The rounding method to apply.</param>
+        /// <returns>A new <see cref="Complex"/> number with rounded components.</returns>
+        public static Complex Round(this Complex complex, double tolerance, RoundingMethod roundingMethod)
+        {
+            return complex.Round(tolerance, tolerance, roundingMethod);
         }
     }
 }

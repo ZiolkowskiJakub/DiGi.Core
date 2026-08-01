@@ -544,6 +544,78 @@ The options to use for JSON serialization\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A JSON string representation of the collection, or null if applicable\.
 
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double)'></a>
+
+## Convert\.ToSystem\_String\(this Complex, double, double\) Method
+
+Renders a complex number as a formatted string using specified real and imaginary tolerances\.
+
+```csharp
+public static string? ToSystem_String(this System.Numerics.Complex complex, double tolerance_Real, double tolerance_Imaginary);
+```
+#### Parameters
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to format\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double).tolerance_Real'></a>
+
+`tolerance_Real` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the real part\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double).tolerance_Imaginary'></a>
+
+`tolerance_Imaginary` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the imaginary part\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A formatted complex number string \(e\.g\., "1\.23\+j4\.56"\)\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod)'></a>
+
+## Convert\.ToSystem\_String\(this Complex, double, double, RoundingMethod\) Method
+
+Renders a complex number as a formatted string using specified tolerances and rounding method\.
+
+```csharp
+public static string? ToSystem_String(this System.Numerics.Complex complex, double tolerance_Real, double tolerance_Imaginary, DiGi.Core.Enums.RoundingMethod roundingMethod);
+```
+#### Parameters
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to format\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).tolerance_Real'></a>
+
+`tolerance_Real` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the real part\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).tolerance_Imaginary'></a>
+
+`tolerance_Imaginary` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the imaginary part\.
+
+<a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).roundingMethod'></a>
+
+`roundingMethod` [RoundingMethod](DiGi.Core.Enums.md#DiGi.Core.Enums.RoundingMethod 'DiGi\.Core\.Enums\.RoundingMethod')
+
+The rounding method to apply\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A formatted complex number string \(e\.g\., "1\.23\+j4\.56"\)\.
+
 <a name='DiGi.Core.Convert.ToSystem_String(thisSystem.Type,System.Collections.Generic.IEnumerable_string_)'></a>
 
 ## Convert\.ToSystem\_String\(this Type, IEnumerable\<string\>\) Method
@@ -3637,6 +3709,27 @@ The index to test\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the separator starts at the specified index; otherwise, false\.
 
+<a name='DiGi.Core.Query.IsValid(thisSystem.Numerics.Complex)'></a>
+
+## Query\.IsValid\(this Complex\) Method
+
+Checks that a complex number carries finite real and imaginary components\.
+
+```csharp
+public static bool IsValid(this System.Numerics.Complex complex);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.IsValid(thisSystem.Numerics.Complex).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to check\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool') when both components are finite; otherwise, [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/builtin\-types/bool')\.
+
 <a name='DiGi.Core.Query.JsonValueKind(thisobject)'></a>
 
 ## Query\.JsonValueKind\(this object\) Method
@@ -4779,6 +4872,138 @@ The rounding method to apply\.
 #### Returns
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The rounded value, or the original value if roundingMethod is Undefined or inputs are invalid\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double)'></a>
+
+## Query\.Round\(this Complex, double\) Method
+
+Rounds both the real and imaginary parts of a complex number using a single tolerance\.
+
+```csharp
+public static System.Numerics.Complex Round(this System.Numerics.Complex complex, double tolerance);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to be rounded\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding both components\.
+
+#### Returns
+[System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')  
+A new [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex') number with rounded components\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,DiGi.Core.Enums.RoundingMethod)'></a>
+
+## Query\.Round\(this Complex, double, RoundingMethod\) Method
+
+Rounds both the real and imaginary parts of a complex number using a single tolerance and specified rounding method\.
+
+```csharp
+public static System.Numerics.Complex Round(this System.Numerics.Complex complex, double tolerance, DiGi.Core.Enums.RoundingMethod roundingMethod);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,DiGi.Core.Enums.RoundingMethod).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to be rounded\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,DiGi.Core.Enums.RoundingMethod).tolerance'></a>
+
+`tolerance` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding both components\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,DiGi.Core.Enums.RoundingMethod).roundingMethod'></a>
+
+`roundingMethod` [RoundingMethod](DiGi.Core.Enums.md#DiGi.Core.Enums.RoundingMethod 'DiGi\.Core\.Enums\.RoundingMethod')
+
+The rounding method to apply\.
+
+#### Returns
+[System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')  
+A new [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex') number with rounded components\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double)'></a>
+
+## Query\.Round\(this Complex, double, double\) Method
+
+Rounds the real and imaginary parts of a complex number using separate tolerances\.
+
+```csharp
+public static System.Numerics.Complex Round(this System.Numerics.Complex complex, double tolerance_Real, double tolerance_Imaginary);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to be rounded\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double).tolerance_Real'></a>
+
+`tolerance_Real` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the real part\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double).tolerance_Imaginary'></a>
+
+`tolerance_Imaginary` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the imaginary part\.
+
+#### Returns
+[System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')  
+A new [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex') number with rounded real and imaginary components\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod)'></a>
+
+## Query\.Round\(this Complex, double, double, RoundingMethod\) Method
+
+Rounds the real and imaginary parts of a complex number using separate tolerances and a specified rounding method\.
+
+```csharp
+public static System.Numerics.Complex Round(this System.Numerics.Complex complex, double tolerance_Real, double tolerance_Imaginary, DiGi.Core.Enums.RoundingMethod roundingMethod);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).complex'></a>
+
+`complex` [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')
+
+The complex number to be rounded\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).tolerance_Real'></a>
+
+`tolerance_Real` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the real part\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).tolerance_Imaginary'></a>
+
+`tolerance_Imaginary` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The tolerance used for rounding the imaginary part\.
+
+<a name='DiGi.Core.Query.Round(thisSystem.Numerics.Complex,double,double,DiGi.Core.Enums.RoundingMethod).roundingMethod'></a>
+
+`roundingMethod` [RoundingMethod](DiGi.Core.Enums.md#DiGi.Core.Enums.RoundingMethod 'DiGi\.Core\.Enums\.RoundingMethod')
+
+The rounding method to apply\.
+
+#### Returns
+[System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')  
+A new [System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex') number with rounded real and imaginary components\.
 
 <a name='DiGi.Core.Query.Seeds(thisint,int)'></a>
 

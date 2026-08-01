@@ -1,5 +1,8 @@
+using DiGi.Core.Enums;
 using DiGi.Core.Interfaces;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -144,6 +147,37 @@ namespace DiGi.Core
             }
 
             return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Renders a complex number as a formatted string using specified real and imaginary tolerances.
+        /// </summary>
+        /// <param name="complex">The complex number to format.</param>
+        /// <param name="tolerance_Real">The tolerance used for rounding the real part.</param>
+        /// <param name="tolerance_Imaginary">The tolerance used for rounding the imaginary part.</param>
+        /// <returns>A formatted complex number string (e.g., "1.23+j4.56").</returns>
+        public static string? ToSystem_String(this Complex complex, double tolerance_Real, double tolerance_Imaginary)
+        {
+            // Construct and return the new quantized Complex number
+            Complex complex_Rounded = Query.Round(complex, tolerance_Real, tolerance_Imaginary);
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1}j{2}", complex_Rounded.Real, complex_Rounded.Imaginary < 0 ? "-" : "+", System.Math.Abs(complex_Rounded.Imaginary));
+        }
+
+        /// <summary>
+        /// Renders a complex number as a formatted string using specified tolerances and rounding method.
+        /// </summary>
+        /// <param name="complex">The complex number to format.</param>
+        /// <param name="tolerance_Real">The tolerance used for rounding the real part.</param>
+        /// <param name="tolerance_Imaginary">The tolerance used for rounding the imaginary part.</param>
+        /// <param name="roundingMethod">The rounding method to apply.</param>
+        /// <returns>A formatted complex number string (e.g., "1.23+j4.56").</returns>
+        public static string? ToSystem_String(this Complex complex, double tolerance_Real, double tolerance_Imaginary, RoundingMethod roundingMethod)
+        {
+            // Construct and return the new quantized Complex number
+            Complex complex_Rounded = Query.Round(complex, tolerance_Real, tolerance_Imaginary, roundingMethod);
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1}j{2}", complex_Rounded.Real, complex_Rounded.Imaginary < 0 ? "-" : "+", System.Math.Abs(complex_Rounded.Imaginary));
         }
     }
 }
