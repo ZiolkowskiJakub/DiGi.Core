@@ -2023,6 +2023,27 @@ If true, returns the ratio of the smaller value to the larger value\.
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The calculated aspect ratio, or NaN if inputs are invalid\.
 
+<a name='DiGi.Core.Query.Average(thisSystem.Collections.Generic.IEnumerable_System.Numerics.Complex_)'></a>
+
+## Query\.Average\(this IEnumerable\<Complex\>\) Method
+
+Calculates the average of a sequence of complex numbers\.
+
+```csharp
+public static System.Nullable<System.Numerics.Complex> Average(this System.Collections.Generic.IEnumerable<System.Numerics.Complex>? values);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.Average(thisSystem.Collections.Generic.IEnumerable_System.Numerics.Complex_).values'></a>
+
+`values` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The sequence of complex numbers to average\.
+
+#### Returns
+[System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.Numerics\.Complex](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex 'System\.Numerics\.Complex')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')  
+The average complex number, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the sequence is null or empty\.
+
 <a name='DiGi.Core.Query.BoundedIndex(thisDiGi.Core.Classes.Range_int_,int)'></a>
 
 ## Query\.BoundedIndex\(this Range\<int\>, int\) Method
