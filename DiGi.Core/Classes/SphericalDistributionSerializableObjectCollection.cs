@@ -50,13 +50,7 @@ namespace DiGi.Core.Classes
         /// <param name="minElevation">The minimum elevation value.</param>
         /// <param name="maxElevation">The maximum elevation value.</param>
         /// <param name="elevationInterval">The elevation bin interval size.</param>
-        public SphericalDistributionSerializableObjectCollection(
-            double minAzimuth,
-            double maxAzimuth,
-            double azimuthInterval,
-            double minElevation,
-            double maxElevation,
-            double elevationInterval)
+        public SphericalDistributionSerializableObjectCollection(double minAzimuth, double maxAzimuth, double azimuthInterval, double minElevation, double maxElevation, double elevationInterval)
             : this(new Range<double>(minAzimuth, maxAzimuth), azimuthInterval, new Range<double>(minElevation, maxElevation), elevationInterval)
         {
         }
