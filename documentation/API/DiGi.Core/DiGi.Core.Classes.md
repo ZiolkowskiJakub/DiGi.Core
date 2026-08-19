@@ -4248,6 +4248,74 @@ Implements [GetDateTimes\(\)](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.ITime
 [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')  
 An array of [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime') objects representing the series, or null\.
 
+<a name='DiGi.Core.Classes.DescriptionEnumConverter'></a>
+
+## DescriptionEnumConverter Class
+
+Type converter for enum types that resolves a string by member name or by the text of the member's [System\.ComponentModel\.DescriptionAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.descriptionattribute 'System\.ComponentModel\.DescriptionAttribute')\.
+
+Attach it with `[TypeConverter(typeof(DescriptionEnumConverter))]` on the enum. ASP.NET Core binds query, route and form values through [System\.ComponentModel\.TypeDescriptor](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.typedescriptor 'System\.ComponentModel\.TypeDescriptor'), so the attribute makes the description an accepted input token wherever the enum is bound - without renaming the member, and without changing how the value is written (enums still travel as their underlying integer). Anything the description matching does not resolve, including numeric text, is handed to [System\.ComponentModel\.EnumConverter](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.enumconverter 'System\.ComponentModel\.EnumConverter') and behaves exactly as before.
+
+Matching is delegated to [TryGetEnum\(this string, Type, Enum\)](DiGi.Core.md#DiGi.Core.Query.TryGetEnum(thisstring,System.Type,System.Enum) 'DiGi\.Core\.Query\.TryGetEnum\(this string, System\.Type, System\.Enum\)'), the same matcher DiGi JSON deserialization uses, and walks the members in value order testing each member's name and then its description. Do <b>not</b> attach it to an enum where one member's description equals a different member's name - the member declared with the lower value would win.
+
+```csharp
+public class DescriptionEnumConverter : System.ComponentModel.EnumConverter
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [System\.ComponentModel\.TypeConverter](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverter 'System\.ComponentModel\.TypeConverter') → [System\.ComponentModel\.EnumConverter](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.enumconverter 'System\.ComponentModel\.EnumConverter') → DescriptionEnumConverter
+### Constructors
+
+<a name='DiGi.Core.Classes.DescriptionEnumConverter.DescriptionEnumConverter(System.Type)'></a>
+
+## DescriptionEnumConverter\(Type\) Constructor
+
+Initializes a new instance of the DescriptionEnumConverter class for the specified enum type\.
+
+```csharp
+public DescriptionEnumConverter(System.Type type);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.DescriptionEnumConverter.DescriptionEnumConverter(System.Type).type'></a>
+
+`type` [System\.Type](https://learn.microsoft.com/en-us/dotnet/api/system.type 'System\.Type')
+
+The enum type this converter is attached to\. [System\.ComponentModel\.TypeDescriptor](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.typedescriptor 'System\.ComponentModel\.TypeDescriptor') supplies it when the converter is created from a [System\.ComponentModel\.TypeConverterAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverterattribute 'System\.ComponentModel\.TypeConverterAttribute')\.
+### Methods
+
+<a name='DiGi.Core.Classes.DescriptionEnumConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,object)'></a>
+
+## DescriptionEnumConverter\.ConvertFrom\(ITypeDescriptorContext, CultureInfo, object\) Method
+
+Converts the given value to an enum member of the converter's type\.
+
+```csharp
+public override object ConvertFrom(System.ComponentModel.ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.DescriptionEnumConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,object).context'></a>
+
+`context` [System\.ComponentModel\.ITypeDescriptorContext](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.itypedescriptorcontext 'System\.ComponentModel\.ITypeDescriptorContext')
+
+The format context\.
+
+<a name='DiGi.Core.Classes.DescriptionEnumConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,object).culture'></a>
+
+`culture` [System\.Globalization\.CultureInfo](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo 'System\.Globalization\.CultureInfo')
+
+The culture used for the conversion\.
+
+<a name='DiGi.Core.Classes.DescriptionEnumConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,object).value'></a>
+
+`value` [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')
+
+The value to convert\.
+
+#### Returns
+[System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')  
+The enum member the value resolves to\.
+
 <a name='DiGi.Core.Classes.ExternalReference'></a>
 
 ## ExternalReference Class
