@@ -815,108 +815,72 @@ namespace DiGi.Core
         {
             result = default;
 
-            if (@object is Enum @enum_Temp)
+            if (@object == null || type == null)
             {
-                result = @enum_Temp;
+                return false;
+            }
+
+            Type type_Underlying = Nullable.GetUnderlyingType(type) ?? type;
+            if (!type_Underlying.IsEnum)
+            {
+                return false;
+            }
+
+            if (@object is Enum @enum && type_Underlying.IsAssignableFrom(@enum.GetType()))
+            {
+                result = @enum;
                 return true;
             }
 
-            if (@object == null)
-            {
-                return false;
-            }
-
-            Array array = System.Enum.GetValues(type);
-            if (array is null || array.Length == 0)
-            {
-                return false;
-            }
-
-            object @object_Temp = @object;
             if (@object is JsonNode jsonNode)
             {
-                switch (jsonNode.GetValueKind())
+                if (jsonNode is JsonValue jsonValue)
                 {
-                    case System.Text.Json.JsonValueKind.Number:
-                        @object_Temp = jsonNode.GetValue<int>();
-                        break;
-
-                    case System.Text.Json.JsonValueKind.String:
-                        @object_Temp = jsonNode.GetValue<string>();
-                        break;
-                }
-            }
-
-            if (@object_Temp is string string_Temp)
-            {
-                if (string.IsNullOrWhiteSpace(string_Temp))
-                {
-                    return false;
-                }
-                string string_Normalized = string_Temp.Replace(" ", string.Empty);
-
-                foreach (Enum @enum in array)
-                {
-                    if (string.Equals(@enum.ToString(), string_Normalized, StringComparison.OrdinalIgnoreCase))
+                    if (jsonValue.TryGetValue(out long long_JsonValue))
                     {
-                        result = @enum;
-                        return true;
+                        return TryConvert_Enum(long_JsonValue, out result, type_Underlying);
                     }
-
-                    string? description = Description(@enum);
-                    if (description != null)
+                    if (jsonValue.TryGetValue(out int int_JsonValue))
                     {
-                        string description_Normalized = description.Replace(" ", string.Empty);
-                        if (string.Equals(description_Normalized, string_Normalized, StringComparison.OrdinalIgnoreCase))
-                        {
-                            result = @enum;
-                            return true;
-                        }
+                        return TryConvert_Enum(int_JsonValue, out result, type_Underlying);
+                    }
+                    if (jsonValue.TryGetValue(out string? string_JsonValue))
+                    {
+                        return TryGetEnum(string_JsonValue, type_Underlying, out result);
                     }
                 }
 
-                if (int.TryParse(string_Normalized, out int index) && System.Enum.IsDefined(type, index))
-                {
-                    result = (Enum)System.Enum.ToObject(type, index);
-                    return true;
-                }
+                return false;
             }
-            else if (IsNumeric(@object_Temp))
-            {
-                if (TryConvert(@object_Temp, out int index) && System.Enum.IsDefined(type, index))
-                {
-                    foreach (Enum @enum in array)
-                    {
-                        if ((int)(object)@enum == index)
-                        {
-                            result = @enum;
-                            return true;
-                        }
-                    }
-                }
-            }
-            else if (@object is JsonElement jsonElement)
+
+            if (@object is JsonElement jsonElement)
             {
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    if (jsonElement.GetString() is not string value)
+                    if (jsonElement.GetString() is string string_ElementValue)
                     {
-                        return false;
+                        return TryGetEnum(string_ElementValue, type_Underlying, out result);
                     }
-
-                    @object_Temp = value;
                 }
-                else if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt32(out int intVal))
+                else if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt64(out long long_ElementValue))
                 {
-                    @object_Temp = intVal;
+                    return TryConvert_Enum(long_ElementValue, out result, type_Underlying);
                 }
 
-                if (object_Temp is null)
+                return false;
+            }
+
+            if (@object is string text)
+            {
+                return TryGetEnum(text, type_Underlying, out result);
+            }
+
+            if (IsNumeric(@object))
+            {
+                if (TryConvert_Long(@object, out long? long_Numeric) && long_Numeric is not null)
                 {
-                    return false;
+                    return TryGetEnum(long_Numeric.Value.ToString(), type_Underlying, out result);
                 }
-
-                return TryConvert_Enum(object_Temp, out result, type);
             }
 
             return false;

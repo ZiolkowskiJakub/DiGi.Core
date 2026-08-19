@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace DiGi.Core
 {
@@ -18,23 +20,23 @@ namespace DiGi.Core
                 return false;
             }
 
-            string[] values = text!.Split(':');
-            if (values.Length < 2)
+            string[] strings = text!.Split(':');
+            if (strings.Length < 2)
             {
                 return false;
             }
 
-            Type? type = Type(values[0]);
+            Type? type = Type(strings[0]);
             if (type == null)
             {
                 return false;
             }
 
-            return TryGetEnum(values[1], type, out @enum);
+            return TryGetEnum(strings[1], type, out @enum);
         }
 
         /// <summary>
-        /// Attempts to parse a string into an enum value by checking names, descriptions, and fuzzy matching.
+        /// Attempts to parse a string into an enum value by checking exact names, numeric values, descriptions, and fuzzy matching.
         /// </summary>
         /// <param name="text">The string text to be parsed.</param>
         /// <param name="type">The type of the enum to parse into.</param>
@@ -44,71 +46,128 @@ namespace DiGi.Core
         {
             @enum = null;
 
-            // Guard clauses
             if (string.IsNullOrEmpty(text) || type == null || !type.IsEnum)
             {
                 return false;
             }
 
-            // In .NET Standard 2.0, GetValues returns a standard Array.
-            // This is an allocation, but inevitable without a cache.
-            Array enumValues = System.Enum.GetValues(type);
-            Enum? undefinedValue = null;
-
-            // Normalize input once to save allocations during the loop
-            string cleanedInput = text!.Replace(" ", string.Empty);
-
-            for (int i = 0; i < enumValues.Length; i++)
+            // 1. Fast path: Direct exact name lookup via reflection hashtable
+            FieldInfo? fieldInfo_Exact = type.GetField(text!, BindingFlags.Public | BindingFlags.Static);
+            if (fieldInfo_Exact != null && fieldInfo_Exact.IsLiteral)
             {
-                Enum currentValue = (Enum)enumValues.GetValue(i);
-                string name = System.Enum.GetName(type, currentValue);
+                @enum = (Enum)fieldInfo_Exact.GetValue(null)!;
+                return true;
+            }
 
-                if (name == null) continue;
+            FieldInfo[] fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+            if (fieldInfos.Length == 0)
+            {
+                return false;
+            }
 
-                // 1. Precise Match (Case Sensitive)
-                if (name.Equals(text, StringComparison.Ordinal))
+            // 2. Numeric string matching (e.g. "2", "-1")
+            if (long.TryParse(text, out long numericValue))
+            {
+                for (int i = 0; i < fieldInfos.Length; i++)
                 {
-                    @enum = currentValue;
-                    return true;
-                }
-
-                // 2. Identify "Undefined" fallback during the main loop
-                if (undefinedValue == null && name.Equals("Undefined", StringComparison.OrdinalIgnoreCase))
-                {
-                    undefinedValue = currentValue;
-                }
-
-                // 3. Description Match
-                // Note: Description() is assumed to be your extension method
-                string? description = currentValue.Description();
-                if (description != null)
-                {
-                    if (description.Equals(text, StringComparison.Ordinal))
+                    FieldInfo fieldInfo = fieldInfos[i];
+                    long fieldValue = System.Convert.ToInt64(fieldInfo.GetRawConstantValue());
+                    if (fieldValue == numericValue)
                     {
-                        @enum = currentValue;
-                        return true;
-                    }
-
-                    // 4. Fuzzy Match (Description without spaces)
-                    // OrdinalIgnoreCase is faster than ToUpper/ToLower in .NET Standard 2.0
-                    if (description.Replace(" ", string.Empty).Equals(cleanedInput, StringComparison.OrdinalIgnoreCase))
-                    {
-                        @enum = currentValue;
+                        @enum = (Enum)fieldInfo.GetValue(null)!;
                         return true;
                     }
                 }
+            }
 
-                // 5. Fuzzy Match (Name without spaces)
-                if (name.Replace(" ", string.Empty).Equals(cleanedInput, StringComparison.OrdinalIgnoreCase))
+            // 3. Exact Description matching (case-sensitive)
+            for (int i = 0; i < fieldInfos.Length; i++)
+            {
+                FieldInfo fieldInfo = fieldInfos[i];
+                if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Length > 0)
                 {
-                    @enum = currentValue;
+                    if (string.Equals(descriptionAttributes[0].Description, text, StringComparison.Ordinal))
+                    {
+                        @enum = (Enum)fieldInfo.GetValue(null)!;
+                        return true;
+                    }
+                }
+            }
+
+            // 4. Fuzzy Name matching (case-insensitive, ignoring spaces)
+            for (int i = 0; i < fieldInfos.Length; i++)
+            {
+                FieldInfo fieldInfo = fieldInfos[i];
+                if (EqualsIgnoreSpaces(fieldInfo.Name, text!, true))
+                {
+                    @enum = (Enum)fieldInfo.GetValue(null)!;
                     return true;
                 }
             }
 
-            // No match found - fallback to Undefined if it was discovered
-            @enum = undefinedValue;
+            // 5. Fuzzy Description matching (case-insensitive, ignoring spaces)
+            for (int i = 0; i < fieldInfos.Length; i++)
+            {
+                FieldInfo fieldInfo = fieldInfos[i];
+                if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] descriptionAttributes && descriptionAttributes.Length > 0)
+                {
+                    string? description = descriptionAttributes[0].Description;
+                    if (description != null && EqualsIgnoreSpaces(description, text!, true))
+                    {
+                        @enum = (Enum)fieldInfo.GetValue(null)!;
+                        return true;
+                    }
+                }
+            }
+
+            @enum = null;
             return false;
+
+            bool EqualsIgnoreSpaces(string string_1, string string_2, bool ignoreCase)
+            {
+                int index_1 = 0;
+                int index_2 = 0;
+                while (index_1 < string_1.Length || index_2 < string_2.Length)
+                {
+                    while (index_1 < string_1.Length && string_1[index_1] == ' ')
+                    {
+                        index_1++;
+                    }
+                    while (index_2 < string_2.Length && string_2[index_2] == ' ')
+                    {
+                        index_2++;
+                    }
+
+                    if (index_1 == string_1.Length && index_2 == string_2.Length)
+                    {
+                        return true;
+                    }
+                    if (index_1 == string_1.Length || index_2 == string_2.Length)
+                    {
+                        return false;
+                    }
+
+                    char char_1 = string_1[index_1];
+                    char char_2 = string_2[index_2];
+
+                    if (ignoreCase)
+                    {
+                        if (char.ToUpperInvariant(char_1) != char.ToUpperInvariant(char_2))
+                        {
+                            return false;
+                        }
+                    }
+                    else if (char_1 != char_2)
+                    {
+                        return false;
+                    }
+
+                    index_1++;
+                    index_2++;
+                }
+
+                return true;
+            }
         }
 
         /// <summary>

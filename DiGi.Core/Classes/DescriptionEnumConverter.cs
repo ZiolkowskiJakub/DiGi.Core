@@ -5,9 +5,9 @@ using System.Globalization;
 namespace DiGi.Core.Classes
 {
     /// <summary>
-    /// Type converter for enum types that resolves a string by member name or by the text of the member's <see cref="DescriptionAttribute"/>.
-    /// <para>Attach it with <c>[TypeConverter(typeof(DescriptionEnumConverter))]</c> on the enum. ASP.NET Core binds query, route and form values through <see cref="TypeDescriptor"/>, so the attribute makes the description an accepted input token wherever the enum is bound - without renaming the member, and without changing how the value is written (enums still travel as their underlying integer). Anything the description matching does not resolve, including numeric text, is handed to <see cref="EnumConverter"/> and behaves exactly as before.</para>
-    /// <para>Matching is delegated to <see cref="Query.TryGetEnum(string, Type, out Enum)"/>, the same matcher DiGi JSON deserialization uses, and walks the members in value order testing each member's name and then its description. Do <b>not</b> attach it to an enum where one member's description equals a different member's name - the member declared with the lower value would win.</para>
+    /// Type converter for enum types that resolves a string by member name, numeric value, or the text of the member's <see cref="DescriptionAttribute"/>.
+    /// <para>Attach it with <c>[TypeConverter(typeof(DescriptionEnumConverter))]</c> on the enum. ASP.NET Core binds query, route and form values through <see cref="TypeDescriptor"/>, so the attribute makes the description an accepted input token wherever the enum is bound - without renaming the member, and without changing how the value is written (enums still travel as their underlying integer). Anything the description matching does not resolve is handed to <see cref="EnumConverter"/> and behaves exactly as before.</para>
+    /// <para>Matching is delegated to <see cref="Query.TryGetEnum(string, Type, out Enum)"/>, the same matcher DiGi JSON deserialization uses.</para>
     /// </summary>
     public class DescriptionEnumConverter : EnumConverter
     {

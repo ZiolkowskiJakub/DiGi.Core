@@ -6151,7 +6151,7 @@ True if the parsing was successful; otherwise, false\.
 
 ## Query\.TryGetEnum\(this string, Type, Enum\) Method
 
-Attempts to parse a string into an enum value by checking names, descriptions, and fuzzy matching\.
+Attempts to parse a string into an enum value by checking exact names, numeric values, descriptions, and fuzzy matching\.
 
 ```csharp
 public static bool TryGetEnum(this string? text, System.Type? type, out System.Enum? @enum);
