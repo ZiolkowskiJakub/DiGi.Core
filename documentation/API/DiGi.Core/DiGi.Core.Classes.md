@@ -475,6 +475,27 @@ The [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datet
 [AnyOf](DiGi.Core.Classes.md#DiGi.Core.Classes.AnyOf 'DiGi\.Core\.Classes\.AnyOf')  
 An [AnyOf](DiGi.Core.Classes.md#DiGi.Core.Classes.AnyOf 'DiGi\.Core\.Classes\.AnyOf') instance representing the provided [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime') value\.
 
+<a name='DiGi.Core.Classes.AnyOf.op_ImplicitDiGi.Core.Classes.AnyOf(System.DateTimeOffset)'></a>
+
+## AnyOf\.implicit operator AnyOf\(DateTimeOffset\) Operator
+
+Implicitly converts a [System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset') value to an [AnyOf](DiGi.Core.Classes.md#DiGi.Core.Classes.AnyOf 'DiGi\.Core\.Classes\.AnyOf') instance\.
+
+```csharp
+public static DiGi.Core.Classes.AnyOf implicit operator DiGi.Core.Classes.AnyOf(System.DateTimeOffset value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.AnyOf.op_ImplicitDiGi.Core.Classes.AnyOf(System.DateTimeOffset).value'></a>
+
+`value` [System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset')
+
+The [System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset') value to convert\.
+
+#### Returns
+[AnyOf](DiGi.Core.Classes.md#DiGi.Core.Classes.AnyOf 'DiGi\.Core\.Classes\.AnyOf')  
+An [AnyOf](DiGi.Core.Classes.md#DiGi.Core.Classes.AnyOf 'DiGi\.Core\.Classes\.AnyOf') instance representing the provided [System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset') value\.
+
 <a name='DiGi.Core.Classes.AnyOf.op_ImplicitDiGi.Core.Classes.AnyOf(System.Guid)'></a>
 
 ## AnyOf\.implicit operator AnyOf\(Guid\) Operator

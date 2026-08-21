@@ -566,9 +566,15 @@ namespace DiGi.Core
                 return false;
             }
 
+            if (@object is DateTimeOffset dateTimeOffset)
+            {
+                result = dateTimeOffset.DateTime;
+                return true;
+            }
+
             if (@object is string @string)
             {
-                if (DateTime.TryParse(@string, out DateTime dateTime))
+                if (DateTime.TryParse(@string, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime dateTime))
                 {
                     result = dateTime;
                     return true;
@@ -595,7 +601,7 @@ namespace DiGi.Core
                         // We don't need Substring here; System.Text.Json.Nodes handles
                         // JSON quotes automatically during the ToString/GetValue call
                         // string text = jsonNode.GetValue<string>();
-                        if (DateTime.TryParse(text, out DateTime dateTime))
+                        if (DateTime.TryParse(text, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime dateTime))
                         {
                             result = dateTime;
                             return true;
@@ -1507,7 +1513,13 @@ namespace DiGi.Core
 
             if (@object is JsonNode jsonNode)
             {
-                result = jsonNode.GetValue<string>();
+                if (jsonNode is JsonValue jsonValue && jsonValue.TryGetValue(out string? string_Value))
+                {
+                    result = string_Value;
+                    return true;
+                }
+
+                result = jsonNode.ToString();
                 return true;
             }
 
@@ -1880,37 +1892,148 @@ namespace DiGi.Core
 
             if (@object is DateTime dateTime)
             {
-                result = new DateTimeOffset(dateTime);
-                return true;
+                try
+                {
+                    if (dateTime.Kind == DateTimeKind.Unspecified)
+                    {
+                        result = new DateTimeOffset(dateTime, TimeSpan.Zero);
+                    }
+                    else
+                    {
+                        result = new DateTimeOffset(dateTime);
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
 
             if (@object is string @string)
             {
-                if (DateTimeOffset.TryParse(@string, out DateTimeOffset dateTimeOffset_Parsed))
+                if (DateTimeOffset.TryParse(@string, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTimeOffset dateTimeOffset_Parsed))
                 {
                     result = dateTimeOffset_Parsed;
                     return true;
                 }
             }
-
-            if (@object is JsonNode jsonNode)
+            else if (IsNumeric(@object))
             {
-                if (jsonNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
+                try
                 {
-                    if (DateTimeOffset.TryParse(jsonNode.GetValue<string>(), out DateTimeOffset dateTimeOffset_Parsed))
+                    if (@object is double @double)
                     {
-                        result = dateTimeOffset_Parsed;
+                        result = new DateTimeOffset(DateTime.FromOADate(@double));
                         return true;
                     }
+
+                    long long_Val = System.Convert.ToInt64(@object);
+                    if (long_Val >= -62135596800L && long_Val <= 253402300799L)
+                    {
+                        result = DateTimeOffset.FromUnixTimeSeconds(long_Val);
+                        return true;
+                    }
+
+                    result = new DateTimeOffset(long_Val, TimeSpan.Zero);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
                 }
             }
+            else if (@object is JsonNode jsonNode)
+            {
+                switch (jsonNode.GetValueKind())
+                {
+                    case System.Text.Json.JsonValueKind.String:
+                        if (jsonNode is JsonValue jsonValue)
+                        {
+                            if (jsonValue.TryGetValue(out DateTimeOffset dateTimeOffset_Value))
+                            {
+                                result = dateTimeOffset_Value;
+                                return true;
+                            }
 
-            if (@object is JsonElement jsonElement)
+                            if (jsonValue.TryGetValue(out string? string_Value) && DateTimeOffset.TryParse(string_Value, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTimeOffset dateTimeOffset_Parsed))
+                            {
+                                result = dateTimeOffset_Parsed;
+                                return true;
+                            }
+                        }
+
+                        string text = jsonNode.ToString();
+                        if (text.StartsWith("\"") && text.EndsWith("\"") && text.Length >= 2)
+                        {
+                            text = text.Substring(1, text.Length - 2);
+                        }
+
+                        if (DateTimeOffset.TryParse(text, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTimeOffset dateTimeOffset_Text))
+                        {
+                            result = dateTimeOffset_Text;
+                            return true;
+                        }
+                        break;
+
+                    case System.Text.Json.JsonValueKind.Number:
+                        if (jsonNode is JsonValue jsonValue_Number && jsonValue_Number.TryGetValue(out long unixTimestamp))
+                        {
+                            try
+                            {
+                                if (unixTimestamp >= -62135596800L && unixTimestamp <= 253402300799L)
+                                {
+                                    result = DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
+                                }
+                                else
+                                {
+                                    result = new DateTimeOffset(unixTimestamp, TimeSpan.Zero);
+                                }
+                                return true;
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        }
+                        break;
+                }
+
+                try
+                {
+                    result = jsonNode.GetValue<DateTimeOffset>();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else if (@object is JsonElement jsonElement)
             {
                 if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && jsonElement.TryGetDateTimeOffset(out DateTimeOffset dateTimeOffset_Parsed))
                 {
                     result = dateTimeOffset_Parsed;
                     return true;
+                }
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number && jsonElement.TryGetInt64(out long numberVal))
+                {
+                    try
+                    {
+                        if (numberVal >= -62135596800L && numberVal <= 253402300799L)
+                        {
+                            result = DateTimeOffset.FromUnixTimeSeconds(numberVal);
+                        }
+                        else
+                        {
+                            result = new DateTimeOffset(numberVal, TimeSpan.Zero);
+                        }
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
                 }
             }
 

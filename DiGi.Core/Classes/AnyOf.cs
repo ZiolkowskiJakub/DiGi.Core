@@ -96,6 +96,13 @@ namespace DiGi.Core.Classes
         public static implicit operator AnyOf(DateTime value) => new(value, typeof(DateTime));
 
         /// <summary>
+        /// Implicitly converts a <see cref="DateTimeOffset"/> value to an <see cref="AnyOf"/> instance.
+        /// </summary>
+        /// <param name="value">The <see cref="DateTimeOffset"/> value to convert.</param>
+        /// <returns>An <see cref="AnyOf"/> instance representing the provided <see cref="DateTimeOffset"/> value.</returns>
+        public static implicit operator AnyOf(DateTimeOffset value) => new(value, typeof(DateTimeOffset));
+
+        /// <summary>
         /// Implicitly converts a long value to an <see cref="AnyOf"/> instance.
         /// </summary>
         /// <param name="value">The long value to convert.</param>

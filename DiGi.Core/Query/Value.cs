@@ -105,6 +105,26 @@ namespace DiGi.Core
                 return null;
             }
 
+            // Handled before the switch below, because a DateTimeOffset reports TypeCode.Object and would
+            // otherwise fall through to the general object path and be asked to convert a JSON string into a
+            // struct, which throws. TryConvert_DateTimeOffset already reads the ISO 8601 form.
+            // Worth keeping over a plain DateTime wherever a moment is serialized: a DateTime written as UTC is
+            // read back in the local zone, so serializing the same object twice produces two different documents.
+            if (type_Temp == typeof(DateTimeOffset))
+            {
+                if (TryConvert_DateTimeOffset(jsonNode, out DateTimeOffset? dateTimeOffset) && dateTimeOffset is not null)
+                {
+                    return dateTimeOffset.Value;
+                }
+
+                if (nullable)
+                {
+                    return null;
+                }
+
+                return default(DateTimeOffset);
+            }
+
             TypeCode typeCode = System.Type.GetTypeCode(type_Temp);
 
             switch (typeCode)
