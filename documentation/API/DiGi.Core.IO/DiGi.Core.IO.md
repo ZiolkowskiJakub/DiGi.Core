@@ -394,3 +394,24 @@ The object to be serialized\.
 #### Returns
 [DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive')  
 An [DiGi\.Core\.IO\.Interfaces\.IArchive](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.interfaces.iarchive 'DiGi\.Core\.IO\.Interfaces\.IArchive') containing the serialized data, or `null` if serialization fails\.
+
+<a name='DiGi.Core.IO.Query.UniqueId(thisDiGi.Core.IO.Table.Interfaces.IColumn)'></a>
+
+## Query\.UniqueId\(this IColumn\) Method
+
+Generates a unique identifier for the specified column by normalizing its name\.
+
+```csharp
+public static string? UniqueId(this DiGi.Core.IO.Table.Interfaces.IColumn? column);
+```
+#### Parameters
+
+<a name='DiGi.Core.IO.Query.UniqueId(thisDiGi.Core.IO.Table.Interfaces.IColumn).column'></a>
+
+`column` [IColumn](DiGi.Core.IO.Table.Interfaces.md#DiGi.Core.IO.Table.Interfaces.IColumn 'DiGi\.Core\.IO\.Table\.Interfaces\.IColumn')
+
+The column instance to process\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A normalized string representing the unique identifier, or null if the column or its name is null\.
