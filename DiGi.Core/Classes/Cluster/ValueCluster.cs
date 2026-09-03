@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -144,6 +144,26 @@ namespace DiGi.Core.Classes
             }
 
             return Contains(key_1, key_2);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the cluster values.
+        /// </summary>
+        /// <returns>An enumerator for the cluster values.</returns>
+        public override IEnumerator<TValue> GetEnumerator()
+        {
+            foreach (Dictionary<TKey_2, TValue> dictionary_1 in dictionary.Values)
+            {
+                if (dictionary_1 == null)
+                {
+                    continue;
+                }
+
+                foreach (TValue value in dictionary_1.Values)
+                {
+                    yield return value;
+                }
+            }
         }
 
         /// <summary>

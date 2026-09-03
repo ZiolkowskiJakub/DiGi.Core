@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Gets or sets the list of values in the cluster.
         /// </summary>
-        [JsonInclude, JsonPropertyName("Values")]
+        [JsonInclude, JsonPropertyName(nameof(Values))]
         public List<TValue>? Values
         {
             get
@@ -77,7 +77,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            List<UValue> result = [];
+            List<UValue> uValues = [];
             foreach (UValue? value in values)
             {
                 if (value is null)
@@ -87,11 +87,11 @@ namespace DiGi.Core.Classes
 
                 if (Add(value))
                 {
-                    result.Add(value);
+                    uValues.Add(value);
                 }
             }
 
-            return result;
+            return uValues;
         }
 
         /// <summary>
@@ -125,9 +125,19 @@ namespace DiGi.Core.Classes
         /// Returns an enumerator that iterates through the cluster values.
         /// </summary>
         /// <returns>An enumerator for the cluster values.</returns>
-        public IEnumerator<TValue> GetEnumerator()
+        public virtual IEnumerator<TValue> GetEnumerator()
         {
-            return Values?.GetEnumerator() ?? Enumerable.Empty<TValue>().GetEnumerator();
+            List<TValue>? values = GetValues<TValue>();
+            if (values == null)
+            {
+                yield break;
+            }
+
+            int count = values.Count;
+            for (int i = 0; i < count; i++)
+            {
+                yield return values[i];
+            }
         }
 
         /// <summary>
@@ -142,7 +152,7 @@ namespace DiGi.Core.Classes
         /// <summary>
         /// Gets a list of all unique first keys in the cluster.
         /// </summary>
-        /// <returns>A list of first keys, or null if the cluster has no values.</returns>
+        /// <returns>A list of first keys, or null if the cluster values could not be retrieved.</returns>
         public virtual List<TKey_1>? GetKeys_1()
         {
             List<TValue>? values = GetValues<TValue>();
@@ -151,7 +161,7 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            HashSet<TKey_1> result = [];
+            HashSet<TKey_1> keys_1 = [];
             foreach (TValue value in values)
             {
                 TKey_1? key_1 = GetKey_1(value);
@@ -160,10 +170,10 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                result.Add(key_1);
+                keys_1.Add(key_1);
             }
 
-            return [.. result];
+            return [.. keys_1];
         }
 
         /// <summary>
@@ -184,10 +194,11 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            HashSet<TKey_2> result = [];
+            HashSet<TKey_2> keys_2 = [];
             foreach (TValue value in values)
             {
-                if (!key_1.Equals(GetKey_1(value)))
+                TKey_1? key_1_Value = GetKey_1(value);
+                if (key_1_Value == null || !EqualityComparer<TKey_1>.Default.Equals(key_1, key_1_Value))
                 {
                     continue;
                 }
@@ -198,10 +209,10 @@ namespace DiGi.Core.Classes
                     continue;
                 }
 
-                result.Add(key_2);
+                keys_2.Add(key_2);
             }
 
-            return [.. result];
+            return [.. keys_2];
         }
 
         /// <summary>
@@ -212,13 +223,20 @@ namespace DiGi.Core.Classes
         /// <returns>The first matching value, or default if none found.</returns>
         public virtual UValue? GetValue<UValue>(Func<UValue?, bool>? func) where UValue : TValue
         {
-            List<UValue>? values = GetValues(func);
-            if (values == null || values.Count == 0)
+            foreach (TValue value in this)
             {
-                return default;
+                if (value is not UValue uValue)
+                {
+                    continue;
+                }
+
+                if (func == null || func.Invoke(uValue))
+                {
+                    return uValue;
+                }
             }
 
-            return values[0];
+            return default;
         }
 
         /// <summary>
@@ -226,25 +244,31 @@ namespace DiGi.Core.Classes
         /// </summary>
         /// <typeparam name="UValue">The type of the value.</typeparam>
         /// <param name="key_1">The first key to filter by.</param>
-        /// <returns>A list of matching values, or null if none found.</returns>
+        /// <returns>A list of matching values, or null if key_1 is null or the cluster values could not be retrieved.</returns>
         public virtual List<UValue>? GetValues<UValue>(TKey_1? key_1) where UValue : TValue
         {
+            if (key_1 == null)
+            {
+                return null;
+            }
+
             List<UValue>? values = GetValues<UValue>();
             if (values == null)
             {
                 return null;
             }
 
-            List<UValue> result = [];
+            List<UValue> uValues = [];
             foreach (UValue value in values)
             {
-                if (key_1 == null || key_1.Equals(GetKey_1(value)))
+                TKey_1? key_1_Value = GetKey_1(value);
+                if (key_1_Value != null && EqualityComparer<TKey_1>.Default.Equals(key_1, key_1_Value))
                 {
-                    result.Add(value);
+                    uValues.Add(value);
                 }
             }
 
-            return result;
+            return uValues;
         }
 
         /// <summary>
@@ -255,24 +279,15 @@ namespace DiGi.Core.Classes
         /// <returns>A list of matching values.</returns>
         public List<UValue>? GetValues<UValue>(Func<UValue?, bool>? func) where UValue : TValue
         {
-            List<UValue>? result = GetValues<UValue>();
-            if (func == null || result == null || result.Count == 0)
+            List<UValue>? uValues = GetValues<UValue>();
+            if (func == null || uValues == null || uValues.Count == 0)
             {
-                return result;
+                return uValues;
             }
 
-            int count = result.Count;
-            for (int i = count - 1; i >= 0; i--)
-            {
-                if (func != null && func.Invoke(result[i]))
-                {
-                    continue;
-                }
+            uValues.RemoveAll(x => !func.Invoke(x));
 
-                result.RemoveAt(i);
-            }
-
-            return result;
+            return uValues;
         }
 
         /// <summary>
@@ -328,6 +343,18 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
+        /// Attempts to get the first value matching the specified predicate.
+        /// </summary>
+        /// <typeparam name="UValue">The type of the value.</typeparam>
+        /// <param name="func">A predicate function to filter values.</param>
+        /// <param name="value">When this method returns, contains the first matching value, or default if no match was found.</param>
+        /// <returns>True if a matching value was found; otherwise, false.</returns>
+        public bool TryGetValue<UValue>(Func<UValue?, bool>? func, out UValue? value) where UValue : TValue
+        {
+            return TryGetValue(out value, func);
+        }
+
+        /// <summary>
         /// Attempts to get values filtered by the specified first key.
         /// </summary>
         /// <typeparam name="UValue">The type of the value.</typeparam>
@@ -354,6 +381,18 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
+        /// Attempts to get values filtered by the specified predicate.
+        /// </summary>
+        /// <typeparam name="UValue">The type of the value.</typeparam>
+        /// <param name="func">A predicate function to filter values.</param>
+        /// <param name="values">When this method returns, contains the matching values, or null if none found.</param>
+        /// <returns>True if any matching values were found; otherwise, false.</returns>
+        public bool TryGetValues<UValue>(Func<UValue?, bool>? func, out List<UValue>? values) where UValue : TValue
+        {
+            return TryGetValues(out values, func);
+        }
+
+        /// <summary>
         /// Gets the first key for a given value.
         /// </summary>
         /// <param name="value">The value to get the key from.</param>
@@ -376,15 +415,24 @@ namespace DiGi.Core.Classes
         {
             if (values == null)
             {
-                return false;
+                Clear();
+                return true;
             }
+
+            if (ReferenceEquals(values, this))
+            {
+                return true;
+            }
+
+            List<TValue> values_Buffered = [.. values];
 
             Clear();
 
-            foreach (TValue value in values)
+            foreach (TValue value in values_Buffered)
             {
                 Add(value);
             }
+
             return true;
         }
     }
