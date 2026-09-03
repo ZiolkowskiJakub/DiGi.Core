@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using System.Text;
 
 namespace DiGi.Core.IO.FileWatcher.Classes
@@ -31,10 +31,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         {
             get
             {
-                if (configurationFile is null)
-                {
-                    configurationFile = Create.ConfigurationFile(this, encoding) ?? new ConfigurationFile();
-                }
+                configurationFile ??= Create.ConfigurationFile(this, encoding) ?? new ConfigurationFile();
 
                 return configurationFile;
             }

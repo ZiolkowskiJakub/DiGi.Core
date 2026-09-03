@@ -102,21 +102,12 @@ namespace DiGi.Core
             // Handle Null scenarios first to fix Bug 3 logically and cleanly
             if (value_1 == null && value_2 == null)
             {
-                switch (textComparisonType)
+                return textComparisonType switch
                 {
-                    case TextComparisonType.Equals:
-                    case TextComparisonType.Contains:
-                    case TextComparisonType.StartsWith:
-                    case TextComparisonType.EndsWith:
-                        return true;
-
-                    case TextComparisonType.NotEquals:
-                    case TextComparisonType.NotContains:
-                    case TextComparisonType.NotStartsWith:
-                    case TextComparisonType.NotEndsWith:
-                        return false;
-                }
-                return false;
+                    TextComparisonType.Equals or TextComparisonType.Contains or TextComparisonType.StartsWith or TextComparisonType.EndsWith => true,
+                    TextComparisonType.NotEquals or TextComparisonType.NotContains or TextComparisonType.NotStartsWith or TextComparisonType.NotEndsWith => false,
+                    _ => false,
+                };
             }
 
             if (value_1 == null || value_2 == null)

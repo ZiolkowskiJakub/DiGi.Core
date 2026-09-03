@@ -63,11 +63,11 @@ namespace DiGi.Core
                 // Handle shorthand CSS hex (e.g., #FFF or #F00)
                 if (hex.Length == 3)
                 {
-                    hex = new string(new char[] { hex[0], hex[0], hex[1], hex[1], hex[2], hex[2] });
+                    hex = new string([hex[0], hex[0], hex[1], hex[1], hex[2], hex[2]]);
                 }
                 else if (hex.Length == 4)
                 {
-                    hex = new string(new char[] { hex[0], hex[0], hex[1], hex[1], hex[2], hex[2], hex[3], hex[3] });
+                    hex = new string([hex[0], hex[0], hex[1], hex[1], hex[2], hex[2], hex[3], hex[3]]);
                 }
 
                 if (hex.Length == 6)

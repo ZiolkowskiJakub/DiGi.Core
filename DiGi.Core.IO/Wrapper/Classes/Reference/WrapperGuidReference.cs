@@ -11,7 +11,7 @@ namespace DiGi.Core.IO.Wrapper.Classes
         private readonly string? fullTypeName;
 
         [JsonInclude, JsonPropertyName("Guid")]
-        private System.Guid guid;
+        private readonly System.Guid guid;
 
         public WrapperGuidReference(GuidReference? guidReference)
             : base()

@@ -69,7 +69,7 @@ namespace DiGi.Core.Classes
                 return result;
             }
 
-            if (constructorInfo.Invoke(Array.Empty<object>()) is not T result_Parameterless)
+            if (constructorInfo.Invoke([]) is not T result_Parameterless)
             {
                 return default;
             }

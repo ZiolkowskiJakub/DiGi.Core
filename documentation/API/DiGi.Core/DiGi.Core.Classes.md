@@ -1976,7 +1976,7 @@ True if the cluster contains the value; otherwise, false\.
 Returns an enumerator that iterates through the cluster values\.
 
 ```csharp
-public System.Collections.Generic.IEnumerator<TValue> GetEnumerator();
+public virtual System.Collections.Generic.IEnumerator<TValue> GetEnumerator();
 ```
 
 Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator 'System\.Collections\.Generic\.IEnumerable\`1\.GetEnumerator'), [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator 'System\.Collections\.IEnumerable\.GetEnumerator')
@@ -1997,7 +1997,7 @@ public virtual System.Collections.Generic.List<TKey_1>? GetKeys_1();
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TKey\_1](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TKey_1 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TKey\_1')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of first keys, or null if the cluster has no values\.
+A list of first keys, or null if the cluster values could not be retrieved\.
 
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetKeys_2(TKey_1)'></a>
 
@@ -2169,7 +2169,7 @@ The first key to filter by\.
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetValues_UValue_(TKey_1).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetValues\<UValue\>\(TKey\_1\)\.UValue')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of matching values, or null if none found\.
+A list of matching values, or null if key\_1 is null or the cluster values could not be retrieved\.
 
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.IsValid(TValue)'></a>
 
@@ -2282,6 +2282,41 @@ The values to set\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if values were set successfully; otherwise, false\.
 
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(System.Func_UValue,bool_,UValue)'></a>
+
+## Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValue\<UValue\>\(Func\<UValue,bool\>, UValue\) Method
+
+Attempts to get the first value matching the specified predicate\.
+
+```csharp
+public bool TryGetValue<UValue>(System.Func<UValue?,bool>? func, out UValue? value)
+    where UValue : TValue;
+```
+#### Type parameters
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(System.Func_UValue,bool_,UValue).UValue'></a>
+
+`UValue`
+
+The type of the value\.
+#### Parameters
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(System.Func_UValue,bool_,UValue).func'></a>
+
+`func` [System\.Func&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(System.Func_UValue,bool_,UValue).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValue\<UValue\>\(System\.Func\<UValue,bool\>, UValue\)\.UValue')[,](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')
+
+A predicate function to filter values\.
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(System.Func_UValue,bool_,UValue).value'></a>
+
+`value` [UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(System.Func_UValue,bool_,UValue).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValue\<UValue\>\(System\.Func\<UValue,bool\>, UValue\)\.UValue')
+
+When this method returns, contains the first matching value, or default if no match was found\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if a matching value was found; otherwise, false\.
+
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValue_UValue_(UValue,System.Func_UValue,bool_)'></a>
 
 ## Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValue\<UValue\>\(UValue, Func\<UValue,bool\>\) Method
@@ -2347,6 +2382,41 @@ When this method returns, contains the matching values, or null if none found\.
 `func` [System\.Func&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Collections.Generic.List_UValue_,System.Func_UValue,bool_).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValues\<UValue\>\(System\.Collections\.Generic\.List\<UValue\>, System\.Func\<UValue,bool\>\)\.UValue')[,](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')
 
 A predicate function to filter values\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if any matching values were found; otherwise, false\.
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Func_UValue,bool_,System.Collections.Generic.List_UValue_)'></a>
+
+## Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValues\<UValue\>\(Func\<UValue,bool\>, List\<UValue\>\) Method
+
+Attempts to get values filtered by the specified predicate\.
+
+```csharp
+public bool TryGetValues<UValue>(System.Func<UValue?,bool>? func, out System.Collections.Generic.List<UValue>? values)
+    where UValue : TValue;
+```
+#### Type parameters
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Func_UValue,bool_,System.Collections.Generic.List_UValue_).UValue'></a>
+
+`UValue`
+
+The type of the value\.
+#### Parameters
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Func_UValue,bool_,System.Collections.Generic.List_UValue_).func'></a>
+
+`func` [System\.Func&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Func_UValue,bool_,System.Collections.Generic.List_UValue_).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValues\<UValue\>\(System\.Func\<UValue,bool\>, System\.Collections\.Generic\.List\<UValue\>\)\.UValue')[,](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')
+
+A predicate function to filter values\.
+
+<a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Func_UValue,bool_,System.Collections.Generic.List_UValue_).values'></a>
+
+`values` [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TryGetValues_UValue_(System.Func_UValue,bool_,System.Collections.Generic.List_UValue_).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TryGetValues\<UValue\>\(System\.Func\<UValue,bool\>, System\.Collections\.Generic\.List\<UValue\>\)\.UValue')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')
+
+When this method returns, contains the matching values, or null if none found\.
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
@@ -6650,6 +6720,22 @@ The second value to compare\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the specified values are equal; otherwise, false\.
+
+<a name='DiGi.Core.Classes.List_TKey_1,TKey_2,TValue_.GetEnumerator()'></a>
+
+## List\<TKey\_1,TKey\_2,TValue\>\.GetEnumerator\(\) Method
+
+Returns an enumerator that iterates through the cluster values\.
+
+```csharp
+public override System.Collections.Generic.IEnumerator<TValue> GetEnumerator();
+```
+
+Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator 'System\.Collections\.Generic\.IEnumerable\`1\.GetEnumerator'), [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator 'System\.Collections\.IEnumerable\.GetEnumerator')
+
+#### Returns
+[System\.Collections\.Generic\.IEnumerator&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')[TValue](DiGi.Core.Classes.md#DiGi.Core.Classes.List_TKey_1,TKey_2,TValue_.TValue 'DiGi\.Core\.Classes\.List\<TKey\_1,TKey\_2,TValue\>\.TValue')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')  
+An enumerator for the cluster values\.
 
 <a name='DiGi.Core.Classes.List_TKey_1,TKey_2,TValue_.GetIndexes_UValue_(TKey_1,TKey_2,System.Func_UValue,bool_)'></a>
 
@@ -17053,6 +17139,22 @@ The value to locate in the cluster\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 true if the cluster contains a specific value; otherwise, false\.
+
+<a name='DiGi.Core.Classes.ValueCluster_TKey_1,TKey_2,TValue_.GetEnumerator()'></a>
+
+## ValueCluster\<TKey\_1,TKey\_2,TValue\>\.GetEnumerator\(\) Method
+
+Returns an enumerator that iterates through the cluster values\.
+
+```csharp
+public override System.Collections.Generic.IEnumerator<TValue> GetEnumerator();
+```
+
+Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1.getenumerator 'System\.Collections\.Generic\.IEnumerable\`1\.GetEnumerator'), [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator 'System\.Collections\.IEnumerable\.GetEnumerator')
+
+#### Returns
+[System\.Collections\.Generic\.IEnumerator&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')[TValue](DiGi.Core.Classes.md#DiGi.Core.Classes.ValueCluster_TKey_1,TKey_2,TValue_.TValue 'DiGi\.Core\.Classes\.ValueCluster\<TKey\_1,TKey\_2,TValue\>\.TValue')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')  
+An enumerator for the cluster values\.
 
 <a name='DiGi.Core.Classes.ValueCluster_TKey_1,TKey_2,TValue_.GetKeys_1()'></a>
 

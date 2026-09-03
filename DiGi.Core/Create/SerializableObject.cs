@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using System.Text.Json.Nodes;
 
@@ -17,9 +17,9 @@ namespace DiGi.Core
                 return default;
             }
 
-            SerializationConstructor? serializationConstructor = null;
-
             string? fullTypeName = Query.FullTypeName(jsonObject);
+
+            SerializationConstructor? serializationConstructor;
             if (!string.IsNullOrWhiteSpace(fullTypeName))
             {
                 serializationConstructor = Settings.SerializationManager.GetSerializationConstructor(fullTypeName);

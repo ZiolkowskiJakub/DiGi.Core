@@ -90,7 +90,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return rows.Values.Select(x => x.Clone()!).ToList();
+                return [.. rows.Values.Select(x => x.Clone()!)];
             }
         }
 

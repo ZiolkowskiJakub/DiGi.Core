@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.File.Interfaces;
+using DiGi.Core.IO.File.Interfaces;
 using DiGi.Core.IO.Interfaces;
 using System;
 using System.IO;
@@ -218,10 +218,7 @@ namespace DiGi.Core.IO.FileWatcher.Classes
         {
             get
             {
-                if (file is null)
-                {
-                    file = CreateFile();
-                }
+                file ??= CreateFile();
 
                 return file;
             }

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -109,10 +109,7 @@ namespace DiGi.Core.Classes
         {
             get
             {
-                if (uniqueId == null)
-                {
-                    uniqueId = guid.ToString("N");
-                }
+                uniqueId ??= guid.ToString("N");
 
                 return uniqueId;
             }
