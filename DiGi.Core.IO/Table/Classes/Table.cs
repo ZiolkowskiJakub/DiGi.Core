@@ -16,6 +16,7 @@ namespace DiGi.Core.IO.Table.Classes
     /// <para>4. Dynamic Shifting: Column removal operations (typically found in Modify extensions) shift all subsequent columns and their corresponding values in each row down by one index to maintain contiguous, zero-based column indexing.</para>
     /// <para>5. Default Value Fallback: Accessing a cell via the indexer <c>this[rowIndex, columnIndex]</c> returns the default value for the column's type if the cell does not exist or has not been populated.</para>
     /// <para>6. JSON Serialization: Designed for custom JSON serialization and deserialization using <c>TableConverter</c> which handles column schemas and row value arrays.</para>
+    /// <para>7. Enumeration Semantics: <c>GetEnumerator</c> iterates the table's live rows in index order; the <c>Rows</c> and <c>Columns</c> properties return defensive snapshots (cloned items) for consumers that need isolation from the table's internal state.</para>
     /// </summary>
     /// <typeparam name="TColumn">The type of the columns in the table.</typeparam>
     /// <typeparam name="TRow">The type of the rows in the table.</typeparam>
@@ -83,7 +84,8 @@ namespace DiGi.Core.IO.Table.Classes
         }
 
         /// <summary>
-        /// Gets the collection of rows in the table.
+        /// Gets a defensive snapshot of the rows in the table (cloned copies, in index order).
+        /// <para>Use enumeration of the table itself for a live view of the rows.</para>
         /// </summary>
         [JsonInclude, JsonPropertyName(nameof(Rows))]
         public IEnumerable<TRow> Rows
@@ -448,12 +450,13 @@ namespace DiGi.Core.IO.Table.Classes
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the rows of the table.
+        /// Returns an enumerator that iterates through the table's live rows in index order.
+        /// <para>Use <see cref="Rows"/> for a defensive snapshot (cloned copies) of the rows.</para>
         /// </summary>
-        /// <returns>An enumerator for the rows.</returns>
+        /// <returns>An enumerator for the live rows.</returns>
         public IEnumerator<TRow> GetEnumerator()
         {
-            return Rows.GetEnumerator();
+            return rows.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

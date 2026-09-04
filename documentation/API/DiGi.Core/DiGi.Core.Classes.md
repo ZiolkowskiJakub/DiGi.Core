@@ -1975,6 +1975,8 @@ True if the cluster contains the value; otherwise, false\.
 
 Returns an enumerator that iterates through the cluster values\.
 
+Derivatives should override this method with a streaming implementation over their internal storage; the base implementation materializes a list via [GetValues&lt;UValue&gt;\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetValues_UValue_() 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetValues\<UValue\>\(\)').
+
 ```csharp
 public virtual System.Collections.Generic.IEnumerator<TValue> GetEnumerator();
 ```
@@ -1991,19 +1993,23 @@ An enumerator for the cluster values\.
 
 Gets a list of all unique first keys in the cluster\.
 
+Values are drawn from the cluster's enumeration ([GetEnumerator\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetEnumerator() 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetEnumerator\(\)')), so derivatives with a streaming enumerator avoid the intermediate list allocation.
+
 ```csharp
 public virtual System.Collections.Generic.List<TKey_1>? GetKeys_1();
 ```
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TKey\_1](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TKey_1 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TKey\_1')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of first keys, or null if the cluster values could not be retrieved\.
+A list of first keys; empty if the cluster contains none\.
 
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetKeys_2(TKey_1)'></a>
 
 ## Cluster\<TKey\_1,TKey\_2,TValue\>\.GetKeys\_2\(TKey\_1\) Method
 
 Gets a list of all unique second keys for values with the specified first key\.
+
+Values are drawn from the cluster's enumeration ([GetEnumerator\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetEnumerator() 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetEnumerator\(\)')), so derivatives with a streaming enumerator avoid the intermediate list allocation.
 
 ```csharp
 public virtual System.Collections.Generic.List<TKey_2>? GetKeys_2(TKey_1? key_1);
@@ -2018,7 +2024,7 @@ The first key to filter by\.
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[TKey\_2](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.TKey_2 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.TKey\_2')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of second keys, or null if key\_1 is null or the cluster has no matching values\.
+A list of second keys; empty if the cluster has no matching values, or null if key\_1 is null\.
 
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetKey_1(TValue)'></a>
 
@@ -2119,6 +2125,8 @@ A list of values, or null if none found\.
 
 Gets a list of values filtered by the specified predicate\.
 
+Values are drawn from the cluster's enumeration ([GetEnumerator\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetEnumerator() 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetEnumerator\(\)')), so derivatives with a streaming enumerator avoid the intermediate list allocation.
+
 ```csharp
 public System.Collections.Generic.List<UValue>? GetValues<UValue>(System.Func<UValue?,bool>? func)
     where UValue : TValue;
@@ -2136,17 +2144,19 @@ The type of the value\.
 
 `func` [System\.Func&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetValues_UValue_(System.Func_UValue,bool_).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetValues\<UValue\>\(System\.Func\<UValue,bool\>\)\.UValue')[,](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.func-2 'System\.Func\`2')
 
-A predicate function to filter values\.
+A predicate function to filter values; all values are returned when null\.
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetValues_UValue_(System.Func_UValue,bool_).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetValues\<UValue\>\(System\.Func\<UValue,bool\>\)\.UValue')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of matching values\.
+A list of matching values; empty if none match\.
 
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetValues_UValue_(TKey_1)'></a>
 
 ## Cluster\<TKey\_1,TKey\_2,TValue\>\.GetValues\<UValue\>\(TKey\_1\) Method
 
 Gets a list of values filtered by the specified first key\.
+
+Values are drawn from the cluster's enumeration ([GetEnumerator\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetEnumerator() 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetEnumerator\(\)')), so derivatives with a streaming enumerator avoid the intermediate list allocation.
 
 ```csharp
 public virtual System.Collections.Generic.List<UValue>? GetValues<UValue>(TKey_1? key_1)
@@ -2169,7 +2179,7 @@ The first key to filter by\.
 
 #### Returns
 [System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[UValue](DiGi.Core.Classes.md#DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.GetValues_UValue_(TKey_1).UValue 'DiGi\.Core\.Classes\.Cluster\<TKey\_1,TKey\_2,TValue\>\.GetValues\<UValue\>\(TKey\_1\)\.UValue')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
-A list of matching values, or null if key\_1 is null or the cluster values could not be retrieved\.
+A list of matching values; empty if none match, or null if key\_1 is null\.
 
 <a name='DiGi.Core.Classes.Cluster_TKey_1,TKey_2,TValue_.IsValid(TValue)'></a>
 

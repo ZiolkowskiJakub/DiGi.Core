@@ -123,6 +123,7 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Returns an enumerator that iterates through the cluster values.
+        /// <para>Derivatives should override this method with a streaming implementation over their internal storage; the base implementation materializes a list via <see cref="GetValues{UValue}()"/>.</para>
         /// </summary>
         /// <returns>An enumerator for the cluster values.</returns>
         public virtual IEnumerator<TValue> GetEnumerator()
@@ -151,18 +152,13 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Gets a list of all unique first keys in the cluster.
+        /// <para>Values are drawn from the cluster's enumeration (<see cref="GetEnumerator"/>), so derivatives with a streaming enumerator avoid the intermediate list allocation.</para>
         /// </summary>
-        /// <returns>A list of first keys, or null if the cluster values could not be retrieved.</returns>
+        /// <returns>A list of first keys; empty if the cluster contains none.</returns>
         public virtual List<TKey_1>? GetKeys_1()
         {
-            List<TValue>? values = GetValues<TValue>();
-            if (values == null)
-            {
-                return null;
-            }
-
             HashSet<TKey_1> keys_1 = [];
-            foreach (TValue value in values)
+            foreach (TValue value in this)
             {
                 TKey_1? key_1 = GetKey_1(value);
                 if (key_1 == null)
@@ -178,9 +174,10 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Gets a list of all unique second keys for values with the specified first key.
+        /// <para>Values are drawn from the cluster's enumeration (<see cref="GetEnumerator"/>), so derivatives with a streaming enumerator avoid the intermediate list allocation.</para>
         /// </summary>
         /// <param name="key_1">The first key to filter by.</param>
-        /// <returns>A list of second keys, or null if key_1 is null or the cluster has no matching values.</returns>
+        /// <returns>A list of second keys; empty if the cluster has no matching values, or null if key_1 is null.</returns>
         public virtual List<TKey_2>? GetKeys_2(TKey_1? key_1)
         {
             if (key_1 == null)
@@ -188,14 +185,8 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            List<TValue>? values = GetValues<TValue>();
-            if (values == null)
-            {
-                return null;
-            }
-
             HashSet<TKey_2> keys_2 = [];
-            foreach (TValue value in values)
+            foreach (TValue value in this)
             {
                 TKey_1? key_1_Value = GetKey_1(value);
                 if (key_1_Value == null || !EqualityComparer<TKey_1>.Default.Equals(key_1, key_1_Value))
@@ -241,10 +232,11 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Gets a list of values filtered by the specified first key.
+        /// <para>Values are drawn from the cluster's enumeration (<see cref="GetEnumerator"/>), so derivatives with a streaming enumerator avoid the intermediate list allocation.</para>
         /// </summary>
         /// <typeparam name="UValue">The type of the value.</typeparam>
         /// <param name="key_1">The first key to filter by.</param>
-        /// <returns>A list of matching values, or null if key_1 is null or the cluster values could not be retrieved.</returns>
+        /// <returns>A list of matching values; empty if none match, or null if key_1 is null.</returns>
         public virtual List<UValue>? GetValues<UValue>(TKey_1? key_1) where UValue : TValue
         {
             if (key_1 == null)
@@ -252,20 +244,21 @@ namespace DiGi.Core.Classes
                 return null;
             }
 
-            List<UValue>? values = GetValues<UValue>();
-            if (values == null)
-            {
-                return null;
-            }
-
             List<UValue> uValues = [];
-            foreach (UValue value in values)
+            foreach (TValue value in this)
             {
-                TKey_1? key_1_Value = GetKey_1(value);
-                if (key_1_Value != null && EqualityComparer<TKey_1>.Default.Equals(key_1, key_1_Value))
+                if (value is not UValue uValue)
                 {
-                    uValues.Add(value);
+                    continue;
                 }
+
+                TKey_1? key_1_Value = GetKey_1(value);
+                if (key_1_Value == null || !EqualityComparer<TKey_1>.Default.Equals(key_1, key_1_Value))
+                {
+                    continue;
+                }
+
+                uValues.Add(uValue);
             }
 
             return uValues;
@@ -273,19 +266,26 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Gets a list of values filtered by the specified predicate.
+        /// <para>Values are drawn from the cluster's enumeration (<see cref="GetEnumerator"/>), so derivatives with a streaming enumerator avoid the intermediate list allocation.</para>
         /// </summary>
         /// <typeparam name="UValue">The type of the value.</typeparam>
-        /// <param name="func">A predicate function to filter values.</param>
-        /// <returns>A list of matching values.</returns>
+        /// <param name="func">A predicate function to filter values; all values are returned when null.</param>
+        /// <returns>A list of matching values; empty if none match.</returns>
         public List<UValue>? GetValues<UValue>(Func<UValue?, bool>? func) where UValue : TValue
         {
-            List<UValue>? uValues = GetValues<UValue>();
-            if (func == null || uValues == null || uValues.Count == 0)
+            List<UValue> uValues = [];
+            foreach (TValue value in this)
             {
-                return uValues;
-            }
+                if (value is not UValue uValue)
+                {
+                    continue;
+                }
 
-            uValues.RemoveAll(x => !func.Invoke(x));
+                if (func == null || func.Invoke(uValue))
+                {
+                    uValues.Add(uValue);
+                }
+            }
 
             return uValues;
         }

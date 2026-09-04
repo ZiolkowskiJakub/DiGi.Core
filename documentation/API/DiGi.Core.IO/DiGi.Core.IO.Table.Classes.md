@@ -1066,6 +1066,8 @@ Behavior and Architecture:
 
 6. JSON Serialization: Designed for custom JSON serialization and deserialization using `TableConverter` which handles column schemas and row value arrays.
 
+7. Enumeration Semantics: `GetEnumerator` iterates the table's live rows in index order; the `Rows` and `Columns` properties return defensive snapshots (cloned items) for consumers that need isolation from the table's internal state.
+
 ```csharp
 public abstract class Table<TColumn,TRow> : DiGi.Core.IO.Table.Interfaces.ITable<TColumn, TRow>, DiGi.Core.IO.Table.Interfaces.ITable, DiGi.Core.IO.Table.Interfaces.ITableObject, DiGi.Core.IO.Interfaces.IIOObject, DiGi.Core.Interfaces.IObject, System.Collections.Generic.IEnumerable<TRow>, System.Collections.IEnumerable
     where TColumn : DiGi.Core.IO.Table.Interfaces.IColumn
@@ -1166,7 +1168,9 @@ public int RowCount { get; }
 
 ## Table\<TColumn,TRow\>\.Rows Property
 
-Gets the collection of rows in the table\.
+Gets a defensive snapshot of the rows in the table \(cloned copies, in index order\)\.
+
+Use enumeration of the table itself for a live view of the rows.
 
 ```csharp
 public System.Collections.Generic.IEnumerable<TRow> Rows { get; }
@@ -1593,7 +1597,9 @@ An array containing the values of the specified column for each row, or null if 
 
 ## Table\<TColumn,TRow\>\.GetEnumerator\(\) Method
 
-Returns an enumerator that iterates through the rows of the table\.
+Returns an enumerator that iterates through the table's live rows in index order\.
+
+Use [Rows](DiGi.Core.IO.Table.Classes.md#DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.Rows 'DiGi\.Core\.IO\.Table\.Classes\.Table\<TColumn,TRow\>\.Rows') for a defensive snapshot (cloned copies) of the rows.
 
 ```csharp
 public System.Collections.Generic.IEnumerator<TRow> GetEnumerator();
@@ -1603,7 +1609,7 @@ Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/syst
 
 #### Returns
 [System\.Collections\.Generic\.IEnumerator&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')[TRow](DiGi.Core.IO.Table.Classes.md#DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.TRow 'DiGi\.Core\.IO\.Table\.Classes\.Table\<TColumn,TRow\>\.TRow')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')  
-An enumerator for the rows\.
+An enumerator for the live rows\.
 
 <a name='DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.GetNextColumnIndex()'></a>
 
