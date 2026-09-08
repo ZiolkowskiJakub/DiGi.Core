@@ -113,6 +113,14 @@ namespace DiGi.Core.Classes
         protected Task? Task { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the task was cancelled before it reported failure.
+        /// <para>The base implementation is always false. A cancelable task overrides it, so that a run stopped
+        /// by its operator - which reports failure only because its cancellation was requested - is not wrapped
+        /// as a <see cref="BackgroundTaskFailureException"/>.</para>
+        /// </summary>
+        protected virtual bool WasCanceled => false;
+
+        /// <summary>
         /// Starts the background task execution.
         /// </summary>
         public virtual void Start()
@@ -146,6 +154,15 @@ namespace DiGi.Core.Classes
                     }
                     finally
                     {
+                        // A task that reports failure without throwing and without being cancelled refused
+                        // deliberately, and the reason it logged - if it logged one - exists only in the log
+                        // file, invisible on the task row. Wrapping it here gives every such failure a message
+                        // the row can show on hover and the wrapper can log, without each task having to throw.
+                        if (exception is null && !isSucceeded && !WasCanceled)
+                        {
+                            exception = new BackgroundTaskFailureException("The task reported failure without an exception - a reason, if one was logged, is in the logs folder beside the application");
+                        }
+
                         OnStopping();
 
                         // Stop the measurement as soon as the execution finishes

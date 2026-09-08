@@ -58,7 +58,15 @@ namespace DiGi.Core.Classes
         }
 
         /// <summary>
-        /// Gets a value indicating whether the task has been canceled.
+        /// Gets a value indicating whether the task was cancelled before it reported failure.
+        /// <para>Read while the run is still finishing - <see cref="Stop"/> and <see cref="StopAsync"/> await the
+        /// run before they clean the source up - so a run stopped by its operator is recognized as cancelled and
+        /// is not wrapped as a <see cref="BackgroundTaskFailureException"/> for having returned false.</para>
+        /// </summary>
+        protected override bool WasCanceled => cancellationTokenSource?.IsCancellationRequested ?? false;
+
+        /// <summary>
+        /// Gets a value indicating whether the task was canceled.
         /// </summary>
         public bool IsCanceled => Task?.IsCanceled ?? false;
 

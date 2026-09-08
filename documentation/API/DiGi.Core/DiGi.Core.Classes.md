@@ -977,6 +977,23 @@ protected System.Threading.Tasks.Task? Task { protected get; protected set; }
 
 #### Property Value
 [System\.Threading\.Tasks\.Task](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task 'System\.Threading\.Tasks\.Task')
+
+<a name='DiGi.Core.Classes.BackgroundTask.WasCanceled'></a>
+
+## BackgroundTask\.WasCanceled Property
+
+Gets a value indicating whether the task was cancelled before it reported failure\.
+
+The base implementation is always false. A cancelable task overrides it, so that a run stopped
+            by its operator - which reports failure only because its cancellation was requested - is not wrapped
+            as a [BackgroundTaskFailureException](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTaskFailureException 'DiGi\.Core\.Classes\.BackgroundTaskFailureException').
+
+```csharp
+protected virtual bool WasCanceled { protected get; }
+```
+
+#### Property Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
 ### Methods
 
 <a name='DiGi.Core.Classes.BackgroundTask.ExecuteAsync()'></a>
@@ -1106,6 +1123,45 @@ Implements [Stopping](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IBackgroundTa
 #### Event Type
 [System\.EventHandler](https://learn.microsoft.com/en-us/dotnet/api/system.eventhandler 'System\.EventHandler')
 
+<a name='DiGi.Core.Classes.BackgroundTaskFailureException'></a>
+
+## BackgroundTaskFailureException Class
+
+Represents the deliberate failure of a background task: a refusal the task decided on itself, such as a
+duplicate email or a cancelled dialog, rather than an unexpected exception thrown while it was running\.
+
+It exists so a consumer of [Exception](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IBackgroundTask.Exception 'DiGi\.Core\.Interfaces\.IBackgroundTask\.Exception') can tell a designed
+            refusal from a crash by type: the message alone would leave a reader guessing whether the run broke or
+            declined. A task throwing it is refusing; anything else in `Exception` is a fault.
+
+[BackgroundTask](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTask 'DiGi\.Core\.Classes\.BackgroundTask') also assigns it as a fallback when a task reports failure by returning
+            false without an exception and without being cancelled, so such a run still carries a message the task
+            row can show on hover and the clipboard can copy.
+
+```csharp
+public class BackgroundTaskFailureException : System.Exception
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [System\.Exception](https://learn.microsoft.com/en-us/dotnet/api/system.exception 'System\.Exception') → BackgroundTaskFailureException
+### Constructors
+
+<a name='DiGi.Core.Classes.BackgroundTaskFailureException.BackgroundTaskFailureException(string)'></a>
+
+## BackgroundTaskFailureException\(string\) Constructor
+
+Initializes a new instance of the [BackgroundTaskFailureException](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTaskFailureException 'DiGi\.Core\.Classes\.BackgroundTaskFailureException') class with a specified error message\.
+
+```csharp
+public BackgroundTaskFailureException(string? message);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.BackgroundTaskFailureException.BackgroundTaskFailureException(string).message'></a>
+
+`message` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The message that describes why the task refused to do what it was asked for\.
+
 <a name='DiGi.Core.Classes.CancelableBackgroundTask'></a>
 
 ## CancelableBackgroundTask Class
@@ -1157,10 +1213,27 @@ Implements [CancelableBackgroundTaskStatus](DiGi.Core.Interfaces.md#DiGi.Core.In
 
 ## CancelableBackgroundTask\.IsCanceled Property
 
-Gets a value indicating whether the task has been canceled\.
+Gets a value indicating whether the task was canceled\.
 
 ```csharp
 public bool IsCanceled { get; }
+```
+
+#### Property Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+<a name='DiGi.Core.Classes.CancelableBackgroundTask.WasCanceled'></a>
+
+## CancelableBackgroundTask\.WasCanceled Property
+
+Gets a value indicating whether the task was cancelled before it reported failure\.
+
+Read while the run is still finishing - [Stop\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Stop() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Stop\(\)') and [StopAsync\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.StopAsync() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.StopAsync\(\)') await the
+            run before they clean the source up - so a run stopped by its operator is recognized as cancelled and
+            is not wrapped as a [BackgroundTaskFailureException](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTaskFailureException 'DiGi\.Core\.Classes\.BackgroundTaskFailureException') for having returned false.
+
+```csharp
+protected override bool WasCanceled { protected get; }
 ```
 
 #### Property Value
