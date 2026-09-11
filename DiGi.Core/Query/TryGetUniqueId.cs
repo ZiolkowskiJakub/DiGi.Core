@@ -17,7 +17,7 @@ namespace DiGi.Core
                 return false;
             }
 
-            uniqueId = UniqueId(@object as dynamic);
+            uniqueId = UniqueId(@object);
             return uniqueId != null;
         }
     }

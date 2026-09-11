@@ -1,6 +1,7 @@
 using DiGi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -19,21 +20,6 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            //ulong result = 0;
-            //int index = 0;
-            //foreach (char c in value)
-            //{
-            //    ulong temp = (result * 31) + c;
-            //    if (temp < result)
-            //    {
-            //        index++;
-            //    }
-
-            //    result = temp;
-            //}
-
-            //return index.ToString() + result.ToString();
-
             return UniqueHash(value).ToString();
         }
 
@@ -44,7 +30,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this double value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -59,7 +45,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -69,7 +55,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this float value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -84,7 +70,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -94,7 +80,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this decimal value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -109,7 +95,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -119,7 +105,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this int value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -134,7 +120,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -144,7 +130,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this uint value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -159,7 +145,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -169,7 +155,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this short value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -184,7 +170,107 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
+            return value.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified byte.
+        /// </summary>
+        /// <param name="value">The byte value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this byte value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable byte.
+        /// </summary>
+        /// <param name="value">The nullable byte value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this byte? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return value.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified sbyte.
+        /// </summary>
+        /// <param name="value">The sbyte value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this sbyte value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable sbyte.
+        /// </summary>
+        /// <param name="value">The nullable sbyte value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this sbyte? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return value.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified char.
+        /// </summary>
+        /// <param name="value">The char value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this char value)
+        {
             return value.ToString();
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable char.
+        /// </summary>
+        /// <param name="value">The nullable char value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this char? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return value.Value.ToString();
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified ushort.
+        /// </summary>
+        /// <param name="value">The ushort value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this ushort value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable ushort.
+        /// </summary>
+        /// <param name="value">The nullable ushort value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this ushort? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -219,7 +305,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this DateTime value)
         {
-            return value.Ticks.ToString();
+            return value.Ticks.ToString(CultureInfo.InvariantCulture) + "_" + value.Kind.ToString();
         }
 
         /// <summary>
@@ -228,6 +314,31 @@ namespace DiGi.Core
         /// <param name="value">The nullable DateTime to generate a unique identifier for.</param>
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this DateTime? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return UniqueId(value.Value);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified DateTimeOffset.
+        /// </summary>
+        /// <param name="value">The DateTimeOffset value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this DateTimeOffset value)
+        {
+            return value.ToString("O", CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable DateTimeOffset.
+        /// </summary>
+        /// <param name="value">The nullable DateTimeOffset to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this DateTimeOffset? value)
         {
             if (value == null || !value.HasValue)
             {
@@ -294,13 +405,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            List<string> uniqueIds = [];
-            foreach (JsonNode? jsonNode in value)
-            {
-                uniqueIds.Add(UniqueId(jsonNode));
-            }
-
-            return UniqueId(string.Join(string.Empty, uniqueIds));
+            return UniqueHash(value).ToString();
         }
 
         /// <summary>
@@ -310,13 +415,40 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(JsonValue? value)
         {
-            object? @object = value?.GetValue<object>();
-            if (@object == null)
+            if (value == null)
             {
                 return Constants.UniqueId.Null;
             }
 
-            return UniqueId(@object as dynamic);
+            // A JsonValue parsed from text returns its JsonElement from GetValue<object>(), so probe the
+            // JSON-level value first; both the CLR-backed and the parsed form of a value then take the same overload.
+            if (value.TryGetValue(out string? @string))
+            {
+                return UniqueId(@string);
+            }
+
+            if (value.TryGetValue(out long @long))
+            {
+                return UniqueId(@long);
+            }
+
+            if (value.TryGetValue(out double @double))
+            {
+                return UniqueId(@double);
+            }
+
+            if (value.TryGetValue(out bool @bool))
+            {
+                return UniqueId(@bool);
+            }
+
+            object? @object = value.GetValue<object>();
+            if (@object == null || @object is System.Text.Json.JsonElement)
+            {
+                return UniqueHash(value).ToString(CultureInfo.InvariantCulture);
+            }
+
+            return UniqueId(@object);
         }
 
         /// <summary>
@@ -358,9 +490,6 @@ namespace DiGi.Core
                     return uniqueId;
                 }
             }
-
-            //return UniqueId(value.ToString());
-
             return UniqueHash(value).ToString();
         }
 
@@ -376,7 +505,9 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return System.Convert.ToInt32(@enum).ToString();
+            Type underlyingType = System.Enum.GetUnderlyingType(@enum.GetType());
+            object underlyingValue = System.Convert.ChangeType(@enum, underlyingType, CultureInfo.InvariantCulture);
+            return System.Convert.ToString(underlyingValue, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -446,7 +577,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this long value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -461,7 +592,7 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -471,7 +602,7 @@ namespace DiGi.Core
         /// <returns>A string representing the unique identifier.</returns>
         public static string UniqueId(this ulong value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -486,7 +617,57 @@ namespace DiGi.Core
                 return Constants.UniqueId.Null;
             }
 
-            return value.ToString();
+            return value.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nint.
+        /// </summary>
+        /// <param name="value">The nint value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this nint value)
+        {
+            return ((long)value).ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable nint.
+        /// </summary>
+        /// <param name="value">The nullable nint value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this nint? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return UniqueId(value.Value);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nuint.
+        /// </summary>
+        /// <param name="value">The nuint value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this nuint value)
+        {
+            return ((ulong)value).ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Generates a unique identifier for the specified nullable nuint.
+        /// </summary>
+        /// <param name="value">The nullable nuint value to generate a unique identifier for.</param>
+        /// <returns>A string representing the unique identifier.</returns>
+        public static string UniqueId(this nuint? value)
+        {
+            if (value == null || !value.HasValue)
+            {
+                return Constants.UniqueId.Null;
+            }
+
+            return UniqueId(value.Value);
         }
 
         /// <summary>
@@ -516,9 +697,104 @@ namespace DiGi.Core
                 return UniqueId(jsonNode);
             }
 
+            if (@object is string @string)
+            {
+                return UniqueId(@string);
+            }
+
             if (@object is Enum @enum)
             {
                 return UniqueId(@enum);
+            }
+
+            if (@object is bool @bool)
+            {
+                return UniqueId(@bool);
+            }
+
+            if (@object is char @char)
+            {
+                return UniqueId(@char);
+            }
+
+            if (@object is byte @byte)
+            {
+                return UniqueId(@byte);
+            }
+
+            if (@object is sbyte @sbyte)
+            {
+                return UniqueId(@sbyte);
+            }
+
+            if (@object is short @short)
+            {
+                return UniqueId(@short);
+            }
+
+            if (@object is ushort @ushort)
+            {
+                return UniqueId(@ushort);
+            }
+
+            if (@object is int @int)
+            {
+                return UniqueId(@int);
+            }
+
+            if (@object is uint @uint)
+            {
+                return UniqueId(@uint);
+            }
+
+            if (@object is long @long)
+            {
+                return UniqueId(@long);
+            }
+
+            if (@object is ulong @ulong)
+            {
+                return UniqueId(@ulong);
+            }
+
+            if (@object is nint @nint)
+            {
+                return UniqueId(@nint);
+            }
+
+            if (@object is nuint @nuint)
+            {
+                return UniqueId(@nuint);
+            }
+
+            if (@object is float @float)
+            {
+                return UniqueId(@float);
+            }
+
+            if (@object is double @double)
+            {
+                return UniqueId(@double);
+            }
+
+            if (@object is decimal @decimal)
+            {
+                return UniqueId(@decimal);
+            }
+
+            if (@object is DateTime dateTime)
+            {
+                return UniqueId(dateTime);
+            }
+
+            if (@object is DateTimeOffset dateTimeOffset)
+            {
+                return UniqueId(dateTimeOffset);
+            }
+
+            if (@object is Guid guid)
+            {
+                return UniqueId(guid);
             }
 
             return @object.ToString() ?? Constants.UniqueId.Null;

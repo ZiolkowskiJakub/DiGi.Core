@@ -6680,7 +6680,9 @@ The computed unique hash as a ulong\.
 
 ## Query\.UniqueHash\(this JsonNode, ulong\) Method
 
-Computes a unique hash for the specified JsonNode\.
+Computes a unique hash for the specified JsonNode over its canonical form\. Object keys are sorted ordinally, every segment \(value, key, container\) is tagged and length\-prefixed so that distinct nodes never fold onto the same character stream, and value tags are derived from the JSON value kind rather than the CLR type, so a node built from CLR values and the same node parsed back from its JSON text hash identically\.
+
+Numbers hash over their JSON text, which is shortest round-trip on .NET Core 3.0+ and G15 on .NET Framework, so the same double can hash differently across those runtimes.
 
 ```csharp
 public static ulong UniqueHash(this System.Text.Json.Nodes.JsonNode? jsonNode, ulong hash=14695981039346656037uL);
@@ -6782,6 +6784,48 @@ public static string UniqueId(this bool value);
 `value` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
 
 The boolean value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
+<a name='DiGi.Core.Query.UniqueId(thisbyte)'></a>
+
+## Query\.UniqueId\(this byte\) Method
+
+Generates a unique identifier for the specified byte\.
+
+```csharp
+public static string UniqueId(this byte value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisbyte).value'></a>
+
+`value` [System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')
+
+The byte value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
+<a name='DiGi.Core.Query.UniqueId(thischar)'></a>
+
+## Query\.UniqueId\(this char\) Method
+
+Generates a unique identifier for the specified char\.
+
+```csharp
+public static string UniqueId(this char value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thischar).value'></a>
+
+`value` [System\.Char](https://learn.microsoft.com/en-us/dotnet/api/system.char 'System\.Char')
+
+The char value to generate a unique identifier for\.
 
 #### Returns
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
@@ -6955,6 +6999,27 @@ The object to generate a unique identifier for\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A string representing the unique identifier\.
 
+<a name='DiGi.Core.Query.UniqueId(thissbyte)'></a>
+
+## Query\.UniqueId\(this sbyte\) Method
+
+Generates a unique identifier for the specified sbyte\.
+
+```csharp
+public static string UniqueId(this sbyte value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thissbyte).value'></a>
+
+`value` [System\.SByte](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte 'System\.SByte')
+
+The sbyte value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
 <a name='DiGi.Core.Query.UniqueId(thisshort)'></a>
 
 ## Query\.UniqueId\(this short\) Method
@@ -7018,6 +7083,27 @@ The DateTime value to generate a unique identifier for\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A string representing the unique identifier\.
 
+<a name='DiGi.Core.Query.UniqueId(thisSystem.DateTimeOffset)'></a>
+
+## Query\.UniqueId\(this DateTimeOffset\) Method
+
+Generates a unique identifier for the specified DateTimeOffset\.
+
+```csharp
+public static string UniqueId(this System.DateTimeOffset value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.DateTimeOffset).value'></a>
+
+`value` [System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset')
+
+The DateTimeOffset value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
 <a name='DiGi.Core.Query.UniqueId(thisSystem.Enum)'></a>
 
 ## Query\.UniqueId\(this Enum\) Method
@@ -7076,6 +7162,48 @@ public static string UniqueId(this System.Nullable<bool> value);
 `value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
 
 The nullable boolean value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_byte_)'></a>
+
+## Query\.UniqueId\(this Nullable\<byte\>\) Method
+
+Generates a unique identifier for the specified nullable byte\.
+
+```csharp
+public static string UniqueId(this System.Nullable<byte> value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_byte_).value'></a>
+
+`value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
+The nullable byte value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_char_)'></a>
+
+## Query\.UniqueId\(this Nullable\<char\>\) Method
+
+Generates a unique identifier for the specified nullable char\.
+
+```csharp
+public static string UniqueId(this System.Nullable<char> value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_char_).value'></a>
+
+`value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.Char](https://learn.microsoft.com/en-us/dotnet/api/system.char 'System\.Char')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
+The nullable char value to generate a unique identifier for\.
 
 #### Returns
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
@@ -7186,6 +7314,27 @@ The nullable long value to generate a unique identifier for\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A string representing the unique identifier\.
 
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_sbyte_)'></a>
+
+## Query\.UniqueId\(this Nullable\<sbyte\>\) Method
+
+Generates a unique identifier for the specified nullable sbyte\.
+
+```csharp
+public static string UniqueId(this System.Nullable<sbyte> value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_sbyte_).value'></a>
+
+`value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.SByte](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte 'System\.SByte')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
+The nullable sbyte value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
 <a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_short_)'></a>
 
 ## Query\.UniqueId\(this Nullable\<short\>\) Method
@@ -7223,6 +7372,27 @@ public static string UniqueId(this System.Nullable<System.DateTime> value);
 `value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
 
 The nullable DateTime to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_System.DateTimeOffset_)'></a>
+
+## Query\.UniqueId\(this Nullable\<DateTimeOffset\>\) Method
+
+Generates a unique identifier for the specified nullable DateTimeOffset\.
+
+```csharp
+public static string UniqueId(this System.Nullable<System.DateTimeOffset> value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_System.DateTimeOffset_).value'></a>
+
+`value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
+The nullable DateTimeOffset to generate a unique identifier for\.
 
 #### Returns
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
@@ -7291,6 +7461,27 @@ The nullable ulong value to generate a unique identifier for\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A string representing the unique identifier\.
 
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_ushort_)'></a>
+
+## Query\.UniqueId\(this Nullable\<ushort\>\) Method
+
+Generates a unique identifier for the specified nullable ushort\.
+
+```csharp
+public static string UniqueId(this System.Nullable<ushort> value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisSystem.Nullable_ushort_).value'></a>
+
+`value` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.UInt16](https://learn.microsoft.com/en-us/dotnet/api/system.uint16 'System\.UInt16')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
+The nullable ushort value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
 <a name='DiGi.Core.Query.UniqueId(thisSystem.Text.Json.Nodes.JsonObject)'></a>
 
 ## Query\.UniqueId\(this JsonObject\) Method
@@ -7349,6 +7540,27 @@ public static string UniqueId(this ulong value);
 `value` [System\.UInt64](https://learn.microsoft.com/en-us/dotnet/api/system.uint64 'System\.UInt64')
 
 The ulong value to generate a unique identifier for\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string representing the unique identifier\.
+
+<a name='DiGi.Core.Query.UniqueId(thisushort)'></a>
+
+## Query\.UniqueId\(this ushort\) Method
+
+Generates a unique identifier for the specified ushort\.
+
+```csharp
+public static string UniqueId(this ushort value);
+```
+#### Parameters
+
+<a name='DiGi.Core.Query.UniqueId(thisushort).value'></a>
+
+`value` [System\.UInt16](https://learn.microsoft.com/en-us/dotnet/api/system.uint16 'System\.UInt16')
+
+The ushort value to generate a unique identifier for\.
 
 #### Returns
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  

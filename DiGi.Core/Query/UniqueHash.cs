@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace DiGi.Core
@@ -7,7 +10,8 @@ namespace DiGi.Core
     public static partial class Query
     {
         /// <summary>
-        /// Computes a unique hash for the specified JsonNode.
+        /// Computes a unique hash for the specified JsonNode over its canonical form. Object keys are sorted ordinally, every segment (value, key, container) is tagged and length-prefixed so that distinct nodes never fold onto the same character stream, and value tags are derived from the JSON value kind rather than the CLR type, so a node built from CLR values and the same node parsed back from its JSON text hash identically.
+        /// <para>Numbers hash over their JSON text, which is shortest round-trip on .NET Core 3.0+ and G15 on .NET Framework, so the same double can hash differently across those runtimes.</para>
         /// </summary>
         /// <param name="jsonNode">The JsonNode to hash.</param>
         /// <param name="hash">The initial hash value (offset basis).</param>
@@ -16,45 +20,45 @@ namespace DiGi.Core
         {
             if (jsonNode is null)
             {
-                return UniqueHash(Constants.UniqueId.Null, hash);
+                return UniqueHash("z;", hash);
             }
 
             if (jsonNode is JsonValue jsonValue)
             {
-                if (jsonValue.TryGetValue(out string? @string))
+                switch (jsonValue.GetValueKind())
                 {
-                    return UniqueHash(@string ?? Constants.UniqueId.Null, hash);
-                }
+                    case System.Text.Json.JsonValueKind.String:
+                        if (!jsonValue.TryGetValue(out string? @string))
+                        {
+                            @string = JsonSerializer.Deserialize<string>(jsonValue.ToJsonString());
+                        }
 
-                if (jsonValue.TryGetValue(out int @int))
-                {
-                    return UniqueHash(@int.ToString(), hash);
-                }
+                        return UniqueHashSegment("s", @string ?? string.Empty, hash);
 
-                if (jsonValue.TryGetValue(out long @long))
-                {
-                    return UniqueHash(@long.ToString(), hash);
-                }
+                    case System.Text.Json.JsonValueKind.Number:
+                        return UniqueHashSegment("n", jsonValue.ToJsonString(), hash);
 
-                if (jsonValue.TryGetValue(out double @double))
-                {
-                    return UniqueHash(@double.ToString(), hash);
-                }
+                    case System.Text.Json.JsonValueKind.True:
+                        return UniqueHashSegment("b", "1", hash);
 
-                if (jsonValue.TryGetValue(out bool @bool))
-                {
-                    return UniqueHash(@bool.ToString(), hash);
-                }
+                    case System.Text.Json.JsonValueKind.False:
+                        return UniqueHashSegment("b", "0", hash);
 
-                return UniqueHash(jsonValue.ToJsonString(), hash);
+                    case System.Text.Json.JsonValueKind.Null:
+                        return UniqueHash("z;", hash);
+
+                    default:
+                        return UniqueHashSegment("r", jsonValue.ToJsonString(), hash);
+                }
             }
 
             if (jsonNode is JsonObject jsonObject)
             {
-                foreach (KeyValuePair<string, JsonNode?> kvp in jsonObject)
+                hash = UniqueHash("o" + jsonObject.Count.ToString(CultureInfo.InvariantCulture) + ";", hash);
+                foreach (KeyValuePair<string, JsonNode?> keyValuePair in jsonObject.OrderBy(x => x.Key, StringComparer.Ordinal))
                 {
-                    hash = UniqueHash(kvp.Key, hash);
-                    hash = UniqueHash(kvp.Value, hash);
+                    hash = UniqueHashSegment("k", keyValuePair.Key, hash);
+                    hash = UniqueHash(keyValuePair.Value, hash);
                 }
 
                 return hash;
@@ -62,6 +66,7 @@ namespace DiGi.Core
 
             if (jsonNode is JsonArray jsonArray)
             {
+                hash = UniqueHash("a" + jsonArray.Count.ToString(CultureInfo.InvariantCulture) + ";", hash);
                 foreach (JsonNode? item in jsonArray)
                 {
                     hash = UniqueHash(item, hash);
@@ -71,6 +76,12 @@ namespace DiGi.Core
             }
 
             throw new NotImplementedException();
+
+            static ulong UniqueHashSegment(string tag, string value, ulong hash)
+            {
+                hash = UniqueHash(tag + ":" + value.Length.ToString(CultureInfo.InvariantCulture) + ":", hash);
+                return UniqueHash(value, hash);
+            }
         }
 
         /// <summary>
