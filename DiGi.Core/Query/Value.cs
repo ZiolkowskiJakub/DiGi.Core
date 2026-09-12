@@ -457,6 +457,40 @@ namespace DiGi.Core
             }
 
             object? value = null;
+
+            object? ReadNumber(JsonNode node)
+            {
+                object? object_Value = node.GetValue<object>();
+
+                if (object_Value is System.Text.Json.JsonElement element_Value)
+                {
+                    // Parsed (text) leg: the node is element-backed - canonicalize to the narrowest CLR type that
+                    // round-trips, so a whole number reads back as an int rather than a double.
+                    if (element_Value.TryGetInt32(out int int_Value))
+                    {
+                        return int_Value;
+                    }
+
+                    if (element_Value.TryGetInt64(out long long_Value))
+                    {
+                        return long_Value;
+                    }
+
+                    return element_Value.GetDouble();
+                }
+
+                if (IsNumeric(object_Value))
+                {
+                    // CLR-backed (clone) leg: the node holds a boxed CLR numeric - keep its exact type (an int stays an
+                    // int, a decimal stays a decimal) instead of asking the node for a double it does not hold.
+                    return object_Value;
+                }
+
+                // Unreachable for a JsonValueKind.Number node: it is either element-backed (handled above) or holds a boxed
+                // CLR numeric (handled above). Throwing surfaces a future kind mismatch instead of silently widening it.
+                throw new InvalidOperationException("A JsonValueKind.Number node holds neither a JsonElement nor a boxed CLR numeric, so it cannot be read as a number.");
+            }
+
             switch (jsonValueKind)
             {
                 case System.Text.Json.JsonValueKind.String:
@@ -468,7 +502,7 @@ namespace DiGi.Core
                     break;
 
                 case System.Text.Json.JsonValueKind.Number:
-                    value = jsonNode.GetValue<double>();
+                    value = ReadNumber(jsonNode);
                     break;
 
                 case System.Text.Json.JsonValueKind.False:
