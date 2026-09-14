@@ -91,6 +91,35 @@ Idle
 
 Failed
 
+<a name='DiGi.Core.Enums.ColorSchemeType'></a>
+
+## ColorSchemeType Enum
+
+Defines the color scheme a generated color list follows\.
+
+```csharp
+public enum ColorSchemeType
+```
+### Fields
+
+<a name='DiGi.Core.Enums.ColorSchemeType.Sequential'></a>
+
+`Sequential` 0
+
+Ordered range buckets \(low to high\), a perceptually even ramp between two anchors
+
+<a name='DiGi.Core.Enums.ColorSchemeType.Diverging'></a>
+
+`Diverging` 1
+
+Ranges centred on a meaningful middle, two ramps meeting at a neutral light middle
+
+<a name='DiGi.Core.Enums.ColorSchemeType.Categorical'></a>
+
+`Categorical` 2
+
+Unique\-value buckets, a curated palette up to 12 and golden\-angle rotation beyond
+
 <a name='DiGi.Core.Enums.CountryCode'></a>
 
 ## CountryCode Enum

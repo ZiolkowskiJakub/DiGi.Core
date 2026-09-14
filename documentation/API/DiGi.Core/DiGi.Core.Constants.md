@@ -3,6 +3,226 @@
 ## DiGi\.Core\.Constants Namespace
 ### Classes
 
+<a name='DiGi.Core.Constants.ColorScheme'></a>
+
+## ColorScheme Class
+
+Color scheme parameters for Create\.Colors: the OKLab lightness band, the default ramp anchors, the curated categorical palette, and the golden\-angle fallback parameters\.
+
+```csharp
+public static class ColorScheme
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → ColorScheme
+### Fields
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalGoldenAngleChroma'></a>
+
+## ColorScheme\.CategoricalGoldenAngleChroma Field
+
+OKLab chroma of the beyond\-12 categorical fallback, fixed so new buckets differ mostly in hue and lightness\.
+
+```csharp
+public const double CategoricalGoldenAngleChroma = 0.1;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalGoldenAngleDegrees'></a>
+
+## ColorScheme\.CategoricalGoldenAngleDegrees Field
+
+Golden angle in degrees, the hue step of the beyond\-12 categorical fallback\.
+
+```csharp
+public const double CategoricalGoldenAngleDegrees = 137.508;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalGoldenAngleLightness_0'></a>
+
+## ColorScheme\.CategoricalGoldenAngleLightness\_0 Field
+
+OKLab lightness of the first and third golden\-angle turns \(i = 12\-23, i = 36\-47\)\.
+
+```csharp
+public const double CategoricalGoldenAngleLightness_0 = 0.3;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalGoldenAngleLightness_1'></a>
+
+## ColorScheme\.CategoricalGoldenAngleLightness\_1 Field
+
+OKLab lightness of the second and fourth golden\-angle turns \(i = 24\-35, i = 48\-59\)\.
+
+```csharp
+public const double CategoricalGoldenAngleLightness_1 = 0.65;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalMinimumDistance'></a>
+
+## ColorScheme\.CategoricalMinimumDistance Field
+
+Minimum OKLab distance any two categorical colors may sit apart\.
+
+Set to 0.075, below the 0.08 proposed in the issue, because the curated palette's own closest pair (#bcbd22 and #e7ba52) sits at 0.0778; the floor is set to the palette's achieved minimum so the exact palette the GIS page uses stays assertable and reproducible.
+
+```csharp
+public const double CategoricalMinimumDistance = 0.075;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalPalette'></a>
+
+## ColorScheme\.CategoricalPalette Field
+
+Curated categorical palette in bucket order, the 12 colors a GIS typology page seeds its unique\-value buckets with\.
+
+Tableau 10 extended with #393b79 and #e7ba52. Its minimum pairwise OKLab distance is 0.0778, between #bcbd22 and #e7ba52.
+
+```csharp
+public static readonly int[] CategoricalPalette;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalPaletteSize'></a>
+
+## ColorScheme\.CategoricalPaletteSize Field
+
+Number of buckets the curated palette covers; Colors falls back to golden\-angle generation above this count\.
+
+```csharp
+public const int CategoricalPaletteSize = 12;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Constants.ColorScheme.CategoricalTurnSize'></a>
+
+## ColorScheme\.CategoricalTurnSize Field
+
+Buckets per golden\-angle turn; the lightness level flips at each turn boundary so turns differ in more than hue\.
+
+```csharp
+public const int CategoricalTurnSize = 12;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Constants.ColorScheme.DivergingEnd'></a>
+
+## ColorScheme\.DivergingEnd Field
+
+Default diverging ramp end anchor, a blue \#2166ac, in ARGB integer form\.
+
+```csharp
+public const int DivergingEnd = -14588244;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Constants.ColorScheme.DivergingMiddle'></a>
+
+## ColorScheme\.DivergingMiddle Field
+
+Default diverging ramp middle point, a near\-white \#f7f7f7, in ARGB integer form\.
+
+Lightness-clamped at generation time, because its L = 0.9761 exceeds LightnessMax.
+
+```csharp
+public const int DivergingMiddle = -526345;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Constants.ColorScheme.DivergingStart'></a>
+
+## ColorScheme\.DivergingStart Field
+
+Default diverging ramp start anchor, a red \#b2182b, in ARGB integer form\.
+
+```csharp
+public const int DivergingStart = -5105621;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Constants.ColorScheme.LightnessMax'></a>
+
+## ColorScheme\.LightnessMax Field
+
+Maximum OKLab lightness L any generated color may reach\.
+
+An anchor or middle point above this value is clamped down to it, for example the default sequential start #deebf7 (L = 0.9339) and the diverging middle #f7f7f7 (L = 0.9761).
+
+```csharp
+public const double LightnessMax = 0.93;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.LightnessMin'></a>
+
+## ColorScheme\.LightnessMin Field
+
+Minimum OKLab lightness L any generated color may reach\.
+
+Colors outside the band read as washed out or crushed on a light background, so every generated color clamps L to this band.
+
+```csharp
+public const double LightnessMin = 0.15;
+```
+
+#### Field Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Constants.ColorScheme.SequentialEnd'></a>
+
+## ColorScheme\.SequentialEnd Field
+
+Default sequential ramp end anchor, a dark blue \#08306b, in ARGB integer form\.
+
+```csharp
+public const int SequentialEnd = -16240533;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+<a name='DiGi.Core.Constants.ColorScheme.SequentialStart'></a>
+
+## ColorScheme\.SequentialStart Field
+
+Default sequential ramp start anchor, a light blue \#deebf7, in ARGB integer form\.
+
+Lightness-clamped at generation time, because its L = 0.9339 exceeds LightnessMax.
+
+```csharp
+public const int SequentialStart = -2167817;
+```
+
+#### Field Value
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
 <a name='DiGi.Core.Constants.FileExtension'></a>
 
 ## FileExtension Class

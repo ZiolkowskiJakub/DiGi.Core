@@ -14,6 +14,27 @@ public static class Convert
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → Convert
 ### Methods
 
+<a name='DiGi.Core.Convert.ToDiGi(thisDiGi.Core.Classes.OKLab)'></a>
+
+## Convert\.ToDiGi\(this OKLab\) Method
+
+Converts an OKLab color to a DiGi [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color') \(sRGB\), clamping the linear channels to the sRGB gamut before the gamma step\.
+
+```csharp
+public static DiGi.Core.Classes.Color ToDiGi(this DiGi.Core.Classes.OKLab okLab);
+```
+#### Parameters
+
+<a name='DiGi.Core.Convert.ToDiGi(thisDiGi.Core.Classes.OKLab).okLab'></a>
+
+`okLab` [OKLab](DiGi.Core.Classes.md#DiGi.Core.Classes.OKLab 'DiGi\.Core\.Classes\.OKLab')
+
+The source color in OKLab\.
+
+#### Returns
+[Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color')  
+The color in sRGB with full opacity\.
+
 <a name='DiGi.Core.Convert.ToDiGi(thisSystem.Drawing.Color)'></a>
 
 ## Convert\.ToDiGi\(this Color\) Method
@@ -261,6 +282,27 @@ The collection of serializable objects to convert\.
 #### Returns
 [System\.Text\.Json\.Nodes\.JsonArray](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonarray 'System\.Text\.Json\.Nodes\.JsonArray')  
 A [System\.Text\.Json\.Nodes\.JsonArray](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonarray 'System\.Text\.Json\.Nodes\.JsonArray') containing the serialized objects, or `null` if the input is null\.
+
+<a name='DiGi.Core.Convert.ToOKLab(thisDiGi.Core.Classes.Color)'></a>
+
+## Convert\.ToOKLab\(this Color\) Method
+
+Converts a DiGi [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color') \(sRGB\) to the OKLab perceptual color space\.
+
+```csharp
+public static DiGi.Core.Classes.OKLab ToOKLab(this DiGi.Core.Classes.Color color);
+```
+#### Parameters
+
+<a name='DiGi.Core.Convert.ToOKLab(thisDiGi.Core.Classes.Color).color'></a>
+
+`color` [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color')
+
+The source color in sRGB\.
+
+#### Returns
+[OKLab](DiGi.Core.Classes.md#DiGi.Core.Classes.OKLab 'DiGi\.Core\.Classes\.OKLab')  
+The color in OKLab\.
 
 <a name='DiGi.Core.Convert.ToSystem_T_(thisDiGi.Core.Classes.Range_T_,T)'></a>
 
@@ -809,6 +851,51 @@ The string containing the category path\.
 #### Returns
 [CategoryPath](DiGi.Core.Classes.md#DiGi.Core.Classes.CategoryPath 'DiGi\.Core\.Classes\.CategoryPath')  
 A CategoryPath object, or null if the string is invalid or empty\.
+
+<a name='DiGi.Core.Create.Colors(thisDiGi.Core.Enums.ColorSchemeType,int,DiGi.Core.Classes.Color,DiGi.Core.Classes.Color)'></a>
+
+## Create\.Colors\(this ColorSchemeType, int, Color, Color\) Method
+
+Generates a deterministic list of colors for a typology scheme, one color per bucket\.
+
+Sequential returns an end-point-inclusive OKLab ramp between the two anchors; with a single bucket the result is the end anchor. Diverging returns two OKLab ramps meeting at the neutral middle, which sits on the centre bucket for odd counts and is the single element for a single bucket. Categorical returns the curated palette up to 12 buckets and golden-angle hues beyond, and legends past roughly 24 buckets are not readable.
+
+Every generated color is clamped to the OKLab lightness band [Constants.ColorScheme.LightnessMin, Constants.ColorScheme.LightnessMax], so an anchor outside the band is clamped to it rather than returned as given.
+
+The result is deterministic: no randomness and no culture-dependent formatting anywhere in the path.
+
+```csharp
+public static System.Collections.Generic.List<DiGi.Core.Classes.Color>? Colors(this DiGi.Core.Enums.ColorSchemeType colorSchemeType, int count, DiGi.Core.Classes.Color? color_Start=null, DiGi.Core.Classes.Color? color_End=null);
+```
+#### Parameters
+
+<a name='DiGi.Core.Create.Colors(thisDiGi.Core.Enums.ColorSchemeType,int,DiGi.Core.Classes.Color,DiGi.Core.Classes.Color).colorSchemeType'></a>
+
+`colorSchemeType` [ColorSchemeType](DiGi.Core.Enums.md#DiGi.Core.Enums.ColorSchemeType 'DiGi\.Core\.Enums\.ColorSchemeType')
+
+The scheme the color list follows\.
+
+<a name='DiGi.Core.Create.Colors(thisDiGi.Core.Enums.ColorSchemeType,int,DiGi.Core.Classes.Color,DiGi.Core.Classes.Color).count'></a>
+
+`count` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of colors, one per typology bucket\.
+
+<a name='DiGi.Core.Create.Colors(thisDiGi.Core.Enums.ColorSchemeType,int,DiGi.Core.Classes.Color,DiGi.Core.Classes.Color).color_Start'></a>
+
+`color_Start` [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color')
+
+Optional start anchor replacing the scheme default; null uses the default\.
+
+<a name='DiGi.Core.Create.Colors(thisDiGi.Core.Enums.ColorSchemeType,int,DiGi.Core.Classes.Color,DiGi.Core.Classes.Color).color_End'></a>
+
+`color_End` [Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color')
+
+Optional end anchor replacing the scheme default; null uses the default\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[Color](DiGi.Core.Classes.md#DiGi.Core.Classes.Color 'DiGi\.Core\.Classes\.Color')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The colors, or null if count is below 1\.
 
 <a name='DiGi.Core.Create.ComplexReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
 
@@ -3810,7 +3897,9 @@ Lerp Color
 
 ## Query\.Lerps\(this Color, Color, int\) Method
 
-Creates list of colors being linearly interpolated between color\_1 and color\_2 by value
+Creates list of colors being linearly interpolated between color\_1 and color\_2, inclusive of both end points\.
+
+Element i of the list is Lerp(color_1, color_2, i / (count - 1)), so the first element is color_1 and the last element is color_2. A single-element list (count = 1) returns color_1.
 
 ```csharp
 public static System.Collections.Generic.List<System.Drawing.Color>? Lerps(this System.Drawing.Color color_1, System.Drawing.Color color_2, int count);

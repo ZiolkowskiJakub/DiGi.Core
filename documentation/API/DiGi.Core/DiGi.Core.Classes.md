@@ -17717,6 +17717,88 @@ public static float implicit operator float(DiGi.Core.Classes.Factor factor);
 #### Returns
 [System\.Single](https://learn.microsoft.com/en-us/dotnet/api/system.single 'System\.Single')
 
+<a name='DiGi.Core.Classes.OKLab'></a>
+
+## OKLab Struct
+
+Represents a color in the OKLab perceptual color space, with lightness L and chromatic axes A and B\.
+
+OKLab (Ottosson, 2021) is a perceptually uniform color space: equal Euclidean distances read as equal visual differences, which is why the color ramps interpolate on it and the categorical distance check asserts on it instead of RGB.
+
+```csharp
+public readonly struct OKLab
+```
+### Constructors
+
+<a name='DiGi.Core.Classes.OKLab.OKLab(double,double,double)'></a>
+
+## OKLab\(double, double, double\) Constructor
+
+Initializes a new instance of the OKLab struct with specified lightness and chromatic axes\.
+
+```csharp
+public OKLab(double l, double a, double b);
+```
+#### Parameters
+
+<a name='DiGi.Core.Classes.OKLab.OKLab(double,double,double).l'></a>
+
+`l` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The OKLab lightness L\.
+
+<a name='DiGi.Core.Classes.OKLab.OKLab(double,double,double).a'></a>
+
+`a` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The OKLab A chromatic axis\.
+
+<a name='DiGi.Core.Classes.OKLab.OKLab(double,double,double).b'></a>
+
+`b` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The OKLab B chromatic axis\.
+### Properties
+
+<a name='DiGi.Core.Classes.OKLab.A'></a>
+
+## OKLab\.A Property
+
+Gets the OKLab A chromatic axis\.
+
+```csharp
+public double A { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Classes.OKLab.B'></a>
+
+## OKLab\.B Property
+
+Gets the OKLab B chromatic axis\.
+
+```csharp
+public double B { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+<a name='DiGi.Core.Classes.OKLab.L'></a>
+
+## OKLab\.L Property
+
+Gets the OKLab lightness L\.
+
+```csharp
+public double L { get; }
+```
+
+#### Property Value
+[System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
 <a name='DiGi.Core.Classes.Path'></a>
 
 ## Path Struct
