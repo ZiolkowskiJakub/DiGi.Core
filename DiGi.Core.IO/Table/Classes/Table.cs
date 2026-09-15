@@ -22,8 +22,11 @@ namespace DiGi.Core.IO.Table.Classes
     /// <typeparam name="TRow">The type of the rows in the table.</typeparam>
     public abstract class Table<TColumn, TRow> : ITable<TColumn, TRow> where TColumn : IColumn where TRow : IRow<TRow>
     {
-        private readonly SortedDictionary<int, TColumn> columns = [];
-        private readonly SortedDictionary<int, TRow> rows = [];
+        // Sorted lists rather than sorted dictionaries: both keep the index order, but a list answers its
+        // greatest key in O(1) (Keys[Count - 1]) where a dictionary can only enumerate to it, and every AddRow
+        // asks for the next index - so a table of n rows was O(n^2) to fill and is O(n log n) now.
+        private readonly SortedList<int, TColumn> columns = [];
+        private readonly SortedList<int, TRow> rows = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Table{TColumn, TRow}"/> class.
@@ -55,7 +58,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return columns.Keys.Count == 0 ? 0 : columns.Keys.Last() + 1;
+                return MaxColumnIndex() + 1;
             }
         }
 
@@ -79,7 +82,7 @@ namespace DiGi.Core.IO.Table.Classes
         {
             get
             {
-                return rows.Keys.Count == 0 ? 0 : rows.Keys.Last() + 1;
+                return MaxRowIndex() + 1;
             }
         }
 
@@ -422,7 +425,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return [];
             }
 
-            int count = rows.Keys.Last() + 1;
+            int count = MaxRowIndex() + 1;
 
             object?[] result = new object[count];
 
@@ -475,7 +478,7 @@ namespace DiGi.Core.IO.Table.Classes
                 return -1;
             }
 
-            return columns.Count == 0 ? 0 : columns.Last().Key + 1;
+            return MaxColumnIndex() + 1;
         }
 
         /// <summary>
@@ -489,7 +492,27 @@ namespace DiGi.Core.IO.Table.Classes
                 return -1;
             }
 
-            return rows.Count == 0 ? 0 : rows.Last().Key + 1;
+            return MaxRowIndex() + 1;
+        }
+
+        /// <summary>
+        /// Gets the greatest column index the table holds, or -1 when it holds no column.
+        /// <para>O(1): the sorted list's last key. Every "next index" and count derives from it, so it must never fall back to an enumeration.</para>
+        /// </summary>
+        /// <returns>The greatest column index, or -1 when there is none.</returns>
+        private int MaxColumnIndex()
+        {
+            return columns.Count == 0 ? -1 : columns.Keys[columns.Count - 1];
+        }
+
+        /// <summary>
+        /// Gets the greatest row index the table holds, or -1 when it holds no row.
+        /// <para>O(1): the sorted list's last key. <see cref="AddRow(TRow, bool)"/> asks for it on every call, so a table of n rows fills in O(n log n) rather than the O(n^2) an enumeration to the last key would cost.</para>
+        /// </summary>
+        /// <returns>The greatest row index, or -1 when there is none.</returns>
+        private int MaxRowIndex()
+        {
+            return rows.Count == 0 ? -1 : rows.Keys[rows.Count - 1];
         }
 
         /// <summary>
@@ -744,16 +767,25 @@ namespace DiGi.Core.IO.Table.Classes
                 return null;
             }
 
+            // One pass over the rows rather than a removal per index: a removal from the middle of the sorted
+            // list shifts every entry above it, so removing k indexes one by one would cost k times the table
+            // before the rebuild below, which has to walk it anyway.
+            HashSet<int> indexes_Remove = [.. indexes];
+
             List<int> result = [];
-            foreach (int index in indexes)
+            List<TRow> rows_All = [];
+            foreach (KeyValuePair<int, TRow> keyValuePair in rows)
             {
-                if (rows.Remove(index))
+                if (indexes_Remove.Contains(keyValuePair.Key))
                 {
-                    result.Add(index);
+                    result.Add(keyValuePair.Key);
+                }
+                else
+                {
+                    rows_All.Add(keyValuePair.Value);
                 }
             }
 
-            List<TRow> rows_All = [.. rows.Values];
             int count = rows_All.Count;
 
             rows.Clear();
@@ -945,7 +977,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>The updated row, or null if update failed.</returns>
         public TRow? UpdateRow(int index, IDictionary<string, object?>? values, Func<string?, string?, bool>? func = null)
         {
-            if (values == null || index > rows.Keys.Last())
+            if (values == null || index > MaxRowIndex())
             {
                 return default;
             }
@@ -971,7 +1003,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>The updated row, or null if update failed.</returns>
         public TRow? UpdateRow(int index, IDictionary<int, object?>? values)
         {
-            if (values == null || index > rows.Keys.Last())
+            if (values == null || index > MaxRowIndex())
             {
                 return default;
             }
@@ -987,7 +1019,7 @@ namespace DiGi.Core.IO.Table.Classes
         /// <returns>The updated row, or null if update failed.</returns>
         public TRow? UpdateRow(int index, IEnumerable<object>? values)
         {
-            if (values == null || index > rows.Keys.Last())
+            if (values == null || index > MaxRowIndex())
             {
                 return default;
             }

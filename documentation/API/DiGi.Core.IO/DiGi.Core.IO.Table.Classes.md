@@ -1817,6 +1817,38 @@ The zero\-based index of the row\.
 [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')  
 An array containing the values of the specified row, or null if the row is not found\.
 
+<a name='DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.MaxColumnIndex()'></a>
+
+## Table\<TColumn,TRow\>\.MaxColumnIndex\(\) Method
+
+Gets the greatest column index the table holds, or \-1 when it holds no column\.
+
+O(1): the sorted list's last key. Every "next index" and count derives from it, so it must never fall back to an enumeration.
+
+```csharp
+private int MaxColumnIndex();
+```
+
+#### Returns
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
+The greatest column index, or \-1 when there is none\.
+
+<a name='DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.MaxRowIndex()'></a>
+
+## Table\<TColumn,TRow\>\.MaxRowIndex\(\) Method
+
+Gets the greatest row index the table holds, or \-1 when it holds no row\.
+
+O(1): the sorted list's last key. [AddRow\(TRow, bool\)](DiGi.Core.IO.Table.Classes.md#DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.AddRow(TRow,bool) 'DiGi\.Core\.IO\.Table\.Classes\.Table\<TColumn,TRow\>\.AddRow\(TRow, bool\)') asks for it on every call, so a table of n rows fills in O(n log n) rather than the O(n^2) an enumeration to the last key would cost.
+
+```csharp
+private int MaxRowIndex();
+```
+
+#### Returns
+[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')  
+The greatest row index, or \-1 when there is none\.
+
 <a name='DiGi.Core.IO.Table.Classes.Table_TColumn,TRow_.RemoveColumn(int)'></a>
 
 ## Table\<TColumn,TRow\>\.RemoveColumn\(int\) Method
