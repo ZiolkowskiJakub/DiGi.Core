@@ -112,12 +112,6 @@ namespace DiGi.Core
             //return jsonArray.ToJsonString(jsonSerializerOptions);
         }
 
-        // TODO [ReferenceFormat]: Two overloads were removed here - ToSystem_String(TypeReference?, string?, string?)
-        // and ToSystem_String(ISerializableReference?, string?). They built the pre-discriminator format, which
-        // encoded a reference's type by shape, escaped nothing, and could return null. ToSystem_String(Type?,
-        // IEnumerable<string?>) below replaces both. Legacy strings are READ by Query.TryParseLegacy; restore these
-        // only if the old format must be WRITTEN again.
-
         /// <summary>
         /// Renders a reference type and its ordered, already-escaped segments into a reference string.
         /// <para>Prefixes the type's discriminator - its <see cref="Constants.Reference.Kind"/> token when it

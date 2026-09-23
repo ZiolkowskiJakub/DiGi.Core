@@ -10,8 +10,6 @@ namespace DiGi.Core
         /// Attempts to parse the specified string into an <see cref="IReference"/>.
         /// <para>The string's discriminator names exactly one reference type, so the result is the same type that
         /// produced the string. Types defined outside DiGi.Core resolve too, provided their assembly is loaded.</para>
-        /// <para>Strings written before the discriminator was introduced are still accepted, via
-        /// <see cref="TryParseLegacy(string?, out IReference?)"/>.</para>
         /// </summary>
         /// <param name="value">The string to parse.</param>
         /// <param name="reference">When this method returns, contains the parsed reference; otherwise, null.</param>
@@ -41,9 +39,7 @@ namespace DiGi.Core
                 }
             }
 
-            // TODO [ReferenceFormat]: remove this call together with Query/TryParseLegacy.cs, once every storage
-            // archive has been regenerated in the current reference format.
-            return TryParseLegacy(value, out reference);
+            return false;
         }
 
         /// <summary>

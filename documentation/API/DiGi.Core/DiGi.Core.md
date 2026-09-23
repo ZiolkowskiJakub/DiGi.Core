@@ -6491,9 +6491,6 @@ Attempts to parse the specified string into an [IReference](DiGi.Core.Interfaces
 The string's discriminator names exactly one reference type, so the result is the same type that
             produced the string. Types defined outside DiGi.Core resolve too, provided their assembly is loaded.
 
-Strings written before the discriminator was introduced are still accepted, via
-            [TryParseLegacy\(this string, IReference\)](DiGi.Core.md#DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference) 'DiGi\.Core\.Query\.TryParseLegacy\(this string, DiGi\.Core\.Interfaces\.IReference\)').
-
 ```csharp
 public static bool TryParse(this string? value, out DiGi.Core.Interfaces.IReference? reference);
 ```
@@ -6576,36 +6573,6 @@ When this method returns, contains the parsed value if the conversion was succes
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 true if the string was successfully parsed; otherwise, false\.
-
-<a name='DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference)'></a>
-
-## Query\.TryParseLegacy\(this string, IReference\) Method
-
-Attempts to parse a reference string written in the format used before discriminators were introduced\.
-
-Read-only compatibility for pre-existing storage archives. See the file header for the format, its
-            limits, and the conditions for deleting this method.
-
-```csharp
-public static bool TryParseLegacy(this string? value, out DiGi.Core.Interfaces.IReference? reference);
-```
-#### Parameters
-
-<a name='DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference).value'></a>
-
-`value` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
-
-The legacy string to parse\.
-
-<a name='DiGi.Core.Query.TryParseLegacy(thisstring,DiGi.Core.Interfaces.IReference).reference'></a>
-
-`reference` [IReference](DiGi.Core.Interfaces.md#DiGi.Core.Interfaces.IReference 'DiGi\.Core\.Interfaces\.IReference')
-
-When this method returns, contains the parsed reference; otherwise, null\.
-
-#### Returns
-[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
-True if the string was successfully parsed; otherwise, false\.
 
 <a name='DiGi.Core.Query.Type(thisDiGi.Core.Classes.TypeReference)'></a>
 

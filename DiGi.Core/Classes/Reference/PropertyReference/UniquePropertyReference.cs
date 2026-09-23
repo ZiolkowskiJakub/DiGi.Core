@@ -6,11 +6,9 @@ namespace DiGi.Core.Classes
     /// <summary>Represents a reference to a property by its unique reference.</summary>
     /// <typeparam name="UUniquePropertyReference">The type of the unique property reference.</typeparam>
     /// <remarks>
-    /// TODO [ReferenceFormat]: This type was made abstract as part of the discriminated format. A closed instance
-    /// would render identically to the matching concrete subclass - <see cref="GuidPropertyReference"/> or
-    /// <see cref="UniqueIdPropertyReference"/> - because the discriminator is the only thing separating them, and a
-    /// generic type has no stable short discriminator. External code that instantiated it directly no longer compiles
-    /// and must use a subclass.
+    /// This type is abstract: a closed instance would render identically to the matching concrete subclass -
+    /// <see cref="GuidPropertyReference"/> or <see cref="UniqueIdPropertyReference"/> - because the discriminator is
+    /// the only thing separating them, and a generic type has no stable short discriminator. Instantiate a subclass.
     /// </remarks>
     public abstract class UniquePropertyReference<UUniquePropertyReference> : PropertyReference<UUniquePropertyReference>, IInstanceRelatedSerializableReference where UUniquePropertyReference : UniqueReference
     {

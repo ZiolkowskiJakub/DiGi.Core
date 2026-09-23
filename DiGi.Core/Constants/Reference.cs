@@ -9,11 +9,9 @@ namespace DiGi.Core.Constants
     /// </summary>
     public static class Reference
     {
-        // TODO [ReferenceFormat]: The nested Format class was removed here. It held the pre-discriminator
-        // decorations - Guid "{0}", UniqueId "\"{0}\"" and Property "[\"{0}\"]" - which encoded a reference's type
-        // by shape and could not be escaped. The discriminator carries that information now, so "[", "]" and "\""
-        // are ordinary payload characters. Legacy strings written with those decorations are read by
-        // Query.TryParseLegacy; restore this class only if the old format must be WRITTEN again.
+        // The pre-discriminator decorations - Guid "{0}", UniqueId "\"{0}\"" and Property "[\"{0}\"]" - encoded a
+        // reference's type by shape and could not be escaped. The discriminator carries that information now, so
+        // "[", "]" and "\"" are ordinary payload characters.
 
         /// <summary>
         /// Separator between the discriminator and each segment. Only an unescaped occurrence at nesting depth zero

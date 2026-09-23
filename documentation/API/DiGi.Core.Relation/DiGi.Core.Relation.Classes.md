@@ -3370,7 +3370,7 @@ RelationListCluster::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::(Type::DiGi.G
 ```
 
 ### Remarks
-TODO \[ReferenceFormat\]: This type renders its own string by hand\. It derives from
+This type renders its own string by hand\. It derives from
 [DiGi\.Core\.Classes\.ListClusterReference&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2'), which implements [DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference') directly rather
 than deriving from [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference'), so it does not inherit the sealed ToString that
 guarantees the grammar\. Keep [ToString\(\)](DiGi.Core.Relation.Classes.md#DiGi.Core.Relation.Classes.RelationListClusterReference.ToString() 'DiGi\.Core\.Relation\.Classes\.RelationListClusterReference\.ToString\(\)') below in step with
@@ -3410,7 +3410,7 @@ RelationListCluster::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::(Type::DiGi.G
 ```
 
 ### Remarks
-TODO \[ReferenceFormat\]: This type renders its own string by hand\. It derives from
+This type renders its own string by hand\. It derives from
 [DiGi\.Core\.Classes\.ListClusterReference&lt;&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.listclusterreference-2 'DiGi\.Core\.Classes\.ListClusterReference\`2'), which implements [DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference') directly rather
 than deriving from [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference'), so it does not inherit the sealed ToString that
 guarantees the grammar\. Keep [ToString\(\)](DiGi.Core.Relation.Classes.md#DiGi.Core.Relation.Classes.RelationListClusterReference.ToString() 'DiGi\.Core\.Relation\.Classes\.RelationListClusterReference\.ToString\(\)') below in step with

@@ -43,10 +43,8 @@ namespace DiGi.Core.Classes
         public SerializableReference(SerializableReference? serializableReference)
             : base(serializableReference)
         {
-            // TODO [ReferenceFormat]: The cached hash code used to be copied from the source here. It is deliberately
-            // no longer copied, and the rendered-string cache is not copied either: this constructor runs BEFORE the
-            // derived constructor assigns the fields the caches are derived from, so copying was only ever correct
-            // because every copy constructor happens to reproduce identical state. Both caches rebuild lazily.
+            // The cached hash code and the rendered-string cache are not copied: this constructor runs before the
+            // derived constructor assigns the fields the caches are derived from. Both caches rebuild lazily.
         }
 
         /// <summary>
@@ -207,9 +205,8 @@ namespace DiGi.Core.Classes
         /// <returns>The reference string.</returns>
         public override sealed string? ToString()
         {
-            // TODO [ReferenceFormat]: Sealing ToString() is a breaking change for any subclass outside this solution
-            // that overrode it. Such a type must override Segments instead. Unsealing would also cost the cache
-            // below, which Equals depends on.
+            // ToString() is sealed: a subclass that needs a custom rendered form must override Segments instead.
+            // Unsealing would also cost the cache below, which Equals depends on.
             return @string ??= Convert.ToSystem_String(GetType(), Segments);
         }
 

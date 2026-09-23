@@ -12,7 +12,7 @@ namespace DiGi.Core.Relation.Classes
     /// <code>RelationListCluster::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::(Type::DiGi.GIS.Classes.Space,DiGi.GIS)::3</code>
     /// </example>
     /// <remarks>
-    /// TODO [ReferenceFormat]: This type renders its own string by hand. It derives from
+    /// This type renders its own string by hand. It derives from
     /// <see cref="ListClusterReference{TKey_1, TKey_2}"/>, which implements <see cref="IReference"/> directly rather
     /// than deriving from <see cref="SerializableReference"/>, so it does not inherit the sealed ToString that
     /// guarantees the grammar. Keep <see cref="ToString"/> below in step with
