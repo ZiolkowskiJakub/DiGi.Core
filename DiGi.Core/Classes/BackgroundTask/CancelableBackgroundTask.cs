@@ -17,6 +17,11 @@ namespace DiGi.Core.Classes
         private CancellationTokenSource? cancellationTokenSource;
 
         /// <summary>
+        /// Indicates whether the last run was cancelled through this task's own source.
+        /// </summary>
+        private bool isCanceled = false;
+
+        /// <summary>
         /// Occurs when the task has been canceled.
         /// </summary>
         public event EventHandler? Canceled;
@@ -28,6 +33,8 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Gets the current status of the cancelable background task.
+        /// <para>A run stopped by <see cref="Stop"/> or <see cref="StopAsync"/> reports
+        /// <see cref="CancelableBackgroundTaskStatus.Canceled"/> until the next <see cref="Start"/>.</para>
         /// </summary>
         public CancelableBackgroundTaskStatus CancelableBackgroundTaskStatus
         {
@@ -69,9 +76,21 @@ namespace DiGi.Core.Classes
         protected override bool WasCanceled => cancellationTokenSource?.IsCancellationRequested ?? false;
 
         /// <summary>
-        /// Gets a value indicating whether the task was canceled.
+        /// Gets a value indicating whether the last run ended because <see cref="Stop"/> or <see cref="StopAsync"/>
+        /// requested its cancellation.
+        /// <para>A fault is not a cancellation: an <see cref="OperationCanceledException"/> this task's source did not
+        /// request, such as a request timeout, leaves it false. Reset by <see cref="Start"/>.</para>
         /// </summary>
-        public bool IsCanceled => Task?.IsCanceled ?? false;
+        public bool IsCanceled
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return isCanceled;
+                }
+            }
+        }
 
         /// <summary>
         /// Starts the background task execution synchronously.
@@ -85,6 +104,7 @@ namespace DiGi.Core.Classes
                     return;
                 }
 
+                isCanceled = false;
                 cancellationTokenSource = new CancellationTokenSource();
 
                 base.Start();
@@ -191,11 +211,19 @@ namespace DiGi.Core.Classes
 
             try
             {
-                return await ExecuteAsync(cancellationTokenSource.Token);
+                bool result = await ExecuteAsync(cancellationTokenSource.Token);
+                if (cancellationTokenSource.IsCancellationRequested)
+                {
+                    // The run noticed the stop and returned without throwing.
+                    MarkCanceled();
+                }
+
+                return result;
             }
             catch (OperationCanceledException) when (cancellationTokenSource.IsCancellationRequested)
             {
                 // Canceled by Stop/StopAsync - reported through Canceled, not as a fault.
+                MarkCanceled();
             }
             catch (Exception exception_Temp)
             {
@@ -225,7 +253,9 @@ namespace DiGi.Core.Classes
         protected virtual void OnCancelling() => Cancelling?.Invoke(this, EventArgs.Empty);
 
         /// <summary>
-        /// Cleans up the cancellation token source and resets task state.
+        /// Disposes the cancellation token source.
+        /// <para>The completed task is kept, so the status reports the outcome of the last run until the next
+        /// <see cref="Start"/>.</para>
         /// </summary>
         private void Cleanup()
         {
@@ -233,7 +263,17 @@ namespace DiGi.Core.Classes
             {
                 cancellationTokenSource?.Dispose();
                 cancellationTokenSource = null;
-                Task = null;
+            }
+        }
+
+        /// <summary>
+        /// Records that the current run was cancelled through this task's own source.
+        /// </summary>
+        private void MarkCanceled()
+        {
+            lock (lockObject)
+            {
+                isCanceled = true;
             }
         }
     }

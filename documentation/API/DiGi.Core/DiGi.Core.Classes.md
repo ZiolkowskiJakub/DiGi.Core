@@ -1192,6 +1192,19 @@ private CancellationTokenSource? cancellationTokenSource;
 
 #### Field Value
 [System\.Threading\.CancellationTokenSource](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource 'System\.Threading\.CancellationTokenSource')
+
+<a name='DiGi.Core.Classes.CancelableBackgroundTask.isCanceled'></a>
+
+## CancelableBackgroundTask\.isCanceled Field
+
+Indicates whether the last run was cancelled through this task's own source\.
+
+```csharp
+private bool isCanceled;
+```
+
+#### Field Value
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
 ### Properties
 
 <a name='DiGi.Core.Classes.CancelableBackgroundTask.CancelableBackgroundTaskStatus'></a>
@@ -1199,6 +1212,9 @@ private CancellationTokenSource? cancellationTokenSource;
 ## CancelableBackgroundTask\.CancelableBackgroundTaskStatus Property
 
 Gets the current status of the cancelable background task\.
+
+A run stopped by [Stop\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Stop() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Stop\(\)') or [StopAsync\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.StopAsync() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.StopAsync\(\)') reports
+            [Canceled](DiGi.Core.Enums.md#DiGi.Core.Enums.CancelableBackgroundTaskStatus.Canceled 'DiGi\.Core\.Enums\.CancelableBackgroundTaskStatus\.Canceled') until the next [Start\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Start() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Start\(\)').
 
 ```csharp
 public DiGi.Core.Enums.CancelableBackgroundTaskStatus CancelableBackgroundTaskStatus { get; }
@@ -1213,7 +1229,11 @@ Implements [CancelableBackgroundTaskStatus](DiGi.Core.Interfaces.md#DiGi.Core.In
 
 ## CancelableBackgroundTask\.IsCanceled Property
 
-Gets a value indicating whether the task was canceled\.
+Gets a value indicating whether the last run ended because [Stop\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Stop() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Stop\(\)') or [StopAsync\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.StopAsync() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.StopAsync\(\)')
+requested its cancellation\.
+
+A fault is not a cancellation: an [System\.OperationCanceledException](https://learn.microsoft.com/en-us/dotnet/api/system.operationcanceledexception 'System\.OperationCanceledException') this task's source did not
+            request, such as a request timeout, leaves it false. Reset by [Start\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Start() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Start\(\)').
 
 ```csharp
 public bool IsCanceled { get; }
@@ -1248,7 +1268,10 @@ protected override bool WasCanceled { protected get; }
 
 ## CancelableBackgroundTask\.Cleanup\(\) Method
 
-Cleans up the cancellation token source and resets task state\.
+Disposes the cancellation token source\.
+
+The completed task is kept, so the status reports the outcome of the last run until the next
+            [Start\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Start() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Start\(\)').
 
 ```csharp
 private void Cleanup();
@@ -1293,6 +1316,16 @@ The cancellation token to observe\.
 #### Returns
 [System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
 True if the task succeeded; otherwise, false\.
+
+<a name='DiGi.Core.Classes.CancelableBackgroundTask.MarkCanceled()'></a>
+
+## CancelableBackgroundTask\.MarkCanceled\(\) Method
+
+Records that the current run was cancelled through this task's own source\.
+
+```csharp
+private void MarkCanceled();
+```
 
 <a name='DiGi.Core.Classes.CancelableBackgroundTask.OnCanceled()'></a>
 
