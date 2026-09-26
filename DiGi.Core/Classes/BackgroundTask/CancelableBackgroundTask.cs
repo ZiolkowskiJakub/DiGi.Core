@@ -104,6 +104,10 @@ namespace DiGi.Core.Classes
                     return;
                 }
 
+                // A run that completed on its own was never cleaned up by Stop/StopAsync - dispose its source
+                // before it is replaced, or every restart after a natural completion leaks one.
+                cancellationTokenSource?.Dispose();
+
                 isCanceled = false;
                 cancellationTokenSource = new CancellationTokenSource();
 
