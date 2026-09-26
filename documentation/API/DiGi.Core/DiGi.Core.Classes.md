@@ -1232,6 +1232,10 @@ Read while the run is still finishing - [Stop\(\)](DiGi.Core.Classes.md#DiGi.Cor
             run before they clean the source up - so a run stopped by its operator is recognized as cancelled and
             is not wrapped as a [BackgroundTaskFailureException](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTaskFailureException 'DiGi\.Core\.Classes\.BackgroundTaskFailureException') for having returned false.
 
+Only a cancellation requested through this task's own source counts: an
+            [System\.OperationCanceledException](https://learn.microsoft.com/en-us/dotnet/api/system.operationcanceledexception 'System\.OperationCanceledException') raised inside the run for another reason, such as a request
+            timeout, is a failure and is kept in [Exception](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTask.Exception 'DiGi\.Core\.Classes\.BackgroundTask\.Exception').
+
 ```csharp
 protected override bool WasCanceled { protected get; }
 ```
@@ -1255,6 +1259,11 @@ private void Cleanup();
 ## CancelableBackgroundTask\.ExecuteAsync\(\) Method
 
 Executes the background task with cancellation support\.
+
+An [System\.OperationCanceledException](https://learn.microsoft.com/en-us/dotnet/api/system.operationcanceledexception 'System\.OperationCanceledException') is treated as a cancellation only when this task's
+            source requested it ([Stop\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.Stop() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.Stop\(\)') or [StopAsync\(\)](DiGi.Core.Classes.md#DiGi.Core.Classes.CancelableBackgroundTask.StopAsync() 'DiGi\.Core\.Classes\.CancelableBackgroundTask\.StopAsync\(\)')). Any other one - a request timeout,
+            a callee's own linked source - is stored in [Exception](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTask.Exception 'DiGi\.Core\.Classes\.BackgroundTask\.Exception') like any fault, so
+            the real cause reaches the task row instead of the generic [BackgroundTaskFailureException](DiGi.Core.Classes.md#DiGi.Core.Classes.BackgroundTaskFailureException 'DiGi\.Core\.Classes\.BackgroundTaskFailureException').
 
 ```csharp
 protected override System.Threading.Tasks.Task<bool> ExecuteAsync();

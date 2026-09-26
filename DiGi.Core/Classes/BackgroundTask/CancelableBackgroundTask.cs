@@ -62,6 +62,9 @@ namespace DiGi.Core.Classes
         /// <para>Read while the run is still finishing - <see cref="Stop"/> and <see cref="StopAsync"/> await the
         /// run before they clean the source up - so a run stopped by its operator is recognized as cancelled and
         /// is not wrapped as a <see cref="BackgroundTaskFailureException"/> for having returned false.</para>
+        /// <para>Only a cancellation requested through this task's own source counts: an
+        /// <see cref="OperationCanceledException"/> raised inside the run for another reason, such as a request
+        /// timeout, is a failure and is kept in <see cref="BackgroundTask.Exception"/>.</para>
         /// </summary>
         protected override bool WasCanceled => cancellationTokenSource?.IsCancellationRequested ?? false;
 
@@ -173,6 +176,10 @@ namespace DiGi.Core.Classes
 
         /// <summary>
         /// Executes the background task with cancellation support.
+        /// <para>An <see cref="OperationCanceledException"/> is treated as a cancellation only when this task's
+        /// source requested it (<see cref="Stop"/> or <see cref="StopAsync"/>). Any other one - a request timeout,
+        /// a callee's own linked source - is stored in <see cref="BackgroundTask.Exception"/> like any fault, so
+        /// the real cause reaches the task row instead of the generic <see cref="BackgroundTaskFailureException"/>.</para>
         /// </summary>
         /// <returns>True if the task succeeded; otherwise, false.</returns>
         protected override async Task<bool> ExecuteAsync()
@@ -186,12 +193,14 @@ namespace DiGi.Core.Classes
             {
                 return await ExecuteAsync(cancellationTokenSource.Token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException) when (cancellationTokenSource.IsCancellationRequested)
             {
-                // Expected when the task is canceled
+                // Canceled by Stop/StopAsync - reported through Canceled, not as a fault.
             }
             catch (Exception exception_Temp)
             {
+                // Includes an OperationCanceledException this task's source did not request, such as a request
+                // timeout: a failure the operator has to see, not a cancellation.
                 exception = exception_Temp;
             }
 
