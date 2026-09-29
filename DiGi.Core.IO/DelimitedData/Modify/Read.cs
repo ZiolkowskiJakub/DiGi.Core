@@ -109,7 +109,8 @@ namespace DiGi.Core.IO.DelimitedData
                 return false;
             }
 
-            return Read(table, new DelimitedDataReader(separator, path!), columnIndex, rowIndex);
+            using DelimitedDataReader delimitedDataReader = new(separator, path!);
+            return Read(table, delimitedDataReader, columnIndex, rowIndex);
         }
 
         /// <summary>
@@ -128,7 +129,8 @@ namespace DiGi.Core.IO.DelimitedData
                 return false;
             }
 
-            return Read(table, new DelimitedDataReader(delimitedDataSeparator, path!), columnIndex, rowIndex);
+            using DelimitedDataReader delimitedDataReader = new(delimitedDataSeparator, path!);
+            return Read(table, delimitedDataReader, columnIndex, rowIndex);
         }
     }
 }
