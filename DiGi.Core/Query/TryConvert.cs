@@ -292,9 +292,20 @@ namespace DiGi.Core
                     break;
 
                 case System.Text.Json.JsonValueKind.Array:
-                    // Enumerable conversion expects an IEnumerable.
-                    // We pass the JsonElement itself, assuming TryConvert_Enumerable
-                    // can handle it or we convert it to a string/list.
+                    // A numeric scalar target cannot consume an array: fail fast here instead of
+                    // dispatching into a scalar converter. Enumerable and object targets still
+                    // receive the element so TryConvert_Enumerable / identity can handle it.
+                    {
+                        Type type_Underlying = Nullable.GetUnderlyingType(type) ?? type;
+                        TypeCode typeCode = System.Type.GetTypeCode(type_Underlying);
+                        if (typeCode is TypeCode.Int16 or TypeCode.Int32 or TypeCode.Int64
+                            or TypeCode.UInt16 or TypeCode.UInt32 or TypeCode.UInt64
+                            or TypeCode.SByte or TypeCode.Byte
+                            or TypeCode.Single or TypeCode.Double or TypeCode.Decimal)
+                        {
+                            return false;
+                        }
+                    }
                     rawValue = jsonElement;
                     break;
 
@@ -795,15 +806,18 @@ namespace DiGi.Core
                     return true;
                 }
 
-                if (jsonElement.GetString() is not string value)
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    return false;
-                }
+                    if (jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
 
-                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Double(value, out double? stringDouble))
-                {
-                    result = stringDouble;
-                    return true;
+                    if (TryConvert_Double(value, out double? stringDouble))
+                    {
+                        result = stringDouble;
+                        return true;
+                    }
                 }
             }
 
@@ -1160,15 +1174,18 @@ namespace DiGi.Core
                     return true;
                 }
 
-                if (jsonElement.GetString() is not string value)
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    return false;
-                }
+                    if (jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
 
-                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Int(value, out int? stringInt))
-                {
-                    result = stringInt;
-                    return true;
+                    if (TryConvert_Int(value, out int? stringInt))
+                    {
+                        result = stringInt;
+                        return true;
+                    }
                 }
             }
 
@@ -1253,15 +1270,18 @@ namespace DiGi.Core
                     return true;
                 }
 
-                if (jsonElement.GetString() is not string value)
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String)
                 {
-                    return false;
-                }
+                    if (jsonElement.GetString() is not string value)
+                    {
+                        return false;
+                    }
 
-                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.String && TryConvert_Long(value, out long? stringLong))
-                {
-                    result = stringLong;
-                    return true;
+                    if (TryConvert_Long(value, out long? stringLong))
+                    {
+                        result = stringLong;
+                        return true;
+                    }
                 }
             }
 
